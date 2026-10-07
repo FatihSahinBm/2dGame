@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/items/sword_pickup.tscn" id="3_sword"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1200, 60)
@@ -21,6 +23,7 @@ size = Vector2(30, 650)
 size = Vector2(30, 650)
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_main")
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -113,7 +116,10 @@ offset_right = 15.0
 offset_bottom = 325.0
 color = Color(0.141176, 0.168627, 0.223529, 1)
 
-[node name="Player" parent="." instance=ExtResource("1_player")]
+[node name="SwordPickup" parent="." instance=ExtResource("3_sword")]
+position = Vector2(360, 545)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(180, 520)
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -121,7 +127,7 @@ position = Vector2(180, 520)
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 70.0
+offset_bottom = 86.0
 grow_horizontal = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 20
@@ -129,7 +135,7 @@ theme_override_constants/margin_right = 24
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 6
 
 [node name="Title" type="Label" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -137,8 +143,14 @@ theme_override_colors/font_color = Color(0.95, 0.96, 0.98, 1)
 theme_override_font_sizes/font_size = 20
 text = "2D Platformer Prototype (Godot 4.7)"
 
+[node name="SwordStatus" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "✋ Silahsız: Yerden kılıcı almak için yanına gidip [E] tuşuna basın"
+
 [node name="Instructions" type="Label" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.74, 0.82, 1)
-theme_override_font_sizes/font_size = 14
-text = "Hareket: [A / D] veya [← / →]  |  Zıplama: [Space] / [W] / [↑]  |  Game Feel: Coyote Time, Jump Buffer, Variable Jump & Juice"
+theme_override_font_sizes/font_size = 13
+text = "Hareket: [A / D]  |  Zıplama: [Space]  |  Kılıç Alma: [E]  |  Kılıç Atma: [G]  |  Savurma: [Sol Tık]  |  Güçlü Vuruş: [Sağ Tık]"
