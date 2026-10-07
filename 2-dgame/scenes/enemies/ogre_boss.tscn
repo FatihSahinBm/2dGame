@@ -1,0 +1,127 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/ogre_boss.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/monsters/ogre/ogre_frames.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(54, 106)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(115, 85)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(68, 114)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 380.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_hp_bg"]
+bg_color = Color(0.08, 0.08, 0.12, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.58, 0.44, 0.18, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_hp_fill"]
+bg_color = Color(0.85, 0.18, 0.14, 1)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(1, 0.35, 0.25, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="OgreBoss" type="CharacterBody2D" groups=["boss", "damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+floor_snap_length = 4.0
+script = ExtResource("1_script")
+monster_name = "Kara Boynuzlu Dev Ogre"
+max_health = 450
+current_health = 450
+speed = 45.0
+chase_speed = 75.0
+attack_damage = 40
+attack_range = 80.0
+detection_range = 380.0
+knockback_resistance = 0.85
+attack_cooldown = 2.2
+screen_shake_intensity = 7.0
+ground_smash_delay = 0.55
+recovery_time = 0.65
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -53)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -80)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual"]
+position = Vector2(58, -42)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox"]
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual"]
+position = Vector2(40, 0)
+target_position = Vector2(0, 32)
+collision_mask = 1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -55)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -55.0
+offset_top = -135.0
+offset_right = 55.0
+offset_bottom = -123.0
+theme_override_styles/background = SubResource("StyleBoxFlat_boss_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_boss_hp_fill")
+max_value = 450.0
+value = 450.0
+show_percentage = false
+
+[node name="BossTitle" type="Label" parent="UI"]
+offset_left = -90.0
+offset_top = -154.0
+offset_right = 90.0
+offset_bottom = -136.0
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "KARA BOYNUZLU DEV OGRE"
+horizontal_alignment = 1
+
+[node name="DamageNumbers" type="Node2D" parent="UI"]

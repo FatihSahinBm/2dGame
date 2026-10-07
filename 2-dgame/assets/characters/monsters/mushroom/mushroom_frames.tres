@@ -1,0 +1,111 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/monsters/mushroom/Attack2.png" id="1_tex"]
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_0"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_1"]
+atlas = ExtResource("1_tex")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_2"]
+atlas = ExtResource("1_tex")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_3"]
+atlas = ExtResource("1_tex")
+region = Rect2(450, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_4"]
+atlas = ExtResource("1_tex")
+region = Rect2(600, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_5"]
+atlas = ExtResource("1_tex")
+region = Rect2(750, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_6"]
+atlas = ExtResource("1_tex")
+region = Rect2(900, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_mushroom_7"]
+atlas = ExtResource("1_tex")
+region = Rect2(1050, 0, 150, 150)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_7")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_7")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_4")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_1")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_mushroom_3")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 7.0
+}]

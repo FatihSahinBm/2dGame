@@ -1,12 +1,9 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/dev/test_enemy.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/goblin.tscn" id="2_goblin"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="3_skeleton"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/mushroom.tscn" id="4_mushroom"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="5_flying_eye"]
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="6_player"]
-[ext_resource type="PackedScene" path="res://scenes/items/sword_pickup.tscn" id="7_sword"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ogre_boss.tscn" id="2_boss"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/items/sword_pickup.tscn" id="4_sword"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1600, 50)
@@ -17,16 +14,10 @@ size = Vector2(30, 700)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_right"]
 size = Vector2(30, 700)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
-size = Vector2(36, 60)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
+size = Vector2(260, 24)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_patrol_plat"]
-size = Vector2(320, 24)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_high_plat"]
-size = Vector2(280, 24)
-
-[node name="TestEnemyScene" type="Node2D"]
+[node name="TestBossScene" type="Node2D"]
 script = ExtResource("1_script")
 
 [node name="Background" type="CanvasLayer" parent="."]
@@ -38,7 +29,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0823529, 0.0941176, 0.12549, 1)
+color = Color(0.06, 0.07, 0.09, 1)
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -53,7 +44,7 @@ offset_left = -800.0
 offset_top = -25.0
 offset_right = 800.0
 offset_bottom = 25.0
-color = Color(0.168627, 0.219608, 0.301961, 1)
+color = Color(0.14, 0.18, 0.25, 1)
 
 [node name="WallLeft" type="StaticBody2D" parent="Environment"]
 position = Vector2(15, 300)
@@ -66,7 +57,7 @@ offset_left = -15.0
 offset_top = -350.0
 offset_right = 15.0
 offset_bottom = 350.0
-color = Color(0.12549, 0.14902, 0.2, 1)
+color = Color(0.1, 0.12, 0.16, 1)
 
 [node name="WallRight" type="StaticBody2D" parent="Environment"]
 position = Vector2(1485, 300)
@@ -79,75 +70,50 @@ offset_left = -15.0
 offset_top = -350.0
 offset_right = 15.0
 offset_bottom = 350.0
-color = Color(0.12549, 0.14902, 0.2, 1)
+color = Color(0.1, 0.12, 0.16, 1)
 
-[node name="ObstaclePillar" type="StaticBody2D" parent="Environment"]
-position = Vector2(760, 540)
+[node name="PlatformLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(350, 440)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ObstaclePillar"]
-shape = SubResource("RectangleShape2D_pillar")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformLeft"]
+shape = SubResource("RectangleShape2D_plat")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/ObstaclePillar"]
-offset_left = -18.0
-offset_top = -30.0
-offset_right = 18.0
-offset_bottom = 30.0
-color = Color(0.247059, 0.309804, 0.403922, 1)
-
-[node name="PatrolPlatform" type="StaticBody2D" parent="Environment"]
-position = Vector2(400, 440)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PatrolPlatform"]
-shape = SubResource("RectangleShape2D_patrol_plat")
-
-[node name="ColorRect" type="ColorRect" parent="Environment/PatrolPlatform"]
-offset_left = -160.0
+[node name="ColorRect" type="ColorRect" parent="Environment/PlatformLeft"]
+offset_left = -130.0
 offset_top = -12.0
-offset_right = 160.0
+offset_right = 130.0
 offset_bottom = 12.0
-color = Color(0.231373, 0.301961, 0.415686, 1)
+color = Color(0.2, 0.25, 0.35, 1)
 
-[node name="HighPlatform" type="StaticBody2D" parent="Environment"]
-position = Vector2(1050, 360)
+[node name="PlatformRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1050, 440)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/HighPlatform"]
-shape = SubResource("RectangleShape2D_high_plat")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformRight"]
+shape = SubResource("RectangleShape2D_plat")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/HighPlatform"]
-offset_left = -140.0
+[node name="ColorRect" type="ColorRect" parent="Environment/PlatformRight"]
+offset_left = -130.0
 offset_top = -12.0
-offset_right = 140.0
+offset_right = 130.0
 offset_bottom = 12.0
-color = Color(0.231373, 0.301961, 0.415686, 1)
+color = Color(0.2, 0.25, 0.35, 1)
 
-[node name="GoblinEnemy" parent="." instance=ExtResource("2_goblin")]
-position = Vector2(500, 570)
-direction = 1
-
-[node name="SkeletonEnemy" parent="." instance=ExtResource("3_skeleton")]
-position = Vector2(920, 570)
+[node name="OgreBoss" parent="." instance=ExtResource("2_boss")]
+position = Vector2(850, 570)
 direction = -1
 
-[node name="MushroomEnemy" parent="." instance=ExtResource("4_mushroom")]
-position = Vector2(400, 428)
-direction = -1
+[node name="SwordPickup" parent="." instance=ExtResource("4_sword")]
+position = Vector2(240, 560)
 
-[node name="FlyingEyeEnemy" parent="." instance=ExtResource("5_flying_eye")]
-position = Vector2(700, 320)
-direction = 1
-
-[node name="SwordPickup" parent="." instance=ExtResource("7_sword")]
-position = Vector2(230, 560)
-
-[node name="Player" parent="." instance=ExtResource("6_player")]
-position = Vector2(140, 520)
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(150, 520)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="PanelContainer" type="PanelContainer" parent="UI"]
 offset_left = 24.0
 offset_top = 20.0
-offset_right = 460.0
+offset_right = 470.0
 offset_bottom = 240.0
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/PanelContainer"]
@@ -163,19 +129,19 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="UI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.96, 0.98, 1)
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
 theme_override_font_sizes/font_size = 18
-text = "Monster Creatures Fantasy - Test Alanı"
+text = "👹 OGRE BOSS ARENA - Test Alanı"
 
 [node name="Instructions" type="Label" parent="UI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.82, 0.86, 0.94, 1)
+theme_override_colors/font_color = Color(0.85, 0.88, 0.94, 1)
 theme_override_font_sizes/font_size = 12
 text = "Kılıç Saldırısı: [Sol Tık] Hafif (25)  |  [Sağ Tık] Ağır (50)\nHareket: [A / D / Space]  |  Kılıç Atma: [G]  |  Alma: [E]"
 
 [node name="StatusLabel" type="Label" parent="UI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.78, 0.88, 1)
+theme_override_colors/font_color = Color(0.75, 0.8, 0.9, 1)
 theme_override_font_sizes/font_size = 12
 text = "Yükleniyor..."
 
@@ -189,7 +155,7 @@ text = "25 Hasar [T]"
 
 [node name="BtnDamage100" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons"]
 layout_mode = 2
-text = "Öldür [K]"
+text = "100 Hasar [K]"
 
 [node name="BtnReset" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons"]
 layout_mode = 2
