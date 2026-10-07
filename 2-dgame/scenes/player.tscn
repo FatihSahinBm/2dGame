@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfsqw0tq42o3b"]
+[gd_scene load_steps=6 format=3 uid="uid://dfsqw0tq42o3b"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_script"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
+[ext_resource type="Script" path="res://scripts/combat/sword_overlay.gd" id="3_overlay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(18, 38)
@@ -29,17 +30,22 @@ sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"
 
+[node name="SwordOverlay" type="Sprite2D" parent="Visual/AnimatedSprite2D"]
+visible = false
+centered = false
+script = ExtResource("3_overlay")
+
 [node name="AttackArea" type="Area2D" parent="Visual"]
+position = Vector2(20, -18)
 collision_layer = 2
-collision_mask = 6
+collision_mask = 7
 monitoring = false
 monitorable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/AttackArea"]
-position = Vector2(26, -20)
 shape = SubResource("RectangleShape2D_attack")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -24)
+position = Vector2(0, -20)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
