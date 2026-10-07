@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://ct1g7livp35rd"]
 
 [ext_resource type="Script" path="res://scripts/combat/test_combat_scene.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
