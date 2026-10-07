@@ -4,7 +4,7 @@ extends Node2D
 @onready var btn_damage_25: Button = $UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnDamage25
 @onready var btn_damage_100: Button = $UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnDamage100
 @onready var btn_reset: Button = $UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnReset
-@onready var player_node: CharacterBody2D = $Player
+@onready var player_node: CharacterBody2D = $TestPlayer
 
 func _ready() -> void:
 	# 1. Buton bağlantıları
