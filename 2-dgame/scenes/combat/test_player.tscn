@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/combat/combat_test_player.gd" id="1_script"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
 [ext_resource type="Texture2D" path="res://assets/items/sword.png" id="3_sword_tex"]
+[ext_resource type="Script" path="res://scripts/combat/sword_overlay.gd" id="4_overlay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(18, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
+size = Vector2(42, 34)
 
 [node name="TestPlayer" type="CharacterBody2D"]
 collision_layer = 1
@@ -26,18 +30,20 @@ sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="HandPoint" type="Marker2D" parent="Visual"]
-position = Vector2(-4, -19)
-
-[node name="WeaponSprite" type="Sprite2D" parent="Visual/HandPoint"]
+[node name="SwordOverlay" type="Sprite2D" parent="Visual/AnimatedSprite2D"]
 visible = false
-z_index = 1
-texture_filter = 1
-rotation = 0.35
-scale = Vector2(0.85, 0.85)
-texture = ExtResource("3_sword_tex")
 centered = false
-offset = Vector2(-10, -20)
+script = ExtResource("4_overlay")
+
+[node name="AttackArea" type="Area2D" parent="Visual"]
+position = Vector2(20, -18)
+collision_layer = 0
+collision_mask = 7
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/AttackArea"]
+shape = SubResource("RectangleShape2D_attack")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -20)

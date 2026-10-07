@@ -1,0 +1,568 @@
+{
+ "_doc": "Kare yerel koordinat\u0131 (120x80 kare, sol \u00fcst 0,0). Karakter sa\u011fa bakar. angle: Godot rotation derecesi (0 ileri, 90 a\u015fa\u011f\u0131, -90 yukar\u0131, 45 ileri-a\u015fa\u011f\u0131, 135 geri-a\u015fa\u011f\u0131, -45 ileri-yukar\u0131). K\u0131l\u0131\u00e7 sap\u0131n\u0131n t=0 pikseli (hand_x, hand_y)'ye oturur.",
+ "frame_size": [
+  120,
+  80
+ ],
+ "glove_color": [
+  54,
+  41,
+  23
+ ],
+ "sword_meta": {
+  "0": {
+   "file": "sword_0.png",
+   "pivot": [
+    2,
+    1
+   ],
+   "size": [
+    15,
+    4
+   ]
+  },
+  "45": {
+   "file": "sword_45.png",
+   "pivot": [
+    2,
+    2
+   ],
+   "size": [
+    15,
+    15
+   ]
+  },
+  "90": {
+   "file": "sword_90.png",
+   "pivot": [
+    1,
+    2
+   ],
+   "size": [
+    4,
+    15
+   ]
+  },
+  "135": {
+   "file": "sword_135.png",
+   "pivot": [
+    12,
+    2
+   ],
+   "size": [
+    15,
+    15
+   ]
+  },
+  "-45": {
+   "file": "sword_m45.png",
+   "pivot": [
+    2,
+    12
+   ],
+   "size": [
+    15,
+    15
+   ]
+  },
+  "-90": {
+   "file": "sword_m90.png",
+   "pivot": [
+    1,
+    12
+   ],
+   "size": [
+    4,
+    15
+   ]
+  }
+ },
+ "animations": {
+  "idle": [
+   {
+    "frame": 0,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 3,
+    "hand_x": 62,
+    "hand_y": 64,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 4,
+    "hand_x": 62,
+    "hand_y": 64,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 5,
+    "hand_x": 62,
+    "hand_y": 64,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 6,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 7,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 8,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 9,
+    "hand_x": 62,
+    "hand_y": 65,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "run": [
+   {
+    "frame": 0,
+    "hand_x": 68,
+    "hand_y": 53,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 67,
+    "hand_y": 56,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 64,
+    "hand_y": 64,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 3,
+    "hand_x": 51,
+    "hand_y": 53,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 4,
+    "hand_x": 52,
+    "hand_y": 53,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 5,
+    "hand_x": 48,
+    "hand_y": 54,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 6,
+    "hand_x": 50,
+    "hand_y": 56,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 7,
+    "hand_x": 50,
+    "hand_y": 57,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 8,
+    "hand_x": 61,
+    "hand_y": 64,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 9,
+    "hand_x": 66,
+    "hand_y": 55,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "jump": [
+   {
+    "frame": 0,
+    "hand_x": 66,
+    "hand_y": 54,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 66,
+    "hand_y": 54,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 66,
+    "hand_y": 54,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "jump_apex": [
+   {
+    "frame": 0,
+    "hand_x": 65,
+    "hand_y": 57,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 65,
+    "hand_y": 57,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "fall": [
+   {
+    "frame": 0,
+    "hand_x": 65,
+    "hand_y": 58,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 65,
+    "hand_y": 58,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 65,
+    "hand_y": 58,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "crouch": [
+   {
+    "frame": 0,
+    "hand_x": 69,
+    "hand_y": 67,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "crouch_walk": [
+   {
+    "frame": 0,
+    "hand_x": 69,
+    "hand_y": 67,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 69,
+    "hand_y": 67,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 69,
+    "hand_y": 66,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 3,
+    "hand_x": 69,
+    "hand_y": 66,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 4,
+    "hand_x": 69,
+    "hand_y": 67,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 5,
+    "hand_x": 69,
+    "hand_y": 67,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 6,
+    "hand_x": 69,
+    "hand_y": 67,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 7,
+    "hand_x": 69,
+    "hand_y": 66,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "wall_slide": [
+   {
+    "frame": 0,
+    "hand_x": 67,
+    "hand_y": 58,
+    "angle": 90,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 67,
+    "hand_y": 58,
+    "angle": 90,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 67,
+    "hand_y": 58,
+    "angle": 90,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "roll": [
+   {
+    "frame": 0,
+    "hand_x": 71,
+    "hand_y": 53,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 77,
+    "hand_y": 53,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 81,
+    "hand_y": 54,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 3,
+    "hand_x": 82,
+    "hand_y": 58,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 4,
+    "hand_x": 81,
+    "hand_y": 63,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 5,
+    "hand_x": 78,
+    "hand_y": 70,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 6,
+    "hand_x": 65,
+    "hand_y": 79,
+    "angle": 45,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 7,
+    "hand_x": 62,
+    "hand_y": 78,
+    "angle": 45,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 8,
+    "hand_x": 57,
+    "hand_y": 78,
+    "angle": 45,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 9,
+    "hand_x": 60,
+    "hand_y": 62,
+    "angle": 45,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 10,
+    "hand_x": 0,
+    "hand_y": 0,
+    "angle": 45,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 11,
+    "hand_x": 69,
+    "hand_y": 59,
+    "angle": 45,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "slide": [
+   {
+    "frame": 0,
+    "hand_x": 47,
+    "hand_y": 73,
+    "angle": 0,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 47,
+    "hand_y": 78,
+    "angle": 0,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 2,
+    "hand_x": 47,
+    "hand_y": 78,
+    "angle": 0,
+    "visible": false,
+    "source": "auto"
+   },
+   {
+    "frame": 3,
+    "hand_x": 71,
+    "hand_y": 70,
+    "angle": 0,
+    "visible": true,
+    "source": "auto"
+   }
+  ],
+  "dash": [
+   {
+    "frame": 0,
+    "hand_x": 45,
+    "hand_y": 60,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   },
+   {
+    "frame": 1,
+    "hand_x": 45,
+    "hand_y": 60,
+    "angle": 135,
+    "visible": true,
+    "source": "auto"
+   }
+  ]
+ }
+}

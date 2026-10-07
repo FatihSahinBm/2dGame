@@ -106,12 +106,17 @@ func update_keys(new_keys: int) -> void:
 		key_label.text = "x %d" % keys
 
 ## Kılıç / Silah Slotunu Güncelle
-func update_weapon_slot(equipped: bool) -> void:
+func update_weapon_slot(equipped: bool, is_active: bool = true) -> void:
 	has_weapon = equipped
 	if sword_slot:
-		sword_slot.modulate = Color(1, 1, 1, 1) if equipped else Color(0.4, 0.45, 0.55, 0.6)
+		if not equipped:
+			sword_slot.modulate = Color(0.4, 0.45, 0.55, 0.6)
+		elif is_active:
+			sword_slot.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		else:
+			sword_slot.modulate = Color(0.75, 0.75, 0.75, 0.8) # Kında (Standby)
 	if sword_glow:
-		sword_glow.visible = equipped
+		sword_glow.visible = equipped and is_active
 
 ## İksir Miktarlarını Güncelle
 func update_potion_counts() -> void:
