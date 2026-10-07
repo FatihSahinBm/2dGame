@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/combat/test_combat_scene.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/combat/sword_item.tscn" id="3_sword"]
-[ext_resource type="PackedScene" path="res://scenes/ui/combat_hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="4_fantasy_hud"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1400, 60)
@@ -104,4 +104,4 @@ position = Vector2(340, 545)
 [node name="TestPlayer" parent="." instance=ExtResource("2_player")]
 position = Vector2(180, 520)
 
-[node name="CombatHUD" parent="." instance=ExtResource("4_hud")]
+[node name="FantasyHUD" parent="." instance=ExtResource("4_fantasy_hud")]

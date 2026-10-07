@@ -1,0 +1,654 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/fantasy_hud.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/portrait_knight.png" id="2_portrait"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_heart.png" id="3_heart"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_crystal.png" id="4_crystal"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_coin.png" id="5_coin"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_key.png" id="6_key"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_pause.png" id="7_pause"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/slot_diamond_bg.png" id="8_slot_bg"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_armor.png" id="9_armor"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_potion_red.png" id="10_pot_red"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_potion_blue.png" id="11_pot_blue"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_sword_slot.png" id="12_sword"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_crown.png" id="13_crown"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.105882, 0.129412, 0.176471, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.68, 0.44, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.85, 0.18, 0.24, 1)
+border_width_top = 1
+border_color = Color(1, 0.5, 0.55, 0.9)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mana_fill"]
+bg_color = Color(0.12, 0.55, 0.95, 1)
+border_width_top = 1
+border_color = Color(0.6, 0.85, 1, 0.9)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill"]
+bg_color = Color(0.1, 0.12, 0.18, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.48, 0.25, 0.9)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+expand_margin_left = 8.0
+expand_margin_top = 3.0
+expand_margin_right = 10.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_key_badge"]
+bg_color = Color(0.08, 0.1, 0.14, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.45, 0.25, 0.85)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tutorial"]
+bg_color = Color(0.09, 0.11, 0.16, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.48, 0.25, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 12.0
+expand_margin_top = 8.0
+expand_margin_right = 14.0
+expand_margin_bottom = 8.0
+
+[node name="FantasyHUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_script")
+
+[node name="TopLeft" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 360.0
+offset_bottom = 84.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLeft"]
+layout_mode = 0
+offset_right = 340.0
+offset_bottom = 60.0
+theme_override_constants/separation = 12
+
+[node name="PortraitWrapper" type="Control" parent="TopLeft/HBoxContainer"]
+custom_minimum_size = Vector2(54, 60)
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="TopLeft/HBoxContainer/PortraitWrapper"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 54.0
+offset_bottom = 60.0
+texture = ExtResource("2_portrait")
+
+[node name="BarsVBox" type="VBoxContainer" parent="TopLeft/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="HealthContainer" type="Control" parent="TopLeft/HBoxContainer/BarsVBox"]
+custom_minimum_size = Vector2(260, 22)
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="TopLeft/HBoxContainer/BarsVBox/HealthContainer"]
+custom_minimum_size = Vector2(260, 22)
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 22.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HeartIcon" type="TextureRect" parent="TopLeft/HBoxContainer/BarsVBox/HealthContainer"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.0
+offset_top = 3.0
+offset_right = 23.0
+offset_bottom = 19.0
+texture = ExtResource("3_heart")
+
+[node name="HealthLabel" type="Label" parent="TopLeft/HBoxContainer/BarsVBox/HealthContainer"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 1.0
+offset_right = 110.0
+offset_bottom = 21.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 11
+text = "100 / 100"
+vertical_alignment = 1
+
+[node name="ManaContainer" type="Control" parent="TopLeft/HBoxContainer/BarsVBox"]
+custom_minimum_size = Vector2(220, 18)
+layout_mode = 2
+
+[node name="ManaBar" type="ProgressBar" parent="TopLeft/HBoxContainer/BarsVBox/ManaContainer"]
+custom_minimum_size = Vector2(220, 18)
+layout_mode = 0
+offset_right = 220.0
+offset_bottom = 18.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mana_fill")
+value = 100.0
+show_percentage = false
+
+[node name="CrystalIcon" type="TextureRect" parent="TopLeft/HBoxContainer/BarsVBox/ManaContainer"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 17.0
+texture = ExtResource("4_crystal")
+
+[node name="ManaLabel" type="Label" parent="TopLeft/HBoxContainer/BarsVBox/ManaContainer"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = -1.0
+offset_right = 100.0
+offset_bottom = 19.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 10
+text = "40 / 40"
+vertical_alignment = 1
+
+[node name="TopRight" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 18.0
+offset_right = -24.0
+offset_bottom = 54.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopRight"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -230.0
+offset_bottom = 32.0
+grow_horizontal = 0
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="CoinPanel" type="PanelContainer" parent="TopRight/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
+
+[node name="HBox" type="HBoxContainer" parent="TopRight/HBoxContainer/CoinPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="TopRight/HBoxContainer/CoinPanel/HBox"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("5_coin")
+stretch_mode = 3
+
+[node name="CoinLabel" type="Label" parent="TopRight/HBoxContainer/CoinPanel/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.88, 0.72, 1)
+theme_override_font_sizes/font_size = 12
+text = "x 0"
+
+[node name="KeyPanel" type="PanelContainer" parent="TopRight/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
+
+[node name="HBox" type="HBoxContainer" parent="TopRight/HBoxContainer/KeyPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="TopRight/HBoxContainer/KeyPanel/HBox"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("6_key")
+stretch_mode = 3
+
+[node name="KeyLabel" type="Label" parent="TopRight/HBoxContainer/KeyPanel/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.88, 0.72, 1)
+theme_override_font_sizes/font_size = 12
+text = "x 0"
+
+[node name="PauseButton" type="TextureButton" parent="TopRight/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture_normal = ExtResource("7_pause")
+stretch_mode = 3
+
+[node name="BottomLeft" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -140.0
+offset_right = 168.0
+offset_bottom = -20.0
+grow_vertical = 0
+
+[node name="DiamondContainer" type="Control" parent="BottomLeft"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SlotTop" type="Control" parent="BottomLeft/DiamondContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -54.0
+offset_right = 23.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotTop"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_slot_bg")
+
+[node name="Icon" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotTop"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_armor")
+
+[node name="SlotLeft" type="Control" parent="BottomLeft/DiamondContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -23.0
+offset_right = -10.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotLeft"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_slot_bg")
+
+[node name="Icon" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotLeft"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_pot_red")
+
+[node name="KeyBadge" type="PanelContainer" parent="BottomLeft/DiamondContainer/SlotLeft"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -4.0
+offset_right = 7.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_key_badge")
+
+[node name="Label" type="Label" parent="BottomLeft/DiamondContainer/SlotLeft/KeyBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 8
+text = "2"
+horizontal_alignment = 1
+
+[node name="CountBadge" type="Label" parent="BottomLeft/DiamondContainer/SlotLeft"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -14.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = 11.0
+grow_horizontal = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "3"
+horizontal_alignment = 2
+
+[node name="SlotRight" type="Control" parent="BottomLeft/DiamondContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -23.0
+offset_right = 56.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotRight"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_slot_bg")
+
+[node name="Icon" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotRight"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_pot_blue")
+
+[node name="KeyBadge" type="PanelContainer" parent="BottomLeft/DiamondContainer/SlotRight"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -4.0
+offset_right = 7.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_key_badge")
+
+[node name="Label" type="Label" parent="BottomLeft/DiamondContainer/SlotRight/KeyBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 8
+text = "3"
+horizontal_alignment = 1
+
+[node name="CountBadge" type="Label" parent="BottomLeft/DiamondContainer/SlotRight"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -14.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = 11.0
+grow_horizontal = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "2"
+horizontal_alignment = 2
+
+[node name="SlotBottom" type="Control" parent="BottomLeft/DiamondContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = 8.0
+offset_right = 23.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotBottom"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_slot_bg")
+
+[node name="ActiveGlow" type="ColorRect" parent="BottomLeft/DiamondContainer/SlotBottom"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.9, 0.7, 0.2, 0.2)
+
+[node name="Icon" type="TextureRect" parent="BottomLeft/DiamondContainer/SlotBottom"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_sword")
+
+[node name="KeyBadge" type="PanelContainer" parent="BottomLeft/DiamondContainer/SlotBottom"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -3.0
+offset_right = 7.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_key_badge")
+
+[node name="Label" type="Label" parent="BottomLeft/DiamondContainer/SlotBottom/KeyBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 8
+text = "1"
+horizontal_alignment = 1
+
+[node name="BottomRight" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -80.0
+offset_right = -24.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TutorialBox" type="PanelContainer" parent="BottomRight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tutorial")
+
+[node name="HBox" type="HBoxContainer" parent="BottomRight/TutorialBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="CrownIcon" type="TextureRect" parent="BottomRight/TutorialBox/HBox"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("13_crown")
+stretch_mode = 3
+
+[node name="VBox" type="VBoxContainer" parent="BottomRight/TutorialBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="BottomRight/TutorialBox/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.95, 0.98, 1)
+theme_override_font_sizes/font_size = 12
+text = "Platformlara zıpla"
+
+[node name="KeyContainer" type="HBoxContainer" parent="BottomRight/TutorialBox/HBox/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="KeyBadge" type="PanelContainer" parent="BottomRight/TutorialBox/HBox/VBox/KeyContainer"]
+custom_minimum_size = Vector2(18, 14)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_key_badge")
+
+[node name="Label" type="Label" parent="BottomRight/TutorialBox/HBox/VBox/KeyContainer/KeyBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 9
+text = "Space"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="BottomRight/TutorialBox/HBox/VBox/KeyContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.74, 0.82, 1)
+theme_override_font_sizes/font_size = 11
+text = "ile zıpla"
