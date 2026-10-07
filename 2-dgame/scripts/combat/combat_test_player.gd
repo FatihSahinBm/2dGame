@@ -18,7 +18,8 @@ const SWORD_ITEM_SCENE = preload("res://scenes/combat/sword_item.tscn")
 @onready var visual_node: Node2D = $Visual
 @onready var anim_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
-@onready var weapon_indicator: Sprite2D = $Visual/WeaponIndicator
+@onready var hand_point: Marker2D = $Visual/HandPoint
+@onready var weapon_sprite: Sprite2D = $Visual/HandPoint/WeaponSprite
 
 func _ready() -> void:
 	if anim_sprite:
@@ -112,29 +113,33 @@ func drop_sword() -> void:
 ## Saldırılar
 func perform_light_attack() -> void:
 	is_attacking = true
+	_update_weapon_visual()
 	velocity.x = facing_dir * 120.0
 	if anim_sprite and anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("attack"):
 		anim_sprite.play("attack")
 	else:
-		# Yedek saldırı zamanlayıcısı
 		await get_tree().create_timer(0.25).timeout
 		is_attacking = false
+		_update_weapon_visual()
 
 func perform_heavy_attack() -> void:
 	is_attacking = true
+	_update_weapon_visual()
 	velocity.x = facing_dir * 240.0
 	if anim_sprite and anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("heavy_attack"):
 		anim_sprite.play("heavy_attack")
 	else:
 		await get_tree().create_timer(0.4).timeout
 		is_attacking = false
+		_update_weapon_visual()
 
 func _on_animation_finished() -> void:
 	is_attacking = false
+	_update_weapon_visual()
 
 func _update_weapon_visual() -> void:
-	if weapon_indicator:
-		weapon_indicator.visible = has_sword
+	if weapon_sprite:
+		weapon_sprite.visible = has_sword and not is_attacking
 
 func _update_animation() -> void:
 	if not anim_sprite or is_attacking:
