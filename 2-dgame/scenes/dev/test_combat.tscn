@@ -1,0 +1,107 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/test_combat_scene.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/combat/sword_item.tscn" id="3_sword"]
+[ext_resource type="PackedScene" path="res://scenes/ui/combat_hud.tscn" id="4_hud"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1400, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat1"]
+size = Vector2(220, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat2"]
+size = Vector2(240, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 650)
+
+[node name="TestCombat" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0901961, 0.109804, 0.14902, 1)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(576, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+offset_left = -700.0
+offset_top = -30.0
+offset_right = 700.0
+offset_bottom = 30.0
+color = Color(0.180392, 0.231373, 0.309804, 1)
+
+[node name="Platform1" type="StaticBody2D" parent="Environment"]
+position = Vector2(340, 460)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform1"]
+shape = SubResource("RectangleShape2D_plat1")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Platform1"]
+offset_left = -110.0
+offset_top = -12.0
+offset_right = 110.0
+offset_bottom = 12.0
+color = Color(0.239216, 0.309804, 0.419608, 1)
+
+[node name="Platform2" type="StaticBody2D" parent="Environment"]
+position = Vector2(680, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform2"]
+shape = SubResource("RectangleShape2D_plat2")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Platform2"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.239216, 0.309804, 0.419608, 1)
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(15, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+offset_left = -15.0
+offset_top = -325.0
+offset_right = 15.0
+offset_bottom = 325.0
+color = Color(0.141176, 0.168627, 0.219608, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1137, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -15.0
+offset_top = -325.0
+offset_right = 15.0
+offset_bottom = 325.0
+color = Color(0.141176, 0.168627, 0.219608, 1)
+
+[node name="SwordItem" parent="." instance=ExtResource("3_sword")]
+position = Vector2(340, 545)
+
+[node name="TestPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(180, 520)
+
+[node name="CombatHUD" parent="." instance=ExtResource("4_hud")]

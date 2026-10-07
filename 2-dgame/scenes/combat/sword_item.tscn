@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/sword_item.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/items/sword.png" id="2_texture"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 26.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+bg_color = Color(0.12, 0.15, 0.2, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 6.0
+expand_margin_top = 2.0
+expand_margin_right = 6.0
+expand_margin_bottom = 2.0
+
+[node name="SwordItem" type="Area2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_texture")
+
+[node name="FloorRay" type="RayCast2D" parent="."]
+target_position = Vector2(0, 18)
+collision_mask = 1
+
+[node name="Prompt" type="Node2D" parent="."]
+position = Vector2(0, -30)
+
+[node name="Label" type="Label" parent="Prompt"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_right = 38.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_badge")
+text = "[E] Kılıcı Al"
+horizontal_alignment = 1
+vertical_alignment = 1
