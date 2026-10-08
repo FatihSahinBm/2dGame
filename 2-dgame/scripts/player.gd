@@ -125,6 +125,60 @@ func _ensure_input_actions() -> void:
 		ev_k.physical_keycode = KEY_K
 		InputMap.action_add_event("attack_heavy", ev_k)
 
+	if not InputMap.has_action("dash"):
+		InputMap.add_action("dash")
+		var ev = InputEventKey.new()
+		ev.physical_keycode = KEY_SHIFT
+		InputMap.action_add_event("dash", ev)
+
+	if not InputMap.has_action("crouch"):
+		InputMap.add_action("crouch")
+		var ev = InputEventKey.new()
+		ev.physical_keycode = KEY_CTRL
+		InputMap.action_add_event("crouch", ev)
+
+	if not InputMap.has_action("roll"):
+		InputMap.add_action("roll")
+		var ev_alt = InputEventKey.new()
+		ev_alt.physical_keycode = KEY_ALT
+		InputMap.action_add_event("roll", ev_alt)
+		var ev_c = InputEventKey.new()
+		ev_c.physical_keycode = KEY_C
+		InputMap.action_add_event("roll", ev_c)
+
+	if not InputMap.has_action("toggle_weapon"):
+		InputMap.add_action("toggle_weapon")
+		var ev = InputEventKey.new()
+		ev.physical_keycode = KEY_1
+		InputMap.action_add_event("toggle_weapon", ev)
+
+	if not InputMap.has_action("jump"):
+		InputMap.add_action("jump")
+		var ev_space = InputEventKey.new()
+		ev_space.physical_keycode = KEY_SPACE
+		InputMap.action_add_event("jump", ev_space)
+		var ev_w = InputEventKey.new()
+		ev_w.physical_keycode = KEY_W
+		InputMap.action_add_event("jump", ev_w)
+
+	if not InputMap.has_action("move_left"):
+		InputMap.add_action("move_left")
+		var ev_a = InputEventKey.new()
+		ev_a.physical_keycode = KEY_A
+		InputMap.action_add_event("move_left", ev_a)
+		var ev_left = InputEventKey.new()
+		ev_left.physical_keycode = KEY_LEFT
+		InputMap.action_add_event("move_left", ev_left)
+
+	if not InputMap.has_action("move_right"):
+		InputMap.add_action("move_right")
+		var ev_d = InputEventKey.new()
+		ev_d.physical_keycode = KEY_D
+		InputMap.action_add_event("move_right", ev_d)
+		var ev_right = InputEventKey.new()
+		ev_right.physical_keycode = KEY_RIGHT
+		InputMap.action_add_event("move_right", ev_right)
+
 func _emit_weapon_state() -> void:
 	weapon_state_changed.emit(has_sword, is_armed)
 	sword_state_changed.emit(has_sword)

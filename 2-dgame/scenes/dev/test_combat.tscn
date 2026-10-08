@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ct1g7livp35rd"]
+[gd_scene load_steps=10 format=3 uid="uid://ct1g7livp35rd"]
 
 [ext_resource type="Script" path="res://scripts/combat/test_combat_scene.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/combat/sword_item.tscn" id="3_sword"]
 [ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="4_fantasy_hud"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/hayalet_adam.tscn" id="5_ghost"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1400, 60)
@@ -106,3 +107,7 @@ position = Vector2(340, 545)
 position = Vector2(180, 520)
 
 [node name="FantasyHUD" parent="." instance=ExtResource("4_fantasy_hud")]
+ 
+[node name="HayaletAdamEnemy" parent="." instance=ExtResource("5_ghost")]
+position = Vector2(750, 560)
+direction = -1

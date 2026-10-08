@@ -1,0 +1,587 @@
+[gd_scene load_steps=41 format=3 uid="uid://boss_arena_gorgeath"]
+
+[ext_resource type="Script" path="res://scripts/dev/boss_arena.gd" id="1_arena"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ogre_boss.tscn" id="2_boss"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="3_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_l"]
+size = Vector2(32, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_r"]
+size = Vector2(32, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_main"]
+size = Vector2(560, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_left"]
+size = Vector2(240, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_right"]
+size = Vector2(240, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ceil"]
+size = Vector2(1920, 24)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_bg"]
+bg_color = Color(0.06, 0.04, 0.04, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.55, 0.12, 0.12, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_fill"]
+bg_color = Color(0.82, 0.12, 0.10, 1)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(1.0, 0.38, 0.28, 0.85)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_panel"]
+bg_color = Color(0.04, 0.02, 0.02, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.50, 0.14, 0.10, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_panel"]
+bg_color = Color(0.04, 0.05, 0.07, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.38, 0.32, 0.18, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.10, 0.05, 0.05, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.18, 0.75, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_bg"]
+bg_color = Color(0.04, 0.06, 0.14, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_fill"]
+bg_color = Color(0.14, 0.38, 0.90, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_portrait"]
+bg_color = Color(0.10, 0.12, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.22, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="BossArena" type="Node2D"]
+script = ExtResource("1_arena")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="BG" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.038, 0.032, 0.028, 1)
+
+[node name="WallBack" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.055, 0.060, 0.050, 1)
+
+[node name="GothicWindowGlow" type="ColorRect" parent="Background"]
+anchor_left = 0.3
+anchor_right = 0.7
+anchor_top = 0.05
+anchor_bottom = 0.72
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.09, 0.18, 0.75)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="MainFloor" type="StaticBody2D" parent="Environment"]
+position = Vector2(640, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/MainFloor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="FloorVisual" type="ColorRect" parent="Environment/MainFloor"]
+offset_left = -960.0
+offset_top = -20.0
+offset_right = 960.0
+offset_bottom = 200.0
+color = Color(0.10, 0.12, 0.09, 1)
+
+[node name="FloorTop" type="ColorRect" parent="Environment/MainFloor"]
+offset_left = -960.0
+offset_top = -20.0
+offset_right = 960.0
+offset_bottom = -12.0
+color = Color(0.14, 0.17, 0.12, 1)
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall_l")
+
+[node name="WallVisual" type="ColorRect" parent="Environment/WallLeft"]
+offset_left = -16.0
+offset_top = -400.0
+offset_right = 16.0
+offset_bottom = 400.0
+color = Color(0.08, 0.09, 0.07, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1280, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall_r")
+
+[node name="WallVisual" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -16.0
+offset_top = -400.0
+offset_right = 16.0
+offset_bottom = 400.0
+color = Color(0.08, 0.09, 0.07, 1)
+
+[node name="Ceiling" type="StaticBody2D" parent="Environment"]
+position = Vector2(640, -20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ceiling"]
+shape = SubResource("RectangleShape2D_ceil")
+
+[node name="PlatformMainLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(320, 340)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformMainLeft"]
+shape = SubResource("RectangleShape2D_plat_main")
+
+[node name="Visual" type="ColorRect" parent="Environment/PlatformMainLeft"]
+offset_left = -280.0
+offset_top = -14.0
+offset_right = 280.0
+offset_bottom = 14.0
+color = Color(0.12, 0.14, 0.11, 1)
+
+[node name="TopEdge" type="ColorRect" parent="Environment/PlatformMainLeft"]
+offset_left = -280.0
+offset_top = -14.0
+offset_right = 280.0
+offset_bottom = -10.0
+color = Color(0.17, 0.20, 0.14, 1)
+
+[node name="PlatformLedgeLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(170, 250)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformLedgeLeft"]
+shape = SubResource("RectangleShape2D_plat_left")
+
+[node name="Visual" type="ColorRect" parent="Environment/PlatformLedgeLeft"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.12, 0.14, 0.11, 1)
+
+[node name="TopEdge" type="ColorRect" parent="Environment/PlatformLedgeLeft"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = -8.0
+color = Color(0.17, 0.20, 0.14, 1)
+
+[node name="PlatformBossRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1000, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformBossRight"]
+shape = SubResource("RectangleShape2D_plat_right")
+
+[node name="Visual" type="ColorRect" parent="Environment/PlatformBossRight"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 40.0
+color = Color(0.11, 0.13, 0.10, 1)
+
+[node name="TopEdge" type="ColorRect" parent="Environment/PlatformBossRight"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = -8.0
+color = Color(0.16, 0.19, 0.13, 1)
+
+[node name="TorchLeft" type="Node2D" parent="Environment"]
+position = Vector2(80, 260)
+
+[node name="TorchBase" type="ColorRect" parent="Environment/TorchLeft"]
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 18.0
+color = Color(0.20, 0.14, 0.08, 1)
+
+[node name="TorchFlame" type="ColorRect" parent="Environment/TorchLeft"]
+offset_left = -6.0
+offset_top = -12.0
+offset_right = 6.0
+offset_bottom = 2.0
+color = Color(1.0, 0.55, 0.08, 0.9)
+
+[node name="TorchGlow" type="ColorRect" parent="Environment/TorchLeft"]
+offset_left = -32.0
+offset_top = -28.0
+offset_right = 32.0
+offset_bottom = 28.0
+color = Color(1.0, 0.45, 0.05, 0.08)
+
+[node name="TorchRight" type="Node2D" parent="Environment"]
+position = Vector2(1200, 260)
+
+[node name="TorchBase" type="ColorRect" parent="Environment/TorchRight"]
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 18.0
+color = Color(0.20, 0.14, 0.08, 1)
+
+[node name="TorchFlame" type="ColorRect" parent="Environment/TorchRight"]
+offset_left = -6.0
+offset_top = -12.0
+offset_right = 6.0
+offset_bottom = 2.0
+color = Color(1.0, 0.55, 0.08, 0.9)
+
+[node name="TorchGlow" type="ColorRect" parent="Environment/TorchRight"]
+offset_left = -32.0
+offset_top = -28.0
+offset_right = 32.0
+offset_bottom = 28.0
+color = Color(1.0, 0.45, 0.05, 0.08)
+
+[node name="ChainLeft" type="ColorRect" parent="Environment"]
+offset_left = 200.0
+offset_top = 40.0
+offset_right = 204.0
+offset_bottom = 180.0
+color = Color(0.28, 0.25, 0.18, 0.85)
+
+[node name="ChainRight" type="ColorRect" parent="Environment"]
+offset_left = 900.0
+offset_top = 20.0
+offset_right = 904.0
+offset_bottom = 200.0
+color = Color(0.28, 0.25, 0.18, 0.85)
+
+[node name="GothicWindow" type="Node2D" parent="Environment"]
+position = Vector2(640, 170)
+
+[node name="WindowFrame" type="ColorRect" parent="Environment/GothicWindow"]
+offset_left = -140.0
+offset_top = -130.0
+offset_right = 140.0
+offset_bottom = 130.0
+color = Color(0.09, 0.10, 0.09, 1)
+
+[node name="WindowGlass" type="ColorRect" parent="Environment/GothicWindow"]
+offset_left = -128.0
+offset_top = -118.0
+offset_right = 128.0
+offset_bottom = 118.0
+color = Color(0.05, 0.08, 0.18, 0.8)
+
+[node name="WindowCenter" type="ColorRect" parent="Environment/GothicWindow"]
+offset_left = -3.0
+offset_top = -118.0
+offset_right = 3.0
+offset_bottom = 118.0
+color = Color(0.09, 0.10, 0.09, 1)
+
+[node name="WindowCross" type="ColorRect" parent="Environment/GothicWindow"]
+offset_left = -128.0
+offset_top = -50.0
+offset_right = 128.0
+offset_bottom = -44.0
+color = Color(0.09, 0.10, 0.09, 1)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(185, 220)
+
+[node name="OgreBoss" parent="." instance=ExtResource("2_boss")]
+position = Vector2(950, 400)
+direction = -1
+turn_at_ledges = false
+
+[node name="BossHUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="BossEnterLabel" type="Label" parent="BossHUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -20.0
+offset_right = 300.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.90, 0.22, 0.15, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 24
+text = "GOR'GATH THE OGRE GIANT"
+horizontal_alignment = 1
+visible = false
+
+[node name="BossHealthPanel" type="PanelContainer" parent="BossHUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -260.0
+offset_top = 12.0
+offset_right = 260.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_boss_panel")
+
+[node name="VBox" type="VBoxContainer" parent="BossHUD/BossHealthPanel"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BossSubtitle" type="Label" parent="BossHUD/BossHealthPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.45, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "DEV BOS"
+horizontal_alignment = 1
+
+[node name="BossName" type="Label" parent="BossHUD/BossHealthPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.85, 0.55, 1)
+theme_override_colors/font_outline_color = Color(0.3, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 16
+text = "GOR'GATH, THE OGRE GIANT"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="BossHUD/BossHealthPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 14)
+theme_override_styles/background = SubResource("StyleBoxFlat_boss_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_boss_fill")
+max_value = 450.0
+value = 450.0
+show_percentage = false
+
+[node name="HPText" type="Label" parent="BossHUD/BossHealthPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70, 0.65, 0.60, 1)
+theme_override_font_sizes/font_size = 9
+text = "HP"
+horizontal_alignment = 1
+
+[node name="PlayerHUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PlayerPanel" type="PanelContainer" parent="PlayerHUD"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 260.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_player_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerHUD/PlayerPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="PlayerHUD/PlayerPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxTop" type="HBoxContainer" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PortraitFrame" type="PanelContainer" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxTop"]
+layout_mode = 2
+custom_minimum_size = Vector2(44, 44)
+theme_override_styles/panel = SubResource("StyleBoxFlat_portrait")
+
+[node name="PortraitLabel" type="Label" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxTop/PortraitFrame"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.80, 0.60, 1)
+theme_override_font_sizes/font_size = 22
+text = "K"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerNameLabel" type="Label" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxTop"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.90, 0.85, 0.65, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "KNIGHT"
+
+[node name="HBoxBars" type="VBoxContainer" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="HPRow" type="HBoxContainer" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HPIcon" type="Label" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars/HPRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.88, 0.30, 1)
+theme_override_font_sizes/font_size = 10
+text = "HP"
+
+[node name="HPBar" type="ProgressBar" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars/HPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 10)
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars/HPRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(54, 0)
+theme_override_colors/font_color = Color(0.75, 0.82, 0.72, 1)
+theme_override_font_sizes/font_size = 9
+text = "100 / 100"
+horizontal_alignment = 2
+
+[node name="MPRow" type="HBoxContainer" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MPIcon" type="Label" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars/MPRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.52, 0.95, 1)
+theme_override_font_sizes/font_size = 10
+text = "MP"
+
+[node name="MPBar" type="ProgressBar" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars/MPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 10)
+theme_override_styles/background = SubResource("StyleBoxFlat_mp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mp_fill")
+max_value = 40.0
+value = 40.0
+show_percentage = false
+
+[node name="MPLabel" type="Label" parent="PlayerHUD/PlayerPanel/MarginContainer/VBox/HBoxBars/MPRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(54, 0)
+theme_override_colors/font_color = Color(0.65, 0.72, 0.88, 1)
+theme_override_font_sizes/font_size = 9
+text = "40 / 40"
+horizontal_alignment = 2
+
+[node name="DebugOverlay" type="CanvasLayer" parent="."]
+layer = 15
+
+[node name="VBox" type="VBoxContainer" parent="DebugOverlay"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -170.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+grow_horizontal = 0
+
+[node name="FPSLabel" type="Label" parent="DebugOverlay/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70, 0.75, 0.65, 0.60)
+theme_override_font_sizes/font_size = 10
+text = "FPS: 60"
+horizontal_alignment = 2
+
+[node name="GodotLabel" type="Label" parent="DebugOverlay/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.60, 0.65, 0.55, 0.50)
+theme_override_font_sizes/font_size = 10
+text = "GODOT PLAYTEST ACTIVE"
+horizontal_alignment = 2
+
+[node name="ControlHints" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="HintsLabel" type="Label" parent="ControlHints"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -32.0
+offset_right = 350.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.52, 0.7)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "[A/D] Move  |  [Space] Jump  |  [LMB] Light Attack  |  [RMB] Heavy Attack  |  [T] 25 Dmg  |  [K] Kill  |  [R] Restart"
+horizontal_alignment = 1

@@ -62,3 +62,21 @@ func _unhandled_input(event: InputEvent) -> void:
 				# [Y] Anahtar toplama testi (+1 Anahtar)
 				if "keys" in hud:
 					hud.update_keys(hud.keys + 1)
+			KEY_R:
+				# [R] Hayalet Adam'ı yeniden doğur
+				_respawn_ghost()
+
+func _respawn_ghost() -> void:
+	var existing = get_node_or_null("HayaletAdamEnemy")
+	if existing and is_instance_valid(existing):
+		existing.queue_free()
+
+	await get_tree().process_frame
+
+	var ghost_scene = load("res://scenes/enemies/hayalet_adam.tscn")
+	if ghost_scene:
+		var new_ghost = ghost_scene.instantiate()
+		new_ghost.name = "HayaletAdamEnemy"
+		new_ghost.global_position = Vector2(750, 560)
+		new_ghost.direction = -1
+		add_child(new_ghost)
