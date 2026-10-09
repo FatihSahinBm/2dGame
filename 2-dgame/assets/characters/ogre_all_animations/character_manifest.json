@@ -1,0 +1,123 @@
+{
+  "character": "Green Ogre Warrior",
+  "version": "1.0",
+  "nativeFps": 24,
+  "anchorType": "feet_ground",
+  "animations": {
+    "walk": {
+      "directory": "01_walk",
+      "frameCount": 37,
+      "durationSeconds": 1.75,
+      "loop": true,
+      "spriteSheet": "01_walk/sprite_sheet.png",
+      "spriteSheetLayout": {
+        "cellSize": [
+          618,
+          292
+        ],
+        "columns": 8,
+        "totalFrames": 37
+      },
+      "sourceAnchor": [
+        309.0,
+        290.0
+      ],
+      "sourceSize": [
+        618,
+        292
+      ]
+    },
+    "idle": {
+      "directory": "02_idle",
+      "frameCount": 54,
+      "durationSeconds": 2.25,
+      "loop": true,
+      "spriteSheet": "02_idle/sprite_sheet.png",
+      "spriteSheetLayout": {
+        "cellSize": [
+          384,
+          228
+        ],
+        "columns": 8,
+        "totalFrames": 54
+      },
+      "sourceAnchor": [
+        145.0,
+        266.0
+      ],
+      "sourceSize": [
+        454,
+        268
+      ]
+    },
+    "attack": {
+      "directory": "03_attack",
+      "frameCount": 78,
+      "durationSeconds": 3.25,
+      "loop": false,
+      "spriteSheet": "03_attack/sprite_sheet.png",
+      "spriteSheetLayout": {
+        "cellSize": [
+          382,
+          304
+        ],
+        "columns": 8,
+        "totalFrames": 78
+      },
+      "sourceAnchor": [
+        253.0,
+        301.0
+      ],
+      "sourceSize": [
+        381,
+        303
+      ]
+    },
+    "hurt": {
+      "directory": "04_hurt",
+      "frameCount": 56,
+      "durationSeconds": 2.3333333333333335,
+      "loop": false,
+      "spriteSheet": "04_hurt/sprite_sheet.png",
+      "spriteSheetLayout": {
+        "cellSize": [
+          212,
+          262
+        ],
+        "columns": 8,
+        "totalFrames": 56
+      },
+      "sourceAnchor": [
+        121.0,
+        260.0
+      ],
+      "sourceSize": [
+        212,
+        262
+      ]
+    },
+    "death": {
+      "directory": "05_death",
+      "frameCount": 118,
+      "durationSeconds": 4.916666666666667,
+      "loop": false,
+      "spriteSheet": "05_death/sprite_sheet.png",
+      "spriteSheetLayout": {
+        "cellSize": [
+          384,
+          218
+        ],
+        "columns": 8,
+        "totalFrames": 118
+      },
+      "sourceAnchor": [
+        158.0,
+        259.0
+      ],
+      "sourceSize": [
+        460,
+        261
+      ]
+    }
+  }
+}

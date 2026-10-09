@@ -5,8 +5,9 @@ extends "res://scripts/enemies/monster_enemy.gd"
 
 @export_group("Boss Features")
 @export var screen_shake_intensity: float = 6.0
-@export var ground_smash_delay: float = 0.55 # Kulübün yere vurma anı (frame 3)
-@export var recovery_time: float = 0.65
+@export var ground_smash_delay: float = 1.33 # Frame 32 at 24 FPS (kulübün yere vurma anı)
+@export var recovery_time: float = 1.90
+@export var hitbox_offset_x: float = 70.0
 
 var _camera_ref: Camera2D = null
 
@@ -14,6 +15,14 @@ func _ready() -> void:
 	super._ready()
 	# Kamerayı bul (ekran sarsıntısı için)
 	_find_camera()
+
+func _update_facing_direction() -> void:
+	super._update_facing_direction()
+	if hitbox_area:
+		hitbox_area.position.x = hitbox_offset_x * float(direction)
+	if ledge_ray:
+		ledge_ray.position.x = 35.0 * float(direction)
+		ledge_ray.force_raycast_update()
 
 func _find_camera() -> void:
 	var viewport = get_viewport()
@@ -29,15 +38,15 @@ func _start_attack() -> void:
 
 	# Kulübü havaya kaldırıp yere indirme zamanlaması
 	var tween: Tween = create_tween()
-	# Frame 1 ve 2: Havaya kaldırma aşaması
+	# Frame 1 - 31: Havaya kaldırma ve savurma aşaması (1.33s)
 	tween.tween_interval(ground_smash_delay)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
 			_activate_hitbox()
 			_trigger_ground_smash_impact()
 	)
-	# Frame 3 ve 4: Yerdeki şok dalgası ve kalkış
-	tween.tween_interval(0.3)
+	# Frame 32 - 40: Yerdeki şok dalgası ve darbe anı
+	tween.tween_interval(0.35)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
 			_deactivate_hitbox()
@@ -94,10 +103,10 @@ func _die() -> void:
 		var bar_tween: Tween = create_tween()
 		bar_tween.tween_property(health_bar, "modulate:a", 0.0, 0.4)
 
-	# Ağır ölüm animasyonu (yere yığılış)
+	# Ağır ölüm animasyonu (118 frame, 4.92s yere yığılış)
 	if anim_sprite and anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation(&"death"):
 		anim_sprite.play(&"death")
-		# 1.8 saniye ceset yerde kalır, sonra kaybolur
-		get_tree().create_timer(2.2).timeout.connect(_fade_and_free)
+		# 5.4 saniye: animasyon biter, ceset yerde durur, sonra kaybolur
+		get_tree().create_timer(5.4).timeout.connect(_fade_and_free)
 	else:
 		_fade_and_free()

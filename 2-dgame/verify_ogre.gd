@@ -5,7 +5,7 @@ func _init() -> void:
 	print("--- OGRE BOSS VERIFICATION START ---")
 	
 	# 1. Load ogre_frames.tres
-	var frames_res = load("res://assets/characters/monsters/ogre/ogre_frames.tres")
+	var frames_res = load("res://assets/characters/ogre_all_animations/ogre_frames.tres")
 	if not frames_res:
 		push_error("FAIL: Failed to load ogre_frames.tres")
 		quit(1)
@@ -90,7 +90,9 @@ func _init() -> void:
 	print("OK: test_boss arena scene instantiated.")
 	
 	var arena_boss = arena_scene.get_node_or_null("OgreBoss")
-	var arena_player = arena_scene.get_node_or_null("Player")
+	var arena_player = arena_scene.get_node_or_null("TestPlayer")
+	if not arena_player:
+		arena_player = arena_scene.get_node_or_null("Player")
 	if not arena_boss or not arena_player:
 		push_error("FAIL: OgreBoss or Player missing in arena")
 		quit(1)
