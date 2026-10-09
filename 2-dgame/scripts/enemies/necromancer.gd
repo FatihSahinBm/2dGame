@@ -12,12 +12,13 @@ extends "res://scripts/enemies/monster_enemy.gd"
 @export var magic_damage: int = 30
 @export var melee_damage: int = 25
 @export var cast_range: float = 500.0
-@export var melee_range: float = 40.0
+@export var melee_range: float = 75.0
 @export var projectile_scene: PackedScene = preload("res://scenes/projectiles/dark_magic_projectile.tscn")
-@export var magic_cast_delay: float = 1.417 # Frame 34 at 24 FPS
-@export var melee_impact_delay: float = 1.750 # Frame 42 at 24 FPS
+@export var magic_cast_delay: float = 1.200 # Hızlandırılmış büyü hazırlığı
+@export var melee_impact_delay: float = 0.850 # Hızlandırılmış sopa vuruşu
+@export var melee_cooldown: float = 0.200 # İki sopa vuruşu arasındaki çok kısa mikro bekleme süresi
 @export var projectile_spawn_offset: Vector2 = Vector2(20.0, -35.0)
-@export var melee_hitbox_offset_x: float = 19.0
+@export var melee_hitbox_offset_x: float = 35.0
 
 # Taktiksel AI Durumları
 enum AttackType { MELEE, MAGIC }
@@ -31,6 +32,7 @@ func _ready() -> void:
 		monster_name = "Ölüm Büyücüsü"
 	if detection_range < 650.0:
 		detection_range = 650.0
+	attack_range = melee_range
 
 func _update_facing_direction() -> void:
 	super._update_facing_direction()
@@ -209,11 +211,22 @@ func _process_chase(delta: float) -> void:
 	# Hedefe yönel
 	var target_dir: int = 1 if to_target.x > 0 else -1
 
-	# 1. ACİL DURUM: Oyuncu çok yakındaysa hemen asayla vur (Refleks Savunma)
-	if dist <= melee_range and _attack_timer <= 0.0:
-		current_attack_mode = AttackType.MELEE
-		_start_attack()
-		return
+	# 1. HIZLI VE MANTIKLI SALDIRI TÜRÜ KARARI:
+	# - Sopa Menzili Kontrolü: Oyuncu yakın menzildeyse (<= 75px) VE aynı zemin seviyesindeyse -> SOPA!
+	var is_in_melee_zone: bool = (dist <= melee_range and absf(to_target.y) <= 45.0)
+
+	if is_in_melee_zone:
+		# İki sopa vuruşu arasındaki kısa bekleme süresi dolduysa sopa vur
+		if _attack_timer <= 0.0:
+			current_attack_mode = AttackType.MELEE
+			_start_attack()
+			return
+		else:
+			# Vuruşlar arasındaki o kısa bekleme aralığında oyuncuya dönük sakin duruşta bekler
+			velocity.x = move_toward(velocity.x, 0.0, 500.0 * delta)
+			if anim_sprite and anim_sprite.animation != &"hit" and anim_sprite.animation != &"hurt":
+				anim_sprite.play(&"idle")
+			return
 
 	# 2. ENGEL / GÖRÜŞ HATTI YÖNETİMİ:
 	# Eğer görüş hattı kapalıysa veya tavan altındaysak kararlı şekilde açı ara
@@ -231,22 +244,23 @@ func _process_chase(delta: float) -> void:
 		direction = target_dir
 		_update_facing_direction()
 
-	# 3. GÖRÜŞ HATTI AÇIK & BÜYÜ MENZİLİNDE:
+	# 3. GÖRÜŞ HATTI AÇIK & BÜYÜ MENZİLİNDE (Uzak / Orta Mesafe):
+	# (Oyuncu sopa menzilinin dışındaysa veya yukarı platformdaysa mantıklı seçim: BÜYÜ!)
 	if dist <= cast_range:
 		if _attack_timer <= 0.0:
 			current_attack_mode = AttackType.MAGIC
 			_start_attack()
 			return
 		else:
-			# Cooldown beklerken ve oyuncu yaklaşıyorsa geriye adım at (Kiting)
-			if dist < cast_range * 0.35:
-				velocity.x = -float(direction) * speed * 0.65
+			# Cooldown beklerken kiting: Oyuncu üzerine koşuyorsa geri adım atıp mesafe korur
+			if dist < 160.0:
+				velocity.x = -float(direction) * speed * 0.8
 				if anim_sprite and anim_sprite.animation != &"hit" and anim_sprite.animation != &"hurt":
 					anim_sprite.play(&"walk")
 				return
 			else:
 				# İdeal atış mesafesinde sakin bekle
-				velocity.x = move_toward(velocity.x, 0.0, 400.0 * delta)
+				velocity.x = move_toward(velocity.x, 0.0, 450.0 * delta)
 				if anim_sprite and anim_sprite.animation != &"hit" and anim_sprite.animation != &"hurt":
 					anim_sprite.play(&"idle")
 				return
@@ -283,20 +297,23 @@ func _start_attack() -> void:
 ## Uzaktan Kara Büyü Atışı
 func _execute_magic_cast() -> void:
 	if anim_sprite:
+		anim_sprite.speed_scale = 1.15
 		anim_sprite.play(&"attack_magic")
 
 	var tween: Tween = create_tween()
-	# Frame 1 - 33: Büyü çemberi oluşturma ve odaklanma süresi (1.417s)
+	# Büyü çemberi oluşturma ve odaklanma süresi (1.20s)
 	tween.tween_interval(magic_cast_delay)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
 			_spawn_dark_magic_projectile()
 	)
-	# Frame 34 - 60: Büyü sonlandırma ve toparlanma süresi (1.083s)
-	tween.tween_interval(1.083)
+	# Büyü sonlandırma ve toparlanma süresi (0.80s)
+	tween.tween_interval(0.80)
 	tween.tween_callback(func():
+		if anim_sprite:
+			anim_sprite.speed_scale = 1.0
 		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown
+			_attack_timer = 1.0
 			current_state = State.CHASE if _target_node else State.PATROL
 	)
 
@@ -315,7 +332,7 @@ func _spawn_dark_magic_projectile() -> void:
 	if _target_node and is_instance_valid(_target_node):
 		var target_aim = _target_node.global_position + Vector2(0, -20.0)
 		var direct_vec = (target_aim - spawn_pos).normalized()
-		# Eğer hedef yukarıdaki bir platformdaysa, mermiyi yukarı kavisli fırlat (böylece platform kenarını rahatça aşar)
+		# Eğer hedef yukarıdaki bir platformdaysa, mermiyi yukarı kavisli fırlat
 		if _target_node.global_position.y < global_position.y - 35.0:
 			shoot_dir = Vector2(direct_vec.x * 0.75, minf(direct_vec.y, -0.65)).normalized()
 		else:
@@ -325,53 +342,77 @@ func _spawn_dark_magic_projectile() -> void:
 	var parent_node = get_parent()
 	if parent_node:
 		parent_node.add_child(proj)
-		# Hedef referansını da aktararak kavisli homing takibi sağla
 		proj.setup(spawn_pos, shoot_dir, self, magic_damage, _target_node)
 
-## Yakın Asa Vuruşu
+## Yakın Asa Vuruşu (Belirgin Şekilde Daha Hızlı)
 func _execute_melee_swing() -> void:
 	if anim_sprite:
+		anim_sprite.speed_scale = 1.9 # Sopa savurma animasyonu seri ve akıcı
 		anim_sprite.play(&"attack_melee")
 
 	attack_damage = melee_damage
 
 	var tween: Tween = create_tween()
-	# Frame 1 - 41: Asayı havaya kaldırma (1.750s)
+	# Asayı hızla havaya kaldırıp indirme (0.85s)
 	tween.tween_interval(melee_impact_delay)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
 			_activate_hitbox()
 	)
-	# Frame 42 - 47: Vuruş etki anı (0.22s)
-	tween.tween_interval(0.22)
+	# Vuruş etki anı (0.16s)
+	tween.tween_interval(0.16)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
 			_deactivate_hitbox()
 	)
-	# Frame 48 - 65: Toparlanma süresi (0.74s)
-	tween.tween_interval(0.74)
+	# Toparlanma süresi (0.35s)
+	tween.tween_interval(0.35)
 	tween.tween_callback(func():
+		if anim_sprite:
+			anim_sprite.speed_scale = 1.0
 		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown
+			_attack_timer = melee_cooldown # Ardı ardına sopa vuruşları arasına kısa bekleme süresi
 			current_state = State.CHASE if _target_node else State.PATROL
 	)
+
+func take_damage(amount: int) -> void:
+	if anim_sprite:
+		anim_sprite.speed_scale = 1.0
+	_deactivate_hitbox()
+	super.take_damage(amount)
 
 func _die() -> void:
 	if is_dead:
 		return
 	is_dead = true
 	current_state = State.DEAD
+	velocity.x = 0.0
+	if is_on_floor():
+		velocity.y = 0.0
+
+	if anim_sprite:
+		anim_sprite.speed_scale = 1.0
 	_deactivate_hitbox()
 
 	enemy_died.emit(self)
 
+	# Saldırı ve oyuncu gövde çarpışmasını kapat (oyuncu cesedin içinden geçebilir),
+	# ANCAK Zemin (Layer 1 Maskesi) açık kalmalı ki ceset yerin altına düşmesin!
 	set_collision_layer_value(1, false)
 	set_collision_layer_value(2, false)
-	set_collision_mask_value(1, false)
+	set_collision_mask_value(1, true)
 
 	if hurtbox_area:
 		hurtbox_area.monitoring = false
 		hurtbox_area.monitorable = false
 
+	if health_bar:
+		var bar_tween: Tween = create_tween()
+		bar_tween.tween_property(health_bar, "modulate:a", 0.0, 0.3)
+
 	if anim_sprite:
 		anim_sprite.play(&"death")
+		# 65 kare (2.7s) ölüm animasyonu oynadıktan sonra ceset bir süre yerde kalır, ardından solar
+		get_tree().create_timer(3.5).timeout.connect(_fade_and_free)
+	else:
+		_fade_and_free()

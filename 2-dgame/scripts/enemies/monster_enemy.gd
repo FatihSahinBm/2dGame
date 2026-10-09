@@ -85,6 +85,8 @@ func _physics_process(delta: float) -> void:
 	if is_dead:
 		if not is_flying and not is_on_floor():
 			velocity.y += gravity * delta
+		else:
+			velocity.y = 0.0
 		velocity.x = move_toward(velocity.x, 0.0, 400.0 * delta)
 		move_and_slide()
 		return
@@ -420,10 +422,10 @@ func _die() -> void:
 
 	enemy_died.emit(self)
 
-	# Çarpışmayı devre dışı bırak
+	# Çarpışmayı devre dışı bırak (Zemine basmaya devam etsin)
 	set_collision_layer_value(1, false)
 	set_collision_layer_value(2, false)
-	set_collision_mask_value(1, false)
+	set_collision_mask_value(1, true)
 
 	if hurtbox_area:
 		hurtbox_area.monitoring = false

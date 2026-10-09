@@ -64,6 +64,13 @@ var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _was_on_floor: bool = false
 
+# Sıkı Savuşturma (Parry) Ayarları - Ustalık ve Zamanlama Gerektiren Mekanik
+var is_parry_active: bool = false
+const PARRY_WINDOW_DURATION: float = 0.12 # Vuruşun ilk 0.12 saniyesi (yaklaşık 7-8 kare)
+const PARRY_MIN_FORWARD_DIST: float = 14.0 # Karakterin çok dibinde veya arkasında olamaz
+const PARRY_MAX_FORWARD_DIST: float = 55.0 # Kılıç savurma menzili (dar ve hassas sweet-spot)
+const PARRY_MAX_Y_DIFF: float = 26.0 # Göğüs/kılıç yatay hizası
+
 # Çarpışma Kutusu Boyutları
 const NORMAL_COL_SIZE: Vector2 = Vector2(18.0, 38.0)
 const NORMAL_COL_POS: Vector2 = Vector2(0.0, -19.0)
@@ -455,6 +462,7 @@ func perform_light_attack() -> void:
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack"):
 		anim_sprite.play("attack")
 	_apply_attack_damage(25)
+	_open_parry_window()
 	combo_step = 1
 	combo_timer = 0.5
 	_start_safety_timer(0.38)
@@ -470,6 +478,7 @@ func perform_combo_attack() -> void:
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack_combo"):
 		anim_sprite.play("attack_combo")
 	_apply_attack_damage(40)
+	_open_parry_window()
 	_start_safety_timer(0.65)
 
 ## Eğilerek Saldırı (Crouch Attack)
@@ -481,7 +490,88 @@ func perform_crouch_attack() -> void:
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("crouch_attack"):
 		anim_sprite.play("crouch_attack")
 	_apply_attack_damage(30)
+	_open_parry_window()
 	_start_safety_timer(0.35)
+
+## Parry Penceresi ve Durumu (Kılıçla zamanında karşılama)
+func can_parry_projectile() -> bool:
+	return has_sword and is_parry_active and not is_dead and not is_hurt
+
+func _open_parry_window() -> void:
+	if not has_sword or is_dead or is_hurt:
+		return
+	is_parry_active = true
+	_check_projectile_parry()
+	get_tree().create_timer(PARRY_WINDOW_DURATION).timeout.connect(func():
+		is_parry_active = false
+	)
+
+## Kara Büyü ve Mermi Yansıtma Kontrolü (Hassas Zamanlama ve Dar Menzil)
+func _check_projectile_parry() -> bool:
+	if not can_parry_projectile():
+		return false
+
+	var projectiles = get_tree().get_nodes_in_group("reflectable_projectile")
+	var parried_any: bool = false
+
+	for proj in projectiles:
+		if not is_instance_valid(proj) or proj.get("is_reflected") == true:
+			continue
+
+		var player_chest: Vector2 = global_position + Vector2(0.0, -20.0)
+		var to_proj: Vector2 = proj.global_position - player_chest
+		var forward_dist: float = to_proj.x * facing_dir
+		var y_diff: float = absf(to_proj.y)
+
+		# Sıkı zamanlama ve dar mesafe kontrolü:
+		# 1. Büyü kesinlikle oyuncunun baktığı yönde ve kılıcın dar vuruş menzilinde olmalı (14px - 55px)
+		# 2. Göğüs / kılıç yatay hizasında olmalı (<= 26px)
+		if forward_dist >= PARRY_MIN_FORWARD_DIST and forward_dist <= PARRY_MAX_FORWARD_DIST and y_diff <= PARRY_MAX_Y_DIFF:
+			if proj.has_method("reflect"):
+				proj.reflect(self)
+				_play_parry_feedback(proj.global_position)
+				parried_any = true
+
+	return parried_any
+
+## Yansıtma / Parry Görsel ve Hissiyat Geribildirimi (Juice)
+func _play_parry_feedback(impact_pos: Vector2) -> void:
+	# 1. Hit-Stop (Mikro donma efekti - 0.06s)
+	Engine.time_scale = 0.08
+	get_tree().create_timer(0.06, true, false, true).timeout.connect(func():
+		Engine.time_scale = 1.0
+	)
+
+	# 2. Karakter Parlaması (Altın/Mavi Yansıma Parıltısı)
+	if visual_node:
+		var orig_mod: Color = visual_node.modulate
+		visual_node.modulate = Color(2.5, 2.5, 1.2, 1.0)
+		get_tree().create_timer(0.14, true, false, true).timeout.connect(func():
+			if is_instance_valid(visual_node):
+				visual_node.modulate = orig_mod
+		)
+
+	# 3. Kamera Titremesi (Screen Shake)
+	var cam = get_node_or_null("Camera2D")
+	if cam and cam.has_method("apply_shake"):
+		cam.apply_shake(6.0)
+
+	# 4. Yansıtma Metni (Floating Feedback)
+	var parent_scene = get_parent()
+	if parent_scene:
+		var label = Label.new()
+		label.text = "⚔️ PARRY!"
+		label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.3, 1.0))
+		label.add_theme_color_override("font_outline_color", Color(0.12, 0.05, 0.22, 1.0))
+		label.add_theme_constant_override("outline_size", 4)
+		label.add_theme_font_size_override("font_size", 14)
+		label.global_position = impact_pos + Vector2(-30, -35)
+		parent_scene.add_child(label)
+
+		var tw = label.create_tween()
+		tw.tween_property(label, "global_position:y", label.global_position.y - 30.0, 0.55)
+		tw.parallel().tween_property(label, "modulate:a", 0.0, 0.55)
+		tw.tween_callback(label.queue_free)
 
 ## Ağır Saldırı (Sağ Tık)
 func perform_heavy_attack() -> void:
@@ -531,6 +621,7 @@ func take_damage(amount: int) -> void:
 	# Darbe Tepkisi (Hit / Hurt)
 	is_hurt = true
 	is_attacking = false
+	is_parry_active = false
 	current_attack_type = ""
 	if attack_area:
 		attack_area.monitoring = false
@@ -551,6 +642,7 @@ func die() -> void:
 		return
 	is_dead = true
 	is_attacking = false
+	is_parry_active = false
 	current_attack_type = ""
 	velocity = Vector2.ZERO
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
@@ -597,6 +689,7 @@ func _start_safety_timer(timeout: float) -> void:
 	get_tree().create_timer(timeout).timeout.connect(func():
 		if is_attacking:
 			is_attacking = false
+			is_parry_active = false
 			current_attack_type = ""
 			if attack_area:
 				attack_area.monitoring = false
@@ -605,6 +698,7 @@ func _start_safety_timer(timeout: float) -> void:
 func _on_animation_finished() -> void:
 	if is_attacking:
 		is_attacking = false
+		is_parry_active = false
 		current_attack_type = ""
 		if attack_area:
 			attack_area.monitoring = false

@@ -7,7 +7,7 @@
 size = Vector2(18, 55)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
-size = Vector2(35, 38)
+size = Vector2(65, 46)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
 size = Vector2(22, 58)
@@ -57,16 +57,17 @@ chase_speed = 85.0
 attack_damage = 25
 magic_damage = 30
 melee_damage = 25
-attack_range = 40.0
+attack_range = 75.0
 cast_range = 500.0
-melee_range = 40.0
+melee_range = 75.0
 detection_range = 650.0
 knockback_resistance = 0.6
-attack_cooldown = 1.5
-magic_cast_delay = 1.417
-melee_impact_delay = 1.75
+attack_cooldown = 0.8
+magic_cast_delay = 1.2
+melee_impact_delay = 0.85
+melee_cooldown = 0.2
 projectile_spawn_offset = Vector2(20, -35)
-melee_hitbox_offset_x = 19.0
+melee_hitbox_offset_x = 35.0
 turn_at_ledges = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -84,7 +85,7 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Hitbox" type="Area2D" parent="Visual"]
-position = Vector2(19, -24)
+position = Vector2(35, -24)
 collision_layer = 0
 collision_mask = 1
 monitoring = false
