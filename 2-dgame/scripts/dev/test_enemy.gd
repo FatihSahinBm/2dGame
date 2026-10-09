@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var status_label: Label = $UI/PanelContainer/MarginContainer/VBoxContainer/StatusLabel
-@onready var btn_damage_25: Button = $UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnDamage25
-@onready var btn_damage_100: Button = $UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnDamage100
-@onready var btn_reset: Button = $UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnReset
-@onready var player_node: CharacterBody2D = $TestPlayer
+@onready var status_label: Label = get_node_or_null("UI/PanelContainer/MarginContainer/VBoxContainer/StatusLabel")
+@onready var btn_damage_25: Button = get_node_or_null("UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnDamage25")
+@onready var btn_damage_100: Button = get_node_or_null("UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnDamage100")
+@onready var btn_reset: Button = get_node_or_null("UI/PanelContainer/MarginContainer/VBoxContainer/HBoxButtons/BtnReset")
+@onready var player_node: CharacterBody2D = get_node_or_null("TestPlayer")
 
 func _ready() -> void:
 	# 1. Buton bağlantıları

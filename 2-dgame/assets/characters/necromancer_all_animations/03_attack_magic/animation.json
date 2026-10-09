@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "3.0",
+  "name": "necromancer_attack_magic",
+  "character": "necromancer",
+  "frameCount": 60,
+  "cellSize": [
+    360,
+    320
+  ],
+  "anchor": [
+    160,
+    300
+  ],
+  "fps": 24.0,
+  "durationMs": 2744,
+  "castFrame": 34,
+  "projectileSpawnOffset": [
+    85,
+    -148
+  ],
+  "loop": false
+}

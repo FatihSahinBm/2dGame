@@ -5,9 +5,9 @@ extends "res://scripts/enemies/monster_enemy.gd"
 
 @export_group("Boss Features")
 @export var screen_shake_intensity: float = 6.0
-@export var ground_smash_delay: float = 1.33 # Frame 32 at 24 FPS (kulübün yere vurma anı)
-@export var recovery_time: float = 1.90
-@export var hitbox_offset_x: float = 70.0
+@export var ground_smash_delay: float = 1.75 # Frame 42 at 24 FPS (kulübün yere vurma anı)
+@export var recovery_time: float = 1.05
+@export var hitbox_offset_x: float = 80.0
 
 var _camera_ref: Camera2D = null
 
@@ -38,14 +38,14 @@ func _start_attack() -> void:
 
 	# Kulübü havaya kaldırıp yere indirme zamanlaması
 	var tween: Tween = create_tween()
-	# Frame 1 - 31: Havaya kaldırma ve savurma aşaması (1.33s)
+	# Frame 1 - 41: Havaya kaldırma ve savurma aşaması (1.75s)
 	tween.tween_interval(ground_smash_delay)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
 			_activate_hitbox()
 			_trigger_ground_smash_impact()
 	)
-	# Frame 32 - 40: Yerdeki şok dalgası ve darbe anı
+	# Frame 42 - 50: Yerdeki şok dalgası ve darbe anı (0.35s)
 	tween.tween_interval(0.35)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:

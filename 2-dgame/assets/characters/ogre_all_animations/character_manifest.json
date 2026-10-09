@@ -52,25 +52,25 @@
     },
     "attack": {
       "directory": "03_attack",
-      "frameCount": 78,
-      "durationSeconds": 3.25,
+      "frameCount": 75,
+      "durationSeconds": 3.125,
       "loop": false,
       "spriteSheet": "03_attack/sprite_sheet.png",
       "spriteSheetLayout": {
         "cellSize": [
-          382,
-          304
+          553,
+          292
         ],
-        "columns": 8,
-        "totalFrames": 78
+        "columns": 10,
+        "totalFrames": 75
       },
       "sourceAnchor": [
-        253.0,
-        301.0
+        272.0,
+        291.0
       ],
       "sourceSize": [
-        381,
-        303
+        553,
+        292
       ]
     },
     "hurt": {

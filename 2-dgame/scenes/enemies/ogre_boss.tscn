@@ -7,7 +7,7 @@
 size = Vector2(64, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
-size = Vector2(130, 95)
+size = Vector2(150, 95)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
 size = Vector2(76, 130)
@@ -49,13 +49,13 @@ current_health = 450
 speed = 45.0
 chase_speed = 75.0
 attack_damage = 40
-attack_range = 95.0
+attack_range = 115.0
 detection_range = 380.0
 knockback_resistance = 0.85
-attack_cooldown = 2.5
+attack_cooldown = 2.6
 screen_shake_intensity = 7.0
-ground_smash_delay = 1.33
-recovery_time = 1.9
+ground_smash_delay = 1.75
+recovery_time = 1.05
 turn_at_ledges = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -73,7 +73,7 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Hitbox" type="Area2D" parent="Visual"]
-position = Vector2(70, -45)
+position = Vector2(80, -45)
 collision_layer = 0
 collision_mask = 1
 monitoring = false

@@ -1,0 +1,107 @@
+{
+  "character": {
+    "name": "Necromancer",
+    "displayName": "Ölüm Büyücüsü / Dark Necromancer",
+    "description": "Hooded dark magic caster with glowing purple magic orb and horned skull staff",
+    "masterReference": "master_references/necromancer_master_cutout.png",
+    "standardCellSize": [
+      360,
+      320
+    ],
+    "standardAnchor": [
+      160,
+      300
+    ],
+    "groundBaselineY": 300,
+    "restCharacterHeight": 258,
+    "fps": 24.0
+  },
+  "actions": {
+    "idle": {
+      "folder": "01_idle",
+      "frameCount": 63,
+      "cellSize": [
+        360,
+        320
+      ],
+      "anchor": [
+        160,
+        300
+      ],
+      "loop": true
+    },
+    "walk": {
+      "folder": "02_walk",
+      "frameCount": 30,
+      "cellSize": [
+        360,
+        320
+      ],
+      "anchor": [
+        160,
+        300
+      ],
+      "loop": true
+    },
+    "attack_magic": {
+      "folder": "03_attack_magic",
+      "frameCount": 60,
+      "cellSize": [
+        360,
+        320
+      ],
+      "anchor": [
+        160,
+        300
+      ],
+      "castFrame": 34,
+      "projectileSpawnOffset": [
+        85,
+        -148
+      ],
+      "loop": false
+    },
+    "attack_melee": {
+      "folder": "04_attack_melee",
+      "frameCount": 65,
+      "cellSize": [
+        360,
+        320
+      ],
+      "anchor": [
+        160,
+        300
+      ],
+      "impactFrame": 42,
+      "loop": false
+    },
+    "hurt": {
+      "folder": "05_hurt",
+      "frameCount": 48,
+      "cellSize": [
+        360,
+        320
+      ],
+      "anchor": [
+        160,
+        300
+      ],
+      "peakFlinchFrame": 23,
+      "loop": false
+    },
+    "death": {
+      "folder": "06_death",
+      "frameCount": 65,
+      "cellSize": [
+        360,
+        320
+      ],
+      "anchor": [
+        160,
+        300
+      ],
+      "finalRestFrame": 64,
+      "loop": false
+    }
+  }
+}

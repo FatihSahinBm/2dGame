@@ -386,8 +386,11 @@ func _play_hit_feedback() -> void:
 		_hit_flash_tween = create_tween()
 		_hit_flash_tween.tween_property(anim_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.18)
 
-		if anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation(&"hit"):
-			anim_sprite.play(&"hit")
+		if anim_sprite.sprite_frames:
+			if anim_sprite.sprite_frames.has_animation(&"hurt"):
+				anim_sprite.play(&"hurt")
+			elif anim_sprite.sprite_frames.has_animation(&"hit"):
+				anim_sprite.play(&"hit")
 
 func _spawn_damage_number(amount: int) -> void:
 	if not damage_numbers:

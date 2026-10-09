@@ -1,0 +1,9 @@
+Animate this EXACT isolated hooded dark necromancer wearing tattered dark robes, holding floating purple glowing magic orb in right hand and horned skull staff in left hand, facing left. Preserve its identity, silhouette, proportions, colours, number of limbs and existing facing direction (facing screen left); keep its drawing style and texture, with no realistic 3D redesign.
+LOCKED camera: fixed framing and fixed scale for the whole clip; no zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera or cut.
+Everything behind the hooded dark necromancer stays a perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip: no floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text or green-coloured light.
+The ENTIRE motion, including hair, cloth, weapons and every appendage, stays inside the work region x=417..844, y=77..626 of this 1280x720 image, with clear margins; no visible guide borders.
+Keep the root fixed at pixel (640, 620): the feet stay on the same invisible ground line at y=620.
+Calm standing idle in place: subtle breathing is visible, chest and shoulders rise and settle by a few pixels, tattered hem of robes sways gently, the dark purple magic orb hovers steadily over his right palm with gentle internal dark violet flame pulsations. The feet and skull staff stay planted on the ground line.
+Timeline for this 6-second take: 0.0-0.4 s hold exactly the supplied reference pose, nothing moves yet; 0.4-5.6 s two complete slow breathing cycles, about one every 2.6 seconds, with soft purple orb flame pulse; 5.6-6.0 s settle back into exactly the starting pose, position and scale.
+Character and equipped items only: animate only the necromancer, robes, staff, and the existing floating purple orb; no new external environment objects, explosions, rings, or camera shake.
+Avoid: no steps, walking, attacks, turning, whole-body sliding or large bobbing; no extra limbs, new objects, text or camera motion.

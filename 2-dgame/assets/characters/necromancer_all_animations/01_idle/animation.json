@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "3.0",
+  "name": "necromancer_idle",
+  "character": "necromancer",
+  "frameCount": 63,
+  "cellSize": [
+    360,
+    320
+  ],
+  "anchor": [
+    160,
+    300
+  ],
+  "fps": 24.0,
+  "durationMs": 2625,
+  "loop": true
+}

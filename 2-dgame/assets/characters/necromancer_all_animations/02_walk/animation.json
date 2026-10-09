@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "3.0",
+  "name": "necromancer_walk",
+  "character": "necromancer",
+  "frameCount": 30,
+  "cellSize": [
+    360,
+    320
+  ],
+  "anchor": [
+    160,
+    300
+  ],
+  "fps": 24.0,
+  "durationMs": 1250,
+  "loop": true
+}

@@ -1,0 +1,150 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dvldcqb6whypy"]
+
+[ext_resource type="Texture2D" uid="uid://b6u7kundghpqy" path="res://assets/characters/necromancer_all_animations/03_attack_magic/projectile_fx/projectile_travel.png" id="1_travel"]
+[ext_resource type="Texture2D" uid="uid://b0u50hf5jwgc5" path="res://assets/characters/necromancer_all_animations/03_attack_magic/projectile_fx/projectile_burst.png" id="2_burst"]
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_0"]
+atlas = ExtResource("2_burst")
+region = Rect2(0, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_1"]
+atlas = ExtResource("2_burst")
+region = Rect2(48, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_2"]
+atlas = ExtResource("2_burst")
+region = Rect2(96, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_3"]
+atlas = ExtResource("2_burst")
+region = Rect2(144, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_4"]
+atlas = ExtResource("2_burst")
+region = Rect2(192, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_5"]
+atlas = ExtResource("2_burst")
+region = Rect2(240, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_burst_6"]
+atlas = ExtResource("2_burst")
+region = Rect2(288, 0, 48, 42)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_0"]
+atlas = ExtResource("1_travel")
+region = Rect2(0, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_1"]
+atlas = ExtResource("1_travel")
+region = Rect2(36, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_2"]
+atlas = ExtResource("1_travel")
+region = Rect2(72, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_3"]
+atlas = ExtResource("1_travel")
+region = Rect2(108, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_4"]
+atlas = ExtResource("1_travel")
+region = Rect2(144, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_5"]
+atlas = ExtResource("1_travel")
+region = Rect2(180, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_6"]
+atlas = ExtResource("1_travel")
+region = Rect2(216, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_7"]
+atlas = ExtResource("1_travel")
+region = Rect2(252, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_8"]
+atlas = ExtResource("1_travel")
+region = Rect2(288, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_9"]
+atlas = ExtResource("1_travel")
+region = Rect2(324, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_10"]
+atlas = ExtResource("1_travel")
+region = Rect2(360, 0, 36, 18)
+
+[sub_resource type="AtlasTexture" id="Atlas_travel_11"]
+atlas = ExtResource("1_travel")
+region = Rect2(396, 0, 36, 18)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_burst_6")
+}],
+"loop": 0,
+"name": &"burst",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_travel_11")
+}],
+"loop": 1,
+"name": &"travel",
+"speed": 20.0
+}]

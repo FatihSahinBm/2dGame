@@ -1,0 +1,138 @@
+[gd_scene load_steps=10 format=3 uid="uid://necromancer_enemy_scene_01"]
+
+[ext_resource type="Script" path="res://scripts/enemies/necromancer.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/necromancer_all_animations/necromancer_frames.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(18, 55)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(35, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(22, 58)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 650.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_necro_hp_bg"]
+bg_color = Color(0.06, 0.04, 0.10, 0.90)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.22, 0.65, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_necro_hp_fill"]
+bg_color = Color(0.62, 0.15, 0.85, 1)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.40, 1.0, 0.8)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 11
+font_color = Color(0.88, 0.75, 1, 1)
+outline_size = 2
+outline_color = Color(0.12, 0.05, 0.2, 1)
+
+[node name="Necromancer" type="CharacterBody2D" groups=["damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+floor_snap_length = 4.0
+script = ExtResource("1_script")
+monster_name = "Ölüm Büyücüsü"
+max_health = 280
+current_health = 280
+speed = 55.0
+chase_speed = 85.0
+attack_damage = 25
+magic_damage = 30
+melee_damage = 25
+attack_range = 40.0
+cast_range = 500.0
+melee_range = 40.0
+detection_range = 650.0
+knockback_resistance = 0.6
+attack_cooldown = 1.5
+magic_cast_delay = 1.417
+melee_impact_delay = 1.75
+projectile_spawn_offset = Vector2(20, -35)
+melee_hitbox_offset_x = 19.0
+turn_at_ledges = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -27.5)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -35)
+scale = Vector2(1, 1)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual"]
+position = Vector2(19, -24)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox"]
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual"]
+position = Vector2(14, 0)
+target_position = Vector2(0, 16)
+collision_mask = 1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -28)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -26.0
+offset_top = -68.0
+offset_right = 26.0
+offset_bottom = -62.0
+theme_override_styles/background = SubResource("StyleBoxFlat_necro_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_necro_hp_fill")
+max_value = 280.0
+value = 280.0
+show_percentage = false
+
+[node name="BossTitle" type="Label" parent="UI"]
+offset_left = -60.0
+offset_top = -86.0
+offset_right = 60.0
+offset_bottom = -70.0
+text = "Ölüm Büyücüsü"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="DamageNumbers" type="Node2D" parent="UI"]
+position = Vector2(0, -45)
