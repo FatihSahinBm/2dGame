@@ -1,0 +1,48 @@
+{
+  "action": "bat_attack_dive",
+  "form": "bat",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/bat_attack_dive.mp4",
+  "phases": {
+    "windup_ascent": {
+      "start": 0,
+      "end": 40
+    },
+    "swoop_descent": {
+      "start": 41,
+      "end": 76
+    },
+    "talon_rake_impact": {
+      "start": 77,
+      "end": 96,
+      "peak_frame": 88,
+      "hitbox": [
+        295,
+        230,
+        1185,
+        720
+      ]
+    },
+    "climb_ascent": {
+      "start": 97,
+      "end": 124
+    },
+    "recovery": {
+      "start": 125,
+      "end": 143
+    }
+  }
+}

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/combat/sword_item.tscn" id="3_sword"]
 [ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="4_fantasy_hud"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/necromancer.tscn" id="5_a8skn"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/vlad_boss.tscn" id="6_vlad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1400, 60)
@@ -108,8 +109,6 @@ position = Vector2(180, 520)
 
 [node name="FantasyHUD" parent="." unique_id=1650945796 instance=ExtResource("4_fantasy_hud")]
 
-[node name="Necromancer" parent="." unique_id=1588556479 instance=ExtResource("5_a8skn")]
-position = Vector2(688, 538)
-cast_range = 500.0
-attack_range = 75.0
+[node name="VladBoss" parent="." unique_id=987654321 instance=ExtResource("6_vlad")]
+position = Vector2(927, 548)
 direction = -1

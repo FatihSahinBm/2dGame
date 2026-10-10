@@ -1,0 +1,24 @@
+Animate this EXACT isolated dark fantasy Vampire Lord Vlad wearing jagged ornate crimson-and-black armor with bat-wing shoulder guards, spiked royal crown atop dark flowing hair, demonic pale face with sharp fangs and piercing red eyes, massive ragged crimson cape with bat-wing contours, holding a tall spiked blood-stained spear in his left hand, long clawed pale right gauntlet resting at his side.
+
+MANDATORY FACING AND ATTACK DIRECTION: Vlad faces SCREEN RIGHT and performs his entire spear slash toward SCREEN RIGHT. His face, chest, hips, and forward leg must consistently indicate that he faces right. Preserve his exact identity, silhouette, proportions, colors, number of limbs, armor design, crown, spear, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the vampire lord stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE animation, including cape, spear slash, hair, and clothing, stays inside the work region x=180..1100, y=10..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the rear armored boot anchored to the invisible ground line at y=680. No overall horizontal translation across the screen.
+
+BLOOD SPEAR WIDE SLASH ATTACK IN PLACE — STRIKE TOWARD SCREEN RIGHT:
+0.0–0.4 s — Starting pose: Hold exactly the supplied reference pose. Nothing moves yet.
+0.4–1.2 s — Wind-up: Vlad grips the spear with both hands and pulls it back toward SCREEN LEFT across his chest, preparing a powerful forward slash. He crouches slightly, coils his torso, and leans into the attack. His ragged bat-wing cape flares backward toward SCREEN LEFT.
+1.2–1.8 s — Powerful horizontal slash: Vlad explosively swings the spear in a wide, sweeping horizontal arc from SCREEN LEFT toward SCREEN RIGHT, striking forward at chest height. The spearhead travels decisively toward the RIGHT edge of the screen, in the positive X direction. His arms extend toward the RIGHT, his torso rotates with the force of the strike, and his front leg lunges toward SCREEN RIGHT while his rear boot stays firmly planted. The spear must visibly sweep across the RIGHT side of his body, never toward SCREEN LEFT.
+1.8–2.6 s — Follow-through hold: Vlad holds the end position of the slash with the spear extended toward SCREEN RIGHT. His cape billows behind him toward SCREEN LEFT. Maintain a powerful, aggressive silhouette.
+2.6–4.5 s — Recovery: Vlad pulls the spear back from the RIGHT, smoothly rotates it into its original upright guard position, and returns to his starting stance without changing his facing direction.
+4.5–6.0 s — Final hold: Hold the exact starting position and scale, facing SCREEN RIGHT, completely still.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY: Vlad faces RIGHT. His attack target is directly in front of him on SCREEN RIGHT. The spearhead must travel toward increasing X coordinates during the main slash. The entire attack motion must be unmistakably RIGHTWARD.
+
+Animate only Vampire Lord Vlad, his armor, crown, hair, ragged cape, hands, and blood spear. No external environment objects, enemies, magic particles, lightning, bats, blood splatters, or camera motion.
+Avoid jumping, hopping, floating, leaving the frame, turning toward the camera, extra limbs, new objects, text, perspective distortion, scale changes, and camera movement. Keep the rear boot anchored to y=680 throughout the attack.

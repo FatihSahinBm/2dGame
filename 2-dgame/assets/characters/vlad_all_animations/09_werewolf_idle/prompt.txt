@@ -1,0 +1,24 @@
+Animate this EXACT isolated dark fantasy Werewolf Lycan Vlad beast wearing tattered dark leather studded armor with ragged crimson cloth and fur mantle, menacing lupine wolf head with pointed ears, bared sharp fangs dripping with saliva, feral glowing red eyes, massive razor-sharp blood-tipped claws on both hands, hunched muscular furry body, thick bushy dark crimson tail, digitigrade clawed beast feet, facing right.
+
+MANDATORY FACING DIRECTION: The Werewolf beast faces SCREEN RIGHT for the ENTIRE clip. His wolf muzzle, chest, clawed hands, and digitigrade legs consistently face SCREEN RIGHT. Preserve his exact identity, silhouette, proportions, colors, number of limbs, fur texture, armor straps, claws, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the werewolf stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion, including claws, tail, ragged fur, and tattered mantle, stays inside the work region x=200..1050, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep both beast feet planted firmly on the invisible ground line at y=680, with zero foot sliding, shifting or floating.
+
+FERAL IDLE IN PLACE LIKE A 2D GAME BEAST IDLE ASSET:
+Body stays centered above the same ground anchor. Intimidating, heavy rhythmic panting / chest breathing, chest expanding and contracting with feral menace. Subtle predatory flexing and twitching of his long sharp claws. Gentle ambient sway of his heavy tattered fur-lined crimson mantle and slow, low twitch of his bushy dark tail. Head remains low in a hunched, ready-to-pounce predatory stance facing SCREEN RIGHT.
+Timeline for this 6-second take:
+- 0.0–0.4 s: hold exactly the supplied reference pose, nothing moves yet;
+- 0.4–5.0 s: rhythmic feral idle breathing, subtle claw flex, and mantle flutter, repeating 2-3 calm cycles;
+- 5.0–5.6 s: settle smoothly back into the starting posture;
+- 5.6–6.0 s: hold exactly the starting pose, position and scale, facing SCREEN RIGHT.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY: The Werewolf faces SCREEN RIGHT throughout the entire clip. Never turn toward SCREEN LEFT. Never turn toward the camera.
+
+Animate only Werewolf Vlad, his fur, claws, tattered armor, mantle, and tail. No external environment objects, enemies, magic particles, lightning, or camera motion.
+Avoid hopping, jumping, lunging, leaving the frame, turning, extra limbs, new objects, text, perspective distortion, scale changes, and camera movement. Keep beast feet anchored to y=680.

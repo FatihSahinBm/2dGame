@@ -1,0 +1,21 @@
+{
+  "action": "vampire_attack_slash",
+  "form": "vampire",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 106,
+  "loop": false,
+  "hitbox_frame": 49,
+  "hitbox_reach_x": 1195,
+  "attack_direction": "screen_right",
+  "source_video": "raw_videos/vampire_attack_slash.mp4"
+}

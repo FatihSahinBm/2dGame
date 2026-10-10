@@ -1,0 +1,23 @@
+Animate this EXACT isolated dark fantasy Voivode Vlad ruler character wearing ornate engraved plate armor with high gothic gorget, dark fur-trimmed crimson royal mantle cape with embroidered hem, spiked silver crown, holding a tall spiked steel spear firmly, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: Vlad faces SCREEN RIGHT throughout his defeat. His crowned head, armored body, spear, and cloak consistently face SCREEN RIGHT. He NEVER turns to face screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, armor engravings, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind Vlad stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root fixed above the ground line at y=680, with zero overall horizontal translation across the screen.
+
+EPIC BOSS DEFEAT & DISSOLUTION (2D BOSS DEATH ANIMATION FACING SCREEN RIGHT):
+Vlad suffers his final heroic demise upon the battlefield facing SCREEN RIGHT:
+1. Fatal Stagger (Frame 0..16): Drops his spear which clatters to the ground line at y=680, clutches his chest armor with trembling gauntleted hand, coughing dark blood mist, eyes flickering with dying red embers.
+2. Collapse to Knee (Frame 17..40): Drops heavily onto one knee onto the ground line at y=680 facing SCREEN RIGHT, his silver crown sliding slightly off his brow, head bowed in noble tragedy.
+3. Dissolution (Frame 41..80): His armored body turns into incandescent crimson embers and midnight ash that crumble down to the floor, bursting into a flurry of tiny dark bats that flutter away into the darkness.
+4. Final Remnant (Frame 81..120): The spear and crown remain resting on the empty ground at y=680 surrounded by faint lingering crimson dust that gently fades to invisible.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- Vlad faces SCREEN RIGHT (+X direction) across the entire sequence.
+- At no point does he flip, mirror, or face screen left.
+- Remains anchored at baseline y=680 without sinking below or sliding out of canvas borders.

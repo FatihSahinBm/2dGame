@@ -1,0 +1,66 @@
+{
+  "action": "werewolf_attack_claws",
+  "form": "werewolf",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/werewolf_attack_claws.mp4",
+  "phases": {
+    "windup": {
+      "start": 0,
+      "end": 28
+    },
+    "slash_1_right_claw": {
+      "start": 29,
+      "end": 44,
+      "peak_frame": 38,
+      "hitbox": [
+        230,
+        130,
+        1168,
+        683
+      ]
+    },
+    "slash_2_left_claw": {
+      "start": 45,
+      "end": 68,
+      "peak_frame": 57,
+      "hitbox": [
+        218,
+        59,
+        1110,
+        682
+      ]
+    },
+    "recoil_charge": {
+      "start": 69,
+      "end": 82
+    },
+    "finisher_cross_slash": {
+      "start": 83,
+      "end": 105,
+      "peak_frame": 95,
+      "hitbox": [
+        197,
+        7,
+        1266,
+        690
+      ]
+    },
+    "recovery": {
+      "start": 106,
+      "end": 143
+    }
+  }
+}

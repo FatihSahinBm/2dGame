@@ -1,0 +1,20 @@
+{
+  "action": "werewolf_run",
+  "form": "werewolf",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 28,
+  "loop": true,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/werewolf_run.mp4",
+  "loop_seam_diff": 2.07
+}

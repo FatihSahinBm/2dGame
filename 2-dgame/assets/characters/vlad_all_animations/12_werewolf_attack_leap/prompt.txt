@@ -1,0 +1,24 @@
+Animate this EXACT isolated dark fantasy Werewolf Lycan Vlad beast wearing tattered dark leather studded armor with ragged crimson cloth and fur mantle, menacing lupine wolf head with pointed ears, bared sharp fangs dripping with saliva, feral glowing red eyes, massive razor-sharp blood-tipped claws on both hands, hunched muscular furry body, thick bushy dark crimson tail, digitigrade clawed beast feet, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: The Werewolf beast faces SCREEN RIGHT and attacks directly toward SCREEN RIGHT for the ENTIRE clip. His wolf muzzle, chest, clawed hands, and digitigrade legs consistently face SCREEN RIGHT. The predatory leap and downward ground smash are aimed strictly forward toward SCREEN RIGHT (positive X direction). He NEVER turns to face screen left, and never attacks toward screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, fur texture, armor straps, claws, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the werewolf stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion, including the high leap arc, claws, tail, ground smash shockwave, ragged fur, and tattered mantle, stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root fixed above the ground line at y=680, with zero overall horizontal translation across the screen.
+
+FERAL LEAP POUNCE & GROUND SMASH (2D BOSS ATTACK ANIMATION FACING SCREEN RIGHT):
+The Werewolf beast performs a ferocious pounce leap and ground-shattering claw slam directly toward SCREEN RIGHT:
+1. Crouch / Charge: Crouches deeply onto coiled digitigrade legs, claws digging into the ground, muscles tensing, wolf jaws snarling toward SCREEN RIGHT.
+2. Pounce Leap: Springs upward and forward in a powerful predatory leap toward SCREEN RIGHT (rising into air within upper canvas boundary y=60..250), extending his body with both massive clawed hands raised high overhead.
+3. Downward Slam: Plunges down with devastating speed toward SCREEN RIGHT, smashing both razor-sharp claws directly into the invisible ground baseline at y=680, creating a sharp impact burst with crimson blood shockwave cracks spreading along the floor toward SCREEN RIGHT.
+4. Recovery: Slides slightly in a low beastly landing crouch facing SCREEN RIGHT, shaking dust off his fur, and returns smoothly to his hunched predatory battle stance facing SCREEN RIGHT.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- The entire leap and slam drives strictly toward SCREEN RIGHT (+X direction).
+- Facing direction remains SCREEN RIGHT at every frame of the clip.
+- At no point does the beast flip, mirror, turn his back, or face screen left.
+- Lands solidly on the invisible ground baseline at y=680 without sinking below or sliding out of canvas borders.

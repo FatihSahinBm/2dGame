@@ -1,0 +1,22 @@
+Animate this EXACT isolated dark fantasy Voivode Vlad ruler character wearing ornate engraved plate armor with high gothic gorget, dark fur-trimmed crimson royal mantle cape with embroidered hem, spiked silver crown, holding a tall spiked steel spear firmly, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: Vlad faces SCREEN RIGHT for the ENTIRE clip. His crowned head, armored chest, spear, and boots consistently face SCREEN RIGHT. When struck, he recoils backward toward screen left while keeping his face and eyes defiantly locked toward SCREEN RIGHT. He NEVER turns around or flips to face screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, armor engravings, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind Vlad stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root anchored above the ground line at y=680, with zero overall displacement across the screen.
+
+COMBAT IMPACT HIT REACTION (2D BOSS HURT ANIMATION FACING SCREEN RIGHT):
+Vlad sustains a powerful heavy attack impact from the right:
+1. Impact (Frame 0..8): Head snaps back sharply, jaw clenches with a grimace of pain, torso recoils backward slightly, cape flaring behind him, brief crimson spark flash at point of impact on his chest armor.
+2. Knockback Stumble (Frame 9..24): Right boot slides back slightly onto the ground line at y=680 to brace himself, spear planted firmly into the floor to stop his momentum.
+3. Defiant Recovery (Frame 25..50): Breathes out heavily, pulls himself upright, raises his chin defiantly with burning crimson eyes locked forward toward SCREEN RIGHT, stabilizing into his proud noble combat stance at ground baseline y=680.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- Vlad faces SCREEN RIGHT (+X direction) across the entire sequence.
+- At no point does he flip, mirror, or turn his back to the viewer.
+- Feet remain grounded at y=680 without sliding out of bounds.

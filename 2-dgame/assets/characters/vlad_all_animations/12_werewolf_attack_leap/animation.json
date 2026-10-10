@@ -1,0 +1,70 @@
+{
+  "action": "werewolf_attack_leap",
+  "form": "werewolf",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/werewolf_attack_leap.mp4",
+  "phases": {
+    "crouch_charge": {
+      "start": 0,
+      "end": 32
+    },
+    "leap_takeoff": {
+      "start": 33,
+      "end": 44
+    },
+    "airborne_apex": {
+      "start": 45,
+      "end": 68,
+      "apex_frame": 58,
+      "airborne_bounds": [
+        250,
+        0,
+        982,
+        558
+      ]
+    },
+    "downward_plunge": {
+      "start": 69,
+      "end": 82
+    },
+    "impact_slam": {
+      "start": 83,
+      "end": 94,
+      "impact_frame": 88,
+      "hitbox": [
+        264,
+        167,
+        1095,
+        720
+      ]
+    },
+    "shockwave_burst": {
+      "start": 95,
+      "end": 110,
+      "peak_shockwave_frame": 104,
+      "shockwave_bounds": [
+        0,
+        166,
+        1280,
+        715
+      ]
+    },
+    "landing_recovery": {
+      "start": 111,
+      "end": 143
+    }
+  }
+}

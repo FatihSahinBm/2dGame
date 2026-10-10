@@ -1,0 +1,24 @@
+Animate this EXACT isolated dark fantasy Vampire Lord Vlad wearing jagged ornate crimson-and-black armor with bat-wing shoulder guards, spiked royal crown atop dark flowing hair, demonic pale face with sharp fangs and piercing red eyes, massive ragged crimson cape with bat-wing contours, holding a tall spiked blood-stained spear in his left hand, long clawed pale right gauntlet resting at his side.
+
+MANDATORY FACING AND ATTACK DIRECTION: Vlad faces SCREEN RIGHT and casts his entire blood magic attack toward SCREEN RIGHT. His face, chest, hips, and clawed casting hand must consistently point toward SCREEN RIGHT. Preserve his exact identity, silhouette, proportions, colors, number of limbs, armor design, crown, spear, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the vampire lord stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE animation, including cape, clawed hand casting, hair, and clothing, stays inside the work region x=200..1150, y=10..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep both armored boots firmly planted on the invisible ground line at y=680. No overall horizontal translation across the screen.
+
+BLOOD MAGIC RANGED CAST ATTACK IN PLACE — CAST TOWARD SCREEN RIGHT:
+0.0–0.4 s — Starting pose: Hold exactly the supplied reference pose. Nothing moves yet.
+0.4–1.4 s — Wind-up / Channeling: Vlad raises his clawed right hand forward and upward toward SCREEN RIGHT at chest height, curling his demonic fingers as dark crimson blood magic energy gathers in his open palm. His bat-wing cape ripples dramatically backward toward SCREEN LEFT, and his red eyes flare with power. The left hand holds the blood spear firmly vertical.
+1.4–2.2 s — Unleash blood blast: Vlad violently thrusts his clawed right palm directly toward SCREEN RIGHT, unleashing a concentrated blast / surge of crimson blood energy straight forward in the positive X direction (toward SCREEN RIGHT). His torso leans powerfully toward SCREEN RIGHT while his boots stay planted at y=680.
+2.2–3.2 s — Follow-through hold: Holds the extended casting palm pose forward toward SCREEN RIGHT, smoke and crimson energy dissipating forward away from his body.
+3.2–4.8 s — Recovery: Vlad lowers his clawed right arm back to his side, settles his bat-wing cape, and returns smoothly to his starting neutral standing posture without changing his facing direction.
+4.8–6.0 s — Final hold: Hold the exact starting pose and position facing SCREEN RIGHT, completely still.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY: Vlad faces SCREEN RIGHT. His magic blast and target are on SCREEN RIGHT. The spell must project forward toward increasing X coordinates (SCREEN RIGHT). Never cast toward SCREEN LEFT.
+
+Animate only Vampire Lord Vlad, his armor, crown, hair, ragged cape, hands, blood spear, and his hand casting motion. No external environment objects, enemies, lightning, bats, or camera motion.
+Avoid jumping, hopping, floating, turning toward the camera, extra limbs, new objects, text, perspective distortion, scale changes, and camera movement. Keep boots anchored to y=680 throughout.

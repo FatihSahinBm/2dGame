@@ -1,0 +1,22 @@
+Animate this EXACT isolated dark fantasy Vampire Lord Vlad character wearing jagged ornate crimson-and-black armor with bat-wing shoulder guards, spiked royal crown atop dark flowing hair, demonic pale face with sharp fangs and piercing red eyes, massive ragged crimson cape with bat-wing contours, holding a tall spiked blood-stained spear, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: Vlad faces SCREEN RIGHT for the ENTIRE clip. His crowned head, armored chest, wings, spear, and boots consistently face SCREEN RIGHT. When struck, he recoils backward toward screen left while keeping his face and eyes defiantly locked toward SCREEN RIGHT. He NEVER turns around or flips to face screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, armor, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind Vlad stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root anchored above the ground line at y=680, with zero overall displacement across the screen.
+
+VAMPIRE LORD COMBAT HIT REACTION (2D BOSS HURT ANIMATION FACING SCREEN RIGHT):
+Vlad sustains a heavy hit impact from the right in his Vampire Lord form:
+1. Impact (Frame 0..10): Head snaps back sharply with a snarl of fury, torso recoils backward, dark bat-wing cape flaring wide behind him with crimson spark trails at point of impact.
+2. Ground Slide & Brace (Frame 11..28): Digs his boots and spear tip into the ground line at y=680 to halt the knockback, bat wings buffering air.
+3. Sinister Recovery (Frame 29..55): Lowers his posture into a predatory crouch, then rises tall with dark aura seething and eyes glowing fierce crimson toward SCREEN RIGHT, stabilizing into his menacing hover-combat stance at ground line y=680.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- Vlad faces SCREEN RIGHT (+X direction) across the entire sequence.
+- At no point does he flip, mirror, or turn his back to the viewer.
+- Remains grounded at baseline y=680 without sliding out of bounds.

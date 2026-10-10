@@ -1,0 +1,24 @@
+Animate this EXACT isolated dark fantasy Monstrous Giant Bat Lord Vlad beast with massive ragged bat wings featuring jagged bone spurs, ornate dark gothic spiked crown resting atop demonic horned lupine-bat head, piercing glowing red eyes, bared fangs dripping dark venom, leathery ribbed torso with tattered royal crimson mantle, hanging sharp clawed talons, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: The Monstrous Bat Lord faces SCREEN RIGHT and attacks directly toward SCREEN RIGHT for the ENTIRE clip. His crowned bat head, ribbed chest, wing orientation, and sharp talons consistently face SCREEN RIGHT. The supersonic blood screech shockwaves are projected strictly forward toward SCREEN RIGHT (positive X direction). He NEVER turns to face screen left, and never attacks toward screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, leathery wing membrane texture, gothic crown, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the flying bat stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion, including the wide wing beats and expanding concentric screech shockwave rings, stays inside the work region x=150..1150, y=40..680 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the flight anchor fixed in mid-air at the center of the canvas, with zero overall horizontal or vertical drift across the screen.
+
+SONIC BLOOD SCREECH ATTACK (2D FLYING BOSS ATTACK FACING SCREEN RIGHT):
+The Monstrous Bat unleashes a devastating ultrasonic sonic screech attack directly toward SCREEN RIGHT:
+1. Windup (Inhale & Wing Flare): Flaps wings backward and fans them wide, rearing back slightly in mid-air, chest expanding as he inhales, eyes pulsing with dark crimson flame.
+2. Screech Unleash: Snaps crowned head forward toward SCREEN RIGHT, opening unhinged jaws wide with razor fangs bared, emitting a sustained, violent ultrasonic blood screech toward SCREEN RIGHT.
+3. Sonic Waves: Emits distinct concentric crimson-and-black shockwave rings traveling rapidly forward toward SCREEN RIGHT in front of his open mouth.
+4. Recovery: Closes maw with toxic vapor exhaling, wings sweeping forward into standard hover flight rhythm, stabilizing smoothly in mid-air facing SCREEN RIGHT.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- The entire screech and projectile shockwaves project strictly toward SCREEN RIGHT (+X direction).
+- Facing direction remains SCREEN RIGHT at every frame of the clip.
+- At no point does the bat flip, mirror, turn his back, or face screen left.
+- Stays cleanly within the 1280x720 pure green canvas borders.

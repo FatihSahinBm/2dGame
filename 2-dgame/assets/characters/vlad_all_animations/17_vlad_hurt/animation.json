@@ -1,0 +1,49 @@
+{
+  "action": "vlad_hurt",
+  "form": "normal",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/vlad_hurt.mp4",
+  "phases": {
+    "initial_stand": {
+      "start": 0,
+      "end": 30
+    },
+    "impact_flinch": {
+      "start": 31,
+      "end": 44,
+      "impact_frame": 32
+    },
+    "recoil_knockback": {
+      "start": 45,
+      "end": 72,
+      "peak_recoil_frame": 48,
+      "recoil_bounds": [
+        236,
+        140,
+        1022,
+        680
+      ]
+    },
+    "defiant_recovery": {
+      "start": 73,
+      "end": 110
+    },
+    "stabilized_stand": {
+      "start": 111,
+      "end": 143
+    }
+  }
+}

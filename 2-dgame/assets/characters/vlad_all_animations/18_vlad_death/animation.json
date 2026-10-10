@@ -1,0 +1,42 @@
+{
+  "action": "vlad_death",
+  "form": "normal",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/vlad_death.mp4",
+  "phases": {
+    "fatal_stagger": {
+      "start": 0,
+      "end": 28,
+      "spear_drop_frame": 18
+    },
+    "kneel_in_defeat": {
+      "start": 29,
+      "end": 65,
+      "knee_down_frame": 48
+    },
+    "crown_drop_and_dissolution": {
+      "start": 66,
+      "end": 98,
+      "crown_impact_frame": 72,
+      "cloak_ember_burst_frame": 85
+    },
+    "bat_swarm_ascension": {
+      "start": 99,
+      "end": 143,
+      "final_remains": "spear_and_crown_at_rest"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+Animate this EXACT isolated dark fantasy Werewolf Lycan Vlad beast wearing tattered dark leather studded armor with ragged crimson cloth and fur mantle, menacing lupine wolf head with pointed ears, bared sharp fangs dripping with saliva, feral glowing red eyes, massive razor-sharp blood-tipped claws on both hands, hunched muscular furry body, thick bushy dark crimson tail, digitigrade clawed beast feet, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: The Werewolf beast faces SCREEN RIGHT for the ENTIRE clip. His wolf muzzle, chest, clawed hands, and digitigrade legs consistently face SCREEN RIGHT. When struck, he flinches and reels backward toward screen left while keeping his bared wolf muzzle and glowing red eyes locked ferociously toward SCREEN RIGHT. He NEVER turns around or flips to face screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, fur texture, armor straps, claws, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the werewolf stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root fixed above the ground line at y=680, with zero overall horizontal translation across the screen.
+
+FERAL BEAST HIT REACTION (2D BOSS HURT ANIMATION FACING SCREEN RIGHT):
+The Werewolf beast takes a heavy impact hit from the right:
+1. Impact (Frame 0..10): Wolf head snaps upward with a savage yelp/snarl, torso recoils backward, fur and ragged mantle bristling violently, razor claws reflexively flailing.
+2. Skid & Brake (Frame 11..28): Skids backward onto digitigrade clawed feet along the ground line at y=680, digging front claws into the invisible earth to arrest the slide, tail thrashing low.
+3. Feral Re-Engagement (Frame 29..55): Hunches back down into a low, coiled predatory battle stance, baring dripping fangs in a vicious snarl, eyes burning crimson toward SCREEN RIGHT, ready to pounce.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- The Werewolf faces SCREEN RIGHT (+X direction) across the entire sequence.
+- At no point does he flip, mirror, or turn his back to the viewer.
+- Feet stay grounded on baseline y=680 without sliding out of bounds.

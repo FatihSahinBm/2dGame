@@ -1,0 +1,18 @@
+Animate this EXACT isolated dark fantasy Vampire Lord Vlad character wearing ornate crimson-and-black armor, gothic royal crown, holding a spiked blood spear, facing right.
+
+TRANSFORMATION BLOOD SMOKE & MIST ERUPTION (2D BOSS FORM-CHANGE VFX BURST FACING SCREEN RIGHT):
+The character undergoes an instantaneous supernatural boss transformation sequence:
+1. Charge / Aura: Vlad flares crimson demonic eyes, and a dark spiraling aura of blood mist rapidly coils around his feet and body at ground line y=680.
+2. Violent Smoke Burst: A massive, dense explosion of swirling crimson-red and midnight-purple blood smoke and dark bat silhouettes erupts outward from his center, completely enveloping the character in opaque swirling mystical mist.
+3. Shape Shift Swirl: Within the thick churning blood cloud, chaotic energy ribbons crackle and small bats scatter outwards within the framing.
+4. Mist Dissipation: The dense blood mist vortex rapidly contracts and vanishes into thin air, leaving a clean clearing where the character re-emerges solid and menacing facing SCREEN RIGHT.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: The character faces SCREEN RIGHT throughout the effect. All energy spirals and smoke bursts expand symmetrically and toward SCREEN RIGHT. He NEVER turns to face screen left.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the character and smoke stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion, including the billowing smoke clouds, bats, and crimson energy wisps, stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root fixed above the ground line at y=680, with zero overall horizontal translation across the screen.

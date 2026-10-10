@@ -1,0 +1,42 @@
+{
+  "action": "transform_blood_smoke",
+  "form": "vfx_transform",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/16_transform_blood_smoke.mp4",
+  "phases": {
+    "charge_initiation": {
+      "start": 0,
+      "end": 24
+    },
+    "blood_smoke_eruption": {
+      "start": 25,
+      "end": 55
+    },
+    "complete_opaque_occlusion": {
+      "start": 56,
+      "end": 85,
+      "peak_occlusion_frame": 70
+    },
+    "dispersion_reveal": {
+      "start": 86,
+      "end": 120
+    },
+    "stabilized_new_form": {
+      "start": 121,
+      "end": 143
+    }
+  }
+}

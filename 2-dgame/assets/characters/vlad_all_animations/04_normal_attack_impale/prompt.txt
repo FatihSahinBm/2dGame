@@ -1,0 +1,14 @@
+Animate this EXACT isolated historical dark Vlad the Impaler voivode ruler wearing fur-trimmed ornate crimson-and-black armor, dark red tattered royal cape with fur mantle, royal jeweled hat with feathers, pale sinister face with dark mustache and red eyes, holding a tall spiked steel spear with left hand, clawed right gauntlet resting at side, facing left. Preserve its identity, silhouette, proportions, colours, number of limbs and existing facing direction (facing screen left); keep its drawing style and texture, with no realistic 3D redesign.
+LOCKED camera: fixed framing and fixed scale for the whole clip; no zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera or cut.
+Everything behind the ruler stays a perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip: no floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text or green-coloured light.
+The ENTIRE motion, including cape, fur, spear slam and clothing, stays inside the work region x=220..940, y=10..695 of this 1280x720 image, with clear margins; no visible guide borders.
+Keep the root fixed: armored boots stay planted on the invisible ground line at y=680, with zero overall sliding off the anchor point.
+Ground Impale Spear Attack IN PLACE like a 2D game heavy attack asset:
+- 0.0-0.4 s: hold exactly the supplied reference pose, nothing moves yet;
+- 0.4-1.4 s: heavy wind-up: Vlad raises the tall war spear overhead with both hands, arching his back and lifting his chin with ruthless power, crimson cape flaring dramatically;
+- 1.4-2.0 s: devastating downward impale slam: Vlad violently drives the spear downward with both hands, slamming the spiked butt / base into the invisible ground at y=680 right in front of him, leaning his full body weight into the strike;
+- 2.0-3.0 s: impact hold: he remains crouched over the impaled spear for a moment, cloak settling, breathing heavily;
+- 3.0-4.8 s: recovery: pulls the spear up from the ground and returns smoothly into the upright standing neutral pose;
+- 4.8-6.0 s: hold exactly the starting pose, position and scale.
+Character and equipped items only: animate only Vlad, his armor, cape, hat, and spear; no external environment objects, dirt particles, magical cracks, blood, or camera shake.
+Avoid: no jumping into the air, falling down, turning toward camera or leaving the frame; boots stay planted on ground line at y=680; no extra limbs, new objects, text or perspective distortion.

@@ -1,0 +1,18 @@
+{
+  "action": "vampire_idle",
+  "form": "vampire",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 37,
+  "loop": true,
+  "source_video": "raw_videos/vampire_idle.mp4"
+}

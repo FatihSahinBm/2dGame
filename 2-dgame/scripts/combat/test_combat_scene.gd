@@ -5,6 +5,8 @@ extends Node2D
 
 @onready var player: Node2D = $TestPlayer
 @onready var hud: CanvasLayer = $FantasyHUD
+@onready var vlad: Node2D = get_node_or_null("VladBoss")
+
 
 func _ready() -> void:
 	if player and hud:
@@ -62,6 +64,19 @@ func _unhandled_input(event: InputEvent) -> void:
 				# [Y] Anahtar toplama testi (+1 Anahtar)
 				if "keys" in hud:
 					hud.update_keys(hud.keys + 1)
+			KEY_B:
+				# [B] Vlad Form Değişimi (Normal -> Vampir -> Kurt Adam -> Yarasa)
+				if vlad and vlad.has_method("set_form"):
+					var next_form = (vlad.current_form + 1) % 4
+					vlad.set_form(next_form, true)
+			KEY_V:
+				# [V] Vlad Hasar Testi (-75 HP)
+				if vlad and vlad.has_method("take_damage"):
+					vlad.take_damage(75)
+			KEY_X:
+				# [X] Vlad Nihai Ölüm Sekansı Testi
+				if vlad and vlad.has_method("take_damage"):
+					vlad.take_damage(999)
 			KEY_R:
 				# [R] Sahneyi yeniden başlat
 				get_tree().reload_current_scene()

@@ -1,0 +1,24 @@
+Animate this EXACT isolated dark fantasy Werewolf Lycan Vlad beast wearing tattered dark leather studded armor with ragged crimson cloth and fur mantle, menacing lupine wolf head with pointed ears, bared sharp fangs dripping with saliva, feral glowing red eyes, massive razor-sharp blood-tipped claws on both hands, hunched muscular furry body, thick bushy dark crimson tail, digitigrade clawed beast feet, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: The Werewolf beast faces SCREEN RIGHT and runs directly toward SCREEN RIGHT for the ENTIRE clip. His wolf muzzle, chest, clawed arms, and digitigrade legs consistently face SCREEN RIGHT. Preserve his exact identity, silhouette, proportions, colors, number of limbs, fur texture, armor straps, claws, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the werewolf stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion, including claws, tail, ragged fur, and tattered mantle, stays inside the work region x=180..1100, y=50..695 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the root fixed above the ground line at y=680, with zero overall horizontal translation across the screen.
+
+FERAL PROWL / RUN IN PLACE LIKE A 2D GAME BEAST RUN ASSET (TREADMILL):
+Body stays centered above the same ground anchor and never travels across the screen. The werewolf executes a rapid, powerful, predatory prowling run in place toward SCREEN RIGHT. Digitigrade beast legs take deep, alternating galloping strides with heavy claw contact on the invisible ground line at y=680. His long razor-sharp clawed arms pump rhythmically forward and backward to pace the stride. His hunched spine flexes with beastlike power, while his tattered crimson cape and bushy tail stream backward toward SCREEN LEFT. His snarl remains fixed facing SCREEN RIGHT.
+Timeline for this 6-second take:
+- 0.0–0.4 s: hold exactly the supplied reference pose, nothing moves yet;
+- 0.4–5.0 s: steady, aggressive predatory run cycle in place, one full left-right stride pair about every 0.7 seconds;
+- 5.0–5.6 s: decelerate smoothly and bring feet back into the starting stance;
+- 5.6–6.0 s: hold exactly the starting pose, position and scale, facing SCREEN RIGHT.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY: The Werewolf faces SCREEN RIGHT and strides toward SCREEN RIGHT throughout the entire clip. Never turn toward SCREEN LEFT. Never turn toward the camera.
+
+Animate only Werewolf Vlad, his fur, claws, tattered armor, mantle, and tail. No external environment objects, enemies, magic particles, lightning, or camera motion.
+Avoid hopping out of frame, jumping into the air, floating, turning, extra limbs, new objects, text, perspective distortion, scale changes, and camera movement. Keep beast feet anchored to ground line at y=680.

@@ -1,0 +1,20 @@
+{
+  "action": "normal_attack_thrust",
+  "form": "normal",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 98,
+  "loop": false,
+  "hitbox_frame": 50,
+  "hitbox_reach_x": 266,
+  "source_video": "raw_videos/normal_attack_thrust.mp4"
+}

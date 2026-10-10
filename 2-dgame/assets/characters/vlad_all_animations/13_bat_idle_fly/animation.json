@@ -1,0 +1,21 @@
+{
+  "action": "bat_idle_fly",
+  "form": "bat",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 32,
+  "loop": true,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/bat_idle_fly.mp4",
+  "loop_seam_diff": 3.17,
+  "flight_type": "hover_wing_beat"
+}

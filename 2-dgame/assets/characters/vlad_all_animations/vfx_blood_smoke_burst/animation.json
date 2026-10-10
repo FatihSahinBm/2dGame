@@ -1,0 +1,37 @@
+{
+  "action": "vfx_blood_smoke_burst",
+  "type": "modular_overlay_vfx",
+  "description": "Universal Blood Mist & Smoke Burst Overlay VFX for all form transitions",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 72,
+  "loop": false,
+  "recommended_form_swap_frame": 42,
+  "phases": {
+    "ignition_rise": {
+      "start": 0,
+      "end": 15
+    },
+    "opaque_cloud_expansion": {
+      "start": 16,
+      "end": 41
+    },
+    "peak_full_concealment": {
+      "start": 42,
+      "end": 50,
+      "note": "Swap character form here"
+    },
+    "dispersion_and_bats": {
+      "start": 51,
+      "end": 71
+    }
+  }
+}

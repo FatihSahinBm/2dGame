@@ -1,0 +1,24 @@
+{
+  "action": "vampire_attack_blood_magic",
+  "form": "vampire",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 106,
+  "loop": false,
+  "cast_event_frame": 40,
+  "projectile_spawn_offset": [
+    260,
+    -390
+  ],
+  "attack_direction": "screen_right",
+  "source_video": "raw_videos/vampire_attack_blood_magic.mp4"
+}

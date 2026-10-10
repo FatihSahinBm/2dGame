@@ -1,0 +1,42 @@
+{
+  "action": "bat_hurt",
+  "form": "bat",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/bat_hurt.mp4",
+  "phases": {
+    "initial_hover": {
+      "start": 0,
+      "end": 12
+    },
+    "midair_flinch": {
+      "start": 13,
+      "end": 32,
+      "impact_frame": 20
+    },
+    "altitude_recoil": {
+      "start": 33,
+      "end": 66
+    },
+    "hover_recovery": {
+      "start": 67,
+      "end": 110
+    },
+    "stabilized_flight": {
+      "start": 111,
+      "end": 143
+    }
+  }
+}

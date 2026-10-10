@@ -1,0 +1,712 @@
+{
+  "character": "vlad_the_impaler",
+  "version": "1.0.0",
+  "total_animations": 22,
+  "universal_cell_size": [
+    1280,
+    720
+  ],
+  "universal_anchor": [
+    640,
+    680
+  ],
+  "ground_baseline_y": 680,
+  "facing_direction": "screen_right",
+  "forms": {
+    "normal": "Voivode Vlad (Human Ruler with Spear)",
+    "vampire": "True Vampire Lord (Winged Ruler with Blood Magic)",
+    "werewolf": "Lycan Beast (Feral Werewolf with Claws)",
+    "bat": "Monstrous Bat (Giant Flying Lord)"
+  },
+  "animations": [
+    {
+      "folder": "01_normal_idle",
+      "action": "normal_idle",
+      "form": "normal",
+      "frame_count": 56,
+      "framerate": 24.0,
+      "duration_seconds": 2.333,
+      "loop": true,
+      "sprite_sheet": "01_normal_idle/sprite_sheet.png",
+      "sheet_dimensions": [
+        5120,
+        5040
+      ],
+      "preview_gif": "01_normal_idle/preview.gif",
+      "preview_strip": "01_normal_idle/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "02_normal_walk",
+      "action": "normal_walk",
+      "form": "normal",
+      "frame_count": 37,
+      "framerate": 24.0,
+      "duration_seconds": 1.542,
+      "loop": true,
+      "sprite_sheet": "02_normal_walk/sprite_sheet.png",
+      "sheet_dimensions": [
+        5120,
+        3600
+      ],
+      "preview_gif": "02_normal_walk/preview.gif",
+      "preview_strip": "02_normal_walk/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "03_normal_attack_thrust",
+      "action": "normal_attack_thrust",
+      "form": "normal",
+      "frame_count": 98,
+      "framerate": 24.0,
+      "duration_seconds": 4.083,
+      "loop": false,
+      "sprite_sheet": "03_normal_attack_thrust/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        12240
+      ],
+      "preview_gif": "03_normal_attack_thrust/preview.gif",
+      "preview_strip": "03_normal_attack_thrust/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "04_normal_attack_impale",
+      "action": "normal_attack_impale",
+      "form": "normal",
+      "frame_count": 115,
+      "framerate": 24.0,
+      "duration_seconds": 4.792,
+      "loop": false,
+      "sprite_sheet": "04_normal_attack_impale/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        14400
+      ],
+      "preview_gif": "04_normal_attack_impale/preview.gif",
+      "preview_strip": "04_normal_attack_impale/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "05_vampire_idle",
+      "action": "vampire_idle",
+      "form": "vampire",
+      "frame_count": 37,
+      "framerate": 24.0,
+      "duration_seconds": 1.542,
+      "loop": true,
+      "sprite_sheet": "05_vampire_idle/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        5040
+      ],
+      "preview_gif": "05_vampire_idle/preview.gif",
+      "preview_strip": "05_vampire_idle/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "06_vampire_glide",
+      "action": "vampire_glide",
+      "form": "vampire",
+      "frame_count": 37,
+      "framerate": 24.0,
+      "duration_seconds": 1.542,
+      "loop": true,
+      "sprite_sheet": "06_vampire_glide/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        5040
+      ],
+      "preview_gif": "06_vampire_glide/preview.gif",
+      "preview_strip": "06_vampire_glide/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "07_vampire_attack_slash",
+      "action": "vampire_attack_slash",
+      "form": "vampire",
+      "frame_count": 106,
+      "framerate": 24.0,
+      "duration_seconds": 4.417,
+      "loop": false,
+      "sprite_sheet": "07_vampire_attack_slash/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        12960
+      ],
+      "preview_gif": "07_vampire_attack_slash/preview.gif",
+      "preview_strip": "07_vampire_attack_slash/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "08_vampire_attack_blood_magic",
+      "action": "vampire_attack_blood_magic",
+      "form": "vampire",
+      "frame_count": 106,
+      "framerate": 24.0,
+      "duration_seconds": 4.417,
+      "loop": false,
+      "sprite_sheet": "08_vampire_attack_blood_magic/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        12960
+      ],
+      "preview_gif": "08_vampire_attack_blood_magic/preview.gif",
+      "preview_strip": "08_vampire_attack_blood_magic/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "09_werewolf_idle",
+      "action": "werewolf_idle",
+      "form": "werewolf",
+      "frame_count": 38,
+      "framerate": 24.0,
+      "duration_seconds": 1.583,
+      "loop": true,
+      "sprite_sheet": "09_werewolf_idle/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        5040
+      ],
+      "preview_gif": "09_werewolf_idle/preview.gif",
+      "preview_strip": "09_werewolf_idle/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "10_werewolf_run",
+      "action": "werewolf_run",
+      "form": "werewolf",
+      "frame_count": 28,
+      "framerate": 24.0,
+      "duration_seconds": 1.167,
+      "loop": true,
+      "sprite_sheet": "10_werewolf_run/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        3600
+      ],
+      "preview_gif": "10_werewolf_run/preview.gif",
+      "preview_strip": "10_werewolf_run/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "11_werewolf_attack_claws",
+      "action": "werewolf_attack_claws",
+      "form": "werewolf",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "11_werewolf_attack_claws/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "11_werewolf_attack_claws/preview.gif",
+      "preview_strip": "11_werewolf_attack_claws/preview_strip.png",
+      "phases": {
+        "windup": {
+          "start": 0,
+          "end": 28
+        },
+        "slash_1_right_claw": {
+          "start": 29,
+          "end": 44,
+          "peak_frame": 38,
+          "hitbox": [
+            230,
+            130,
+            1168,
+            683
+          ]
+        },
+        "slash_2_left_claw": {
+          "start": 45,
+          "end": 68,
+          "peak_frame": 57,
+          "hitbox": [
+            218,
+            59,
+            1110,
+            682
+          ]
+        },
+        "recoil_charge": {
+          "start": 69,
+          "end": 82
+        },
+        "finisher_cross_slash": {
+          "start": 83,
+          "end": 105,
+          "peak_frame": 95,
+          "hitbox": [
+            197,
+            7,
+            1266,
+            690
+          ]
+        },
+        "recovery": {
+          "start": 106,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "12_werewolf_attack_leap",
+      "action": "werewolf_attack_leap",
+      "form": "werewolf",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "12_werewolf_attack_leap/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "12_werewolf_attack_leap/preview.gif",
+      "preview_strip": "12_werewolf_attack_leap/preview_strip.png",
+      "phases": {
+        "crouch_charge": {
+          "start": 0,
+          "end": 32
+        },
+        "leap_takeoff": {
+          "start": 33,
+          "end": 44
+        },
+        "airborne_apex": {
+          "start": 45,
+          "end": 68,
+          "apex_frame": 58,
+          "airborne_bounds": [
+            250,
+            0,
+            982,
+            558
+          ]
+        },
+        "downward_plunge": {
+          "start": 69,
+          "end": 82
+        },
+        "impact_slam": {
+          "start": 83,
+          "end": 94,
+          "impact_frame": 88,
+          "hitbox": [
+            264,
+            167,
+            1095,
+            720
+          ]
+        },
+        "shockwave_burst": {
+          "start": 95,
+          "end": 110,
+          "peak_shockwave_frame": 104,
+          "shockwave_bounds": [
+            0,
+            166,
+            1280,
+            715
+          ]
+        },
+        "landing_recovery": {
+          "start": 111,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "13_bat_idle_fly",
+      "action": "bat_idle_fly",
+      "form": "bat",
+      "frame_count": 32,
+      "framerate": 24.0,
+      "duration_seconds": 1.333,
+      "loop": true,
+      "sprite_sheet": "13_bat_idle_fly/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        4320
+      ],
+      "preview_gif": "13_bat_idle_fly/preview.gif",
+      "preview_strip": "13_bat_idle_fly/preview_strip.png",
+      "phases": {}
+    },
+    {
+      "folder": "14_bat_attack_dive",
+      "action": "bat_attack_dive",
+      "form": "bat",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "14_bat_attack_dive/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "14_bat_attack_dive/preview.gif",
+      "preview_strip": "14_bat_attack_dive/preview_strip.png",
+      "phases": {
+        "windup_ascent": {
+          "start": 0,
+          "end": 40
+        },
+        "swoop_descent": {
+          "start": 41,
+          "end": 76
+        },
+        "talon_rake_impact": {
+          "start": 77,
+          "end": 96,
+          "peak_frame": 88,
+          "hitbox": [
+            295,
+            230,
+            1185,
+            720
+          ]
+        },
+        "climb_ascent": {
+          "start": 97,
+          "end": 124
+        },
+        "recovery": {
+          "start": 125,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "15_bat_attack_screech",
+      "action": "bat_attack_screech",
+      "form": "bat",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "15_bat_attack_screech/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "15_bat_attack_screech/preview.gif",
+      "preview_strip": "15_bat_attack_screech/preview_strip.png",
+      "phases": {
+        "windup_inhale": {
+          "start": 0,
+          "end": 68
+        },
+        "screech_unleash": {
+          "start": 69,
+          "end": 108,
+          "cast_frame": 72,
+          "projectile_bounds": [
+            205,
+            90,
+            1280,
+            684
+          ]
+        },
+        "recovery": {
+          "start": 109,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "16_transform_blood_smoke",
+      "action": "transform_blood_smoke",
+      "form": "vfx_transform",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "16_transform_blood_smoke/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "16_transform_blood_smoke/preview.gif",
+      "preview_strip": "16_transform_blood_smoke/preview_strip.png",
+      "phases": {
+        "charge_initiation": {
+          "start": 0,
+          "end": 24
+        },
+        "blood_smoke_eruption": {
+          "start": 25,
+          "end": 55
+        },
+        "complete_opaque_occlusion": {
+          "start": 56,
+          "end": 85,
+          "peak_occlusion_frame": 70
+        },
+        "dispersion_reveal": {
+          "start": 86,
+          "end": 120
+        },
+        "stabilized_new_form": {
+          "start": 121,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "17_vlad_hurt",
+      "action": "vlad_hurt",
+      "form": "normal",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "17_vlad_hurt/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "17_vlad_hurt/preview.gif",
+      "preview_strip": "17_vlad_hurt/preview_strip.png",
+      "phases": {
+        "initial_stand": {
+          "start": 0,
+          "end": 30
+        },
+        "impact_flinch": {
+          "start": 31,
+          "end": 44,
+          "impact_frame": 32
+        },
+        "recoil_knockback": {
+          "start": 45,
+          "end": 72,
+          "peak_recoil_frame": 48,
+          "recoil_bounds": [
+            236,
+            140,
+            1022,
+            680
+          ]
+        },
+        "defiant_recovery": {
+          "start": 73,
+          "end": 110
+        },
+        "stabilized_stand": {
+          "start": 111,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "18_vlad_death",
+      "action": "vlad_death",
+      "form": "normal",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "18_vlad_death/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "18_vlad_death/preview.gif",
+      "preview_strip": "18_vlad_death/preview_strip.png",
+      "phases": {
+        "fatal_stagger": {
+          "start": 0,
+          "end": 28,
+          "spear_drop_frame": 18
+        },
+        "kneel_in_defeat": {
+          "start": 29,
+          "end": 65,
+          "knee_down_frame": 48
+        },
+        "crown_drop_and_dissolution": {
+          "start": 66,
+          "end": 98,
+          "crown_impact_frame": 72,
+          "cloak_ember_burst_frame": 85
+        },
+        "bat_swarm_ascension": {
+          "start": 99,
+          "end": 143,
+          "final_remains": "spear_and_crown_at_rest"
+        }
+      }
+    },
+    {
+      "folder": "19_vampire_hurt",
+      "action": "vampire_hurt",
+      "form": "vampire",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "19_vampire_hurt/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "19_vampire_hurt/preview.gif",
+      "preview_strip": "19_vampire_hurt/preview_strip.png",
+      "phases": {
+        "initial_stand": {
+          "start": 0,
+          "end": 6
+        },
+        "impact_flinch": {
+          "start": 7,
+          "end": 20,
+          "impact_frame": 10
+        },
+        "recoil_knockback": {
+          "start": 21,
+          "end": 55,
+          "peak_recoil_frame": 28,
+          "recoil_bounds": [
+            245,
+            22,
+            808,
+            690
+          ]
+        },
+        "sinister_recovery": {
+          "start": 56,
+          "end": 95
+        },
+        "stabilized_stand": {
+          "start": 96,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "20_werewolf_hurt",
+      "action": "werewolf_hurt",
+      "form": "werewolf",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "20_werewolf_hurt/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "20_werewolf_hurt/preview.gif",
+      "preview_strip": "20_werewolf_hurt/preview_strip.png",
+      "phases": {
+        "initial_stance": {
+          "start": 0,
+          "end": 8
+        },
+        "impact_flinch": {
+          "start": 9,
+          "end": 24,
+          "impact_frame": 16
+        },
+        "skid_and_brake": {
+          "start": 25,
+          "end": 60,
+          "peak_recoil_frame": 30,
+          "recoil_bounds": [
+            208,
+            55,
+            865,
+            682
+          ]
+        },
+        "feral_re_engagement": {
+          "start": 61,
+          "end": 110
+        },
+        "stabilized_crouch_stance": {
+          "start": 111,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "21_bat_hurt",
+      "action": "bat_hurt",
+      "form": "bat",
+      "frame_count": 144,
+      "framerate": 24.0,
+      "duration_seconds": 6.0,
+      "loop": false,
+      "sprite_sheet": "21_bat_hurt/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        17280
+      ],
+      "preview_gif": "21_bat_hurt/preview.gif",
+      "preview_strip": "21_bat_hurt/preview_strip.png",
+      "phases": {
+        "initial_hover": {
+          "start": 0,
+          "end": 12
+        },
+        "midair_flinch": {
+          "start": 13,
+          "end": 32,
+          "impact_frame": 20
+        },
+        "altitude_recoil": {
+          "start": 33,
+          "end": 66
+        },
+        "hover_recovery": {
+          "start": 67,
+          "end": 110
+        },
+        "stabilized_flight": {
+          "start": 111,
+          "end": 143
+        }
+      }
+    },
+    {
+      "folder": "vfx_blood_smoke_burst",
+      "action": "vfx_blood_smoke_burst",
+      "form": "general",
+      "frame_count": 72,
+      "framerate": 24.0,
+      "duration_seconds": 3.0,
+      "loop": false,
+      "sprite_sheet": "vfx_blood_smoke_burst/sprite_sheet.png",
+      "sheet_dimensions": [
+        7680,
+        8640
+      ],
+      "preview_gif": "vfx_blood_smoke_burst/preview.gif",
+      "preview_strip": "vfx_blood_smoke_burst/preview_strip.png",
+      "phases": {
+        "ignition_rise": {
+          "start": 0,
+          "end": 15
+        },
+        "opaque_cloud_expansion": {
+          "start": 16,
+          "end": 41
+        },
+        "peak_full_concealment": {
+          "start": 42,
+          "end": 50,
+          "note": "Swap character form here"
+        },
+        "dispersion_and_bats": {
+          "start": 51,
+          "end": 71
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "action": "werewolf_hurt",
+  "form": "werewolf",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/werewolf_hurt.mp4",
+  "phases": {
+    "initial_stance": {
+      "start": 0,
+      "end": 8
+    },
+    "impact_flinch": {
+      "start": 9,
+      "end": 24,
+      "impact_frame": 16
+    },
+    "skid_and_brake": {
+      "start": 25,
+      "end": 60,
+      "peak_recoil_frame": 30,
+      "recoil_bounds": [
+        208,
+        55,
+        865,
+        682
+      ]
+    },
+    "feral_re_engagement": {
+      "start": 61,
+      "end": 110
+    },
+    "stabilized_crouch_stance": {
+      "start": 111,
+      "end": 143
+    }
+  }
+}

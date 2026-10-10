@@ -1,0 +1,49 @@
+{
+  "action": "vampire_hurt",
+  "form": "vampire",
+  "character": "vlad",
+  "cell_size": [
+    1280,
+    720
+  ],
+  "anchor": [
+    640,
+    680
+  ],
+  "ground_baseline": 680,
+  "framerate": 24.0,
+  "frame_count": 144,
+  "loop": false,
+  "facing_direction": "screen_right",
+  "source_video": "raw_videos/vampire_hurt.mp4",
+  "phases": {
+    "initial_stand": {
+      "start": 0,
+      "end": 6
+    },
+    "impact_flinch": {
+      "start": 7,
+      "end": 20,
+      "impact_frame": 10
+    },
+    "recoil_knockback": {
+      "start": 21,
+      "end": 55,
+      "peak_recoil_frame": 28,
+      "recoil_bounds": [
+        245,
+        22,
+        808,
+        690
+      ]
+    },
+    "sinister_recovery": {
+      "start": 56,
+      "end": 95
+    },
+    "stabilized_stand": {
+      "start": 96,
+      "end": 143
+    }
+  }
+}

@@ -1,0 +1,23 @@
+Animate this EXACT isolated dark fantasy Monstrous Giant Bat Lord Vlad beast with massive ragged bat wings featuring jagged bone spurs, ornate dark gothic spiked crown resting atop demonic horned lupine-bat head, piercing glowing red eyes, bared fangs dripping dark venom, leathery ribbed torso with tattered royal crimson mantle, hanging sharp clawed talons, facing right.
+
+MANDATORY FACING AND MOVEMENT DIRECTION: The Monstrous Bat Lord faces SCREEN RIGHT for the ENTIRE clip. His crowned bat head, ribbed chest, wing orientation, and sharp talons consistently face SCREEN RIGHT. He NEVER turns to face screen left. Preserve his exact identity, silhouette, proportions, colors, number of limbs, leathery wing membrane texture, gothic crown, drawing style, and texture. Do not redesign him in realistic 3D.
+
+LOCKED CAMERA: Fixed framing and fixed scale for the whole clip. No zoom, push-in, pull-out, pan, tilt, shake, rotation toward the camera, or cuts.
+
+BACKGROUND: Everything behind the flying bat stays perfectly uniform flat pure GREEN RGB(0, 255, 0) for the whole clip. No floor, contact shadow, horizon, reflection, gradient, vignette, scenery, text, or green-colored light.
+
+The ENTIRE motion, including the wide wing spans, crowned head, and trailing talons, stays inside the work region x=150..1150, y=40..680 of this 1280x720 image, with clear margins. No visible guide borders.
+
+ROOT LOCK: Keep the central flight anchor fixed in mid-air at the center of the canvas, with zero overall horizontal or vertical drift across the screen.
+
+SEAMLESS HOVER FLIGHT IDLE LOOP (2D GAME FLYING BOSS IDLE FACING SCREEN RIGHT):
+The Monstrous Bat hovers in mid-air facing SCREEN RIGHT with a rhythmic, menacing wing-beat flight cycle:
+1. Wing Downstroke: The massive ribbed wings sweep smoothly downward and forward, lifting the bat's torso slightly with powerful aerodynamic thrust.
+2. Wing Upstroke: The wings fold slightly and rise with razor bone spurs glistening, trailing dark crimson mist particles.
+3. Menacing Posture: His crowned head tilts forward, eyes burning crimson, snarling with open fangs as his sharp lower talons curl and uncurl rhythmically.
+4. Seamless Loop: The flying motion repeats in a smooth, continuous hover loop that returns identically to the starting flight pose.
+
+CRITICAL DIRECTION LOCK — HIGHEST PRIORITY:
+- The bat faces strictly toward SCREEN RIGHT (+X direction) at every frame.
+- At no point does the creature turn toward screen left, flip, or rotate toward the camera.
+- Hovers stably within the framing without drifting out of canvas bounds.
