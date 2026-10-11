@@ -9291,7 +9291,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk",
-"speed": 12.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_02_normal_walk_0")
@@ -9406,7 +9406,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"normal_walk",
-"speed": 12.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_03_normal_attack_thrust_0")
@@ -9704,7 +9704,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"attack_thrust",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_03_normal_attack_thrust_0")
@@ -10002,7 +10002,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"normal_attack_thrust",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_04_normal_attack_impale_0")
@@ -10351,7 +10351,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"attack_impale",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_04_normal_attack_impale_0")
@@ -10700,7 +10700,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"normal_attack_impale",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_05_vampire_idle_0")
@@ -11252,7 +11252,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"vampire_attack_slash",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_08_vampire_attack_blood_magic_0")
@@ -11574,7 +11574,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"vampire_attack_blood_magic",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_09_werewolf_idle_0")
@@ -11780,7 +11780,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"werewolf_run",
-"speed": 14.0}, {
+"speed": 22.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_11_werewolf_attack_claws_0")
@@ -12216,7 +12216,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"werewolf_attack_claws",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_12_werewolf_attack_leap_0")
@@ -12652,7 +12652,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"werewolf_attack_leap",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_13_bat_idle_fly_0")
@@ -13188,7 +13188,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"bat_attack_dive",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_15_bat_attack_screech_0")
@@ -13624,7 +13624,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"bat_attack_screech",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_16_transform_blood_smoke_0")
@@ -14060,7 +14060,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"transform_blood_smoke",
-"speed": 14.0}, {
+"speed": 24.0}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_17_vlad_hurt_0")
@@ -17332,5 +17332,5 @@ animations = [{
 }],
 "loop": 0,
 "name": &"vfx_blood_smoke_burst",
-"speed": 16.0
+"speed": 24.0
 }]

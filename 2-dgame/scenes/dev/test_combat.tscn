@@ -54,6 +54,7 @@ position = Vector2(340, 460)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform1" unique_id=1685023499]
 shape = SubResource("RectangleShape2D_plat1")
+one_way_collision = true
 
 [node name="ColorRect" type="ColorRect" parent="Environment/Platform1" unique_id=709718472]
 offset_left = -110.0
@@ -67,6 +68,7 @@ position = Vector2(680, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform2" unique_id=614223178]
 shape = SubResource("RectangleShape2D_plat2")
+one_way_collision = true
 
 [node name="ColorRect" type="ColorRect" parent="Environment/Platform2" unique_id=95914749]
 offset_left = -120.0

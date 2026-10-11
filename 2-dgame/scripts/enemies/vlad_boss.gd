@@ -44,6 +44,13 @@ var _leap_target_x: float = 0.0
 var _mist_dash_cooldown: float = 0.0
 var _hover_altitude_timer: float = 0.0
 var _preferred_flight_height: float = 90.0
+var _atk_hit_from: int = -1
+var _atk_hit_to: int = -1
+var _atk_hit_on: bool = false
+var _atk_event_frame: int = -1
+var _atk_event_done: bool = false
+var _atk_event: Callable
+var _atk_cooldown_bonus: float = 0.0
 
 @onready var smoke_vfx: AnimatedSprite2D = $Visual/SmokeVFX
 
@@ -51,11 +58,11 @@ func _ready() -> void:
 	monster_name = "Kazıklı Voyvoda Vlad"
 	max_health = 600
 	current_health = 600
-	speed = 50.0
-	chase_speed = 85.0
+	speed = 46.0
+	chase_speed = 52.0
 	knockback_resistance = 0.85
 	detection_range = 750.0
-	attack_range = 95.0
+	attack_range = 70.0
 	attack_cooldown = 1.4
 	
 	super._ready()
@@ -65,6 +72,9 @@ func _ready() -> void:
 		
 	_find_camera()
 	_apply_form_visuals()
+	if anim_sprite:
+		anim_sprite.frame_changed.connect(_on_attack_frame_changed)
+		anim_sprite.animation_finished.connect(_on_attack_animation_finished)
 
 func _find_camera() -> void:
 	var viewport = get_viewport()
@@ -101,21 +111,118 @@ func _physics_process(delta: float) -> void:
 
 	super._physics_process(delta)
 
+	# Yürüme/koşma animasyon hızını yatay hızla birebir senkronize et (ayak kaymasını önler)
+	if anim_sprite and current_state != State.ATTACK:
+		if anim_sprite.animation == &"walk" or anim_sprite.animation == &"normal_walk":
+			var target_scale: float = clampf(absf(velocity.x) / 48.0, 0.75, 1.25)
+			anim_sprite.speed_scale = target_scale if absf(velocity.x) > 5.0 else 1.0
+		elif anim_sprite.animation == &"werewolf_run":
+			var target_scale: float = clampf(absf(velocity.x) / 140.0, 0.8, 1.25)
+			anim_sprite.speed_scale = target_scale if absf(velocity.x) > 5.0 else 1.0
+		else:
+			anim_sprite.speed_scale = 1.0
+
+func _process_attack(delta: float) -> void:
+	if anim_sprite and anim_sprite.animation == &"werewolf_attack_leap":
+		# Havadayken ileri momentumu koru; yalnızca yere inip darbeyi vurduktan sonra yavaşla
+		if is_on_floor() and anim_sprite.frame > 50:
+			velocity.x = move_toward(velocity.x, 0.0, 900.0 * delta)
+		return
+	elif anim_sprite and anim_sprite.animation == &"bat_attack_dive":
+		# Havadan dalış pike hızını koru
+		velocity = velocity.move_toward(Vector2.ZERO, 180.0 * delta)
+		return
+
+	super._process_attack(delta)
+
 ## -----------------------------------------------------------------------------
-## Yarasa Formu Özel 2D Uçuş Fiziği
+## Akıllı Platform & Tavan Engeli Yönetimi (Etrafından Dolanma / Flanking)
+## -----------------------------------------------------------------------------
+## Yukarıdaki oyuncuya ulaşırken başımızın üstünde platform engeli var mı?
+func _is_blocked_by_platform_above() -> bool:
+	if not _target_node or not is_instance_valid(_target_node):
+		return false
+	var dy: float = _target_node.global_position.y - global_position.y
+	# Oyuncu bizden dikeyde belirgin şekilde yukarıda mı?
+	if dy > -30.0:
+		return false
+
+	if is_on_ceiling():
+		return true
+
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
+		global_position + Vector2(0.0, -20.0),
+		_target_node.global_position,
+		1,
+		[self.get_rid()]
+	)
+	var hit: Dictionary = space_state.intersect_ray(query)
+	if not hit.is_empty():
+		return hit.position.y < global_position.y or is_on_ceiling()
+	return false
+
+## Platformun altından açık gökyüzüne çıkmak için en yakın kenar yönünü bul
+func _find_platform_bypass_direction() -> int:
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var check_dist: float = 120.0
+	var check_h: float = 130.0
+
+	var right_query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
+		global_position + Vector2(check_dist, 0.0),
+		global_position + Vector2(check_dist, -check_h),
+		1,
+		[self.get_rid()]
+	)
+	var left_query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
+		global_position + Vector2(-check_dist, 0.0),
+		global_position + Vector2(-check_dist, -check_h),
+		1,
+		[self.get_rid()]
+	)
+
+	var right_hit: Dictionary = space_state.intersect_ray(right_query)
+	var left_hit: Dictionary = space_state.intersect_ray(left_query)
+
+	if right_hit.is_empty() and not left_hit.is_empty():
+		return 1
+	elif left_hit.is_empty() and not right_hit.is_empty():
+		return -1
+
+	if _target_node and is_instance_valid(_target_node):
+		var target_dx: float = _target_node.global_position.x - global_position.x
+		if absf(target_dx) > 10.0:
+			return 1 if target_dx > 0.0 else -1
+
+	return direction if direction != 0 else 1
+
+## -----------------------------------------------------------------------------
+## Yarasa Formu Özel 2D Uçuş Fiziği (Hızlı, Çevik ve Akıllı)
 ## -----------------------------------------------------------------------------
 func _process_bat_flight(delta: float) -> void:
 	if current_state == State.ATTACK:
 		return
 
-	_hover_altitude_timer += delta * 2.5
-	var bobbing: float = sin(_hover_altitude_timer) * 15.0
+	_hover_altitude_timer += delta * 3.5
+	var bobbing: float = sin(_hover_altitude_timer) * 16.0
+
+	# Platform altındaysa tavanı zorlama; platformun kenarından açık havaya süzül
+	if _is_blocked_by_platform_above():
+		velocity.y = move_toward(velocity.y, 50.0, 600.0 * delta)
+		var bypass_dir: int = _find_platform_bypass_direction()
+		velocity.x = move_toward(velocity.x, float(bypass_dir) * chase_speed * 1.3, 900.0 * delta)
+		if bypass_dir != direction:
+			direction = bypass_dir
+			_update_facing_direction()
+		return
 
 	if _target_node and is_instance_valid(_target_node):
 		var target_y: float = _target_node.global_position.y - _preferred_flight_height + bobbing
-		velocity.y = move_toward(velocity.y, (target_y - global_position.y) * 2.5, 300.0 * delta)
+		var dy: float = target_y - global_position.y
+		var desired_vy: float = clampf(dy * 4.0, -260.0, 260.0)
+		velocity.y = move_toward(velocity.y, desired_vy, 750.0 * delta)
 	else:
-		velocity.y = move_toward(velocity.y, bobbing * 2.0, 150.0 * delta)
+		velocity.y = move_toward(velocity.y, bobbing * 2.5, 300.0 * delta)
 
 ## -----------------------------------------------------------------------------
 ## -----------------------------------------------------------------------------
@@ -161,6 +268,19 @@ func _process_patrol(delta: float) -> void:
 
 	super._process_patrol(delta)
 
+	# Formuna uygun devriye animasyonunu garantiye al
+	if current_form != VladForm.NORMAL:
+		if _turn_pause_timer > 0.0:
+			match current_form:
+				VladForm.VAMPIRE: _play_form_anim(&"vampire_idle")
+				VladForm.WEREWOLF: _play_form_anim(&"werewolf_idle")
+				VladForm.BAT: _play_form_anim(&"bat_idle_fly")
+		else:
+			match current_form:
+				VladForm.VAMPIRE: _play_form_anim(&"vampire_glide")
+				VladForm.WEREWOLF: _play_form_anim(&"werewolf_run")
+				VladForm.BAT: _play_form_anim(&"bat_idle_fly")
+
 ## -----------------------------------------------------------------------------
 ## Hedef Takibi & Gelişmiş Taktiksel Kovalama (_process_chase)
 ## -----------------------------------------------------------------------------
@@ -201,24 +321,24 @@ func _process_chase(delta: float) -> void:
 
 ## 1. Normal Form Taktiği (Mızrak Menzili Yönetimi)
 func _chase_normal_form(delta: float, dist: float, dist_x: float, diff_y: float) -> void:
-	# Oyuncu çok yakınsa (< 75px) veya oyuncu havadan geliyorsa -> IMPALE ŞOKU!
-	if (dist_x <= 75.0 and absf(diff_y) <= 45.0) or (dist_x <= 95.0 and diff_y < -35.0):
+	# A) Oyuncu çok yakınsa (<= 42px) veya oyuncu havadan geliyorsa -> IMPALE ŞOKU!
+	if (dist_x <= 42.0 and absf(diff_y) <= 35.0) or (dist_x <= 55.0 and diff_y < -30.0):
 		if _attack_timer <= 0.0:
 			_execute_normal_attack(false) # Impale
 			return
 
-	# Oyuncu orta mızrak menzilindeyse (75 - 150px) -> SPEAR THRUST!
-	if dist_x <= 150.0 and absf(diff_y) <= 45.0:
+	# B) Oyuncu gerçek mızrak menzilindeyse (<= 70px) -> SPEAR THRUST!
+	if dist_x <= 70.0 and absf(diff_y) <= 35.0:
 		if _attack_timer <= 0.0:
 			_execute_normal_attack(true) # Thrust
 			return
 		else:
-			# Mızrak bekleme süresindeyken sakin adım
-			velocity.x = move_toward(velocity.x, 0.0, 400.0 * delta)
+			# Yakın temastayken bekleme süresinde sakin bekle/dur
+			velocity.x = move_toward(velocity.x, 0.0, 450.0 * delta)
 			_play_form_anim(&"idle")
 			return
 
-	# Mesafeyi kapatmak için kararlı yürüyüş
+	# C) Oyuncu uzaktaysa (> 70px) ASLA boşluğa vurma; mesafeyi kapatmak için kararlı yürü!
 	velocity.x = float(direction) * chase_speed
 	_play_form_anim(&"walk")
 
@@ -246,15 +366,26 @@ func _chase_vampire_form(delta: float, dist: float, dist_x: float, diff_y: float
 
 ## 3. Kurt Adam Formu Taktiği (Yırtıcı Kovalamaca & Sıçrama)
 func _chase_werewolf_form(delta: float, dist: float, dist_x: float, diff_y: float) -> void:
-	# Yakın menzil (<= 85px) -> Seri Çift Pençe Kombosu
-	if dist_x <= 85.0 and absf(diff_y) <= 45.0:
+	# Eğer oyuncu yukarıdaki bir platformdaysa ve tam altındaysak kenara doğru koş
+	if _is_blocked_by_platform_above():
+		var bypass_dir: int = _find_platform_bypass_direction()
+		velocity.x = float(bypass_dir) * chase_speed * 1.2
+		_play_form_anim(&"werewolf_run")
+		return
+
+	# Yakın menzil (<= 80px) -> Seri Çift Pençe Kombosu
+	if dist_x <= 80.0 and absf(diff_y) <= 45.0:
 		if _attack_timer <= 0.0:
 			_execute_werewolf_claws()
 			return
+		else:
+			velocity.x = move_toward(velocity.x, 0.0, 500.0 * delta)
+			_play_form_anim(&"werewolf_idle")
+			return
 
-	# Uzak menzil (140 - 320px) -> Havadan Pençe Sıçraması (Leap)
-	if dist_x >= 140.0 and dist_x <= 320.0 and absf(diff_y) <= 80.0:
-		if _attack_timer <= 0.0 and randf() > 0.4:
+	# Sıçrama Menzili (90 - 360px): Oyuncu ister aynı hizada, ister yüksek platformda olsun fırla!
+	if dist_x >= 90.0 and dist_x <= 360.0 and diff_y >= -160.0 and diff_y <= 60.0:
+		if _attack_timer <= 0.0:
 			_execute_werewolf_leap()
 			return
 
@@ -262,101 +393,94 @@ func _chase_werewolf_form(delta: float, dist: float, dist_x: float, diff_y: floa
 	velocity.x = float(direction) * chase_speed
 	_play_form_anim(&"werewolf_run")
 
-## 4. Yarasa Formu Taktiği (Hava Dalışı & Sonik Çığlık)
+## 4. Yarasa Formu Taktiği (Hava Dalışı & Sonik Çığlık - Hızlı & Kararlı)
 func _chase_bat_form(delta: float, dist: float, dist_x: float, diff_y: float) -> void:
-	# Yatayda hizalanmışsa ve menzildeyse (<= 130px) -> Havadan Dalış (Dive)
-	if dist_x <= 130.0 and diff_y > 40.0:
-		if _attack_timer <= 0.0:
+	# Eğer platformun altındaysa uçuş mantığı kenardan dolanmayı yürütür
+	if _is_blocked_by_platform_above():
+		_play_form_anim(&"bat_idle_fly")
+		return
+
+	# Saldırı bekleme süresi bittiğinde hızlı ve kararlı saldırı kararı:
+	if _attack_timer <= 0.0:
+		# 1. Havadan Dalış (Dive): Menzildeyse doğrudan oyuncuya pike yap
+		if dist <= 190.0 and diff_y >= -25.0:
 			_execute_bat_dive()
 			return
 
-	# Orta menzilde (120 - 350px) -> Ultrasonik Kan Çığlığı (Screech)
-	if dist >= 120.0 and dist <= 350.0:
-		if _attack_timer <= 0.0 and randf() > 0.5:
+		# 2. Ultrasonik Çığlık (Screech): Orta menzilde oyuncuyu sersemletmek için çığlık at
+		if dist >= 90.0 and dist <= 330.0:
 			_execute_bat_screech()
 			return
 
-	# Havada oyuncunun üstüne doğru süzül
-	velocity.x = float(direction) * chase_speed
+	# Havada oyuncuya doğru hızlı süzül
+	velocity.x = move_toward(velocity.x, float(direction) * chase_speed, 900.0 * delta)
 	_play_form_anim(&"bat_idle_fly")
 
 ## -----------------------------------------------------------------------------
 ## Saldırı Fonksiyonları (Forma Özel Eylemler)
 ## -----------------------------------------------------------------------------
-func _execute_normal_attack(is_thrust: bool) -> void:
+## -----------------------------------------------------------------------------
+## Saldiri Sistemi: hitbox/olay zamanlamasi animasyon karelerine baglidir,
+## saldiri animasyon bitince sona erer (yarida kesilmez).
+## -----------------------------------------------------------------------------
+func _begin_attack(anim: StringName, damage: int, hit_from: int, hit_to: int, event_frame: int = -1, event: Callable = Callable(), cooldown_bonus: float = 0.0) -> void:
 	current_state = State.ATTACK
+	attack_damage = damage
+	_atk_hit_from = hit_from
+	_atk_hit_to = hit_to
+	_atk_event_frame = event_frame
+	_atk_event = event
+	_atk_cooldown_bonus = cooldown_bonus
+	_atk_hit_on = false
+	_atk_event_done = false
+	if anim_sprite:
+		anim_sprite.play(anim)
+
+func _on_attack_frame_changed() -> void:
+	if current_state != State.ATTACK or is_dead or _is_transforming:
+		return
+	var f: int = anim_sprite.frame
+	if _atk_hit_from >= 0 and not _atk_hit_on and f >= _atk_hit_from and f < _atk_hit_to:
+		_atk_hit_on = true
+		_activate_hitbox()
+		_trigger_screen_shake(3.5)
+	elif _atk_hit_on and f >= _atk_hit_to:
+		_atk_hit_on = false
+		_deactivate_hitbox()
+	if _atk_event.is_valid() and not _atk_event_done and f >= _atk_event_frame:
+		_atk_event_done = true
+		_atk_event.call()
+
+func _on_attack_animation_finished() -> void:
+	if current_state != State.ATTACK or is_dead or _is_transforming:
+		return
+	if anim_sprite:
+		anim_sprite.speed_scale = 1.0
+	_atk_hit_on = false
+	_deactivate_hitbox()
+	_attack_timer = attack_cooldown + _atk_cooldown_bonus
+	current_state = State.CHASE if _target_node else State.PATROL
+	# Dalış saldırısı sonrasında yarasa yukarı çekilerek irtifa kazanır
+	if current_form == VladForm.BAT:
+		velocity.y = -220.0
+
+func _execute_normal_attack(is_thrust: bool) -> void:
 	velocity.x = 0.0
-	
-	var anim_name: StringName = &"attack_thrust" if is_thrust else &"attack_impale"
-	attack_damage = normal_thrust_damage if is_thrust else normal_impale_damage
-	var windup: float = 0.60 if is_thrust else 0.95
-	var active: float = 0.35 if is_thrust else 0.45
-	var recovery: float = 0.45 if is_thrust else 0.65
-
-	if anim_sprite: anim_sprite.play(anim_name)
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(windup)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_activate_hitbox()
-			_trigger_screen_shake(2.5 if is_thrust else 5.0)
-	)
-	tween.tween_interval(active)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_deactivate_hitbox()
-	)
-	tween.tween_interval(recovery)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown
-			current_state = State.CHASE if _target_node else State.PATROL
-	)
+	if is_thrust:
+		_begin_attack(&"attack_thrust", normal_thrust_damage, 46, 60)
+	else:
+		_begin_attack(&"attack_impale", normal_impale_damage, 38, 58)
 
 func _execute_vampire_slash() -> void:
-	current_state = State.ATTACK
 	velocity.x = 0.0
-	attack_damage = vampire_slash_damage
-	if anim_sprite: anim_sprite.play(&"vampire_attack_slash")
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(0.70)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_activate_hitbox()
-			_trigger_screen_shake(3.5)
-	)
-	tween.tween_interval(0.35)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_deactivate_hitbox()
-	)
-	tween.tween_interval(0.50)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown
-			current_state = State.CHASE if _target_node else State.PATROL
-	)
+	_begin_attack(&"vampire_attack_slash", vampire_slash_damage, 44, 64)
 
 func _execute_vampire_magic() -> void:
-	current_state = State.ATTACK
 	velocity.x = 0.0
-	if anim_sprite: anim_sprite.play(&"vampire_attack_blood_magic")
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(0.80)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_spawn_blood_magic_projectile()
-			_trigger_screen_shake(2.5)
-	)
-	tween.tween_interval(0.70)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown + 0.4
-			current_state = State.CHASE if _target_node else State.PATROL
-	)
+	_begin_attack(&"vampire_attack_blood_magic", vampire_magic_damage, -1, -1, 40, func():
+		_spawn_blood_magic_projectile()
+		_trigger_screen_shake(2.5)
+	, 0.4)
 
 func _spawn_blood_magic_projectile() -> void:
 	if not projectile_scene:
@@ -364,133 +488,81 @@ func _spawn_blood_magic_projectile() -> void:
 	var proj = projectile_scene.instantiate()
 	if not proj:
 		return
-		
+
 	var spawn_pos: Vector2 = global_position + Vector2(35.0 * float(direction), -55.0)
 	var shoot_dir: Vector2 = Vector2(float(direction), 0.0)
-	
+
 	if _target_node and is_instance_valid(_target_node):
 		shoot_dir = (_target_node.global_position + Vector2(0, -20.0) - spawn_pos).normalized()
 
 	var parent_node = get_parent()
 	if parent_node:
 		parent_node.add_child(proj)
-		# Kan büyüsü için kızıl renk tonu ver
 		proj.modulate = Color(1.0, 0.25, 0.25, 1.0)
 		proj.setup(spawn_pos, shoot_dir, self, vampire_magic_damage, _target_node)
 
 func _execute_werewolf_claws() -> void:
-	current_state = State.ATTACK
-	attack_damage = werewolf_claw_damage
-	if anim_sprite: anim_sprite.play(&"werewolf_attack_claws")
-
-	# İleri doğru kısa adım atarak parçalar
+	_begin_attack(&"werewolf_attack_claws", werewolf_claw_damage, 36, 108)
 	velocity.x = float(direction) * 60.0
 
-	var tween: Tween = create_tween()
-	tween.tween_interval(0.40)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_activate_hitbox()
-			_trigger_screen_shake(2.5)
-	)
-	tween.tween_interval(0.55)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_deactivate_hitbox()
-	)
-	tween.tween_interval(0.35)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown * 0.7
-			current_state = State.CHASE if _target_node else State.PATROL
-	)
-
 func _execute_werewolf_leap() -> void:
-	current_state = State.ATTACK
-	attack_damage = werewolf_leap_damage
-	if anim_sprite: anim_sprite.play(&"werewolf_attack_leap")
+	velocity = Vector2.ZERO
+	# Kurt adam sıçramasını çevik ve yırtıcı hale getirmek için animasyon hızını artır
+	if anim_sprite:
+		anim_sprite.speed_scale = 1.6
 
-	# Havaya fırla
-	velocity.y = -350.0
-	velocity.x = float(direction) * 220.0
+	# Hedefin yönü ve mesafesi
+	var target_dx: float = float(direction) * 220.0
+	var target_dy: float = 0.0
+	if _target_node and is_instance_valid(_target_node):
+		var to_tgt: Vector2 = _target_node.global_position - global_position
+		target_dx = to_tgt.x
+		target_dy = to_tgt.y
+		var jump_dir: int = 1 if target_dx > 0 else -1
+		if jump_dir != direction:
+			direction = jump_dir
+			_update_facing_direction()
 
-	var tween: Tween = create_tween()
-	tween.tween_interval(0.65) # Havalanma zirvesi
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_activate_hitbox()
-			_trigger_screen_shake(6.0)
-	)
-	tween.tween_interval(0.40)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_deactivate_hitbox()
-	)
-	tween.tween_interval(0.45)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown + 0.3
-			current_state = State.CHASE if _target_node else State.PATROL
-	)
+	# Oyuncu platformdaysa (yukarıdaysa) çok daha güçlü sıçra (-560 vy)
+	var jump_vy: float = -460.0
+	if target_dy < -30.0:
+		jump_vy = -560.0
+
+	var jump_vx: float = clampf(target_dx * 1.4, -380.0, 380.0)
+	if absf(jump_vx) < 160.0:
+		jump_vx = float(direction) * 180.0
+
+	# 22. karede yaylanıp fırlar, 65-105 arasında pençelerle yere çarpar
+	_begin_attack(&"werewolf_attack_leap", werewolf_leap_damage, 65, 105, 22, func():
+		velocity = Vector2(jump_vx, jump_vy)
+		_trigger_screen_shake(3.0)
+	, 0.3)
 
 func _execute_bat_dive() -> void:
-	current_state = State.ATTACK
-	attack_damage = bat_dive_damage
-	if anim_sprite: anim_sprite.play(&"bat_attack_dive")
+	velocity = Vector2.ZERO
+	# Hedefe doğru açılı pike dalışı vektörü
+	var dive_dir: Vector2 = Vector2(float(direction), 0.7).normalized()
+	if _target_node and is_instance_valid(_target_node):
+		dive_dir = (_target_node.global_position - global_position).normalized()
+		if dive_dir.y < 0.2:
+			dive_dir.y = 0.35
+		dive_dir = dive_dir.normalized()
 
-	# Aşağı oyuncuya doğru pike yap
-	velocity = Vector2(float(direction) * 240.0, 200.0)
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(0.55)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_activate_hitbox()
-			_trigger_screen_shake(4.0)
-	)
-	tween.tween_interval(0.35)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_deactivate_hitbox()
-			# Dalıştan sonra yukarı çekil
-			velocity.y = -220.0
-	)
-	tween.tween_interval(0.50)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown
-			current_state = State.CHASE if _target_node else State.PATROL
-	)
+	_begin_attack(&"bat_attack_dive", bat_dive_damage, 35, 80, 20, func():
+		velocity = dive_dir * 360.0
+		_trigger_screen_shake(4.0)
+	, 0.4)
 
 func _execute_bat_screech() -> void:
-	current_state = State.ATTACK
 	velocity = Vector2.ZERO
-	attack_damage = bat_screech_damage
-	if anim_sprite: anim_sprite.play(&"bat_attack_screech")
-
-	var tween: Tween = create_tween()
-	tween.tween_interval(0.70)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_activate_hitbox()
-			_trigger_screen_shake(5.5)
-			# Yakındaki oyuncuyu geriye savur
-			if _target_node and is_instance_valid(_target_node):
-				var push_dir = signf(_target_node.global_position.x - global_position.x)
-				if "velocity" in _target_node:
-					_target_node.velocity.x += push_dir * 300.0
-					_target_node.velocity.y = -180.0
-	)
-	tween.tween_interval(0.40)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_deactivate_hitbox()
-	)
-	tween.tween_interval(0.40)
-	tween.tween_callback(func():
-		if current_state == State.ATTACK and not is_dead:
-			_attack_timer = attack_cooldown
-			current_state = State.CHASE if _target_node else State.PATROL
+	_begin_attack(&"bat_attack_screech", bat_screech_damage, 65, 95, 55, func():
+		_trigger_screen_shake(5.5)
+		if _target_node and is_instance_valid(_target_node) and "velocity" in _target_node:
+			var push_x: float = signf(_target_node.global_position.x - global_position.x)
+			if is_zero_approx(push_x):
+				push_x = float(direction)
+			_target_node.velocity.x += push_x * 320.0
+			_target_node.velocity.y = -180.0
 	)
 
 ## -----------------------------------------------------------------------------
@@ -501,14 +573,18 @@ func take_damage(amount: int) -> void:
 		return
 
 	# Vampir formunda taktiksel Sis Kaçışı (%35 şans)
-	if current_form == VladForm.VAMPIRE and _mist_dash_cooldown <= 0.0 and randf() < 0.35:
+	if current_form == VladForm.VAMPIRE and current_state != State.ATTACK and _mist_dash_cooldown <= 0.0 and randf() < 0.35:
 		_execute_vampire_mist_dash()
 		return
 
+	var was_attacking: bool = current_state == State.ATTACK
 	super.take_damage(amount)
 
 	if is_dead:
 		return
+
+	if was_attacking:
+		current_state = State.ATTACK
 
 	# Can eşiklerine göre otomatik form dönüşümü
 	var health_ratio: float = float(current_health) / float(max_health)
@@ -518,6 +594,33 @@ func take_damage(amount: int) -> void:
 		set_form(VladForm.WEREWOLF, true)
 	elif health_ratio <= form_phase_health_thresholds[0] and health_ratio > form_phase_health_thresholds[1] and current_form != VladForm.VAMPIRE:
 		set_form(VladForm.VAMPIRE, true)
+
+func _play_hit_feedback() -> void:
+	if _hit_flash_tween and _hit_flash_tween.is_valid():
+		_hit_flash_tween.kill()
+	if anim_sprite:
+		anim_sprite.modulate = Color(2.5, 0.4, 0.4, 1.0)
+		_hit_flash_tween = create_tween()
+		_hit_flash_tween.tween_property(anim_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.18)
+
+	# Saldırı sırasında animasyon kesilmez (hyper-armor), sadece kırmızı flaş
+	if current_state == State.ATTACK:
+		return
+
+	if anim_sprite and anim_sprite.sprite_frames:
+		match current_form:
+			VladForm.NORMAL:
+				if anim_sprite.sprite_frames.has_animation(&"hurt"):
+					anim_sprite.play(&"hurt")
+			VladForm.VAMPIRE:
+				if anim_sprite.sprite_frames.has_animation(&"vampire_hurt"):
+					anim_sprite.play(&"vampire_hurt")
+			VladForm.WEREWOLF:
+				if anim_sprite.sprite_frames.has_animation(&"werewolf_hurt"):
+					anim_sprite.play(&"werewolf_hurt")
+			VladForm.BAT:
+				if anim_sprite.sprite_frames.has_animation(&"bat_hurt"):
+					anim_sprite.play(&"bat_hurt")
 
 func _execute_vampire_mist_dash() -> void:
 	_mist_dash_cooldown = 3.5
@@ -557,6 +660,7 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 	_is_transforming = true
 	velocity = Vector2.ZERO
 	_deactivate_hitbox()
+	_atk_hit_on = false
 
 	if smoke_vfx:
 		smoke_vfx.visible = true
@@ -583,9 +687,9 @@ func _apply_form_visuals() -> void:
 	match current_form:
 		VladForm.NORMAL:
 			is_flying = false
-			speed = 50.0
-			chase_speed = 85.0
-			attack_range = 95.0
+			speed = 46.0
+			chase_speed = 52.0
+			attack_range = 70.0
 			attack_damage = normal_thrust_damage
 			_play_form_anim(&"idle")
 		VladForm.VAMPIRE:
@@ -598,15 +702,15 @@ func _apply_form_visuals() -> void:
 		VladForm.WEREWOLF:
 			is_flying = false
 			speed = 95.0
-			chase_speed = 150.0
+			chase_speed = 160.0
 			attack_range = 85.0
 			attack_damage = werewolf_claw_damage
 			_play_form_anim(&"werewolf_idle")
 		VladForm.BAT:
 			is_flying = true
-			speed = 85.0
-			chase_speed = 130.0
-			attack_range = 120.0
+			speed = 110.0
+			chase_speed = 210.0
+			attack_range = 140.0
 			attack_damage = bat_dive_damage
 			_play_form_anim(&"bat_idle_fly")
 
@@ -647,7 +751,11 @@ func _die() -> void:
 		hurtbox_area.monitoring = false
 		hurtbox_area.monitorable = false
 
-	if health_bar:
+	var ui_node: Node2D = get_node_or_null("UI") as Node2D
+	if ui_node:
+		var ui_tween: Tween = create_tween()
+		ui_tween.tween_property(ui_node, "modulate:a", 0.0, 0.4)
+	elif health_bar:
 		var bar_tween: Tween = create_tween()
 		bar_tween.tween_property(health_bar, "modulate:a", 0.0, 0.3)
 
@@ -666,6 +774,11 @@ func _die() -> void:
 			is_flying = false
 			if anim_sprite:
 				anim_sprite.play(&"death")
+		)
+		death_tween.tween_interval(1.25)
+		death_tween.tween_callback(func():
+			if smoke_vfx:
+				smoke_vfx.visible = false
 		)
 	else:
 		if anim_sprite:
