@@ -29,14 +29,22 @@ signal parry_performed()
 @export var current_health: int = 100
 @export var speed: float = 260.0
 @export var crouch_speed: float = 120.0
-@export var dash_speed: float = 520.0
+@export var dash_speed: float = 680.0
 @export var slide_speed: float = 380.0
 @export var roll_speed: float = 340.0
 @export var jump_velocity: float = -600.0
-@export var wall_jump_velocity: Vector2 = Vector2(280.0, -560.0)
+@export var wall_jump_velocity: Vector2 = Vector2(340.0, -560.0)
 @export var gravity: float = 1200.0
 @export var coyote_time: float = 0.12
 @export var jump_buffer_time: float = 0.12
+
+@export_group("Upgrades & Skills")
+@export var double_jump_unlocked: bool = true
+@export var dash_iframes_unlocked: bool = true
+@export var slide_iframes_unlocked: bool = true
+@export var max_air_jumps: int = 1
+var _air_jumps_left: int = 1
+var _wall_jump_push_timer: float = 0.0
 
 @export_group("Combat")
 @export var has_sword: bool = false
@@ -102,6 +110,9 @@ func _ready() -> void:
 	if not is_in_group("player"):
 		add_to_group("player")
 	_ensure_input_actions()
+
+	# Düşman katmanıyla (Layer 2) fiziksel çarpışmayı aç (içlerine yürümeyi/geçmeyi önler)
+	set_collision_mask_value(2, true)
 
 	if anim_sprite:
 		anim_sprite.animation_finished.connect(_on_animation_finished)
@@ -282,6 +293,7 @@ func _physics_process(delta: float) -> void:
 	# 6. Zemin Durumu ve Coyote Time
 	if is_on_floor():
 		_coyote_timer = coyote_time
+		_air_jumps_left = max_air_jumps
 	else:
 		_coyote_timer = maxf(_coyote_timer - delta, 0.0)
 		velocity.y += gravity * delta
@@ -289,6 +301,9 @@ func _physics_process(delta: float) -> void:
 	# Jump buffer zamanlayıcısı
 	if _jump_buffer_timer > 0.0:
 		_jump_buffer_timer -= delta
+
+	if _wall_jump_push_timer > 0.0:
+		_wall_jump_push_timer -= delta
 
 	# 7. Duvar Kayması ve Zıplaması
 	_check_wall_slide(delta)
@@ -311,6 +326,8 @@ func _physics_process(delta: float) -> void:
 				attack_area.monitoring = false
 			if parabolic_shield:
 				parabolic_shield.activate()
+			if visual_node:
+				visual_node.rotation_degrees = -3.5 * facing_dir
 			defense_state_changed.emit(true)
 		else:
 			block_timer += delta
@@ -320,6 +337,8 @@ func _physics_process(delta: float) -> void:
 			block_timer = 0.0
 			if parabolic_shield:
 				parabolic_shield.deactivate()
+			if visual_node:
+				visual_node.rotation_degrees = 0.0
 			defense_state_changed.emit(false)
 
 	# 8. Hareket ve Beceri Girdileri
@@ -335,24 +354,29 @@ func _check_wall_slide(_delta: float) -> void:
 		is_wall_sliding = false
 		return
 
-	if not is_on_floor() and is_on_wall() and velocity.y > 0.0:
+	if not is_on_floor() and is_on_wall():
 		var wall_normal = get_wall_normal()
-		if (wall_normal.x < 0.0 and facing_dir > 0.0) or (wall_normal.x > 0.0 and facing_dir < 0.0):
+		if wall_normal.x != 0.0:
 			is_wall_sliding = true
-			velocity.y = minf(velocity.y, 90.0)
+			_air_jumps_left = max_air_jumps # Duvara tutunmak double jump'ı tazeler
+
+			if velocity.y > 0.0:
+				velocity.y = minf(velocity.y, 85.0)
 
 			if visual_node:
-				visual_node.scale.x = 1.0 if wall_normal.x > 0.0 else -1.0
+				visual_node.scale.x = signf(wall_normal.x)
 
 			# Duvardan zıplama (Wall Jump)
 			var wants_jump = Input.is_action_just_pressed("jump") or Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W)
 			if wants_jump:
-				facing_dir = 1.0 if wall_normal.x > 0.0 else -1.0
+				facing_dir = signf(wall_normal.x)
 				if visual_node:
 					visual_node.scale.x = facing_dir
 				velocity.x = facing_dir * wall_jump_velocity.x
 				velocity.y = wall_jump_velocity.y
+				_wall_jump_push_timer = 0.18
 				is_wall_sliding = false
+				_spawn_jump_puff()
 				return
 			return
 
@@ -363,16 +387,15 @@ func _check_wall_slide(_delta: float) -> void:
 
 ## Hareket ve Beceri Kontrolleri
 func _handle_movement_and_skills(delta: float) -> void:
-	# Yatay Girdi
+	# Yatay Girdi (Vururken de serbestçe hareket edebilme)
 	var move_x: float = 0.0
-	if not is_attacking:
-		if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
-			move_x -= 1.0
-		if Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
-			move_x += 1.0
+	if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		move_x -= 1.0
+	if Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+		move_x += 1.0
 
 	# Yüz Yönü
-	if move_x != 0.0 and not is_attacking and not is_wall_sliding:
+	if move_x != 0.0 and not is_wall_sliding and _wall_jump_push_timer <= 0.0:
 		facing_dir = 1.0 if move_x > 0.0 else -1.0
 		if visual_node:
 			visual_node.scale.x = facing_dir
@@ -401,7 +424,7 @@ func _handle_movement_and_skills(delta: float) -> void:
 		is_crouching = wants_crouch
 		_set_collision_box(LOW_COL_SIZE if is_crouching else NORMAL_COL_SIZE, LOW_COL_POS if is_crouching else NORMAL_COL_POS)
 
-	# 5. Zıplama Girdisi (Coyote Time & Buffer)
+	# 5. Zıplama Girdisi (Coyote Time, Buffer & Double Jump)
 	var jump_just_pressed = Input.is_action_just_pressed("jump") or Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W)
 	if jump_just_pressed:
 		_jump_buffer_timer = jump_buffer_time
@@ -410,30 +433,47 @@ func _handle_movement_and_skills(delta: float) -> void:
 		velocity.y = jump_velocity
 		_coyote_timer = 0.0
 		_jump_buffer_timer = 0.0
+	elif jump_just_pressed and double_jump_unlocked and _air_jumps_left > 0 and not is_on_floor() and not is_wall_sliding and not is_attacking and not is_defending:
+		# Çift Zıplama (Double Jump)
+		_air_jumps_left -= 1
+		velocity.y = jump_velocity * 0.88
+		_jump_buffer_timer = 0.0
+		_spawn_jump_puff()
+		if anim_sprite and anim_sprite.sprite_frames.has_animation("jump"):
+			anim_sprite.play("jump")
 
-	# 6. Yatay Hız (Doğal adımlama ivmelenmesi, zemin tutuşu & savunma katsayısı)
-	if not is_attacking:
+	# 6. Yatay Hız (Vururken de adımlama ve koşma korunur)
+	if _wall_jump_push_timer <= 0.0:
 		var current_speed: float = crouch_speed if is_crouching else speed
 		if is_defending:
 			current_speed *= defend_speed_multiplier
 		if move_x != 0.0:
-			# Doğal adımlama ivmelenmesi (anında fırlama / sürüklenme yerine fiziksel ağırlık)
+			# Doğal adımlama ivmelenmesi
 			velocity.x = move_toward(velocity.x, move_x * current_speed, 2200.0 * delta)
 		else:
 			# Zemin sürtünmesi / adımlama freni: Tuş bırakıldığında buzda kayar gibi sürüklenmek yerine zemine sağlam basıp durur
 			velocity.x = move_toward(velocity.x, 0.0, 2800.0 * delta)
 
-## Dash (Shift)
+## Dash (Shift - Geliştirilmiş Çevik İleri Atılma & Düşmanların İçinden Geçme)
 func perform_dash() -> void:
 	is_dashing = true
 	can_dash = false
+	set_collision_mask_value(2, false) # Düşmanların içinden geç
+	velocity.x = facing_dir * dash_speed
+	velocity.y = 0.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("dash"):
 		anim_sprite.play("dash")
 
-	get_tree().create_timer(0.18).timeout.connect(func():
-		is_dashing = false
+	_spawn_dash_ghost()
+	get_tree().create_timer(0.08).timeout.connect(func():
+		if is_dashing: _spawn_dash_ghost()
 	)
-	get_tree().create_timer(0.55).timeout.connect(func():
+
+	get_tree().create_timer(0.22).timeout.connect(func():
+		is_dashing = false
+		set_collision_mask_value(2, true) # Düşman çarpışmasını geri aç
+	)
+	get_tree().create_timer(0.48).timeout.connect(func():
 		can_dash = true
 	)
 
@@ -566,7 +606,8 @@ func perform_light_attack() -> void:
 	is_attacking = true
 	current_attack_type = "light"
 	attack_performed.emit("light")
-	velocity.x = facing_dir * light_attack_lunge
+	if absf(velocity.x) < light_attack_lunge:
+		velocity.x = facing_dir * light_attack_lunge
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack"):
 		anim_sprite.play("attack")
 	_apply_attack_damage(25)
@@ -582,7 +623,8 @@ func perform_combo_attack() -> void:
 	combo_timer = 0.0
 	current_attack_type = "combo"
 	attack_performed.emit("combo")
-	velocity.x = facing_dir * 180.0
+	if absf(velocity.x) < 180.0:
+		velocity.x = facing_dir * 180.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack_combo"):
 		anim_sprite.play("attack_combo")
 	_apply_attack_damage(40)
@@ -685,7 +727,8 @@ func perform_heavy_attack() -> void:
 	combo_timer = 0.0
 	current_attack_type = "heavy"
 	attack_performed.emit("heavy")
-	velocity.x = facing_dir * heavy_attack_lunge
+	if absf(velocity.x) < heavy_attack_lunge:
+		velocity.x = facing_dir * heavy_attack_lunge
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("heavy_attack"):
 		anim_sprite.play("heavy_attack")
 	_apply_attack_damage(55)
@@ -713,8 +756,18 @@ func _apply_attack_damage(damage: int) -> void:
 
 ## Oyuncunun Hasar Alması (Take Damage)
 func take_damage(amount: int, attacker_pos: Vector2 = Vector2.INF) -> void:
-	if is_dead or is_dashing or is_rolling:
-		return # Dash ve Roll anında dokunulmazlık (i-frames)
+	if is_dead:
+		return
+
+	# Dash ve Slide Dokunulmazlık Özelliği (i-Frames - Açılabilir Yetenek)
+	if is_dashing and dash_iframes_unlocked:
+		_spawn_dodge_text("⚡ DASH DODGE!")
+		return
+	if is_sliding and slide_iframes_unlocked:
+		_spawn_dodge_text("⚡ SLIDE EVADE!")
+		return
+	if is_rolling:
+		return
 
 	# Saldırgan konumu verilmediyse ve yakınlarda bir düşman varsa tespit et
 	if attacker_pos == Vector2.INF and is_defending and is_inside_tree() and get_tree():
@@ -980,3 +1033,65 @@ func _update_animation() -> void:
 			_play(&"jump_apex")
 		else:
 			_play(&"fall")
+
+## Görsel Efekt ve Geribildirim Fonksiyonları (VFX & Feedback)
+func _spawn_dash_ghost() -> void:
+	if not anim_sprite or not anim_sprite.sprite_frames:
+		return
+	var ghost := Sprite2D.new()
+	if anim_sprite.sprite_frames.has_animation(anim_sprite.animation):
+		ghost.texture = anim_sprite.sprite_frames.get_frame_texture(anim_sprite.animation, anim_sprite.frame)
+	if not ghost.texture:
+		ghost.queue_free()
+		return
+	ghost.global_position = anim_sprite.global_position
+	ghost.scale = visual_node.scale * anim_sprite.scale
+	ghost.modulate = Color(0.4, 0.85, 1.0, 0.65)
+	ghost.z_index = z_index - 1
+	var parent_scene: Node = get_parent()
+	if parent_scene:
+		parent_scene.add_child(ghost)
+		var tw: Tween = ghost.create_tween()
+		if tw:
+			tw.tween_property(ghost, "modulate:a", 0.0, 0.22)
+			tw.tween_callback(ghost.queue_free)
+
+func _spawn_jump_puff() -> void:
+	var parent_scene: Node = get_parent()
+	if not parent_scene:
+		return
+	var puff := Node2D.new()
+	puff.global_position = global_position + Vector2(0.0, -4.0)
+	parent_scene.add_child(puff)
+	var circle := Line2D.new()
+	circle.width = 2.0
+	circle.default_color = Color(0.85, 0.95, 1.0, 0.8)
+	var pts: PackedVector2Array = PackedVector2Array()
+	for i in range(13):
+		var a: float = float(i) * TAU / 12.0
+		pts.append(Vector2(cos(a) * 14.0, sin(a) * 6.0))
+	circle.points = pts
+	puff.add_child(circle)
+	var tw: Tween = puff.create_tween()
+	if tw:
+		tw.tween_property(puff, "scale", Vector2(1.8, 1.8), 0.22)
+		tw.parallel().tween_property(circle, "modulate:a", 0.0, 0.22)
+		tw.tween_callback(puff.queue_free)
+
+func _spawn_dodge_text(text: String) -> void:
+	var parent_scene: Node = get_parent()
+	if not parent_scene:
+		return
+	var label := Label.new()
+	label.text = text
+	label.add_theme_color_override("font_color", Color(0.4, 0.95, 1.0, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.1, 0.25, 1.0))
+	label.add_theme_constant_override("outline_size", 4)
+	label.add_theme_font_size_override("font_size", 12)
+	label.global_position = global_position + Vector2(-40.0, -45.0)
+	parent_scene.add_child(label)
+	var tw: Tween = label.create_tween()
+	if tw:
+		tw.tween_property(label, "global_position:y", label.global_position.y - 25.0, 0.45)
+		tw.parallel().tween_property(label, "modulate:a", 0.0, 0.45)
+		tw.tween_callback(label.queue_free)

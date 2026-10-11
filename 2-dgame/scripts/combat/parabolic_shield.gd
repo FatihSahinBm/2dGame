@@ -40,6 +40,9 @@ signal attack_blocked(impact_pos: Vector2)
 # ── Durum Değişkenleri ───────────────────────────────────────────────────────
 var is_active: bool = false
 var is_broken: bool = false
+var open_progress: float = 0.0
+var _open_tween: Tween = null
+var _impact_ripples: Array[Dictionary] = []
 var _break_timer: float = 0.0
 var _pulse_timer: float = 0.0
 var _last_hit_flash: float = 0.0
@@ -124,6 +127,16 @@ func _physics_process(delta: float) -> void:
 			current_stamina = 25.0 # Yeniden açılabilmesi için başlangıç enerjisi
 			stamina_changed.emit(current_stamina, max_stamina)
 
+	# Darbe dalgaları zamanlayıcısı (Impact ripples)
+	if not _impact_ripples.is_empty():
+		var alive_ripples: Array[Dictionary] = []
+		for rip in _impact_ripples:
+			rip.timer += delta
+			if rip.timer < rip.duration:
+				alive_ripples.append(rip)
+		_impact_ripples = alive_ripples
+		queue_redraw()
+
 	# Kalkan aktifken stamina tüket
 	if is_active:
 		current_stamina -= drain_per_second * delta
@@ -156,6 +169,13 @@ func activate() -> bool:
 	if poly:
 		poly.set_deferred("disabled", false)
 
+	# Sinematik & Dinamik Açılma Animasyonu (Yayılma & Parlama Tween'i)
+	if _open_tween and _open_tween.is_valid():
+		_open_tween.kill()
+	_open_tween = create_tween()
+	_open_tween.tween_property(self, "open_progress", 1.0, 0.20).from(0.0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_open_tween.parallel().tween_callback(func(): queue_redraw())
+
 	shield_opened.emit()
 	queue_redraw()
 	return true
@@ -165,12 +185,21 @@ func deactivate() -> void:
 		return
 
 	is_active = false
-	visible = false
 	monitoring = false
 	monitorable = false
 	var poly = _get_col_polygon()
 	if poly:
 		poly.set_deferred("disabled", true)
+
+	# Akıcı Sönümleme / Kapanma Animasyonu
+	if _open_tween and _open_tween.is_valid():
+		_open_tween.kill()
+	_open_tween = create_tween()
+	_open_tween.tween_property(self, "open_progress", 0.0, 0.14).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	_open_tween.tween_callback(func():
+		visible = false
+		queue_redraw()
+	)
 
 	shield_closed.emit()
 	queue_redraw()
@@ -247,6 +276,13 @@ func _deflect_projectile(proj: Node2D) -> void:
 func _block_melee_attack(hitbox: Area2D) -> void:
 	consume_stamina(22.0)
 	_last_hit_flash = 1.0
+	var local_hit: Vector2 = to_local(hitbox.global_position).normalized() * (radius * maxf(0.2, open_progress)) + shield_offset
+	_impact_ripples.append({
+		"pos": local_hit,
+		"timer": 0.0,
+		"duration": 0.35,
+		"max_radius": 28.0
+	})
 	attack_blocked.emit(hitbox.global_position)
 	_spawn_floating_text("🛡️ SAVUŞTURULDU (-%100)", Color(0.3, 0.9, 1.0))
 
@@ -267,6 +303,13 @@ func is_blocking_attack(attacker_global_pos: Vector2) -> bool:
 	if is_in_front:
 		consume_stamina(18.0)
 		_last_hit_flash = 1.0
+		var local_hit: Vector2 = to_local(attacker_global_pos).normalized() * (radius * maxf(0.2, open_progress)) + shield_offset
+		_impact_ripples.append({
+			"pos": local_hit,
+			"timer": 0.0,
+			"duration": 0.35,
+			"max_radius": 28.0
+		})
 		attack_blocked.emit(attacker_global_pos)
 		return true
 
@@ -278,47 +321,86 @@ func consume_stamina(amount: float) -> void:
 	if current_stamina <= 0.0:
 		_break_shield()
 
-# ── Görselleştirme (_draw ile Parabol / Yay Çizimi) ──────────────────────────
+# ── Görselleştirme (_draw ile Dinamik Enerji Bariyeri Çizimi) ──────────────────
 func _draw() -> void:
-	if not is_active:
+	if open_progress <= 0.01:
 		return
 
-	# Nabız / Dalgalanma parıltı katsayısı
-	var pulse: float = sin(_pulse_timer * 10.0) * 0.08
-	var flash_boost: float = _last_hit_flash * 0.6
+	var cur_scale: float = open_progress
 
-	# 1. İç Enerji Alanı (Yarı saydam poligon dolgusu)
+	# Dinamik olarak ölçeklenen geometri noktaları (Akıcı Açılma / Kapanma)
+	var scaled_outer: PackedVector2Array = PackedVector2Array()
+	var scaled_inner: PackedVector2Array = PackedVector2Array()
+	var scaled_poly: PackedVector2Array = PackedVector2Array()
+
+	for pt in _outer_points:
+		scaled_outer.append(shield_offset + (pt - shield_offset) * cur_scale)
+	for pt in _inner_points:
+		scaled_inner.append(shield_offset + (pt - shield_offset) * cur_scale)
+
+	scaled_poly.append_array(scaled_outer)
+	scaled_poly.append_array(scaled_inner)
+
+	# Nabız / Dalgalanma ve parlama katsayıları
+	var pulse: float = sin(_pulse_timer * 9.0) * 0.08
+	var flash_boost: float = _last_hit_flash * 0.75
+
+	# 1. Dış Plazma Koronası / Büyülü Hale (Geniş parlayan enerji aurası)
+	var aura_color: Color = Color(0.2, 0.75, 1.0, clampf(0.28 * cur_scale + flash_boost * 0.4, 0.05, 0.8))
+	draw_polyline(scaled_outer, aura_color, 9.0, true)
+
+	# 2. İç Enerji Alanı (Yarı saydam poligon plazma dolgusu)
 	var dynamic_fill_color: Color = energy_color
-	dynamic_fill_color.a = clampf(energy_color.a + pulse + flash_boost, 0.1, 0.8)
-	if _polygon_points.size() >= 3:
-		draw_colored_polygon(_polygon_points, dynamic_fill_color)
+	dynamic_fill_color.a = clampf((energy_color.a + pulse + flash_boost) * cur_scale, 0.08, 0.85)
+	if scaled_poly.size() >= 3:
+		draw_colored_polygon(scaled_poly, dynamic_fill_color)
 
-	# 2. Dış Parlak Parabolik Kenar Çizgisi (Line2D kalitesinde antialiased yay)
+	# 3. Heksagonal / Enerji Kafesi Destek Kaburgaları (Runic / Tech Lattice Ribs)
+	if scaled_inner.size() == scaled_outer.size() and scaled_inner.size() > 0:
+		var rib_count: int = scaled_outer.size()
+		for i in range(0, rib_count, 3):
+			var rib_color: Color = Color(0.5, 0.92, 1.0, clampf(0.45 * cur_scale + pulse * 0.5, 0.1, 0.9))
+			draw_line(scaled_inner[i], scaled_outer[i], rib_color, 1.6, true)
+
+	# 4. Yüzeyde Gezen Elektrik / Plazma Dalgası (Traveling energy surge)
+	var wave_offset_idx: int = int((sin(_pulse_timer * 6.0) * 0.5 + 0.5) * float(scaled_outer.size() - 2))
+	if wave_offset_idx >= 0 and wave_offset_idx < scaled_outer.size() - 1:
+		var flare_pt: Vector2 = scaled_outer[wave_offset_idx]
+		draw_circle(flare_pt, 4.5 * cur_scale, Color(1.5, 2.0, 2.5, 0.8 * cur_scale))
+
+	# 5. Dış Keskin Plazma Kenar Çizgisi
 	var dynamic_edge_color: Color = edge_color
 	if _last_hit_flash > 0.1:
-		dynamic_edge_color = Color(1.5, 2.0, 2.5, 1.0) # Darbe anı beyaz/parlak flaş
-	draw_polyline(_outer_points, dynamic_edge_color, 3.2, true)
+		dynamic_edge_color = Color(1.8, 2.2, 2.8, 1.0)
+	draw_polyline(scaled_outer, dynamic_edge_color, 3.2, true)
 
-	# 3. İç Kenar Çizgisi
-	draw_polyline(_inner_points, inner_edge_color, 1.5, true)
+	# 6. İç Kenar Çizgisi
+	draw_polyline(scaled_inner, inner_edge_color, 1.8, true)
 
-	# 4. Mini Stamina Göstergesi (Kalkanın arkasında ince kavisli enerji barı)
-	_draw_stamina_arc()
+	# 7. Darbe Şok Dalgası Halkaları (Impact Ripples)
+	for rip in _impact_ripples:
+		var rip_progress: float = rip.timer / rip.duration
+		var rip_r: float = lerp(4.0, rip.max_radius, rip_progress)
+		var rip_a: float = (1.0 - rip_progress) * 0.85
+		draw_arc(rip.pos, rip_r, 0.0, TAU, 16, Color(1.5, 2.0, 2.5, rip_a), 2.2, true)
 
-func _draw_stamina_arc() -> void:
+	# 8. Rünik Kavisli Stamina Göstergesi (Kalkanın arkasında şık enerji barı)
+	_draw_stamina_arc(cur_scale)
+
+func _draw_stamina_arc(scale_factor: float) -> void:
 	var stamina_pct: float = current_stamina / max_stamina
-	var bar_radius: float = radius * 0.45
+	var bar_radius: float = radius * 0.45 * scale_factor
 	var bar_angle: float = deg_to_rad(120.0) * stamina_pct
 	var start_a: float = -bar_angle * 0.5
 	var end_a: float = bar_angle * 0.5
 
-	var bar_color: Color = Color(0.2, 0.9, 0.6, 0.8)
+	var bar_color: Color = Color(0.2, 0.95, 0.65, 0.85 * scale_factor)
 	if stamina_pct < 0.3:
-		bar_color = Color(1.0, 0.25, 0.2, 0.9)
+		bar_color = Color(1.0, 0.25, 0.2, 0.9 * scale_factor)
 	elif stamina_pct < 0.6:
-		bar_color = Color(1.0, 0.85, 0.2, 0.85)
+		bar_color = Color(1.0, 0.85, 0.2, 0.85 * scale_factor)
 
-	draw_arc(shield_offset, bar_radius, start_a, end_a, 16, bar_color, 2.0, true)
+	draw_arc(shield_offset, bar_radius, start_a, end_a, 16, bar_color, 2.2, true)
 
 func _spawn_floating_text(text: String, color: Color) -> void:
 	var parent_scene = get_tree().current_scene if (is_inside_tree() and get_tree()) else null

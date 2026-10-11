@@ -238,6 +238,17 @@ func _get_obstacle_bypass_data() -> Dictionary:
 		_bypass_target_side = 0
 		return result
 
+	# Duvara veya köşeye temas kontrolü: Duvardan daima açık alana doğru kaç
+	if is_on_wall():
+		var wall_norm: Vector2 = get_wall_normal()
+		if wall_norm.x != 0.0:
+			_bypass_target_side = int(signf(wall_norm.x))
+			result["is_blocked"] = true
+			result["is_horizontally_clear"] = false
+			result["bypass_x"] = global_position.x + float(_bypass_target_side) * 120.0
+			result["bypass_dir"] = _bypass_target_side
+			return result
+
 	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	var my_pos: Vector2 = global_position
 	var target_pos: Vector2 = _target_node.global_position
@@ -357,6 +368,19 @@ func _find_platform_bypass_direction() -> int:
 func _process_bat_flight(delta: float) -> void:
 	if current_state == State.ATTACK:
 		return
+
+	# Duvara ve Köşeye Sıkışma Çözümü (Corner Escape Flight):
+	if is_on_wall():
+		var wall_norm: Vector2 = get_wall_normal()
+		if wall_norm.x != 0.0:
+			_bat_standoff_dir = int(signf(wall_norm.x))
+			_bypass_target_side = _bat_standoff_dir
+			direction = _bat_standoff_dir
+			_update_facing_direction()
+			# Duvardan yukarı doğru güçlü kanat çırparak ve açık alana fırlayarak köşeden kurtul:
+			velocity.y = move_toward(velocity.y, -340.0, 1100.0 * delta)
+			velocity.x = move_toward(velocity.x, wall_norm.x * chase_speed * 1.5, 1100.0 * delta)
+			return
 
 	_hover_altitude_timer += delta * 3.5
 	var bobbing: float = sin(_hover_altitude_timer) * 12.0
@@ -534,7 +558,8 @@ func _chase_normal_form(delta: float, dist: float, dist_x: float, diff_y: float)
 				return
 
 	# A) Oyuncu yakınsa (<= 45px) ve aynı zemin seviyesindeyse -> IMPALE ŞOKU!
-	if dist_x <= 45.0 and absf(diff_y) <= 35.0:
+	# (Veya duvara sıkışmışsak oyuncuyu geri savurmak için impale patlaması yap)
+	if (dist_x <= 45.0 and absf(diff_y) <= 35.0) or (is_on_wall() and dist_x <= 110.0):
 		if _attack_timer <= 0.0:
 			_execute_normal_attack(false) # Impale
 			return
@@ -557,6 +582,11 @@ func _chase_normal_form(delta: float, dist: float, dist_x: float, diff_y: float)
 ## 2. Vampir Formu Taktiği (Süzülme, Kan Büyüsü, Sis Kaçışı)
 func _chase_vampire_form(delta: float, dist: float, dist_x: float, diff_y: float) -> void:
 	var bypass: Dictionary = _get_obstacle_bypass_data()
+
+	# Duvara sıkışmışsa sis olarak oyuncunun arkasına kay
+	if is_on_wall() and dist_x <= 130.0 and _mist_dash_cooldown <= 0.0:
+		_execute_vampire_mist_dash()
+		return
 
 	# Eğer başımızın üstü kapalıysa kenara doğru süzül
 	if bypass.is_blocked and diff_y < -40.0:
@@ -607,7 +637,7 @@ func _chase_werewolf_form(delta: float, dist: float, dist_x: float, diff_y: floa
 				return
 
 	# 2. Yakın pençe menzili (aynı düzlemde)
-	if dist_x <= 85.0 and absf(diff_y) <= 45.0:
+	if dist_x <= 85.0 and absf(diff_y) <= 45.0 and not is_on_wall():
 		if _attack_timer <= 0.0:
 			_execute_werewolf_claws()
 			return
@@ -617,9 +647,9 @@ func _chase_werewolf_form(delta: float, dist: float, dist_x: float, diff_y: floa
 			return
 
 	# 3. YIRTICI PARABOLİK SIÇRAMA:
-	# Oyuncu ister aynı hizada (75-550px), ister yüksek platformda olsun:
+	# Oyuncu ister aynı hizada (75-550px), ister yüksek platformda olsun ya da duvara sıkışmış olalım:
 	# Doğrudan oyuncunun üstüne havada devasa bir parabol çizerek atla!
-	if (dist_x >= 75.0 and dist_x <= 550.0) or diff_y < -35.0:
+	if (dist_x >= 75.0 and dist_x <= 550.0) or diff_y < -35.0 or (is_on_wall() and dist_x < 130.0):
 		if _attack_timer <= 0.0:
 			_execute_werewolf_leap()
 			return
@@ -914,20 +944,51 @@ func _execute_bat_screech() -> void:
 ## Hasar Alma, Sis Kaçışı & Faz Dönüşümleri & Sersemleme (Groggy)
 ## -----------------------------------------------------------------------------
 func take_damage(amount: int) -> void:
-	if is_dead:
+	# Dönüşüm esnasında veya ölü durumdayken hasar alamaz (Sinematik Faz Dokunulmazlığı)
+	if is_dead or _is_transforming:
+		return
+
+	# Faz Hasar Eşiği / Kapısı (Phase Damage Gating):
+	# Boss, o fazın can eşiğinin altına inemez ve erken ölemez!
+	var min_allowed_hp: int = 0
+	match current_form:
+		VladForm.NORMAL:
+			min_allowed_hp = int(float(max_health) * form_phase_health_thresholds[0]) # 75% -> 450
+		VladForm.VAMPIRE:
+			min_allowed_hp = int(float(max_health) * form_phase_health_thresholds[1]) # 50% -> 300
+		VladForm.WEREWOLF:
+			min_allowed_hp = int(float(max_health) * form_phase_health_thresholds[2]) # 25% -> 150
+		VladForm.BAT:
+			min_allowed_hp = 0 # Yalnızca son fazda (yarasa) 0 HP'ye inebilir
+
+	# Eğer bu formdaki can zaten tükenmişse doğrudan sonraki forma geç
+	if current_health <= min_allowed_hp and current_form != VladForm.BAT:
+		match current_form:
+			VladForm.NORMAL: set_form(VladForm.VAMPIRE, true)
+			VladForm.VAMPIRE: set_form(VladForm.WEREWOLF, true)
+			VladForm.WEREWOLF: set_form(VladForm.BAT, true)
 		return
 
 	# Groggy / Sersemleme durumunda %35 artırılmış savunmasızlık hasarı (vulnerability bonus):
 	if current_state == State.GROGGY:
 		var vuln_damage: int = int(float(amount) * groggy_vulnerability_multiplier)
 		_trigger_screen_shake(4.5)
-		var actual_damage: int = maxi(1, vuln_damage)
-		current_health = clampi(current_health - actual_damage, 0, max_health)
-		_update_health_bar()
-		_spawn_damage_number(actual_damage)
-		_play_hit_feedback()
-		if current_health <= 0:
-			_die()
+		var max_vuln_allowed: int = maxi(0, current_health - min_allowed_hp)
+		var actual_damage: int = mini(maxi(1, vuln_damage), max_vuln_allowed)
+		if actual_damage > 0:
+			current_health = clampi(current_health - actual_damage, min_allowed_hp, max_health)
+			_update_health_bar()
+			_spawn_damage_number(actual_damage)
+			_play_hit_feedback()
+
+		if current_health <= min_allowed_hp:
+			if current_form != VladForm.BAT:
+				match current_form:
+					VladForm.NORMAL: set_form(VladForm.VAMPIRE, true)
+					VladForm.VAMPIRE: set_form(VladForm.WEREWOLF, true)
+					VladForm.WEREWOLF: set_form(VladForm.BAT, true)
+			elif current_health <= 0:
+				_die()
 		return
 
 	# Vampir formunda taktiksel Sis Kaçışı (%35 şans)
@@ -935,15 +996,35 @@ func take_damage(amount: int) -> void:
 		_execute_vampire_mist_dash()
 		return
 
+	# Faz sınırına göre hasarı kelepçele (Faz atlamayı ve anında ölmeyi engeller)
+	var max_damage_allowed: int = maxi(0, current_health - min_allowed_hp)
+	var gated_amount: int = mini(amount, max_damage_allowed)
+
+	if gated_amount <= 0:
+		# Bu faz için hasar limiti doldu, doğrudan sonraki fazı başlat
+		match current_form:
+			VladForm.NORMAL: set_form(VladForm.VAMPIRE, true)
+			VladForm.VAMPIRE: set_form(VladForm.WEREWOLF, true)
+			VladForm.WEREWOLF: set_form(VladForm.BAT, true)
+		return
+
 	# Duruş kırılması ve Sersemleme birikimi (Stagger Accumulation)
-	_stagger_damage += amount
+	_stagger_damage += gated_amount
 	_stagger_decay_timer = 3.5
 	var should_groggy: bool = not _is_transforming and _stagger_damage >= groggy_damage_threshold
 
 	var was_attacking: bool = current_state == State.ATTACK
-	super.take_damage(amount)
+	super.take_damage(gated_amount)
 
 	if is_dead:
+		return
+
+	# Can faz eşiğine ulaştıysa form dönüşümünü başlat
+	if current_health <= min_allowed_hp and current_form != VladForm.BAT:
+		match current_form:
+			VladForm.NORMAL: set_form(VladForm.VAMPIRE, true)
+			VladForm.VAMPIRE: set_form(VladForm.WEREWOLF, true)
+			VladForm.WEREWOLF: set_form(VladForm.BAT, true)
 		return
 
 	if should_groggy:
@@ -952,15 +1033,6 @@ func take_damage(amount: int) -> void:
 
 	if was_attacking:
 		current_state = State.ATTACK
-
-	# Can eşiklerine göre otomatik form dönüşümü
-	var health_ratio: float = float(current_health) / float(max_health)
-	if health_ratio <= form_phase_health_thresholds[2] and current_form != VladForm.BAT:
-		set_form(VladForm.BAT, true)
-	elif health_ratio <= form_phase_health_thresholds[1] and health_ratio > form_phase_health_thresholds[2] and current_form != VladForm.WEREWOLF:
-		set_form(VladForm.WEREWOLF, true)
-	elif health_ratio <= form_phase_health_thresholds[0] and health_ratio > form_phase_health_thresholds[1] and current_form != VladForm.VAMPIRE:
-		set_form(VladForm.VAMPIRE, true)
 
 func _play_hit_feedback() -> void:
 	if _groggy_flash_tween and _groggy_flash_tween.is_valid():
