@@ -151,11 +151,11 @@ func use_mana_potion() -> void:
 		potion_used.emit("mana")
 
 func _unhandled_input(event: InputEvent) -> void:
-	# [2] Tuşu ile Can İksiri
+	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_2:
 			use_health_potion()
-		elif event.keycode == KEY_3:
+		elif event.keycode == KEY_4:
 			use_mana_potion()
 
 func _on_pause_button_pressed() -> void:

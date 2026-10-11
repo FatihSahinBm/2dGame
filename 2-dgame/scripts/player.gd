@@ -19,6 +19,7 @@ signal attack_performed(attack_type: String)
 signal player_damaged(current_hp: int, max_hp: int)
 signal player_died()
 signal defense_state_changed(is_defending: bool)
+signal shield_state_changed(is_holding: bool)
 signal attack_blocked(reduced_damage: int, original_damage: int)
 signal parry_performed()
 
@@ -57,6 +58,7 @@ var is_dead: bool = false
 var is_hurt: bool = false
 var is_attacking: bool = false
 var is_defending: bool = false
+var is_holding_shield: bool = false
 var is_drawing_sword: bool = false
 var is_crouching: bool = false
 var is_dashing: bool = false
@@ -207,17 +209,19 @@ func _ensure_input_actions() -> void:
 		ev_right.physical_keycode = KEY_RIGHT
 		InputMap.action_add_event("move_right", ev_right)
 
-	if not InputMap.has_action("ui_defend"):
-		InputMap.add_action("ui_defend")
-		var ev_f = InputEventKey.new()
-		ev_f.physical_keycode = KEY_F
-		InputMap.action_add_event("ui_defend", ev_f)
+	if InputMap.has_action("ui_defend"):
+		InputMap.erase_action("ui_defend")
+	if InputMap.has_action("defend"):
+		InputMap.erase_action("defend")
 
-	if not InputMap.has_action("defend"):
-		InputMap.add_action("defend")
-		var ev_f = InputEventKey.new()
-		ev_f.physical_keycode = KEY_F
-		InputMap.action_add_event("defend", ev_f)
+	if not InputMap.has_action("toggle_shield"):
+		InputMap.add_action("toggle_shield")
+		var ev_3 = InputEventKey.new()
+		ev_3.physical_keycode = KEY_3
+		InputMap.action_add_event("toggle_shield", ev_3)
+		var ev_kp3 = InputEventKey.new()
+		ev_kp3.physical_keycode = KEY_KP_3
+		InputMap.action_add_event("toggle_shield", ev_kp3)
 
 func _emit_weapon_state() -> void:
 	weapon_state_changed.emit(has_sword, is_armed)
@@ -289,10 +293,11 @@ func _physics_process(delta: float) -> void:
 	# 7. Duvar Kayması ve Zıplaması
 	_check_wall_slide(delta)
 
-	# 7.5. Savunma / Parabolik Kalkan Kontrolü (Sağ Tık, "ui_defend", "defend" veya [F] tuşu)
+	# 7.5. Savunma / Parabolik Kalkan Kontrolü (Yalnızca elde kalkan varken Sağ Tık)
 	var wants_defend: bool = false
 	if not is_dead and not is_hurt and not is_dashing and not is_rolling and not is_sliding:
-		wants_defend = Input.is_action_pressed("ui_defend") or Input.is_action_pressed("defend") or Input.is_key_pressed(KEY_F) or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+		if is_holding_shield and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+			wants_defend = true
 		# Eğer kalkan kırılmışsa açılamaz
 		if parabolic_shield and parabolic_shield.is_broken:
 			wants_defend = false
@@ -471,6 +476,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			toggle_weapon_draw()
 			return
 
+	# [3] Tuşu: Kalkanı Eline Alma / İndirme (Shield Equip / Stow Toggle)
+	if event.is_action_pressed("toggle_shield") or (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_3 or event.keycode == KEY_KP_3)):
+		toggle_shield_in_hand()
+		return
+
 	# [G] Tuşu: Kılıcı Atma / Fırlatma
 	var is_g_pressed = false
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_G:
@@ -505,6 +515,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT) \
 				or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_K) \
 				or event.is_action_pressed("attack_heavy"):
+			# Elde kalkan varken sağ tık savunma (kalkan) içindir; ağır saldırı yapılmaz
+			if is_holding_shield and (event is InputEventMouseButton or not (event is InputEventKey and event.keycode == KEY_K)):
+				return
 			if not is_armed:
 				is_armed = true
 				_emit_weapon_state()
@@ -517,6 +530,36 @@ func toggle_weapon_draw() -> void:
 		return
 	is_armed = not is_armed
 	_emit_weapon_state()
+
+## [3] Tuşu ile Kalkanı Eline Alma / İndirme
+func toggle_shield_in_hand() -> void:
+	if is_dead:
+		return
+	is_holding_shield = not is_holding_shield
+	if not is_holding_shield and is_defending:
+		is_defending = false
+		block_timer = 0.0
+		if parabolic_shield:
+			parabolic_shield.deactivate()
+		defense_state_changed.emit(false)
+	shield_state_changed.emit(is_holding_shield)
+
+	# Görsel bildirim metni
+	var parent_scene: Node = get_parent()
+	if parent_scene:
+		var label: Label = Label.new()
+		label.text = "🛡️ KALKAN ELDE (Sağ Tık: Savun)" if is_holding_shield else "⚔️ KALKAN İNDİRİLDİ (Sağ Tık: Ağır Saldırı)"
+		label.add_theme_color_override("font_color", Color(0.3, 0.9, 1.0, 1.0) if is_holding_shield else Color(1.0, 0.8, 0.3, 1.0))
+		label.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.1, 1.0))
+		label.add_theme_constant_override("outline_size", 4)
+		label.add_theme_font_size_override("font_size", 12)
+		label.global_position = global_position + Vector2(-60.0, -48.0)
+		parent_scene.add_child(label)
+		var tw: Tween = label.create_tween()
+		if tw:
+			tw.tween_property(label, "global_position:y", label.global_position.y - 25.0, 0.5)
+			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.5)
+			tw.tween_callback(label.queue_free)
 
 ## Hafif Saldırı (Vuruş 1)
 func perform_light_attack() -> void:

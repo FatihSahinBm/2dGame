@@ -18,26 +18,32 @@ func _ready() -> void:
 				if hud.has_method("update_health"):
 					hud.update_health(hp, max_hp)
 			)
+		if player.has_signal("shield_state_changed"):
+			player.shield_state_changed.connect(func(is_holding: bool):
+				_update_hud_tutorial(player.has_sword if "has_sword" in player else false, player.is_armed if "is_armed" in player else false, is_holding)
+			)
 		if "has_sword" in player and hud.has_method("update_weapon_slot"):
 			var is_armed = player.is_armed if "is_armed" in player else player.has_sword
 			hud.update_weapon_slot(player.has_sword, is_armed)
-		_update_hud_tutorial(player.has_sword if "has_sword" in player else false, player.is_armed if "is_armed" in player else false)
+		_update_hud_tutorial(player.has_sword if "has_sword" in player else false, player.is_armed if "is_armed" in player else false, player.is_holding_shield if "is_holding_shield" in player else false)
 
 func _on_weapon_state_changed(has_weapon: bool, is_armed: bool = true) -> void:
 	if hud and hud.has_method("update_weapon_slot"):
 		hud.update_weapon_slot(has_weapon, is_armed)
-	_update_hud_tutorial(has_weapon, is_armed)
+	_update_hud_tutorial(has_weapon, is_armed, player.is_holding_shield if player and "is_holding_shield" in player else false)
 
-func _update_hud_tutorial(has_weapon: bool, is_armed: bool = false) -> void:
+func _update_hud_tutorial(has_weapon: bool, is_armed: bool = false, is_holding_shield: bool = false) -> void:
 	if not hud or not hud.has_method("set_tutorial"):
 		return
-	if has_weapon:
+	if is_holding_shield:
+		hud.set_tutorial("Kalkan Elde (Shield)", "[3] İndir", "Sağ Tık: Kalkanı Aç/Savun | [3]: Kalkanı İndir")
+	elif has_weapon:
 		if is_armed:
-			hud.set_tutorial("Kılıç Çekili (Armed)", "[1] Kınına Sok", "Sol/Sağ Tık: Saldır | [1]: Kına Sok | [G]: Kılıcı At")
+			hud.set_tutorial("Kılıç Çekili (Armed)", "[1] Kınına Sok", "Sol Tık: Saldır | Sağ Tık: Ağır Saldırı | [3]: Kalkan Al")
 		else:
-			hud.set_tutorial("Kılıç Kında (Sheathed)", "[1] Kılıcı Çek", "[1]: Kılıcı Çek | Sol Tık: Hızlı Çek & Saldır")
+			hud.set_tutorial("Kılıç Kında (Sheathed)", "[1] Kılıcı Çek", "[1]: Kılıcı Çek | [3]: Kalkan Al | Sol Tık: Hızlı Saldırı")
 	else:
-		hud.set_tutorial("Çeviklik & Keşif", "E", "[E] ile kılıcı kuşan | Shift: Dash | Ctrl: Eğil | Alt: Roll")
+		hud.set_tutorial("Çeviklik & Keşif", "E", "[E]: Kılıcı kuşan | [3]: Kalkan Al | Shift: Dash | Ctrl: Eğil")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not hud:
