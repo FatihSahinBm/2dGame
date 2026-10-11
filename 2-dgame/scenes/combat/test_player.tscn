@@ -4,6 +4,7 @@
 [ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
 [ext_resource type="Texture2D" path="res://assets/items/sword.png" id="3_sword_tex"]
 [ext_resource type="Script" path="res://scripts/combat/sword_overlay.gd" id="4_overlay"]
+[ext_resource type="PackedScene" path="res://scenes/combat/parabolic_shield.tscn" id="5_shield"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(18, 38)
@@ -44,6 +45,8 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/AttackArea"]
 shape = SubResource("RectangleShape2D_attack")
+
+[node name="ParabolicShield" parent="Visual" instance=ExtResource("5_shield")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -20)

@@ -60,11 +60,11 @@ func _update_hud_tutorial(has_weapon: bool, is_armed: bool = false) -> void:
 		return
 	if has_weapon:
 		if is_armed:
-			hud.set_tutorial("Kılıç Çekili (Armed)", "[1] Kınına Sok", "Sol/Sağ Tık: Saldır | [1]: Kına Sok | [G]: Kılıcı At")
+			hud.set_tutorial("Kılıç Çekili (Armed)", "[1] Kınına Sok", "Sol/Sağ Tık: Saldır | [F]: Savunma/Parry | [1]: Kına Sok | [G]: Kılıcı At")
 		else:
-			hud.set_tutorial("Kılıç Kında (Sheathed)", "[1] Kılıcı Çek", "[1]: Kılıcı Çek | Sol Tık: Hızlı Çek & Saldır")
+			hud.set_tutorial("Kılıç Kında (Sheathed)", "[1] Kılıcı Çek", "[1]: Kılıcı Çek | [F]: Savunma/Parry | Sol Tık: Hızlı Çek & Saldır")
 	else:
-		hud.set_tutorial("Çeviklik & Keşif", "E", "[E] ile kılıcı kuşan | Shift: Dash | Ctrl: Eğil | Alt: Roll")
+		hud.set_tutorial("Çeviklik & Savunma", "E", "[E] Kılıç Al | [F] Savunma / Parry | Shift: Dash | Ctrl: Eğil | Alt: Roll")
 
 # ── Boss HUD ─────────────────────────────────────────────────────────────────
 func _init_boss_hud() -> void:

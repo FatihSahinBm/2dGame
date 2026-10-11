@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://parabolic_shield_scene_01"]
+
+[ext_resource type="Script" path="res://scripts/combat/parabolic_shield.gd" id="1_script"]
+
+[node name="ParabolicShield" type="Area2D"]
+collision_layer = 16
+collision_mask = 7
+script = ExtResource("1_script")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array()

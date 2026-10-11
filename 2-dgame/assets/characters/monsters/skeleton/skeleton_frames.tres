@@ -1,14 +1,6 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cafas5t81pseq"]
 
-[ext_resource type="Texture2D" path="res://assets/characters/monsters/skeleton/Attack2.png" id="1_tex"]
-
-[sub_resource type="AtlasTexture" id="Atlas_skeleton_0"]
-atlas = ExtResource("1_tex")
-region = Rect2(0, 0, 150, 150)
-
-[sub_resource type="AtlasTexture" id="Atlas_skeleton_1"]
-atlas = ExtResource("1_tex")
-region = Rect2(150, 0, 150, 150)
+[ext_resource type="Texture2D" uid="uid://chv1vtx1g3p37" path="res://assets/characters/monsters/skeleton/Attack2.png" id="1_tex"]
 
 [sub_resource type="AtlasTexture" id="Atlas_skeleton_2"]
 atlas = ExtResource("1_tex")
@@ -33,6 +25,14 @@ region = Rect2(900, 0, 150, 150)
 [sub_resource type="AtlasTexture" id="Atlas_skeleton_7"]
 atlas = ExtResource("1_tex")
 region = Rect2(1050, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_skeleton_0"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="Atlas_skeleton_1"]
+atlas = ExtResource("1_tex")
+region = Rect2(150, 0, 150, 150)
 
 [resource]
 animations = [{

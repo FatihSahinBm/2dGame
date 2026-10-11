@@ -1,4 +1,4 @@
-extends Player
+extends "res://scripts/player.gd"
 
 ## res://scripts/combat/combat_test_player.gd
 ## Geriye dönük uyumluluk için evrensel Player sınıfını miras alır.

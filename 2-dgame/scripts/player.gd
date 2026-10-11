@@ -18,6 +18,9 @@ signal weapon_state_changed(has_weapon: bool, is_armed: bool)
 signal attack_performed(attack_type: String)
 signal player_damaged(current_hp: int, max_hp: int)
 signal player_died()
+signal defense_state_changed(is_defending: bool)
+signal attack_blocked(reduced_damage: int, original_damage: int)
+signal parry_performed()
 
 # --- Ayarlar & Değişkenler ---
 @export_group("Stats & Movement")
@@ -40,6 +43,11 @@ signal player_died()
 @export var light_attack_lunge: float = 110.0
 @export var heavy_attack_lunge: float = 220.0
 
+@export_group("Defense & Parry")
+@export var defend_damage_reduction: float = 0.8 # Savunmadayken hasarın %80'ini engelle (%20 hasar al)
+@export var parry_window: float = 0.2 # Tuşa basıldıktan sonraki ilk 0.2 saniye Perfect Block / Parry
+@export var defend_speed_multiplier: float = 0.5 # Savunmadayken hareket hızı %50 azalır
+
 # Yere kılıç fırlatma sahnesi
 const SWORD_PICKUP_SCENE = preload("res://scenes/items/sword_pickup.tscn")
 
@@ -48,6 +56,7 @@ var facing_dir: float = 1.0 # 1.0 = sağ, -1.0 = sol
 var is_dead: bool = false
 var is_hurt: bool = false
 var is_attacking: bool = false
+var is_defending: bool = false
 var is_drawing_sword: bool = false
 var is_crouching: bool = false
 var is_dashing: bool = false
@@ -55,6 +64,7 @@ var is_sliding: bool = false
 var is_rolling: bool = false
 var is_wall_sliding: bool = false
 var current_attack_type: String = ""
+var block_timer: float = 0.0
 
 # Sayaçlar
 var can_dash: bool = true
@@ -84,6 +94,7 @@ const LOW_COL_POS: Vector2 = Vector2(0.0, -11.0)
 @onready var attack_area: Area2D = $Visual/AttackArea
 @onready var col_shape: CollisionShape2D = $CollisionShape2D
 @onready var sword_overlay: Sprite2D = $Visual/AnimatedSprite2D/SwordOverlay
+var parabolic_shield: Area2D = null
 
 func _ready() -> void:
 	if not is_in_group("player"):
@@ -96,6 +107,16 @@ func _ready() -> void:
 		attack_area.monitoring = false
 	if col_shape and col_shape.shape:
 		col_shape.shape = col_shape.shape.duplicate()
+
+	# Parabolik Kalkan İlklendirme
+	if not parabolic_shield and visual_node:
+		if visual_node.has_node("ParabolicShield"):
+			parabolic_shield = visual_node.get_node("ParabolicShield")
+		else:
+			var shield_res = load("res://scenes/combat/parabolic_shield.tscn")
+			if shield_res:
+				parabolic_shield = shield_res.instantiate()
+				visual_node.add_child(parabolic_shield)
 
 	# Silah durumu dinleyicisi
 	weapon_state_changed.connect(_on_weapon_state_changed)
@@ -186,6 +207,18 @@ func _ensure_input_actions() -> void:
 		ev_right.physical_keycode = KEY_RIGHT
 		InputMap.action_add_event("move_right", ev_right)
 
+	if not InputMap.has_action("ui_defend"):
+		InputMap.add_action("ui_defend")
+		var ev_f = InputEventKey.new()
+		ev_f.physical_keycode = KEY_F
+		InputMap.action_add_event("ui_defend", ev_f)
+
+	if not InputMap.has_action("defend"):
+		InputMap.add_action("defend")
+		var ev_f = InputEventKey.new()
+		ev_f.physical_keycode = KEY_F
+		InputMap.action_add_event("defend", ev_f)
+
 func _emit_weapon_state() -> void:
 	weapon_state_changed.emit(has_sword, is_armed)
 	sword_state_changed.emit(has_sword)
@@ -256,6 +289,34 @@ func _physics_process(delta: float) -> void:
 	# 7. Duvar Kayması ve Zıplaması
 	_check_wall_slide(delta)
 
+	# 7.5. Savunma / Parabolik Kalkan Kontrolü (Sağ Tık, "ui_defend", "defend" veya [F] tuşu)
+	var wants_defend: bool = false
+	if not is_dead and not is_hurt and not is_dashing and not is_rolling and not is_sliding:
+		wants_defend = Input.is_action_pressed("ui_defend") or Input.is_action_pressed("defend") or Input.is_key_pressed(KEY_F) or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+		# Eğer kalkan kırılmışsa açılamaz
+		if parabolic_shield and parabolic_shield.is_broken:
+			wants_defend = false
+
+	if wants_defend:
+		if not is_defending:
+			is_defending = true
+			block_timer = 0.0
+			is_attacking = false
+			if attack_area:
+				attack_area.monitoring = false
+			if parabolic_shield:
+				parabolic_shield.activate()
+			defense_state_changed.emit(true)
+		else:
+			block_timer += delta
+	else:
+		if is_defending:
+			is_defending = false
+			block_timer = 0.0
+			if parabolic_shield:
+				parabolic_shield.deactivate()
+			defense_state_changed.emit(false)
+
 	# 8. Hareket ve Beceri Girdileri
 	_handle_movement_and_skills(delta)
 
@@ -312,25 +373,25 @@ func _handle_movement_and_skills(delta: float) -> void:
 			visual_node.scale.x = facing_dir
 
 	# 1. Dash (Shift)
-	var wants_dash = Input.is_key_pressed(KEY_SHIFT) or Input.is_physical_key_pressed(KEY_SHIFT) or Input.is_action_just_pressed("dash")
+	var wants_dash = (Input.is_key_pressed(KEY_SHIFT) or Input.is_physical_key_pressed(KEY_SHIFT) or Input.is_action_just_pressed("dash")) and not is_defending
 	if wants_dash and can_dash and not is_attacking and not is_crouching:
 		perform_dash()
 		return
 
 	# 2. Dodge Roll (Alt veya C)
-	var wants_roll = (Input.is_key_pressed(KEY_ALT) or Input.is_physical_key_pressed(KEY_ALT) or Input.is_key_pressed(KEY_C)) and is_on_floor()
+	var wants_roll = (Input.is_key_pressed(KEY_ALT) or Input.is_physical_key_pressed(KEY_ALT) or Input.is_key_pressed(KEY_C)) and is_on_floor() and not is_defending
 	if wants_roll and not is_attacking and not is_rolling and not is_sliding:
 		perform_roll()
 		return
 
 	# 3. Slide (Hızlı koşarken Ctrl'e basılırsa)
-	var wants_crouch_key = Input.is_key_pressed(KEY_CTRL) or Input.is_physical_key_pressed(KEY_CTRL) or Input.is_action_pressed("crouch")
+	var wants_crouch_key = (Input.is_key_pressed(KEY_CTRL) or Input.is_physical_key_pressed(KEY_CTRL) or Input.is_action_pressed("crouch")) and not is_defending
 	if wants_crouch_key and is_on_floor() and absf(velocity.x) > 170.0 and not is_sliding and not is_attacking:
 		perform_slide()
 		return
 
 	# 4. Eğilme (Ctrl tuşu)
-	var wants_crouch = wants_crouch_key and is_on_floor() and not is_attacking and not is_sliding
+	var wants_crouch = wants_crouch_key and is_on_floor() and not is_attacking and not is_sliding and not is_defending
 	if wants_crouch != is_crouching:
 		is_crouching = wants_crouch
 		_set_collision_box(LOW_COL_SIZE if is_crouching else NORMAL_COL_SIZE, LOW_COL_POS if is_crouching else NORMAL_COL_POS)
@@ -340,14 +401,16 @@ func _handle_movement_and_skills(delta: float) -> void:
 	if jump_just_pressed:
 		_jump_buffer_timer = jump_buffer_time
 
-	if (_coyote_timer > 0.0 or is_on_floor()) and _jump_buffer_timer > 0.0 and not is_attacking and not is_crouching and not is_sliding:
+	if (_coyote_timer > 0.0 or is_on_floor()) and _jump_buffer_timer > 0.0 and not is_attacking and not is_crouching and not is_sliding and not is_defending:
 		velocity.y = jump_velocity
 		_coyote_timer = 0.0
 		_jump_buffer_timer = 0.0
 
-	# 6. Yatay Hız
+	# 6. Yatay Hız (Savunmadayken %50 hız kesintisi)
 	if not is_attacking:
 		var current_speed: float = crouch_speed if is_crouching else speed
+		if is_defending:
+			current_speed *= defend_speed_multiplier
 		if move_x != 0.0:
 			velocity.x = move_x * current_speed
 		else:
@@ -417,8 +480,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		drop_sword()
 		return
 
-	# Saldırı Girdileri (Kılıç varsa)
-	if has_sword and not is_attacking and not is_rolling and not is_dashing and not is_sliding:
+	# Saldırı Girdileri (Kılıç varsa ve savunmada DEĞİLKEN)
+	if has_sword and not is_attacking and not is_rolling and not is_dashing and not is_sliding and not is_defending:
 		# Sol Tık / J: Hafif Saldırı / Kombo / Eğilerek Saldırı
 		if (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT) \
 				or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_J) \
@@ -607,9 +670,50 @@ func _apply_attack_damage(damage: int) -> void:
 	)
 
 ## Oyuncunun Hasar Alması (Take Damage)
-func take_damage(amount: int) -> void:
+func take_damage(amount: int, attacker_pos: Vector2 = Vector2.INF) -> void:
 	if is_dead or is_dashing or is_rolling:
 		return # Dash ve Roll anında dokunulmazlık (i-frames)
+
+	# Saldırgan konumu verilmediyse ve yakınlarda bir düşman varsa tespit et
+	if attacker_pos == Vector2.INF and is_defending and is_inside_tree() and get_tree():
+		var enemies = get_tree().get_nodes_in_group("enemies")
+		for e in enemies:
+			if is_instance_valid(e) and global_position.distance_to(e.global_position) < 240.0:
+				attacker_pos = e.global_position
+				break
+
+	# 1. Parabolik Kalkan Kontrolü (180° Ön Koruma)
+	if parabolic_shield and parabolic_shield.is_active:
+		if attacker_pos != Vector2.INF:
+			if parabolic_shield.is_blocking_attack(attacker_pos):
+				# Önden gelen darbe kalkan tarafından %100 absorbe edildi!
+				return
+			else:
+				# Saldırı ARKADAN geldi! Parabolik kalkan sadece önü korur, arkadan tam hasar alınır!
+				pass
+		else:
+			# Doğrudan / Konumsuz hasar (örn. test tuşları)
+			if block_timer <= parry_window:
+				_trigger_perfect_parry(amount)
+				return
+			else:
+				var blocked_damage: int = int(round(float(amount) * (1.0 - defend_damage_reduction)))
+				if amount > 0:
+					blocked_damage = maxi(1, blocked_damage)
+				parabolic_shield.consume_stamina(float(amount) * 0.5)
+				_trigger_block_hit(amount, blocked_damage)
+				amount = blocked_damage
+	elif is_defending:
+		# Standart Blok / Parry (Kalkan kapalıyken veya kalkan yokken)
+		if block_timer <= parry_window:
+			_trigger_perfect_parry(amount)
+			return
+		else:
+			var blocked_damage: int = int(round(float(amount) * (1.0 - defend_damage_reduction)))
+			if amount > 0:
+				blocked_damage = maxi(1, blocked_damage)
+			_trigger_block_hit(amount, blocked_damage)
+			amount = blocked_damage
 
 	current_health = clampi(current_health - amount, 0, max_health)
 	player_damaged.emit(current_health, max_health)
@@ -618,24 +722,110 @@ func take_damage(amount: int) -> void:
 		die()
 		return
 
-	# Darbe Tepkisi (Hit / Hurt)
-	is_hurt = true
-	is_attacking = false
-	is_parry_active = false
-	current_attack_type = ""
-	if attack_area:
-		attack_area.monitoring = false
+	# Eğer savunmada değilken darbe alındıysa tam sersemleme (Hurt / Knockback)
+	if not is_defending:
+		is_hurt = true
+		is_attacking = false
+		is_parry_active = false
+		current_attack_type = ""
+		if attack_area:
+			attack_area.monitoring = false
 
-	# Geri sekme (Knockback)
-	velocity.x = -facing_dir * 140.0
-	velocity.y = -180.0
+		# Geri sekme (Knockback)
+		velocity.x = -facing_dir * 140.0
+		velocity.y = -180.0
 
-	if anim_sprite and anim_sprite.sprite_frames.has_animation("hit"):
-		anim_sprite.play("hit")
+		if anim_sprite:
+			if anim_sprite.sprite_frames.has_animation("take_damage"):
+				anim_sprite.play("take_damage")
+			elif anim_sprite.sprite_frames.has_animation("hit"):
+				anim_sprite.play("hit")
 
-	get_tree().create_timer(0.25).timeout.connect(func():
-		is_hurt = false
-	)
+		if is_inside_tree() and get_tree():
+			get_tree().create_timer(0.25).timeout.connect(func():
+				is_hurt = false
+			)
+		else:
+			is_hurt = false
+
+## Perfect Block / Parry Efekti ve Geri Bildirimi (%100 Hasar Engelleme)
+func _trigger_perfect_parry(_incoming_amount: int) -> void:
+	parry_performed.emit()
+
+	# 1. Hit-stop (Mikro donma hissi - 0.06s)
+	if is_inside_tree() and get_tree():
+		Engine.time_scale = 0.08
+		get_tree().create_timer(0.06, true, false, true).timeout.connect(func():
+			Engine.time_scale = 1.0
+		)
+
+	# 2. Karakter Parlaması (Altın Sarı Parıltı)
+	if visual_node:
+		var orig_mod: Color = visual_node.modulate
+		visual_node.modulate = Color(2.6, 2.3, 0.7, 1.0)
+		if is_inside_tree() and get_tree():
+			get_tree().create_timer(0.16, true, false, true).timeout.connect(func():
+				if is_instance_valid(visual_node):
+					visual_node.modulate = orig_mod
+			)
+
+	# 3. Kamera Titremesi (Screen Shake)
+	var cam = get_node_or_null("Camera2D")
+	if cam and cam.has_method("apply_shake"):
+		cam.apply_shake(5.0)
+
+	# 4. Uçan Görsel Metin (Floating Feedback)
+	var parent_scene = get_parent()
+	if parent_scene:
+		var label = Label.new()
+		label.text = "⚡ PERFECT BLOCK / PARRY! (0 Hasar)"
+		label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.35, 1.0))
+		label.add_theme_color_override("font_outline_color", Color(0.15, 0.08, 0.02, 1.0))
+		label.add_theme_constant_override("outline_size", 4)
+		label.add_theme_font_size_override("font_size", 13)
+		label.global_position = global_position + Vector2(-95.0, -50.0)
+		parent_scene.add_child(label)
+
+		var tw = label.create_tween()
+		if tw:
+			tw.tween_property(label, "global_position:y", label.global_position.y - 30.0, 0.6)
+			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.6)
+			tw.tween_callback(label.queue_free)
+
+## Başarılı Savunma Efekti (%80 Hasar Azaltımı)
+func _trigger_block_hit(original_amount: int, reduced_amount: int) -> void:
+	attack_blocked.emit(reduced_amount, original_amount)
+
+	# Hafif gard geri itilme tepkisi
+	velocity.x = -facing_dir * 70.0
+
+	# Mavi Kalkan Parıltısı
+	if visual_node:
+		var orig_mod: Color = visual_node.modulate
+		visual_node.modulate = Color(0.7, 1.4, 2.5, 1.0)
+		if is_inside_tree() and get_tree():
+			get_tree().create_timer(0.12, true, false, true).timeout.connect(func():
+				if is_instance_valid(visual_node):
+					visual_node.modulate = orig_mod
+			)
+
+	# Uçan Metin Bildirimi
+	var parent_scene = get_parent()
+	if parent_scene:
+		var label = Label.new()
+		label.text = "🛡️ BLOKLANDI! (-%%80) [-%d HP]" % reduced_amount
+		label.add_theme_color_override("font_color", Color(0.4, 0.85, 1.0, 1.0))
+		label.add_theme_color_override("font_outline_color", Color(0.05, 0.1, 0.25, 1.0))
+		label.add_theme_constant_override("outline_size", 4)
+		label.add_theme_font_size_override("font_size", 12)
+		label.global_position = global_position + Vector2(-75.0, -45.0)
+		parent_scene.add_child(label)
+
+		var tw = label.create_tween()
+		if tw:
+			tw.tween_property(label, "global_position:y", label.global_position.y - 26.0, 0.55)
+			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.55)
+			tw.tween_callback(label.queue_free)
 
 func die() -> void:
 	if is_dead:
@@ -715,6 +905,16 @@ func _play(anim_name: StringName) -> void:
 ## Animasyon Durum Kontrolü
 func _update_animation() -> void:
 	if not anim_sprite or is_dead or is_hurt or is_dashing or is_sliding or is_rolling or is_attacking:
+		return
+
+	# 0. Savunma / Blok Durumu (block_start -> block_loop veya gard duruşu)
+	if is_defending:
+		if anim_sprite.sprite_frames.has_animation("block_start") and block_timer < 0.15:
+			_play(&"block_start")
+		elif anim_sprite.sprite_frames.has_animation("block_loop"):
+			_play(&"block_loop")
+		else:
+			_play(&"crouch_armed" if (has_sword and is_armed) else &"crouch")
 		return
 
 	# 1. Duvar Kayması

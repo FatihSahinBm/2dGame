@@ -239,5 +239,5 @@ theme_override_colors/font_color = Color(0.65, 0.70, 0.62, 0.8)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 10
-text = "[A/D] Hareket  |  [Space] Zıpla  |  [Sol Tık] Saldır  |  [E] Kılıç Al  |  [T] 25 Hasar  |  [K] Boss'u Öldür  |  [R] Sıfırla"
+text = "[A/D] Hareket  |  [Space] Zıpla  |  [Sol Tık] Saldır  |  [F] Savunma / Parry  |  [E] Kılıç Al  |  [H] Hasar Testi  |  [T] Boss'a Vur  |  [R] Sıfırla"
 horizontal_alignment = 1
