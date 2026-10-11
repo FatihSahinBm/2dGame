@@ -76,8 +76,8 @@ visible = false
 z_index = 10
 texture_filter = 1
 position = Vector2(0, 0)
-scale = Vector2(0.52, 0.52)
-offset = Vector2(0, -80)
+scale = Vector2(0.68, 0.68)
+offset = Vector2(0, -75)
 sprite_frames = ExtResource("2_frames")
 animation = &"vfx_blood_smoke_burst"
 

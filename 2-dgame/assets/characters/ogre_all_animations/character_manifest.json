@@ -6,8 +6,8 @@
   "animations": {
     "walk": {
       "directory": "01_walk",
-      "frameCount": 37,
-      "durationSeconds": 1.75,
+      "frameCount": 19,
+      "durationSeconds": 1.583,
       "loop": true,
       "spriteSheet": "01_walk/sprite_sheet.png",
       "spriteSheetLayout": {
@@ -16,7 +16,7 @@
           292
         ],
         "columns": 8,
-        "totalFrames": 37
+        "totalFrames": 19
       },
       "sourceAnchor": [
         309.0,
@@ -29,8 +29,8 @@
     },
     "idle": {
       "directory": "02_idle",
-      "frameCount": 54,
-      "durationSeconds": 2.25,
+      "frameCount": 18,
+      "durationSeconds": 1.8,
       "loop": true,
       "spriteSheet": "02_idle/sprite_sheet.png",
       "spriteSheetLayout": {
@@ -39,7 +39,7 @@
           228
         ],
         "columns": 8,
-        "totalFrames": 54
+        "totalFrames": 18
       },
       "sourceAnchor": [
         145.0,
@@ -52,8 +52,8 @@
     },
     "attack": {
       "directory": "03_attack",
-      "frameCount": 75,
-      "durationSeconds": 3.125,
+      "frameCount": 19,
+      "durationSeconds": 1.583,
       "loop": false,
       "spriteSheet": "03_attack/sprite_sheet.png",
       "spriteSheetLayout": {
@@ -62,7 +62,7 @@
           292
         ],
         "columns": 10,
-        "totalFrames": 75
+        "totalFrames": 19
       },
       "sourceAnchor": [
         272.0,
@@ -75,8 +75,8 @@
     },
     "hurt": {
       "directory": "04_hurt",
-      "frameCount": 56,
-      "durationSeconds": 2.3333333333333335,
+      "frameCount": 19,
+      "durationSeconds": 1.357,
       "loop": false,
       "spriteSheet": "04_hurt/sprite_sheet.png",
       "spriteSheetLayout": {
@@ -85,7 +85,7 @@
           262
         ],
         "columns": 8,
-        "totalFrames": 56
+        "totalFrames": 19
       },
       "sourceAnchor": [
         121.0,
@@ -98,8 +98,8 @@
     },
     "death": {
       "directory": "05_death",
-      "frameCount": 118,
-      "durationSeconds": 4.916666666666667,
+      "frameCount": 20,
+      "durationSeconds": 1.667,
       "loop": false,
       "spriteSheet": "05_death/sprite_sheet.png",
       "spriteSheetLayout": {
@@ -108,7 +108,7 @@
           218
         ],
         "columns": 8,
-        "totalFrames": 118
+        "totalFrames": 20
       },
       "sourceAnchor": [
         158.0,

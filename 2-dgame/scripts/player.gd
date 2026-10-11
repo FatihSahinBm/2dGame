@@ -406,15 +406,17 @@ func _handle_movement_and_skills(delta: float) -> void:
 		_coyote_timer = 0.0
 		_jump_buffer_timer = 0.0
 
-	# 6. Yatay Hız (Savunmadayken %50 hız kesintisi)
+	# 6. Yatay Hız (Doğal adımlama ivmelenmesi, zemin tutuşu & savunma katsayısı)
 	if not is_attacking:
 		var current_speed: float = crouch_speed if is_crouching else speed
 		if is_defending:
 			current_speed *= defend_speed_multiplier
 		if move_x != 0.0:
-			velocity.x = move_x * current_speed
+			# Doğal adımlama ivmelenmesi (anında fırlama / sürüklenme yerine fiziksel ağırlık)
+			velocity.x = move_toward(velocity.x, move_x * current_speed, 2200.0 * delta)
 		else:
-			velocity.x = move_toward(velocity.x, 0.0, 1600.0 * delta)
+			# Zemin sürtünmesi / adımlama freni: Tuş bırakıldığında buzda kayar gibi sürüklenmek yerine zemine sağlam basıp durur
+			velocity.x = move_toward(velocity.x, 0.0, 2800.0 * delta)
 
 ## Dash (Shift)
 func perform_dash() -> void:
@@ -607,12 +609,9 @@ func _play_parry_feedback(impact_pos: Vector2) -> void:
 
 	# 2. Karakter Parlaması (Altın/Mavi Yansıma Parıltısı)
 	if visual_node:
-		var orig_mod: Color = visual_node.modulate
-		visual_node.modulate = Color(2.5, 2.5, 1.2, 1.0)
-		get_tree().create_timer(0.14, true, false, true).timeout.connect(func():
-			if is_instance_valid(visual_node):
-				visual_node.modulate = orig_mod
-		)
+		var tw = create_tween()
+		tw.tween_property(visual_node, "modulate", Color(2.2, 2.2, 1.2, 1.0), 0.04)
+		tw.tween_property(visual_node, "modulate", Color.WHITE, 0.12)
 
 	# 3. Kamera Titremesi (Screen Shake)
 	var cam = get_node_or_null("Camera2D")
@@ -907,6 +906,8 @@ func _update_animation() -> void:
 	if not anim_sprite or is_dead or is_hurt or is_dashing or is_sliding or is_rolling or is_attacking:
 		return
 
+	anim_sprite.speed_scale = 1.0
+
 	# 0. Savunma / Blok Durumu (block_start -> block_loop veya gard duruşu)
 	if is_defending:
 		if anim_sprite.sprite_frames.has_animation("block_start") and block_timer < 0.15:
@@ -914,7 +915,7 @@ func _update_animation() -> void:
 		elif anim_sprite.sprite_frames.has_animation("block_loop"):
 			_play(&"block_loop")
 		else:
-			_play(&"crouch_armed" if (has_sword and is_armed) else &"crouch")
+			_play(&"crouch")
 		return
 
 	# 1. Duvar Kayması

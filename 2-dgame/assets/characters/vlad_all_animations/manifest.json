@@ -23,14 +23,14 @@
       "folder": "01_normal_idle",
       "action": "normal_idle",
       "form": "normal",
-      "frame_count": 56,
-      "framerate": 24.0,
-      "duration_seconds": 2.333,
+      "frame_count": 19,
+      "framerate": 10.0,
+      "duration_seconds": 1.9,
       "loop": true,
       "sprite_sheet": "01_normal_idle/sprite_sheet.png",
       "sheet_dimensions": [
-        5120,
-        5040
+        1280,
+        540
       ],
       "preview_gif": "01_normal_idle/preview.gif",
       "preview_strip": "01_normal_idle/preview_strip.png",
@@ -40,14 +40,14 @@
       "folder": "02_normal_walk",
       "action": "normal_walk",
       "form": "normal",
-      "frame_count": 37,
-      "framerate": 24.0,
-      "duration_seconds": 1.542,
+      "frame_count": 19,
+      "framerate": 12.0,
+      "duration_seconds": 1.583,
       "loop": true,
       "sprite_sheet": "02_normal_walk/sprite_sheet.png",
       "sheet_dimensions": [
-        5120,
-        3600
+        1280,
+        540
       ],
       "preview_gif": "02_normal_walk/preview.gif",
       "preview_strip": "02_normal_walk/preview_strip.png",
@@ -57,14 +57,14 @@
       "folder": "03_normal_attack_thrust",
       "action": "normal_attack_thrust",
       "form": "normal",
-      "frame_count": 98,
-      "framerate": 24.0,
-      "duration_seconds": 4.083,
+      "frame_count": 20,
+      "framerate": 14.0,
+      "duration_seconds": 1.429,
       "loop": false,
       "sprite_sheet": "03_normal_attack_thrust/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        12240
+        1920,
+        720
       ],
       "preview_gif": "03_normal_attack_thrust/preview.gif",
       "preview_strip": "03_normal_attack_thrust/preview_strip.png",
@@ -74,14 +74,14 @@
       "folder": "04_normal_attack_impale",
       "action": "normal_attack_impale",
       "form": "normal",
-      "frame_count": 115,
-      "framerate": 24.0,
-      "duration_seconds": 4.792,
+      "frame_count": 23,
+      "framerate": 14.0,
+      "duration_seconds": 1.643,
       "loop": false,
       "sprite_sheet": "04_normal_attack_impale/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        14400
+        1920,
+        720
       ],
       "preview_gif": "04_normal_attack_impale/preview.gif",
       "preview_strip": "04_normal_attack_impale/preview_strip.png",
@@ -91,14 +91,14 @@
       "folder": "05_vampire_idle",
       "action": "vampire_idle",
       "form": "vampire",
-      "frame_count": 37,
-      "framerate": 24.0,
-      "duration_seconds": 1.542,
+      "frame_count": 19,
+      "framerate": 10.0,
+      "duration_seconds": 1.9,
       "loop": true,
       "sprite_sheet": "05_vampire_idle/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        5040
+        1920,
+        720
       ],
       "preview_gif": "05_vampire_idle/preview.gif",
       "preview_strip": "05_vampire_idle/preview_strip.png",
@@ -108,14 +108,14 @@
       "folder": "06_vampire_glide",
       "action": "vampire_glide",
       "form": "vampire",
-      "frame_count": 37,
-      "framerate": 24.0,
-      "duration_seconds": 1.542,
+      "frame_count": 19,
+      "framerate": 12.0,
+      "duration_seconds": 1.583,
       "loop": true,
       "sprite_sheet": "06_vampire_glide/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        5040
+        1920,
+        720
       ],
       "preview_gif": "06_vampire_glide/preview.gif",
       "preview_strip": "06_vampire_glide/preview_strip.png",
@@ -125,14 +125,14 @@
       "folder": "07_vampire_attack_slash",
       "action": "vampire_attack_slash",
       "form": "vampire",
-      "frame_count": 106,
-      "framerate": 24.0,
-      "duration_seconds": 4.417,
+      "frame_count": 21,
+      "framerate": 14.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "07_vampire_attack_slash/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        12960
+        1920,
+        720
       ],
       "preview_gif": "07_vampire_attack_slash/preview.gif",
       "preview_strip": "07_vampire_attack_slash/preview_strip.png",
@@ -142,14 +142,14 @@
       "folder": "08_vampire_attack_blood_magic",
       "action": "vampire_attack_blood_magic",
       "form": "vampire",
-      "frame_count": 106,
-      "framerate": 24.0,
-      "duration_seconds": 4.417,
+      "frame_count": 21,
+      "framerate": 14.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "08_vampire_attack_blood_magic/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        12960
+        1920,
+        720
       ],
       "preview_gif": "08_vampire_attack_blood_magic/preview.gif",
       "preview_strip": "08_vampire_attack_blood_magic/preview_strip.png",
@@ -159,14 +159,14 @@
       "folder": "09_werewolf_idle",
       "action": "werewolf_idle",
       "form": "werewolf",
-      "frame_count": 38,
-      "framerate": 24.0,
-      "duration_seconds": 1.583,
+      "frame_count": 19,
+      "framerate": 10.0,
+      "duration_seconds": 1.9,
       "loop": true,
       "sprite_sheet": "09_werewolf_idle/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        5040
+        1920,
+        720
       ],
       "preview_gif": "09_werewolf_idle/preview.gif",
       "preview_strip": "09_werewolf_idle/preview_strip.png",
@@ -176,14 +176,14 @@
       "folder": "10_werewolf_run",
       "action": "werewolf_run",
       "form": "werewolf",
-      "frame_count": 28,
-      "framerate": 24.0,
-      "duration_seconds": 1.167,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": true,
       "sprite_sheet": "10_werewolf_run/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        3600
+        1920,
+        720
       ],
       "preview_gif": "10_werewolf_run/preview.gif",
       "preview_strip": "10_werewolf_run/preview_strip.png",
@@ -193,14 +193,14 @@
       "folder": "11_werewolf_attack_claws",
       "action": "werewolf_attack_claws",
       "form": "werewolf",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "11_werewolf_attack_claws/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "11_werewolf_attack_claws/preview.gif",
       "preview_strip": "11_werewolf_attack_claws/preview_strip.png",
@@ -256,14 +256,14 @@
       "folder": "12_werewolf_attack_leap",
       "action": "werewolf_attack_leap",
       "form": "werewolf",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 14.0,
+      "duration_seconds": 1.714,
       "loop": false,
       "sprite_sheet": "12_werewolf_attack_leap/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "12_werewolf_attack_leap/preview.gif",
       "preview_strip": "12_werewolf_attack_leap/preview_strip.png",
@@ -323,14 +323,14 @@
       "folder": "13_bat_idle_fly",
       "action": "bat_idle_fly",
       "form": "bat",
-      "frame_count": 32,
-      "framerate": 24.0,
+      "frame_count": 16,
+      "framerate": 12.0,
       "duration_seconds": 1.333,
       "loop": true,
       "sprite_sheet": "13_bat_idle_fly/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        4320
+        1920,
+        540
       ],
       "preview_gif": "13_bat_idle_fly/preview.gif",
       "preview_strip": "13_bat_idle_fly/preview_strip.png",
@@ -340,14 +340,14 @@
       "folder": "14_bat_attack_dive",
       "action": "bat_attack_dive",
       "form": "bat",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "14_bat_attack_dive/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "14_bat_attack_dive/preview.gif",
       "preview_strip": "14_bat_attack_dive/preview_strip.png",
@@ -385,14 +385,14 @@
       "folder": "15_bat_attack_screech",
       "action": "bat_attack_screech",
       "form": "bat",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "15_bat_attack_screech/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "15_bat_attack_screech/preview.gif",
       "preview_strip": "15_bat_attack_screech/preview_strip.png",
@@ -422,14 +422,14 @@
       "folder": "16_transform_blood_smoke",
       "action": "transform_blood_smoke",
       "form": "vfx_transform",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "16_transform_blood_smoke/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "16_transform_blood_smoke/preview.gif",
       "preview_strip": "16_transform_blood_smoke/preview_strip.png",
@@ -461,14 +461,14 @@
       "folder": "17_vlad_hurt",
       "action": "vlad_hurt",
       "form": "normal",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "17_vlad_hurt/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "17_vlad_hurt/preview.gif",
       "preview_strip": "17_vlad_hurt/preview_strip.png",
@@ -507,14 +507,14 @@
       "folder": "18_vlad_death",
       "action": "vlad_death",
       "form": "normal",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 14.0,
+      "duration_seconds": 1.714,
       "loop": false,
       "sprite_sheet": "18_vlad_death/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "18_vlad_death/preview.gif",
       "preview_strip": "18_vlad_death/preview_strip.png",
@@ -546,14 +546,14 @@
       "folder": "19_vampire_hurt",
       "action": "vampire_hurt",
       "form": "vampire",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "19_vampire_hurt/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "19_vampire_hurt/preview.gif",
       "preview_strip": "19_vampire_hurt/preview_strip.png",
@@ -592,14 +592,14 @@
       "folder": "20_werewolf_hurt",
       "action": "werewolf_hurt",
       "form": "werewolf",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "20_werewolf_hurt/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "20_werewolf_hurt/preview.gif",
       "preview_strip": "20_werewolf_hurt/preview_strip.png",
@@ -638,14 +638,14 @@
       "folder": "21_bat_hurt",
       "action": "bat_hurt",
       "form": "bat",
-      "frame_count": 144,
-      "framerate": 24.0,
-      "duration_seconds": 6.0,
+      "frame_count": 24,
+      "framerate": 16.0,
+      "duration_seconds": 1.5,
       "loop": false,
       "sprite_sheet": "21_bat_hurt/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        17280
+        1920,
+        720
       ],
       "preview_gif": "21_bat_hurt/preview.gif",
       "preview_strip": "21_bat_hurt/preview_strip.png",
@@ -677,14 +677,14 @@
       "folder": "vfx_blood_smoke_burst",
       "action": "vfx_blood_smoke_burst",
       "form": "general",
-      "frame_count": 72,
-      "framerate": 24.0,
-      "duration_seconds": 3.0,
+      "frame_count": 18,
+      "framerate": 16.0,
+      "duration_seconds": 1.125,
       "loop": false,
       "sprite_sheet": "vfx_blood_smoke_burst/sprite_sheet.png",
       "sheet_dimensions": [
-        7680,
-        8640
+        1920,
+        540
       ],
       "preview_gif": "vfx_blood_smoke_burst/preview.gif",
       "preview_strip": "vfx_blood_smoke_burst/preview_strip.png",

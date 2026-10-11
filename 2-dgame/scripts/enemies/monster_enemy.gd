@@ -29,7 +29,7 @@ signal attack_hit(target: Node2D)
 @export var turn_at_walls: bool = true
 
 # Durum Değişkenleri
-enum State { PATROL, CHASE, ATTACK, HURT, DEAD }
+enum State { PATROL, CHASE, ATTACK, HURT, DEAD, GROGGY }
 var current_state: State = State.PATROL
 var is_dead: bool = false
 var _attack_timer: float = 0.0
@@ -109,6 +109,8 @@ func _physics_process(delta: float) -> void:
 			_process_attack(delta)
 		State.HURT:
 			_process_hurt(delta)
+		State.GROGGY:
+			_process_groggy(delta)
 
 	move_and_slide()
 
@@ -139,7 +141,7 @@ func _process_patrol(delta: float) -> void:
 			_turn_around()
 			return
 
-	velocity.x = float(direction) * speed
+	velocity.x = move_toward(velocity.x, float(direction) * speed, 400.0 * delta)
 	if anim_sprite and anim_sprite.animation != &"hit":
 		anim_sprite.play(&"walk")
 
@@ -184,7 +186,7 @@ func _process_chase(delta: float) -> void:
 			return
 
 	# Hedefe doğru ilerle
-	velocity.x = float(direction) * chase_speed
+	velocity.x = move_toward(velocity.x, float(direction) * chase_speed, 450.0 * delta)
 
 	if is_flying:
 		# Uçan yaratıklar Y ekseninde de süzülür
@@ -236,6 +238,11 @@ func _process_hurt(delta: float) -> void:
 	velocity.x = move_toward(velocity.x, 0.0, 500.0 * delta)
 	if _hurt_timer <= 0.0:
 		current_state = State.CHASE if _target_node else State.PATROL
+
+func _process_groggy(delta: float) -> void:
+	velocity.x = move_toward(velocity.x, 0.0, 500.0 * delta)
+	if is_flying:
+		velocity.y = move_toward(velocity.y, 0.0, 500.0 * delta)
 
 ## --- Hasar ve Savaş Fonksiyonları ---
 
@@ -309,10 +316,11 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if "modulate" in body:
 		var prev_mod: Color = body.modulate
 		body.modulate = Color(2.0, 0.4, 0.4, 1.0)
-		get_tree().create_timer(0.15).timeout.connect(func():
-			if is_instance_valid(body):
-				body.modulate = prev_mod
-		)
+		if is_inside_tree() and get_tree():
+			get_tree().create_timer(0.15).timeout.connect(func():
+				if is_instance_valid(body):
+					body.modulate = prev_mod
+			)
 
 	attack_hit.emit(body)
 

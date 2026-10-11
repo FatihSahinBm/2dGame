@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/combat/sword_item.tscn" id="3_sword"]
 [ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="4_fantasy_hud"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/necromancer.tscn" id="5_a8skn"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/vlad_boss.tscn" id="6_vlad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
@@ -50,7 +49,7 @@ offset_bottom = 30.0
 color = Color(0.180392, 0.231373, 0.309804, 1)
 
 [node name="Platform1" type="StaticBody2D" parent="Environment" unique_id=808314523]
-position = Vector2(340, 460)
+position = Vector2(272, 162)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform1" unique_id=1685023499]
 shape = SubResource("RectangleShape2D_plat1")
@@ -62,9 +61,10 @@ offset_top = -12.0
 offset_right = 110.0
 offset_bottom = 12.0
 color = Color(0.239216, 0.309804, 0.419608, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Platform2" type="StaticBody2D" parent="Environment" unique_id=423414519]
-position = Vector2(680, 360)
+position = Vector2(619, 159)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Platform2" unique_id=614223178]
 shape = SubResource("RectangleShape2D_plat2")
@@ -76,6 +76,7 @@ offset_top = -12.0
 offset_right = 120.0
 offset_bottom = 12.0
 color = Color(0.239216, 0.309804, 0.419608, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="WallLeft" type="StaticBody2D" parent="Environment" unique_id=1926912408]
 position = Vector2(15, 300)
@@ -112,5 +113,5 @@ position = Vector2(180, 520)
 [node name="FantasyHUD" parent="." unique_id=1650945796 instance=ExtResource("4_fantasy_hud")]
 
 [node name="VladBoss" parent="." unique_id=987654321 instance=ExtResource("6_vlad")]
-position = Vector2(927, 548)
+position = Vector2(776, 556)
 direction = -1

@@ -5,8 +5,8 @@ extends "res://scripts/enemies/monster_enemy.gd"
 
 @export_group("Boss Features")
 @export var screen_shake_intensity: float = 6.0
-@export var ground_smash_delay: float = 1.75 # Frame 42 at 24 FPS (kulübün yere vurma anı)
-@export var recovery_time: float = 1.05
+@export var ground_smash_delay: float = 0.83 # Frame 10 at 12 FPS (kulübün yere vurma anı - optimize edilmiş)
+@export var recovery_time: float = 0.75
 @export var hitbox_offset_x: float = 80.0
 
 var _camera_ref: Camera2D = null
