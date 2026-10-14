@@ -46,16 +46,16 @@ script = ExtResource("1_script")
 monster_name = "Kara Boynuzlu Dev Ogre"
 max_health = 450
 current_health = 450
-speed = 45.0
-chase_speed = 75.0
+speed = 60.0
+chase_speed = 100.0
 attack_damage = 40
-attack_range = 115.0
-detection_range = 380.0
-knockback_resistance = 0.85
-attack_cooldown = 2.6
+attack_range = 130.0
+detection_range = 480.0
+knockback_resistance = 0.90
+attack_cooldown = 2.2
 screen_shake_intensity = 7.0
-ground_smash_delay = 1.75
-recovery_time = 1.05
+ground_smash_delay = 0.83
+recovery_time = 0.75
 turn_at_ledges = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

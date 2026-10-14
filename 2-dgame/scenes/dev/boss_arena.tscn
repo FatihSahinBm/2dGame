@@ -171,14 +171,13 @@ horizontal_alignment = 1
 visible = false
 
 [node name="BossHealthPanel" type="PanelContainer" parent="BossHUD"]
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.0
 offset_left = -260.0
-offset_top = 12.0
+offset_top = 14.0
 offset_right = 260.0
-offset_bottom = 80.0
+offset_bottom = 82.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_boss_panel")
 
@@ -239,5 +238,5 @@ theme_override_colors/font_color = Color(0.65, 0.70, 0.62, 0.8)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 10
-text = "[A/D] Hareket  |  [Space] Zıpla  |  [Sol Tık] Saldır  |  [F] Savunma / Parry  |  [E] Kılıç Al  |  [H] Hasar Testi  |  [T] Boss'a Vur  |  [R] Sıfırla"
+text = "[A/D] Hareket  |  [Space] Zıpla  |  [Sol Tık] Saldır  |  [3] Kalkan  |  [E] Kılıç Al  |  [T] Boss'a Vur  |  [B] T-Rex Boss  |  [R] Sıfırla"
 horizontal_alignment = 1

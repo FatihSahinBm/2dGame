@@ -15,6 +15,21 @@ func _ready() -> void:
 	super._ready()
 	# Kamerayı bul (ekran sarsıntısı için)
 	_find_camera()
+	call_deferred("_check_initial_target")
+
+func _check_initial_target() -> void:
+	if detection_area and not _target_node:
+		for body in detection_area.get_overlapping_bodies():
+			if body != self and body.is_in_group("player"):
+				_target_node = body
+				current_state = State.CHASE
+				break
+
+func _activate_hitbox() -> void:
+	super._activate_hitbox()
+	if hitbox_area and not is_dead:
+		for body in hitbox_area.get_overlapping_bodies():
+			_on_hitbox_body_entered(body)
 
 func _update_facing_direction() -> void:
 	super._update_facing_direction()
@@ -80,6 +95,33 @@ func _trigger_ground_smash_impact() -> void:
 				push_dir = float(direction)
 			_target_node.velocity.y = -180.0
 			_target_node.velocity.x += push_dir * 160.0
+
+## Hasar Alma ve Hiper-Zırh (Saldırı anında kesintiye uğramaz)
+func take_damage(amount: int) -> void:
+	if is_dead:
+		return
+
+	# Eğer henüz bir hedef belirlenmediyse saldıran oyuncuya anında kilitlen
+	if not _target_node and is_inside_tree() and get_tree():
+		var players = get_tree().get_nodes_in_group("player")
+		if players.size() > 0:
+			_target_node = players[0]
+			current_state = State.CHASE
+
+	# Saldırı savurma anında hiper-zırh: Hasarı alır ama kulüp darbesini iptal etmez
+	if current_state == State.ATTACK:
+		var actual_damage: int = maxi(1, amount)
+		current_health = clampi(current_health - actual_damage, 0, max_health)
+		_update_health_bar()
+		_spawn_damage_number(actual_damage)
+		_play_hit_feedback()
+		damaged.emit(actual_damage, current_health)
+		health_changed.emit(current_health, max_health)
+		if current_health <= 0:
+			_die()
+		return
+
+	super.take_damage(amount)
 
 ## Ölüm anında ağır yıkılış
 func _die() -> void:
