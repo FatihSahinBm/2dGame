@@ -1,0 +1,296 @@
+[gd_scene format=3 uid="uid://dtqwwfnmkjr6r"]
+
+[ext_resource type="Script" path="res://scripts/dev/test_trex_boss.gd" id="1_trex_test"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/combat/sword_item.tscn" id="3_sword"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/trex_boss.tscn" id="4_trex"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="5_hud"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1600, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
+size = Vector2(250, 24)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_panel"]
+bg_color = Color(0.04, 0.06, 0.1, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.75, 0.95, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_bg"]
+bg_color = Color(0.08, 0.1, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15, 0.5, 0.7, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_fill"]
+bg_color = Color(0.95, 0.2, 0.2, 1)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(1, 0.55, 0.2, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_dark"]
+bg_color = Color(0.05, 0.07, 0.12, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.4, 0.6, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="TestTrexBossScene" type="Node2D" unique_id=1914436968]
+script = ExtResource("1_trex_test")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=969524233]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=1064550160]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.05, 0.08, 1)
+
+[node name="Environment" type="Node2D" parent="." unique_id=1251690579]
+
+[node name="Ground" type="StaticBody2D" parent="Environment" unique_id=1614974808]
+position = Vector2(750, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground" unique_id=41513216]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Ground" unique_id=619777645]
+offset_left = -800.0
+offset_top = -30.0
+offset_right = 800.0
+offset_bottom = 30.0
+color = Color(0.12, 0.16, 0.22, 1)
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment" unique_id=1102849895]
+position = Vector2(15, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft" unique_id=173593027]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallLeft" unique_id=1992084343]
+offset_left = -15.0
+offset_top = -350.0
+offset_right = 15.0
+offset_bottom = 350.0
+color = Color(0.08, 0.1, 0.14, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment" unique_id=2091592399]
+position = Vector2(1485, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight" unique_id=1038133779]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight" unique_id=1846426375]
+offset_left = -15.0
+offset_top = -350.0
+offset_right = 15.0
+offset_bottom = 350.0
+color = Color(0.08, 0.1, 0.14, 1)
+
+[node name="PlatformLeft" type="StaticBody2D" parent="Environment" unique_id=400072472]
+position = Vector2(340, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformLeft" unique_id=424548849]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/PlatformLeft" unique_id=132380955]
+offset_left = -125.0
+offset_top = -12.0
+offset_right = 125.0
+offset_bottom = 12.0
+color = Color(0.18, 0.25, 0.35, 1)
+
+[node name="PlatformRight" type="StaticBody2D" parent="Environment" unique_id=559346239]
+position = Vector2(1100, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformRight" unique_id=1428383839]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/PlatformRight" unique_id=1839998155]
+offset_left = -125.0
+offset_top = -12.0
+offset_right = 125.0
+offset_bottom = 12.0
+color = Color(0.18, 0.25, 0.35, 1)
+
+[node name="PlatformCenterHigh" type="StaticBody2D" parent="Environment" unique_id=1667456302]
+position = Vector2(720, 310)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformCenterHigh" unique_id=121001062]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/PlatformCenterHigh" unique_id=254216681]
+offset_left = -125.0
+offset_top = -12.0
+offset_right = 125.0
+offset_bottom = 12.0
+color = Color(0.18, 0.25, 0.35, 1)
+
+[node name="SwordItem" parent="." unique_id=1124332717 instance=ExtResource("3_sword")]
+position = Vector2(320, 550)
+
+[node name="TestPlayer" parent="." unique_id=461802074 instance=ExtResource("2_player")]
+position = Vector2(200, 520)
+
+[node name="FantasyHUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="TrexBoss" parent="." unique_id=1142163299 instance=ExtResource("4_trex")]
+position = Vector2(920, 560)
+direction = -1
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1255504780]
+layer = 10
+
+[node name="BossHealthPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -280.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_boss_panel")
+
+[node name="VBox" type="VBoxContainer" parent="UI/BossHealthPanel"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="PhaseLabel" type="Label" parent="UI/BossHealthPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.85, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "[ FAZ 1: STANDART ]"
+horizontal_alignment = 1
+
+[node name="BossName" type="Label" parent="UI/BossHealthPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.3, 0.5, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 16
+text = "SİBER T-REX: MECHA-TYRANT"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI/BossHealthPanel/VBox"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_boss_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_boss_fill")
+max_value = 750.0
+value = 750.0
+show_percentage = false
+
+[node name="HPText" type="Label" parent="UI/BossHealthPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
+text = "750 / 750 HP"
+horizontal_alignment = 1
+
+[node name="ControlPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -310.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 120.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_dark")
+
+[node name="VBox" type="VBoxContainer" parent="UI/ControlPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="UI/ControlPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "GELİŞTİRİCİ TEST KONTROLLERİ"
+horizontal_alignment = 1
+
+[node name="HBoxButtons" type="HBoxContainer" parent="UI/ControlPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BtnDamage50" type="Button" parent="UI/ControlPanel/VBox/HBoxButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "-50 HP [T]"
+
+[node name="BtnPhase2" type="Button" parent="UI/ControlPanel/VBox/HBoxButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Faz 2"
+
+[node name="BtnStagger" type="Button" parent="UI/ControlPanel/VBox/HBoxButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Stagger"
+
+[node name="BtnReset" type="Button" parent="UI/ControlPanel/VBox/HBoxButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Sıfırla [R]"
+
+[node name="KeyHints" type="Label" parent="UI/ControlPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.75, 0.85, 0.8)
+theme_override_font_sizes/font_size = 9
+text = "[1] Idle  [2] Walk  [3] Run  [4] Isırık  [5] Lazer  [6] Slam  [7] Kapma  [8] Stun  [9] Hurt  [0] Taunt"
+horizontal_alignment = 1
+
+[node name="AnimStatusLabel" type="Label" parent="UI"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 100.0
+offset_right = 320.0
+offset_bottom = 200.0
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "SİBER T-REX CANLI DURUM:
+• Animasyon: Yükleniyor...
+• Durum: Aktif
+• Mesafe: 0 px | Faz: 1"

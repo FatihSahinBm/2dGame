@@ -1,0 +1,48 @@
+================================================================================
+CYBER T-REX BOSS ANIMATION SET - GODOT 4 INTEGRATION SPECIFICATION
+================================================================================
+
+All sprite sheets are formatted with uniform cell dimensions:
+  Cell Width  (Frame Width)  : 1280 px
+  Cell Height (Frame Height) : 720 px
+  Baseline Ground Position   : y = 692 px (Feet contact point - Normalized & Uniform across all animations)
+  Color Profile              : RGBA (Full Alpha Transparency)
+  Sampling Filter            : Nearest / Pixel Perfect (Set texture_filter = 1)
+
+--------------------------------------------------------------------------------
+SHEET CONFIGURATION TABLE
+--------------------------------------------------------------------------------
+Animation              File Name                 Frames  Hframes  Vframes  Total Size (WxH)    FPS   Loop
+--------------------------------------------------------------------------------
+intro_taunt            intro_taunt.png           20      5        4        6400 x 2880 px      10.0  NO
+idle                   idle.png                  16      4        4        5120 x 2880 px       8.0  YES
+walk                   walk.png                  16      4        4        5120 x 2880 px       8.0  YES
+run                    run.png                   20      5        4        6400 x 2880 px      14.0  YES
+attack_bite            attack_bite.png           20      5        4        6400 x 2880 px      10.0  NO
+attack_laser           attack_laser.png          20      5        4        6400 x 2880 px      10.0  NO
+attack_platform_slam   attack_platform_slam.png  20      5        4        6400 x 2880 px      10.0  NO
+grab_counter           grab_counter.png          20      5        4        6400 x 2880 px      10.0  NO
+stunned_groggy         stunned_groggy.png        20      5        4        6400 x 2880 px      10.0  NO
+hurt                   hurt.png                  16      4        4        5120 x 2880 px      10.0  NO
+death                  death.png                 20      5        4        6400 x 2880 px      10.0  NO
+--------------------------------------------------------------------------------
+
+GODOT 4 USAGE INSTRUCTIONS
+-------------------------------------------------
+1. AnimatedSprite2D Setup (Recommended):
+   - SpriteFrames panelinde 'Add frames from a sprite sheet' seçin.
+   - intro_taunt için: intro_taunt.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   - idle için: idle.png, Hframes: 4, Vframes: 4, 16 kare, FPS: 8, Loop: Açık.
+   - walk için: walk.png, Hframes: 4, Vframes: 4, 16 kare, FPS: 8, Loop: Açık.
+   - run için: run.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 14, Loop: Açık.
+   - attack_bite için: attack_bite.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   - attack_laser için: attack_laser.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   - attack_platform_slam için: attack_platform_slam.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   - grab_counter için: grab_counter.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   - stunned_groggy için: stunned_groggy.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   - hurt için: hurt.png, Hframes: 4, Vframes: 4, 16 kare, FPS: 10, Loop: Kapalı.
+   - death için: death.png, Hframes: 5, Vframes: 4, 20 kare, FPS: 10, Loop: Kapalı.
+   
+2. Alternatif: Bireysel Kareler:
+   - 'output/trex_boss/<anim>_frames/' klasöründeki PNG dosyalarını doğrudan 
+     sürükleyip SpriteFrames paneline bırakabilirsiniz.

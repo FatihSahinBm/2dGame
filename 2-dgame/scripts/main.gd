@@ -17,3 +17,8 @@ func _on_player_sword_state_changed(has_sword: bool) -> void:
 	else:
 		sword_status_label.text = "✋ Silahsız: Kılıcı almak için yanına gidip [E] tuşuna basın"
 		sword_status_label.modulate = Color(0.95, 0.75, 0.35)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_B:
+			get_tree().change_scene_to_file("res://scenes/dev/test_trex_boss.tscn")

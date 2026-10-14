@@ -1,0 +1,163 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/trex_boss.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/trex_boss/trex_frames.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(110, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(160, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_laser"]
+size = Vector2(380, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slam"]
+size = Vector2(280, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(150, 170)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 520.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_hp_bg"]
+bg_color = Color(0.06, 0.07, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.6, 0.9, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_hp_fill"]
+bg_color = Color(0.9, 0.15, 0.15, 1)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(1, 0.45, 0.2, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="TrexBoss" type="CharacterBody2D" groups=["boss", "damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+floor_snap_length = 4.0
+script = ExtResource("1_script")
+monster_name = "SİBER T-REX: MECHA-TYRANT"
+max_health = 750
+current_health = 750
+speed = 65.0
+chase_speed = 105.0
+attack_damage = 45
+attack_range = 140.0
+detection_range = 520.0
+knockback_resistance = 0.95
+attack_cooldown = 2.4
+screen_shake_intensity = 8.5
+turn_at_ledges = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -80)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -139)
+scale = Vector2(0.42, 0.42)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual"]
+position = Vector2(140, -80)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox"]
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="LaserHitbox" type="Area2D" parent="Visual"]
+position = Vector2(260, -90)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/LaserHitbox"]
+shape = SubResource("RectangleShape2D_laser")
+
+[node name="SlamHitbox" type="Area2D" parent="Visual"]
+position = Vector2(70, -30)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/SlamHitbox"]
+shape = SubResource("RectangleShape2D_slam")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual"]
+position = Vector2(60, 0)
+target_position = Vector2(0, 40)
+collision_mask = 1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -85)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -110.0
+offset_top = -215.0
+offset_right = 110.0
+offset_bottom = -200.0
+theme_override_styles/background = SubResource("StyleBoxFlat_boss_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_boss_hp_fill")
+max_value = 750.0
+value = 750.0
+show_percentage = false
+
+[node name="BossTitle" type="Label" parent="UI"]
+offset_left = -150.0
+offset_top = -240.0
+offset_right = 150.0
+offset_bottom = -218.0
+theme_override_colors/font_color = Color(0.2, 0.85, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "SİBER T-REX: MECHA-TYRANT"
+horizontal_alignment = 1
+
+[node name="PhaseLabel" type="Label" parent="UI"]
+offset_left = -100.0
+offset_top = -198.0
+offset_right = 100.0
+offset_bottom = -182.0
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.8)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "[ FAZ 1: AKTİF ]"
+horizontal_alignment = 1
+
+[node name="DamageNumbers" type="Node2D" parent="UI"]

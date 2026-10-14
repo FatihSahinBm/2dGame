@@ -113,6 +113,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey and event.pressed and not event.echo):
 		return
 	match event.keycode:
+		KEY_B:
+			# [B] T-Rex Boss Sahnesine Geçiş Yap
+			get_tree().change_scene_to_file("res://scenes/dev/test_trex_boss.tscn")
 		KEY_T:
 			# Boss'a 25 hasar ver
 			_damage_boss(25)
