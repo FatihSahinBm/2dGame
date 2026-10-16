@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://barricade_01"]
+[gd_scene load_steps=6 format=3 uid="uid://barricade_01"]
 
 [ext_resource type="Script" path="res://scripts/objects/destructible_barricade.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/objects/barricade_hurtbox.gd" id="2_hurtbox_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
 size = Vector2(36, 68)
@@ -11,14 +12,26 @@ bg_color = Color(0.1, 0.1, 0.12, 0.8)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
 bg_color = Color(0.8, 0.35, 0.15, 1)
 
-[node name="DestructibleBarricade" type="StaticBody2D" groups=["barricades", "damageable"]]
-collision_layer = 1
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(54, 72)
+
+[node name="DestructibleBarricade" type="StaticBody2D" groups=["barricades", "damageable", "enemies"]]
+collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -34)
 shape = SubResource("RectangleShape2D_box")
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["barricades", "damageable", "enemies"]]
+position = Vector2(0, -34)
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("2_hurtbox_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurtbox")
 
 [node name="Visual" type="Node2D" parent="."]
 

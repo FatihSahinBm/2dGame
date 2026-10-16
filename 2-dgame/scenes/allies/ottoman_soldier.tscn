@@ -7,7 +7,7 @@
 size = Vector2(22, 42)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_atk"]
-size = Vector2(38, 36)
+size = Vector2(50, 42)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 42.0
@@ -47,9 +47,9 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="AttackArea" type="Area2D" parent="Visual"]
-position = Vector2(20, -18)
+position = Vector2(25, -18)
 collision_layer = 0
-collision_mask = 2
+collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/AttackArea"]
 shape = SubResource("RectangleShape2D_atk")

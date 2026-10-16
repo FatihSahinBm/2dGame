@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://stage1_camp_01"]
+
+[ext_resource type="Script" path="res://scripts/levels/vlad/stage_1_camp.gd" id="1_camp"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="4_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_soldier.tscn" id="5_soldier"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_archer.tscn" id="6_archer"]
+[ext_resource type="PackedScene" path="res://scenes/allies/janissary_commander.tscn" id="7_commander"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_2_camp.png" id="8_bg"]
+[ext_resource type="Texture2D" path="res://assets/objects/royal_ottoman_tent.png" id="9_tent"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="10_backdrop"]
+[ext_resource type="Script" path="res://scripts/objects/arrow_quiver_item.gd" id="11_quiver"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1500, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_gate"]
+size = Vector2(80, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_quiver"]
+size = Vector2(32, 32)
+
+[node name="Stage1Camp" type="Node2D"]
+script = ExtResource("1_camp")
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+script = ExtResource("10_backdrop")
+background_texture = ExtResource("8_bg")
+ground_y = 560.0
+texture_ground_y = 620.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.05
+parallax_factor_y = 0.02
+tile_count = 2
+fog_color = Color(0.12, 0.05, 0.04, 0.18)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(700, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+offset_left = -750.0
+offset_top = -30.0
+offset_right = 750.0
+offset_bottom = 120.0
+color = Color(0.12, 0.09, 0.08, 1)
+
+[node name="PathTrim" type="ColorRect" parent="Environment/Ground"]
+offset_left = -750.0
+offset_top = -30.0
+offset_right = 750.0
+offset_bottom = -26.0
+color = Color(0.3, 0.22, 0.18, 1)
+
+[node name="BrokenCart" type="Node2D" parent="Environment"]
+position = Vector2(480, 560)
+
+[node name="CartVisual" type="ColorRect" parent="Environment/BrokenCart"]
+offset_left = -25.0
+offset_top = -20.0
+offset_right = 25.0
+offset_bottom = 0.0
+color = Color(0.28, 0.18, 0.12, 1)
+
+[node name="CartWheel" type="ColorRect" parent="Environment/BrokenCart"]
+offset_left = -18.0
+offset_top = -10.0
+offset_right = -6.0
+offset_bottom = 2.0
+color = Color(0.15, 0.1, 0.08, 1)
+
+[node name="ArrowQuiverItem" type="Area2D" parent="Environment/BrokenCart"]
+position = Vector2(0, -25)
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("11_quiver")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
+shape = SubResource("RectangleShape2D_quiver")
+
+[node name="Visual" type="Polygon2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
+color = Color(0.65, 0.38, 0.18, 1)
+polygon = PackedVector2Array(-8, -14, 8, -14, 5, 12, -5, 12)
+
+[node name="ArrowTips" type="Polygon2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
+color = Color(0.95, 0.75, 0.25, 1)
+polygon = PackedVector2Array(-6, -14, -4, -20, -2, -14, 0, -21, 2, -14, 4, -20, 6, -14)
+
+[node name="RoyalTentVisual" type="Sprite2D" parent="Environment"]
+z_index = -1
+position = Vector2(1060, 365)
+texture = ExtResource("9_tent")
+centered = false
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(100, 560)
+has_sword = true
+is_armed = true
+
+[node name="Allies" type="Node2D" parent="."]
+
+[node name="JanissaryCommander" parent="Allies" instance=ExtResource("7_commander")]
+position = Vector2(240, 560)
+
+[node name="JanissaryGuard1" parent="Allies" instance=ExtResource("5_soldier")]
+position = Vector2(360, 560)
+
+[node name="KemankesArcher" parent="Allies" instance=ExtResource("6_archer")]
+position = Vector2(650, 560)
+
+[node name="JanissaryGuard2" parent="Allies" instance=ExtResource("5_soldier")]
+position = Vector2(850, 560)
+
+[node name="JanissaryGuard3" parent="Allies" instance=ExtResource("5_soldier")]
+position = Vector2(1080, 560)
+
+[node name="TentEntranceArea" type="Area2D" parent="."]
+position = Vector2(1200, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentEntranceArea"]
+shape = SubResource("RectangleShape2D_tent_gate")
+
+[node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("4_dialogue")]

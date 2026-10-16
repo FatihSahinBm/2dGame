@@ -427,6 +427,8 @@ color = Color(1, 0.2, 0.35, 0.8)
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
 position = Vector2(180, 560)
+has_sword = true
+is_armed = true
 
 [node name="VladBoss" parent="." instance=ExtResource("3_vlad")]
 position = Vector2(850, 560)

@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://blood_knight_01"]
+
+[ext_resource type="Script" path="res://scripts/enemies/blood_knight.gd" id="1_knight"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(24, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
+size = Vector2(50, 40)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.08, 0.04, 0.04, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.1, 0.1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.9, 0.15, 0.2, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="BloodKnight" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+script = ExtResource("1_knight")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -22)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -40)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AttackArea" type="Area2D" parent="Visual"]
+position = Vector2(25, -22)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/AttackArea"]
+shape = SubResource("RectangleShape2D_attack")
+
+[node name="UI" type="Node2D" parent="."]
+position = Vector2(0, -68)
+
+[node name="TitleLabel" type="Label" parent="UI"]
+offset_left = -90.0
+offset_top = -18.0
+offset_right = 90.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(1, 0.3, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "EFLAK KAN ŞÖVALYESİ"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -40.0
+offset_top = -2.0
+offset_right = 40.0
+offset_bottom = 5.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 100.0
+show_percentage = false

@@ -1,0 +1,201 @@
+[gd_scene format=3 uid="uid://stage1_bridge_assault_01"]
+
+[ext_resource type="Script" path="res://scripts/levels/vlad/stage_1_bridge_assault.gd" id="1_bridge"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="4_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_soldier.tscn" id="5_soldier"]
+[ext_resource type="PackedScene" path="res://scenes/allies/janissary_commander.tscn" id="6_commander"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="7_skeleton"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="8_bat"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_barricade.tscn" id="9_barricade"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/blood_knight.tscn" id="10_knight"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_4_bridge.png" id="11_bg"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="12_backdrop"]
+[ext_resource type="PackedScene" path="res://scenes/objects/battering_ram_crew.tscn" id="13_ram"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2450, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(90, 220)
+
+[node name="Stage1BridgeAssault" type="Node2D"]
+script = ExtResource("1_bridge")
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+script = ExtResource("12_backdrop")
+background_texture = ExtResource("11_bg")
+ground_y = 560.0
+texture_ground_y = 620.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.05
+parallax_factor_y = 0.02
+tile_count = 3
+fog_color = Color(0.15, 0.05, 0.04, 0.2)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(1200, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+offset_left = -1225.0
+offset_top = -30.0
+offset_right = 1225.0
+offset_bottom = 120.0
+color = Color(0.12, 0.1, 0.12, 1)
+
+[node name="PathTrim" type="ColorRect" parent="Environment/Ground"]
+offset_left = -1225.0
+offset_top = -30.0
+offset_right = 1225.0
+offset_bottom = -26.0
+color = Color(0.28, 0.24, 0.26, 1)
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(120, 560)
+has_sword = true
+is_armed = true
+
+[node name="VanguardAllies" type="Node2D" parent="."]
+
+[node name="Commander" parent="VanguardAllies" instance=ExtResource("6_commander")]
+position = Vector2(60, 560)
+
+[node name="Janissary1" parent="VanguardAllies" instance=ExtResource("5_soldier")]
+position = Vector2(200, 560)
+
+[node name="Janissary2" parent="VanguardAllies" instance=ExtResource("5_soldier")]
+position = Vector2(280, 560)
+
+[node name="Wave1" type="Node2D" parent="."]
+
+[node name="Barricade1" parent="Wave1" instance=ExtResource("9_barricade")]
+position = Vector2(650, 560)
+
+[node name="Skeleton1" parent="Wave1" instance=ExtResource("7_skeleton")]
+position = Vector2(740, 560)
+
+[node name="Skeleton2" parent="Wave1" instance=ExtResource("7_skeleton")]
+position = Vector2(830, 560)
+
+[node name="Wave2" type="Node2D" parent="."]
+
+[node name="Barricade2" parent="Wave2" instance=ExtResource("9_barricade")]
+position = Vector2(1250, 560)
+
+[node name="Skeleton3" parent="Wave2" instance=ExtResource("7_skeleton")]
+position = Vector2(1350, 560)
+
+[node name="Bat1" parent="Wave2" instance=ExtResource("8_bat")]
+position = Vector2(1300, 430)
+
+[node name="Skeleton4" parent="Wave2" instance=ExtResource("7_skeleton")]
+position = Vector2(1440, 560)
+
+[node name="Wave3" type="Node2D" parent="."]
+
+[node name="Barricade3" parent="Wave3" instance=ExtResource("9_barricade")]
+position = Vector2(1750, 560)
+
+[node name="Skeleton5" parent="Wave3" instance=ExtResource("7_skeleton")]
+position = Vector2(1840, 560)
+
+[node name="Bat2" parent="Wave3" instance=ExtResource("8_bat")]
+position = Vector2(1800, 420)
+
+[node name="BossEncounter" type="Node2D" parent="."]
+
+[node name="BloodKnight" parent="BossEncounter" instance=ExtResource("10_knight")]
+position = Vector2(2120, 560)
+
+[node name="ExitGate" type="Area2D" parent="."]
+position = Vector2(2320, 470)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate"]
+shape = SubResource("RectangleShape2D_gate")
+
+[node name="PortalBackdrop" type="ColorRect" parent="ExitGate"]
+offset_left = -20.0
+offset_top = -105.0
+offset_right = 20.0
+offset_bottom = 90.0
+color = Color(0.03, 0.02, 0.04, 0.95)
+
+[node name="ArchPillarLeft" type="ColorRect" parent="ExitGate"]
+offset_left = -26.0
+offset_top = -115.0
+offset_right = -18.0
+offset_bottom = 90.0
+color = Color(0.25, 0.22, 0.28, 1)
+
+[node name="ArchPillarRight" type="ColorRect" parent="ExitGate"]
+offset_left = 18.0
+offset_top = -115.0
+offset_right = 26.0
+offset_bottom = 90.0
+color = Color(0.25, 0.22, 0.28, 1)
+
+[node name="ArchLintel" type="ColorRect" parent="ExitGate"]
+offset_left = -28.0
+offset_top = -120.0
+offset_right = 28.0
+offset_bottom = -110.0
+color = Color(0.3, 0.26, 0.32, 1)
+
+[node name="PortcullisBars" type="ColorRect" parent="ExitGate"]
+offset_left = -16.0
+offset_top = -105.0
+offset_right = 16.0
+offset_bottom = 85.0
+color = Color(0.12, 0.1, 0.14, 0.9)
+
+[node name="WoodenDoors" type="Node2D" parent="ExitGate"]
+
+[node name="DoorLeft" type="ColorRect" parent="ExitGate/WoodenDoors"]
+offset_left = -16.0
+offset_top = -105.0
+offset_right = 0.0
+offset_bottom = 85.0
+color = Color(0.32, 0.2, 0.12, 1)
+
+[node name="DoorRight" type="ColorRect" parent="ExitGate/WoodenDoors"]
+offset_left = 0.0
+offset_top = -105.0
+offset_right = 16.0
+offset_bottom = 85.0
+color = Color(0.28, 0.18, 0.1, 1)
+
+[node name="DoorBandTop" type="ColorRect" parent="ExitGate/WoodenDoors"]
+offset_left = -16.0
+offset_top = -70.0
+offset_right = 16.0
+offset_bottom = -62.0
+color = Color(0.18, 0.18, 0.2, 1)
+
+[node name="DoorBandMid" type="ColorRect" parent="ExitGate/WoodenDoors"]
+offset_left = -16.0
+offset_top = -10.0
+offset_right = 16.0
+offset_bottom = -2.0
+color = Color(0.18, 0.18, 0.2, 1)
+
+[node name="DoorBandBottom" type="ColorRect" parent="ExitGate/WoodenDoors"]
+offset_left = -16.0
+offset_top = 50.0
+offset_right = 16.0
+offset_bottom = 58.0
+color = Color(0.18, 0.18, 0.2, 1)
+
+[node name="BatteringRamCrew" parent="." instance=ExtResource("13_ram")]
+position = Vector2(2190, 560)
+visible = false
+
+[node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("4_dialogue")]

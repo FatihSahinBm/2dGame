@@ -4,6 +4,26 @@
   "title": "Târgovişte Gece Baskını ve Kan Surları",
   "synopsis": "Zaman yırtığından 15. yüzyıl Eflak ormanlarına savrulan ana karakter, Vlad Tepeş'in Osmanlı ordugahına düzenlediği gece baskınının ortasına düşer. Askeri bir çıkar ortaklığıyla Fatih Sultan Mehmed ile yolları kesişir. Karakter dünyayı kurtarmak için değil, Vlad'ın koruduğu Kalp Parçası'na ulaşmak için savaşır; kılıcına hapsedilmiş dost ruhu ise ahlaksız eylemlere madeni çığlıklarla direnir.",
   "dialogues": {
+    "commander_rescue": [
+      {
+        "speaker": "Osmanlı Öncü Kumandanı",
+        "title": "Yeniçeri Ağası",
+        "text": "Var ol yiğidim! Vlad'ın gece yaratıkları pusu kurdu, canavarlar etrafımızı sarmıştı. Kılıcınla yetişmeseydin şehit düşmüştük!",
+        "portrait": "janissary"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "title": "",
+        "text": "Seni Fatih'in otağına kadar takip edeceğim.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Osmanlı Öncü Kumandanı",
+        "title": "Yeniçeri Ağası",
+        "text": "Ordugahımız hemen ileride! Hünkarımız Fatih Sultan Mehmed Han otağında sefer meclisini topladı. Hemen ardımdan gel!",
+        "portrait": "janissary"
+      }
+    ],
     "fatih_intro": [
       {
         "speaker": "Osmanlı Öncü Kumandanı",
@@ -52,6 +72,22 @@
         "title": "Osmanlı Okçusu",
         "text": "Sadakları bulmuşsun! Var ol yiğidim. Köprü taarruzunda yaylarımızı gerip canavarların barikatlarını ateşe boğacağız!",
         "portrait": "archer"
+      }
+    ],
+    "blood_knight_intro": [
+      {
+        "speaker": "Eflak Kan Şövalyesi",
+        "title": "Vlad'ın Elit Muhafızı",
+        "text": "Hahaha! Osmanlı'nın fani sürüsü ve yabancı gölge... Efendim Vlad Tepeş'in kale kapısına bir adım dahi yaklaşamazsınız! Kanınız bu köprüye mühürlenecek!",
+        "portrait": "vlad"
+      }
+    ],
+    "battering_ram_victory": [
+      {
+        "speaker": "Osmanlı Öncü Kumandanı",
+        "title": "Yeniçeri Ağası",
+        "text": "Kan Şövalyesi devrildi! Yeniçeriler, koçbaşını getirin! Vurun kale kapısına! Vuruuun!",
+        "portrait": "janissary"
       }
     ],
     "soldier_ambient_shouts": [

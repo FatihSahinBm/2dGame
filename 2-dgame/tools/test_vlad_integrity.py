@@ -16,6 +16,9 @@ print(f"JSON Valid: {len(stages)} stages, {len(dialogues)} dialogue entries")
 print("\n=== 2. Checking TSCN files & ExtResources ===")
 tscn_files = [
     os.path.join("2-dgame", "scenes", "levels", "vlad", "stage_1_forest_camp.tscn"),
+    os.path.join("2-dgame", "scenes", "levels", "vlad", "stage_1_camp.tscn"),
+    os.path.join("2-dgame", "scenes", "levels", "vlad", "stage_1_fatih_tent.tscn"),
+    os.path.join("2-dgame", "scenes", "levels", "vlad", "stage_1_bridge_assault.tscn"),
     os.path.join("2-dgame", "scenes", "levels", "vlad", "stage_2_castle_dungeon.tscn"),
     os.path.join("2-dgame", "scenes", "levels", "vlad", "stage_3_throne_room.tscn"),
 ]
@@ -30,7 +33,10 @@ for tscn in tscn_files:
         local_path = os.path.join("2-dgame", res_path.replace("/", os.sep))
         if not os.path.exists(local_path):
             missing_resources.append((tscn, res_path, local_path))
-    print(f"PASS: {tscn} has {len(matches)} valid ExtResource entries")
+    # Check that CombatPlayer has sword enabled
+    assert 'has_sword = true' in content, f"CombatPlayer in {tscn} is missing has_sword = true"
+    assert 'is_armed = true' in content, f"CombatPlayer in {tscn} is missing is_armed = true"
+    print(f"PASS: {tscn} has {len(matches)} valid ExtResources and CombatPlayer sword equipped")
 
 if missing_resources:
     for tscn, res, loc in missing_resources:
@@ -40,9 +46,13 @@ if missing_resources:
 print("\n=== 3. Checking GDScript files ===")
 scripts = [
     os.path.join("2-dgame", "scripts", "levels", "vlad", "stage_1_forest_camp.gd"),
+    os.path.join("2-dgame", "scripts", "levels", "vlad", "stage_1_camp.gd"),
+    os.path.join("2-dgame", "scripts", "levels", "vlad", "stage_1_fatih_tent.gd"),
+    os.path.join("2-dgame", "scripts", "levels", "vlad", "stage_1_bridge_assault.gd"),
     os.path.join("2-dgame", "scripts", "levels", "vlad", "stage_2_castle_dungeon.gd"),
     os.path.join("2-dgame", "scripts", "levels", "vlad", "stage_3_throne_room.gd"),
     os.path.join("2-dgame", "scripts", "enemies", "vlad_boss.gd"),
+    os.path.join("2-dgame", "scripts", "enemies", "blood_knight.gd"),
     os.path.join("2-dgame", "scripts", "objects", "world_parallax_background.gd"),
     os.path.join("2-dgame", "scripts", "objects", "arrow_quiver_item.gd"),
     os.path.join("2-dgame", "scripts", "objects", "commander_orders_drop.gd"),
@@ -65,6 +75,7 @@ expected_bg = [
     "stage_1_zone_1_time_rift.png",
     "stage_1_zone_2_camp.png",
     "stage_1_zone_3_fatih_tent.png",
+    "stage_1_zone_3_fatih_tent_interior.png",
     "stage_1_zone_4_bridge.png",
     "stage_2_zone_1_chain_room.png",
     "stage_2_zone_2_guillotine.png",

@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://stage1_fatih_tent_01"]
+
+[ext_resource type="Script" path="res://scripts/levels/vlad/stage_1_fatih_tent.gd" id="1_tent"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="4_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/allies/fatih_npc.tscn" id="5_fatih"]
+[ext_resource type="PackedScene" path="res://scenes/allies/janissary_commander.tscn" id="6_commander"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_soldier.tscn" id="7_soldier"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_3_fatih_tent_interior.png" id="8_bg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1300, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(40, 720)
+
+[node name="Stage1FatihTent" type="Node2D"]
+script = ExtResource("1_tent")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -50
+texture = ExtResource("8_bg")
+centered = false
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(640, 610)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+offset_left = -650.0
+offset_top = -30.0
+offset_right = 650.0
+offset_bottom = 120.0
+color = Color(0.12, 0.08, 0.06, 1)
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(20, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1260, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(200, 580)
+has_sword = true
+is_armed = true
+
+[node name="JanissaryCommander" parent="." instance=ExtResource("6_commander")]
+position = Vector2(340, 580)
+
+[node name="FatihNPC" parent="." instance=ExtResource("5_fatih")]
+position = Vector2(750, 580)
+
+[node name="Guards" type="Node2D" parent="."]
+
+[node name="Guard1" parent="Guards" instance=ExtResource("7_soldier")]
+position = Vector2(930, 580)
+
+[node name="Guard2" parent="Guards" instance=ExtResource("7_soldier")]
+position = Vector2(1060, 580)
+
+[node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("4_dialogue")]

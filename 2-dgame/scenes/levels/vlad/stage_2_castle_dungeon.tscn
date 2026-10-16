@@ -279,6 +279,8 @@ position = Vector2(1040, 310)
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
 position = Vector2(120, 530)
+has_sword = true
+is_armed = true
 
 [node name="Enemies" type="Node2D" parent="."]
 

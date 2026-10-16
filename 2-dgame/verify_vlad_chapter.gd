@@ -80,8 +80,57 @@ func _init() -> void:
 		return
 	var stage1_inst = stage1_res.instantiate()
 	root.add_child(stage1_inst)
-	print("OK: stage_1_forest_camp instantiated successfully.")
+	if not stage1_inst.player or not stage1_inst.player.has_sword or not stage1_inst.player.is_armed:
+		push_error("FAIL: stage_1_forest_camp player must have sword armed")
+		quit(1)
+		return
+	print("OK: stage_1_forest_camp instantiated successfully with sword armed.")
 	stage1_inst.queue_free()
+
+	# 4.1 Sahne 1B (Osmanlı Ordugahı) Testi
+	var camp_res = load("res://scenes/levels/vlad/stage_1_camp.tscn")
+	if not camp_res:
+		push_error("FAIL: Failed to load stage_1_camp.tscn")
+		quit(1)
+		return
+	var camp_inst = camp_res.instantiate()
+	root.add_child(camp_inst)
+	if not camp_inst.player or not camp_inst.player.has_sword or not camp_inst.player.is_armed:
+		push_error("FAIL: stage_1_camp player must have sword armed")
+		quit(1)
+		return
+	print("OK: stage_1_camp instantiated successfully with sword armed.")
+	camp_inst.queue_free()
+
+	# 4.2 Sahne 1C (Otağ-ı Hümayun İçi) Testi
+	var tent_res = load("res://scenes/levels/vlad/stage_1_fatih_tent.tscn")
+	if not tent_res:
+		push_error("FAIL: Failed to load stage_1_fatih_tent.tscn")
+		quit(1)
+		return
+	var tent_inst = tent_res.instantiate()
+	root.add_child(tent_inst)
+	if not tent_inst.player or not tent_inst.player.has_sword or not tent_inst.player.is_armed:
+		push_error("FAIL: stage_1_fatih_tent player must have sword armed")
+		quit(1)
+		return
+	print("OK: stage_1_fatih_tent instantiated successfully with sword armed.")
+	tent_inst.queue_free()
+
+	# 4.3 Sahne 1D (Kazıklı Köprü & Barikat Kuşatması) Testi
+	var bridge_res = load("res://scenes/levels/vlad/stage_1_bridge_assault.tscn")
+	if not bridge_res:
+		push_error("FAIL: Failed to load stage_1_bridge_assault.tscn")
+		quit(1)
+		return
+	var bridge_inst = bridge_res.instantiate()
+	root.add_child(bridge_inst)
+	if not bridge_inst.player or not bridge_inst.player.has_sword or not bridge_inst.player.is_armed:
+		push_error("FAIL: stage_1_bridge_assault player must have sword armed")
+		quit(1)
+		return
+	print("OK: stage_1_bridge_assault instantiated successfully with sword armed.")
+	bridge_inst.queue_free()
 
 	# 5. Sahne 2 (Târgovişte Kale Mahzenleri) Testi
 	var stage2_res = load("res://scenes/levels/vlad/stage_2_castle_dungeon.tscn")
@@ -91,7 +140,11 @@ func _init() -> void:
 		return
 	var stage2_inst = stage2_res.instantiate()
 	root.add_child(stage2_inst)
-	print("OK: stage_2_castle_dungeon instantiated successfully.")
+	if not stage2_inst.player or not stage2_inst.player.has_sword or not stage2_inst.player.is_armed:
+		push_error("FAIL: stage_2_castle_dungeon player must have sword armed")
+		quit(1)
+		return
+	print("OK: stage_2_castle_dungeon instantiated successfully with sword armed.")
 	stage2_inst.queue_free()
 
 	# 6. Sahne 3 (Kan Taht Odası & Vlad Arenası) Testi
@@ -102,7 +155,11 @@ func _init() -> void:
 		return
 	var stage3_inst = stage3_res.instantiate()
 	root.add_child(stage3_inst)
-	print("OK: stage_3_throne_room instantiated successfully.")
+	if not stage3_inst.player or not stage3_inst.player.has_sword or not stage3_inst.player.is_armed:
+		push_error("FAIL: stage_3_throne_room player must have sword armed")
+		quit(1)
+		return
+	print("OK: stage_3_throne_room instantiated successfully with sword armed.")
 	stage3_inst.queue_free()
 
 	# 7. UI ve Flashback Testi

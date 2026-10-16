@@ -43,6 +43,15 @@ const FATIH_NPC_SCENE = preload("res://scenes/allies/fatih_npc.tscn")
 
 
 func _ready() -> void:
+	# Vlad bölümünde karakter kılıç kuşanmış olarak başlar
+	if player:
+		if not player.has_sword and player.has_method("pickup_sword"):
+			player.pickup_sword()
+		elif not player.is_armed:
+			player.is_armed = true
+			if player.has_method("_emit_weapon_state"):
+				player._emit_weapon_state()
+
 	_play_fade_in()
 	
 	if player:
@@ -175,6 +184,9 @@ func _setup_hud() -> void:
 			if hud.has_method("update_weapon_slot"):
 				hud.update_weapon_slot(has_w, is_a)
 		)
+	if "has_sword" in player and hud.has_method("update_weapon_slot"):
+		var is_armed = player.is_armed if "is_armed" in player else player.has_sword
+		hud.update_weapon_slot(player.has_sword, is_armed)
 	if player.has_signal("player_damaged"):
 		player.player_damaged.connect(func(hp, max_hp):
 			if hud.has_method("update_health"):

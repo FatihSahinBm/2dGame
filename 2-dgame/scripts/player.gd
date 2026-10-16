@@ -25,6 +25,7 @@ signal parry_performed()
 
 # --- Ayarlar & Değişkenler ---
 @export_group("Stats & Movement")
+@export var can_move: bool = true
 @export var max_health: int = 100
 @export var current_health: int = 100
 @export var speed: float = 260.0
@@ -387,6 +388,12 @@ func _check_wall_slide(_delta: float) -> void:
 
 ## Hareket ve Beceri Kontrolleri
 func _handle_movement_and_skills(delta: float) -> void:
+	if not can_move:
+		velocity.x = move_toward(velocity.x, 0.0, 800.0 * delta)
+		if is_on_floor() and anim_sprite and not is_attacking:
+			anim_sprite.play("idle")
+		return
+
 	# Yatay Girdi (Vururken de serbestçe hareket edebilme)
 	var move_x: float = 0.0
 	if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
@@ -507,7 +514,7 @@ func perform_roll() -> void:
 
 ## Girdi Olayları (Kılıç Çekme, Fırlatma, Saldırılar)
 func _unhandled_input(event: InputEvent) -> void:
-	if is_dead:
+	if not can_move or is_dead:
 		return
 
 	# [1] Tuşu: Kılıç Çekme / Kınına Sokma (Draw / Sheathe Toggle)
@@ -739,14 +746,56 @@ func _apply_attack_damage(damage: int) -> void:
 	if not attack_area:
 		return
 	attack_area.monitoring = true
+	var hit_objects: Array[Object] = []
 	var deal_damage = func():
+		# 1. Overlapping bodies (Düşmanlar & Static Barikatlar)
 		for body in attack_area.get_overlapping_bodies():
-			if body == self:
+			if body == self or body in hit_objects:
 				continue
+			hit_objects.append(body)
 			if body.has_method("take_damage"):
 				body.take_damage(damage)
 			elif body.has_method("hit"):
 				body.hit(damage)
+
+		# 2. Overlapping areas (Hurtbox'lar)
+		for area in attack_area.get_overlapping_areas():
+			var target = area.get_parent() if area.get_parent() != self else area
+			if target == self or target in hit_objects:
+				continue
+			hit_objects.append(target)
+			if target.has_method("take_damage"):
+				target.take_damage(damage)
+			elif target.has_method("hit"):
+				target.hit(damage)
+
+		# 3. Doğrudan Fizik Alanı Sorgusu (Anında ve kesin vuruş garantisi)
+		var space_state = get_world_2d().direct_space_state
+		if space_state:
+			var query = PhysicsShapeQueryParameters2D.new()
+			var shape = CircleShape2D.new()
+			shape.radius = 56.0
+			query.shape = shape
+			query.transform = Transform2D(0.0, global_position + Vector2(facing_dir * 38.0, -18.0))
+			query.collision_mask = 31 # Tüm katmanlar (Dünya, Düşmanlar, Barikatlar)
+			query.exclude = [self]
+			query.collide_with_bodies = true
+			query.collide_with_areas = true
+			var results = space_state.intersect_shape(query, 16)
+			for r in results:
+				var col = r.get("collider")
+				if col and is_instance_valid(col) and col != self:
+					var target = col
+					if target is Area2D and target.get_parent() and target.get_parent() != self:
+						target = target.get_parent()
+					if target in hit_objects:
+						continue
+					hit_objects.append(target)
+					if target.has_method("take_damage"):
+						target.take_damage(damage)
+					elif target.has_method("hit"):
+						target.hit(damage)
+
 	deal_damage.call()
 	get_tree().create_timer(0.12).timeout.connect(deal_damage)
 	get_tree().create_timer(0.28).timeout.connect(func():
@@ -755,9 +804,15 @@ func _apply_attack_damage(damage: int) -> void:
 	)
 
 ## Oyuncunun Hasar Alması (Take Damage)
-func take_damage(amount: int, attacker_pos: Vector2 = Vector2.INF) -> void:
+func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 	if is_dead:
 		return
+
+	var attacker_pos: Vector2 = Vector2.INF
+	if attacker_source is Vector2:
+		attacker_pos = attacker_source
+	elif attacker_source is Node2D and is_instance_valid(attacker_source):
+		attacker_pos = attacker_source.global_position
 
 	# Dash ve Slide Dokunulmazlık Özelliği (i-Frames - Açılabilir Yetenek)
 	if is_dashing and dash_iframes_unlocked:
