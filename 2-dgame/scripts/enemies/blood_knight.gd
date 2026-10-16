@@ -38,7 +38,7 @@ func _ready() -> void:
 		health_bar.value = current_health
 
 	if visual:
-		visual.modulate = Color(1.8, 0.3, 0.35, 1.0) # Kızıl Kan Şövalyesi aurası
+		visual.modulate = Color.WHITE
 
 
 func _physics_process(delta: float) -> void:
@@ -86,19 +86,41 @@ func _perform_blood_attack() -> void:
 	elif anim_sprite and anim_sprite.sprite_frames.has_animation("melee"):
 		anim_sprite.play("melee")
 
-	# Darbe anında hasar kontrolü
+	# Darbe anında hasar ve kan yarığı efekti
 	get_tree().create_timer(0.35).timeout.connect(func():
 		if is_dead or not is_inside_tree():
 			return
+		_spawn_blood_slash_vfx()
 		if attack_area:
 			for body in attack_area.get_overlapping_bodies():
 				if body.is_in_group("player") and body.has_method("take_damage"):
 					body.take_damage(attack_damage, global_position)
 	)
 
-	get_tree().create_timer(0.7).timeout.connect(func():
+	get_tree().create_timer(0.75).timeout.connect(func():
 		_is_attacking = false
+		if not is_dead and anim_sprite:
+			anim_sprite.play("idle")
 	)
+
+
+func _spawn_blood_slash_vfx() -> void:
+	var parent_scene: Node = get_parent()
+	if not parent_scene:
+		return
+	var vfx: CPUParticles2D = CPUParticles2D.new()
+	vfx.emitting = true
+	vfx.one_shot = true
+	vfx.amount = 24
+	vfx.lifetime = 0.35
+	vfx.explosiveness = 0.8
+	vfx.spread = 70.0
+	vfx.initial_velocity_min = 40.0
+	vfx.initial_velocity_max = 120.0
+	vfx.color = Color(0.9, 0.1, 0.18, 0.9)
+	vfx.global_position = global_position + Vector2(25.0 * _facing_dir, -25.0)
+	parent_scene.add_child(vfx)
+	vfx.finished.connect(vfx.queue_free)
 
 
 func take_damage(amount: int, attacker: Node2D = null) -> void:
@@ -111,11 +133,17 @@ func take_damage(amount: int, attacker: Node2D = null) -> void:
 	if health_bar:
 		health_bar.value = current_health
 
-	# Darbe efekti (kızıl flaş)
-	if visual:
+	# Darbe efekti (kızıl hasar flaşı)
+	if visual and not is_dead:
 		var tw: Tween = create_tween()
-		tw.tween_property(visual, "modulate", Color(2.5, 0.8, 0.8, 1.0), 0.06)
-		tw.tween_property(visual, "modulate", Color(1.8, 0.3, 0.35, 1.0), 0.12)
+		tw.tween_property(visual, "modulate", Color(2.5, 0.5, 0.5, 1.0), 0.06)
+		tw.tween_property(visual, "modulate", Color.WHITE, 0.14)
+		if not _is_attacking and anim_sprite and anim_sprite.sprite_frames.has_animation("hurt"):
+			anim_sprite.play("hurt")
+			get_tree().create_timer(0.25).timeout.connect(func():
+				if not is_dead and not _is_attacking and anim_sprite:
+					anim_sprite.play("idle")
+			)
 
 	_spawn_damage_text(amount)
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://battering_ram_crew_01"]
+[gd_scene load_steps=4 format=3 uid="uid://battering_ram_crew_01"]
 
 [ext_resource type="Script" path="res://scripts/objects/battering_ram_crew.gd" id="1_script"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/allies/janissary/janissary_frames.tres" id="2_frames"]
+[ext_resource type="Texture2D" path="res://assets/objects/battering_ram.png" id="3_ram_tex"]
 
 [node name="BatteringRamCrew" type="Node2D"]
 script = ExtResource("1_script")
@@ -10,27 +11,27 @@ script = ExtResource("1_script")
 
 [node name="CarrierRear" type="AnimatedSprite2D" parent="Carriers"]
 texture_filter = 1
-position = Vector2(-72, -29.3)
+position = Vector2(-56, -29.3)
 scale = Vector2(0.24, 0.24)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 
 [node name="CarrierMid" type="AnimatedSprite2D" parent="Carriers"]
 texture_filter = 1
-position = Vector2(-24, -29.3)
+position = Vector2(-18, -29.3)
 scale = Vector2(0.24, 0.24)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 
 [node name="CarrierFront" type="AnimatedSprite2D" parent="Carriers"]
 texture_filter = 1
-position = Vector2(24, -29.3)
+position = Vector2(20, -29.3)
 scale = Vector2(0.24, 0.24)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 
 [node name="Commander" type="Node2D" parent="."]
-position = Vector2(-125, -31.7)
+position = Vector2(-110, -31.7)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Commander"]
 texture_filter = 1
@@ -51,79 +52,10 @@ text = "ÖNCÜ KUMANDAN"
 horizontal_alignment = 1
 
 [node name="RamVisual" type="Node2D" parent="."]
-position = Vector2(0, -22)
+position = Vector2(0, -14)
 
-[node name="TrunkBeam" type="ColorRect" parent="RamVisual"]
-offset_left = -95.0
-offset_top = -9.0
-offset_right = 45.0
-offset_bottom = 9.0
-color = Color(0.36, 0.22, 0.14, 1)
-
-[node name="TrunkGrain" type="ColorRect" parent="RamVisual"]
-offset_left = -95.0
-offset_top = -3.0
-offset_right = 45.0
-offset_bottom = 3.0
-color = Color(0.44, 0.28, 0.18, 1)
-
-[node name="Band1" type="ColorRect" parent="RamVisual"]
-offset_left = -75.0
-offset_top = -11.0
-offset_right = -67.0
-offset_bottom = 11.0
-color = Color(0.22, 0.22, 0.25, 1)
-
-[node name="Band2" type="ColorRect" parent="RamVisual"]
-offset_left = -28.0
-offset_top = -11.0
-offset_right = -20.0
-offset_bottom = 11.0
-color = Color(0.22, 0.22, 0.25, 1)
-
-[node name="Band3" type="ColorRect" parent="RamVisual"]
-offset_left = 20.0
-offset_top = -11.0
-offset_right = 28.0
-offset_bottom = 11.0
-color = Color(0.22, 0.22, 0.25, 1)
-
-[node name="Rivet1" type="ColorRect" parent="RamVisual"]
-offset_left = -73.0
-offset_top = -7.0
-offset_right = -69.0
-offset_bottom = -3.0
-color = Color(0.7, 0.6, 0.25, 1)
-
-[node name="Rivet2" type="ColorRect" parent="RamVisual"]
-offset_left = -26.0
-offset_top = -7.0
-offset_right = -22.0
-offset_bottom = -3.0
-color = Color(0.7, 0.6, 0.25, 1)
-
-[node name="Rivet3" type="ColorRect" parent="RamVisual"]
-offset_left = 22.0
-offset_top = -7.0
-offset_right = 26.0
-offset_bottom = -3.0
-color = Color(0.7, 0.6, 0.25, 1)
-
-[node name="IronHeadBase" type="ColorRect" parent="RamVisual"]
-offset_left = 45.0
-offset_top = -13.0
-offset_right = 68.0
-offset_bottom = 13.0
-color = Color(0.25, 0.25, 0.28, 1)
-
-[node name="IronTip" type="Polygon2D" parent="RamVisual"]
-color = Color(0.32, 0.32, 0.36, 1)
-polygon = PackedVector2Array(68, -11, 84, 0, 68, 11)
-
-[node name="HornTop" type="Polygon2D" parent="RamVisual"]
-color = Color(0.65, 0.5, 0.22, 1)
-polygon = PackedVector2Array(65, -9, 82, -20, 74, -26, 58, -15)
-
-[node name="HornBottom" type="Polygon2D" parent="RamVisual"]
-color = Color(0.65, 0.5, 0.22, 1)
-polygon = PackedVector2Array(65, 9, 82, 20, 74, 26, 58, 15)
+[node name="RamSprite" type="Sprite2D" parent="RamVisual"]
+texture_filter = 1
+position = Vector2(-8, 0)
+scale = Vector2(0.078, 0.078)
+texture = ExtResource("3_ram_tex")

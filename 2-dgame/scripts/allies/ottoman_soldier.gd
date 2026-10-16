@@ -16,6 +16,7 @@ signal drained_by_player()
 @export var attack_damage: int = 24
 @export var attack_range: float = 65.0
 @export var attack_cooldown: float = 0.85
+@export var is_guard: bool = false
 
 var gravity: float = 980.0
 var _target_enemy: Node2D = null
@@ -49,6 +50,13 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor():
 		velocity.y += gravity * delta
+
+	if is_guard:
+		velocity.x = 0.0
+		if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+			anim_sprite.play("idle")
+		move_and_slide()
+		return
 
 	_attack_timer = maxf(0.0, _attack_timer - delta)
 	_shout_timer = maxf(0.0, _shout_timer - delta)
@@ -108,12 +116,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if _is_dead or not _player_nearby or not _player_ref:
-		return
-	# [E] tuşu ile yaralı veya müttefik askeri kurban etme (Aktif Sömürü)
-	if event.is_action_pressed("interact") or (event is InputEventKey and event.pressed and event.keycode == KEY_E):
-		_drain_soldier()
+func _unhandled_input(_event: InputEvent) -> void:
+	pass
 
 
 func _find_nearest_enemy() -> void:
@@ -347,8 +351,7 @@ func _on_interaction_area_body_entered(body: Node2D) -> void:
 		_player_nearby = true
 		_player_ref = body as CharacterBody2D
 		if interact_label:
-			interact_label.visible = true
-			interact_label.text = "[E] Kanını Sömür"
+			interact_label.visible = false
 
 
 func _on_interaction_area_body_exited(body: Node2D) -> void:

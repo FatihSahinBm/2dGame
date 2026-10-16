@@ -33,6 +33,13 @@ func _ready() -> void:
 	if player and hud:
 		_setup_hud()
 
+	var guards = get_node_or_null("Guards")
+	if guards:
+		for g in guards.get_children():
+			var g_vis = g.get_node_or_null("Visual")
+			if g_vis:
+				g_vis.scale.x = -absf(g_vis.scale.x)
+
 	# Sahne açıldıktan kısa süre sonra Fatih ile sinematik diyaloğu otomatik başlat
 	get_tree().create_timer(0.6).timeout.connect(_start_fatih_audience)
 

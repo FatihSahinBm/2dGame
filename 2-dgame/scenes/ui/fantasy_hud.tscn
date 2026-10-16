@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/fantasy_hud.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/portrait_knight.png" id="2_portrait"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_potion_blue.png" id="11_pot_blue"]
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_sword_slot.png" id="12_sword"]
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_crown.png" id="13_crown"]
+[ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_quiver.png" id="14_quiver"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
 bg_color = Color(0.105882, 0.129412, 0.176471, 0.95)
@@ -240,7 +241,7 @@ layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -260.0
+offset_left = -340.0
 offset_top = 18.0
 offset_right = -24.0
 offset_bottom = 54.0
@@ -252,11 +253,32 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -230.0
+offset_left = -310.0
 offset_bottom = 32.0
 grow_horizontal = 0
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 alignment = 2
+
+[node name="QuiverPanel" type="PanelContainer" parent="TopRight/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
+
+[node name="HBox" type="HBoxContainer" parent="TopRight/HBoxContainer/QuiverPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="TopRight/HBoxContainer/QuiverPanel/HBox"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("14_quiver")
+stretch_mode = 3
+
+[node name="QuiverLabel" type="Label" parent="TopRight/HBoxContainer/QuiverPanel/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "x 1"
 
 [node name="CoinPanel" type="PanelContainer" parent="TopRight/HBoxContainer"]
 layout_mode = 2

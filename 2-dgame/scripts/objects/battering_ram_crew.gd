@@ -54,7 +54,7 @@ func play_assault_sequence(gate_node: Node2D, player_node: CharacterBody2D, dial
 	global_position = Vector2(gate_node.global_position.x - 360.0, 560.0)
 
 	var tw_run = create_tween()
-	tw_run.tween_property(self, "global_position:x", gate_node.global_position.x - 130.0, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw_run.tween_property(self, "global_position:x", gate_node.global_position.x - 100.0, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tw_run.tween_callback(func():
 		_set_soldiers_animation("idle")
 		_spawn_dust_burst(global_position + Vector2(40.0, 0.0))

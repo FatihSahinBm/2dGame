@@ -23,7 +23,7 @@ shape = SubResource("RectangleShape2D_body")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
 texture_filter = 1
 position = Vector2(0, -31.7)
-scale = Vector2(0.26, 0.26)
+scale = Vector2(0.30, 0.30)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"

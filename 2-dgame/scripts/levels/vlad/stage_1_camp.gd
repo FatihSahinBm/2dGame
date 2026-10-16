@@ -17,7 +17,8 @@ extends Node2D
 @onready var quiver_item: Area2D = get_node_or_null("Environment/BrokenCart/ArrowQuiverItem") as Area2D
 
 var _has_arrow_quiver: bool = false
-var _archer_reward_given: bool = false
+var _archer_quest_state: String = "NOT_STARTED" # "NOT_STARTED", "ACCEPTED", "DECLINED", "COMPLETED"
+var _dialogue_in_progress: bool = false
 var _is_transitioning: bool = false
 
 
@@ -36,8 +37,19 @@ func _ready() -> void:
 	if player and hud:
 		_setup_hud()
 
-	if quiver_item and quiver_item.has_signal("collected"):
-		quiver_item.collected.connect(_on_quiver_collected)
+	if quiver_item:
+		if quiver_item.has_method("set_quest_active"):
+			quiver_item.set_quest_active(false)
+		if quiver_item.has_signal("collected"):
+			quiver_item.collected.connect(_on_quiver_collected)
+
+	if dialogue_box:
+		if dialogue_box.has_signal("choice_selected"):
+			dialogue_box.choice_selected.connect(_on_dialogue_choice_selected)
+		if dialogue_box.has_signal("dialogue_started"):
+			dialogue_box.dialogue_started.connect(func(): _dialogue_in_progress = true)
+		if dialogue_box.has_signal("dialogue_completed"):
+			dialogue_box.dialogue_completed.connect(func(): _dialogue_in_progress = false)
 
 	if tent_gate:
 		tent_gate.body_entered.connect(_on_tent_gate_entered)
@@ -47,7 +59,7 @@ func _setup_camera() -> void:
 	if player:
 		var cam: Camera2D = player.get_node_or_null("Camera2D") as Camera2D
 		if cam:
-			cam.limit_left = 0
+			cam.limit_left = -220
 			cam.limit_right = 1400
 			cam.limit_top = -140
 			cam.limit_bottom = 630
@@ -71,33 +83,89 @@ func _setup_hud() -> void:
 		hud.set_tutorial(
 			"2. Harita: Osmanlı Ordugahı",
 			"Otağ-ı Hümayun'a İlerle",
-			"Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (İpuç: Kırık erzak arabasındaki sadakları Kemankeş'e ulaştır.)"
-		)
-
-
-func _on_quiver_collected() -> void:
-	_has_arrow_quiver = true
-	var game_state: Node = get_node_or_null("/root/GameState")
-	if game_state and game_state.has_method("unlock_ability"):
-		game_state.unlock_ability("flaming_arrows")
-
-	if hud and hud.has_method("set_tutorial"):
-		hud.set_tutorial(
-			"Sadaklar Alındı",
-			"Kemankeş'e Ulaştır",
-			"Alevli ok sadaklarını ordugahtaki Kemankeş okçusuna teslim et."
+			"Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle."
 		)
 
 
 func _physics_process(_delta: float) -> void:
-	# Eğer sadaklar alındıysa ve oyuncu Kemankeş'in yanına vardıysa diyaloğu tetikle
-	if _has_arrow_quiver and not _archer_reward_given and kemankes and player:
-		if player.global_position.distance_to(kemankes.global_position) < 80.0:
-			_deliver_quiver_to_archer()
+	if _dialogue_in_progress or not kemankes or not player:
+		return
+
+	var dist: float = player.global_position.distance_to(kemankes.global_position)
+
+	# 1. Henüz konuşulmadıysa ve oyuncu yaklaştıysa Kemankeş seslenir
+	if _archer_quest_state == "NOT_STARTED" and dist < 120.0:
+		_start_archer_callout()
+	# 2. Sadaklar toplandıysa ve oyuncu teslim için döndüyse
+	elif _has_arrow_quiver and _archer_quest_state == "ACCEPTED" and dist < 85.0:
+		_deliver_quiver_to_archer()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _dialogue_in_progress or not kemankes or not player:
+		return
+
+	# Reddedildiyse ve oyuncu [E] basıp tekrar konuşmak isterse
+	if _archer_quest_state == "DECLINED" and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_E:
+		var dist: float = player.global_position.distance_to(kemankes.global_position)
+		if dist < 80.0:
+			get_viewport().set_input_as_handled()
+			_start_archer_callout()
+
+
+func _start_archer_callout() -> void:
+	if not dialogue_box:
+		return
+	dialogue_box.start_dialogue_from_data("archer_sidequest_callout", kemankes)
+
+
+func _on_dialogue_choice_selected(action: String) -> void:
+	if action == "accept":
+		_archer_quest_state = "ACCEPTED"
+		if quiver_item and quiver_item.has_method("set_quest_active"):
+			quiver_item.set_quest_active(true)
+		dialogue_box.start_dialogue_from_data("archer_sidequest_accept", kemankes)
+		if hud and hud.has_method("set_tutorial"):
+			hud.set_tutorial(
+				"Görev: Alevli Sadakları Bul",
+				"Erzak Arabasına Dön",
+				"Vadideki kırık erzak arabasından alevli ok sadaklarını topla."
+			)
+	elif action == "decline":
+		_archer_quest_state = "DECLINED"
+		dialogue_box.start_dialogue_from_data("archer_sidequest_decline", kemankes)
+		if hud and hud.has_method("set_tutorial"):
+			hud.set_tutorial(
+				"Otağ-ı Hümayun'a İlerle",
+				"Fatih'in Çadırı",
+				"Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile [E] konuş.)"
+			)
+
+
+func _on_quiver_collected() -> void:
+	_has_arrow_quiver = true
+	if hud and hud.has_method("set_quiver_visible"):
+		hud.set_quiver_visible(true, 1)
+
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial(
+			"Sadaklar Alındı!",
+			"Kemankeş'e Götür",
+			"Alevli ok sadaklarını ordugahtaki Kemankeş Çavuşu'na teslim et."
+		)
 
 
 func _deliver_quiver_to_archer() -> void:
-	_archer_reward_given = true
+	_archer_quest_state = "COMPLETED"
+	_has_arrow_quiver = false
+
+	if hud and hud.has_method("set_quiver_visible"):
+		hud.set_quiver_visible(false)
+
+	var game_state: Node = get_node_or_null("/root/GameState")
+	if game_state and game_state.has_method("unlock_ability"):
+		game_state.unlock_ability("flaming_arrows")
+
 	if dialogue_box:
 		dialogue_box.start_dialogue_from_data("archer_sidequest_complete", kemankes)
 		dialogue_box.dialogue_completed.connect(func():

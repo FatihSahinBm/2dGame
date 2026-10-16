@@ -26,17 +26,10 @@ centered = false
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="Environment"]
-position = Vector2(640, 610)
+position = Vector2(640, 640)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
-
-[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
-offset_left = -650.0
-offset_top = -30.0
-offset_right = 650.0
-offset_bottom = 120.0
-color = Color(0.12, 0.08, 0.06, 1)
 
 [node name="WallLeft" type="StaticBody2D" parent="Environment"]
 position = Vector2(20, 360)
@@ -51,23 +44,26 @@ position = Vector2(1260, 360)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(200, 580)
+position = Vector2(240, 610)
 has_sword = true
 is_armed = true
 
 [node name="JanissaryCommander" parent="." instance=ExtResource("6_commander")]
-position = Vector2(340, 580)
+position = Vector2(380, 610)
+is_guard = true
 
 [node name="FatihNPC" parent="." instance=ExtResource("5_fatih")]
-position = Vector2(750, 580)
+position = Vector2(880, 610)
 
 [node name="Guards" type="Node2D" parent="."]
 
 [node name="Guard1" parent="Guards" instance=ExtResource("7_soldier")]
-position = Vector2(930, 580)
+position = Vector2(1060, 610)
+is_guard = true
 
 [node name="Guard2" parent="Guards" instance=ExtResource("7_soldier")]
-position = Vector2(1060, 580)
+position = Vector2(1150, 610)
+is_guard = true
 
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
 

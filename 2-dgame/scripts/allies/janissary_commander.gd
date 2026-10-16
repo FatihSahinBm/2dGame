@@ -15,6 +15,7 @@ signal died(death_pos: Vector2)
 @export var attack_damage: int = 35
 @export var attack_range: float = 65.0
 @export var attack_cooldown: float = 0.9
+@export var is_guard: bool = false
 
 var gravity: float = 980.0
 var is_rescued: bool = false
@@ -45,6 +46,13 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor():
 		velocity.y += gravity * delta
+
+	if is_guard:
+		velocity.x = 0.0
+		if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+			anim_sprite.play("idle")
+		move_and_slide()
+		return
 
 	_attack_timer = maxf(0.0, _attack_timer - delta)
 	_shout_timer = maxf(0.0, _shout_timer - delta)

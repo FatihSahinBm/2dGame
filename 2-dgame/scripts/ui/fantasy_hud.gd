@@ -28,6 +28,8 @@ signal potion_used(potion_type: String)
 
 @onready var coin_label: Label = $TopRight/HBoxContainer/CoinPanel/HBox/CoinLabel
 @onready var key_label: Label = $TopRight/HBoxContainer/KeyPanel/HBox/KeyLabel
+@onready var quiver_panel: PanelContainer = get_node_or_null("TopRight/HBoxContainer/QuiverPanel") as PanelContainer
+@onready var quiver_label: Label = get_node_or_null("TopRight/HBoxContainer/QuiverPanel/HBox/QuiverLabel") as Label
 @onready var pause_button: TextureButton = $TopRight/HBoxContainer/PauseButton
 
 @onready var sword_slot: TextureRect = $BottomLeft/DiamondContainer/SlotBottom/Icon
@@ -35,12 +37,14 @@ signal potion_used(potion_type: String)
 @onready var potion_red_count: Label = $BottomLeft/DiamondContainer/SlotLeft/CountBadge
 @onready var potion_blue_count: Label = $BottomLeft/DiamondContainer/SlotRight/CountBadge
 
+@onready var tutorial_box: Control = get_node_or_null("BottomRight/TutorialBox") as Control
 @onready var tutorial_title: Label = $BottomRight/TutorialBox/HBox/VBox/TitleLabel
 @onready var tutorial_key: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/KeyBadge/Label
 @onready var tutorial_desc: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/DescLabel
 
 var _health_tween: Tween
 var _mana_tween: Tween
+var _tutorial_tween: Tween
 
 func _ready() -> void:
 	if pause_button:
@@ -105,6 +109,13 @@ func update_keys(new_keys: int) -> void:
 	if key_label:
 		key_label.text = "x %d" % keys
 
+## Alevli Sadak Görev Eşyası Görünürlüğü
+func set_quiver_visible(show: bool, count: int = 1) -> void:
+	if quiver_panel:
+		quiver_panel.visible = show
+	if quiver_label:
+		quiver_label.text = "x %d" % count
+
 ## Kılıç / Silah Slotunu Güncelle
 func update_weapon_slot(equipped: bool, is_active: bool = true) -> void:
 	has_weapon = equipped
@@ -125,7 +136,7 @@ func update_potion_counts() -> void:
 	if potion_blue_count:
 		potion_blue_count.text = str(mana_potions)
 
-## İpucu / Görev Kutusunu Güncelle
+## İpucu / Görev Kutusunu Güncelle (4 saniye sonra otomatik kaybolur)
 func set_tutorial(title: String, key_badge: String, desc: String) -> void:
 	if tutorial_title:
 		tutorial_title.text = title
@@ -136,6 +147,36 @@ func set_tutorial(title: String, key_badge: String, desc: String) -> void:
 			key_badge_panel.visible = not key_badge.is_empty()
 	if tutorial_desc:
 		tutorial_desc.text = desc
+
+	if tutorial_box:
+		if _tutorial_tween:
+			_tutorial_tween.kill()
+		tutorial_box.visible = true
+		tutorial_box.modulate.a = 1.0
+		_tutorial_tween = create_tween()
+		_tutorial_tween.tween_interval(4.0)
+		_tutorial_tween.tween_property(tutorial_box, "modulate:a", 0.0, 0.45)
+		_tutorial_tween.tween_callback(func():
+			if is_instance_valid(tutorial_box):
+				tutorial_box.visible = false
+		)
+
+
+func hide_tutorial(immediate: bool = false) -> void:
+	if _tutorial_tween:
+		_tutorial_tween.kill()
+	if not tutorial_box:
+		return
+	if immediate:
+		tutorial_box.visible = false
+		tutorial_box.modulate.a = 0.0
+	else:
+		_tutorial_tween = create_tween()
+		_tutorial_tween.tween_property(tutorial_box, "modulate:a", 0.0, 0.25)
+		_tutorial_tween.tween_callback(func():
+			if is_instance_valid(tutorial_box):
+				tutorial_box.visible = false
+		)
 
 ## Can İksiri Kullan
 func use_health_potion() -> void:

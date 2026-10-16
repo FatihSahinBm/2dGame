@@ -65,11 +65,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if _is_dead or not _player_nearby or not _player_ref:
-		return
-	if event.is_action_pressed("interact") or (event is InputEventKey and event.pressed and event.keycode == KEY_E):
-		_drain_archer()
+func _unhandled_input(_event: InputEvent) -> void:
+	pass
 
 
 func _find_target() -> void:
@@ -224,8 +221,7 @@ func _on_interaction_area_body_entered(body: Node2D) -> void:
 		_player_nearby = true
 		_player_ref = body as CharacterBody2D
 		if interact_label:
-			interact_label.visible = true
-			interact_label.text = "[E] Kanını Sömür"
+			interact_label.visible = false
 
 
 func _on_interaction_area_body_exited(body: Node2D) -> void:

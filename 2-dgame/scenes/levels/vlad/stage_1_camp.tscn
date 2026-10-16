@@ -11,15 +11,17 @@
 [ext_resource type="Texture2D" path="res://assets/objects/royal_ottoman_tent.png" id="9_tent"]
 [ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="10_backdrop"]
 [ext_resource type="Script" path="res://scripts/objects/arrow_quiver_item.gd" id="11_quiver"]
+[ext_resource type="Texture2D" path="res://assets/objects/broken_cart.png" id="12_cart_tex"]
+[ext_resource type="Texture2D" path="res://assets/items/arrow_quiver.png" id="13_quiver_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1500, 60)
+size = Vector2(1800, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_gate"]
 size = Vector2(80, 220)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_quiver"]
-size = Vector2(32, 32)
+size = Vector2(40, 48)
 
 [node name="Stage1Camp" type="Node2D"]
 script = ExtResource("1_camp")
@@ -38,44 +40,35 @@ fog_color = Color(0.12, 0.05, 0.04, 0.18)
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="Environment"]
-position = Vector2(700, 590)
+position = Vector2(600, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
-offset_left = -750.0
+offset_left = -900.0
 offset_top = -30.0
-offset_right = 750.0
+offset_right = 900.0
 offset_bottom = 120.0
 color = Color(0.12, 0.09, 0.08, 1)
 
 [node name="PathTrim" type="ColorRect" parent="Environment/Ground"]
-offset_left = -750.0
+offset_left = -900.0
 offset_top = -30.0
-offset_right = 750.0
+offset_right = 900.0
 offset_bottom = -26.0
 color = Color(0.3, 0.22, 0.18, 1)
 
 [node name="BrokenCart" type="Node2D" parent="Environment"]
-position = Vector2(480, 560)
+position = Vector2(-110, 530)
 
-[node name="CartVisual" type="ColorRect" parent="Environment/BrokenCart"]
-offset_left = -25.0
-offset_top = -20.0
-offset_right = 25.0
-offset_bottom = 0.0
-color = Color(0.28, 0.18, 0.12, 1)
-
-[node name="CartWheel" type="ColorRect" parent="Environment/BrokenCart"]
-offset_left = -18.0
-offset_top = -10.0
-offset_right = -6.0
-offset_bottom = 2.0
-color = Color(0.15, 0.1, 0.08, 1)
+[node name="CartSprite" type="Sprite2D" parent="Environment/BrokenCart"]
+texture_filter = 1
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("12_cart_tex")
 
 [node name="ArrowQuiverItem" type="Area2D" parent="Environment/BrokenCart"]
-position = Vector2(0, -25)
+position = Vector2(15, -10)
 collision_layer = 4
 collision_mask = 1
 script = ExtResource("11_quiver")
@@ -83,13 +76,10 @@ script = ExtResource("11_quiver")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
 shape = SubResource("RectangleShape2D_quiver")
 
-[node name="Visual" type="Polygon2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
-color = Color(0.65, 0.38, 0.18, 1)
-polygon = PackedVector2Array(-8, -14, 8, -14, 5, 12, -5, 12)
-
-[node name="ArrowTips" type="Polygon2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
-color = Color(0.95, 0.75, 0.25, 1)
-polygon = PackedVector2Array(-6, -14, -4, -20, -2, -14, 0, -21, 2, -14, 4, -20, 6, -14)
+[node name="QuiverSprite" type="Sprite2D" parent="Environment/BrokenCart/ArrowQuiverItem"]
+texture_filter = 1
+scale = Vector2(0.045, 0.045)
+texture = ExtResource("13_quiver_tex")
 
 [node name="RoyalTentVisual" type="Sprite2D" parent="Environment"]
 z_index = -1
@@ -98,26 +88,30 @@ texture = ExtResource("9_tent")
 centered = false
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(100, 560)
+position = Vector2(120, 560)
 has_sword = true
 is_armed = true
 
 [node name="Allies" type="Node2D" parent="."]
 
 [node name="JanissaryCommander" parent="Allies" instance=ExtResource("7_commander")]
-position = Vector2(240, 560)
+position = Vector2(260, 560)
+is_guard = true
 
 [node name="JanissaryGuard1" parent="Allies" instance=ExtResource("5_soldier")]
-position = Vector2(360, 560)
+position = Vector2(480, 560)
+is_guard = true
 
 [node name="KemankesArcher" parent="Allies" instance=ExtResource("6_archer")]
-position = Vector2(650, 560)
+position = Vector2(760, 560)
 
 [node name="JanissaryGuard2" parent="Allies" instance=ExtResource("5_soldier")]
-position = Vector2(850, 560)
+position = Vector2(940, 560)
+is_guard = true
 
 [node name="JanissaryGuard3" parent="Allies" instance=ExtResource("5_soldier")]
-position = Vector2(1080, 560)
+position = Vector2(1120, 560)
+is_guard = true
 
 [node name="TentEntranceArea" type="Area2D" parent="."]
 position = Vector2(1200, 500)

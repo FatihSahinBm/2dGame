@@ -9,6 +9,7 @@ const StoryDataLoader = preload("res://scripts/autoloads/story_data_loader.gd")
 
 signal dialogue_started()
 signal dialogue_completed()
+signal choice_selected(action: String)
 
 @export var typewriter_speed: float = 0.025
 
@@ -18,6 +19,14 @@ var _is_typing: bool = false
 var _full_text: String = ""
 var _type_timer: float = 0.0
 var _char_index: int = 0
+var _current_choices: Array = []
+var _has_choices_active: bool = false
+
+const PORTRAIT_FATIH = preload("res://assets/ui/portraits/portrait_fatih.png")
+const PORTRAIT_COMMANDER = preload("res://assets/ui/portraits/portrait_commander.png")
+const PORTRAIT_PLAYER = preload("res://assets/ui/portraits/portrait_player.png")
+const PORTRAIT_VLAD = preload("res://assets/ui/portraits/portrait_vlad.png")
+const PORTRAIT_KEMANKES = preload("res://assets/ui/portraits/portrait_kemankes.png")
 
 @onready var panel: Control = $Panel
 @onready var letterbox_top: ColorRect = get_node_or_null("LetterboxTop") as ColorRect
@@ -25,8 +34,11 @@ var _char_index: int = 0
 @onready var speaker_name_label: Label = $Panel/SpeakerName
 @onready var speaker_title_label: Label = $Panel/SpeakerTitle
 @onready var content_label: Label = $Panel/ContentLabel
-@onready var portrait_rect: ColorRect = $Panel/PortraitContainer/PortraitColor
+@onready var portrait_texture: TextureRect = get_node_or_null("Panel/PortraitContainer/PortraitTexture") as TextureRect
 @onready var continue_prompt: Label = $Panel/ContinuePrompt
+@onready var choices_container: HBoxContainer = get_node_or_null("Panel/ChoicesContainer") as HBoxContainer
+@onready var choice_btn_1: Button = get_node_or_null("Panel/ChoicesContainer/ChoiceButton1") as Button
+@onready var choice_btn_2: Button = get_node_or_null("Panel/ChoicesContainer/ChoiceButton2") as Button
 
 var _active_camera: Camera2D = null
 var _original_camera_zoom: Vector2 = Vector2.ONE
@@ -38,6 +50,10 @@ func _ready() -> void:
 	add_to_group("dialogue_box")
 	if panel:
 		panel.visible = false
+	if choice_btn_1:
+		choice_btn_1.pressed.connect(func(): _on_choice_clicked(0))
+	if choice_btn_2:
+		choice_btn_2.pressed.connect(func(): _on_choice_clicked(1))
 
 
 func _process(delta: float) -> void:
@@ -50,24 +66,50 @@ func _process(delta: float) -> void:
 		_char_index += 1
 		content_label.text = _full_text.substr(0, _char_index)
 		if _char_index >= _full_text.length():
-			_is_typing = false
-			if continue_prompt:
-				continue_prompt.visible = true
+			_on_typing_finished()
+
+
+func _on_typing_finished() -> void:
+	_is_typing = false
+	if _current_choices.size() > 0:
+		_has_choices_active = true
+		if continue_prompt:
+			continue_prompt.visible = false
+		if choices_container:
+			choices_container.visible = true
+			if choice_btn_1 and choice_btn_1.is_visible_in_tree():
+				choice_btn_1.grab_focus()
+	else:
+		_has_choices_active = false
+		if choices_container:
+			choices_container.visible = false
+		if continue_prompt:
+			continue_prompt.visible = true
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not panel.visible:
 		return
 
+	if _has_choices_active:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_1 and _current_choices.size() > 0:
+				get_viewport().set_input_as_handled()
+				_on_choice_clicked(0)
+				return
+			elif event.keycode == KEY_2 and _current_choices.size() > 1:
+				get_viewport().set_input_as_handled()
+				_on_choice_clicked(1)
+				return
+		return
+
 	if (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER or event.keycode == KEY_E)) \
 			or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		get_viewport().set_input_as_handled()
 		if _is_typing:
-			# Daktilo efektini atla, metnin tamamını göster
 			_is_typing = false
 			content_label.text = _full_text
-			if continue_prompt:
-				continue_prompt.visible = true
+			_on_typing_finished()
 		else:
 			_advance_dialogue()
 
@@ -116,6 +158,15 @@ func _apply_cinematic_mode(enable: bool, focus_speaker: Node2D = null) -> void:
 	# 2. Sinematik Letterbox (Üst ve alt siyah barlar)
 	set_letterbox(enable, 52.0)
 
+	# 3. HUD Tamamen Gizle / Göster (Diyalog kutusu ve sinematiklerle çakışmayı önle)
+	var hud = get_tree().get_first_node_in_group("hud")
+	if not hud and _player_ref and _player_ref.get_parent():
+		hud = _player_ref.get_parent().get_node_or_null("FantasyHUD")
+	if hud and "visible" in hud:
+		hud.visible = not enable
+	elif hud and hud.has_method("hide_tutorial") and enable:
+		hud.hide_tutorial(true)
+
 	# 3. Kamera 1.35x Yumuşak Zoom ve Odaklama
 	if not _active_camera or not is_instance_valid(_active_camera):
 		if _player_ref:
@@ -152,30 +203,56 @@ func _show_current_entry() -> void:
 	if continue_prompt:
 		continue_prompt.visible = false
 
+	# Seçenekleri hazırla (varsa)
+	_current_choices = entry.get("choices", [])
+	_has_choices_active = false
+	if choices_container:
+		choices_container.visible = false
+	if _current_choices.size() > 0:
+		if choice_btn_1:
+			choice_btn_1.text = _current_choices[0].get("text", "[1] Evet")
+			choice_btn_1.visible = true
+		if choice_btn_2:
+			if _current_choices.size() > 1:
+				choice_btn_2.text = _current_choices[1].get("text", "[2] Hayır")
+				choice_btn_2.visible = true
+			else:
+				choice_btn_2.visible = false
+
 	# Portre rengi/stili
 	var portrait_type: String = entry.get("portrait", "")
 	_apply_portrait_style(portrait_type)
 
 
+func _on_choice_clicked(index: int) -> void:
+	if not _has_choices_active or index < 0 or index >= _current_choices.size():
+		return
+	var choice_data: Dictionary = _current_choices[index] as Dictionary
+	var action: String = choice_data.get("action", "")
+	_has_choices_active = false
+	if choices_container:
+		choices_container.visible = false
+	choice_selected.emit(action)
+	_advance_dialogue()
+
+
 func _apply_portrait_style(portrait_type: String) -> void:
-	if not portrait_rect:
+	if not portrait_texture:
 		return
 
 	match portrait_type:
 		"fatih":
-			portrait_rect.color = Color(0.85, 0.65, 0.2, 1.0) # Osmanlı altını
-		"janissary":
-			portrait_rect.color = Color(0.8, 0.25, 0.25, 1.0) # Yeniçeri kırmızısı
-		"player":
-			portrait_rect.color = Color(0.35, 0.45, 0.65, 1.0) # Savaşçı çeliği
-		"player_dark":
-			portrait_rect.color = Color(0.4, 0.1, 0.2, 1.0) # Karanlık ego
+			portrait_texture.texture = PORTRAIT_FATIH
+		"janissary", "commander":
+			portrait_texture.texture = PORTRAIT_COMMANDER
+		"player", "player_dark":
+			portrait_texture.texture = PORTRAIT_PLAYER
 		"vlad":
-			portrait_rect.color = Color(0.75, 0.1, 0.15, 1.0) # Kan kırmızısı
-		"friend_memory":
-			portrait_rect.color = Color(0.2, 0.8, 0.9, 1.0) # Saf ruh mavisi
+			portrait_texture.texture = PORTRAIT_VLAD
+		"archer", "kemankes":
+			portrait_texture.texture = PORTRAIT_KEMANKES
 		_:
-			portrait_rect.color = Color(0.3, 0.3, 0.35, 1.0)
+			portrait_texture.texture = PORTRAIT_FATIH
 
 
 func _advance_dialogue() -> void:
@@ -185,5 +262,8 @@ func _advance_dialogue() -> void:
 
 func _close_dialogue() -> void:
 	panel.visible = false
+	_has_choices_active = false
+	if choices_container:
+		choices_container.visible = false
 	_apply_cinematic_mode(false)
 	dialogue_completed.emit()

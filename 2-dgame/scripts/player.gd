@@ -512,9 +512,15 @@ func perform_roll() -> void:
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("roll"):
 		anim_sprite.play("roll")
 
-## Girdi Olayları (Kılıç Çekme, Fırlatma, Saldırılar)
+## Girdi Olayları (Kılıç Çekme, Fırlatma, Saldırılar, Yeniden Doğma)
 func _unhandled_input(event: InputEvent) -> void:
-	if not can_move or is_dead:
+	if is_dead:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_R or event.physical_keycode == KEY_R:
+				respawn()
+		return
+
+	if not can_move:
 		return
 
 	# [1] Tuşu: Kılıç Çekme / Kınına Sokma (Draw / Sheathe Toggle)
@@ -977,6 +983,50 @@ func _trigger_block_hit(original_amount: int, reduced_amount: int) -> void:
 			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.55)
 			tw.tween_callback(label.queue_free)
 
+func respawn() -> void:
+	get_tree().reload_current_scene()
+
+
+func _show_death_screen() -> void:
+	var death_layer: CanvasLayer = CanvasLayer.new()
+	death_layer.layer = 120
+	add_child(death_layer)
+
+	var bg: ColorRect = ColorRect.new()
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0.2, 0.02, 0.04, 0.0)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	death_layer.add_child(bg)
+
+	var vbox: VBoxContainer = VBoxContainer.new()
+	vbox.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	vbox.add_theme_constant_override("separation", 8)
+	vbox.modulate.a = 0.0
+	death_layer.add_child(vbox)
+
+	var title: Label = Label.new()
+	title.text = "💀 YENİLDİN"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_color_override("font_color", Color(0.95, 0.15, 0.2, 1.0))
+	title.add_theme_color_override("font_outline_color", Color.BLACK)
+	title.add_theme_constant_override("outline_size", 6)
+	title.add_theme_font_size_override("font_size", 24)
+	vbox.add_child(title)
+
+	var prompt: Label = Label.new()
+	prompt.text = "[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ"
+	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	prompt.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5, 1.0))
+	prompt.add_theme_color_override("font_outline_color", Color.BLACK)
+	prompt.add_theme_constant_override("outline_size", 4)
+	prompt.add_theme_font_size_override("font_size", 14)
+	vbox.add_child(prompt)
+
+	var tw: Tween = create_tween().set_parallel(true)
+	tw.tween_property(bg, "color:a", 0.45, 0.8)
+	tw.tween_property(vbox, "modulate:a", 1.0, 0.6)
+
+
 func die() -> void:
 	if is_dead:
 		return
@@ -988,6 +1038,7 @@ func die() -> void:
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
 		anim_sprite.play("death")
 	player_died.emit()
+	_show_death_screen()
 
 ## Kılıç Alma & Fırlatma
 func can_pickup_weapon() -> bool:

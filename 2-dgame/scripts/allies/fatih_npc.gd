@@ -25,6 +25,8 @@ func _ready() -> void:
 		prompt_label.visible = false
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
 		anim_sprite.play("idle")
+	if visual:
+		visual.scale.x = -absf(visual.scale.x)
 
 
 func _unhandled_input(event: InputEvent) -> void:

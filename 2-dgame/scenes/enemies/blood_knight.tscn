@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://blood_knight_01"]
 
 [ext_resource type="Script" path="res://scripts/enemies/blood_knight.gd" id="1_knight"]
-[ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/enemies/blood_knight/blood_knight_frames.tres" id="2_frames"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(24, 44)
+size = Vector2(28, 56)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
-size = Vector2(50, 40)
+size = Vector2(65, 52)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
 bg_color = Color(0.08, 0.04, 0.04, 0.9)
@@ -35,20 +35,21 @@ floor_stop_on_slope = true
 script = ExtResource("1_knight")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -22)
+position = Vector2(0, -28)
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Visual" type="Node2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
 texture_filter = 1
-position = Vector2(0, -40)
+position = Vector2(0, -36)
+scale = Vector2(0.45, 0.45)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="AttackArea" type="Area2D" parent="Visual"]
-position = Vector2(25, -22)
+position = Vector2(35, -28)
 collision_layer = 0
 collision_mask = 1
 
@@ -56,7 +57,7 @@ collision_mask = 1
 shape = SubResource("RectangleShape2D_attack")
 
 [node name="UI" type="Node2D" parent="."]
-position = Vector2(0, -68)
+position = Vector2(0, -78)
 
 [node name="TitleLabel" type="Label" parent="UI"]
 offset_left = -90.0

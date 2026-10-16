@@ -58,11 +58,51 @@
         "portrait": "janissary"
       }
     ],
-    "archer_sidequest": [
+    "archer_sidequest_callout": [
       {
         "speaker": "Kemankeş Çavuşu",
         "title": "Osmanlı Okçusu",
-        "text": "Yabancı! Aşağı vadide erzak arabamız parçalandı, alevli ok sadakları orada kaldı. Onları getirirsen köprüdeki barikatları ateş yağmuruna tutarım!",
+        "text": "Hey yabancı! Dur bir dakika, beni dinle! Vadide erzak arabamız parçalandı, alevli ok sadaklarımız orada mahsur kaldı.",
+        "portrait": "archer"
+      },
+      {
+        "speaker": "Kemankeş Çavuşu",
+        "title": "Osmanlı Okçusu",
+        "text": "O alevli oklar olmadan surlara açılan köprüdeki canavar barikatlarını temizleyemeyiz! Gidip sadaklarımı bulmama yardımcı olur musun?",
+        "portrait": "archer",
+        "choices": [
+          {
+            "text": "[1] Yardımcı Ol",
+            "action": "accept"
+          },
+          {
+            "text": "[2] Vaktim Yok",
+            "action": "decline"
+          }
+        ]
+      }
+    ],
+    "archer_sidequest_accept": [
+      {
+        "speaker": "Kemankeş Çavuşu",
+        "title": "Osmanlı Okçusu",
+        "text": "Var ol yiğidim! Gerideki kırık erzak arabasının yanına bak. Sadakları sağ salim getirirsen, köprü taarruzunda sana alevli ok desteği yağdıracağım!",
+        "portrait": "archer"
+      }
+    ],
+    "archer_sidequest_decline": [
+      {
+        "speaker": "Kemankeş Çavuşu",
+        "title": "Osmanlı Okçusu",
+        "text": "Sen bilirsin yabancı... Lakin o köprüdeki vampir sürülerini tek başına yarman güç olacak. Fikrin değişirse ben buradayım.",
+        "portrait": "archer"
+      }
+    ],
+    "archer_sidequest_waiting": [
+      {
+        "speaker": "Kemankeş Çavuşu",
+        "title": "Osmanlı Okçusu",
+        "text": "Sadakları henüz bulamadın mı? Gerideki kırık erzak arabasını ara, köprüde oklara muhtacız!",
         "portrait": "archer"
       }
     ],
@@ -70,7 +110,7 @@
       {
         "speaker": "Kemankeş Çavuşu",
         "title": "Osmanlı Okçusu",
-        "text": "Sadakları bulmuşsun! Var ol yiğidim. Köprü taarruzunda yaylarımızı gerip canavarların barikatlarını ateşe boğacağız!",
+        "text": "Sadakları getirmişsin! Var ol yiğidim. Köprü taarruzunda yaylarımızı gerip canavarların barikatlarını ateşe boğacağız!",
         "portrait": "archer"
       }
     ],
