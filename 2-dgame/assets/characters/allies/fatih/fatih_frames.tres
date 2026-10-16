@@ -1,0 +1,284 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/allies/fatih/idle.png" id="1_idle"]
+[ext_resource type="Texture2D" path="res://assets/characters/allies/fatih/draw_sword.png" id="2_draw_sword"]
+[ext_resource type="Texture2D" path="res://assets/characters/allies/fatih/command.png" id="3_command"]
+[ext_resource type="Texture2D" path="res://assets/characters/allies/fatih/walk.png" id="4_walk"]
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_1"]
+atlas = ExtResource("1_idle")
+region = Rect2(160, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_2"]
+atlas = ExtResource("1_idle")
+region = Rect2(320, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_3"]
+atlas = ExtResource("1_idle")
+region = Rect2(480, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_4"]
+atlas = ExtResource("1_idle")
+region = Rect2(640, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_5"]
+atlas = ExtResource("1_idle")
+region = Rect2(800, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_6"]
+atlas = ExtResource("1_idle")
+region = Rect2(960, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_7"]
+atlas = ExtResource("1_idle")
+region = Rect2(1120, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_0"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(0, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_1"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(160, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_2"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(320, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_3"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(480, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_4"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(640, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_5"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(800, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_6"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(960, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_draw_sword_7"]
+atlas = ExtResource("2_draw_sword")
+region = Rect2(1120, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_0"]
+atlas = ExtResource("3_command")
+region = Rect2(0, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_1"]
+atlas = ExtResource("3_command")
+region = Rect2(160, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_2"]
+atlas = ExtResource("3_command")
+region = Rect2(320, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_3"]
+atlas = ExtResource("3_command")
+region = Rect2(480, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_4"]
+atlas = ExtResource("3_command")
+region = Rect2(640, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_5"]
+atlas = ExtResource("3_command")
+region = Rect2(800, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_6"]
+atlas = ExtResource("3_command")
+region = Rect2(960, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_command_7"]
+atlas = ExtResource("3_command")
+region = Rect2(1120, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_0"]
+atlas = ExtResource("4_walk")
+region = Rect2(0, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_1"]
+atlas = ExtResource("4_walk")
+region = Rect2(160, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_2"]
+atlas = ExtResource("4_walk")
+region = Rect2(320, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_3"]
+atlas = ExtResource("4_walk")
+region = Rect2(480, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_4"]
+atlas = ExtResource("4_walk")
+region = Rect2(640, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_5"]
+atlas = ExtResource("4_walk")
+region = Rect2(800, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_6"]
+atlas = ExtResource("4_walk")
+region = Rect2(960, 0, 160, 256)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_7"]
+atlas = ExtResource("4_walk")
+region = Rect2(1120, 0, 160, 256)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_draw_sword_7")
+}],
+"loop": false,
+"name": &"draw_sword",
+"speed": 8.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_command_7")
+}],
+"loop": true,
+"name": &"command",
+"speed": 6.0
+},
+{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_7")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]

@@ -49,6 +49,6 @@ shape = SubResource("RectangleShape2D_attack")
 [node name="ParabolicShield" parent="Visual" instance=ExtResource("5_shield")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -20)
+position = Vector2(0, -70)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0

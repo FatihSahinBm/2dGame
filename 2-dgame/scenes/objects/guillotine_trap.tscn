@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=3 uid="uid://guillotine_trap_01"]
+
+[ext_resource type="Script" path="res://scripts/objects/guillotine_trap.gd" id="1_trap"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pivot"]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blade"]
+size = Vector2(48, 64)
+
+[node name="GuillotineTrap" type="Node2D"]
+script = ExtResource("1_trap")
+
+[node name="Pivot" type="StaticBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot"]
+shape = SubResource("CircleShape2D_pivot")
+
+[node name="PivotVisual" type="Polygon2D" parent="Pivot"]
+color = Color(0.20, 0.18, 0.22, 1)
+polygon = PackedVector2Array(-9, -9, 9, -9, 9, 9, -9, 9)
+
+[node name="PivotPin" type="Polygon2D" parent="Pivot"]
+color = Color(0.45, 0.40, 0.35, 1)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+
+[node name="Arm" type="Node2D" parent="."]
+
+[node name="Chain" type="Line2D" parent="Arm"]
+points = PackedVector2Array(0, 0, 0, 110)
+width = 5.0
+default_color = Color(0.24, 0.22, 0.26, 1)
+
+[node name="ChainHighlight" type="Line2D" parent="Arm"]
+points = PackedVector2Array(0, 0, 0, 110)
+width = 1.5
+default_color = Color(0.48, 0.44, 0.48, 0.8)
+
+[node name="Blade" type="Node2D" parent="Arm"]
+position = Vector2(0, 120)
+
+[node name="BladeMount" type="Polygon2D" parent="Arm/Blade"]
+color = Color(0.18, 0.15, 0.18, 1)
+polygon = PackedVector2Array(-26, -24, 26, -24, 26, -14, -26, -14)
+
+[node name="CrescentBlade" type="Polygon2D" parent="Arm/Blade"]
+color = Color(0.45, 0.48, 0.52, 1)
+polygon = PackedVector2Array(-24, -20, 24, -20, 28, 18, 0, 38, -28, 18)
+
+[node name="BladeEdge" type="Polygon2D" parent="Arm/Blade"]
+color = Color(0.72, 0.75, 0.80, 1)
+polygon = PackedVector2Array(-24, 14, 0, 38, 24, 14, 0, 32)
+
+[node name="BloodEdge" type="Polygon2D" parent="Arm/Blade"]
+color = Color(0.60, 0.08, 0.12, 0.95)
+polygon = PackedVector2Array(-20, 16, 0, 38, 20, 16, 0, 34)
+
+[node name="HitArea" type="Area2D" parent="Arm/Blade"]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm/Blade/HitArea"]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_blade")

@@ -37,6 +37,15 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghost_fill"]
+bg_color = Color(0.95, 0.72, 0.22, 0.9)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_clear"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mana_fill"]
 bg_color = Color(0.12, 0.55, 0.95, 1)
 border_width_top = 1
@@ -129,12 +138,22 @@ alignment = 1
 custom_minimum_size = Vector2(260, 22)
 layout_mode = 2
 
-[node name="HealthBar" type="ProgressBar" parent="TopLeft/HBoxContainer/BarsVBox/HealthContainer"]
+[node name="GhostHealthBar" type="ProgressBar" parent="TopLeft/HBoxContainer/BarsVBox/HealthContainer"]
 custom_minimum_size = Vector2(260, 22)
 layout_mode = 0
 offset_right = 260.0
 offset_bottom = 22.0
 theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ghost_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HealthBar" type="ProgressBar" parent="TopLeft/HBoxContainer/BarsVBox/HealthContainer"]
+custom_minimum_size = Vector2(260, 22)
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 22.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_clear")
 theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
 value = 100.0
 show_percentage = false
@@ -173,6 +192,27 @@ theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_mana_fill")
 value = 100.0
 show_percentage = false
+
+[node name="CorruptionContainer" type="HBoxContainer" parent="TopLeft/HBoxContainer/BarsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="GemWrapper" type="Control" parent="TopLeft/HBoxContainer/BarsVBox/CorruptionContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+
+[node name="Gem" type="Polygon2D" parent="TopLeft/HBoxContainer/BarsVBox/CorruptionContainer/GemWrapper"]
+position = Vector2(8, 8)
+color = Color(0.2, 0.85, 1, 1)
+polygon = PackedVector2Array(0, -7, 6, 0, 0, 7, -6, 0)
+
+[node name="StatusLabel" type="Label" parent="TopLeft/HBoxContainer/BarsVBox/CorruptionContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.85, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 10
+text = "MÜHÜR: SAF RUH (0/100)"
 
 [node name="CrystalIcon" type="TextureRect" parent="TopLeft/HBoxContainer/BarsVBox/ManaContainer"]
 texture_filter = 1
@@ -596,10 +636,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -260.0
-offset_top = -80.0
-offset_right = -24.0
-offset_bottom = -20.0
+offset_left = -360.0
+offset_top = -105.0
+offset_right = -16.0
+offset_bottom = -15.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
@@ -626,17 +666,21 @@ stretch_mode = 3
 
 [node name="VBox" type="VBoxContainer" parent="BottomRight/TutorialBox/HBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 3
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="BottomRight/TutorialBox/HBox/VBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.94, 0.95, 0.98, 1)
 theme_override_font_sizes/font_size = 12
 text = "Platformlara zıpla"
+autowrap_mode = 3
 
 [node name="KeyContainer" type="HBoxContainer" parent="BottomRight/TutorialBox/HBox/VBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="KeyBadge" type="PanelContainer" parent="BottomRight/TutorialBox/HBox/VBox/KeyContainer"]
@@ -653,6 +697,18 @@ horizontal_alignment = 1
 
 [node name="DescLabel" type="Label" parent="BottomRight/TutorialBox/HBox/VBox/KeyContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.68, 0.74, 0.82, 1)
 theme_override_font_sizes/font_size = 11
 text = "ile zıpla"
+autowrap_mode = 3
+
+[node name="LowHealthVignette" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.85, 0.05, 0.12, 0.25)

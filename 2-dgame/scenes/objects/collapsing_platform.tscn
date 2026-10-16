@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://collapsing_plat_01"]
+
+[ext_resource type="Script" path="res://scripts/objects/collapsing_platform.gd" id="1_plat"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_solid"]
+size = Vector2(160, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(150, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stone"]
+bg_color = Color(0.18, 0.16, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.35, 0.3, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="CollapsingPlatform" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_plat")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_solid")
+one_way_collision = true
+
+[node name="TriggerArea" type="Area2D" parent="."]
+position = Vector2(0, -12)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="PlatformPanel" type="Panel" parent="Visual"]
+offset_left = -80.0
+offset_top = -10.0
+offset_right = 80.0
+offset_bottom = 10.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_stone")
+
+[node name="CrackLine1" type="Line2D" parent="Visual"]
+points = PackedVector2Array(-50, -8, -30, 4, -10, -6)
+width = 2.0
+default_color = Color(0.08, 0.06, 0.08, 0.8)
+
+[node name="CrackLine2" type="Line2D" parent="Visual"]
+points = PackedVector2Array(20, -7, 45, 5, 60, -4)
+width = 2.0
+default_color = Color(0.08, 0.06, 0.08, 0.8)

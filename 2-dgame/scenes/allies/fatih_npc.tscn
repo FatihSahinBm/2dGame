@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://fatih_npc_01"]
+
+[ext_resource type="Script" path="res://scripts/allies/fatih_npc.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/allies/fatih/fatih_frames.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(24, 46)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 55.0
+
+[node name="FatihNPC" type="CharacterBody2D" groups=["allies"]]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -23)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -31.7)
+scale = Vector2(0.26, 0.26)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="InteractionArea" type="Area2D" parent="."]
+position = Vector2(0, -23)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="UI" type="Node2D" parent="."]
+position = Vector2(0, -60)
+
+[node name="TitleLabel" type="Label" parent="UI"]
+offset_left = -90.0
+offset_top = -18.0
+offset_right = 90.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "FATİH SULTAN MEHMET"
+horizontal_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="UI"]
+visible = false
+offset_left = -60.0
+offset_top = -32.0
+offset_right = 60.0
+offset_bottom = -18.0
+theme_override_colors/font_color = Color(0.4, 1, 0.5, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "[E] Hünkar ile Görüş"
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

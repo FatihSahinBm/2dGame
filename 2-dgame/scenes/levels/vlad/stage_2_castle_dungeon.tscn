@@ -1,0 +1,353 @@
+[gd_scene load_steps=13 format=3 uid="uid://stage2_castle_dungeon_01"]
+
+[ext_resource type="Script" path="res://scripts/levels/vlad/stage_2_castle_dungeon.gd" id="1_stage"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="4_skeleton"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/necromancer.tscn" id="5_necro"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ceiling_lurker_bat.tscn" id="6_lurker"]
+[ext_resource type="PackedScene" path="res://scenes/objects/collapsing_platform.tscn" id="7_collapsing"]
+[ext_resource type="PackedScene" path="res://scenes/objects/guillotine_trap.tscn" id="8_guillotine"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_2_zone_1_chain_room.png" id="9_bg"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="10_backdrop"]
+[ext_resource type="Script" path="res://scripts/objects/dungeon_chain_lever.gd" id="11_lever"]
+[ext_resource type="Script" path="res://scripts/objects/blood_altar_brazier.gd" id="12_brazier"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_entrance"]
+size = Vector2(400, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mid_rock"]
+size = Vector2(260, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_floor"]
+size = Vector2(1000, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pit"]
+size = Vector2(1200, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(70, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lever"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_brazier"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mural"]
+size = Vector2(120, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portcullis"]
+size = Vector2(20, 100)
+
+[node name="Stage2CastleDungeon" type="Node2D"]
+script = ExtResource("1_stage")
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+script = ExtResource("10_backdrop")
+background_texture = ExtResource("9_bg")
+ground_y = 550.0
+texture_ground_y = 620.0
+texture_scale = Vector2(0.85, 0.85)
+parallax_factor_x = 0.05
+parallax_factor_y = 0.02
+tile_count = 3
+fog_color = Color(0.04, 0.02, 0.05, 0.22)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="EntranceMechanism" type="Node2D" parent="."]
+
+[node name="ChainLever" type="Area2D" parent="EntranceMechanism"]
+position = Vector2(210, 540)
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("11_lever")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceMechanism/ChainLever"]
+shape = SubResource("RectangleShape2D_lever")
+
+[node name="Visual" type="ColorRect" parent="EntranceMechanism/ChainLever"]
+offset_left = -6.0
+offset_top = -20.0
+offset_right = 6.0
+offset_bottom = 10.0
+color = Color(0.7, 0.65, 0.55, 1)
+
+[node name="OuterPortcullis" type="ColorRect" parent="EntranceMechanism"]
+offset_left = 340.0
+offset_top = 460.0
+offset_right = 360.0
+offset_bottom = 550.0
+color = Color(0.18, 0.16, 0.2, 0.95)
+
+[node name="OuterGateStatic" type="StaticBody2D" parent="EntranceMechanism"]
+position = Vector2(350, 505)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceMechanism/OuterGateStatic"]
+shape = SubResource("RectangleShape2D_portcullis")
+
+[node name="BoneArchiveMural" type="Area2D" parent="Environment"]
+position = Vector2(1380, 520)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BoneArchiveMural"]
+shape = SubResource("RectangleShape2D_mural")
+
+[node name="MuralBackdrop" type="ColorRect" parent="Environment/BoneArchiveMural"]
+offset_left = -30.0
+offset_top = -40.0
+offset_right = 30.0
+offset_bottom = 10.0
+color = Color(0.2, 0.12, 0.25, 0.8)
+
+[node name="PuzzleBraziers" type="Node2D" parent="."]
+
+[node name="Brazier1" type="Area2D" parent="PuzzleBraziers"]
+position = Vector2(1520, 535)
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("12_brazier")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleBraziers/Brazier1"]
+shape = SubResource("RectangleShape2D_brazier")
+
+[node name="Base" type="ColorRect" parent="PuzzleBraziers/Brazier1"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.3, 0.15, 0.2, 1)
+
+[node name="FireVisual" type="ColorRect" parent="PuzzleBraziers/Brazier1"]
+visible = false
+offset_left = -8.0
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = -10.0
+color = Color(0.95, 0.15, 0.25, 1)
+
+[node name="Brazier2" type="Area2D" parent="PuzzleBraziers"]
+position = Vector2(1780, 535)
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("12_brazier")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleBraziers/Brazier2"]
+shape = SubResource("RectangleShape2D_brazier")
+
+[node name="Base" type="ColorRect" parent="PuzzleBraziers/Brazier2"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.3, 0.15, 0.2, 1)
+
+[node name="FireVisual" type="ColorRect" parent="PuzzleBraziers/Brazier2"]
+visible = false
+offset_left = -8.0
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = -10.0
+color = Color(0.95, 0.15, 0.25, 1)
+
+[node name="Brazier3" type="Area2D" parent="PuzzleBraziers"]
+position = Vector2(2040, 535)
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("12_brazier")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleBraziers/Brazier3"]
+shape = SubResource("RectangleShape2D_brazier")
+
+[node name="Base" type="ColorRect" parent="PuzzleBraziers/Brazier3"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.3, 0.15, 0.2, 1)
+
+[node name="FireVisual" type="ColorRect" parent="PuzzleBraziers/Brazier3"]
+visible = false
+offset_left = -8.0
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = -10.0
+color = Color(0.95, 0.15, 0.25, 1)
+
+[node name="EntranceLedge" type="StaticBody2D" parent="Environment"]
+position = Vector2(180, 575)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/EntranceLedge"]
+shape = SubResource("RectangleShape2D_entrance")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/EntranceLedge"]
+offset_left = -200.0
+offset_top = -25.0
+offset_right = 200.0
+offset_bottom = 90.0
+color = Color(0.14, 0.12, 0.15, 1)
+
+[node name="StoneTrim" type="ColorRect" parent="Environment/EntranceLedge"]
+offset_left = -200.0
+offset_top = -25.0
+offset_right = 200.0
+offset_bottom = -21.0
+color = Color(0.30, 0.24, 0.32, 1)
+
+[node name="MidLedge" type="StaticBody2D" parent="Environment"]
+position = Vector2(920, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/MidLedge"]
+shape = SubResource("RectangleShape2D_mid_rock")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/MidLedge"]
+offset_left = -130.0
+offset_top = -20.0
+offset_right = 130.0
+offset_bottom = 20.0
+color = Color(0.14, 0.12, 0.15, 1)
+
+[node name="StoneTrim" type="ColorRect" parent="Environment/MidLedge"]
+offset_left = -130.0
+offset_top = -20.0
+offset_right = 130.0
+offset_bottom = -16.0
+color = Color(0.30, 0.24, 0.32, 1)
+
+[node name="UpperCorridor" type="StaticBody2D" parent="Environment"]
+position = Vector2(1750, 575)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/UpperCorridor"]
+shape = SubResource("RectangleShape2D_exit_floor")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/UpperCorridor"]
+offset_left = -500.0
+offset_top = -30.0
+offset_right = 500.0
+offset_bottom = 90.0
+color = Color(0.14, 0.12, 0.15, 1)
+
+[node name="StoneTrim" type="ColorRect" parent="Environment/UpperCorridor"]
+offset_left = -500.0
+offset_top = -30.0
+offset_right = 500.0
+offset_bottom = -26.0
+color = Color(0.30, 0.24, 0.32, 1)
+
+[node name="SpikePitHazard" type="Area2D" parent="Environment"]
+position = Vector2(760, 650)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/SpikePitHazard"]
+shape = SubResource("RectangleShape2D_pit")
+
+[node name="PitBase" type="ColorRect" parent="Environment/SpikePitHazard"]
+offset_left = -600.0
+offset_top = -25.0
+offset_right = 600.0
+offset_bottom = 25.0
+color = Color(0.06, 0.04, 0.07, 1)
+
+[node name="SpikeTrim" type="ColorRect" parent="Environment/SpikePitHazard"]
+offset_left = -600.0
+offset_top = -25.0
+offset_right = 600.0
+offset_bottom = -17.0
+color = Color(0.35, 0.08, 0.12, 0.9)
+
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="CollapsingPlat1" parent="Platforms" instance=ExtResource("7_collapsing")]
+position = Vector2(460, 520)
+
+[node name="CollapsingPlat2" parent="Platforms" instance=ExtResource("7_collapsing")]
+position = Vector2(690, 480)
+
+[node name="CollapsingPlat3" parent="Platforms" instance=ExtResource("7_collapsing")]
+position = Vector2(1170, 490)
+
+[node name="Traps" type="Node2D" parent="."]
+
+[node name="Guillotine1" parent="Traps" instance=ExtResource("8_guillotine")]
+position = Vector2(575, 330)
+
+[node name="Guillotine2" parent="Traps" instance=ExtResource("8_guillotine")]
+position = Vector2(1040, 310)
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(120, 530)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="CeilingLurker1" parent="Enemies" instance=ExtResource("6_lurker")]
+position = Vector2(460, 240)
+
+[node name="MidSkeleton" parent="Enemies" instance=ExtResource("4_skeleton")]
+position = Vector2(920, 490)
+
+[node name="CeilingLurker2" parent="Enemies" instance=ExtResource("6_lurker")]
+position = Vector2(1170, 220)
+
+[node name="CorridorSkeleton" parent="Enemies" instance=ExtResource("4_skeleton")]
+position = Vector2(1520, 545)
+
+[node name="CorridorNecromancer" parent="Enemies" instance=ExtResource("5_necro")]
+position = Vector2(1850, 545)
+
+[node name="CeilingLurker3" parent="Enemies" instance=ExtResource("6_lurker")]
+position = Vector2(1680, 230)
+
+[node name="BloodAltarGate" type="Area2D" parent="."]
+position = Vector2(2180, 465)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BloodAltarGate"]
+shape = SubResource("RectangleShape2D_gate")
+
+[node name="PortalBackdrop" type="ColorRect" parent="BloodAltarGate"]
+offset_left = -20.0
+offset_top = -105.0
+offset_right = 20.0
+offset_bottom = 90.0
+color = Color(0.04, 0.01, 0.02, 0.95)
+
+[node name="ArchPillarLeft" type="ColorRect" parent="BloodAltarGate"]
+offset_left = -26.0
+offset_top = -115.0
+offset_right = -18.0
+offset_bottom = 90.0
+color = Color(0.3, 0.1, 0.15, 1)
+
+[node name="ArchPillarRight" type="ColorRect" parent="BloodAltarGate"]
+offset_left = 18.0
+offset_top = -115.0
+offset_right = 26.0
+offset_bottom = 90.0
+color = Color(0.3, 0.1, 0.15, 1)
+
+[node name="ArchLintel" type="ColorRect" parent="BloodAltarGate"]
+offset_left = -28.0
+offset_top = -120.0
+offset_right = 28.0
+offset_bottom = -110.0
+color = Color(0.4, 0.12, 0.18, 1)
+
+[node name="BloodGateRunes" type="ColorRect" parent="BloodAltarGate"]
+offset_left = -16.0
+offset_top = -105.0
+offset_right = 16.0
+offset_bottom = -75.0
+color = Color(0.65, 0.08, 0.14, 0.45)
+
+[node name="PortcullisBars" type="ColorRect" parent="BloodAltarGate"]
+offset_left = -16.0
+offset_top = -90.0
+offset_right = 16.0
+offset_bottom = 85.0
+color = Color(0.12, 0.1, 0.15, 0.95)
+
+[node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]

@@ -1,0 +1,155 @@
+[gd_scene load_steps=5 format=3 uid="uid://flashback_overlay_01"]
+
+[ext_resource type="Script" path="res://scripts/ui/flashback_overlay.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.08, 0.04, 0.06, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.15, 0.25, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.7, 0.1, 0.2, 0.5)
+shadow_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_flashback"]
+font_size = 18
+line_spacing = 6.0
+font_color = Color(0.88, 0.94, 1, 1)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.9)
+
+[sub_resource type="LabelSettings" id="LabelSettings_desc"]
+font_size = 13
+line_spacing = 4.0
+font_color = Color(0.9, 0.85, 0.85, 1)
+
+[node name="FlashbackOverlay" type="CanvasLayer"]
+layer = 15
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.02, 0.02, 0.04, 1)
+
+[node name="Vignette" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.15, 0.02, 0.05, 0.25)
+
+[node name="ContentBox" type="Control" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -120.0
+offset_right = 350.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Speaker" type="Label" parent="ContentBox"]
+offset_right = 500.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.3, 0.85, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "BÜYÜCÜ ARKADAŞ (HAFIZA)"
+
+[node name="Text" type="Label" parent="ContentBox"]
+offset_top = 40.0
+offset_right = 700.0
+offset_bottom = 180.0
+text = "...Bunu yapamazsın! Sana güvenmiştim! Dünyanın Kalbi bir fani tarafından mühürlenemez!"
+label_settings = SubResource("LabelSettings_flashback")
+autowrap_mode = 2
+
+[node name="Prompt" type="Label" parent="ContentBox"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 0.8)
+theme_override_font_sizes/font_size = 12
+text = "[Space / Sol Tık] İlerle"
+horizontal_alignment = 2
+
+[node name="AbilityCard" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -130.0
+offset_right = 260.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Tag" type="Label" parent="AbilityCard"]
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 350.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "⚔️ YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI"
+
+[node name="Title" type="Label" parent="AbilityCard"]
+offset_left = 20.0
+offset_top = 42.0
+offset_right = 500.0
+offset_bottom = 74.0
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "Kan Sisi Atılması (Blood Mist Dash)"
+
+[node name="Desc" type="Label" parent="AbilityCard"]
+offset_left = 20.0
+offset_top = 86.0
+offset_right = 500.0
+offset_bottom = 190.0
+text = "Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür."
+label_settings = SubResource("LabelSettings_desc")
+autowrap_mode = 2
+
+[node name="RiftSlash" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -20.0
+offset_right = 700.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1.8, 0.2, 0.4, 1)

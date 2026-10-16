@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://dr8wu7x3hymmr"]
+
+[ext_resource type="Script" uid="uid://b8rqqkudgeat8" path="res://scripts/levels/vlad/stage_1_forest_camp.gd" id="1_stage"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="4_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/allies/fatih_npc.tscn" id="5_fatih"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_soldier.tscn" id="6_soldier"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_archer.tscn" id="7_archer"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="8_skeleton"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="9_bat"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_1_time_rift.png" id="10_bg"]
+[ext_resource type="PackedScene" path="res://scenes/allies/janissary_commander.tscn" id="11_commander"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_barricade.tscn" id="12_barricade"]
+[ext_resource type="Texture2D" path="res://assets/objects/royal_ottoman_tent.png" id="13_tent"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="14_backdrop"]
+[ext_resource type="Script" path="res://scripts/objects/arrow_quiver_item.gd" id="15_quiver"]
+[ext_resource type="PackedScene" path="res://scenes/objects/collapsing_platform.tscn" id="16_collapsing"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2800, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(80, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
+size = Vector2(220, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_quiver"]
+size = Vector2(32, 32)
+
+[node name="Stage1ForestCamp" type="Node2D" unique_id=1086725768]
+script = ExtResource("1_stage")
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+script = ExtResource("14_backdrop")
+background_texture = ExtResource("10_bg")
+ground_y = 560.0
+texture_ground_y = 620.0
+texture_scale = Vector2(0.85, 0.85)
+parallax_factor_x = 0.05
+parallax_factor_y = 0.02
+tile_count = 3
+fog_color = Color(0.08, 0.03, 0.07, 0.22)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(1300, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+offset_left = -1400.0
+offset_top = -30.0
+offset_right = 1400.0
+offset_bottom = 120.0
+color = Color(0.1, 0.08, 0.1, 1)
+
+[node name="PathTrim" type="ColorRect" parent="Environment/Ground"]
+offset_left = -1400.0
+offset_top = -30.0
+offset_right = 1400.0
+offset_bottom = -26.0
+color = Color(0.25, 0.20, 0.18, 1)
+
+[node name="SplitRoad" type="Node2D" parent="Environment"]
+
+[node name="UpperLedge" type="StaticBody2D" parent="Environment/SplitRoad"]
+position = Vector2(960, 490)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/SplitRoad/UpperLedge"]
+shape = SubResource("RectangleShape2D_ledge")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/SplitRoad/UpperLedge"]
+offset_left = -110.0
+offset_top = -10.0
+offset_right = 110.0
+offset_bottom = 10.0
+color = Color(0.18, 0.14, 0.12, 1)
+
+[node name="LedgeTrim" type="ColorRect" parent="Environment/SplitRoad/UpperLedge"]
+offset_left = -110.0
+offset_top = -10.0
+offset_right = 110.0
+offset_bottom = -7.0
+color = Color(0.35, 0.28, 0.22, 1)
+
+[node name="ArrowQuiverItem" type="Area2D" parent="Environment/SplitRoad"]
+position = Vector2(950, 550)
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("15_quiver")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/SplitRoad/ArrowQuiverItem"]
+shape = SubResource("RectangleShape2D_quiver")
+
+[node name="Visual" type="Polygon2D" parent="Environment/SplitRoad/ArrowQuiverItem"]
+color = Color(0.65, 0.38, 0.18, 1)
+polygon = PackedVector2Array(-8, -14, 8, -14, 5, 12, -5, 12)
+
+[node name="ArrowTips" type="Polygon2D" parent="Environment/SplitRoad/ArrowQuiverItem"]
+color = Color(0.95, 0.75, 0.25, 1)
+polygon = PackedVector2Array(-6, -14, -4, -20, -2, -14, 0, -21, 2, -14, 4, -20, 6, -14)
+
+[node name="CombatPlayer" parent="." unique_id=1128121718 instance=ExtResource("2_player")]
+position = Vector2(120, 560)
+
+[node name="AmbushZone" type="Node2D" parent="." unique_id=399705836]
+
+[node name="JanissaryCommander" parent="AmbushZone" unique_id=1471364173 instance=ExtResource("11_commander")]
+position = Vector2(580, 560)
+
+[node name="Enemies" type="Node2D" parent="AmbushZone" unique_id=1114646155]
+
+[node name="Skeleton1" parent="AmbushZone/Enemies" unique_id=1803122215 instance=ExtResource("8_skeleton")]
+position = Vector2(660, 560)
+
+[node name="Skeleton2" parent="AmbushZone/Enemies" unique_id=227889444 instance=ExtResource("8_skeleton")]
+position = Vector2(490, 560)
+
+[node name="FlyingBat" parent="AmbushZone/Enemies" unique_id=714881798 instance=ExtResource("9_bat")]
+position = Vector2(600, 420)
+
+[node name="ImperialCamp" type="Node2D" parent="." unique_id=1159612737]
+position = Vector2(1380, 560)
+
+[node name="RoyalTent" type="Sprite2D" parent="ImperialCamp"]
+z_index = -1
+position = Vector2(-118, -195)
+texture = ExtResource("13_tent")
+centered = false
+
+[node name="FatihNPC" parent="ImperialCamp" unique_id=413631639 instance=ExtResource("5_fatih")]
+position = Vector2(20, 0)
+
+[node name="VanguardAllies" type="Node2D" parent="ImperialCamp" unique_id=347776011]
+
+[node name="JanissaryGuard1" parent="ImperialCamp/VanguardAllies" unique_id=994449724 instance=ExtResource("6_soldier")]
+position = Vector2(-60, 0)
+
+[node name="JanissaryGuard2" parent="ImperialCamp/VanguardAllies" unique_id=1926499030 instance=ExtResource("6_soldier")]
+position = Vector2(80, 0)
+
+[node name="KemankesArcher" parent="ImperialCamp/VanguardAllies" unique_id=1904081239 instance=ExtResource("7_archer")]
+position = Vector2(-120, 0)
+
+[node name="CastleBridgeAssault" type="Node2D" parent="." unique_id=1602660482]
+
+[node name="Barricade1" parent="CastleBridgeAssault" unique_id=716033624 instance=ExtResource("12_barricade")]
+position = Vector2(1780, 560)
+
+[node name="BridgeSkeleton" parent="CastleBridgeAssault" unique_id=1265877923 instance=ExtResource("8_skeleton")]
+position = Vector2(1920, 560)
+
+[node name="CollapsingPlank" parent="CastleBridgeAssault" instance=ExtResource("16_collapsing")]
+position = Vector2(2020, 550)
+
+[node name="Barricade2" parent="CastleBridgeAssault" unique_id=876375621 instance=ExtResource("12_barricade")]
+position = Vector2(2120, 560)
+
+[node name="BridgeBat" parent="CastleBridgeAssault" unique_id=1455094554 instance=ExtResource("9_bat")]
+position = Vector2(2020, 410)
+
+[node name="ExitGate" type="Area2D" parent="."]
+position = Vector2(2450, 470)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate"]
+shape = SubResource("RectangleShape2D_gate")
+
+[node name="PortalBackdrop" type="ColorRect" parent="ExitGate"]
+offset_left = -20.0
+offset_top = -105.0
+offset_right = 20.0
+offset_bottom = 90.0
+color = Color(0.03, 0.02, 0.04, 0.95)
+
+[node name="ArchPillarLeft" type="ColorRect" parent="ExitGate"]
+offset_left = -26.0
+offset_top = -115.0
+offset_right = -18.0
+offset_bottom = 90.0
+color = Color(0.25, 0.22, 0.28, 1)
+
+[node name="ArchPillarRight" type="ColorRect" parent="ExitGate"]
+offset_left = 18.0
+offset_top = -115.0
+offset_right = 26.0
+offset_bottom = 90.0
+color = Color(0.25, 0.22, 0.28, 1)
+
+[node name="ArchLintel" type="ColorRect" parent="ExitGate"]
+offset_left = -28.0
+offset_top = -120.0
+offset_right = 28.0
+offset_bottom = -110.0
+color = Color(0.3, 0.26, 0.32, 1)
+
+[node name="PortcullisBars" type="ColorRect" parent="ExitGate"]
+offset_left = -16.0
+offset_top = -105.0
+offset_right = 16.0
+offset_bottom = -80.0
+color = Color(0.12, 0.1, 0.14, 0.9)
+
+[node name="FantasyHUD" parent="." unique_id=945895491 instance=ExtResource("3_hud")]
+
+[node name="DialogueBox" parent="." unique_id=664736047 instance=ExtResource("4_dialogue")]

@@ -1,0 +1,438 @@
+[gd_scene load_steps=18 format=3 uid="uid://stage3_throne_room_01"]
+
+[ext_resource type="Script" path="res://scripts/levels/vlad/stage_3_throne_room.gd" id="1_stage"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/vlad_boss.tscn" id="3_vlad"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="5_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/ui/flashback_overlay.tscn" id="6_flashback"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_3_arena_1_throne.png" id="7_bg"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="8_backdrop"]
+[ext_resource type="Script" path="res://scripts/objects/throne_blood_sigil.gd" id="9_sigil"]
+[ext_resource type="Script" path="res://scripts/objects/weak_archway_trap.gd" id="10_archway"]
+[ext_resource type="Script" path="res://scripts/objects/castle_bell_mechanism.gd" id="11_bell"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
+size = Vector2(1300, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground2"]
+size = Vector2(1400, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground3"]
+size = Vector2(1400, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground4"]
+size = Vector2(1600, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(40, 700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_barrier"]
+size = Vector2(40, 340)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
+size = Vector2(240, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sigil_hitbox"]
+size = Vector2(36, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_archway_hitbox"]
+size = Vector2(120, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bell_hitbox"]
+size = Vector2(50, 60)
+
+[node name="Stage3ThroneRoom" type="Node2D"]
+script = ExtResource("1_stage")
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+script = ExtResource("8_backdrop")
+background_texture = ExtResource("7_bg")
+ground_y = 560.0
+texture_ground_y = 620.0
+texture_scale = Vector2(0.85, 0.85)
+parallax_factor_x = 0.04
+parallax_factor_y = 0.02
+tile_count = 6
+fog_color = Color(0.2, 0.02, 0.05, 0.15)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Arena1_ThroneRoom" type="Node2D" parent="Environment"]
+
+[node name="Ground1" type="StaticBody2D" parent="Environment/Arena1_ThroneRoom"]
+position = Vector2(600, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena1_ThroneRoom/Ground1"]
+shape = SubResource("RectangleShape2D_ground1")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena1_ThroneRoom/Ground1"]
+offset_left = -650.0
+offset_top = -30.0
+offset_right = 650.0
+offset_bottom = 400.0
+color = Color(0.12, 0.08, 0.1, 1)
+
+[node name="FloorTrim" type="ColorRect" parent="Environment/Arena1_ThroneRoom/Ground1"]
+offset_left = -650.0
+offset_top = -30.0
+offset_right = 650.0
+offset_bottom = -26.0
+color = Color(0.28, 0.12, 0.16, 1)
+
+[node name="LeftWall" type="StaticBody2D" parent="Environment/Arena1_ThroneRoom"]
+position = Vector2(-30, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena1_ThroneRoom/LeftWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="PlatformLeft" type="StaticBody2D" parent="Environment/Arena1_ThroneRoom"]
+position = Vector2(200, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena1_ThroneRoom/PlatformLeft"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena1_ThroneRoom/PlatformLeft"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.2, 0.14, 0.16, 1)
+
+[node name="PlatformRight" type="StaticBody2D" parent="Environment/Arena1_ThroneRoom"]
+position = Vector2(980, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena1_ThroneRoom/PlatformRight"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena1_ThroneRoom/PlatformRight"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.2, 0.14, 0.16, 1)
+
+[node name="Barrier1" type="StaticBody2D" parent="Environment/Arena1_ThroneRoom"]
+position = Vector2(1250, 410)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena1_ThroneRoom/Barrier1"]
+shape = SubResource("RectangleShape2D_barrier")
+
+[node name="GateFrame" type="ColorRect" parent="Environment/Arena1_ThroneRoom/Barrier1"]
+offset_left = -20.0
+offset_top = -170.0
+offset_right = 20.0
+offset_bottom = 170.0
+color = Color(0.12, 0.08, 0.10, 0.95)
+
+[node name="IronBars" type="ColorRect" parent="Environment/Arena1_ThroneRoom/Barrier1"]
+offset_left = -16.0
+offset_top = -165.0
+offset_right = 16.0
+offset_bottom = 165.0
+color = Color(0.25, 0.22, 0.26, 1)
+
+[node name="BloodGlow" type="ColorRect" parent="Environment/Arena1_ThroneRoom/Barrier1"]
+offset_left = -6.0
+offset_top = -165.0
+offset_right = 6.0
+offset_bottom = 165.0
+color = Color(0.65, 0.12, 0.18, 0.6)
+
+[node name="Arena2_BloodHall" type="Node2D" parent="Environment"]
+
+[node name="Ground2" type="StaticBody2D" parent="Environment/Arena2_BloodHall"]
+position = Vector2(1950, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena2_BloodHall/Ground2"]
+shape = SubResource("RectangleShape2D_ground2")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena2_BloodHall/Ground2"]
+offset_left = -700.0
+offset_top = -30.0
+offset_right = 700.0
+offset_bottom = 400.0
+color = Color(0.14, 0.06, 0.08, 1)
+
+[node name="FloorTrim" type="ColorRect" parent="Environment/Arena2_BloodHall/Ground2"]
+offset_left = -700.0
+offset_top = -30.0
+offset_right = 700.0
+offset_bottom = -26.0
+color = Color(0.45, 0.08, 0.12, 1)
+
+[node name="PlatformL" type="StaticBody2D" parent="Environment/Arena2_BloodHall"]
+position = Vector2(1580, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena2_BloodHall/PlatformL"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena2_BloodHall/PlatformL"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.22, 0.12, 0.14, 1)
+
+[node name="PlatformR" type="StaticBody2D" parent="Environment/Arena2_BloodHall"]
+position = Vector2(2320, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena2_BloodHall/PlatformR"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena2_BloodHall/PlatformR"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.22, 0.12, 0.14, 1)
+
+[node name="BloodSigil1" type="Area2D" parent="Environment/Arena2_BloodHall"]
+position = Vector2(1580, 395)
+script = ExtResource("9_sigil")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena2_BloodHall/BloodSigil1"]
+shape = SubResource("RectangleShape2D_sigil_hitbox")
+
+[node name="Visual" type="Polygon2D" parent="Environment/Arena2_BloodHall/BloodSigil1"]
+color = Color(1.8, 0.1, 0.2, 0.9)
+polygon = PackedVector2Array(0, -22, 15, 0, 0, 22, -15, 0)
+
+[node name="BloodSigil2" type="Area2D" parent="Environment/Arena2_BloodHall"]
+position = Vector2(2320, 395)
+script = ExtResource("9_sigil")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena2_BloodHall/BloodSigil2"]
+shape = SubResource("RectangleShape2D_sigil_hitbox")
+
+[node name="Visual" type="Polygon2D" parent="Environment/Arena2_BloodHall/BloodSigil2"]
+color = Color(1.8, 0.1, 0.2, 0.9)
+polygon = PackedVector2Array(0, -22, 15, 0, 0, 22, -15, 0)
+
+[node name="Barrier2" type="StaticBody2D" parent="Environment/Arena2_BloodHall"]
+position = Vector2(2650, 410)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena2_BloodHall/Barrier2"]
+shape = SubResource("RectangleShape2D_barrier")
+
+[node name="GateFrame" type="ColorRect" parent="Environment/Arena2_BloodHall/Barrier2"]
+offset_left = -20.0
+offset_top = -170.0
+offset_right = 20.0
+offset_bottom = 170.0
+color = Color(0.12, 0.08, 0.10, 0.95)
+
+[node name="IronBars" type="ColorRect" parent="Environment/Arena2_BloodHall/Barrier2"]
+offset_left = -16.0
+offset_top = -165.0
+offset_right = 16.0
+offset_bottom = 165.0
+color = Color(0.24, 0.20, 0.24, 1)
+
+[node name="BloodGlow" type="ColorRect" parent="Environment/Arena2_BloodHall/Barrier2"]
+offset_left = -6.0
+offset_top = -165.0
+offset_right = 6.0
+offset_bottom = 165.0
+color = Color(0.55, 0.10, 0.15, 0.6)
+
+[node name="Arena3_Ramparts" type="Node2D" parent="Environment"]
+
+[node name="Ground3" type="StaticBody2D" parent="Environment/Arena3_Ramparts"]
+position = Vector2(3350, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/Ground3"]
+shape = SubResource("RectangleShape2D_ground3")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena3_Ramparts/Ground3"]
+offset_left = -700.0
+offset_top = -30.0
+offset_right = 700.0
+offset_bottom = 400.0
+color = Color(0.10, 0.10, 0.12, 1)
+
+[node name="FloorTrim" type="ColorRect" parent="Environment/Arena3_Ramparts/Ground3"]
+offset_left = -700.0
+offset_top = -30.0
+offset_right = 700.0
+offset_bottom = -26.0
+color = Color(0.25, 0.25, 0.3, 1)
+
+[node name="Rampart1" type="StaticBody2D" parent="Environment/Arena3_Ramparts"]
+position = Vector2(2950, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/Rampart1"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena3_Ramparts/Rampart1"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.18, 0.18, 0.22, 1)
+
+[node name="Rampart2" type="StaticBody2D" parent="Environment/Arena3_Ramparts"]
+position = Vector2(3750, 410)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/Rampart2"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena3_Ramparts/Rampart2"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.18, 0.18, 0.22, 1)
+
+[node name="WeakArchway" type="Node2D" parent="Environment/Arena3_Ramparts"]
+position = Vector2(3350, 490)
+script = ExtResource("10_archway")
+
+[node name="TriggerArea" type="Area2D" parent="Environment/Arena3_Ramparts/WeakArchway"]
+collision_layer = 0
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/WeakArchway/TriggerArea"]
+shape = SubResource("RectangleShape2D_archway_hitbox")
+
+[node name="ArchSprite" type="ColorRect" parent="Environment/Arena3_Ramparts/WeakArchway"]
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 50.0
+offset_bottom = 70.0
+color = Color(0.24, 0.22, 0.26, 1)
+
+[node name="Barrier3" type="StaticBody2D" parent="Environment/Arena3_Ramparts"]
+position = Vector2(4050, 410)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/Barrier3"]
+shape = SubResource("RectangleShape2D_barrier")
+
+[node name="GateFrame" type="ColorRect" parent="Environment/Arena3_Ramparts/Barrier3"]
+offset_left = -20.0
+offset_top = -170.0
+offset_right = 20.0
+offset_bottom = 170.0
+color = Color(0.10, 0.10, 0.12, 0.95)
+
+[node name="IronBars" type="ColorRect" parent="Environment/Arena3_Ramparts/Barrier3"]
+offset_left = -16.0
+offset_top = -165.0
+offset_right = 16.0
+offset_bottom = 165.0
+color = Color(0.22, 0.22, 0.26, 1)
+
+[node name="MoonGlow" type="ColorRect" parent="Environment/Arena3_Ramparts/Barrier3"]
+offset_left = -6.0
+offset_top = -165.0
+offset_right = 6.0
+offset_bottom = 165.0
+color = Color(0.15, 0.25, 0.35, 0.6)
+
+[node name="Arena4_BellTower" type="Node2D" parent="Environment"]
+
+[node name="Ground4" type="StaticBody2D" parent="Environment/Arena4_BellTower"]
+position = Vector2(4850, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena4_BellTower/Ground4"]
+shape = SubResource("RectangleShape2D_ground4")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena4_BellTower/Ground4"]
+offset_left = -800.0
+offset_top = -30.0
+offset_right = 800.0
+offset_bottom = 400.0
+color = Color(0.08, 0.08, 0.1, 1)
+
+[node name="FloorTrim" type="ColorRect" parent="Environment/Arena4_BellTower/Ground4"]
+offset_left = -800.0
+offset_top = -30.0
+offset_right = 800.0
+offset_bottom = -26.0
+color = Color(0.2, 0.2, 0.26, 1)
+
+[node name="RightWall" type="StaticBody2D" parent="Environment/Arena4_BellTower"]
+position = Vector2(5660, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena4_BellTower/RightWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="TowerPlatform1" type="StaticBody2D" parent="Environment/Arena4_BellTower"]
+position = Vector2(4500, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena4_BellTower/TowerPlatform1"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena4_BellTower/TowerPlatform1"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.16, 0.16, 0.2, 1)
+
+[node name="TowerPlatform2" type="StaticBody2D" parent="Environment/Arena4_BellTower"]
+position = Vector2(5200, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena4_BellTower/TowerPlatform2"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="Environment/Arena4_BellTower/TowerPlatform2"]
+offset_left = -120.0
+offset_top = -12.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.16, 0.16, 0.2, 1)
+
+[node name="GreatBell" type="Area2D" parent="Environment/Arena4_BellTower"]
+position = Vector2(4850, 330)
+script = ExtResource("11_bell")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena4_BellTower/GreatBell"]
+shape = SubResource("RectangleShape2D_bell_hitbox")
+
+[node name="BellVisual" type="Polygon2D" parent="Environment/Arena4_BellTower/GreatBell"]
+color = Color(0.85, 0.72, 0.35, 1)
+polygon = PackedVector2Array(-24, 25, -18, -25, 18, -25, 24, 25, 0, 30)
+
+[node name="Chain" type="ColorRect" parent="Environment/Arena4_BellTower/GreatBell"]
+offset_left = -3.0
+offset_top = -300.0
+offset_right = 3.0
+offset_bottom = -25.0
+color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="HeartPieceVisual" type="Node2D" parent="."]
+position = Vector2(4850, 480)
+
+[node name="Crystal" type="Polygon2D" parent="HeartPieceVisual"]
+color = Color(1.8, 0.15, 0.25, 1)
+polygon = PackedVector2Array(0, -22, 16, 0, 0, 22, -16, 0)
+
+[node name="PulsingGlow" type="CPUParticles2D" parent="HeartPieceVisual"]
+amount = 20
+lifetime = 0.8
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 35.0
+color = Color(1, 0.2, 0.35, 0.8)
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(180, 560)
+
+[node name="VladBoss" parent="." instance=ExtResource("3_vlad")]
+position = Vector2(850, 560)
+
+[node name="FantasyHUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("5_dialogue")]
+
+[node name="FlashbackOverlay" parent="." instance=ExtResource("6_flashback")]

@@ -1,0 +1,158 @@
+{
+  "chapter_id": 2,
+  "era": "17 Haziran 1462 (Târgovişte & Eflak)",
+  "title": "Târgovişte Gece Baskını ve Kan Surları",
+  "synopsis": "Zaman yırtığından 15. yüzyıl Eflak ormanlarına savrulan ana karakter, Vlad Tepeş'in Osmanlı ordugahına düzenlediği gece baskınının ortasına düşer. Askeri bir çıkar ortaklığıyla Fatih Sultan Mehmed ile yolları kesişir. Karakter dünyayı kurtarmak için değil, Vlad'ın koruduğu Kalp Parçası'na ulaşmak için savaşır; kılıcına hapsedilmiş dost ruhu ise ahlaksız eylemlere madeni çığlıklarla direnir.",
+  "dialogues": {
+    "fatih_intro": [
+      {
+        "speaker": "Osmanlı Öncü Kumandanı",
+        "title": "Yeniçeri Ağası",
+        "text": "Hünkarım! Gece baskınının cehenneminde canavarlar etrafımızı sarmışken, bu yabancı kılıcıyla yaratıkları biçti ve öncü kolumuzu kurtardı!",
+        "portrait": "janissary"
+      },
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Yaklaş yabancı... Askerimi kurtardın lakin gözlerindeki o karanlık hırsı tanıyorum. Sen bir fedai değilsin. Vlad'ın surlarına neden yaklaştığını anlat.",
+        "portrait": "fatih"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "title": "",
+        "text": "Yolumu kapatan şeyi bulmam gerekiyor.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Ben de kendi yolumun önündeki voyvodayı ezeceğim. Madem hedefimiz kale surlarının ardında birleşiyor; öncü hatla ilerle. Sonra kimin peşinde olduğumuzu görürüz.",
+        "portrait": "fatih"
+      }
+    ],
+    "commander_orders_note": [
+      {
+        "speaker": "Öncü Kumandanın Fermanı",
+        "title": "Yazılı Emir",
+        "text": "'Fatih Sultan Mehmed Han'ın dikkatine: Orman yolu pusuya düşürüldü. Surlara açılan köprüye derhal taarruz edilmeli!' (Kumandan düşmüş olsa da emir seni otağa götürüyor.)",
+        "portrait": "janissary"
+      }
+    ],
+    "archer_sidequest": [
+      {
+        "speaker": "Kemankeş Çavuşu",
+        "title": "Osmanlı Okçusu",
+        "text": "Yabancı! Aşağı vadide erzak arabamız parçalandı, alevli ok sadakları orada kaldı. Onları getirirsen köprüdeki barikatları ateş yağmuruna tutarım!",
+        "portrait": "archer"
+      }
+    ],
+    "archer_sidequest_complete": [
+      {
+        "speaker": "Kemankeş Çavuşu",
+        "title": "Osmanlı Okçusu",
+        "text": "Sadakları bulmuşsun! Var ol yiğidim. Köprü taarruzunda yaylarımızı gerip canavarların barikatlarını ateşe boğacağız!",
+        "portrait": "archer"
+      }
+    ],
+    "soldier_ambient_shouts": [
+      "Vurun yiğitler! Canavarlara geçit yok!",
+      "Alevli okları gerin! Gece yaratıkları ateşe dayanamaz!",
+      "Surlara doğru ilerleyin! Fatih'in sancağı düşmeyecek!",
+      "Gözünüzü dört açın, sislerin arasından saldırıyorlar!"
+    ],
+    "soldier_betrayal_shouts": [
+      "Ne yapıyorsun sen?! Biz senin müttefikiniz!",
+      "Hain! Bize kılıç çekti!",
+      "Aman Tanrım... O bir müttefik değil, bir canavar!",
+      "Geri çekilin! O kılıç bizim kanımızı emiyor!"
+    ],
+    "sword_rebellion_texts": [
+      "*Kılıç şiddetle titriyor ve çığlık gibi madeni bir ses yankılanıyor...*",
+      "*Kılıcın kabzası elini yakıyor, ağırlığı iki katına çıkıyor...*",
+      "*Kılıcın metal gövdesinde karanlık çatlaklar beliriyor; silah darbene direniyor!*"
+    ],
+    "vlad_taunt_human": [
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Kazıklı Voyvoda",
+        "text": "Hahaha! Osmanlı'nın kiralık gölgesi mi geldin? Yoksa kan kokusunun peşine düşen başka bir avcı mı?",
+        "portrait": "vlad"
+      },
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Kazıklı Voyvoda",
+        "text": "Bu kale benim hükümranlığım! Buradan sadece kazığa çakılmış kemiklerin çıkacak!",
+        "portrait": "vlad"
+      }
+    ],
+    "vlad_taunt_vampire": [
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Vampir Hükümdar",
+        "text": "Fani zırhım parçalandı ama asıl kabusum şimdi başlıyor! Kan kalkanımın ardında can çekişeceksin!",
+        "portrait": "vlad"
+      }
+    ],
+    "vlad_taunt_werewolf": [
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Kurt Adam (Lycan)",
+        "text": "*Vahşi bir kükreme surları titretir!* Surlar kanımızla yıkılacak, etini kemiğinden ayıracağım!",
+        "portrait": "vlad"
+      }
+    ],
+    "vlad_taunt_bat": [
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Dev Yarasa",
+        "text": "*Gökyüzünden yankılanan ultrasonik çığlık!* Gece bana ait! Çan kulesi senin mezar anıtın olacak!",
+        "portrait": "vlad"
+      }
+    ],
+    "memory_flashback": [
+      {
+        "speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+        "title": "Zamanın Başlangıcı",
+        "text": "...Neden?! Sana güvenmiştim! Bu kadim gücü bir faninin iradesine bağlayamazsın!",
+        "portrait": "friend_memory"
+      },
+      {
+        "speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
+        "title": "Hafıza Yankısı",
+        "text": "Bu güç... kaderin ta kendisine boyun eğdirecek...",
+        "portrait": "player_dark"
+      },
+      {
+        "speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+        "title": "Zamanın Başlangıcı",
+        "text": "HAYIR! Kalbi ezerim de buna izin vermem... Affet beni kadim dünya...!",
+        "portrait": "friend_memory"
+      }
+    ],
+    "fatih_outro": [
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Voyvoda Vlad devrildi, Eflak semalarındaki kan sisi dağılıyor. Kaleyi güvenceye aldık yabancı. Lakin göğsünden söküp aldığın o tuhaf kordan sonra... kılıcından yükselen o feryat neydi öyle?",
+        "portrait": "fatih"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "title": "",
+        "text": "Yol henüz bitmedi... Kılıç bir sonraki yırtığı açıyor.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Kaderinin peşinden git yabancı. Lakin unutma; kılıcının ardında bıraktığı gölgeyi karanlık bile gizleyemez.",
+        "portrait": "fatih"
+      }
+    ],
+    "ability_unlock": {
+      "id": "blood_mist_dash",
+      "name": "Kan Sisi Atılması (Blood Mist Dash)",
+      "description": "Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür."
+    }
+  }
+}

@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://barricade_01"]
+
+[ext_resource type="Script" path="res://scripts/objects/destructible_barricade.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
+size = Vector2(36, 68)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.1, 0.1, 0.12, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
+bg_color = Color(0.8, 0.35, 0.15, 1)
+
+[node name="DestructibleBarricade" type="StaticBody2D" groups=["barricades", "damageable"]]
+collision_layer = 1
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -34)
+shape = SubResource("RectangleShape2D_box")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="PostLeft" type="ColorRect" parent="Visual"]
+offset_left = -16.0
+offset_top = -68.0
+offset_right = -8.0
+color = Color(0.35, 0.22, 0.14, 1)
+
+[node name="PostRight" type="ColorRect" parent="Visual"]
+offset_left = 8.0
+offset_top = -68.0
+offset_right = 16.0
+color = Color(0.35, 0.22, 0.14, 1)
+
+[node name="Plank1" type="ColorRect" parent="Visual"]
+offset_left = -18.0
+offset_top = -54.0
+offset_right = 18.0
+offset_bottom = -42.0
+color = Color(0.48, 0.32, 0.2, 1)
+
+[node name="Plank2" type="ColorRect" parent="Visual"]
+offset_left = -18.0
+offset_top = -32.0
+offset_right = 18.0
+offset_bottom = -20.0
+color = Color(0.45, 0.3, 0.18, 1)
+
+[node name="Plank3" type="ColorRect" parent="Visual"]
+offset_left = -18.0
+offset_top = -12.0
+offset_right = 18.0
+color = Color(0.42, 0.28, 0.16, 1)
+
+[node name="IronBrace" type="ColorRect" parent="Visual"]
+offset_left = -14.0
+offset_top = -36.0
+offset_right = 14.0
+offset_bottom = -30.0
+color = Color(0.25, 0.25, 0.28, 1)
+
+[node name="StakeTip1" type="Polygon2D" parent="Visual"]
+position = Vector2(-12, -68)
+color = Color(0.38, 0.24, 0.15, 1)
+polygon = PackedVector2Array(-4, 0, 0, -10, 4, 0)
+
+[node name="StakeTip2" type="Polygon2D" parent="Visual"]
+position = Vector2(12, -68)
+color = Color(0.38, 0.24, 0.15, 1)
+polygon = PackedVector2Array(-4, 0, 0, -10, 4, 0)
+
+[node name="UI" type="Node2D" parent="."]
+position = Vector2(0, -78)
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+visible = false
+offset_left = -18.0
+offset_top = -2.0
+offset_right = 18.0
+offset_bottom = 2.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
+value = 100.0
+show_percentage = false

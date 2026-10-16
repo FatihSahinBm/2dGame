@@ -39,6 +39,10 @@ enum VladForm { NORMAL, VAMPIRE, WEREWOLF, BAT }
 
 signal groggy_started()
 signal groggy_recovered()
+signal form_changed(new_form: VladForm)
+signal blood_shield_broken()
+
+@export var blood_shield_active: bool = false
 
 @export_group("Stun & Groggy Mechanics")
 @export var groggy_damage_threshold: int = 160
@@ -857,8 +861,8 @@ func _execute_werewolf_leap() -> void:
 		_leap_target_pos = global_position + Vector2(float(direction) * 260.0, 0.0)
 
 	if anim_sprite:
-		# 24 karelik parabolik sıçrama hızını daha dengeli, sakin ve okunabilir seviyeye çekiyoruz (0.82x)
-		anim_sprite.speed_scale = 0.82
+		# 24 karelik parabolik sıçrama hızını oyuncunun animasyonu görüp kaçabilmesi için hafifçe yavaşlatıyoruz (0.62x)
+		anim_sprite.speed_scale = 0.62
 
 	_set_attack_hitbox(Vector2(65, 50), Vector2(40.0 * float(direction), -30.0))
 
@@ -871,7 +875,7 @@ func _execute_werewolf_leap() -> void:
 		_trigger_screen_shake(6.5)
 		_spawn_ground_impact_dust(20.0 * float(direction))
 		_set_attack_hitbox(Vector2(120, 65), Vector2(25.0 * float(direction), -25.0))
-	, 0.45, 0.82)
+	, 0.45, 0.62)
 
 func _execute_bat_dive() -> void:
 	velocity = Vector2.ZERO
@@ -947,6 +951,15 @@ func take_damage(amount: int) -> void:
 	# Dönüşüm esnasında veya ölü durumdayken hasar alamaz (Sinematik Faz Dokunulmazlığı)
 	if is_dead or _is_transforming:
 		return
+
+	# Vampir formunda Kan Kalkanı devredeyse hasarın %85'ini sönümler (Sigiller kırılmalı)
+	if blood_shield_active and current_form == VladForm.VAMPIRE:
+		amount = maxi(1, int(float(amount) * 0.15))
+		_trigger_screen_shake(2.0)
+		if anim_sprite:
+			var tw: Tween = create_tween()
+			tw.tween_property(anim_sprite, "modulate", Color(2.5, 0.2, 0.2, 1.0), 0.08)
+			tw.tween_property(anim_sprite, "modulate", Color.WHITE, 0.08)
 
 	# Faz Hasar Eşiği / Kapısı (Phase Damage Gating):
 	# Boss, o fazın can eşiğinin altına inemez ve erken ölemez!
@@ -1118,6 +1131,27 @@ func _process_groggy(delta: float) -> void:
 		_recover_from_groggy()
 
 func _recover_from_groggy() -> void:
+	current_state = State.CHASE if _target_node else State.PATROL
+	_groggy_timer = 0.0
+	groggy_recovered.emit()
+
+func trigger_bell_stun() -> void:
+	if current_form == VladForm.BAT:
+		_trigger_groggy_stun()
+		_groggy_timer = 4.0
+		velocity.y = 350.0
+
+func trigger_archway_stun() -> void:
+	if current_form == VladForm.WEREWOLF:
+		_trigger_groggy_stun()
+		_groggy_timer = 3.5
+		take_damage(45)
+
+func break_blood_shield() -> void:
+	blood_shield_active = false
+	blood_shield_broken.emit()
+	_trigger_screen_shake(5.0)
+
 	if _groggy_flash_tween and _groggy_flash_tween.is_valid():
 		_groggy_flash_tween.kill()
 	if anim_sprite:
@@ -1200,6 +1234,9 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 	trans_tween.tween_callback(func():
 		current_form = new_form
 		_apply_form_visuals()
+		if current_form == VladForm.VAMPIRE:
+			blood_shield_active = true
+		form_changed.emit(new_form)
 		if anim_sprite:
 			# Yeni form dumanın kalbinde kızıl silüet olarak başlar
 			anim_sprite.modulate = Color(2.2, 0.5, 0.5, 0.15)

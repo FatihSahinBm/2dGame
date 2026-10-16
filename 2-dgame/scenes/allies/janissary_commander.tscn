@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://janissary_commander_01"]
+
+[ext_resource type="Script" path="res://scripts/allies/janissary_commander.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/allies/janissary/janissary_frames.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(24, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_atk"]
+size = Vector2(42, 38)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.1, 0.1, 0.12, 0.85)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
+bg_color = Color(0.85, 0.65, 0.2, 1)
+
+[node name="JanissaryCommander" type="CharacterBody2D" groups=["allies", "damageable"]]
+collision_layer = 1
+collision_mask = 1
+floor_stop_on_slope = true
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -22)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -31.7)
+scale = Vector2(0.26, 0.26)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AttackArea" type="Area2D" parent="Visual"]
+position = Vector2(20, -18)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/AttackArea"]
+shape = SubResource("RectangleShape2D_atk")
+
+[node name="UI" type="Node2D" parent="."]
+position = Vector2(0, -64)
+
+[node name="TitleLabel" type="Label" parent="UI"]
+offset_left = -60.0
+offset_top = -14.0
+offset_right = 60.0
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 9
+text = "ÖNCÜ KUMANDAN"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+visible = false
+offset_left = -20.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 6.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
+value = 100.0
+show_percentage = false

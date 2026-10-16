@@ -131,6 +131,9 @@ func set_tutorial(title: String, key_badge: String, desc: String) -> void:
 		tutorial_title.text = title
 	if tutorial_key:
 		tutorial_key.text = key_badge
+		var key_badge_panel: Control = tutorial_key.get_parent() as Control
+		if key_badge_panel:
+			key_badge_panel.visible = not key_badge.is_empty()
 	if tutorial_desc:
 		tutorial_desc.text = desc
 
