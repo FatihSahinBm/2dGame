@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="4_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/objects/dimensional_time_rift.tscn" id="5_rift"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/skeleton.tscn" id="8_skeleton"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="9_bat"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_1_time_rift.png" id="10_bg"]
@@ -52,8 +53,11 @@ offset_right = 825.0
 offset_bottom = -26.0
 color = Color(0.25, 0.2, 0.18, 1)
 
+[node name="DimensionalTimeRift" parent="." instance=ExtResource("5_rift")]
+position = Vector2(140, 420)
+
 [node name="CombatPlayer" parent="." unique_id=1128121718 instance=ExtResource("2_player")]
-position = Vector2(120, 560)
+position = Vector2(140, 420)
 has_sword = true
 is_armed = true
 

@@ -36,12 +36,20 @@ var _player_ref: CharacterBody2D = null
 func _ready() -> void:
 	add_to_group("allies")
 	add_to_group("damageable")
+	_setup_player_collision_exception()
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = current_health
 		health_bar.visible = false
 	if interact_label:
 		interact_label.visible = false
+
+
+func _setup_player_collision_exception() -> void:
+	for p in get_tree().get_nodes_in_group("player"):
+		if p is CollisionObject2D:
+			add_collision_exception_with(p)
+			p.add_collision_exception_with(self)
 
 
 func _physics_process(delta: float) -> void:

@@ -33,9 +33,6 @@ region = Rect2(540, 0, 180, 190)
 [sub_resource type="AtlasTexture" id="Atlas_walk_4"]
 atlas = ExtResource("2_walk")
 region = Rect2(720, 0, 180, 190)
-[sub_resource type="AtlasTexture" id="Atlas_walk_5"]
-atlas = ExtResource("2_walk")
-region = Rect2(900, 0, 180, 190)
 [sub_resource type="AtlasTexture" id="Atlas_attack_0"]
 atlas = ExtResource("3_attack")
 region = Rect2(0, 0, 180, 190)
@@ -60,6 +57,9 @@ region = Rect2(0, 0, 180, 190)
 [sub_resource type="AtlasTexture" id="Atlas_hurt_1"]
 atlas = ExtResource("4_hurt")
 region = Rect2(180, 0, 180, 190)
+[sub_resource type="AtlasTexture" id="Atlas_hurt_2"]
+atlas = ExtResource("4_hurt")
+region = Rect2(360, 0, 180, 190)
 [sub_resource type="AtlasTexture" id="Atlas_death_0"]
 atlas = ExtResource("5_death")
 region = Rect2(0, 0, 180, 190)
@@ -72,6 +72,9 @@ region = Rect2(360, 0, 180, 190)
 [sub_resource type="AtlasTexture" id="Atlas_death_3"]
 atlas = ExtResource("5_death")
 region = Rect2(540, 0, 180, 190)
+[sub_resource type="AtlasTexture" id="Atlas_death_4"]
+atlas = ExtResource("5_death")
+region = Rect2(720, 0, 180, 190)
 
 [resource]
 animations = [{
@@ -107,9 +110,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("Atlas_walk_4")
-}, {
-"duration": 1.0,
-"texture": SubResource("Atlas_walk_5")
 }],
 "loop": true,
 "name": &"walk",
@@ -144,6 +144,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("Atlas_hurt_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hurt_2")
 }],
 "loop": false,
 "name": &"hurt",
@@ -161,6 +164,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("Atlas_death_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_death_4")
 }],
 "loop": false,
 "name": &"death",

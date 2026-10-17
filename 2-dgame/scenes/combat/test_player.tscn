@@ -14,7 +14,7 @@ size = Vector2(42, 34)
 
 [node name="TestPlayer" type="CharacterBody2D"]
 collision_layer = 1
-collision_mask = 1
+collision_mask = 3
 floor_stop_on_slope = true
 script = ExtResource("1_script")
 

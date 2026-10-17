@@ -136,6 +136,22 @@ func _ready() -> void:
 	weapon_state_changed.connect(_on_weapon_state_changed)
 	_emit_weapon_state()
 
+	# Dost birliklerin (allies) bizi bloklamasını önle - içlerinden geçilebilsin
+	_setup_ally_collision_exceptions()
+
+
+func _setup_ally_collision_exceptions() -> void:
+	for ally in get_tree().get_nodes_in_group("allies"):
+		if ally is CollisionObject2D:
+			add_collision_exception_with(ally)
+			ally.add_collision_exception_with(self)
+	get_tree().node_added.connect(func(node: Node):
+		if node.is_in_group("allies") and node is CollisionObject2D:
+			add_collision_exception_with(node)
+			node.add_collision_exception_with(self)
+	)
+
+
 func _ensure_input_actions() -> void:
 	if not InputMap.has_action("interact"):
 		InputMap.add_action("interact")

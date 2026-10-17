@@ -10,7 +10,7 @@ size = Vector2(24, 46)
 radius = 55.0
 
 [node name="FatihNPC" type="CharacterBody2D" groups=["allies"]]
-collision_layer = 1
+collision_layer = 0
 collision_mask = 1
 script = ExtResource("1_script")
 

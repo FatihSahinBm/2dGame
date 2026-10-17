@@ -21,12 +21,20 @@ var _dialogue_done: bool = false
 
 
 func _ready() -> void:
+	_setup_player_collision_exception()
 	if prompt_label:
 		prompt_label.visible = false
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
 		anim_sprite.play("idle")
 	if visual:
 		visual.scale.x = -absf(visual.scale.x)
+
+
+func _setup_player_collision_exception() -> void:
+	for p in get_tree().get_nodes_in_group("player"):
+		if p is CollisionObject2D:
+			add_collision_exception_with(p)
+			p.add_collision_exception_with(self)
 
 
 func _unhandled_input(event: InputEvent) -> void:

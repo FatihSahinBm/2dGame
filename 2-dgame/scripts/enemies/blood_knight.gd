@@ -9,9 +9,9 @@ signal health_changed(curr: int, max_val: int)
 signal enemy_died(inst: Node2D)
 signal died()
 
-@export var max_health: int = 220
-@export var current_health: int = 220
-@export var attack_damage: int = 18
+@export var max_health: int = 520
+@export var current_health: int = 520
+@export var attack_damage: int = 24
 @export var move_speed: float = 90.0
 @export var attack_range: float = 65.0
 

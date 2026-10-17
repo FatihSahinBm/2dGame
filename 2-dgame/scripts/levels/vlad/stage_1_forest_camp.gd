@@ -17,6 +17,7 @@ extends Node2D
 @onready var ambush_enemies: Node2D = get_node_or_null("AmbushZone/Enemies") as Node2D
 @onready var exit_gate: Area2D = $ExitGate
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
+@onready var dimensional_rift: DimensionalTimeRift = get_node_or_null("DimensionalTimeRift") as DimensionalTimeRift
 
 var _ambush_cleared: bool = false
 var _is_transitioning: bool = false
@@ -59,18 +60,23 @@ func _setup_camera() -> void:
 
 
 func _play_time_rift_intro() -> void:
-	if player:
-		var tw: Tween = create_tween()
-		tw.tween_property(player, "modulate", Color(2.0, 1.2, 0.4, 0.0), 0.0)
-		tw.tween_property(player, "modulate", Color.WHITE, 0.8).set_trans(Tween.TRANS_QUAD)
+	if dimensional_rift and player:
+		dimensional_rift.play_player_emerge_sequence(player)
+		dimensional_rift.spawn_completed.connect(func():
+			_show_sword_scrape_text()
+		, CONNECT_ONE_SHOT)
+	else:
+		_show_sword_scrape_text()
 
+
+func _show_sword_scrape_text() -> void:
 	var label: Label = Label.new()
 	label.text = "*Kılıç zemine sürtünerek tiz bir madeni feryat koparır...*"
 	label.add_theme_color_override("font_color", Color(0.85, 0.25, 0.25, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)
 	label.add_theme_font_size_override("font_size", 12)
-	label.global_position = Vector2(80.0, 490.0)
+	label.global_position = Vector2(160.0, 500.0)
 	add_child(label)
 
 	var tw2: Tween = label.create_tween()

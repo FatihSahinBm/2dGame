@@ -5,10 +5,10 @@ base_dir = r"2-dgame/assets/characters/enemies/blood_knight"
 
 anims = {
     "idle": 4,
-    "walk": 6,
+    "walk": 5,
     "attack": 6,
-    "hurt": 2,
-    "death": 4
+    "hurt": 3,
+    "death": 5
 }
 
 FRAME_W = 180
