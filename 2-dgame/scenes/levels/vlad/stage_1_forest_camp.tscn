@@ -54,10 +54,10 @@ offset_bottom = -26.0
 color = Color(0.25, 0.2, 0.18, 1)
 
 [node name="DimensionalTimeRift" parent="." instance=ExtResource("5_rift")]
-position = Vector2(140, 420)
+position = Vector2(140, 500)
 
 [node name="CombatPlayer" parent="." unique_id=1128121718 instance=ExtResource("2_player")]
-position = Vector2(140, 420)
+position = Vector2(140, 500)
 has_sword = true
 is_armed = true
 

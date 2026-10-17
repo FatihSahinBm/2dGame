@@ -12,8 +12,9 @@ signal spawn_completed()
 @onready var particles: CPUParticles2D = $Particles
 @onready var burst_particles: CPUParticles2D = $BurstParticles
 
-var _base_scale: Vector2 = Vector2(0.5, 0.5)
+var _base_scale: Vector2 = Vector2(1.0, 1.0)
 var _pulse_timer: float = 0.0
+var _is_vanishing: bool = false
 
 
 func _ready() -> void:
@@ -23,6 +24,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if _is_vanishing:
+		return
 	_pulse_timer += delta * 2.5
 	if sprite:
 		# Doğal uzay-zaman nefes alma ve hafif titreme efekti
@@ -74,12 +77,33 @@ func play_player_emerge_sequence(player: CharacterBody2D) -> void:
 			player.velocity = Vector2(60.0, 0.0)
 		_spawn_ground_impact_fx(target_land_pos)
 		spawn_completed.emit()
+		_shrink_and_vanish()
 	)
 
 	# 6. Oyuncunun ayağa kalkıp savaşa hazır olması (0.2s sonra kontroller açılır)
 	await get_tree().create_timer(0.65).timeout
 	if "can_move" in player:
 		player.can_move = true
+
+
+func _shrink_and_vanish() -> void:
+	if _is_vanishing:
+		return
+	_is_vanishing = true
+
+	if particles:
+		particles.emitting = false
+
+	# Oyuncu geçtikten hemen sonra kararsızlaşıp büzülerek yok olur
+	await get_tree().create_timer(0.2).timeout
+
+	var tw: Tween = create_tween()
+	# Dikey ince bir yırtık çizgisine büzülme, ardından sönme
+	tw.tween_property(self, "scale", Vector2(0.04, 1.3), 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.parallel().tween_property(self, "modulate:a", 0.7, 0.22)
+	tw.tween_property(self, "scale", Vector2(0.0, 0.0), 0.18).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	tw.parallel().tween_property(self, "modulate:a", 0.0, 0.18)
+	tw.tween_callback(queue_free)
 
 
 func _spawn_ground_impact_fx(pos: Vector2) -> void:
