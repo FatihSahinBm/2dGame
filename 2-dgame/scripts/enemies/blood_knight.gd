@@ -30,6 +30,7 @@ var _facing_dir: float = -1.0
 
 func _ready() -> void:
 	add_to_group("enemies")
+	add_to_group("mini_boss")
 	add_to_group("damageable")
 	current_health = max_health
 
@@ -41,9 +42,28 @@ func _ready() -> void:
 		visual.modulate = Color.WHITE
 
 
+func on_cinematic_started() -> void:
+	_is_attacking = false
+	velocity.x = 0.0
+	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+		anim_sprite.play("idle")
+
+
+func on_cinematic_ended() -> void:
+	pass
+
+
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		velocity.x = move_toward(velocity.x, 0.0, 400.0 * delta)
+		move_and_slide()
+		return
+
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		velocity.x = 0.0
+		if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+			anim_sprite.play("idle")
 		move_and_slide()
 		return
 
@@ -77,6 +97,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _perform_blood_attack() -> void:
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		return
+
 	_is_attacking = true
 	_attack_cooldown_timer = 2.2
 	velocity.x = 0.0
@@ -89,6 +113,9 @@ func _perform_blood_attack() -> void:
 	# Darbe anında hasar ve kan yarığı efekti
 	get_tree().create_timer(0.35).timeout.connect(func():
 		if is_dead or not is_inside_tree():
+			return
+		var gs = get_node_or_null("/root/GameState")
+		if gs and gs.is_in_cinematic:
 			return
 		_spawn_blood_slash_vfx()
 		if attack_area:
@@ -126,6 +153,10 @@ func _spawn_blood_slash_vfx() -> void:
 func take_damage(amount: int, attacker: Node2D = null) -> void:
 	if is_dead:
 		return
+
+	# Mini-boss odaklı dövüş: Oyuncu bizzat savaşır, NPC müttefiklerin hasarı çok düşük tutulur
+	if attacker and is_instance_valid(attacker) and attacker.is_in_group("allies"):
+		amount = maxi(1, int(amount * 0.2))
 
 	current_health -= amount
 	health_changed.emit(current_health, max_health)

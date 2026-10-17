@@ -130,6 +130,10 @@ func _start_archer_bombardment() -> void:
 			timer.queue_free()
 			return
 
+		var game_state = get_node_or_null("/root/GameState")
+		if game_state and game_state.is_in_cinematic:
+			return
+
 		# Oyuncunun önündeki barikat veya düşmana hedefli alevli ok
 		var target_node: Node2D = null
 		var barricades = get_tree().get_nodes_in_group("barricades")
@@ -140,8 +144,9 @@ func _start_archer_bombardment() -> void:
 
 		if not target_node:
 			var enemies = get_tree().get_nodes_in_group("enemies")
+			# Önce mini-boss OLMAYAN standart düşmanları hedefle
 			for e in enemies:
-				if e and is_instance_valid(e) and not ("is_dead" in e and e.is_dead) and player and e.global_position.x > player.global_position.x - 50.0:
+				if e and is_instance_valid(e) and not ("is_dead" in e and e.is_dead) and not e.is_in_group("mini_boss") and player and e.global_position.x > player.global_position.x - 50.0:
 					target_node = e as Node2D
 					break
 

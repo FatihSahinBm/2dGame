@@ -27,6 +27,7 @@ const PORTRAIT_COMMANDER = preload("res://assets/ui/portraits/portrait_commander
 const PORTRAIT_PLAYER = preload("res://assets/ui/portraits/portrait_player.png")
 const PORTRAIT_VLAD = preload("res://assets/ui/portraits/portrait_vlad.png")
 const PORTRAIT_KEMANKES = preload("res://assets/ui/portraits/portrait_kemankes.png")
+const PORTRAIT_BLOOD_KNIGHT = preload("res://assets/ui/portraits/portrait_blood_knight.png")
 
 @onready var panel: Control = $Panel
 @onready var letterbox_top: ColorRect = get_node_or_null("LetterboxTop") as ColorRect
@@ -145,6 +146,18 @@ func set_letterbox(enable: bool, bar_height: float = 52.0) -> void:
 
 
 func _apply_cinematic_mode(enable: bool, focus_speaker: Node2D = null) -> void:
+	# 0. Global sinematik bayrağını ayarla ve grupları bilgilendir
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state:
+		game_state.is_in_cinematic = enable
+
+	if enable:
+		get_tree().call_group("allies", "on_cinematic_started")
+		get_tree().call_group("enemies", "on_cinematic_started")
+	else:
+		get_tree().call_group("allies", "on_cinematic_ended")
+		get_tree().call_group("enemies", "on_cinematic_ended")
+
 	# 1. Oyuncuyu dondur / çöz
 	_player_ref = get_tree().get_first_node_in_group("player") as CharacterBody2D
 	if _player_ref and "can_move" in _player_ref:
@@ -249,6 +262,8 @@ func _apply_portrait_style(portrait_type: String) -> void:
 			portrait_texture.texture = PORTRAIT_PLAYER
 		"vlad":
 			portrait_texture.texture = PORTRAIT_VLAD
+		"blood_knight", "knight":
+			portrait_texture.texture = PORTRAIT_BLOOD_KNIGHT
 		"archer", "kemankes":
 			portrait_texture.texture = PORTRAIT_KEMANKES
 		_:

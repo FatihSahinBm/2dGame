@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://stage2_castle_dungeon_01"]
+[gd_scene load_steps=14 format=3 uid="uid://stage2_castle_dungeon_01"]
 
 [ext_resource type="Script" path="res://scripts/levels/vlad/stage_2_castle_dungeon.gd" id="1_stage"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="10_backdrop"]
 [ext_resource type="Script" path="res://scripts/objects/dungeon_chain_lever.gd" id="11_lever"]
 [ext_resource type="Script" path="res://scripts/objects/blood_altar_brazier.gd" id="12_brazier"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_stone_ledge.png" id="13_stone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_entrance"]
 size = Vector2(400, 50)
@@ -182,19 +183,19 @@ position = Vector2(180, 575)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/EntranceLedge"]
 shape = SubResource("RectangleShape2D_entrance")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/EntranceLedge"]
+[node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/EntranceLedge"]
+texture_filter = 1
 offset_left = -200.0
 offset_top = -25.0
 offset_right = 200.0
 offset_bottom = 90.0
-color = Color(0.14, 0.12, 0.15, 1)
-
-[node name="StoneTrim" type="ColorRect" parent="Environment/EntranceLedge"]
-offset_left = -200.0
-offset_top = -25.0
-offset_right = 200.0
-offset_bottom = -21.0
-color = Color(0.30, 0.24, 0.32, 1)
+texture = ExtResource("13_stone")
+patch_margin_left = 24
+patch_margin_top = 16
+patch_margin_right = 24
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="MidLedge" type="StaticBody2D" parent="Environment"]
 position = Vector2(920, 520)
@@ -202,19 +203,19 @@ position = Vector2(920, 520)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/MidLedge"]
 shape = SubResource("RectangleShape2D_mid_rock")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/MidLedge"]
+[node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/MidLedge"]
+texture_filter = 1
 offset_left = -130.0
 offset_top = -20.0
 offset_right = 130.0
 offset_bottom = 20.0
-color = Color(0.14, 0.12, 0.15, 1)
-
-[node name="StoneTrim" type="ColorRect" parent="Environment/MidLedge"]
-offset_left = -130.0
-offset_top = -20.0
-offset_right = 130.0
-offset_bottom = -16.0
-color = Color(0.30, 0.24, 0.32, 1)
+texture = ExtResource("13_stone")
+patch_margin_left = 24
+patch_margin_top = 16
+patch_margin_right = 24
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="UpperCorridor" type="StaticBody2D" parent="Environment"]
 position = Vector2(1750, 575)
@@ -222,19 +223,19 @@ position = Vector2(1750, 575)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/UpperCorridor"]
 shape = SubResource("RectangleShape2D_exit_floor")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/UpperCorridor"]
+[node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/UpperCorridor"]
+texture_filter = 1
 offset_left = -500.0
 offset_top = -30.0
 offset_right = 500.0
 offset_bottom = 90.0
-color = Color(0.14, 0.12, 0.15, 1)
-
-[node name="StoneTrim" type="ColorRect" parent="Environment/UpperCorridor"]
-offset_left = -500.0
-offset_top = -30.0
-offset_right = 500.0
-offset_bottom = -26.0
-color = Color(0.30, 0.24, 0.32, 1)
+texture = ExtResource("13_stone")
+patch_margin_left = 24
+patch_margin_top = 16
+patch_margin_right = 24
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="SpikePitHazard" type="Area2D" parent="Environment"]
 position = Vector2(760, 650)

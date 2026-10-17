@@ -178,12 +178,15 @@ func _on_pit_hazard_entered(body: Node2D) -> void:
 		return
 
 	_pit_hazard_triggered = true
-	if player.has_method("take_damage"):
-		var fatal_damage: int = player.current_health if "current_health" in player else 100
-		var hazard_pos: Vector2 = pit_hazard.global_position if pit_hazard else Vector2.INF
-		player.take_damage(fatal_damage, hazard_pos)
-	elif player.has_method("die"):
+	if "current_health" in player and "max_health" in player:
+		player.current_health = 0
+		if player.has_signal("player_damaged"):
+			player.player_damaged.emit(0, player.max_health)
+
+	if player.has_method("die"):
 		player.die()
+	elif player.has_method("take_damage"):
+		player.take_damage(100)
 
 
 func _physics_process(_delta: float) -> void:

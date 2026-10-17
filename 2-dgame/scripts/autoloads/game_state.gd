@@ -23,6 +23,7 @@ var unlocked_abilities: Array[String] = []
 
 # --- Bölüm Durumu ---
 var current_stage_path: String = "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
+var is_in_cinematic: bool = false
 
 
 func _ready() -> void:

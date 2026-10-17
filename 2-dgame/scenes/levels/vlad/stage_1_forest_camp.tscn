@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_1_time_rift.png" id="10_bg"]
 [ext_resource type="PackedScene" path="res://scenes/allies/janissary_commander.tscn" id="11_commander"]
 [ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="14_backdrop"]
+[ext_resource type="Texture2D" path="res://assets/environment/forest/forest_camp_ground.png" id="15_ground"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1650, 60)
@@ -39,19 +40,19 @@ position = Vector2(800, 590)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/Ground"]
+texture_filter = 1
 offset_left = -825.0
 offset_top = -30.0
 offset_right = 825.0
 offset_bottom = 120.0
-color = Color(0.1, 0.08, 0.1, 1)
-
-[node name="PathTrim" type="ColorRect" parent="Environment/Ground"]
-offset_left = -825.0
-offset_top = -30.0
-offset_right = 825.0
-offset_bottom = -26.0
-color = Color(0.25, 0.2, 0.18, 1)
+texture = ExtResource("15_ground")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="DimensionalTimeRift" parent="." instance=ExtResource("5_rift")]
 position = Vector2(140, 500)

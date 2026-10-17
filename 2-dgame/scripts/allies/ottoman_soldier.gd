@@ -17,6 +17,7 @@ signal drained_by_player()
 @export var attack_range: float = 65.0
 @export var attack_cooldown: float = 0.85
 @export var is_guard: bool = false
+@export_enum("auto", "front_barricade", "enemy_hunter", "next_barricade") var combat_role: String = "auto"
 
 var gravity: float = 980.0
 var _target_enemy: Node2D = null
@@ -52,12 +53,32 @@ func _setup_player_collision_exception() -> void:
 			p.add_collision_exception_with(self)
 
 
+func on_cinematic_started() -> void:
+	velocity.x = 0.0
+	_target_enemy = null
+	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+		anim_sprite.play("idle")
+
+
+func on_cinematic_ended() -> void:
+	pass
+
+
 func _physics_process(delta: float) -> void:
 	if _is_dead:
 		return
 
 	if not is_on_floor():
 		velocity.y += gravity * delta
+
+	# Sinematik sırasında saldırı ve hareket kilitlenir
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		velocity.x = 0.0
+		if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+			anim_sprite.play("idle")
+		move_and_slide()
+		return
 
 	if is_guard:
 		velocity.x = 0.0
@@ -84,6 +105,9 @@ func _physics_process(delta: float) -> void:
 				_perform_melee_attack()
 		else:
 			velocity.x = dir_x * speed
+			# Eğer hedef ilerideyse ve duvara/barikata çarptıysa üzerinden atla
+			if is_on_wall() and is_on_floor() and dir_x > 0.0:
+				velocity.y = -390.0
 			if anim_sprite and anim_sprite.sprite_frames.has_animation("walk"):
 				anim_sprite.play("walk")
 
@@ -102,6 +126,8 @@ func _physics_process(delta: float) -> void:
 				# Oyuncu hızlandıkça veya uzaklaştıkça süper hücum sprinti
 				var catchup_mult = clampf(dist_x / 60.0, 1.25, 2.5)
 				velocity.x = speed * catchup_mult
+				if is_on_wall() and is_on_floor():
+					velocity.y = -390.0
 				if anim_sprite and anim_sprite.sprite_frames.has_animation("walk"):
 					anim_sprite.play("walk")
 			elif dist_x < -80.0:
@@ -113,11 +139,15 @@ func _physics_process(delta: float) -> void:
 				# Oyuncuyla birlikte aynı hizada hücum
 				velocity.x = speed * 1.15
 				visual.scale.x = absf(visual.scale.x)
+				if is_on_wall() and is_on_floor():
+					velocity.y = -390.0
 				if anim_sprite and anim_sprite.sprite_frames.has_animation("walk"):
 					anim_sprite.play("walk")
 		else:
 			velocity.x = speed
 			visual.scale.x = absf(visual.scale.x)
+			if is_on_wall() and is_on_floor():
+				velocity.y = -390.0
 			if anim_sprite and anim_sprite.sprite_frames.has_animation("walk"):
 				anim_sprite.play("walk")
 
@@ -128,37 +158,123 @@ func _unhandled_input(_event: InputEvent) -> void:
 	pass
 
 
-func _find_nearest_enemy() -> void:
-	# 1. Önce ön saftaki yolu tıkayan barikatlara kilitlen
+func _get_closest_barricade() -> Node2D:
 	var barricades = get_tree().get_nodes_in_group("barricades")
-	var closest_barricade: Node2D = null
-	var closest_barricade_dist: float = 750.0
-
-	for b in barricades:
-		if b is Node2D and is_instance_valid(b) and not ("_is_destroyed" in b and b._is_destroyed):
-			var d = global_position.distance_to(b.global_position)
-			if d < closest_barricade_dist and b.global_position.x >= global_position.x - 30.0:
-				closest_barricade_dist = d
-				closest_barricade = b as Node2D
-
-	if closest_barricade:
-		_target_enemy = closest_barricade
-		return
-
-	# 2. Önünde barikat yoksa en yakın canlı düşmana kilitlen
-	var enemies = get_tree().get_nodes_in_group("enemies")
+	var closest: Node2D = null
 	var closest_dist: float = 850.0
-	_target_enemy = null
-
-	for node in enemies:
-		if node is Node2D and node != self and not ("is_dead" in node and node.is_dead) and not ("_is_destroyed" in node and node._is_destroyed):
-			var d: float = global_position.distance_to(node.global_position)
-			if d < closest_dist:
+	for b in barricades:
+		if b is Node2D and is_instance_valid(b) and not b.is_queued_for_deletion() and not ("_is_destroyed" in b and b._is_destroyed):
+			var d = global_position.distance_to(b.global_position)
+			if d < closest_dist and b.global_position.x >= global_position.x - 40.0:
 				closest_dist = d
-				_target_enemy = node
+				closest = b as Node2D
+	return closest
+
+
+func _get_next_barricade() -> Node2D:
+	var barricades = get_tree().get_nodes_in_group("barricades")
+	var ahead_barricades: Array[Node2D] = []
+	for b in barricades:
+		if b is Node2D and is_instance_valid(b) and not b.is_queued_for_deletion() and not ("_is_destroyed" in b and b._is_destroyed):
+			if b.global_position.x >= global_position.x - 40.0:
+				ahead_barricades.append(b as Node2D)
+	ahead_barricades.sort_custom(func(a: Node2D, b: Node2D) -> bool:
+		return a.global_position.x < b.global_position.x
+	)
+	if ahead_barricades.size() >= 2:
+		return ahead_barricades[1]
+	elif ahead_barricades.size() == 1:
+		return ahead_barricades[0]
+	return null
+
+
+func _get_closest_standard_enemy() -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var closest: Node2D = null
+	var closest_dist: float = 900.0
+	for node in enemies:
+		if node is Node2D and node != self and is_instance_valid(node) and not node.is_queued_for_deletion() and not ("is_dead" in node and node.is_dead) and not ("_is_destroyed" in node and node._is_destroyed):
+			if not node.is_in_group("mini_boss") and not node.is_in_group("barricades"):
+				var d: float = global_position.distance_to(node.global_position)
+				if d < closest_dist:
+					closest_dist = d
+					closest = node as Node2D
+	return closest
+
+
+func _find_nearest_enemy() -> void:
+	# 1. Normal / Ana Bosslar (group "boss", örn. Vlad Boss)
+	var bosses = get_tree().get_nodes_in_group("boss")
+	for b in bosses:
+		if b is Node2D and is_instance_valid(b) and not b.is_queued_for_deletion() and not ("is_dead" in b and b.is_dead):
+			if global_position.distance_to(b.global_position) < 950.0:
+				_target_enemy = b as Node2D
+				return
+
+	# Rol belirleme: "auto" ise node ismine / index'ine göre dinamik dağılım
+	var effective_role = combat_role
+	if effective_role == "auto":
+		var idx = get_index()
+		if name == "Janissary1" or idx % 3 == 1:
+			effective_role = "enemy_hunter"
+		elif name == "Janissary2" or idx % 3 == 2:
+			effective_role = "next_barricade"
+		else:
+			effective_role = "front_barricade"
+
+	if effective_role == "enemy_hunter":
+		# Düşman avcısı: Öncelikle sahnedeki canavarlara / iskeletlere saldır
+		var enemy = _get_closest_standard_enemy()
+		if enemy:
+			_target_enemy = enemy
+			return
+		var barricade = _get_closest_barricade()
+		if barricade:
+			_target_enemy = barricade
+			return
+
+	elif effective_role == "next_barricade":
+		# Sonraki barikat yıkıcı: Ön barikatı atlayıp sonraki barikata yönel
+		var next_b = _get_next_barricade()
+		if next_b:
+			_target_enemy = next_b
+			return
+		var enemy = _get_closest_standard_enemy()
+		if enemy:
+			_target_enemy = enemy
+			return
+		var front_b = _get_closest_barricade()
+		if front_b:
+			_target_enemy = front_b
+			return
+
+	else: # "front_barricade"
+		# Ön barikat yıkıcı
+		var front_b = _get_closest_barricade()
+		if front_b:
+			_target_enemy = front_b
+			return
+		var enemy = _get_closest_standard_enemy()
+		if enemy:
+			_target_enemy = enemy
+			return
+
+	# Son çare: Başka hiçbir şey kalmadıysa mini-boss
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for node in enemies:
+		if node is Node2D and node != self and is_instance_valid(node) and not node.is_queued_for_deletion() and not ("is_dead" in node and node.is_dead):
+			if node.is_in_group("mini_boss"):
+				_target_enemy = node as Node2D
+				return
+
+	_target_enemy = null
 
 
 func _perform_melee_attack() -> void:
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		return
+
 	_attack_timer = attack_cooldown
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack"):
 		anim_sprite.play("attack")
@@ -174,6 +290,10 @@ func _perform_melee_attack() -> void:
 
 
 func _deal_damage_to_targets(damage: int) -> void:
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		return
+
 	var hit_objects: Array[Object] = []
 
 	# 1. Attack area overlapping bodies
@@ -184,10 +304,13 @@ func _deal_damage_to_targets(damage: int) -> void:
 			var target = body
 			if target.is_in_group("enemies") or target.is_in_group("barricades") or target.is_in_group("damageable"):
 				hit_objects.append(target)
+				var actual_damage = damage
+				if target.is_in_group("mini_boss"):
+					actual_damage = maxi(1, int(damage * 0.2))
 				if target.has_method("take_damage"):
-					target.take_damage(damage)
+					target.take_damage(actual_damage)
 				elif target.has_method("hit"):
-					target.hit(damage)
+					target.hit(actual_damage)
 
 		# 2. Overlapping areas (Hurtbox'lar)
 		for area in attack_area.get_overlapping_areas():
@@ -196,10 +319,13 @@ func _deal_damage_to_targets(damage: int) -> void:
 				continue
 			if target.is_in_group("enemies") or target.is_in_group("barricades") or target.is_in_group("damageable"):
 				hit_objects.append(target)
+				var actual_damage = damage
+				if target.is_in_group("mini_boss"):
+					actual_damage = maxi(1, int(damage * 0.2))
 				if target.has_method("take_damage"):
-					target.take_damage(damage)
+					target.take_damage(actual_damage)
 				elif target.has_method("hit"):
-					target.hit(damage)
+					target.hit(actual_damage)
 
 	# 3. Doğrudan Fizik Alanı Sorgusu (Kesin vuruş garantisi)
 	var space_state = get_world_2d().direct_space_state
@@ -224,10 +350,13 @@ func _deal_damage_to_targets(damage: int) -> void:
 					continue
 				if target.is_in_group("enemies") or target.is_in_group("barricades") or target.is_in_group("damageable"):
 					hit_objects.append(target)
+					var actual_damage = damage
+					if target.is_in_group("mini_boss"):
+						actual_damage = maxi(1, int(damage * 0.2))
 					if target.has_method("take_damage"):
-						target.take_damage(damage)
+						target.take_damage(actual_damage)
 					elif target.has_method("hit"):
-						target.hit(damage)
+						target.hit(actual_damage)
 
 
 ## Hasar alma (Düşmanlardan VEYA Oyuncudan - Dost Ateşi)

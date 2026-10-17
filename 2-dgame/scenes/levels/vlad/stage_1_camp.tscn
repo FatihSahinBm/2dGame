@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/objects/arrow_quiver_item.gd" id="11_quiver"]
 [ext_resource type="Texture2D" path="res://assets/objects/broken_cart.png" id="12_cart_tex"]
 [ext_resource type="Texture2D" path="res://assets/items/arrow_quiver.png" id="13_quiver_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/camp/ottoman_camp_ground.png" id="14_ground"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1800, 60)
@@ -45,19 +46,19 @@ position = Vector2(600, 590)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
-[node name="ColorRect" type="ColorRect" parent="Environment/Ground"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/Ground"]
+texture_filter = 1
 offset_left = -900.0
 offset_top = -30.0
 offset_right = 900.0
 offset_bottom = 120.0
-color = Color(0.12, 0.09, 0.08, 1)
-
-[node name="PathTrim" type="ColorRect" parent="Environment/Ground"]
-offset_left = -900.0
-offset_top = -30.0
-offset_right = 900.0
-offset_bottom = -26.0
-color = Color(0.3, 0.22, 0.18, 1)
+texture = ExtResource("14_ground")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="BrokenCart" type="Node2D" parent="Environment"]
 position = Vector2(-110, 530)

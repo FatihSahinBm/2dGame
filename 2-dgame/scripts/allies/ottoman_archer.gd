@@ -49,12 +49,32 @@ func _setup_player_collision_exception() -> void:
 			p.add_collision_exception_with(self)
 
 
+func on_cinematic_started() -> void:
+	velocity.x = 0.0
+	_target_enemy = null
+	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+		anim_sprite.play("idle")
+
+
+func on_cinematic_ended() -> void:
+	pass
+
+
 func _physics_process(delta: float) -> void:
 	if _is_dead:
 		return
 
 	if not is_on_floor():
 		velocity.y += gravity * delta
+
+	# Sinematik sırasında saldırı ve hareket kilitlenir
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		velocity.x = 0.0
+		if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+			anim_sprite.play("idle")
+		move_and_slide()
+		return
 
 	_shoot_timer = maxf(0.0, _shoot_timer - delta)
 	_find_target()
@@ -78,19 +98,52 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 
 func _find_target() -> void:
+	# 1. Normal / Ana Bosslar önceliği (group "boss", örn. Vlad Boss)
+	var bosses: Array[Node] = get_tree().get_nodes_in_group("boss")
+	var closest_boss: Node2D = null
+	var closest_boss_dist: float = shoot_range * 1.2
+	for b in bosses:
+		if b is Node2D and is_instance_valid(b) and not b.is_queued_for_deletion() and not ("is_dead" in b and b.is_dead):
+			var d = global_position.distance_to(b.global_position)
+			if d < closest_boss_dist:
+				closest_boss_dist = d
+				closest_boss = b as Node2D
+	if closest_boss:
+		_target_enemy = closest_boss
+		return
+
+	# 2. Standart düşmanlar (mini-boss HARİÇ)
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemies")
 	var closest_dist: float = shoot_range
-	_target_enemy = null
+	var standard_target: Node2D = null
+	var mini_boss_target: Node2D = null
+	var mini_boss_dist: float = shoot_range
 
 	for node in enemies:
-		if node is Node2D and node != self and not ("is_dead" in node and node.is_dead):
+		if node is Node2D and node != self and is_instance_valid(node) and not node.is_queued_for_deletion() and not ("is_dead" in node and node.is_dead):
 			var d: float = global_position.distance_to(node.global_position)
-			if d < closest_dist:
-				closest_dist = d
-				_target_enemy = node
+			if node.is_in_group("mini_boss"):
+				if d < mini_boss_dist:
+					mini_boss_dist = d
+					mini_boss_target = node
+			else:
+				if d < closest_dist:
+					closest_dist = d
+					standard_target = node
+
+	if standard_target:
+		_target_enemy = standard_target
+		return
+
+	# 3. Yalnızca başka düşman kalmadığında mini-boss'u hedef al
+	_target_enemy = mini_boss_target
 
 
 func _shoot_flaming_arrow() -> void:
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.is_in_cinematic:
+		return
+
 	if not _target_enemy or not is_instance_valid(_target_enemy) or not arrow_scene:
 		return
 
