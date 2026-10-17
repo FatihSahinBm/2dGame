@@ -34,6 +34,7 @@ var _is_transitioning: bool = false
 var _braziers_lit: int = 0
 var _gate_unlocked: bool = false
 var _mural_reaction_done: bool = false
+var _pit_hazard_triggered: bool = false
 
 
 func _ready() -> void:
@@ -171,9 +172,18 @@ func _setup_hud() -> void:
 
 
 func _on_pit_hazard_entered(body: Node2D) -> void:
-	if body == player:
-		if player.has_method("take_damage"):
-			player.take_damage(999)
+	if _pit_hazard_triggered or body != player:
+		return
+	if "is_dead" in player and player.is_dead:
+		return
+
+	_pit_hazard_triggered = true
+	if player.has_method("take_damage"):
+		var fatal_damage: int = player.current_health if "current_health" in player else 100
+		var hazard_pos: Vector2 = pit_hazard.global_position if pit_hazard else Vector2.INF
+		player.take_damage(fatal_damage, hazard_pos)
+	elif player.has_method("die"):
+		player.die()
 
 
 func _physics_process(_delta: float) -> void:
