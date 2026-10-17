@@ -3,18 +3,20 @@ extends Node
 ## res://scripts/autoloads/story_data_loader.gd
 ## Hikaye, diyalog ve metin verilerini data/ altındaki JSON dosyalarından yükler.
 
+const CHAPTER_1_PATH: String = "res://data/story/chapter_1_stone_age.json"
 const CHAPTER_2_PATH: String = "res://data/story/chapter_2_vlad.json"
 
 static var _cached_data: Dictionary = {}
+static var _current_loaded_path: String = ""
 
 
 func _ready() -> void:
-	load_chapter_data()
+	load_chapter_data(CHAPTER_1_PATH)
 
 
 ## JSON dosyasını okuyup sözlük olarak döndürür
 static func load_chapter_data(path: String = CHAPTER_2_PATH) -> Dictionary:
-	if not _cached_data.is_empty():
+	if _current_loaded_path == path and not _cached_data.is_empty():
 		return _cached_data
 
 	if not FileAccess.file_exists(path):
@@ -35,14 +37,16 @@ static func load_chapter_data(path: String = CHAPTER_2_PATH) -> Dictionary:
 
 	if json.data is Dictionary:
 		_cached_data = json.data as Dictionary
+		_current_loaded_path = path
 		return _cached_data
 
 	return {}
 
 
 ## Belirli bir diyalog veya metin grubunu döndürür
-static func get_dialogue_sequence(key: String) -> Array:
-	var data: Dictionary = load_chapter_data()
+static func get_dialogue_sequence(key: String, path: String = "") -> Array:
+	var target_path: String = path if not path.is_empty() else (_current_loaded_path if not _current_loaded_path.is_empty() else CHAPTER_2_PATH)
+	var data: Dictionary = load_chapter_data(target_path)
 	if data.has("dialogues") and data["dialogues"].has(key):
 		return data["dialogues"][key]
 	return []

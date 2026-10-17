@@ -153,4 +153,4 @@ text = "✋ Silahsız: Yerden kılıcı almak için yanına gidip [E] tuşuna ba
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.74, 0.82, 1)
 theme_override_font_sizes/font_size = 13
-text = "Hareket: [A / D]  |  Zıplama: [Space]  |  Kılıç Alma: [E]  |  Kılıç Atma: [G]  |  Savurma: [Sol Tık]  |  [B] Siber T-Rex Arenası"
+text = "Hareket: [A / D]  |  Zıplama: [Space]  |  Kılıç Alma: [E]  |  [1] Taş Devri Vadi  |  [2 / B] T-Rex Boss Arenası"

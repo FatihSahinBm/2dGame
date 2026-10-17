@@ -20,5 +20,7 @@ func _on_player_sword_state_changed(has_sword: bool) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_B:
-			get_tree().change_scene_to_file("res://scenes/dev/test_trex_boss.tscn")
+		if event.keycode == KEY_1:
+			get_tree().change_scene_to_file("res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn")
+		elif event.keycode == KEY_2 or event.keycode == KEY_B:
+			get_tree().change_scene_to_file("res://scenes/levels/stone_age/stage_2_trex_boss_arena.tscn")
