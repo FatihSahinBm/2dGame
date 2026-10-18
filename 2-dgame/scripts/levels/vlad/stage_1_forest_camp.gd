@@ -148,8 +148,8 @@ func _setup_hud() -> void:
 	if hud.has_method("set_tutorial"):
 		hud.set_tutorial(
 			"1. Harita: Orman Pususu",
-			"Kumandanı Kurtar",
-			"[A/D] Koş | [Space] Zıpla | [Sol Tık] Saldır. İleride pusuya düşen Yeniçeri Kumandanı'nı kurtar!"
+			"Osmanlı Birliğini Kurtar",
+			"[A/D] Koş | [Space] Zıpla | [Sol Tık] Saldır. İleride pusuya düşen Osmanlı birliğini kurtar!"
 		)
 
 

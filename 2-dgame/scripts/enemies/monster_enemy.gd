@@ -329,9 +329,10 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body == self:
 		return
-	# Sadece oyuncu grubundaki gövdeleri hedef al
-	if body.is_in_group("player"):
-		_target_node = body
+	# Oyuncu veya müttefik askerleri hedef al
+	if body.is_in_group("player") or body.is_in_group("allies"):
+		if _target_node == null or not is_instance_valid(_target_node) or body.is_in_group("player"):
+			_target_node = body
 
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body == _target_node:

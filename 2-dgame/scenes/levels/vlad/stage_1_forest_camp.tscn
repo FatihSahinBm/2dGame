@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="9_bat"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_1_time_rift.png" id="10_bg"]
 [ext_resource type="PackedScene" path="res://scenes/allies/janissary_commander.tscn" id="11_commander"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ottoman_soldier.tscn" id="12_soldier"]
 [ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="14_backdrop"]
 [ext_resource type="Texture2D" path="res://assets/environment/forest/forest_camp_ground.png" id="15_ground"]
 
@@ -48,9 +49,9 @@ offset_right = 825.0
 offset_bottom = 120.0
 texture = ExtResource("15_ground")
 patch_margin_left = 16
-patch_margin_top = 16
+patch_margin_top = 32
 patch_margin_right = 16
-patch_margin_bottom = 16
+patch_margin_bottom = 0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
@@ -67,16 +68,33 @@ is_armed = true
 [node name="JanissaryCommander" parent="AmbushZone" unique_id=1471364173 instance=ExtResource("11_commander")]
 position = Vector2(580, 560)
 
+[node name="JanissarySoldier1" parent="AmbushZone" instance=ExtResource("12_soldier")]
+position = Vector2(530, 560)
+combat_role = "enemy_hunter"
+
+[node name="JanissarySoldier2" parent="AmbushZone" instance=ExtResource("12_soldier")]
+position = Vector2(630, 560)
+combat_role = "enemy_hunter"
+
 [node name="Enemies" type="Node2D" parent="AmbushZone" unique_id=1114646155]
 
 [node name="Skeleton1" parent="AmbushZone/Enemies" unique_id=1803122215 instance=ExtResource("8_skeleton")]
-position = Vector2(660, 560)
+position = Vector2(700, 560)
 
 [node name="Skeleton2" parent="AmbushZone/Enemies" unique_id=227889444 instance=ExtResource("8_skeleton")]
-position = Vector2(490, 560)
+position = Vector2(460, 560)
+
+[node name="Skeleton3" parent="AmbushZone/Enemies" instance=ExtResource("8_skeleton")]
+position = Vector2(780, 560)
+
+[node name="Skeleton4" parent="AmbushZone/Enemies" instance=ExtResource("8_skeleton")]
+position = Vector2(380, 560)
 
 [node name="FlyingBat" parent="AmbushZone/Enemies" unique_id=714881798 instance=ExtResource("9_bat")]
-position = Vector2(600, 420)
+position = Vector2(540, 410)
+
+[node name="FlyingBat2" parent="AmbushZone/Enemies" instance=ExtResource("9_bat")]
+position = Vector2(660, 420)
 
 [node name="ExitGate" type="Area2D" parent="."]
 position = Vector2(1520, 520)

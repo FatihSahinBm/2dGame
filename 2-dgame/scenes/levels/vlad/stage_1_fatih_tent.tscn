@@ -44,25 +44,30 @@ position = Vector2(1260, 360)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(240, 610)
+position = Vector2(360, 610)
+scale = Vector2(1.85, 1.85)
 has_sword = true
 is_armed = true
 
 [node name="JanissaryCommander" parent="." instance=ExtResource("6_commander")]
-position = Vector2(380, 610)
+position = Vector2(500, 610)
+scale = Vector2(1.85, 1.85)
 is_guard = true
 
 [node name="FatihNPC" parent="." instance=ExtResource("5_fatih")]
 position = Vector2(880, 610)
+scale = Vector2(1.85, 1.85)
 
 [node name="Guards" type="Node2D" parent="."]
 
 [node name="Guard1" parent="Guards" instance=ExtResource("7_soldier")]
 position = Vector2(1060, 610)
+scale = Vector2(1.85, 1.85)
 is_guard = true
 
 [node name="Guard2" parent="Guards" instance=ExtResource("7_soldier")]
 position = Vector2(1150, 610)
+scale = Vector2(1.85, 1.85)
 is_guard = true
 
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
