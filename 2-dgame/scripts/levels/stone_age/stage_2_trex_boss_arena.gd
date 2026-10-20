@@ -2,12 +2,12 @@ class_name Stage2TrexBossArena
 extends Node2D
 
 ## res://scripts/levels/stone_age/stage_2_trex_boss_arena.gd
-## 1. Bölüm — 2. Aşama: Siber Anne T-Rex Boss Arenası
-## - 3 Fazlı Boss savaşı (Saldırılar: Isırık, Siber Ağız Lazeri, Zemin Sarsıntısı).
-## - Kaçınma için yüksek kaya platformları.
-## - Karşılaşma diyalogu (trex_encounter) ve zafer diyalogu (trex_victory).
-## - T-Rex yenildiğinde "Dünyanın Kalbi" kristal parçasının kılıca çekilmesi.
-## - Bölüm 2'ye (Eflak Seferi) açılan Zaman Yarığı portalı.
+## 1. Bölüm: Tarih Öncesi İlkel Vadi & Siber Anne T-Rex Boss Arenası
+## - Çok aşamalı 2D platform keşfi ve savaş ilerlemesi (Bölüm A -> F)
+## - İlk düşman karşılaşmaları (Goblin, Spor Mantarı, Uçan Göz)
+## - Kırılabilir antik barikat ve çöken kaya platformları
+## - Siber enkaz ve yer sarsıntısı ön uyarı alanı
+## - 3 Fazlı Mecha-Tyrant Boss savaşı, Kalp Parçası ve Eflak Seferi Geçidi
 
 @onready var player: CharacterBody2D = $CombatPlayer
 @onready var trex_boss: CharacterBody2D = $TrexBoss
@@ -22,8 +22,16 @@ extends Node2D
 @onready var boss_hp_text: Label = $UI/BossHealthPanel/VBox/HPText
 @onready var boss_phase_label: Label = $UI/BossHealthPanel/VBox/PhaseLabel
 
+# Çevresel Alanlar
+@onready var boss_trigger_area: Area2D = $Environment/BossTriggerArea
+@onready var barricade_hint_zone: Area2D = $Environment/BarricadeHintZone
+@onready var tremor_zone: Area2D = $Environment/TremorZone
+
 var _player_camera: Camera2D = null
-var _boss_intro_played: bool = false
+var _intro_dialogue_played: bool = false
+var _barricade_hint_played: bool = false
+var _tremor_played: bool = false
+var _boss_fight_started: bool = false
 var _boss_defeated: bool = false
 
 const StoryDataLoaderScript = preload("res://scripts/autoloads/story_data_loader.gd")
@@ -33,15 +41,17 @@ const NEXT_CHAPTER_PATH: String = "res://scenes/levels/vlad/stage_1_forest_camp.
 func _ready() -> void:
 	StoryDataLoaderScript.load_chapter_data(StoryDataLoaderScript.CHAPTER_1_PATH)
 
-	# Kalp kristali başlangıçta gizli
+	# Kalp kristali ve çıkış zaman yarığı başlangıçta gizli
 	if heart_piece:
 		heart_piece.visible = false
-
-	# Çıkış zaman yarığı başlangıçta gizli
 	if time_rift_exit:
 		time_rift_exit.visible = false
 
-	# Oyuncu hazırlığı
+	# Boss can paneli oyuncu arenaya girene kadar gizli
+	if boss_panel:
+		boss_panel.modulate.a = 0.0
+
+	# Oyuncu hazırlığı ve kamera sınırları (Tam bölüm genişliği: 0 - 5500 px)
 	if player:
 		if not player.has_sword and player.has_method("pickup_sword"):
 			player.pickup_sword()
@@ -53,21 +63,89 @@ func _ready() -> void:
 		_player_camera = player.get_node_or_null("Camera2D") as Camera2D
 		if _player_camera:
 			_player_camera.limit_left = 0
-			_player_camera.limit_right = 1600
-			_player_camera.limit_top = -140
-			_player_camera.limit_bottom = 630
+			_player_camera.limit_right = 5500
+			_player_camera.limit_top = -220
+			_player_camera.limit_bottom = 650
 
 	_play_fade_in()
 	_setup_boss_signals()
+	_connect_level_triggers()
 
 	if dialogue_box:
 		dialogue_box.dialogue_completed.connect(_on_dialogue_completed)
-		# Karşılaşma diyalogunu başlat
+		# Başlangıç uyanış diyalogunu oynat
 		get_tree().create_timer(0.6).timeout.connect(func():
-			if not _boss_intro_played:
-				_boss_intro_played = true
-				dialogue_box.start_dialogue_from_data("trex_encounter", trex_boss)
+			if not _intro_dialogue_played:
+				_intro_dialogue_played = true
+				dialogue_box.start_dialogue_from_data("intro_awakening", player)
 		)
+
+	_setup_initial_hud()
+
+
+func _setup_initial_hud() -> void:
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial(
+			"Bölüm 1: Taş Devri",
+			"Tarih Öncesi Vadi & Siber Tyrant'ın İzi",
+			"Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]"
+		)
+
+
+func _connect_level_triggers() -> void:
+	if barricade_hint_zone:
+		barricade_hint_zone.body_entered.connect(_on_barricade_zone_entered)
+	if tremor_zone:
+		tremor_zone.body_entered.connect(_on_tremor_zone_entered)
+	if boss_trigger_area:
+		boss_trigger_area.body_entered.connect(_on_boss_trigger_entered)
+
+
+func _on_barricade_zone_entered(body: Node2D) -> void:
+	if body == player and not _barricade_hint_played:
+		_barricade_hint_played = true
+		if dialogue_box:
+			dialogue_box.start_dialogue_from_data("barricade_hint", player)
+
+
+func _on_tremor_zone_entered(body: Node2D) -> void:
+	if body == player and not _tremor_played:
+		_tremor_played = true
+		_trigger_ambient_tremor()
+
+
+func _trigger_ambient_tremor() -> void:
+	if _player_camera:
+		var tw_cam: Tween = create_tween()
+		tw_cam.tween_property(_player_camera, "offset:y", 12.0, 0.08)
+		tw_cam.tween_property(_player_camera, "offset:y", -10.0, 0.08)
+		tw_cam.tween_property(_player_camera, "offset:y", 6.0, 0.08)
+		tw_cam.tween_property(_player_camera, "offset:y", 0.0, 0.1)
+
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial(
+			"UYARI: ANORMAL TİTREŞİMLER",
+			"Geleceğe Ait Siber Sinyaller",
+			"Kopmuş devasa sibernetik pençeler... Canavar çok yakında!"
+		)
+
+
+func _on_boss_trigger_entered(body: Node2D) -> void:
+	if body == player and not _boss_fight_started:
+		_boss_fight_started = true
+		_start_boss_fight()
+
+
+func _start_boss_fight() -> void:
+	# Kamerayı Boss Arenası içine kilitle (4300 - 5500 px)
+	if _player_camera:
+		_player_camera.limit_left = 4300
+		_player_camera.limit_right = 5500
+
+	# Boss panelini animasyonla aç
+	if boss_panel:
+		var tw_panel: Tween = create_tween()
+		tw_panel.tween_property(boss_panel, "modulate:a", 1.0, 0.6)
 
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial(
@@ -75,6 +153,10 @@ func _ready() -> void:
 			"Dev Mecha-Tyrant",
 			"Lazerden ve yer sarsıntılarından kaçmak için yüksek platformlara tırman!"
 		)
+
+	# Karşılaşma diyalogunu başlat
+	if dialogue_box and is_instance_valid(trex_boss):
+		dialogue_box.start_dialogue_from_data("trex_encounter", trex_boss)
 
 
 func _setup_boss_signals() -> void:
@@ -135,33 +217,29 @@ func _on_boss_died(_boss_ref: Node2D) -> void:
 		return
 	_boss_defeated = true
 
-	# Boss panelini yavaşça gizle
 	if boss_panel:
 		var tw_hp: Tween = create_tween()
 		tw_hp.tween_property(boss_panel, "modulate:a", 0.0, 1.0)
 
-	# Dünyanın Kalbi parçasını göster ve animasyonla oyuncuya çek
-	if heart_piece:
-		heart_piece.visible = true
-		if is_instance_valid(trex_boss):
-			heart_piece.global_position = trex_boss.global_position + Vector2(0, -90)
-		else:
-			heart_piece.global_position = Vector2(920, 480)
+	# Level 08 — İlk Kalp Parçası ve Boss Sonrası Hikâye Sahnesine Geçiş
+	var tw_trans: Tween = create_tween()
+	tw_trans.tween_interval(1.8)
+	tw_trans.tween_callback(func():
+		var fade_overlay: ColorRect = ColorRect.new()
+		fade_overlay.color = Color(0, 0, 0, 0)
+		fade_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+		fade_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+		var canvas: CanvasLayer = CanvasLayer.new()
+		canvas.layer = 100
+		canvas.add_child(fade_overlay)
+		add_child(canvas)
 
-		var tw_heart: Tween = create_tween()
-		tw_heart.tween_interval(1.2)
-		tw_heart.tween_property(heart_piece, "global_position", player.global_position + Vector2(0, -25), 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		tw_heart.tween_callback(func():
-			heart_piece.visible = false
-			var game_state: Node = get_node_or_null("/root/GameState")
-			if game_state:
-				game_state.current_heart_pieces = 1
-			# Zafer diyalogunu başlat
-			if dialogue_box:
-				dialogue_box.start_dialogue_from_data("trex_victory", player)
-			# Çıkış portalını aç
-			_reveal_exit_portal()
+		var tw_fade: Tween = create_tween()
+		tw_fade.tween_property(fade_overlay, "color:a", 1.0, 0.8)
+		tw_fade.tween_callback(func():
+			get_tree().change_scene_to_file("res://scenes/levels/stoneage/stoneage_08_first_heart_fragment.tscn")
 		)
+	)
 
 
 func _reveal_exit_portal() -> void:
@@ -171,7 +249,6 @@ func _reveal_exit_portal() -> void:
 		var tw_rift: Tween = create_tween()
 		tw_rift.tween_property(time_rift_exit, "modulate:a", 1.0, 1.0)
 
-		# Portal tetikleyicisi
 		var rift_area: Area2D = time_rift_exit.get_node_or_null("Area2D") as Area2D
 		if rift_area:
 			rift_area.body_entered.connect(func(body: Node2D):

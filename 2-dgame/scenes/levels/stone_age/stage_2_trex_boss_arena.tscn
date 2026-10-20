@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_2_trex_boss_arena.gd" id="1_arena"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -6,15 +6,48 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="5_dialogue"]
 [ext_resource type="PackedScene" path="res://scenes/objects/dimensional_time_rift.tscn" id="6_rift"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1650, 60)
+[ext_resource type="PackedScene" path="res://scenes/levels/stone_age/prehistoric_parallax_background.tscn" id="7_parallax"]
+[ext_resource type="PackedScene" path="res://scenes/objects/collapsing_platform.tscn" id="8_collapse"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_barricade.tscn" id="9_barricade"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/goblin.tscn" id="10_goblin"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/mushroom.tscn" id="11_mushroom"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="12_flying_eye"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_moss_ground.png" id="13_ground_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="14_ledge_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/cyber_rex_debris.png" id="15_debris_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
-size = Vector2(30, 700)
+size = Vector2(40, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_start"]
+size = Vector2(900, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_enc1"]
+size = Vector2(800, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_barr"]
+size = Vector2(500, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_enc2"]
+size = Vector2(800, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_trans"]
+size = Vector2(700, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_arena"]
+size = Vector2(1100, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
-size = Vector2(250, 24)
+size = Vector2(220, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_high"]
+size = Vector2(260, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(200, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boss_trigger"]
+size = Vector2(120, 360)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_panel"]
 bg_color = Color(0.04, 0.05, 0.08, 0.92)
@@ -53,156 +86,350 @@ corner_radius_bottom_left = 3
 [node name="Stage2TrexBossArena" type="Node2D"]
 script = ExtResource("1_arena")
 
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="ColorRect" type="ColorRect" parent="Background"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.05, 0.04, 0.06, 1)
-
-[node name="AmbientParticles" type="CPUParticles2D" parent="."]
-position = Vector2(800, 200)
-amount = 40
-lifetime = 5.0
-preprocess = 2.0
-emission_shape = 3
-emission_rect_extents = Vector2(800, 300)
-direction = Vector2(-1, 0.2)
-spread = 20.0
-gravity = Vector2(0, 8)
-initial_velocity_min = 10.0
-initial_velocity_max = 30.0
-scale_amount_min = 1.5
-scale_amount_max = 3.5
-color = Color(0.95, 0.55, 0.25, 0.3)
+[node name="PrehistoricParallaxBackground" parent="." instance=ExtResource("7_parallax")]
 
 [node name="Environment" type="Node2D" parent="."]
 
-[node name="Ground" type="StaticBody2D" parent="Environment"]
-position = Vector2(800, 590)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
-shape = SubResource("RectangleShape2D_ground")
-
-[node name="Base" type="ColorRect" parent="Environment/Ground"]
-offset_left = -825.0
-offset_top = -30.0
-offset_right = 825.0
-offset_bottom = 120.0
-color = Color(0.14, 0.11, 0.09, 1)
-
-[node name="Trim" type="ColorRect" parent="Environment/Ground"]
-offset_left = -825.0
-offset_top = -30.0
-offset_right = 825.0
-offset_bottom = -25.0
-color = Color(0.42, 0.32, 0.22, 1)
-
 [node name="WallLeft" type="StaticBody2D" parent="Environment"]
-position = Vector2(15, 300)
+position = Vector2(20, 250)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
-offset_left = -15.0
-offset_top = -350.0
-offset_right = 15.0
-offset_bottom = 350.0
+offset_left = -20.0
+offset_top = -400.0
+offset_right = 20.0
+offset_bottom = 400.0
 color = Color(0.1, 0.08, 0.07, 1)
 
 [node name="WallRight" type="StaticBody2D" parent="Environment"]
-position = Vector2(1585, 300)
+position = Vector2(5480, 250)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
-offset_left = -15.0
-offset_top = -350.0
-offset_right = 15.0
-offset_bottom = 350.0
+offset_left = -20.0
+offset_top = -400.0
+offset_right = 20.0
+offset_bottom = 400.0
 color = Color(0.1, 0.08, 0.07, 1)
 
-[node name="PlatformLeft" type="StaticBody2D" parent="Environment"]
-position = Vector2(340, 440)
+[node name="GroundStart" type="StaticBody2D" parent="Environment"]
+position = Vector2(460, 590)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundStart"]
+shape = SubResource("RectangleShape2D_g_start")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundStart"]
+texture_filter = 1
+offset_left = -450.0
+offset_top = -30.0
+offset_right = 450.0
+offset_bottom = 150.0
+texture = ExtResource("13_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PlatformTutorial" type="StaticBody2D" parent="Environment"]
+position = Vector2(650, 470)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformTutorial"]
 shape = SubResource("RectangleShape2D_plat")
 one_way_collision = true
 
-[node name="Base" type="ColorRect" parent="Environment/PlatformLeft"]
-offset_left = -125.0
-offset_top = -12.0
-offset_right = 125.0
-offset_bottom = 12.0
-color = Color(0.22, 0.17, 0.14, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PlatformTutorial"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
 
-[node name="Trim" type="ColorRect" parent="Environment/PlatformLeft"]
-offset_left = -125.0
-offset_top = -12.0
-offset_right = 125.0
-offset_bottom = -9.0
-color = Color(0.45, 0.35, 0.22, 1)
+[node name="GroundEncounter1" type="StaticBody2D" parent="Environment"]
+position = Vector2(1360, 590)
 
-[node name="PlatformRight" type="StaticBody2D" parent="Environment"]
-position = Vector2(1200, 440)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundEncounter1"]
+shape = SubResource("RectangleShape2D_g_enc1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformRight"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundEncounter1"]
+texture_filter = 1
+offset_left = -400.0
+offset_top = -30.0
+offset_right = 400.0
+offset_bottom = 150.0
+texture = ExtResource("13_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PlatformScout" type="StaticBody2D" parent="Environment"]
+position = Vector2(1500, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformScout"]
 shape = SubResource("RectangleShape2D_plat")
 one_way_collision = true
 
-[node name="Base" type="ColorRect" parent="Environment/PlatformRight"]
-offset_left = -125.0
-offset_top = -12.0
-offset_right = 125.0
-offset_bottom = 12.0
-color = Color(0.22, 0.17, 0.14, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PlatformScout"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
 
-[node name="Trim" type="ColorRect" parent="Environment/PlatformRight"]
-offset_left = -125.0
-offset_top = -12.0
-offset_right = 125.0
-offset_bottom = -9.0
-color = Color(0.45, 0.35, 0.22, 1)
+[node name="CollapsingPlat1" parent="Environment" instance=ExtResource("8_collapse")]
+position = Vector2(1880, 480)
 
-[node name="PlatformCenterHigh" type="StaticBody2D" parent="Environment"]
-position = Vector2(770, 310)
+[node name="CollapsingPlat2" parent="Environment" instance=ExtResource("8_collapse")]
+position = Vector2(2080, 440)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformCenterHigh"]
+[node name="HighRockLedge" type="StaticBody2D" parent="Environment"]
+position = Vector2(2280, 390)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/HighRockLedge"]
 shape = SubResource("RectangleShape2D_plat")
 one_way_collision = true
 
-[node name="Base" type="ColorRect" parent="Environment/PlatformCenterHigh"]
-offset_left = -125.0
-offset_top = -12.0
-offset_right = 125.0
-offset_bottom = 12.0
-color = Color(0.22, 0.17, 0.14, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Environment/HighRockLedge"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
 
-[node name="Trim" type="ColorRect" parent="Environment/PlatformCenterHigh"]
-offset_left = -125.0
-offset_top = -12.0
-offset_right = 125.0
-offset_bottom = -9.0
-color = Color(0.45, 0.35, 0.22, 1)
+[node name="GroundBarricade" type="StaticBody2D" parent="Environment"]
+position = Vector2(2450, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundBarricade"]
+shape = SubResource("RectangleShape2D_g_barr")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundBarricade"]
+texture_filter = 1
+offset_left = -250.0
+offset_top = -30.0
+offset_right = 250.0
+offset_bottom = 150.0
+texture = ExtResource("13_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="DestructibleBarricade" parent="Environment" instance=ExtResource("9_barricade")]
+position = Vector2(2520, 525)
+
+[node name="BarricadeHintZone" type="Area2D" parent="Environment"]
+position = Vector2(2380, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BarricadeHintZone"]
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="GroundEncounter2" type="StaticBody2D" parent="Environment"]
+position = Vector2(3150, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundEncounter2"]
+shape = SubResource("RectangleShape2D_g_enc2")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundEncounter2"]
+texture_filter = 1
+offset_left = -400.0
+offset_top = -30.0
+offset_right = 400.0
+offset_bottom = 150.0
+texture = ExtResource("13_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="LedgeMid1" type="StaticBody2D" parent="Environment"]
+position = Vector2(2850, 450)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeMid1"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeMid1"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
+
+[node name="LedgeMid2" type="StaticBody2D" parent="Environment"]
+position = Vector2(3350, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeMid2"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeMid2"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
+
+[node name="GroundTransition" type="StaticBody2D" parent="Environment"]
+position = Vector2(3950, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundTransition"]
+shape = SubResource("RectangleShape2D_g_trans")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundTransition"]
+texture_filter = 1
+offset_left = -350.0
+offset_top = -30.0
+offset_right = 350.0
+offset_bottom = 150.0
+texture = ExtResource("13_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="CyberRexDebrisProp" type="Node2D" parent="Environment"]
+position = Vector2(3750, 535)
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/CyberRexDebrisProp"]
+texture_filter = 1
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("15_debris_tex")
+
+[node name="ElectricSparks" type="CPUParticles2D" parent="Environment/CyberRexDebrisProp"]
+position = Vector2(0, -10)
+amount = 18
+lifetime = 0.8
+preprocess = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(35, 25)
+direction = Vector2(0, -1)
+spread = 60.0
+gravity = Vector2(0, 20)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 1.5
+scale_amount_max = 3.0
+color = Color(0.2, 0.9, 1, 0.85)
+
+[node name="TremorZone" type="Area2D" parent="Environment"]
+position = Vector2(3750, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/TremorZone"]
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="BossTriggerArea" type="Area2D" parent="Environment"]
+position = Vector2(4450, 480)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BossTriggerArea"]
+shape = SubResource("RectangleShape2D_boss_trigger")
+
+[node name="GroundArena" type="StaticBody2D" parent="Environment"]
+position = Vector2(4900, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundArena"]
+shape = SubResource("RectangleShape2D_g_arena")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundArena"]
+texture_filter = 1
+offset_left = -550.0
+offset_top = -30.0
+offset_right = 550.0
+offset_bottom = 150.0
+texture = ExtResource("13_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PlatformArenaLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(4620, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformArenaLeft"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PlatformArenaLeft"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
+
+[node name="PlatformArenaCenterHigh" type="StaticBody2D" parent="Environment"]
+position = Vector2(4950, 310)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformArenaCenterHigh"]
+shape = SubResource("RectangleShape2D_plat_high")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PlatformArenaCenterHigh"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.8, 0.6)
+texture = ExtResource("14_ledge_tex")
+
+[node name="PlatformArenaRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(5280, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformArenaRight"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PlatformArenaRight"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Goblin1" parent="Enemies" instance=ExtResource("10_goblin")]
+position = Vector2(1450, 560)
+direction = -1
+
+[node name="Mushroom1" parent="Enemies" instance=ExtResource("11_mushroom")]
+position = Vector2(2950, 560)
+direction = -1
+
+[node name="FlyingEye1" parent="Enemies" instance=ExtResource("12_flying_eye")]
+position = Vector2(3250, 410)
+direction = -1
+
+[node name="Goblin2" parent="Enemies" instance=ExtResource("10_goblin")]
+position = Vector2(3950, 560)
+direction = -1
+
+[node name="FlyingEye2" parent="Enemies" instance=ExtResource("12_flying_eye")]
+position = Vector2(4100, 400)
+direction = -1
+
+[node name="DimensionalTimeRift" parent="." instance=ExtResource("6_rift")]
+position = Vector2(160, 460)
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(220, 520)
+position = Vector2(160, 520)
 has_sword = true
 is_armed = true
 
 [node name="TrexBoss" parent="." instance=ExtResource("3_trex")]
-position = Vector2(1050, 560)
+position = Vector2(4950, 560)
 direction = -1
 
 [node name="HeartPieceVisual" type="Node2D" parent="."]
-position = Vector2(920, 480)
+position = Vector2(4950, 480)
 
 [node name="Crystal" type="Polygon2D" parent="HeartPieceVisual"]
 color = Color(1.8, 0.3, 0.15, 1)
@@ -218,7 +445,7 @@ initial_velocity_max = 40.0
 color = Color(1, 0.4, 0.1, 0.85)
 
 [node name="DimensionalTimeRiftExit" parent="." instance=ExtResource("6_rift")]
-position = Vector2(1480, 430)
+position = Vector2(5380, 430)
 
 [node name="FantasyHUD" parent="." instance=ExtResource("4_hud")]
 

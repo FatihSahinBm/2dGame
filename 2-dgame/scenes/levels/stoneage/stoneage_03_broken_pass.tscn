@@ -1,0 +1,447 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_03_broken_pass.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_03_parallax.gd" id="3_parallax"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/broken_pass_ground.png" id="4_ground_tex"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/fractured_stone_ledge.png" id="5_ledge_tex"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/broken_pillar_platform.png" id="6_pillar_tex"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="7_hud"]
+[ext_resource type="Script" path="res://scripts/levels/stoneage/falling_rock_hazard.gd" id="8_hazard_script"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/falling_rock_debris.png" id="9_rock_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/fractured_bridge_arch.png" id="10_arch_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/fissured_rock_boulder.png" id="11_boulder_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/hanging_cliff_roots.png" id="12_roots_tex"]
+[ext_resource type="Texture2D" path="res://assets/effects/stoneage/falling_dust_particle.png" id="13_dust_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 900)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_entrance"]
+size = Vector2(650, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ridge1"]
+size = Vector2(460, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ridge2"]
+size = Vector2(400, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mid"]
+size = Vector2(360, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_g"]
+size = Vector2(240, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
+size = Vector2(140, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
+size = Vector2(200, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge_wide"]
+size = Vector2(220, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_final_ledge"]
+size = Vector2(240, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hazard_trig"]
+size = Vector2(180, 450)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chasm_zone"]
+size = Vector2(200, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_zone"]
+size = Vector2(80, 240)
+
+[node name="Stoneage03BrokenPass" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="ParallaxBackdrop" type="Node2D" parent="."]
+script = ExtResource("3_parallax")
+
+[node name="AtmosphericDust" type="CPUParticles2D" parent="."]
+position = Vector2(2000, 150)
+z_index = -15
+amount = 35
+lifetime = 5.0
+preprocess = 2.0
+emission_shape = 3
+emission_rect_extents = Vector2(2000, 300)
+direction = Vector2(-0.7, 0.7)
+spread = 30.0
+gravity = Vector2(0, 12)
+initial_velocity_min = 15.0
+initial_velocity_max = 35.0
+scale_amount_min = 1.0
+scale_amount_max = 2.4
+color = Color(0.75, 0.78, 0.8, 0.3)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(15, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+offset_left = -15.0
+offset_top = -450.0
+offset_right = 15.0
+offset_bottom = 450.0
+color = Color(0.06, 0.07, 0.08, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(3985, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -15.0
+offset_top = -450.0
+offset_right = 15.0
+offset_bottom = 450.0
+color = Color(0.06, 0.07, 0.08, 1)
+
+[node name="GroundEntrance" type="StaticBody2D" parent="Environment"]
+position = Vector2(325, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundEntrance"]
+shape = SubResource("RectangleShape2D_entrance")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundEntrance"]
+texture_filter = 1
+offset_left = -325.0
+offset_top = -30.0
+offset_right = 325.0
+offset_bottom = 150.0
+texture = ExtResource("4_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PillarStep1" type="StaticBody2D" parent="Environment"]
+position = Vector2(830, 560)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PillarStep1"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PillarStep1"]
+texture_filter = 1
+position = Vector2(0, 20)
+scale = Vector2(0.95, 0.95)
+texture = ExtResource("6_pillar_tex")
+
+[node name="GroundRidge1" type="StaticBody2D" parent="Environment"]
+position = Vector2(1250, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundRidge1"]
+shape = SubResource("RectangleShape2D_ridge1")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundRidge1"]
+texture_filter = 1
+offset_left = -230.0
+offset_top = -30.0
+offset_right = 230.0
+offset_bottom = 150.0
+texture = ExtResource("4_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="LedgeStep1" type="StaticBody2D" parent="Environment"]
+position = Vector2(1620, 470)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeStep1"]
+shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeStep1"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.85, 0.75)
+texture = ExtResource("5_ledge_tex")
+
+[node name="LedgeStep2" type="StaticBody2D" parent="Environment"]
+position = Vector2(1860, 390)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeStep2"]
+shape = SubResource("RectangleShape2D_ledge_wide")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeStep2"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.92, 0.75)
+texture = ExtResource("5_ledge_tex")
+
+[node name="ChasmZoneBridge" type="Area2D" parent="Environment"]
+position = Vector2(1860, 420)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ChasmZoneBridge"]
+shape = SubResource("RectangleShape2D_chasm_zone")
+
+[node name="GroundMid" type="StaticBody2D" parent="Environment"]
+position = Vector2(2200, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundMid"]
+shape = SubResource("RectangleShape2D_mid")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundMid"]
+texture_filter = 1
+offset_left = -180.0
+offset_top = -30.0
+offset_right = 180.0
+offset_bottom = 180.0
+texture = ExtResource("4_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PillarStep2" type="StaticBody2D" parent="Environment"]
+position = Vector2(2560, 530)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PillarStep2"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PillarStep2"]
+texture_filter = 1
+position = Vector2(0, 20)
+scale = Vector2(0.95, 0.95)
+texture = ExtResource("6_pillar_tex")
+
+[node name="LedgeStep3" type="StaticBody2D" parent="Environment"]
+position = Vector2(2780, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeStep3"]
+shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeStep3"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.85, 0.75)
+texture = ExtResource("5_ledge_tex")
+
+[node name="GroundRidge2" type="StaticBody2D" parent="Environment"]
+position = Vector2(3140, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundRidge2"]
+shape = SubResource("RectangleShape2D_ridge2")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundRidge2"]
+texture_filter = 1
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 150.0
+texture = ExtResource("4_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="FinalLedge" type="StaticBody2D" parent="Environment"]
+position = Vector2(3560, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/FinalLedge"]
+shape = SubResource("RectangleShape2D_final_ledge")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/FinalLedge"]
+texture_filter = 1
+position = Vector2(0, 8)
+texture = ExtResource("5_ledge_tex")
+
+[node name="ChasmZoneFinal" type="Area2D" parent="Environment"]
+position = Vector2(3560, 480)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ChasmZoneFinal"]
+shape = SubResource("RectangleShape2D_chasm_zone")
+
+[node name="GroundExit" type="StaticBody2D" parent="Environment"]
+position = Vector2(3890, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
+shape = SubResource("RectangleShape2D_exit_g")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
+texture_filter = 1
+offset_left = -120.0
+offset_top = -30.0
+offset_right = 120.0
+offset_bottom = 150.0
+texture = ExtResource("4_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="ExitZone" type="Area2D" parent="Environment"]
+position = Vector2(3920, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ExitZone"]
+shape = SubResource("RectangleShape2D_exit_zone")
+
+[node name="ExitGlowParticles" type="CPUParticles2D" parent="Environment/ExitZone"]
+amount = 20
+lifetime = 1.6
+emission_shape = 3
+emission_rect_extents = Vector2(25, 90)
+direction = Vector2(1, -0.2)
+spread = 25.0
+gravity = Vector2(12, -8)
+initial_velocity_min = 18.0
+initial_velocity_max = 36.0
+scale_amount_min = 1.6
+scale_amount_max = 3.4
+color = Color(0.95, 0.45, 0.2, 0.75)
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="FallingRockHazard1" type="Node2D" parent="Hazards"]
+position = Vector2(2120, 140)
+script = ExtResource("8_hazard_script")
+ground_y = 490.0
+
+[node name="TriggerArea" type="Area2D" parent="Hazards/FallingRockHazard1"]
+position = Vector2(0, 150)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hazards/FallingRockHazard1/TriggerArea"]
+shape = SubResource("RectangleShape2D_hazard_trig")
+
+[node name="RockSprite" type="Sprite2D" parent="Hazards/FallingRockHazard1"]
+texture_filter = 1
+texture = ExtResource("9_rock_tex")
+
+[node name="WarningDust" type="CPUParticles2D" parent="Hazards/FallingRockHazard1"]
+emitting = false
+amount = 14
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.5
+texture = ExtResource("13_dust_tex")
+emission_shape = 3
+emission_rect_extents = Vector2(25, 5)
+direction = Vector2(0, 1)
+spread = 25.0
+gravity = Vector2(0, 150)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 0.3
+scale_amount_max = 0.7
+
+[node name="ImpactDust" type="CPUParticles2D" parent="Hazards/FallingRockHazard1"]
+emitting = false
+amount = 24
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+texture = ExtResource("13_dust_tex")
+emission_shape = 3
+emission_rect_extents = Vector2(30, 8)
+direction = Vector2(0, -1)
+spread = 60.0
+gravity = Vector2(0, 200)
+initial_velocity_min = 40.0
+initial_velocity_max = 90.0
+scale_amount_min = 0.4
+scale_amount_max = 1.0
+
+[node name="FallingRockHazard2" type="Node2D" parent="Hazards"]
+position = Vector2(2850, 140)
+script = ExtResource("8_hazard_script")
+ground_y = 560.0
+
+[node name="TriggerArea" type="Area2D" parent="Hazards/FallingRockHazard2"]
+position = Vector2(0, 150)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hazards/FallingRockHazard2/TriggerArea"]
+shape = SubResource("RectangleShape2D_hazard_trig")
+
+[node name="RockSprite" type="Sprite2D" parent="Hazards/FallingRockHazard2"]
+texture_filter = 1
+texture = ExtResource("9_rock_tex")
+
+[node name="WarningDust" type="CPUParticles2D" parent="Hazards/FallingRockHazard2"]
+emitting = false
+amount = 14
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.5
+texture = ExtResource("13_dust_tex")
+emission_shape = 3
+emission_rect_extents = Vector2(25, 5)
+direction = Vector2(0, 1)
+spread = 25.0
+gravity = Vector2(0, 150)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 0.3
+scale_amount_max = 0.7
+
+[node name="ImpactDust" type="CPUParticles2D" parent="Hazards/FallingRockHazard2"]
+emitting = false
+amount = 24
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+texture = ExtResource("13_dust_tex")
+emission_shape = 3
+emission_rect_extents = Vector2(30, 8)
+direction = Vector2(0, -1)
+spread = 60.0
+gravity = Vector2(0, 200)
+initial_velocity_min = 40.0
+initial_velocity_max = 90.0
+scale_amount_min = 0.4
+scale_amount_max = 1.0
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="FracturedBridgeArch" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(1860, 420)
+texture = ExtResource("10_arch_tex")
+
+[node name="FissuredRockBoulder" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(3140, 535)
+texture = ExtResource("11_boulder_tex")
+
+[node name="HangingRoots1" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(1620, 250)
+texture = ExtResource("12_roots_tex")
+
+[node name="HangingRoots2" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(2780, 220)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("12_roots_tex")
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(200, 520)
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" parent="." instance=ExtResource("7_hud")]

@@ -1,0 +1,239 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_01_time_rift_fall.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_01_parallax.gd" id="3_parallax"]
+[ext_resource type="Texture2D" path="res://assets/objects/stoneage/temporal_time_rift.png" id="4_rift_tex"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/stoneage_moss_ground.png" id="5_ground_tex"]
+[ext_resource type="Texture2D" path="res://assets/effects/stoneage/impact_dust_burst.png" id="6_dust_tex"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="7_hud"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="8_ledge_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_start"]
+size = Vector2(900, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_mid"]
+size = Vector2(900, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_exit"]
+size = Vector2(500, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
+size = Vector2(200, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_zone"]
+size = Vector2(80, 220)
+
+[node name="Stoneage01TimeRiftFall" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="ParallaxBackdrop" type="Node2D" parent="."]
+script = ExtResource("3_parallax")
+
+[node name="AmbientSpores" type="CPUParticles2D" parent="."]
+position = Vector2(1200, 250)
+z_index = -15
+amount = 35
+lifetime = 5.5
+preprocess = 2.0
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 350)
+direction = Vector2(-0.8, 0.4)
+spread = 25.0
+gravity = Vector2(0, 6)
+initial_velocity_min = 10.0
+initial_velocity_max = 24.0
+scale_amount_min = 1.2
+scale_amount_max = 2.8
+color = Color(0.85, 0.95, 0.6, 0.28)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(15, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+offset_left = -15.0
+offset_top = -400.0
+offset_right = 15.0
+offset_bottom = 400.0
+color = Color(0.08, 0.07, 0.06, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2385, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -15.0
+offset_top = -400.0
+offset_right = 15.0
+offset_bottom = 400.0
+color = Color(0.08, 0.07, 0.06, 1)
+
+[node name="GroundStart" type="StaticBody2D" parent="Environment"]
+position = Vector2(450, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundStart"]
+shape = SubResource("RectangleShape2D_g_start")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundStart"]
+texture_filter = 1
+offset_left = -450.0
+offset_top = -30.0
+offset_right = 450.0
+offset_bottom = 150.0
+texture = ExtResource("5_ground_tex")
+patch_margin_left = 24
+patch_margin_top = 24
+patch_margin_right = 24
+patch_margin_bottom = 24
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="GroundMid" type="StaticBody2D" parent="Environment"]
+position = Vector2(1350, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundMid"]
+shape = SubResource("RectangleShape2D_g_mid")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundMid"]
+texture_filter = 1
+offset_left = -450.0
+offset_top = -30.0
+offset_right = 450.0
+offset_bottom = 150.0
+texture = ExtResource("5_ground_tex")
+patch_margin_left = 24
+patch_margin_top = 24
+patch_margin_right = 24
+patch_margin_bottom = 24
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="GroundExit" type="StaticBody2D" parent="Environment"]
+position = Vector2(2050, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
+shape = SubResource("RectangleShape2D_g_exit")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
+texture_filter = 1
+offset_left = -250.0
+offset_top = -30.0
+offset_right = 250.0
+offset_bottom = 150.0
+texture = ExtResource("5_ground_tex")
+patch_margin_left = 24
+patch_margin_top = 24
+patch_margin_right = 24
+patch_margin_bottom = 24
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PlatformLedge" type="StaticBody2D" parent="Environment"]
+position = Vector2(1150, 470)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PlatformLedge"]
+shape = SubResource("RectangleShape2D_plat")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/PlatformLedge"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.65, 0.6)
+texture = ExtResource("8_ledge_tex")
+
+[node name="ExitZone" type="Area2D" parent="Environment"]
+position = Vector2(2280, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ExitZone"]
+shape = SubResource("RectangleShape2D_exit_zone")
+
+[node name="GlowParticles" type="CPUParticles2D" parent="Environment/ExitZone"]
+amount = 14
+lifetime = 1.4
+emission_shape = 3
+emission_rect_extents = Vector2(20, 80)
+direction = Vector2(1, -0.3)
+spread = 30.0
+gravity = Vector2(10, -5)
+initial_velocity_min = 15.0
+initial_velocity_max = 30.0
+scale_amount_min = 1.5
+scale_amount_max = 3.0
+color = Color(0.9, 0.6, 0.25, 0.65)
+
+[node name="TemporalTimeRift" type="Node2D" parent="."]
+position = Vector2(280, 220)
+
+[node name="RiftSprite" type="Sprite2D" parent="TemporalTimeRift"]
+texture_filter = 1
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("4_rift_tex")
+
+[node name="RiftParticles" type="CPUParticles2D" parent="TemporalTimeRift"]
+amount = 26
+lifetime = 1.2
+emission_shape = 1
+emission_sphere_radius = 45.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 45.0
+radial_accel_min = -35.0
+radial_accel_max = -15.0
+scale_amount_min = 1.5
+scale_amount_max = 3.5
+color = Color(0.3, 0.9, 1, 0.8)
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="ImpactDustParticles" type="CPUParticles2D" parent="Effects"]
+position = Vector2(280, 560)
+emitting = false
+amount = 18
+lifetime = 0.55
+one_shot = true
+explosiveness = 0.95
+texture = ExtResource("6_dust_tex")
+direction = Vector2(0, -1)
+spread = 80.0
+gravity = Vector2(0, 120)
+initial_velocity_min = 45.0
+initial_velocity_max = 95.0
+scale_amount_min = 0.4
+scale_amount_max = 0.75
+color = Color(0.9, 0.85, 0.75, 0.9)
+
+[node name="ImpactDebrisParticles" type="CPUParticles2D" parent="Effects"]
+position = Vector2(280, 560)
+emitting = false
+amount = 16
+lifetime = 0.65
+one_shot = true
+explosiveness = 0.9
+direction = Vector2(0, -1)
+spread = 70.0
+gravity = Vector2(0, 380)
+initial_velocity_min = 80.0
+initial_velocity_max = 160.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.35, 0.3, 0.25, 1)
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(280, 240)
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" parent="." instance=ExtResource("7_hud")]

@@ -1,0 +1,336 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_08_first_heart_fragment.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/domain_trampled_soil_ground.png" id="3_ground_tex"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/domain_fossil_ledge.png" id="4_ledge_tex"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="5_hud"]
+[ext_resource type="Texture2D" path="res://assets/environment/stoneage/aftermath/fallen_trex_wreckage.png" id="6_wreckage_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stoneage/aftermath/crater_impact_scorch.png" id="7_scorch_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stoneage/aftermath/shattered_mecha_plates.png" id="8_plates_tex"]
+[ext_resource type="Texture2D" path="res://assets/objects/stoneage/heart_fragment/heart_fragment_idle.png" id="9_heart_tex"]
+[ext_resource type="Texture2D" path="res://assets/objects/stoneage/heart_fragment/heart_fragment_glow.png" id="10_glow_tex"]
+[ext_resource type="Texture2D" path="res://assets/objects/stoneage/heart_fragment/heart_fragment_pickup.png" id="11_sparkle_tex"]
+[ext_resource type="Texture2D" path="res://assets/effects/stoneage/time_rift/time_rift_portal.png" id="12_rift_tex"]
+[ext_resource type="Texture2D" path="res://assets/effects/stoneage/time_rift/time_rift_particles.png" id="13_rift_part_tex"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/flashbacks/flashback_wallachia_1462_camp.png" id="14_flash_camp_tex"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/flashbacks/flashback_sword_soul_vision.png" id="15_flash_sword_tex"]
+[ext_resource type="PackedScene" path="res://scenes/levels/stone_age/prehistoric_parallax_background.tscn" id="16_parallax"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 900)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_ent"]
+size = Vector2(900, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_crater"]
+size = Vector2(900, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_exit"]
+size = Vector2(700, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
+size = Vector2(220, 24)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_heart"]
+radius = 42.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rift"]
+size = Vector2(80, 180)
+
+[node name="StoneAge08FirstHeartFragment" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="PrehistoricParallaxBackground" parent="." instance=ExtResource("16_parallax")]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(15, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+offset_left = -15.0
+offset_top = -450.0
+offset_right = 15.0
+offset_bottom = 450.0
+color = Color(0.02, 0.03, 0.04, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2385, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -15.0
+offset_top = -450.0
+offset_right = 15.0
+offset_bottom = 450.0
+color = Color(0.02, 0.03, 0.04, 1)
+
+[node name="GroundEntrance" type="StaticBody2D" parent="Environment"]
+position = Vector2(450, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundEntrance"]
+shape = SubResource("RectangleShape2D_g_ent")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundEntrance"]
+texture_filter = 1
+offset_left = -450.0
+offset_top = -30.0
+offset_right = 450.0
+offset_bottom = 150.0
+texture = ExtResource("3_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="GroundCrater" type="StaticBody2D" parent="Environment"]
+position = Vector2(1350, 600)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundCrater"]
+shape = SubResource("RectangleShape2D_g_crater")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundCrater"]
+texture_filter = 1
+offset_left = -450.0
+offset_top = -30.0
+offset_right = 450.0
+offset_bottom = 150.0
+texture = ExtResource("3_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="GroundExit" type="StaticBody2D" parent="Environment"]
+position = Vector2(2040, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
+shape = SubResource("RectangleShape2D_g_exit")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
+texture_filter = 1
+offset_left = -350.0
+offset_top = -30.0
+offset_right = 350.0
+offset_bottom = 150.0
+texture = ExtResource("3_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Ledge1" type="StaticBody2D" parent="Environment"]
+position = Vector2(750, 460)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ledge1"]
+shape = SubResource("RectangleShape2D_ledge")
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/Ledge1"]
+texture_filter = 1
+position = Vector2(0, 10)
+texture = ExtResource("4_ledge_tex")
+
+[node name="Ledge2" type="StaticBody2D" parent="Environment"]
+position = Vector2(1750, 460)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ledge2"]
+shape = SubResource("RectangleShape2D_ledge")
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/Ledge2"]
+texture_filter = 1
+position = Vector2(0, 10)
+texture = ExtResource("4_ledge_tex")
+
+[node name="BossAftermath" type="Node2D" parent="."]
+
+[node name="CraterScorch" type="Sprite2D" parent="BossAftermath"]
+texture_filter = 1
+position = Vector2(1350, 570)
+texture = ExtResource("7_scorch_tex")
+
+[node name="FallenTrexWreckage" type="Sprite2D" parent="BossAftermath"]
+texture_filter = 1
+position = Vector2(1350, 500)
+texture = ExtResource("6_wreckage_tex")
+
+[node name="ShatteredPlates1" type="Sprite2D" parent="BossAftermath"]
+texture_filter = 1
+position = Vector2(1160, 560)
+texture = ExtResource("8_plates_tex")
+
+[node name="ShatteredPlates2" type="Sprite2D" parent="BossAftermath"]
+texture_filter = 1
+position = Vector2(1540, 560)
+texture = ExtResource("8_plates_tex")
+
+[node name="AftermathSmoke" type="CPUParticles2D" parent="BossAftermath"]
+position = Vector2(1340, 490)
+amount = 18
+lifetime = 2.4
+preprocess = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(60, 20)
+direction = Vector2(0, -1)
+spread = 35.0
+gravity = Vector2(0, -25)
+initial_velocity_min = 15.0
+initial_velocity_max = 35.0
+scale_amount_min = 2.0
+scale_amount_max = 4.5
+color = Color(0.25, 0.22, 0.2, 0.45)
+
+[node name="HeartFragment" type="Node2D" parent="."]
+position = Vector2(1350, 450)
+z_index = 5
+
+[node name="GlowSprite" type="Sprite2D" parent="HeartFragment"]
+texture_filter = 1
+texture = ExtResource("10_glow_tex")
+
+[node name="HeartSprite" type="Sprite2D" parent="HeartFragment"]
+texture_filter = 1
+texture = ExtResource("9_heart_tex")
+
+[node name="PickupParticles" type="CPUParticles2D" parent="HeartFragment"]
+emitting = false
+amount = 24
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.85
+texture = ExtResource("11_sparkle_tex")
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, -30)
+initial_velocity_min = 35.0
+initial_velocity_max = 80.0
+scale_amount_min = 0.8
+scale_amount_max = 1.6
+color = Color(1, 0.95, 0.7, 0.9)
+
+[node name="Area2D" type="Area2D" parent="HeartFragment"]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeartFragment/Area2D"]
+shape = SubResource("CircleShape2D_heart")
+
+[node name="TemporalTimeRift" type="Node2D" parent="."]
+position = Vector2(1950, 470)
+z_index = 4
+
+[node name="RiftSprite" type="Sprite2D" parent="TemporalTimeRift"]
+texture_filter = 1
+texture = ExtResource("12_rift_tex")
+
+[node name="RiftParticles" type="CPUParticles2D" parent="TemporalTimeRift"]
+amount = 25
+lifetime = 1.5
+texture = ExtResource("13_rift_part_tex")
+emission_shape = 3
+emission_rect_extents = Vector2(25, 60)
+direction = Vector2(0, -1)
+spread = 45.0
+gravity = Vector2(0, -40)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 1.0
+scale_amount_max = 2.0
+color = Color(0.65, 0.85, 1.0, 0.8)
+
+[node name="Area2D" type="Area2D" parent="TemporalTimeRift"]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TemporalTimeRift/Area2D"]
+shape = SubResource("RectangleShape2D_rift")
+
+[node name="FlashbackSequence" type="CanvasLayer" parent="."]
+layer = 80
+visible = false
+
+[node name="Control" type="Control" parent="FlashbackSequence"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CampBackdrop" type="TextureRect" parent="FlashbackSequence/Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_flash_camp_tex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SepiaVignette" type="ColorRect" parent="FlashbackSequence/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14, 0.09, 0.05, 0.45)
+
+[node name="SpectralSword" type="Sprite2D" parent="FlashbackSequence/Control"]
+texture_filter = 1
+position = Vector2(640, 240)
+texture = ExtResource("15_flash_sword_tex")
+
+[node name="SubtitlePanel" type="Panel" parent="FlashbackSequence/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 140.0
+offset_top = -140.0
+offset_right = -140.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TitleLabel" type="Label" parent="FlashbackSequence/Control/SubtitlePanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 500.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "M.S. 1462 — Eflak Ormanları / Gece Baskını"
+
+[node name="VoiceLabel" type="Label" parent="FlashbackSequence/Control/SubtitlePanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 960.0
+offset_bottom = 95.0
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_font_sizes/font_size = 13
+text = "Mahpus Kılıç Ruhu: 'Hatırla... Kan kokan o geceyi, kılıcına mühürlendiğim anı hatırla! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!'"
+autowrap_mode = 2
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(250, 530)
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" parent="." instance=ExtResource("5_hud")]

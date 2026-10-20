@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_1_prehistoric_valley.gd" id="1_valley"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/dimensional_time_rift.tscn" id="5_rift"]
 [ext_resource type="PackedScene" path="res://scenes/objects/collapsing_platform.tscn" id="6_collapse"]
 [ext_resource type="PackedScene" path="res://scenes/objects/destructible_barricade.tscn" id="7_barricade"]
+[ext_resource type="PackedScene" path="res://scenes/levels/stone_age/prehistoric_parallax_background.tscn" id="8_parallax"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_moss_ground.png" id="9_ground_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="10_ledge_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
 size = Vector2(620, 60)
@@ -32,33 +35,7 @@ size = Vector2(240, 180)
 [node name="Stage1PrehistoricValley" type="Node2D"]
 script = ExtResource("1_valley")
 
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="SkyGrad" type="ColorRect" parent="Background"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.08, 0.06, 0.07, 1)
-
-[node name="AmbientParticles" type="CPUParticles2D" parent="."]
-position = Vector2(1100, 200)
-amount = 35
-lifetime = 6.0
-preprocess = 2.0
-emission_shape = 3
-emission_rect_extents = Vector2(1100, 300)
-direction = Vector2(-0.8, 0.3)
-spread = 25.0
-gravity = Vector2(0, 5)
-initial_velocity_min = 15.0
-initial_velocity_max = 35.0
-scale_amount_min = 1.5
-scale_amount_max = 3.5
-color = Color(0.9, 0.65, 0.35, 0.35)
+[node name="PrehistoricParallaxBackground" parent="." instance=ExtResource("8_parallax")]
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -81,19 +58,19 @@ position = Vector2(310, 590)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundStart"]
 shape = SubResource("RectangleShape2D_ground1")
 
-[node name="Base" type="ColorRect" parent="Environment/GroundStart"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundStart"]
+texture_filter = 1
 offset_left = -310.0
 offset_top = -30.0
 offset_right = 310.0
 offset_bottom = 120.0
-color = Color(0.16, 0.12, 0.1, 1)
-
-[node name="Trim" type="ColorRect" parent="Environment/GroundStart"]
-offset_left = -310.0
-offset_top = -30.0
-offset_right = 310.0
-offset_bottom = -25.0
-color = Color(0.38, 0.3, 0.2, 1)
+texture = ExtResource("9_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="CollapsingPlat1" parent="Environment" instance=ExtResource("6_collapse")]
 position = Vector2(740, 480)
@@ -107,19 +84,19 @@ position = Vector2(1330, 590)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundMid"]
 shape = SubResource("RectangleShape2D_ground2")
 
-[node name="Base" type="ColorRect" parent="Environment/GroundMid"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundMid"]
+texture_filter = 1
 offset_left = -230.0
 offset_top = -30.0
 offset_right = 230.0
 offset_bottom = 120.0
-color = Color(0.16, 0.12, 0.1, 1)
-
-[node name="Trim" type="ColorRect" parent="Environment/GroundMid"]
-offset_left = -230.0
-offset_top = -30.0
-offset_right = 230.0
-offset_bottom = -25.0
-color = Color(0.38, 0.3, 0.2, 1)
+texture = ExtResource("9_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="HighRockLedge" type="StaticBody2D" parent="Environment"]
 position = Vector2(1250, 380)
@@ -128,19 +105,11 @@ position = Vector2(1250, 380)
 shape = SubResource("RectangleShape2D_plat")
 one_way_collision = true
 
-[node name="ColorRect" type="ColorRect" parent="Environment/HighRockLedge"]
-offset_left = -100.0
-offset_top = -12.0
-offset_right = 100.0
-offset_bottom = 12.0
-color = Color(0.24, 0.18, 0.15, 1)
-
-[node name="Trim" type="ColorRect" parent="Environment/HighRockLedge"]
-offset_left = -100.0
-offset_top = -12.0
-offset_right = 100.0
-offset_bottom = -9.0
-color = Color(0.45, 0.35, 0.22, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Environment/HighRockLedge"]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.65, 0.6)
+texture = ExtResource("10_ledge_tex")
 
 [node name="DestructibleBarricade" parent="Environment" instance=ExtResource("7_barricade")]
 position = Vector2(1480, 525)
@@ -158,19 +127,19 @@ position = Vector2(1880, 590)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
 shape = SubResource("RectangleShape2D_ground3")
 
-[node name="Base" type="ColorRect" parent="Environment/GroundExit"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
+texture_filter = 1
 offset_left = -340.0
 offset_top = -30.0
 offset_right = 340.0
 offset_bottom = 120.0
-color = Color(0.16, 0.12, 0.1, 1)
-
-[node name="Trim" type="ColorRect" parent="Environment/GroundExit"]
-offset_left = -340.0
-offset_top = -30.0
-offset_right = 340.0
-offset_bottom = -25.0
-color = Color(0.38, 0.3, 0.2, 1)
+texture = ExtResource("9_ground_tex")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="DimensionalTimeRift" parent="." instance=ExtResource("5_rift")]
 position = Vector2(160, 440)

@@ -1,0 +1,169 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_02_silent_valley.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_02_parallax.gd" id="3_parallax"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/valley_rock_ground.png" id="4_ground_tex"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="6_hud"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/ancient_broken_trunk.png" id="7_trunk_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/prehistoric_cycad_bush.png" id="10_cycad_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_segment"]
+size = Vector2(900, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_long"]
+size = Vector2(1000, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obs_zone"]
+size = Vector2(200, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_zone"]
+size = Vector2(80, 220)
+
+[node name="Stoneage02SilentValley" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="ParallaxBackdrop" type="Node2D" parent="."]
+script = ExtResource("3_parallax")
+
+[node name="AmbientSpores" type="CPUParticles2D" parent="."]
+position = Vector2(1900, 250)
+z_index = -15
+amount = 40
+lifetime = 6.0
+preprocess = 2.5
+emission_shape = 3
+emission_rect_extents = Vector2(1900, 350)
+direction = Vector2(-0.85, 0.35)
+spread = 25.0
+gravity = Vector2(0, 5)
+initial_velocity_min = 12.0
+initial_velocity_max = 28.0
+scale_amount_min = 1.2
+scale_amount_max = 2.6
+color = Color(0.88, 0.95, 0.7, 0.25)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(15, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+offset_left = -15.0
+offset_top = -400.0
+offset_right = 15.0
+offset_bottom = 400.0
+color = Color(0.08, 0.08, 0.07, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(3785, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -15.0
+offset_top = -400.0
+offset_right = 15.0
+offset_bottom = 400.0
+color = Color(0.08, 0.08, 0.07, 1)
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment"]
+texture_filter = 1
+offset_left = 0.0
+offset_top = 560.0
+offset_right = 3800.0
+offset_bottom = 740.0
+texture = ExtResource("4_ground_tex")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="GroundStart" type="StaticBody2D" parent="Environment"]
+position = Vector2(450, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundStart"]
+shape = SubResource("RectangleShape2D_g_segment")
+
+[node name="GroundPath1" type="StaticBody2D" parent="Environment"]
+position = Vector2(1350, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundPath1"]
+shape = SubResource("RectangleShape2D_g_segment")
+
+[node name="GroundMid" type="StaticBody2D" parent="Environment"]
+position = Vector2(2300, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundMid"]
+shape = SubResource("RectangleShape2D_g_long")
+
+[node name="GroundPass" type="StaticBody2D" parent="Environment"]
+position = Vector2(3300, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundPass"]
+shape = SubResource("RectangleShape2D_g_long")
+
+[node name="ObservationZoneTrunk" type="Area2D" parent="Environment"]
+position = Vector2(1120, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ObservationZoneTrunk"]
+shape = SubResource("RectangleShape2D_obs_zone")
+
+[node name="ExitZone" type="Area2D" parent="Environment"]
+position = Vector2(3650, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ExitZone"]
+shape = SubResource("RectangleShape2D_exit_zone")
+
+[node name="ExitGlowParticles" type="CPUParticles2D" parent="Environment/ExitZone"]
+amount = 16
+lifetime = 1.4
+emission_shape = 3
+emission_rect_extents = Vector2(25, 80)
+direction = Vector2(1, -0.3)
+spread = 30.0
+gravity = Vector2(10, -5)
+initial_velocity_min = 15.0
+initial_velocity_max = 32.0
+scale_amount_min = 1.5
+scale_amount_max = 3.2
+color = Color(0.9, 0.65, 0.25, 0.7)
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="AncientBrokenTrunk" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(1120, 513)
+texture = ExtResource("7_trunk_tex")
+
+[node name="CycadBush1" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(1620, 495)
+scale = Vector2(1.0, 1.0)
+texture = ExtResource("10_cycad_tex")
+
+[node name="CycadBush2" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(2780, 495)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("10_cycad_tex")
+
+[node name="CycadBush3" type="Sprite2D" parent="Props"]
+texture_filter = 1
+position = Vector2(3380, 495)
+scale = Vector2(1.0, 1.0)
+texture = ExtResource("10_cycad_tex")
+
+[node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(200, 520)
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" parent="." instance=ExtResource("6_hud")]
