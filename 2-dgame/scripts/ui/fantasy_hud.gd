@@ -31,6 +31,7 @@ signal potion_used(potion_type: String)
 @onready var quiver_panel: PanelContainer = get_node_or_null("TopRight/HBoxContainer/QuiverPanel") as PanelContainer
 @onready var quiver_label: Label = get_node_or_null("TopRight/HBoxContainer/QuiverPanel/HBox/QuiverLabel") as Label
 @onready var pause_button: TextureButton = $TopRight/HBoxContainer/PauseButton
+@onready var pause_menu: Control = get_node_or_null("PauseMenu") as Control
 
 @onready var sword_slot: TextureRect = $BottomLeft/DiamondContainer/SlotBottom/Icon
 @onready var sword_glow: Control = $BottomLeft/DiamondContainer/SlotBottom/ActiveGlow
@@ -47,9 +48,31 @@ var _mana_tween: Tween
 var _tutorial_tween: Tween
 
 func _ready() -> void:
-	if pause_button:
-		pause_button.pressed.connect(_on_pause_button_pressed)
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_setup_pause_system()
 	update_all()
+
+func _setup_pause_system() -> void:
+	if not pause_button:
+		pause_button = find_child("PauseButton", true, false) as TextureButton
+	if not pause_menu:
+		pause_menu = find_child("PauseMenu", true, false) as Control
+	if not pause_menu:
+		var pause_res = load("res://scenes/ui/pause_menu.tscn")
+		if pause_res:
+			pause_menu = pause_res.instantiate() as Control
+			add_child(pause_menu)
+	if pause_menu:
+		if pause_menu.has_signal("resumed") and not pause_menu.resumed.is_connected(_on_pause_menu_resumed):
+			pause_menu.resumed.connect(_on_pause_menu_resumed)
+	if pause_button:
+		pause_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		pause_button.tooltip_text = "Oyunu Duraklat (ESC / P)"
+		if not pause_button.pressed.is_connected(_on_pause_button_pressed):
+			pause_button.pressed.connect(_on_pause_button_pressed)
+
+func _on_pause_menu_resumed() -> void:
+	pause_toggled.emit(false)
 
 func update_all() -> void:
 	update_health(current_health, max_health, false)
@@ -201,8 +224,50 @@ func _unhandled_input(event: InputEvent) -> void:
 			use_health_potion()
 		elif event.keycode == KEY_4:
 			use_mana_potion()
+		elif event.is_action_pressed("ui_cancel") or event.keycode == KEY_ESCAPE or event.keycode == KEY_P:
+			toggle_pause()
+			get_viewport().set_input_as_handled()
+	elif event is InputEventJoypadButton and event.pressed and not event.echo:
+		if event.button_index == JOY_BUTTON_START:
+			toggle_pause()
+			get_viewport().set_input_as_handled()
+
+func _get_scene_tree() -> SceneTree:
+	if is_inside_tree() and get_tree():
+		return get_tree()
+	elif Engine.get_main_loop() is SceneTree:
+		return Engine.get_main_loop() as SceneTree
+	var p: Node = get_parent()
+	while p:
+		if p.is_inside_tree() and p.get_tree():
+			return p.get_tree()
+		if p.has_method("get_tree") and p.get_tree():
+			return p.get_tree()
+		p = p.get_parent()
+	return null
+
+## Oyunu duraklatır veya duraklatmayı kaldırıp devam ettirir
+func toggle_pause() -> void:
+	_setup_pause_system()
+	if pause_menu:
+		if pause_menu.visible:
+			pause_menu.resume_game()
+			pause_toggled.emit(false)
+		else:
+			pause_menu.open()
+			pause_toggled.emit(true)
+	else:
+		var tree = _get_scene_tree()
+		if tree:
+			var paused: bool = tree.paused
+			tree.paused = not paused
+			pause_toggled.emit(not paused)
 
 func _on_pause_button_pressed() -> void:
-	var paused = get_tree().paused
-	get_tree().paused = not paused
-	pause_toggled.emit(not paused)
+	toggle_pause()
+
+## Oyunun duraklatılmış olup olmadığını döner
+func is_game_paused() -> bool:
+	var tree = _get_scene_tree()
+	var tree_paused: bool = tree.paused if tree else false
+	return tree_paused or (pause_menu != null and pause_menu.visible)

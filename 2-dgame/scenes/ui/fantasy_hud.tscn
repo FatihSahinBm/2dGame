@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/fantasy_hud.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/portrait_knight.png" id="2_portrait"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_sword_slot.png" id="12_sword"]
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_crown.png" id="13_crown"]
 [ext_resource type="Texture2D" path="res://scenes/ui/icons/icon_quiver.png" id="14_quiver"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="15_pause_menu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
 bg_color = Color(0.105882, 0.129412, 0.176471, 0.95)
@@ -101,6 +102,7 @@ expand_margin_right = 14.0
 expand_margin_bottom = 8.0
 
 [node name="FantasyHUD" type="CanvasLayer"]
+process_mode = 3
 layer = 10
 script = ExtResource("1_script")
 
@@ -324,6 +326,7 @@ text = "x 0"
 texture_filter = 1
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("7_pause")
 stretch_mode = 3
 
@@ -734,3 +737,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.85, 0.05, 0.12, 0.25)
+
+[node name="PauseMenu" parent="." instance=ExtResource("15_pause_menu")]
+visible = false

@@ -205,3 +205,4 @@ visible = false
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -12.0
+

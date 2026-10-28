@@ -81,3 +81,4 @@ layout_mode = 2
 focus_neighbor_left = NodePath("../ConfirmButton")
 focus_neighbor_right = NodePath("../ConfirmButton")
 text = "İptal"
+
