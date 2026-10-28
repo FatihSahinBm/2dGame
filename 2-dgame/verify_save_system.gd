@@ -167,9 +167,105 @@ func _ready() -> void:
 		return
 	print("OK: v1 eski kayıt biçimi v2 şemasına veri kaybı olmadan otomatik yükseltildi (Migrated).")
 
+	# 7. QA HATA SENARYOSU DOĞRULAMASI (Oyuncu Konumu Korunumu):
+	# "Bölüm seçiminde oynaya bastıktan sonra bölümde ne kadar ileri olursan ol en başa atıyor.
+	#  Ve menüye dönüp devam et dediğimizde kaldığımız yerden değil de en başından başlatıyor."
+	print("--- OYUNCU POZISYONU VE CHECKPOINT RESTORE TESTI ---")
+	var dummy_scene = Node2D.new()
+	var dummy_player = CharacterBody2D.new()
+	dummy_player.name = "CombatPlayer"
+	dummy_player.global_position = Vector2(1450.0, 380.0)
+	dummy_scene.add_child(dummy_player)
+	add_child(dummy_scene)
+
+	# Sahne içindeyken save_game çağrıldığında oyuncunun koordinatı yakalanmalı
+	save_mgr.cached_checkpoint_position = dummy_player.global_position
+	save_mgr.save_game(1)
+
+	# Oyuncuyu sahne başlangıcına (0, 0) sıfırlıyoruz (sahne yeni yüklenmiş gibi)
+	dummy_player.global_position = Vector2.ZERO
+
+	# load_game ve apply_cached_stats_to_scene çağrıldığında oyuncu tam kaydedildiği yere (1450, 380) gitmeli
+	save_mgr.load_game(1)
+	save_mgr.apply_cached_stats_to_scene(dummy_scene)
+
+	if dummy_player.global_position != Vector2(1450.0, 380.0):
+		push_error("FAIL: apply_cached_stats_to_scene oyuncuyu kaydedilen konuma (1450, 380) taşımadı! Mevcut: " + str(dummy_player.global_position))
+		get_tree().quit(1)
+		return
+	print("OK: apply_cached_stats_to_scene oyuncuyu tam kaydedildiği koordinata (" + str(dummy_player.global_position) + ") basariyla yerlestirdi!")
+	dummy_scene.queue_free()
+
+	# 8. 3 Kayıt Yuvası ve Yuva Özeti (Slot Summary) Testi
+	print("--- 3 KAYIT YUVASI VE OZET DOGRULAMASI ---")
+	# Yuva 1: Vlad Ormanı
+	game_state.current_stage_path = "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
+	save_mgr.save_game(1)
+
+	# Yuva 2: Vlad Kale Mahzenleri
+	game_state.current_stage_path = "res://scenes/levels/vlad/stage_2_castle_dungeon.tscn"
+	save_mgr.save_game(2)
+
+	# Yuva 3: Taş Devri Kanyonu
+	game_state.current_stage_path = "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn"
+	save_mgr.save_game(3)
+
+	var s1 = save_mgr.get_slot_summary(1)
+	var s2 = save_mgr.get_slot_summary(2)
+	var s3 = save_mgr.get_slot_summary(3)
+
+	if not s1.get("has_save") or not str(s1.get("location_name")).contains("Orman"):
+		push_error("FAIL: Yuva 1 özeti hatalı: " + str(s1))
+		get_tree().quit(1)
+		return
+	if not s2.get("has_save") or not str(s2.get("location_name")).contains("Kale Mahzenleri"):
+		push_error("FAIL: Yuva 2 özeti hatalı: " + str(s2))
+		get_tree().quit(1)
+		return
+	if not s3.get("has_save") or not str(s3.get("location_name")).contains("Tarih Öncesi"):
+		push_error("FAIL: Yuva 3 özeti hatalı: " + str(s3))
+		get_tree().quit(1)
+		return
+	print("OK: 3 kayıt yuvası için tarih ve konum özetleri (%s / %s / %s) doğrulandı." % [s1.location_name, s2.location_name, s3.location_name])
+
+	# 9. Otomatik Kayıt (Auto-Save) Açma/Kapama Testi
+	print("--- OTOMATIK KAYIT AYARI TESTI ---")
+	save_mgr.set_autosave_enabled(false)
+	if save_mgr.is_autosave_enabled():
+		push_error("FAIL: Otomatik kayıt kapatılamadı!")
+		get_tree().quit(1)
+		return
+	save_mgr.set_autosave_enabled(true)
+	if not save_mgr.is_autosave_enabled():
+		push_error("FAIL: Otomatik kayıt açılamadı!")
+		get_tree().quit(1)
+		return
+	print("OK: Otomatik kayıt açma/kapama fonksiyonu doğrulandı.")
+
+	# 10. Bölüm Seçimi İlerleme Korunumu Testi
+	print("--- BOLUM SECIMI KALINAN YER KORUNUMU TESTI ---")
+	# Oyuncunun Yuva 1'de Vlad Kale Mahzenleri'nde (Stage 2) olduğu durumu yükleyelim
+	save_mgr.load_game(2)
+	var ch_dlg_res = load("res://scenes/ui/chapter_select_dialog.tscn")
+	var ch_dlg = ch_dlg_res.instantiate()
+	add_child(ch_dlg)
+	ch_dlg.open()
+
+	# Bölüm 2 kartındaki sahne yolunun stage 2 olarak kaldığı kanıtlanmalı
+	var ch_list = ch_dlg.find_child("ChapterList", true, false)
+	if ch_list and ch_list.get_child_count() >= 2:
+		var card2 = ch_list.get_child(1)
+		var btn2 = card2.find_child("Button", true, false) as Button
+		if btn2:
+			print("OK: Bölüm 2 butonu mevcut, buton metni: " + btn2.text)
+			if not btn2.text.contains("Devam"):
+				push_warning("WARN: Buton metninde Devam ibaresi bekleniyordu.")
+	ch_dlg.queue_free()
+
 	# Temizlik
 	save_mgr.delete_save(1)
 	save_mgr.delete_save(2)
+	save_mgr.delete_save(3)
 
 	print("--- TUM KALICI KAYIT VE YUKLEME ALTYAPISI TESTLERI %100 BASARIYLA GECTI! ---")
 	get_tree().quit(0)

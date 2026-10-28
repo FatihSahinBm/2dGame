@@ -57,10 +57,12 @@ func change_scene(target_path: String, duration: float = 0.35) -> void:
 		if game_state:
 			game_state.current_stage_path = target_path
 		var save_mgr = root_node.get_node_or_null("SaveManager")
-		if save_mgr and save_mgr.has_method("save_game"):
-			save_mgr.save_game()
 		if save_mgr and save_mgr.has_method("apply_cached_stats_to_scene"):
 			save_mgr.apply_cached_stats_to_scene()
+		if save_mgr and save_mgr.has_method("save_game"):
+			if save_mgr.get("autosave_enabled") != false:
+				var active_slot = save_mgr.get("active_slot") if save_mgr.get("active_slot") != null else 1
+				save_mgr.save_game(active_slot)
 
 	# Açılma (Fade in)
 	await fade_in(duration)

@@ -15,7 +15,9 @@ const CURRENT_SCHEMA_VERSION: int = 2
 const SAVE_PATH_TEMPLATE: String = "user://savegame_slot_%d.json"
 const BACKUP_PATH_TEMPLATE: String = "user://savegame_slot_%d_backup.json"
 const TEMP_PATH_TEMPLATE: String = "user://savegame_slot_%d_tmp.json"
+const SETTINGS_PATH: String = "user://game_settings.json"
 const DEFAULT_SLOT: int = 1
+const MAX_SLOTS: int = 3
 const INTEGRITY_SALT: String = "ChronosBlade_2DGame_SecuredState_v2"
 const DEFAULT_START_SCENE: String = "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn"
 
@@ -25,10 +27,123 @@ var cached_inventory: Dictionary = {}
 var cached_checkpoint_id: String = ""
 var cached_checkpoint_position: Vector2 = Vector2.ZERO
 var recent_logs: Array[Dictionary] = []
+var autosave_enabled: bool = true
+var active_slot: int = DEFAULT_SLOT
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	load_settings()
+
+
+func set_autosave_enabled(enabled: bool) -> void:
+	autosave_enabled = enabled
+	save_settings()
+	_log_event("Otomatik kayıt tercihi güncellendi: %s" % str(enabled))
+
+
+func is_autosave_enabled() -> bool:
+	return autosave_enabled
+
+
+func save_settings() -> void:
+	var settings = {
+		"autosave_enabled": autosave_enabled,
+		"active_slot": active_slot
+	}
+	var f = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
+	if f:
+		f.store_string(JSON.stringify(settings, "\t"))
+		f.close()
+
+
+func load_settings() -> void:
+	if not FileAccess.file_exists(SETTINGS_PATH):
+		return
+	var f = FileAccess.open(SETTINGS_PATH, FileAccess.READ)
+	if f:
+		var content = f.get_as_text()
+		f.close()
+		var json = JSON.new()
+		if json.parse(content) == OK and json.data is Dictionary:
+			autosave_enabled = bool(json.data.get("autosave_enabled", true))
+			active_slot = clampi(int(json.data.get("active_slot", DEFAULT_SLOT)), 1, MAX_SLOTS)
+
+
+func get_friendly_stage_name(stage_path: String) -> String:
+	if stage_path.is_empty():
+		return "Bilinmeyen Aşama"
+	if stage_path.contains("stage_1_prehistoric_valley") or stage_path.contains("prehistoric_valley"):
+		return "Bölüm 1: Tarih Öncesi Kanyon"
+	elif stage_path.contains("stage_2_trex_boss_arena"):
+		return "Bölüm 1: T-Rex Arenası"
+	elif stage_path.contains("stage_1_forest_camp"):
+		return "Bölüm 2: Târgovişte Ormanı"
+	elif stage_path.contains("stage_1_camp"):
+		return "Bölüm 2: Osmanlı Ordugahı"
+	elif stage_path.contains("stage_1_fatih_tent"):
+		return "Bölüm 2: Fatih Otağı"
+	elif stage_path.contains("stage_1_bridge_assault"):
+		return "Bölüm 2: Köprü Taarruzu"
+	elif stage_path.contains("stage_2_castle_dungeon"):
+		return "Bölüm 2: Kale Mahzenleri"
+	elif stage_path.contains("stage_3_throne_room"):
+		return "Bölüm 2: Taht Odası"
+	elif stage_path.contains("stoneage_01"):
+		return "Bölüm 1: Zaman Yarığı İnişi"
+	elif stage_path.contains("stoneage_02"):
+		return "Bölüm 1: Sessiz Vadi"
+	elif stage_path.contains("stoneage_03"):
+		return "Bölüm 1: Kırık Geçit"
+	elif stage_path.contains("stoneage_04"):
+		return "Bölüm 1: Avcı İzleri"
+	elif stage_path.contains("stoneage_05"):
+		return "Bölüm 1: Zamansal Parçalar"
+	elif stage_path.contains("stoneage_06"):
+		return "Bölüm 1: Yaratık Hakimiyeti"
+	elif stage_path.contains("stoneage_07"):
+		return "Bölüm 1: Ana T-Rex"
+	elif stage_path.contains("stoneage_08"):
+		return "Bölüm 1: İlk Kalp Parçası"
+
+	var basename = stage_path.get_file().get_basename()
+	basename = basename.replace("stage_", "Aşama ").replace("_", " ").capitalize()
+	return basename
+
+
+func get_slot_summary(slot: int) -> Dictionary:
+	if not has_save(slot):
+		return {
+			"slot": slot,
+			"has_save": false,
+			"title": "Yuva %d" % slot,
+			"timestamp": "Kayıt Yok",
+			"location_name": "Boş Yuva",
+			"stage_path": "",
+			"checkpoint_position": Vector2.ZERO
+		}
+	var info = get_save_info(slot)
+	var ts = str(info.get("timestamp", "-"))
+	var stage_path = ""
+	var cp_pos = Vector2.ZERO
+	if info.has("stage_data") and info["stage_data"] is Dictionary:
+		stage_path = str(info["stage_data"].get("current_stage_path", ""))
+		var pos_dict = info["stage_data"].get("checkpoint_position", {})
+		if pos_dict is Dictionary:
+			cp_pos = Vector2(float(pos_dict.get("x", 0.0)), float(pos_dict.get("y", 0.0)))
+	elif info.has("current_stage_path"):
+		stage_path = str(info.get("current_stage_path", ""))
+
+	var loc_name = get_friendly_stage_name(stage_path)
+	return {
+		"slot": slot,
+		"has_save": true,
+		"title": "Yuva %d" % slot,
+		"timestamp": ts,
+		"location_name": loc_name,
+		"stage_path": stage_path,
+		"checkpoint_position": cp_pos
+	}
 
 
 func _is_gameplay_scene(path: String) -> bool:
@@ -159,6 +274,8 @@ func _gather_live_stats() -> Dictionary:
 				max_health = player.max_health
 			if "has_sword" in player:
 				has_weapon = player.has_sword
+			if player is Node2D and not ("is_dead" in player and player.is_dead):
+				cached_checkpoint_position = player.global_position
 
 		var hud = cur.find_child("FantasyHUD", true, false)
 		if hud:
@@ -209,6 +326,8 @@ func _calculate_checksum(dict_data: Dictionary) -> String:
 
 ## Mevcut oyun durumunu güvenli ve atomik şekilde dosyaya kaydeder
 func save_game(slot: int = DEFAULT_SLOT) -> bool:
+	active_slot = clampi(slot, 1, MAX_SLOTS)
+	save_settings()
 	var game_state: Node = _get_game_state()
 	var stage_path: String = _resolve_current_stage_path(game_state)
 	var live_stats: Dictionary = _gather_live_stats()
@@ -394,6 +513,8 @@ func _migrate_data(data: Dictionary) -> Dictionary:
 
 ## Kayıtlı veriyi yükleyip GameState ve önbelleğe aktarır (Self-Healing Recovery destekli)
 func load_game(slot: int = DEFAULT_SLOT) -> bool:
+	active_slot = clampi(slot, 1, MAX_SLOTS)
+	save_settings()
 	var primary_path: String = _get_save_path(slot)
 	var backup_path: String = _get_backup_path(slot)
 	var loaded_data: Dictionary = {}
@@ -546,6 +667,12 @@ func apply_cached_stats_to_scene(target_node: Node = null) -> void:
 			player.max_health = int(cached_player_stats["max_health"])
 		if cached_player_stats.has("has_weapon") and "has_sword" in player:
 			player.has_sword = bool(cached_player_stats["has_weapon"])
+		if cached_checkpoint_position != Vector2.ZERO:
+			player.global_position = cached_checkpoint_position
+			var cam = player.get_node_or_null("Camera2D")
+			if cam and cam.has_method("reset_smoothing"):
+				cam.reset_smoothing()
+			_log_event("Oyuncu kayıtlı kontrol noktasına/konumuna yerleştirildi: %s" % str(cached_checkpoint_position))
 
 	var hud = scene.find_child("FantasyHUD", true, false)
 	if hud:
@@ -574,8 +701,8 @@ func set_checkpoint(checkpoint_id: String, position: Vector2, autosave: bool = t
 	cached_checkpoint_id = checkpoint_id
 	cached_checkpoint_position = position
 	_log_event("Kontrol noktası belirlendi: %s @ %s" % [checkpoint_id, str(position)])
-	if autosave:
-		save_game()
+	if autosave and autosave_enabled:
+		save_game(active_slot)
 
 
 ## Kayıt dosyasını ve yedeklerini tamamen siler

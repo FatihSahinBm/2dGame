@@ -169,6 +169,92 @@ func _ready() -> void:
 		return
 	print("OK: 'Devam Et' butonu ile oyun başarıyla sürdürüldü.")
 
+	# 12. Ayarlar Butonu ve SettingsDialog Kontrolü
+	print("Ayarlar butonu ve SettingsDialog testi...")
+	pause_btn.pressed.emit() # menüyü aç
+	var btn_settings = pause_menu.find_child("BtnSettings", true, false) as Button
+	var settings_dlg = pause_menu.find_child("SettingsDialog", true, false)
+	if not btn_settings or not settings_dlg:
+		push_error("FAIL: PauseMenu içinde BtnSettings veya SettingsDialog bulunamadı!")
+		get_tree().quit(1)
+		return
+	print("OK: BtnSettings ve SettingsDialog mevcut.")
+	btn_settings.pressed.emit()
+	if not settings_dlg.visible:
+		push_error("FAIL: BtnSettings basıldığında SettingsDialog açılmadı!")
+		get_tree().quit(1)
+		return
+	print("OK: Ayarlar butonuna basılınca SettingsDialog başarıyla açıldı.")
+	settings_dlg._on_back_pressed()
+	if settings_dlg.visible:
+		push_error("FAIL: Geri basılınca SettingsDialog kapanmadı!")
+		get_tree().quit(1)
+		return
+	print("OK: SettingsDialog geri butonu ile başarıyla kapandı.")
+
+	# 13. Kayıt Yuvaları Paneli (3 Yuva) ve Oto-Kayıt Kontrolü
+	print("Kayıt Yuvaları paneli ve 3 yuva testi...")
+	var btn_save = pause_menu.find_child("BtnSave", true, false) as Button
+	var save_panel = pause_menu.find_child("SaveSlotsPanel", true, false)
+	if not btn_save or not save_panel:
+		push_error("FAIL: BtnSave veya SaveSlotsPanel bulunamadı!")
+		get_tree().quit(1)
+		return
+	btn_save.pressed.emit()
+	if not save_panel.visible:
+		push_error("FAIL: BtnSave basılınca SaveSlotsPanel açılmadı!")
+		get_tree().quit(1)
+		return
+	print("OK: 'Oyunu Kaydet' basılınca 3 yuvalı SaveSlotsPanel açıldı.")
+
+	var btn_save_slot1 = pause_menu.find_child("BtnSaveSlot1", true, false) as Button
+	var btn_save_slot2 = pause_menu.find_child("BtnSaveSlot2", true, false) as Button
+	var btn_save_slot3 = pause_menu.find_child("BtnSaveSlot3", true, false) as Button
+	var check_autosave = pause_menu.find_child("CheckAutoSave", true, false) as CheckBox
+	var btn_back_save = pause_menu.find_child("BtnBackFromSave", true, false) as Button
+
+	if not btn_save_slot1 or not btn_save_slot2 or not btn_save_slot3 or not check_autosave:
+		push_error("FAIL: 3 Kayıt yuvası butonları veya CheckAutoSave bulunamadı!")
+		get_tree().quit(1)
+		return
+	print("OK: 3 kayıt yuvası ve Otomatik Kayıt onay kutusu mevcut.")
+
+	# Yuva 1'e kaydet
+	btn_save_slot1.pressed.emit()
+	var lbl_slot1_details = pause_menu.find_child("LblSlot1Details", true, false) as Label
+	if not lbl_slot1_details or not lbl_slot1_details.text.contains("Tarih"):
+		push_error("FAIL: Yuva 1 kaydedildikten sonra detay etiketi güncellenmedi!")
+		get_tree().quit(1)
+		return
+	print("OK: Yuva 1'e kayıt yapıldı ve tarih/konum detayı güncellendi: " + lbl_slot1_details.text)
+
+	# Oto-kayıt onay kutusu toggle testi
+	check_autosave.toggled.emit(false)
+	var sm = get_node_or_null("/root/SaveManager")
+	if sm and sm.is_autosave_enabled():
+		push_error("FAIL: Checkbox oto-kayıt durumunu kapatamadı!")
+		get_tree().quit(1)
+		return
+	check_autosave.toggled.emit(true)
+	if sm and not sm.is_autosave_enabled():
+		push_error("FAIL: Checkbox oto-kayıt durumunu açamadı!")
+		get_tree().quit(1)
+		return
+	print("OK: Otomatik kayıt seçeneği başarıyla açılıp kapatıldı.")
+
+	# Geri butonu ile ana pause butonlarına dönüş
+	btn_back_save.pressed.emit()
+	if save_panel.visible:
+		push_error("FAIL: Geri basılınca SaveSlotsPanel kapanmadı!")
+		get_tree().quit(1)
+		return
+	print("OK: Kayıt yuvalarından geri dönüldü.")
+	btn_resume.pressed.emit()
+
+	# Temizlik
+	if sm:
+		sm.delete_save(1)
+
 	# Temizlik
 	hud_inst.queue_free()
 	standalone_inst.queue_free()

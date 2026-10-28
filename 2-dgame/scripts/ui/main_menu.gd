@@ -216,6 +216,9 @@ func _on_chapter_select_pressed() -> void:
 
 
 func _on_chapter_chosen(_chapter_idx: int, scene_path: String) -> void:
+	var save_mgr = _get_autoload("SaveManager")
+	if save_mgr and save_mgr.has_method("has_save") and save_mgr.has_save():
+		save_mgr.load_game()
 	var game_state = _get_autoload("GameState")
 	if game_state:
 		game_state.current_stage_path = scene_path

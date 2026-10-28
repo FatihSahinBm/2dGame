@@ -4,3 +4,4 @@
 
 [node name="VerifySaveSystem" type="Node"]
 script = ExtResource("1_test")
+

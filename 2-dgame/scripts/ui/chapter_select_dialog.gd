@@ -69,6 +69,13 @@ func _populate_chapters() -> void:
 
 	_first_focus_btn = null
 	var save_mgr = _get_autoload("SaveManager")
+	var saved_stage: String = ""
+	if save_mgr and save_mgr.has_save():
+		var info = save_mgr.get_save_info(save_mgr.active_slot if "active_slot" in save_mgr else 1)
+		if info.has("stage_data") and info["stage_data"] is Dictionary:
+			saved_stage = str(info["stage_data"].get("current_stage_path", ""))
+		elif info.has("current_stage_path"):
+			saved_stage = str(info.get("current_stage_path", ""))
 
 	for ch in CHAPTERS:
 		var ch_idx: int = int(ch["index"])
@@ -99,14 +106,32 @@ func _populate_chapters() -> void:
 		info_box.add_child(title_lbl)
 		info_box.add_child(era_lbl)
 
+		# Kayıtlı ilerleme kontrolü
+		var scene_path: String = str(ch["scene"])
+		var has_chapter_progress: bool = false
+		if not saved_stage.is_empty():
+			if ch_idx == 1 and (saved_stage.contains("stone_age") or saved_stage.contains("stoneage")):
+				scene_path = saved_stage
+				has_chapter_progress = true
+			elif ch_idx == 2 and saved_stage.contains("vlad"):
+				scene_path = saved_stage
+				has_chapter_progress = true
+
+		if has_chapter_progress and save_mgr and save_mgr.has_method("get_friendly_stage_name"):
+			var prog_lbl: Label = Label.new()
+			prog_lbl.text = "Son Kalınan: " + save_mgr.get_friendly_stage_name(scene_path)
+			prog_lbl.add_theme_font_size_override("font_size", 11)
+			prog_lbl.add_theme_color_override("font_color", Color(0.4, 0.85, 0.55, 1.0))
+			info_box.add_child(prog_lbl)
+
 		var btn: Button = Button.new()
-		btn.custom_minimum_size = Vector2(120, 38)
+		btn.custom_minimum_size = Vector2(130, 38)
 		btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
 		if is_unlocked:
-			btn.text = "Oyna"
-			var scene_path: String = str(ch["scene"])
-			btn.pressed.connect(func(): _on_chapter_clicked(ch_idx, scene_path))
+			btn.text = "▶ Devam Et" if has_chapter_progress else "Oyna"
+			var target_to_load = scene_path
+			btn.pressed.connect(func(): _on_chapter_clicked(ch_idx, target_to_load))
 			if not _first_focus_btn:
 				_first_focus_btn = btn
 		else:
