@@ -105,6 +105,13 @@ func go_to_main_menu() -> void:
 	if tree:
 		root_node = tree.root
 
+	# Ana menüye dönmeden önce mevcut sahneyi ve durumu kaydet
+	var save_mgr: Node = null
+	if root_node:
+		save_mgr = root_node.get_node_or_null("SaveManager")
+	if save_mgr and save_mgr.has_method("save_game"):
+		save_mgr.save_game()
+
 	var transition: Node = null
 	if root_node:
 		transition = root_node.get_node_or_null("SceneTransition")

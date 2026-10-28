@@ -169,10 +169,20 @@ func _on_continue_pressed() -> void:
 		return
 
 	save_mgr.load_game()
-	var game_state = _get_autoload("GameState")
 	var target_scene = NEW_GAME_START_SCENE
+	var game_state = _get_autoload("GameState")
 	if game_state and not game_state.current_stage_path.is_empty():
 		target_scene = game_state.current_stage_path
+	elif save_mgr.has_method("get_save_info"):
+		var info = save_mgr.get_save_info()
+		if info.has("stage_data") and info["stage_data"] is Dictionary:
+			var sp = str(info["stage_data"].get("current_stage_path", ""))
+			if not sp.is_empty():
+				target_scene = sp
+		elif info.has("current_stage_path"):
+			var sp2 = str(info["current_stage_path"])
+			if not sp2.is_empty():
+				target_scene = sp2
 
 	_transition_to_scene(target_scene)
 

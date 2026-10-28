@@ -50,6 +50,18 @@ func change_scene(target_path: String, duration: float = 0.35) -> void:
 	# Kısa bekleme
 	await get_tree().process_frame
 
+	# Eğer yüklenen sahne bir oyun bölümüyse (ana menü değilse), GameState ve SaveManager'ı güncelle
+	if not target_path.contains("main_menu.tscn"):
+		var root_node = get_tree().root
+		var game_state = root_node.get_node_or_null("GameState")
+		if game_state:
+			game_state.current_stage_path = target_path
+		var save_mgr = root_node.get_node_or_null("SaveManager")
+		if save_mgr and save_mgr.has_method("save_game"):
+			save_mgr.save_game()
+		if save_mgr and save_mgr.has_method("apply_cached_stats_to_scene"):
+			save_mgr.apply_cached_stats_to_scene()
+
 	# Açılma (Fade in)
 	await fade_in(duration)
 
