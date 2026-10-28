@@ -129,9 +129,49 @@ func _ready() -> void:
 		return
 	print("OK: Standalone PauseMenu bağımsız bileşen olarak da doğrulandı.")
 
+	# 10. ESC (Escape) Tuşu ile Durdurma ve Devam Etme Testi
+	print("ESC tuşu girdi simülasyonu testi...")
+	var esc_event = InputEventKey.new()
+	esc_event.pressed = true
+	esc_event.keycode = KEY_ESCAPE
+
+	hud_inst._input(esc_event)
+	if not get_tree().paused or not pause_menu.visible:
+		push_error("FAIL: ESC tuşuna basıldığında oyun duraklatılmalı ve menü açılmalıydı!")
+		get_tree().quit(1)
+		return
+	print("OK: ESC tuşuna basılınca oyun durdu ve menü açıldı.")
+
+	# ESC tuşuna tekrar basınca devam etmeli
+	hud_inst._input(esc_event)
+	if get_tree().paused or pause_menu.visible:
+		push_error("FAIL: ESC tuşuna tekrar basıldığında oyun devam etmeli ve menü kapanmalıydı!")
+		get_tree().quit(1)
+		return
+	print("OK: ESC tuşuna tekrar basılınca oyun devam etti.")
+
+	# 11. Fiziksel ESC (Physical Keycode) Testi
+	var phys_esc_event = InputEventKey.new()
+	phys_esc_event.pressed = true
+	phys_esc_event.physical_keycode = KEY_ESCAPE
+
+	hud_inst._input(phys_esc_event)
+	if not get_tree().paused or not pause_menu.visible:
+		push_error("FAIL: Fiziksel ESC tuşuna basıldığında oyun duraklatılmalıydı!")
+		get_tree().quit(1)
+		return
+	print("OK: Fiziksel ESC (physical_keycode) ile oyun durduruldu.")
+
+	btn_resume.pressed.emit()
+	if get_tree().paused or pause_menu.visible:
+		push_error("FAIL: Devam Et butonu ile fiziksel ESC sonrası devam edilemedi!")
+		get_tree().quit(1)
+		return
+	print("OK: 'Devam Et' butonu ile oyun başarıyla sürdürüldü.")
+
 	# Temizlik
 	hud_inst.queue_free()
 	standalone_inst.queue_free()
 
-	print("--- TÜM HUD DURDURMA VE DEVAM ET TESTLERİ %100 BAŞARIYLA GEÇTİ! ---")
+	print("--- TÜM HUD DURDURMA VE DEVAM ET TESTLERİ (ESC DAHİL) %100 BAŞARIYLA GEÇTİ! ---")
 	get_tree().quit(0)

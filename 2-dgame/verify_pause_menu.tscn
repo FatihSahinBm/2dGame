@@ -4,3 +4,4 @@
 
 [node name="VerifyPauseMenu" type="Node"]
 script = ExtResource("1_test")
+

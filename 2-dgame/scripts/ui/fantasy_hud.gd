@@ -217,20 +217,32 @@ func use_mana_potion() -> void:
 		update_potion_counts()
 		potion_used.emit("mana")
 
-func _unhandled_input(event: InputEvent) -> void:
-	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri
+## Girdi yönetimi: ESC / P / Gamepad START ile duraklatma / devam etme
+func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_2:
-			use_health_potion()
-		elif event.keycode == KEY_4:
-			use_mana_potion()
-		elif event.is_action_pressed("ui_cancel") or event.keycode == KEY_ESCAPE or event.keycode == KEY_P:
+		var is_escape: bool = event.keycode == KEY_ESCAPE \
+			or event.physical_keycode == KEY_ESCAPE \
+			or event.is_action_pressed("ui_cancel") \
+			or event.is_action_pressed("pause")
+		var is_p: bool = event.keycode == KEY_P or event.physical_keycode == KEY_P
+
+		if is_escape or is_p:
 			toggle_pause()
 			get_viewport().set_input_as_handled()
+			return
 	elif event is InputEventJoypadButton and event.pressed and not event.echo:
 		if event.button_index == JOY_BUTTON_START:
 			toggle_pause()
 			get_viewport().set_input_as_handled()
+			return
+
+func _unhandled_input(event: InputEvent) -> void:
+	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_2 or event.physical_keycode == KEY_2:
+			use_health_potion()
+		elif event.keycode == KEY_4 or event.physical_keycode == KEY_4:
+			use_mana_potion()
 
 func _get_scene_tree() -> SceneTree:
 	if is_inside_tree() and get_tree():

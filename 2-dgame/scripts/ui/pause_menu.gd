@@ -115,10 +115,19 @@ func go_to_main_menu() -> void:
 		tree.change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not visible:
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.is_action_pressed("ui_cancel") or event.keycode == KEY_ESCAPE or event.keycode == KEY_P:
+		var is_escape: bool = event.keycode == KEY_ESCAPE \
+			or event.physical_keycode == KEY_ESCAPE \
+			or event.is_action_pressed("ui_cancel") \
+			or event.is_action_pressed("pause")
+		var is_p: bool = event.keycode == KEY_P or event.physical_keycode == KEY_P
+		if is_escape or is_p:
+			resume_game()
+			get_viewport().set_input_as_handled()
+	elif event is InputEventJoypadButton and event.pressed and not event.echo:
+		if event.button_index == JOY_BUTTON_START:
 			resume_game()
 			get_viewport().set_input_as_handled()
