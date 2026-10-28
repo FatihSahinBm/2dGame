@@ -31,13 +31,3 @@ shape = SubResource("RectangleShape2D_trigger")
 [node name="PlatformSprite" type="Sprite2D" parent="Visual"]
 texture_filter = 1
 texture = ExtResource("2_tex")
-
-[node name="CrackLine1" type="Line2D" parent="Visual"]
-points = PackedVector2Array(-50, -8, -30, 4, -10, -6)
-width = 1.5
-default_color = Color(0.06, 0.07, 0.09, 0.6)
-
-[node name="CrackLine2" type="Line2D" parent="Visual"]
-points = PackedVector2Array(20, -7, 45, 5, 60, -4)
-width = 1.5
-default_color = Color(0.06, 0.07, 0.09, 0.6)

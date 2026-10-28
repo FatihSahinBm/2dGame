@@ -26,10 +26,12 @@ enum VladForm { NORMAL, VAMPIRE, WEREWOLF, BAT }
 @export var screen_shake_intensity: float = 6.0
 @export var projectile_scene: PackedScene = preload("res://scenes/projectiles/dark_magic_projectile.tscn")
 @export var ground_dust_scene: PackedScene = preload("res://scenes/effects/vlad_ground_dust.tscn")
+@export var spear_scene: PackedScene = preload("res://scenes/projectiles/vlad_spear_projectile.tscn")
 
 @export_group("Form Combat Stats")
 @export var normal_thrust_damage: int = 35
 @export var normal_impale_damage: int = 50
+@export var normal_spear_throw_damage: int = 35
 @export var vampire_slash_damage: int = 40
 @export var vampire_magic_damage: int = 45
 @export var werewolf_claw_damage: int = 30
@@ -50,6 +52,8 @@ signal blood_shield_broken()
 @export var groggy_vulnerability_multiplier: float = 1.35
 
 # Taktiksel Durum Değişkenleri
+var is_active: bool = true
+var _is_in_cinematic: bool = false
 var _camera_ref: Camera2D = null
 var _is_transforming: bool = false
 var _is_leaping: bool = false
@@ -73,6 +77,8 @@ var _atk_event_frame: int = -1
 var _atk_event_done: bool = false
 var _atk_event: Callable
 var _atk_cooldown_bonus: float = 0.0
+var _normal_spear_aim_line: Line2D = null
+var _locked_spear_target: Vector2 = Vector2.ZERO
 
 # Sersemleme (Groggy) Değişkenleri
 var _stagger_damage: int = 0
@@ -117,6 +123,13 @@ func _physics_process(delta: float) -> void:
 		if not is_flying and not is_on_floor():
 			velocity.y += gravity * delta
 			move_and_slide()
+		return
+
+	if not is_active or _is_in_cinematic:
+		velocity.x = move_toward(velocity.x, 0.0, 500.0 * delta)
+		if not is_flying and not is_on_floor():
+			velocity.y += gravity * delta
+		move_and_slide()
 		return
 
 	if _is_transforming:
@@ -549,16 +562,22 @@ func _process_chase(delta: float) -> void:
 func _chase_normal_form(delta: float, dist: float, dist_x: float, diff_y: float) -> void:
 	var bypass: Dictionary = _get_obstacle_bypass_data()
 
-	# Eğer oyuncu yukarıdaki platformdaysa ve başımızın üstü kapalıysa kenara doğru dolan
-	if bypass.is_blocked and diff_y < -40.0:
-		if not bypass.is_horizontally_clear:
+	# Platform Kontrolü: Oyuncu belirgin biçimde yukarıdaysa (platformda)
+	if diff_y < -40.0:
+		# Eğer başımızın üstü kapalıysa (platformun altındaysak), açık alana doğru yürü
+		if bypass.is_blocked and not bypass.is_horizontally_clear:
 			velocity.x = move_toward(velocity.x, float(bypass.bypass_dir) * chase_speed, 450.0 * delta)
 			_play_form_anim(&"walk")
 			return
 		else:
-			# Açık alana çıktı: oyuncu platform kenarına yakınsa zemin impale şoku yapar
-			if dist_x <= 95.0 and _attack_timer <= 0.0:
-				_execute_normal_attack(false) # Impale
+			# Açık alandayız / görüş hattı var: Yukarıdaki oyuncuya telgraflı Mızrak Fırlatma yap!
+			if _attack_timer <= 0.0:
+				_execute_normal_spear_throw()
+				return
+			else:
+				# Bekleme süresindeyken nöbet duruşu
+				velocity.x = move_toward(velocity.x, 0.0, 450.0 * delta)
+				_play_form_anim(&"idle")
 				return
 
 	# A) Oyuncu yakınsa (<= 45px) ve aynı zemin seviyesindeyse -> IMPALE ŞOKU!
@@ -753,6 +772,7 @@ func _on_attack_animation_finished() -> void:
 	_atk_hit_on = false
 	_deactivate_hitbox()
 	_reset_hitbox()
+	_clear_spear_throw_telegraph()
 	_attack_timer = attack_cooldown + _atk_cooldown_bonus
 	current_state = State.CHASE if _target_node else State.PATROL
 	# Dalış saldırısı sonrasında yarasa yukarı çekilerek irtifa kazanır ve karşı kanada geçer
@@ -802,6 +822,78 @@ func _execute_normal_attack(is_thrust: bool) -> void:
 		_begin_attack(&"attack_impale", normal_impale_damage, 8, 11, 8, func():
 			_spawn_ground_impact_dust(54.0 * float(direction))
 		)
+
+func _execute_normal_spear_throw() -> void:
+	velocity.x = 0.0
+
+	# Hedefe dönük olmayı garantile
+	if _target_node and is_instance_valid(_target_node):
+		var to_tgt_x: float = _target_node.global_position.x - global_position.x
+		var face_dir: int = 1 if to_tgt_x > 0.0 else -1
+		if face_dir != direction:
+			direction = face_dir
+			_update_facing_direction()
+
+	# Hedef konumu saldırı başladığı anda kilitlenir (aimbot takip engellenir, oyuncu kaçabilir)
+	if _target_node and is_instance_valid(_target_node):
+		_locked_spear_target = _target_node.global_position + Vector2(0.0, -18.0)
+	else:
+		_locked_spear_target = global_position + Vector2(float(direction) * 200.0, -140.0)
+
+	# Görsel Telgraf: Mızrak ucunda kırmızı hedefleme hattı (f 0..8 ~0.45s hazırlık süresi)
+	_show_spear_throw_telegraph(_locked_spear_target)
+
+	# 24 karelik özel mızrak fırlatma animasyonu (vlad_boss_throw_split):
+	# f 0..10: Mızrağı geriye çekme, nişan alma ve telgraf hazırlığı (~0.78s)
+	# f 11: Mızrağın fırlatılması ve elden ayrılması (release anı)
+	# f 12..23: Boş elle takip (follow-through) ve gard toparlanması
+	# Cooldown bonusu: 1.2s (Toplam cooldown = 1.4s + 1.2s = 2.6s; spam engellenir)
+	_begin_attack(&"attack_throw", normal_spear_throw_damage, -1, -1, 11, func():
+		_clear_spear_throw_telegraph()
+		_spawn_thrown_spear(_locked_spear_target)
+		_trigger_screen_shake(3.2)
+	, 1.2)
+
+func _show_spear_throw_telegraph(target_pos: Vector2) -> void:
+	_clear_spear_throw_telegraph()
+	var aim_line = Line2D.new()
+	aim_line.name = "SpearAimTelegraph"
+	aim_line.width = 1.5
+	aim_line.default_color = Color(1.0, 0.2, 0.25, 0.5)
+	aim_line.z_index = 5
+
+	var spawn_pos: Vector2 = global_position + Vector2(25.0 * float(direction), -45.0)
+	aim_line.add_point(spawn_pos)
+	aim_line.add_point(target_pos)
+
+	var parent_scene: Node = get_parent()
+	if parent_scene:
+		parent_scene.add_child(aim_line)
+		_normal_spear_aim_line = aim_line
+		var tw: Tween = create_tween()
+		tw.tween_property(aim_line, "default_color:a", 0.85, 0.40)
+
+func _clear_spear_throw_telegraph() -> void:
+	if _normal_spear_aim_line and is_instance_valid(_normal_spear_aim_line):
+		if _normal_spear_aim_line.get_parent():
+			_normal_spear_aim_line.get_parent().remove_child(_normal_spear_aim_line)
+		_normal_spear_aim_line.queue_free()
+		_normal_spear_aim_line = null
+
+func _spawn_thrown_spear(target_pos: Vector2) -> void:
+	if not spear_scene:
+		return
+	var spear = spear_scene.instantiate()
+	if not spear:
+		return
+
+	var spawn_pos: Vector2 = global_position + Vector2(25.0 * float(direction), -45.0)
+	var shoot_dir: Vector2 = (target_pos - spawn_pos).normalized()
+
+	var parent_scene: Node = get_parent()
+	if parent_scene:
+		parent_scene.add_child(spear)
+		spear.setup(spawn_pos, shoot_dir, normal_spear_throw_damage, self)
 
 func _execute_vampire_slash() -> void:
 	velocity.x = 0.0
@@ -948,8 +1040,9 @@ func _execute_bat_screech() -> void:
 ## Hasar Alma, Sis Kaçışı & Faz Dönüşümleri & Sersemleme (Groggy)
 ## -----------------------------------------------------------------------------
 func take_damage(amount: int) -> void:
-	# Dönüşüm esnasında veya ölü durumdayken hasar alamaz (Sinematik Faz Dokunulmazlığı)
-	if is_dead or _is_transforming:
+	# Dönüşüm esnasında, sinematikte veya ölü durumdayken hasar alamaz (Sinematik Faz Dokunulmazlığı)
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if is_dead or _is_transforming or _is_in_cinematic or not is_active or (game_state and game_state.is_in_cinematic):
 		return
 
 	# Vampir formunda Kan Kalkanı devredeyse hasarın %85'ini sönümler (Sigiller kırılmalı)
@@ -1088,6 +1181,7 @@ func _trigger_groggy_stun() -> void:
 	_atk_hit_on = false
 	_deactivate_hitbox()
 	_reset_hitbox()
+	_clear_spear_throw_telegraph()
 	_trigger_screen_shake(7.5)
 
 	# Form bazlı sersemleme/hasar animasyonu oynat (24 kareye yayılır, akıcı durur)
@@ -1186,6 +1280,7 @@ func _execute_vampire_mist_dash() -> void:
 ## Form Yönetimi & 18_vlad_death Multi-Form Ölüm Mimarisi
 ## -----------------------------------------------------------------------------
 func set_form(new_form: VladForm, play_smoke: bool = true) -> void:
+	_clear_spear_throw_telegraph()
 	if current_form == new_form and not play_smoke:
 		return
 
@@ -1194,6 +1289,10 @@ func set_form(new_form: VladForm, play_smoke: bool = true) -> void:
 	else:
 		current_form = new_form
 		_apply_form_visuals()
+		if current_form == VladForm.VAMPIRE:
+			blood_shield_active = true
+		_is_transforming = false
+		form_changed.emit(new_form)
 
 func _perform_form_transformation(new_form: VladForm) -> void:
 	if _is_transforming or is_dead:
@@ -1203,6 +1302,7 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 	velocity = Vector2.ZERO
 	_deactivate_hitbox()
 	_atk_hit_on = false
+	_clear_spear_throw_telegraph()
 
 	if not smoke_vfx:
 		smoke_vfx = get_node_or_null("Visual/SmokeVFX") as AnimatedSprite2D
@@ -1258,7 +1358,7 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 			anim_sprite.modulate = Color.WHITE
 		_is_transforming = false
 		_trigger_screen_shake(3.0)
-		current_state = State.CHASE if _target_node else State.PATROL
+		current_state = State.CHASE if (_target_node and not _is_in_cinematic and is_active) else State.PATROL
 	)
 
 func _apply_form_visuals() -> void:
@@ -1353,6 +1453,7 @@ func _die() -> void:
 	current_state = State.DEAD
 	velocity = Vector2.ZERO
 	_deactivate_hitbox()
+	_clear_spear_throw_telegraph()
 
 	enemy_died.emit(self)
 
@@ -1433,3 +1534,30 @@ func _trigger_screen_shake(intensity: float) -> void:
 
 func debug_set_form(form_idx: int) -> void:
 	set_form(form_idx as VladForm, true)
+
+
+func on_cinematic_started() -> void:
+	if is_dead:
+		return
+	_is_in_cinematic = true
+	is_active = false
+	velocity = Vector2.ZERO
+	_deactivate_hitbox()
+	_atk_hit_on = false
+	if anim_sprite and current_state != State.GROGGY and not _is_transforming:
+		var idle_anim: StringName = &"idle"
+		match current_form:
+			VladForm.NORMAL: idle_anim = &"idle"
+			VladForm.VAMPIRE: idle_anim = &"vampire_idle"
+			VladForm.WEREWOLF: idle_anim = &"werewolf_idle"
+			VladForm.BAT: idle_anim = &"bat_idle_fly"
+		_play_form_anim(idle_anim)
+
+
+func on_cinematic_ended() -> void:
+	if is_dead:
+		return
+	_is_in_cinematic = false
+	is_active = true
+	if not _is_transforming and current_state != State.GROGGY:
+		current_state = State.CHASE if _target_node else State.PATROL

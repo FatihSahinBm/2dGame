@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="2dgame"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 GameState="*res://scripts/autoloads/game_state.gd"
 StoryDataLoader="*res://scripts/autoloads/story_data_loader.gd"
+SaveManager="*res://scripts/autoloads/save_manager.gd"
+SceneTransition="*res://scenes/ui/scene_transition.tscn"
 
 [display]
 

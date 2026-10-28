@@ -80,7 +80,8 @@ func _init() -> void:
 		return
 	var stage1_inst = stage1_res.instantiate()
 	root.add_child(stage1_inst)
-	if not stage1_inst.player or not stage1_inst.player.has_sword or not stage1_inst.player.is_armed:
+	var stage1_player = stage1_inst.player if stage1_inst.player else stage1_inst.get_node_or_null("CombatPlayer")
+	if not stage1_player or not stage1_player.has_sword or not stage1_player.is_armed:
 		push_error("FAIL: stage_1_forest_camp player must have sword armed")
 		quit(1)
 		return
@@ -95,7 +96,8 @@ func _init() -> void:
 		return
 	var camp_inst = camp_res.instantiate()
 	root.add_child(camp_inst)
-	if not camp_inst.player or not camp_inst.player.has_sword or not camp_inst.player.is_armed:
+	var camp_player = camp_inst.player if camp_inst.player else camp_inst.get_node_or_null("CombatPlayer")
+	if not camp_player or not camp_player.has_sword or not camp_player.is_armed:
 		push_error("FAIL: stage_1_camp player must have sword armed")
 		quit(1)
 		return
@@ -110,7 +112,8 @@ func _init() -> void:
 		return
 	var tent_inst = tent_res.instantiate()
 	root.add_child(tent_inst)
-	if not tent_inst.player or not tent_inst.player.has_sword or not tent_inst.player.is_armed:
+	var tent_player = tent_inst.player if tent_inst.player else tent_inst.get_node_or_null("CombatPlayer")
+	if not tent_player or not tent_player.has_sword or not tent_player.is_armed:
 		push_error("FAIL: stage_1_fatih_tent player must have sword armed")
 		quit(1)
 		return
@@ -125,7 +128,8 @@ func _init() -> void:
 		return
 	var bridge_inst = bridge_res.instantiate()
 	root.add_child(bridge_inst)
-	if not bridge_inst.player or not bridge_inst.player.has_sword or not bridge_inst.player.is_armed:
+	var bridge_player = bridge_inst.player if bridge_inst.player else bridge_inst.get_node_or_null("CombatPlayer")
+	if not bridge_player or not bridge_player.has_sword or not bridge_player.is_armed:
 		push_error("FAIL: stage_1_bridge_assault player must have sword armed")
 		quit(1)
 		return
@@ -140,7 +144,8 @@ func _init() -> void:
 		return
 	var stage2_inst = stage2_res.instantiate()
 	root.add_child(stage2_inst)
-	if not stage2_inst.player or not stage2_inst.player.has_sword or not stage2_inst.player.is_armed:
+	var stage2_player = stage2_inst.player if stage2_inst.player else stage2_inst.get_node_or_null("CombatPlayer")
+	if not stage2_player or not stage2_player.has_sword or not stage2_player.is_armed:
 		push_error("FAIL: stage_2_castle_dungeon player must have sword armed")
 		quit(1)
 		return
@@ -155,7 +160,8 @@ func _init() -> void:
 		return
 	var stage3_inst = stage3_res.instantiate()
 	root.add_child(stage3_inst)
-	if not stage3_inst.player or not stage3_inst.player.has_sword or not stage3_inst.player.is_armed:
+	var stage3_player = stage3_inst.player if stage3_inst.player else stage3_inst.get_node_or_null("CombatPlayer")
+	if not stage3_player or not stage3_player.has_sword or not stage3_player.is_armed:
 		push_error("FAIL: stage_3_throne_room player must have sword armed")
 		quit(1)
 		return

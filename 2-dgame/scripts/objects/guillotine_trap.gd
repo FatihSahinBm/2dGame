@@ -7,6 +7,7 @@ extends Node2D
 @export var swing_speed: float = 2.4
 @export var max_angle_deg: float = 65.0
 @export var damage: int = 25
+@export var initial_phase: float = 0.0
 
 var _time_passed: float = 0.0
 
@@ -15,6 +16,7 @@ var _time_passed: float = 0.0
 
 
 func _ready() -> void:
+	_time_passed = initial_phase
 	if blade_area:
 		blade_area.body_entered.connect(_on_blade_hit)
 

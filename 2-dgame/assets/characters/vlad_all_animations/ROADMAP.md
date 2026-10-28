@@ -21,6 +21,7 @@ Bu belge, **Vlad the Impaler** karakterinin 4 farklı formu, formlar arası kan 
 - [x] **`01_normal_idle`**: Ağırbaşlı, asil duruş; göğüs solunumu, hafif pelerin dalgalanması, mızrak dik ve sabit. (56 kare, ping-pong döngü, çıpa `(340, 680)`).
 - [x] **`02_normal_walk`**: Ağır, tehditkar ve kararlı yerinde adımlama (37 kare, dikişsiz yürüme döngüsü `diff=1.94`, 6-sütun atlas `7680x5040`).
 - [x] **`03_normal_attack_thrust`**: Hızlı ve ölümcül ileri mızrak saplama vuruşu (98 kare, darbe anı F50, 6-sütun atlas `7680x12240`).
+- [x] **`vlad_boss_throw_split`** (`normal_attack_throw`): Mızrak fırlatma saldırısı (24 kare, çıpa `(640, 680)`, darbe anı / fırlatma F11, boş elle toparlanma F12..23, 6-sütun atlas `1920x720`).
 - [x] **`04_normal_attack_impale`**: Mızrağı iki elle yukarı kaldırıp zemine sert saplama (115 kare, şok dalgası doruğu F41, 6-sütun atlas `7680x14400`).
 
 ### 🩸 Faz 2: Vampir Form (True Vampire Lord) - [%100 TAMAMLANDI]

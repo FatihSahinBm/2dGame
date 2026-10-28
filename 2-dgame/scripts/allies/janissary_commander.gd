@@ -252,7 +252,7 @@ func _deal_damage_to_targets(damage: int) -> void:
 			if body == self or body in hit_objects:
 				continue
 			var target = body
-			if target.is_in_group("enemies") or target.is_in_group("barricades") or target.is_in_group("damageable"):
+			if (target.is_in_group("enemies") or target.is_in_group("barricades")) and not target.is_in_group("allies") and not target.is_in_group("player"):
 				hit_objects.append(target)
 				var actual_damage = damage
 				if target.is_in_group("mini_boss"):
@@ -266,7 +266,7 @@ func _deal_damage_to_targets(damage: int) -> void:
 			var target = area.get_parent() if area.get_parent() != self else area
 			if target == self or target in hit_objects:
 				continue
-			if target.is_in_group("enemies") or target.is_in_group("barricades") or target.is_in_group("damageable"):
+			if (target.is_in_group("enemies") or target.is_in_group("barricades")) and not target.is_in_group("allies") and not target.is_in_group("player"):
 				hit_objects.append(target)
 				var actual_damage = damage
 				if target.is_in_group("mini_boss"):
@@ -297,7 +297,7 @@ func _deal_damage_to_targets(damage: int) -> void:
 					target = target.get_parent()
 				if target in hit_objects:
 					continue
-				if target.is_in_group("enemies") or target.is_in_group("barricades") or target.is_in_group("damageable"):
+				if (target.is_in_group("enemies") or target.is_in_group("barricades")) and not target.is_in_group("allies") and not target.is_in_group("player"):
 					hit_objects.append(target)
 					var actual_damage = damage
 					if target.is_in_group("mini_boss"):

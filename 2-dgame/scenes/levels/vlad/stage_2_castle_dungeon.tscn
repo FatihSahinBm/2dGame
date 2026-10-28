@@ -13,6 +13,22 @@
 [ext_resource type="Script" path="res://scripts/objects/dungeon_chain_lever.gd" id="11_lever"]
 [ext_resource type="Script" path="res://scripts/objects/blood_altar_brazier.gd" id="12_brazier"]
 [ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_stone_ledge.png" id="13_stone"]
+[ext_resource type="Script" path="res://scripts/objects/ancient_heart_relief.gd" id="14_relief_script"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/ancient_heart_relief.png" id="15_relief_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/ancient_heart_relief_glow.png" id="16_relief_glow"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="17_dialogue"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_spike_pit.png" id="18_spike"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_brazier_base.png" id="19_brazier_base"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_brazier_fire_1.png" id="20_fire_1"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_brazier_fire_2.png" id="21_fire_2"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_brazier_fire_3.png" id="22_fire_3"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_brazier_fire_4.png" id="23_fire_4"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_chain_bracket.png" id="24_chain_bracket"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_chain_handle.png" id="25_chain_handle"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_entrance_arch.png" id="26_entrance_arch"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_entrance_portcullis.png" id="27_entrance_portcullis"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_blood_gate_arch.png" id="28_blood_gate_arch"]
+[ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_blood_portcullis.png" id="29_blood_portcullis"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_entrance"]
 size = Vector2(400, 50)
@@ -41,6 +57,26 @@ size = Vector2(120, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_portcullis"]
 size = Vector2(20, 100)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_brazier_flame"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_fire_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_fire_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_fire_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_fire_4")
+}],
+"loop": true,
+"name": &"burn",
+"speed": 8.0
+}]
+
 [node name="Stage2CastleDungeon" type="Node2D"]
 script = ExtResource("1_stage")
 
@@ -59,6 +95,11 @@ fog_color = Color(0.04, 0.02, 0.05, 0.22)
 
 [node name="EntranceMechanism" type="Node2D" parent="."]
 
+[node name="ChainBracket" type="Sprite2D" parent="EntranceMechanism"]
+texture_filter = 1
+position = Vector2(210, 516)
+texture = ExtResource("24_chain_bracket")
+
 [node name="ChainLever" type="Area2D" parent="EntranceMechanism"]
 position = Vector2(210, 540)
 collision_layer = 4
@@ -68,19 +109,34 @@ script = ExtResource("11_lever")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceMechanism/ChainLever"]
 shape = SubResource("RectangleShape2D_lever")
 
-[node name="Visual" type="ColorRect" parent="EntranceMechanism/ChainLever"]
-offset_left = -6.0
-offset_top = -20.0
-offset_right = 6.0
-offset_bottom = 10.0
-color = Color(0.7, 0.65, 0.55, 1)
+[node name="Visual" type="Sprite2D" parent="EntranceMechanism/ChainLever"]
+texture_filter = 1
+position = Vector2(0, -6)
+texture = ExtResource("25_chain_handle")
 
-[node name="OuterPortcullis" type="ColorRect" parent="EntranceMechanism"]
-offset_left = 340.0
-offset_top = 460.0
-offset_right = 360.0
-offset_bottom = 550.0
-color = Color(0.18, 0.16, 0.2, 0.95)
+[node name="PromptLabel" type="Label" parent="EntranceMechanism/ChainLever"]
+visible = false
+offset_left = -60.0
+offset_top = -75.0
+offset_right = 60.0
+offset_bottom = -59.0
+theme_override_colors/font_color = Color(1, 0.85, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "[E] Zinciri Çek"
+horizontal_alignment = 1
+
+[node name="EntranceArch" type="Sprite2D" parent="EntranceMechanism"]
+z_index = 1
+texture_filter = 1
+position = Vector2(350, 470)
+texture = ExtResource("26_entrance_arch")
+
+[node name="OuterPortcullis" type="Sprite2D" parent="EntranceMechanism"]
+texture_filter = 1
+position = Vector2(350, 512)
+texture = ExtResource("27_entrance_portcullis")
 
 [node name="OuterGateStatic" type="StaticBody2D" parent="EntranceMechanism"]
 position = Vector2(350, 505)
@@ -89,19 +145,48 @@ position = Vector2(350, 505)
 shape = SubResource("RectangleShape2D_portcullis")
 
 [node name="BoneArchiveMural" type="Area2D" parent="Environment"]
-position = Vector2(1380, 520)
-collision_layer = 0
+position = Vector2(1380, 510)
+collision_layer = 4
 collision_mask = 1
+script = ExtResource("14_relief_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BoneArchiveMural"]
 shape = SubResource("RectangleShape2D_mural")
 
-[node name="MuralBackdrop" type="ColorRect" parent="Environment/BoneArchiveMural"]
-offset_left = -30.0
-offset_top = -40.0
-offset_right = 30.0
-offset_bottom = 10.0
-color = Color(0.2, 0.12, 0.25, 0.8)
+[node name="StoneSlab" type="Sprite2D" parent="Environment/BoneArchiveMural"]
+texture_filter = 1
+texture = ExtResource("15_relief_tex")
+
+[node name="GlowOverlay" type="Sprite2D" parent="Environment/BoneArchiveMural"]
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+texture = ExtResource("16_relief_glow")
+
+[node name="DustParticles" type="CPUParticles2D" parent="Environment/BoneArchiveMural"]
+position = Vector2(0, 8)
+amount = 8
+lifetime = 2.4
+emission_shape = 3
+emission_rect_extents = Vector2(26, 18)
+gravity = Vector2(0, -5)
+initial_velocity_min = 2.0
+initial_velocity_max = 8.0
+scale_amount_min = 1.0
+scale_amount_max = 2.5
+color = Color(0.65, 0.6, 0.52, 0.45)
+
+[node name="PromptLabel" type="Label" parent="Environment/BoneArchiveMural"]
+visible = false
+offset_left = -90.0
+offset_top = -54.0
+offset_right = 90.0
+offset_bottom = -38.0
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "[E] Kadim Kabartmayı İncele"
+horizontal_alignment = 1
 
 [node name="PuzzleBraziers" type="Node2D" parent="."]
 
@@ -114,20 +199,31 @@ script = ExtResource("12_brazier")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleBraziers/Brazier1"]
 shape = SubResource("RectangleShape2D_brazier")
 
-[node name="Base" type="ColorRect" parent="PuzzleBraziers/Brazier1"]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.3, 0.15, 0.2, 1)
+[node name="Base" type="Sprite2D" parent="PuzzleBraziers/Brazier1"]
+texture_filter = 1
+position = Vector2(0, -4)
+texture = ExtResource("19_brazier_base")
 
-[node name="FireVisual" type="ColorRect" parent="PuzzleBraziers/Brazier1"]
+[node name="FireVisual" type="AnimatedSprite2D" parent="PuzzleBraziers/Brazier1"]
 visible = false
-offset_left = -8.0
-offset_top = -24.0
-offset_right = 8.0
-offset_bottom = -10.0
-color = Color(0.95, 0.15, 0.25, 1)
+texture_filter = 1
+position = Vector2(0, -20)
+sprite_frames = SubResource("SpriteFrames_brazier_flame")
+animation = &"burn"
+autoplay = "burn"
+
+[node name="PromptLabel" type="Label" parent="PuzzleBraziers/Brazier1"]
+visible = false
+offset_left = -48.0
+offset_top = -94.0
+offset_right = 48.0
+offset_bottom = -78.0
+theme_override_colors/font_color = Color(1, 0.85, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "[E] Mangalı Yak"
+horizontal_alignment = 1
 
 [node name="Brazier2" type="Area2D" parent="PuzzleBraziers"]
 position = Vector2(1780, 535)
@@ -138,20 +234,31 @@ script = ExtResource("12_brazier")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleBraziers/Brazier2"]
 shape = SubResource("RectangleShape2D_brazier")
 
-[node name="Base" type="ColorRect" parent="PuzzleBraziers/Brazier2"]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.3, 0.15, 0.2, 1)
+[node name="Base" type="Sprite2D" parent="PuzzleBraziers/Brazier2"]
+texture_filter = 1
+position = Vector2(0, -4)
+texture = ExtResource("19_brazier_base")
 
-[node name="FireVisual" type="ColorRect" parent="PuzzleBraziers/Brazier2"]
+[node name="FireVisual" type="AnimatedSprite2D" parent="PuzzleBraziers/Brazier2"]
 visible = false
-offset_left = -8.0
-offset_top = -24.0
-offset_right = 8.0
-offset_bottom = -10.0
-color = Color(0.95, 0.15, 0.25, 1)
+texture_filter = 1
+position = Vector2(0, -20)
+sprite_frames = SubResource("SpriteFrames_brazier_flame")
+animation = &"burn"
+autoplay = "burn"
+
+[node name="PromptLabel" type="Label" parent="PuzzleBraziers/Brazier2"]
+visible = false
+offset_left = -48.0
+offset_top = -94.0
+offset_right = 48.0
+offset_bottom = -78.0
+theme_override_colors/font_color = Color(1, 0.85, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "[E] Mangalı Yak"
+horizontal_alignment = 1
 
 [node name="Brazier3" type="Area2D" parent="PuzzleBraziers"]
 position = Vector2(2040, 535)
@@ -162,20 +269,31 @@ script = ExtResource("12_brazier")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleBraziers/Brazier3"]
 shape = SubResource("RectangleShape2D_brazier")
 
-[node name="Base" type="ColorRect" parent="PuzzleBraziers/Brazier3"]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.3, 0.15, 0.2, 1)
+[node name="Base" type="Sprite2D" parent="PuzzleBraziers/Brazier3"]
+texture_filter = 1
+position = Vector2(0, -4)
+texture = ExtResource("19_brazier_base")
 
-[node name="FireVisual" type="ColorRect" parent="PuzzleBraziers/Brazier3"]
+[node name="FireVisual" type="AnimatedSprite2D" parent="PuzzleBraziers/Brazier3"]
 visible = false
-offset_left = -8.0
-offset_top = -24.0
-offset_right = 8.0
-offset_bottom = -10.0
-color = Color(0.95, 0.15, 0.25, 1)
+texture_filter = 1
+position = Vector2(0, -20)
+sprite_frames = SubResource("SpriteFrames_brazier_flame")
+animation = &"burn"
+autoplay = "burn"
+
+[node name="PromptLabel" type="Label" parent="PuzzleBraziers/Brazier3"]
+visible = false
+offset_left = -48.0
+offset_top = -94.0
+offset_right = 48.0
+offset_bottom = -78.0
+theme_override_colors/font_color = Color(1, 0.85, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "[E] Mangalı Yak"
+horizontal_alignment = 1
 
 [node name="EntranceLedge" type="StaticBody2D" parent="Environment"]
 position = Vector2(180, 575)
@@ -252,23 +370,28 @@ offset_right = 600.0
 offset_bottom = 25.0
 color = Color(0.06, 0.04, 0.07, 1)
 
-[node name="SpikeTrim" type="ColorRect" parent="Environment/SpikePitHazard"]
+[node name="SpikeTrim" type="TextureRect" parent="Environment/SpikePitHazard"]
+texture_filter = 1
 offset_left = -600.0
 offset_top = -25.0
 offset_right = 600.0
-offset_bottom = -17.0
-color = Color(0.35, 0.08, 0.12, 0.9)
+offset_bottom = 7.0
+texture = ExtResource("18_spike")
+stretch_mode = 1
 
 [node name="Platforms" type="Node2D" parent="."]
 
 [node name="CollapsingPlat1" parent="Platforms" instance=ExtResource("7_collapsing")]
 position = Vector2(460, 520)
+collapse_delay = 2.4
 
 [node name="CollapsingPlat2" parent="Platforms" instance=ExtResource("7_collapsing")]
 position = Vector2(690, 480)
+collapse_delay = 1.6
 
 [node name="CollapsingPlat3" parent="Platforms" instance=ExtResource("7_collapsing")]
 position = Vector2(1170, 490)
+collapse_delay = 1.6
 
 [node name="Traps" type="Node2D" parent="."]
 
@@ -311,46 +434,18 @@ collision_mask = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodAltarGate"]
 shape = SubResource("RectangleShape2D_gate")
 
-[node name="PortalBackdrop" type="ColorRect" parent="BloodAltarGate"]
-offset_left = -20.0
-offset_top = -105.0
-offset_right = 20.0
-offset_bottom = 90.0
-color = Color(0.04, 0.01, 0.02, 0.95)
+[node name="ArchVisual" type="Sprite2D" parent="BloodAltarGate"]
+z_index = 1
+texture_filter = 1
+position = Vector2(0, -32.5)
+texture = ExtResource("28_blood_gate_arch")
 
-[node name="ArchPillarLeft" type="ColorRect" parent="BloodAltarGate"]
-offset_left = -26.0
-offset_top = -115.0
-offset_right = -18.0
-offset_bottom = 90.0
-color = Color(0.3, 0.1, 0.15, 1)
-
-[node name="ArchPillarRight" type="ColorRect" parent="BloodAltarGate"]
-offset_left = 18.0
-offset_top = -115.0
-offset_right = 26.0
-offset_bottom = 90.0
-color = Color(0.3, 0.1, 0.15, 1)
-
-[node name="ArchLintel" type="ColorRect" parent="BloodAltarGate"]
-offset_left = -28.0
-offset_top = -120.0
-offset_right = 28.0
-offset_bottom = -110.0
-color = Color(0.4, 0.12, 0.18, 1)
-
-[node name="BloodGateRunes" type="ColorRect" parent="BloodAltarGate"]
-offset_left = -16.0
-offset_top = -105.0
-offset_right = 16.0
-offset_bottom = -75.0
-color = Color(0.65, 0.08, 0.14, 0.45)
-
-[node name="PortcullisBars" type="ColorRect" parent="BloodAltarGate"]
-offset_left = -16.0
-offset_top = -90.0
-offset_right = 16.0
-offset_bottom = 85.0
-color = Color(0.12, 0.1, 0.15, 0.95)
+[node name="PortcullisBars" type="Sprite2D" parent="BloodAltarGate"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 28)
+texture = ExtResource("29_blood_portcullis")
 
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("17_dialogue")]

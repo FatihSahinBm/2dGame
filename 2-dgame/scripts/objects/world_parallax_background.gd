@@ -25,7 +25,9 @@ var _is_initialized: bool = false
 
 
 func _ready() -> void:
-	z_index = -50
+	process_priority = 100
+	if z_index == 0:
+		z_index = -50
 	_setup_tiles()
 	if fog_color.a > 0.0:
 		_setup_fog()

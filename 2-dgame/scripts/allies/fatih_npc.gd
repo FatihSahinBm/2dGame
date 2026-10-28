@@ -63,18 +63,38 @@ func start_conversation() -> void:
 		_on_dialogue_completed()
 
 
+func play_command_animation() -> void:
+	if anim_sprite and anim_sprite.sprite_frames.has_animation("command"):
+		anim_sprite.play("command")
+
+
+func play_draw_sword_animation() -> void:
+	if anim_sprite and anim_sprite.sprite_frames.has_animation("draw_sword"):
+		anim_sprite.play("draw_sword")
+
+
+func play_idle_animation() -> void:
+	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
+		anim_sprite.play("idle")
+
+
 func _on_dialogue_completed() -> void:
 	_dialogue_done = true
 	dialogue_finished.emit()
 	siege_charge_ordered.emit()
 
-	# Fatih kılıcını çeker / görsel tepki
-	var tw: Tween = create_tween()
-	tw.tween_property(visual, "scale:x", 1.2, 0.2)
-	tw.tween_property(visual, "scale:x", 1.0, 0.2)
+	play_command_animation()
+
+	# Fatih kılıcını çeker / görsel tepki (yüz yönünü bozmadan)
+	if visual:
+		var dir_x: float = signf(visual.scale.x) if visual.scale.x != 0.0 else -1.0
+		var tw: Tween = create_tween()
+		tw.tween_property(visual, "scale:x", dir_x * 1.15, 0.2)
+		tw.tween_property(visual, "scale:x", dir_x * 1.0, 0.2)
 
 	# Baş üstünde emir metni
 	_spawn_command_shout("ORDUM! HÜCUM EDİN! EFLAK SURLARI YIKILACAK!")
+
 
 
 func _spawn_command_shout(text: String) -> void:

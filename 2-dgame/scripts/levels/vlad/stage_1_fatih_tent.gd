@@ -40,6 +40,11 @@ func _ready() -> void:
 			if g_vis:
 				g_vis.scale.x = -absf(g_vis.scale.x)
 
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if commander and is_instance_valid(commander):
+		if game_state and not game_state.is_commander_alive:
+			commander.queue_free()
+
 	# Sahne açıldıktan kısa süre sonra Fatih ile sinematik diyaloğu otomatik başlat
 	get_tree().create_timer(0.6).timeout.connect(_start_fatih_audience)
 
@@ -80,12 +85,40 @@ func _start_fatih_audience() -> void:
 	if not dialogue_box:
 		return
 
-	dialogue_box.start_dialogue_from_data("fatih_intro", fatih_npc)
+	if dialogue_box.has_signal("entry_started"):
+		dialogue_box.entry_started.connect(_on_dialogue_entry_started)
+
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	var dialogue_key: String = "fatih_intro"
+	if game_state and not game_state.is_commander_alive:
+		dialogue_key = "fatih_commander_fallen"
+
+	dialogue_box.start_dialogue_from_data(dialogue_key, fatih_npc)
 	dialogue_box.dialogue_completed.connect(_on_audience_completed, CONNECT_ONE_SHOT)
+
+
+func _on_dialogue_entry_started(entry: Dictionary) -> void:
+	var speaker: String = entry.get("speaker", "")
+	if fatih_npc and is_instance_valid(fatih_npc):
+		if speaker == "Fatih Sultan Mehmet":
+			var sprite = fatih_npc.get_node_or_null("Visual/AnimatedSprite2D") as AnimatedSprite2D
+			if sprite and sprite.sprite_frames:
+				if sprite.sprite_frames.has_animation("draw_sword") and sprite.animation != "command" and sprite.animation != "draw_sword":
+					sprite.play("draw_sword")
+					var on_draw_finished: Callable = func():
+						if fatih_npc and is_instance_valid(fatih_npc) and fatih_npc.has_method("play_command_animation"):
+							fatih_npc.play_command_animation()
+					if not sprite.animation_finished.is_connected(on_draw_finished):
+						sprite.animation_finished.connect(on_draw_finished, CONNECT_ONE_SHOT)
+
 
 
 func _on_audience_completed() -> void:
 	# Fatih kılıcını çeker ve orduya kuşatma emri verir
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if game_state:
+		game_state.fatih_audience_completed = true
+
 	if fatih_npc and is_instance_valid(fatih_npc):
 		var sprite = fatih_npc.get_node_or_null("Visual/AnimatedSprite2D") as AnimatedSprite2D
 		if sprite and sprite.sprite_frames.has_animation("command"):

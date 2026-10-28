@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://stage3_throne_room_01"]
+[gd_scene load_steps=30 format=3 uid="uid://stage3_throne_room_01"]
 
 [ext_resource type="Script" path="res://scripts/levels/vlad/stage_3_throne_room.gd" id="1_stage"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -14,6 +14,18 @@
 [ext_resource type="Texture2D" path="res://assets/environment/castle/throne_gothic_floor.png" id="12_throne_floor"]
 [ext_resource type="Texture2D" path="res://assets/environment/castle/ramparts_stone_floor.png" id="13_ramparts_floor"]
 [ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_castle_platform.png" id="14_castle_plat"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/weak_gothic_archway.png" id="15_archway_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/great_castle_bell.png" id="16_bell_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/great_bell_chain.png" id="17_chain_tex"]
+[ext_resource type="Script" path="res://scripts/objects/parallax_depth_layer.gd" id="18_depth_layer"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/distant_gothic_skyline.png" id="19_skyline"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/throne_mid_arch_pillars.png" id="20_throne_mid"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/blood_hall_colonnade_mid.png" id="21_blood_mid"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/ramparts_mid_battlements.png" id="22_ramparts_mid"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/belltower_mid_timber_frame.png" id="23_belltower_mid"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/castle_transition_pilaster.png" id="24_pilaster"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_ceiling_framing_fg.png" id="25_fg_ceiling"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_edge_framing_fg.png" id="26_fg_edge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
 size = Vector2(1300, 60)
@@ -48,7 +60,20 @@ size = Vector2(50, 60)
 [node name="Stage3ThroneRoom" type="Node2D"]
 script = ExtResource("1_stage")
 
+[node name="FarSkyBackdrop" type="Node2D" parent="."]
+z_index = -60
+script = ExtResource("8_backdrop")
+background_texture = ExtResource("19_skyline")
+ground_y = 560.0
+texture_ground_y = 380.0
+texture_scale = Vector2(1.2, 1.2)
+parallax_factor_x = 0.02
+parallax_factor_y = 0.01
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
 [node name="WorldBackdrop" type="Node2D" parent="."]
+z_index = -50
 script = ExtResource("8_backdrop")
 background_texture = ExtResource("7_bg")
 ground_y = 560.0
@@ -60,6 +85,155 @@ tile_count = 6
 fog_color = Color(0.2, 0.02, 0.05, 0.15)
 
 [node name="Environment" type="Node2D" parent="."]
+
+[node name="MidgroundDepth" type="Node2D" parent="Environment"]
+
+[node name="Mid_Arena1" type="Node2D" parent="Environment/MidgroundDepth"]
+z_index = -25
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.12
+parallax_factor_y = 0.03
+anchor_x = 600.0
+anchor_y = 380.0
+active_cam_min = -500.0
+active_cam_max = 1450.0
+
+[node name="ArchPillars1" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena1"]
+texture_filter = 1
+position = Vector2(320, 300)
+texture = ExtResource("20_throne_mid")
+
+[node name="ArchPillars2" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena1"]
+texture_filter = 1
+position = Vector2(920, 300)
+texture = ExtResource("20_throne_mid")
+
+[node name="Mid_Arena2" type="Node2D" parent="Environment/MidgroundDepth"]
+z_index = -25
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.12
+parallax_factor_y = 0.03
+anchor_x = 1950.0
+anchor_y = 380.0
+active_cam_min = 1050.0
+active_cam_max = 2850.0
+
+[node name="Colonnade1" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena2"]
+texture_filter = 1
+position = Vector2(1600, 300)
+texture = ExtResource("21_blood_mid")
+
+[node name="Colonnade2" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena2"]
+texture_filter = 1
+position = Vector2(2300, 300)
+texture = ExtResource("21_blood_mid")
+
+[node name="Mid_Arena3" type="Node2D" parent="Environment/MidgroundDepth"]
+z_index = -25
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.12
+parallax_factor_y = 0.03
+anchor_x = 3350.0
+anchor_y = 380.0
+active_cam_min = 2450.0
+active_cam_max = 4250.0
+
+[node name="Battlements1" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena3"]
+texture_filter = 1
+position = Vector2(3000, 300)
+texture = ExtResource("22_ramparts_mid")
+
+[node name="Battlements2" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena3"]
+texture_filter = 1
+position = Vector2(3700, 300)
+texture = ExtResource("22_ramparts_mid")
+
+[node name="Mid_Arena4" type="Node2D" parent="Environment/MidgroundDepth"]
+z_index = -25
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.12
+parallax_factor_y = 0.03
+anchor_x = 4850.0
+anchor_y = 380.0
+active_cam_min = 3850.0
+active_cam_max = 6000.0
+
+[node name="TimberFrame1" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena4"]
+texture_filter = 1
+position = Vector2(4450, 300)
+texture = ExtResource("23_belltower_mid")
+
+[node name="TimberFrame2" type="Sprite2D" parent="Environment/MidgroundDepth/Mid_Arena4"]
+texture_filter = 1
+position = Vector2(5250, 300)
+texture = ExtResource("23_belltower_mid")
+
+[node name="NearDepth" type="Node2D" parent="Environment"]
+
+[node name="Near_Arena1" type="Node2D" parent="Environment/NearDepth"]
+z_index = -12
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.28
+parallax_factor_y = 0.04
+anchor_x = 600.0
+anchor_y = 380.0
+active_cam_min = -500.0
+active_cam_max = 1450.0
+
+[node name="PilasterArena1Left" type="Sprite2D" parent="Environment/NearDepth/Near_Arena1"]
+texture_filter = 1
+position = Vector2(0, 300)
+texture = ExtResource("24_pilaster")
+
+[node name="PilasterBarrier1" type="Sprite2D" parent="Environment/NearDepth/Near_Arena1"]
+texture_filter = 1
+position = Vector2(1250, 300)
+texture = ExtResource("24_pilaster")
+
+[node name="Near_Arena2" type="Node2D" parent="Environment/NearDepth"]
+z_index = -12
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.28
+parallax_factor_y = 0.04
+anchor_x = 1950.0
+anchor_y = 380.0
+active_cam_min = 1050.0
+active_cam_max = 2850.0
+
+[node name="PilasterBarrier2" type="Sprite2D" parent="Environment/NearDepth/Near_Arena2"]
+texture_filter = 1
+position = Vector2(2650, 300)
+texture = ExtResource("24_pilaster")
+
+[node name="Near_Arena3" type="Node2D" parent="Environment/NearDepth"]
+z_index = -12
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.28
+parallax_factor_y = 0.04
+anchor_x = 3350.0
+anchor_y = 380.0
+active_cam_min = 2450.0
+active_cam_max = 4250.0
+
+[node name="PilasterBarrier3" type="Sprite2D" parent="Environment/NearDepth/Near_Arena3"]
+texture_filter = 1
+position = Vector2(4050, 300)
+texture = ExtResource("24_pilaster")
+
+[node name="Near_Arena4" type="Node2D" parent="Environment/NearDepth"]
+z_index = -12
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 0.28
+parallax_factor_y = 0.04
+anchor_x = 4850.0
+anchor_y = 380.0
+active_cam_min = 3850.0
+active_cam_max = 6000.0
+
+[node name="PilasterArena4Right" type="Sprite2D" parent="Environment/NearDepth/Near_Arena4"]
+texture_filter = 1
+position = Vector2(5640, 300)
+texture = ExtResource("24_pilaster")
 
 [node name="Arena1_ThroneRoom" type="Node2D" parent="Environment"]
 
@@ -265,7 +439,7 @@ texture_filter = 1
 texture = ExtResource("14_castle_plat")
 
 [node name="Rampart2" type="StaticBody2D" parent="Environment/Arena3_Ramparts"]
-position = Vector2(3750, 410)
+position = Vector2(3750, 430)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/Rampart2"]
 shape = SubResource("RectangleShape2D_plat")
@@ -286,12 +460,28 @@ collision_mask = 7
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena3_Ramparts/WeakArchway/TriggerArea"]
 shape = SubResource("RectangleShape2D_archway_hitbox")
 
-[node name="ArchSprite" type="ColorRect" parent="Environment/Arena3_Ramparts/WeakArchway"]
-offset_left = -50.0
-offset_top = -60.0
-offset_right = 50.0
-offset_bottom = 70.0
-color = Color(0.24, 0.22, 0.26, 1)
+[node name="ArchSprite" type="Sprite2D" parent="Environment/Arena3_Ramparts/WeakArchway"]
+texture_filter = 1
+position = Vector2(0, 5)
+texture = ExtResource("15_archway_tex")
+
+[node name="RubbleParticles" type="CPUParticles2D" parent="Environment/Arena3_Ramparts/WeakArchway"]
+position = Vector2(0, -30)
+emitting = false
+amount = 20
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.9
+emission_shape = 3
+emission_rect_extents = Vector2(40, 10)
+direction = Vector2(0, 1)
+spread = 45.0
+gravity = Vector2(0, 450)
+initial_velocity_min = 40.0
+initial_velocity_max = 120.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.42, 0.46, 0.54, 0.95)
 
 [node name="Barrier3" type="StaticBody2D" parent="Environment/Arena3_Ramparts"]
 position = Vector2(4050, 410)
@@ -372,21 +562,99 @@ texture = ExtResource("14_castle_plat")
 
 [node name="GreatBell" type="Area2D" parent="Environment/Arena4_BellTower"]
 position = Vector2(4850, 330)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("11_bell")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Arena4_BellTower/GreatBell"]
 shape = SubResource("RectangleShape2D_bell_hitbox")
 
-[node name="BellVisual" type="Polygon2D" parent="Environment/Arena4_BellTower/GreatBell"]
-color = Color(0.85, 0.72, 0.35, 1)
-polygon = PackedVector2Array(-24, 25, -18, -25, 18, -25, 24, 25, 0, 30)
+[node name="BellVisual" type="Sprite2D" parent="Environment/Arena4_BellTower/GreatBell"]
+texture_filter = 1
+position = Vector2(0, -25)
+offset = Vector2(0, 27)
+texture = ExtResource("16_bell_tex")
 
-[node name="Chain" type="ColorRect" parent="Environment/Arena4_BellTower/GreatBell"]
-offset_left = -3.0
+[node name="Chain" type="NinePatchRect" parent="Environment/Arena4_BellTower/GreatBell"]
+texture_filter = 1
+offset_left = -4.0
 offset_top = -300.0
-offset_right = 3.0
+offset_right = 4.0
 offset_bottom = -25.0
-color = Color(0.3, 0.3, 0.35, 1)
+texture = ExtResource("17_chain_tex")
+axis_stretch_vertical = 1
+
+[node name="ForegroundFraming" type="Node2D" parent="Environment"]
+
+[node name="FG_Arena1" type="Node2D" parent="Environment/ForegroundFraming"]
+z_index = 30
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 1.15
+parallax_factor_y = 1.05
+anchor_x = 600.0
+anchor_y = 380.0
+active_cam_min = -500.0
+active_cam_max = 1450.0
+
+[node name="CeilingValance1" type="Sprite2D" parent="Environment/ForegroundFraming/FG_Arena1"]
+texture_filter = 1
+position = Vector2(600, 20)
+texture = ExtResource("25_fg_ceiling")
+
+[node name="LeftPillar" type="Sprite2D" parent="Environment/ForegroundFraming/FG_Arena1"]
+texture_filter = 1
+position = Vector2(-20, 290)
+texture = ExtResource("26_fg_edge")
+
+[node name="FG_Arena2" type="Node2D" parent="Environment/ForegroundFraming"]
+z_index = 30
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 1.15
+parallax_factor_y = 1.05
+anchor_x = 1950.0
+anchor_y = 380.0
+active_cam_min = 1050.0
+active_cam_max = 2850.0
+
+[node name="CeilingValance2" type="Sprite2D" parent="Environment/ForegroundFraming/FG_Arena2"]
+texture_filter = 1
+position = Vector2(1950, 20)
+texture = ExtResource("25_fg_ceiling")
+
+[node name="FG_Arena3" type="Node2D" parent="Environment/ForegroundFraming"]
+z_index = 30
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 1.15
+parallax_factor_y = 1.05
+anchor_x = 3350.0
+anchor_y = 380.0
+active_cam_min = 2450.0
+active_cam_max = 4250.0
+
+[node name="CeilingValance3" type="Sprite2D" parent="Environment/ForegroundFraming/FG_Arena3"]
+texture_filter = 1
+position = Vector2(3350, 20)
+texture = ExtResource("25_fg_ceiling")
+
+[node name="FG_Arena4" type="Node2D" parent="Environment/ForegroundFraming"]
+z_index = 30
+script = ExtResource("18_depth_layer")
+parallax_factor_x = 1.15
+parallax_factor_y = 1.05
+anchor_x = 4850.0
+anchor_y = 380.0
+active_cam_min = 3850.0
+active_cam_max = 6000.0
+
+[node name="CeilingValance4" type="Sprite2D" parent="Environment/ForegroundFraming/FG_Arena4"]
+texture_filter = 1
+position = Vector2(4850, 20)
+texture = ExtResource("25_fg_ceiling")
+
+[node name="RightPillar" type="Sprite2D" parent="Environment/ForegroundFraming/FG_Arena4"]
+texture_filter = 1
+position = Vector2(5660, 290)
+texture = ExtResource("26_fg_edge")
 
 [node name="HeartPieceVisual" type="Node2D" parent="."]
 position = Vector2(4850, 480)

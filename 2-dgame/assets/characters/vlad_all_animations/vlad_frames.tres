@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://coge337j2syw6" path="res://assets/characters/vlad_all_animations/20_werewolf_hurt/sprite_sheet.png" id="20_20_werewolf_hurt"]
 [ext_resource type="Texture2D" uid="uid://b1lb0qnr5art2" path="res://assets/characters/vlad_all_animations/21_bat_hurt/sprite_sheet.png" id="21_21_bat_hurt"]
 [ext_resource type="Texture2D" uid="uid://cje6jnfgi7m57" path="res://assets/characters/vlad_all_animations/vfx_blood_smoke_burst/sprite_sheet.png" id="22_vfx_blood_smoke_burst"]
+[ext_resource type="Texture2D" path="res://assets/characters/vlad_all_animations/vlad_boss_throw_split/sprite_sheet.png" id="23_vlad_boss_throw_split"]
 
 [sub_resource type="AtlasTexture" id="Atlas_04_normal_attack_impale_0"]
 atlas = ExtResource("4_04_normal_attack_impale")
@@ -1851,8 +1852,335 @@ region = Rect2(640, 540, 320, 180)
 atlas = ExtResource("10_10_werewolf_run")
 region = Rect2(960, 540, 320, 180)
 
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_0"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(0, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_1"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(320, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_2"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(640, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_3"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(960, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_4"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1280, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_5"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1600, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_6"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(0, 180, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_7"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(320, 180, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_8"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(640, 180, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_9"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(960, 180, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_10"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1280, 180, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_11"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1600, 180, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_12"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(0, 360, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_13"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(320, 360, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_14"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(640, 360, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_15"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(960, 360, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_16"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1280, 360, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_17"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1600, 360, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_18"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(0, 540, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_19"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(320, 540, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_20"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(640, 540, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_21"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(960, 540, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_22"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1280, 540, 320, 180)
+
+[sub_resource type="AtlasTexture" id="Atlas_vlad_boss_throw_split_23"]
+atlas = ExtResource("23_vlad_boss_throw_split")
+region = Rect2(1600, 540, 320, 180)
+
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_15")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_16")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_17")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_18")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_19")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_20")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_21")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_22")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_23")
+}],
+"loop": 0,
+"name": &"attack_throw",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_15")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_16")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_17")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_18")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_19")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_20")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_21")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_22")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_23")
+}],
+"loop": 0,
+"name": &"normal_attack_throw",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_15")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_16")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_17")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_18")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_19")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_20")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_21")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_22")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_vlad_boss_throw_split_23")
+}],
+"loop": 0,
+"name": &"attack_spear_throw",
+"speed": 14.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("Atlas_04_normal_attack_impale_0")

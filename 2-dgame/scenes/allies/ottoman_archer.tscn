@@ -24,7 +24,7 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
 [node name="OttomanArcher" type="CharacterBody2D" groups=["allies", "damageable"]]
-collision_layer = 0
+collision_layer = 1
 collision_mask = 1
 floor_stop_on_slope = true
 script = ExtResource("1_script")

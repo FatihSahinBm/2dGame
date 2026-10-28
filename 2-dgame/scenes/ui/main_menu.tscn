@@ -1,0 +1,207 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/wallachia_castle_bg.png" id="2_bg_castle"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/stage_1_zone_1_time_rift.png" id="3_bg_rift"]
+[ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="4_confirm"]
+[ext_resource type="PackedScene" path="res://scenes/ui/chapter_select_dialog.tscn" id="5_chapters"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_dialog.tscn" id="6_settings"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.1, 0.12, 0.18, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.38, 0.55, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.2, 0.25, 0.38, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.8, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_focus"]
+bg_color = Color(0.18, 0.22, 0.34, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.45, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="ParallaxBackground" type="Node2D" parent="."]
+
+[node name="SkyLayer" type="TextureRect" parent="ParallaxBackground"]
+modulate = Color(0.7, 0.75, 0.9, 1)
+offset_left = -60.0
+offset_top = -40.0
+offset_right = 1340.0
+offset_bottom = 760.0
+texture = ExtResource("2_bg_castle")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="RiftLayer" type="TextureRect" parent="ParallaxBackground"]
+modulate = Color(0.4, 0.5, 0.85, 0.4)
+offset_left = -30.0
+offset_top = -20.0
+offset_right = 1310.0
+offset_bottom = 740.0
+texture = ExtResource("3_bg_rift")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DarkVignette" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.05, 0.08, 0.55)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MenuCenter" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleBox" type="VBoxContainer" parent="UI/MenuCenter"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_top = 70.0
+offset_right = 400.0
+offset_bottom = 190.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="UI/MenuCenter/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.88, 0.65, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_font_sizes/font_size = 46
+text = "ZAMANIN YANKISI"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="UI/MenuCenter/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.78, 0.88, 1)
+theme_override_font_sizes/font_size = 15
+text = "Mahpus Kılıç Ruhu ve Dünyanın Kalbi"
+horizontal_alignment = 1
+
+[node name="MenuButtons" type="VBoxContainer" parent="UI/MenuCenter"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -40.0
+offset_right = 140.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="BtnContinue" type="Button" parent="UI/MenuCenter/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+text = "Devam Et"
+
+[node name="BtnNewGame" type="Button" parent="UI/MenuCenter/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+text = "Yeni Oyun"
+
+[node name="BtnChapterSelect" type="Button" parent="UI/MenuCenter/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+text = "Bölüm Seçimi"
+
+[node name="BtnSettings" type="Button" parent="UI/MenuCenter/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+text = "Ayarlar"
+
+[node name="BtnExit" type="Button" parent="UI/MenuCenter/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.4, 0.4, 1)
+theme_override_colors/font_focus_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+text = "Çıkış"
+
+[node name="ConfirmDialog" parent="UI" instance=ExtResource("4_confirm")]
+visible = false
+
+[node name="ChapterSelectDialog" parent="UI" instance=ExtResource("5_chapters")]
+visible = false
+
+[node name="SettingsDialog" parent="UI" instance=ExtResource("6_settings")]
+visible = false
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0

@@ -54,8 +54,54 @@
       {
         "speaker": "Öncü Kumandanın Fermanı",
         "title": "Yazılı Emir",
-        "text": "'Fatih Sultan Mehmed Han'ın dikkatine: Orman yolu pusuya düşürüldü. Surlara açılan köprüye derhal taarruz edilmeli!' (Kumandan düşmüş olsa da emir seni otağa götürüyor.)",
+        "text": "'Fatih Sultan Mehmed Han'ın dikkatine: Orman yolu pusuya düşürüldü. Surlara açılan köprüye derhal taarruz edilmeli!'",
         "portrait": "janissary"
+      }
+    ],
+    "ancient_heart_relief": [
+      {
+        "speaker": "Kadim Taş Kabartma",
+        "title": "Kemik Arşivi",
+        "text": "Taş kabartmada parçalanmış bir kalp betimlenmiş. Derin yarıklar, bir zamanlar bütün olan kadim bir özün zorla koparıldığını düşündürüyor...",
+        "portrait": "none"
+      },
+      {
+        "speaker": "",
+        "title": "",
+        "text": "*Kabza elinde aniden buz kesiyor. Kılıcın gövdesi titriyor; derinliklerinden boğuk, bastırılmış bir metalik inilti yükselip hızla sönüyor.*",
+        "portrait": "none"
+      }
+    ],
+    "fatih_commander_fallen": [
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Yabancı... Öncü kolumun getireceği fermanı beklerdim, lakin otağıma tek başına girdin. Kumandanım nerede?",
+        "portrait": "fatih"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "title": "",
+        "text": "Orman pususunda can verdi. Üzerindeki ferman bu... Köprüye taarruz emrini taşıyor.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Demek Hamza Bey şehit düştü... Kanı yerde kalmayacak. Lakin fermanı getiren bir yabancının niyetini tartmadan kılıç çekmem. Kimsin sen?",
+        "portrait": "fatih"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "title": "",
+        "text": "Kim olduğumun önemi yok. Surlar yıkılmalı, ben de o kaleye gireceğim.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "title": "Osmanlı Padişahı",
+        "text": "Karanlık bir hırs taşıyorsun lakin hedefimiz aynı surlara bakıyor. Öncü hatta katıl, köprü barikatlarını ez! Lakin bil ki arkanda sadece dostlar yürümeyecek.",
+        "portrait": "fatih"
       }
     ],
     "archer_sidequest_callout": [
@@ -130,6 +176,14 @@
         "portrait": "janissary"
       }
     ],
+    "battering_ram_victory_sergeant": [
+      {
+        "speaker": "Yeniçeri Çavuşu",
+        "title": "Kuşatma Eri",
+        "text": "Kan Şövalyesi devrildi! Yeniçeriler, koçbaşını getirin! Şehit kumandanımızın intikamı için vurun kale kapısına! Vuruuun!",
+        "portrait": "janissary"
+      }
+    ],
     "soldier_ambient_shouts": [
       "Vurun yiğitler! Canavarlara geçit yok!",
       "Alevli okları gerin! Gece yaratıkları ateşe dayanamaz!",
@@ -146,6 +200,20 @@
       "*Kılıç şiddetle titriyor ve çığlık gibi madeni bir ses yankılanıyor...*",
       "*Kılıcın kabzası elini yakıyor, ağırlığı iki katına çıkıyor...*",
       "*Kılıcın metal gövdesinde karanlık çatlaklar beliriyor; silah darbene direniyor!*"
+    ],
+    "vlad_taunt": [
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Kazıklı Voyvoda",
+        "text": "Hahaha! Osmanlı'nın kiralık gölgesi mi geldin? Yoksa kan kokusunun peşine düşen başka bir avcı mı?",
+        "portrait": "vlad"
+      },
+      {
+        "speaker": "Vlad Tepeş",
+        "title": "Kazıklı Voyvoda",
+        "text": "Bu kale benim hükümranlığım! Buradan sadece kazığa çakılmış kemiklerin çıkacak!",
+        "portrait": "vlad"
+      }
     ],
     "vlad_taunt_human": [
       {

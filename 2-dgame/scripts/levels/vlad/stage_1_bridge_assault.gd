@@ -17,7 +17,7 @@ extends Node2D
 @onready var blood_knight: CharacterBody2D = get_node_or_null("BossEncounter/BloodKnight") as CharacterBody2D
 @onready var vanguard_allies: Node2D = get_node_or_null("VanguardAllies") as Node2D
 @onready var exit_gate: Area2D = $ExitGate
-@onready var portcullis_bars: ColorRect = get_node_or_null("ExitGate/PortcullisBars") as ColorRect
+@onready var portcullis_bars = get_node_or_null("ExitGate/PortcullisBars") as CanvasItem
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
 @onready var battering_ram_crew: BatteringRamCrew = get_node_or_null("BatteringRamCrew") as BatteringRamCrew
 
@@ -48,6 +48,12 @@ func _ready() -> void:
 	if game_state and game_state.has_method("has_ability") and game_state.has_ability("flaming_arrows"):
 		_has_arrow_support = true
 		_start_archer_bombardment()
+
+	# Öncü kumandan hayatta kalma kontrolü
+	var bridge_commander = get_node_or_null("VanguardAllies/Commander")
+	if bridge_commander and is_instance_valid(bridge_commander):
+		if game_state and not game_state.is_commander_alive:
+			bridge_commander.queue_free()
 
 	if blood_knight:
 		blood_knight.died.connect(_on_blood_knight_died)
@@ -174,12 +180,19 @@ func _spawn_burning_hit_vfx(pos: Vector2) -> void:
 func _on_blood_knight_died() -> void:
 	_knight_defeated = true
 
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	var victory_key = "battering_ram_victory"
+	if game_state and not game_state.is_commander_alive:
+		victory_key = "battering_ram_victory_sergeant"
+
 	# Koçbaşı zafer diyaloğu ve kapının parçalanması
 	if dialogue_box:
-		dialogue_box.start_dialogue_from_data("battering_ram_victory")
+		dialogue_box.start_dialogue_from_data(victory_key)
 		dialogue_box.dialogue_completed.connect(func():
 			_break_castle_gate()
 		, CONNECT_ONE_SHOT)
+	else:
+		_break_castle_gate()
 
 
 func _break_castle_gate() -> void:

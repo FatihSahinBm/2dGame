@@ -84,6 +84,15 @@ var combo_timer: float = 0.0
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _was_on_floor: bool = false
+var _prev_jump_key_pressed: bool = false
+
+# Tek Yönlü Platformdan Aşağı İnme (Drop-through) Durumu
+var _is_dropping_through: bool = false
+var _ignored_platform: CollisionObject2D = null
+var _ignored_platform_bottom_y: float = 0.0
+var _drop_through_timer: float = 0.0
+const DROP_THROUGH_SAFETY_TIMEOUT: float = 0.55
+
 
 # Sıkı Savuşturma (Parry) Ayarları - Ustalık ve Zamanlama Gerektiren Mekanik
 var is_parry_active: bool = false
@@ -237,6 +246,17 @@ func _ensure_input_actions() -> void:
 		ev_right.physical_keycode = KEY_RIGHT
 		InputMap.action_add_event("move_right", ev_right)
 
+	if not InputMap.has_action("move_down"):
+		InputMap.add_action("move_down")
+		var ev_s = InputEventKey.new()
+		ev_s.physical_keycode = KEY_S
+		ev_s.keycode = KEY_S
+		InputMap.action_add_event("move_down", ev_s)
+		var ev_down = InputEventKey.new()
+		ev_down.physical_keycode = KEY_DOWN
+		ev_down.keycode = KEY_DOWN
+		InputMap.action_add_event("move_down", ev_down)
+
 	if InputMap.has_action("ui_defend"):
 		InputMap.erase_action("ui_defend")
 	if InputMap.has_action("defend"):
@@ -321,6 +341,14 @@ func _physics_process(delta: float) -> void:
 
 	if _wall_jump_push_timer > 0.0:
 		_wall_jump_push_timer -= delta
+
+	# 6.5. Tek Yönlü Platform Düşüş Takibi ve Temizliği
+	if _is_dropping_through:
+		_drop_through_timer += delta
+		var feet_below_platform: bool = global_position.y > (_ignored_platform_bottom_y + 6.0)
+		var timed_out: bool = _drop_through_timer >= DROP_THROUGH_SAFETY_TIMEOUT
+		if feet_below_platform or timed_out:
+			_clear_drop_through_platform()
 
 	# 7. Duvar Kayması ve Zıplaması
 	_check_wall_slide(delta)
@@ -447,8 +475,26 @@ func _handle_movement_and_skills(delta: float) -> void:
 		is_crouching = wants_crouch
 		_set_collision_box(LOW_COL_SIZE if is_crouching else NORMAL_COL_SIZE, LOW_COL_POS if is_crouching else NORMAL_COL_POS)
 
-	# 5. Zıplama Girdisi (Coyote Time, Buffer & Double Jump)
-	var jump_just_pressed = Input.is_action_just_pressed("jump") or Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W)
+	# 5. Zıplama Girdisi (Coyote Time, Buffer, Double Jump & Platformdan Aşağı İnme)
+	var raw_jump_down: bool = Input.is_action_pressed("jump") \
+		or Input.is_key_pressed(KEY_SPACE) \
+		or Input.is_physical_key_pressed(KEY_SPACE) \
+		or Input.is_key_pressed(KEY_W) \
+		or Input.is_physical_key_pressed(KEY_W) \
+		or Input.is_key_pressed(KEY_UP) \
+		or Input.is_physical_key_pressed(KEY_UP) \
+		or Input.is_action_pressed("ui_up")
+	var jump_just_pressed: bool = (raw_jump_down and not _prev_jump_key_pressed) or Input.is_action_just_pressed("jump")
+	_prev_jump_key_pressed = raw_jump_down
+
+	# Aşağı Yön + Zıplama: Tek yönlü platformdan kontrollü aşağı inme
+	var wants_down: bool = _is_down_input_pressed()
+	if jump_just_pressed and wants_down and is_on_floor() and not is_attacking and not is_sliding and not is_defending and not is_rolling:
+		var platform: CollisionObject2D = _get_current_one_way_platform()
+		if platform:
+			_start_drop_through_platform(platform)
+			return
+
 	if jump_just_pressed:
 		_jump_buffer_timer = jump_buffer_time
 
@@ -681,13 +727,16 @@ func _open_parry_window() -> void:
 		return
 	is_parry_active = true
 	_check_projectile_parry()
-	get_tree().create_timer(PARRY_WINDOW_DURATION).timeout.connect(func():
+	if is_inside_tree():
+		get_tree().create_timer(PARRY_WINDOW_DURATION).timeout.connect(func():
+			is_parry_active = false
+		)
+	else:
 		is_parry_active = false
-	)
 
 ## Kara Büyü ve Mermi Yansıtma Kontrolü (Hassas Zamanlama ve Dar Menzil)
 func _check_projectile_parry() -> bool:
-	if not can_parry_projectile():
+	if not can_parry_projectile() or not is_inside_tree():
 		return false
 
 	var projectiles = get_tree().get_nodes_in_group("reflectable_projectile")
@@ -763,6 +812,27 @@ func perform_heavy_attack() -> void:
 	_apply_attack_damage(55)
 	_start_safety_timer(0.65)
 
+## Hedefe güvenli hasar iletimi (Saldırgan referansı & İmza uyumluluğu)
+func _deal_damage_to_target(target: Object, dmg: int) -> void:
+	if not is_instance_valid(target):
+		return
+	if target.is_in_group("allies"):
+		target.take_damage(dmg, self)
+		return
+	if target.has_method("take_damage"):
+		var takes_attacker: bool = false
+		for m in target.get_method_list():
+			if m.get("name") == "take_damage":
+				if m.get("args", []).size() >= 2:
+					takes_attacker = true
+				break
+		if takes_attacker:
+			target.take_damage(dmg, self)
+		else:
+			target.take_damage(dmg)
+	elif target.has_method("hit"):
+		target.hit(dmg)
+
 ## Hasar Uygulama (Hitbox)
 func _apply_attack_damage(damage: int) -> void:
 	if not attack_area:
@@ -770,15 +840,12 @@ func _apply_attack_damage(damage: int) -> void:
 	attack_area.monitoring = true
 	var hit_objects: Array[Object] = []
 	var deal_damage = func():
-		# 1. Overlapping bodies (Düşmanlar & Static Barikatlar)
+		# 1. Overlapping bodies (Düşmanlar, Müttefikler & Static Barikatlar)
 		for body in attack_area.get_overlapping_bodies():
 			if body == self or body in hit_objects:
 				continue
 			hit_objects.append(body)
-			if body.has_method("take_damage"):
-				body.take_damage(damage)
-			elif body.has_method("hit"):
-				body.hit(damage)
+			_deal_damage_to_target(body, damage)
 
 		# 2. Overlapping areas (Hurtbox'lar)
 		for area in attack_area.get_overlapping_areas():
@@ -786,10 +853,7 @@ func _apply_attack_damage(damage: int) -> void:
 			if target == self or target in hit_objects:
 				continue
 			hit_objects.append(target)
-			if target.has_method("take_damage"):
-				target.take_damage(damage)
-			elif target.has_method("hit"):
-				target.hit(damage)
+			_deal_damage_to_target(target, damage)
 
 		# 3. Doğrudan Fizik Alanı Sorgusu (Anında ve kesin vuruş garantisi)
 		var space_state = get_world_2d().direct_space_state
@@ -800,23 +864,23 @@ func _apply_attack_damage(damage: int) -> void:
 			query.shape = shape
 			query.transform = Transform2D(0.0, global_position + Vector2(facing_dir * 38.0, -18.0))
 			query.collision_mask = 31 # Tüm katmanlar (Dünya, Düşmanlar, Barikatlar)
-			query.exclude = [self]
+			var excludes: Array[RID] = [get_rid()]
+			if parabolic_shield and is_instance_valid(parabolic_shield):
+				excludes.append(parabolic_shield.get_rid())
+			query.exclude = excludes
 			query.collide_with_bodies = true
 			query.collide_with_areas = true
 			var results = space_state.intersect_shape(query, 16)
 			for r in results:
 				var col = r.get("collider")
-				if col and is_instance_valid(col) and col != self:
+				if col and is_instance_valid(col) and col != self and col != parabolic_shield:
 					var target = col
 					if target is Area2D and target.get_parent() and target.get_parent() != self:
 						target = target.get_parent()
 					if target in hit_objects:
 						continue
 					hit_objects.append(target)
-					if target.has_method("take_damage"):
-						target.take_damage(damage)
-					elif target.has_method("hit"):
-						target.hit(damage)
+					_deal_damage_to_target(target, damage)
 
 	deal_damage.call()
 	get_tree().create_timer(0.12).timeout.connect(deal_damage)
@@ -827,7 +891,8 @@ func _apply_attack_damage(damage: int) -> void:
 
 ## Oyuncunun Hasar Alması (Take Damage)
 func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
-	if is_dead:
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if is_dead or (game_state and game_state.is_in_cinematic):
 		return
 
 	var attacker_pos: Vector2 = Vector2.INF
@@ -1000,6 +1065,7 @@ func _trigger_block_hit(original_amount: int, reduced_amount: int) -> void:
 			tw.tween_callback(label.queue_free)
 
 func respawn() -> void:
+	_clear_drop_through_platform()
 	get_tree().reload_current_scene()
 
 
@@ -1051,6 +1117,7 @@ func die() -> void:
 	is_parry_active = false
 	current_attack_type = ""
 	velocity = Vector2.ZERO
+	_clear_drop_through_platform()
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
 		anim_sprite.play("death")
 	player_died.emit()
@@ -1093,6 +1160,8 @@ func _set_collision_box(size: Vector2, pos: Vector2) -> void:
 		col_shape.position = pos
 
 func _start_safety_timer(timeout: float) -> void:
+	if not is_inside_tree():
+		return
 	get_tree().create_timer(timeout).timeout.connect(func():
 		if is_attacking:
 			is_attacking = false
@@ -1217,3 +1286,111 @@ func _spawn_dodge_text(text: String) -> void:
 		tw.tween_property(label, "global_position:y", label.global_position.y - 25.0, 0.45)
 		tw.parallel().tween_property(label, "modulate:a", 0.0, 0.45)
 		tw.tween_callback(label.queue_free)
+
+func _exit_tree() -> void:
+	_clear_drop_through_platform()
+
+
+# --- Tek Yönlü Platformdan Kontrollü Aşağı İnme Mekaniği ---
+func _is_down_input_pressed() -> bool:
+	return Input.is_action_pressed("move_down") \
+		or Input.is_key_pressed(KEY_S) \
+		or Input.is_physical_key_pressed(KEY_S) \
+		or Input.is_key_pressed(KEY_DOWN) \
+		or Input.is_physical_key_pressed(KEY_DOWN) \
+		or Input.is_action_pressed("ui_down")
+
+
+func _is_one_way_platform(collider: CollisionObject2D) -> bool:
+	if not collider or not is_instance_valid(collider):
+		return false
+	if "one_way_collision" in collider and collider.one_way_collision:
+		return true
+	for child in collider.get_children():
+		if child is CollisionShape2D and child.one_way_collision:
+			return true
+	var shapes = collider.find_children("*", "CollisionShape2D", true, false)
+	for shape_node in shapes:
+		if shape_node is CollisionShape2D and shape_node.one_way_collision:
+			return true
+	return false
+
+
+func _get_current_one_way_platform() -> CollisionObject2D:
+	# 1. Slide collision kontrolü (mevcut zemin teması)
+	var count: int = get_slide_collision_count()
+	for i in range(count):
+		var col: KinematicCollision2D = get_slide_collision(i)
+		if col and col.get_normal().y < -0.5:
+			var collider = col.get_collider()
+			if collider is CollisionObject2D and _is_one_way_platform(collider):
+				return collider
+	
+	# 2. Ayak tabanından ışın sorgusu (merkez ve yan kontrol noktaları)
+	var space_state = get_world_2d().direct_space_state
+	if space_state:
+		var x_offsets: Array[float] = [0.0, -7.0, 7.0]
+		for x_off in x_offsets:
+			var from_pt = global_position + Vector2(x_off, -4.0)
+			var to_pt = global_position + Vector2(x_off, 12.0)
+			var query = PhysicsRayQueryParameters2D.create(from_pt, to_pt, collision_mask)
+			query.exclude = [get_rid()]
+			query.collide_with_areas = false
+			query.collide_with_bodies = true
+			var hit = space_state.intersect_ray(query)
+			if hit and hit.has("collider"):
+				var collider = hit["collider"]
+				if collider is CollisionObject2D and _is_one_way_platform(collider):
+					return collider
+	return null
+
+
+func _get_platform_bottom_y(platform: CollisionObject2D) -> float:
+	var max_bottom_y: float = platform.global_position.y
+	var found_shape: bool = false
+	var shapes = platform.find_children("*", "CollisionShape2D", true, false)
+	for shape_node in shapes:
+		if shape_node is CollisionShape2D and shape_node.shape:
+			found_shape = true
+			var shape_center_y: float = shape_node.global_position.y
+			var half_h: float = 12.0
+			if shape_node.shape is RectangleShape2D:
+				half_h = (shape_node.shape as RectangleShape2D).size.y * 0.5
+			elif shape_node.shape is CircleShape2D:
+				half_h = (shape_node.shape as CircleShape2D).radius
+			elif shape_node.shape is CapsuleShape2D:
+				half_h = (shape_node.shape as CapsuleShape2D).height * 0.5
+			max_bottom_y = maxf(max_bottom_y, shape_center_y + half_h)
+	if not found_shape:
+		max_bottom_y = platform.global_position.y + 24.0
+	return max_bottom_y
+
+
+func _start_drop_through_platform(platform: CollisionObject2D) -> void:
+	if not platform or not is_instance_valid(platform):
+		return
+	_clear_drop_through_platform()
+	_is_dropping_through = true
+	_ignored_platform = platform
+	_ignored_platform_bottom_y = _get_platform_bottom_y(platform)
+	_drop_through_timer = 0.0
+
+	add_collision_exception_with(_ignored_platform)
+	if _ignored_platform.has_method("add_collision_exception_with"):
+		_ignored_platform.add_collision_exception_with(self)
+
+	_coyote_timer = 0.0
+	_jump_buffer_timer = 0.0
+	velocity.y = maxf(velocity.y, 110.0)
+
+
+func _clear_drop_through_platform() -> void:
+	if _ignored_platform and is_instance_valid(_ignored_platform):
+		remove_collision_exception_with(_ignored_platform)
+		if _ignored_platform.has_method("remove_collision_exception_with"):
+			_ignored_platform.remove_collision_exception_with(self)
+	_ignored_platform = null
+	_is_dropping_through = false
+	_ignored_platform_bottom_y = 0.0
+	_drop_through_timer = 0.0
+

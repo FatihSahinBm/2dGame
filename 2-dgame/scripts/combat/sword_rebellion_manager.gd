@@ -10,8 +10,14 @@ signal rebellion_applied(sluggish_duration: float)
 @export var shake_intensity: float = 12.0
 @export var sluggish_duration: float = 1.5
 
+const StoryDataLoader = preload("res://scripts/autoloads/story_data_loader.gd")
+
+const LABEL_COOLDOWN: float = 1.2
+
 var _player_ref: CharacterBody2D = null
 var _audio_screech: AudioStreamPlayer = null
+var _last_text_index: int = -1
+var _last_label_time: float = -99.0
 
 
 func _ready() -> void:
@@ -70,21 +76,55 @@ func _apply_camera_shake(cam: Camera2D) -> void:
 	tw.tween_property(cam, "offset", Vector2.ZERO, 0.08)
 
 
+## JSON'dan ardışık tekrarsız isyan metni seçer
+func _get_rebellion_text() -> String:
+	var list: Array = StoryDataLoader.get_dialogue_sequence("sword_rebellion_texts")
+	if list.is_empty():
+		return "*Kılıç darbene direniyor!*"
+	if list.size() == 1:
+		return str(list[0])
+
+	var candidates: Array[int] = []
+	for i in range(list.size()):
+		if i != _last_text_index:
+			candidates.append(i)
+
+	var chosen: int = candidates.pick_random() if not candidates.is_empty() else 0
+	_last_text_index = chosen
+	return str(list[chosen])
+
+
 func _spawn_rebellion_label() -> void:
 	if not _player_ref:
 		return
+
+	# Aşırı sık saldırılarda ekranın metinle dolmasını önle
+	var current_time: float = Time.get_ticks_msec() / 1000.0
+	if current_time - _last_label_time < LABEL_COOLDOWN:
+		return
+	_last_label_time = current_time
+
+	var text: String = _get_rebellion_text()
 	var label: Label = Label.new()
-	label.text = "⚡ KILIÇ DİRENİYOR! (Ağırlaştı)"
-	label.add_theme_color_override("font_color", Color(0.9, 0.15, 0.2, 1.0))
-	label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+	label.text = text
+	label.add_theme_color_override("font_color", Color(1.0, 0.3, 0.35, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.08, 1.0))
 	label.add_theme_constant_override("outline_size", 4)
-	label.add_theme_font_size_override("font_size", 13)
-	label.global_position = _player_ref.global_position + Vector2(-60.0, -55.0)
+	label.add_theme_font_size_override("font_size", 12)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.custom_minimum_size = Vector2(360.0, 0.0)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.global_position = _player_ref.global_position + Vector2(-180.0, -75.0)
 
 	var parent_scene: Node = _player_ref.get_parent()
 	if parent_scene:
 		parent_scene.add_child(label)
 		var tw: Tween = label.create_tween()
-		tw.tween_property(label, "global_position:y", label.global_position.y - 30.0, 0.6)
-		tw.parallel().tween_property(label, "modulate:a", 0.0, 0.6)
+		# Hafif yukarı süzülme ve net okunma aralığı
+		tw.tween_property(label, "global_position:y", label.global_position.y - 18.0, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+		tw.tween_interval(0.9)
+		# Yumuşak kaybolma
+		tw.tween_property(label, "modulate:a", 0.0, 0.5)
+		tw.parallel().tween_property(label, "global_position:y", label.global_position.y - 32.0, 0.5)
 		tw.tween_callback(label.queue_free)

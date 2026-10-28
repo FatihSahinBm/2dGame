@@ -15,6 +15,7 @@ extends Node2D
 @onready var kemankes: CharacterBody2D = get_node_or_null("Allies/KemankesArcher") as CharacterBody2D
 @onready var tent_gate: Area2D = $TentEntranceArea
 @onready var quiver_item: Area2D = get_node_or_null("Environment/BrokenCart/ArrowQuiverItem") as Area2D
+@onready var camp_commander: CharacterBody2D = get_node_or_null("Allies/JanissaryCommander") as CharacterBody2D
 
 var _has_arrow_quiver: bool = false
 var _archer_quest_state: String = "NOT_STARTED" # "NOT_STARTED", "ACCEPTED", "DECLINED", "COMPLETED"
@@ -36,6 +37,11 @@ func _ready() -> void:
 
 	if player and hud:
 		_setup_hud()
+
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if camp_commander and is_instance_valid(camp_commander):
+		if game_state and not game_state.is_commander_alive:
+			camp_commander.queue_free()
 
 	if quiver_item:
 		if quiver_item.has_method("set_quest_active"):
@@ -80,11 +86,19 @@ func _setup_hud() -> void:
 				hud.update_health(hp, max_hp)
 		)
 	if hud.has_method("set_tutorial"):
-		hud.set_tutorial(
-			"2. Harita: Osmanlı Ordugahı",
-			"Otağ-ı Hümayun'a İlerle",
-			"Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle."
-		)
+		var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+		if game_state and not game_state.is_commander_alive:
+			hud.set_tutorial(
+				"2. Harita: Osmanlı Ordugahı",
+				"Fermanı Fatih'e Sun",
+				"Şehit düşen kumandanın fermanını Fatih Sultan Mehmed Han'ın Otağı'na ulaştır."
+			)
+		else:
+			hud.set_tutorial(
+				"2. Harita: Osmanlı Ordugahı",
+				"Otağ-ı Hümayun'a İlerle",
+				"Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle."
+			)
 
 
 func _physics_process(_delta: float) -> void:

@@ -14,8 +14,12 @@ signal sequence_completed()
 @onready var commander_sprite: AnimatedSprite2D = $Commander/AnimatedSprite2D
 @onready var ram_visual: Node2D = $RamVisual
 
+const TEX_SPLINTER = preload("res://assets/environment/castle/door_splinter_debris.png")
+const TEX_IRON_SHARD = preload("res://assets/environment/castle/iron_shard_debris.png")
+
 var _original_camera_zoom: Vector2 = Vector2.ONE
 var _original_camera_offset: Vector2 = Vector2.ZERO
+var _is_commander_alive: bool = true
 
 
 func _ready() -> void:
@@ -25,6 +29,14 @@ func _ready() -> void:
 ## Koçbaşı hücum ve kapı parçalama sekansını başlatır
 func play_assault_sequence(gate_node: Node2D, player_node: CharacterBody2D, dialogue_box: CanvasLayer = null) -> void:
 	visible = true
+
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	_is_commander_alive = game_state.is_commander_alive if game_state else true
+
+	var title_lbl = get_node_or_null("Commander/TitleLabel") as Label
+	if title_lbl:
+		title_lbl.text = "ÖNCÜ KUMANDAN" if _is_commander_alive else "YENİÇERİ ÇAVUŞU"
+
 	var camera: Camera2D = null
 	if player_node:
 		camera = player_node.get_node_or_null("Camera2D") as Camera2D
@@ -58,7 +70,8 @@ func play_assault_sequence(gate_node: Node2D, player_node: CharacterBody2D, dial
 	tw_run.tween_callback(func():
 		_set_soldiers_animation("idle")
 		_spawn_dust_burst(global_position + Vector2(40.0, 0.0))
-		_play_commander_shout("BİR, İKİİİ... KOÇBAŞINI SAVURUN!")
+		var initial_shout = "BİR, İKİİİ... KOÇBAŞINI SAVURUN!" if _is_commander_alive else "BİR, İKİİİ... ŞEHİT KUMANDANIN İNTİKAMI İÇİN SAVURUN!"
+		_play_commander_shout(initial_shout)
 		get_tree().create_timer(0.6).timeout.connect(func():
 			_execute_first_ram_strike(gate_node, camera, player_node, dialogue_box)
 		)
@@ -103,9 +116,10 @@ func _execute_first_ram_strike(gate_node: Node2D, camera: Camera2D, player_node:
 			if carriers_root:
 				tw_rebound.tween_property(carriers_root, "rotation_degrees", 0.0, 0.22)
 
-			# Kumandan 2. darbe emri
+			# Kumandan / Çavuş 2. darbe emri
 			get_tree().create_timer(0.45).timeout.connect(func():
-				_play_commander_shout("BİR DAHA! TÜM KUVVETİNİZLE! ALLAH ALLAH!")
+				var second_shout = "BİR DAHA! TÜM KUVVETİNİZLE! ALLAH ALLAH!" if _is_commander_alive else "BİR DAHA! GÜCÜNÜZÜN YETTİĞİNCE! ALLAH ALLAH!"
+				_play_commander_shout(second_shout)
 				get_tree().create_timer(0.55).timeout.connect(func():
 					_execute_second_ram_strike(gate_node, camera, player_node, dialogue_box)
 				)
@@ -152,7 +166,8 @@ func _execute_second_ram_strike(gate_node: Node2D, camera: Camera2D, player_node
 			_shatter_gate_visuals(gate_node)
 
 			# Zafer sevinci
-			_play_commander_shout("KAPI YIKILDI! YABANCI, MAHZENE DAL VE VLAD'I BUL!")
+			var breach_shout = "KAPI YIKILDI! YABANCI, MAHZENE DAL VE VLAD'I BUL!" if _is_commander_alive else "KAPI PARÇALANDI! YABANCI, MAHZENE DAL VE İLERLE!"
+			_play_commander_shout(breach_shout)
 			_play_soldiers_cheer()
 
 			# Sekans bitişi ve kameranın oyuncuya geri dönmesi
@@ -165,7 +180,7 @@ func _execute_second_ram_strike(gate_node: Node2D, camera: Camera2D, player_node
 
 ## Kapının menteşelerinden koparak parçalanması animasyonu
 func _shatter_gate_visuals(gate_node: Node2D) -> void:
-	var portcullis: ColorRect = gate_node.get_node_or_null("PortcullisBars") as ColorRect
+	var portcullis = gate_node.get_node_or_null("PortcullisBars") as CanvasItem
 	if portcullis:
 		var tw_port = create_tween().set_parallel(true)
 		tw_port.tween_property(portcullis, "position:y", portcullis.position.y - 120.0, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
@@ -173,7 +188,19 @@ func _shatter_gate_visuals(gate_node: Node2D) -> void:
 		tw_port.tween_property(portcullis, "scale:x", 0.1, 0.45)
 
 	var doors: Node2D = gate_node.get_node_or_null("WoodenDoors") as Node2D
-	if doors:
+	var door_left = gate_node.get_node_or_null("WoodenDoors/DoorLeft") as CanvasItem
+	var door_right = gate_node.get_node_or_null("WoodenDoors/DoorRight") as CanvasItem
+	if door_left and door_right:
+		var tw_left = create_tween().set_parallel(true)
+		tw_left.tween_property(door_left, "position:x", door_left.position.x - 38.0, 0.42).set_trans(Tween.TRANS_EXPO)
+		tw_left.tween_property(door_left, "rotation_degrees", -45.0, 0.42)
+		tw_left.tween_property(door_left, "modulate:a", 0.0, 0.45)
+
+		var tw_right = create_tween().set_parallel(true)
+		tw_right.tween_property(door_right, "position:x", door_right.position.x + 38.0, 0.42).set_trans(Tween.TRANS_EXPO)
+		tw_right.tween_property(door_right, "rotation_degrees", 45.0, 0.42)
+		tw_right.tween_property(door_right, "modulate:a", 0.0, 0.45)
+	elif doors:
 		var tw_doors = create_tween().set_parallel(true)
 		tw_doors.tween_property(doors, "scale:x", 0.05, 0.35)
 		tw_doors.tween_property(doors, "modulate:a", 0.0, 0.4)
@@ -285,22 +312,46 @@ func _spawn_splinters_explosion(pos: Vector2) -> void:
 	var parent_scene = get_parent()
 	if not parent_scene:
 		return
-	var particles = CPUParticles2D.new()
-	particles.emitting = true
-	particles.one_shot = true
-	particles.amount = 40
-	particles.lifetime = 0.65
-	particles.explosiveness = 0.95
-	particles.spread = 180.0
-	particles.gravity = Vector2(0, 400)
-	particles.initial_velocity_min = 90.0
-	particles.initial_velocity_max = 260.0
-	particles.color = Color(0.48, 0.3, 0.16, 1.0)
-	particles.scale_amount_min = 2.0
-	particles.scale_amount_max = 5.0
-	particles.global_position = pos
-	parent_scene.add_child(particles)
-	particles.finished.connect(particles.queue_free)
+
+	# 1. Ahşap Kıymıkları Patlaması
+	var wood_particles = CPUParticles2D.new()
+	wood_particles.emitting = true
+	wood_particles.one_shot = true
+	wood_particles.amount = 36
+	wood_particles.lifetime = 0.7
+	wood_particles.explosiveness = 0.95
+	wood_particles.spread = 180.0
+	wood_particles.gravity = Vector2(0, 380)
+	wood_particles.initial_velocity_min = 90.0
+	wood_particles.initial_velocity_max = 260.0
+	wood_particles.texture = TEX_SPLINTER
+	wood_particles.scale_amount_min = 1.0
+	wood_particles.scale_amount_max = 2.2
+	wood_particles.angular_velocity_min = -360.0
+	wood_particles.angular_velocity_max = 360.0
+	wood_particles.global_position = pos
+	parent_scene.add_child(wood_particles)
+	wood_particles.finished.connect(wood_particles.queue_free)
+
+	# 2. Demir Parçaları ve Kıvılcımlar
+	var iron_particles = CPUParticles2D.new()
+	iron_particles.emitting = true
+	iron_particles.one_shot = true
+	iron_particles.amount = 18
+	iron_particles.lifetime = 0.55
+	iron_particles.explosiveness = 0.92
+	iron_particles.spread = 180.0
+	iron_particles.gravity = Vector2(0, 480)
+	iron_particles.initial_velocity_min = 60.0
+	iron_particles.initial_velocity_max = 210.0
+	iron_particles.texture = TEX_IRON_SHARD
+	iron_particles.scale_amount_min = 0.8
+	iron_particles.scale_amount_max = 1.8
+	iron_particles.angular_velocity_min = -280.0
+	iron_particles.angular_velocity_max = 280.0
+	iron_particles.global_position = pos
+	parent_scene.add_child(iron_particles)
+	iron_particles.finished.connect(iron_particles.queue_free)
 
 
 func _spawn_dust_burst(pos: Vector2, amount: int = 16) -> void:

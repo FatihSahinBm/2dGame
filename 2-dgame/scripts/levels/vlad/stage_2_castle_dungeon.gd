@@ -19,9 +19,10 @@ extends Node2D
 @onready var dungeon_gate: Area2D = $BloodAltarGate
 @onready var pit_hazard: Area2D = get_node_or_null("Environment/SpikePitHazard") as Area2D
 @onready var chain_lever: Area2D = get_node_or_null("EntranceMechanism/ChainLever") as Area2D
-@onready var outer_portcullis: ColorRect = get_node_or_null("EntranceMechanism/OuterPortcullis") as ColorRect
+@onready var outer_portcullis: Node2D = get_node_or_null("EntranceMechanism/OuterPortcullis") as Node2D
 @onready var outer_gate_col: CollisionShape2D = get_node_or_null("EntranceMechanism/OuterGateStatic/CollisionShape2D") as CollisionShape2D
 @onready var bone_mural_area: Area2D = get_node_or_null("Environment/BoneArchiveMural") as Area2D
+@onready var dialogue_box: CanvasLayer = get_node_or_null("DialogueBox") as CanvasLayer
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
 
 const TEX_STAGE2_CHAIN = preload("res://assets/backgrounds/stage_2_zone_1_chain_room.png")
@@ -33,6 +34,7 @@ var _current_bg_zone: int = 1
 var _is_transitioning: bool = false
 var _braziers_lit: int = 0
 var _gate_unlocked: bool = false
+var _outer_gate_unlocked: bool = false
 var _mural_reaction_done: bool = false
 var _pit_hazard_triggered: bool = false
 
@@ -52,17 +54,23 @@ func _ready() -> void:
 	if player and hud:
 		_setup_hud()
 
-	if dungeon_gate:
+	if dungeon_gate and not dungeon_gate.body_entered.is_connected(_on_dungeon_gate_entered):
 		dungeon_gate.body_entered.connect(_on_dungeon_gate_entered)
 
-	if pit_hazard:
+	if pit_hazard and not pit_hazard.body_entered.is_connected(_on_pit_hazard_entered):
 		pit_hazard.body_entered.connect(_on_pit_hazard_entered)
 
 	if chain_lever and chain_lever.has_signal("lever_activated"):
-		chain_lever.lever_activated.connect(_on_outer_lever_activated)
+		if not chain_lever.lever_activated.is_connected(_on_outer_lever_activated):
+			chain_lever.lever_activated.connect(_on_outer_lever_activated)
 
 	if bone_mural_area:
-		bone_mural_area.body_entered.connect(_on_bone_mural_entered)
+		if bone_mural_area.has_signal("relief_examined"):
+			if not bone_mural_area.relief_examined.is_connected(_on_mural_relief_examined):
+				bone_mural_area.relief_examined.connect(_on_mural_relief_examined)
+		else:
+			if not bone_mural_area.body_entered.is_connected(_on_bone_mural_entered):
+				bone_mural_area.body_entered.connect(_on_bone_mural_entered)
 
 	_setup_braziers()
 
@@ -81,10 +89,14 @@ func _setup_braziers() -> void:
 	var braziers: Array[Node] = get_tree().get_nodes_in_group("braziers")
 	for b in braziers:
 		if b.has_signal("brazier_ignited"):
-			b.brazier_ignited.connect(_on_brazier_ignited)
+			if not b.brazier_ignited.is_connected(_on_brazier_ignited):
+				b.brazier_ignited.connect(_on_brazier_ignited)
 
 
 func _on_outer_lever_activated() -> void:
+	if _outer_gate_unlocked:
+		return
+	_outer_gate_unlocked = true
 	if outer_portcullis:
 		var tw: Tween = create_tween()
 		tw.tween_property(outer_portcullis, "position:y", outer_portcullis.position.y - 70.0, 0.6).set_trans(Tween.TRANS_QUAD)
@@ -93,6 +105,10 @@ func _on_outer_lever_activated() -> void:
 
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Dış Kapı Açıldı", "Zindana İlerle", "Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!")
+
+
+func _on_mural_relief_examined() -> void:
+	_mural_reaction_done = true
 
 
 func _on_bone_mural_entered(body: Node2D) -> void:
@@ -135,6 +151,8 @@ func _on_brazier_ignited() -> void:
 
 
 func _unlock_throne_gate() -> void:
+	if _gate_unlocked:
+		return
 	_gate_unlocked = true
 	var gate_bars = get_node_or_null("BloodAltarGate/PortcullisBars")
 	if gate_bars:

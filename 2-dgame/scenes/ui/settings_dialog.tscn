@@ -1,0 +1,105 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/settings_dialog.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.07, 0.08, 0.12, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.45, 0.7, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 14
+
+[node name="SettingsDialog" type="PanelContainer"]
+custom_minimum_size = Vector2(500, 340)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -170.0
+offset_right = 250.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_script")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+text = "AYARLAR"
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 14
+columns = 2
+
+[node name="MasterLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Ana Ses Seviyesi:"
+
+[node name="MasterSlider" type="HSlider" parent="Margin/VBox/Grid"]
+custom_minimum_size = Vector2(220, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="MusicLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Müzik:"
+
+[node name="MusicSlider" type="HSlider" parent="Margin/VBox/Grid"]
+custom_minimum_size = Vector2(220, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 80.0
+
+[node name="SfxLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Ses Efektleri (SFX):"
+
+[node name="SfxSlider" type="HSlider" parent="Margin/VBox/Grid"]
+custom_minimum_size = Vector2(220, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 80.0
+
+[node name="DisplayLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Tam Ekran:"
+
+[node name="FullscreenCheck" type="CheckBox" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Etkin"
+
+[node name="Spacer" type="Control" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="Margin/VBox"]
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Tamam"

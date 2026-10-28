@@ -9,6 +9,7 @@ const StoryDataLoader = preload("res://scripts/autoloads/story_data_loader.gd")
 
 signal dialogue_started()
 signal dialogue_completed()
+signal entry_started(entry: Dictionary)
 signal choice_selected(action: String)
 
 @export var typewriter_speed: float = 0.025
@@ -119,6 +120,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func start_dialogue_from_data(key: String, focus_speaker: Node2D = null) -> void:
 	var list: Array = StoryDataLoader.get_dialogue_sequence(key)
 	if list.is_empty():
+		push_warning("DialogueBox: Empty dialogue sequence for key: " + key)
 		return
 	start_dialogue(list, focus_speaker)
 
@@ -130,7 +132,8 @@ func start_dialogue(entries: Array, focus_speaker: Node2D = null) -> void:
 
 	_dialogue_queue = entries.duplicate()
 	_current_index = 0
-	panel.visible = true
+	if panel:
+		panel.visible = true
 	_apply_cinematic_mode(true, focus_speaker)
 	dialogue_started.emit()
 	_show_current_entry()
@@ -146,20 +149,28 @@ func set_letterbox(enable: bool, bar_height: float = 52.0) -> void:
 
 
 func _apply_cinematic_mode(enable: bool, focus_speaker: Node2D = null) -> void:
+	if not is_inside_tree():
+		return
+
+	var tree: SceneTree = get_tree()
+	if not tree:
+		return
+
 	# 0. Global sinematik bayrağını ayarla ve grupları bilgilendir
 	var game_state = get_node_or_null("/root/GameState")
 	if game_state:
 		game_state.is_in_cinematic = enable
 
 	if enable:
-		get_tree().call_group("allies", "on_cinematic_started")
-		get_tree().call_group("enemies", "on_cinematic_started")
+		tree.call_group("allies", "on_cinematic_started")
+		tree.call_group("enemies", "on_cinematic_started")
 	else:
-		get_tree().call_group("allies", "on_cinematic_ended")
-		get_tree().call_group("enemies", "on_cinematic_ended")
+		tree.call_group("allies", "on_cinematic_ended")
+		tree.call_group("enemies", "on_cinematic_ended")
 
 	# 1. Oyuncuyu dondur / çöz
-	_player_ref = get_tree().get_first_node_in_group("player") as CharacterBody2D
+	_player_ref = tree.get_first_node_in_group("player") as CharacterBody2D
+
 	if _player_ref and "can_move" in _player_ref:
 		_player_ref.can_move = not enable
 		if enable:
@@ -207,14 +218,19 @@ func _show_current_entry() -> void:
 		return
 
 	var entry: Dictionary = _dialogue_queue[_current_index] as Dictionary
-	speaker_name_label.text = entry.get("speaker", "Bilinmeyen")
-	speaker_title_label.text = entry.get("title", "")
+	if speaker_name_label:
+		speaker_name_label.text = entry.get("speaker", "")
+	if speaker_title_label:
+		speaker_title_label.text = entry.get("title", "")
 	_full_text = entry.get("text", "")
 	_char_index = 0
 	_is_typing = true
-	content_label.text = ""
+	if content_label:
+		content_label.text = ""
 	if continue_prompt:
 		continue_prompt.visible = false
+
+	entry_started.emit(entry)
 
 	# Seçenekleri hazırla (varsa)
 	_current_choices = entry.get("choices", [])
@@ -253,20 +269,40 @@ func _apply_portrait_style(portrait_type: String) -> void:
 	if not portrait_texture:
 		return
 
+	var container: Control = portrait_texture.get_parent() as Control
+
 	match portrait_type:
 		"fatih":
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_FATIH
 		"janissary", "commander":
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_COMMANDER
 		"player", "player_dark":
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_PLAYER
 		"vlad":
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_VLAD
 		"blood_knight", "knight":
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_BLOOD_KNIGHT
 		"archer", "kemankes":
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_KEMANKES
+		"none", "empty":
+			if container:
+				container.visible = false
+			portrait_texture.texture = null
 		_:
+			if container:
+				container.visible = true
 			portrait_texture.texture = PORTRAIT_FATIH
 
 
@@ -276,7 +312,8 @@ func _advance_dialogue() -> void:
 
 
 func _close_dialogue() -> void:
-	panel.visible = false
+	if panel:
+		panel.visible = false
 	_has_choices_active = false
 	if choices_container:
 		choices_container.visible = false

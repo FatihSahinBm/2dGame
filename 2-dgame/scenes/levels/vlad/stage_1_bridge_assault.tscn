@@ -14,6 +14,10 @@
 [ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="12_backdrop"]
 [ext_resource type="PackedScene" path="res://scenes/objects/battering_ram_crew.tscn" id="13_ram"]
 [ext_resource type="Texture2D" path="res://assets/environment/bridge/bridge_stone_ground.png" id="14_ground"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_gate_arch.png" id="15_arch"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_portcullis.png" id="16_portcullis"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_door_left.png" id="17_door_l"]
+[ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_door_right.png" id="18_door_r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2450, 60)
@@ -132,76 +136,68 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_gate")
 
 [node name="PortalBackdrop" type="ColorRect" parent="ExitGate"]
-offset_left = -20.0
+offset_left = -22.0
 offset_top = -105.0
-offset_right = 20.0
+offset_right = 22.0
 offset_bottom = 90.0
-color = Color(0.03, 0.02, 0.04, 0.95)
+color = Color(0.04, 0.02, 0.04, 1)
 
-[node name="ArchPillarLeft" type="ColorRect" parent="ExitGate"]
-offset_left = -26.0
-offset_top = -115.0
-offset_right = -18.0
-offset_bottom = 90.0
-color = Color(0.25, 0.22, 0.28, 1)
-
-[node name="ArchPillarRight" type="ColorRect" parent="ExitGate"]
-offset_left = 18.0
-offset_top = -115.0
-offset_right = 26.0
-offset_bottom = 90.0
-color = Color(0.25, 0.22, 0.28, 1)
-
-[node name="ArchLintel" type="ColorRect" parent="ExitGate"]
-offset_left = -28.0
-offset_top = -120.0
-offset_right = 28.0
-offset_bottom = -110.0
-color = Color(0.3, 0.26, 0.32, 1)
-
-[node name="PortcullisBars" type="ColorRect" parent="ExitGate"]
-offset_left = -16.0
-offset_top = -105.0
-offset_right = 16.0
-offset_bottom = 85.0
-color = Color(0.12, 0.1, 0.14, 0.9)
+[node name="DungeonAbyssMist" type="CPUParticles2D" parent="ExitGate"]
+position = Vector2(0, 40)
+amount = 14
+lifetime = 2.4
+emission_shape = 3
+emission_rect_extents = Vector2(16, 40)
+gravity = Vector2(-8, -12)
+initial_velocity_min = 5.0
+initial_velocity_max = 14.0
+scale_amount_min = 3.0
+scale_amount_max = 7.0
+color = Color(0.35, 0.05, 0.08, 0.35)
 
 [node name="WoodenDoors" type="Node2D" parent="ExitGate"]
 
-[node name="DoorLeft" type="ColorRect" parent="ExitGate/WoodenDoors"]
-offset_left = -16.0
-offset_top = -105.0
-offset_right = 0.0
-offset_bottom = 85.0
-color = Color(0.32, 0.2, 0.12, 1)
+[node name="DoorLeft" type="Sprite2D" parent="ExitGate/WoodenDoors"]
+texture_filter = 1
+position = Vector2(-11, -7.5)
+texture = ExtResource("17_door_l")
 
-[node name="DoorRight" type="ColorRect" parent="ExitGate/WoodenDoors"]
-offset_left = 0.0
-offset_top = -105.0
-offset_right = 16.0
-offset_bottom = 85.0
-color = Color(0.28, 0.18, 0.1, 1)
+[node name="DoorRight" type="Sprite2D" parent="ExitGate/WoodenDoors"]
+texture_filter = 1
+position = Vector2(11, -7.5)
+texture = ExtResource("18_door_r")
 
-[node name="DoorBandTop" type="ColorRect" parent="ExitGate/WoodenDoors"]
-offset_left = -16.0
-offset_top = -70.0
-offset_right = 16.0
-offset_bottom = -62.0
-color = Color(0.18, 0.18, 0.2, 1)
+[node name="PortcullisBars" type="Sprite2D" parent="ExitGate"]
+texture_filter = 1
+position = Vector2(0, -7.5)
+texture = ExtResource("16_portcullis")
 
-[node name="DoorBandMid" type="ColorRect" parent="ExitGate/WoodenDoors"]
-offset_left = -16.0
-offset_top = -10.0
-offset_right = 16.0
-offset_bottom = -2.0
-color = Color(0.18, 0.18, 0.2, 1)
+[node name="ArchStoneFrame" type="Sprite2D" parent="ExitGate"]
+texture_filter = 1
+position = Vector2(0, -20)
+texture = ExtResource("15_arch")
 
-[node name="DoorBandBottom" type="ColorRect" parent="ExitGate/WoodenDoors"]
-offset_left = -16.0
-offset_top = 50.0
-offset_right = 16.0
-offset_bottom = 58.0
-color = Color(0.18, 0.18, 0.2, 1)
+[node name="TorchLeft" type="CPUParticles2D" parent="ExitGate"]
+position = Vector2(-33, -32)
+amount = 12
+lifetime = 0.55
+gravity = Vector2(0, -50)
+initial_velocity_min = 10.0
+initial_velocity_max = 24.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 0.6, 0.15, 0.9)
+
+[node name="TorchRight" type="CPUParticles2D" parent="ExitGate"]
+position = Vector2(33, -32)
+amount = 12
+lifetime = 0.55
+gravity = Vector2(0, -50)
+initial_velocity_min = 10.0
+initial_velocity_max = 24.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 0.6, 0.15, 0.9)
 
 [node name="BatteringRamCrew" parent="." instance=ExtResource("13_ram")]
 position = Vector2(2190, 560)

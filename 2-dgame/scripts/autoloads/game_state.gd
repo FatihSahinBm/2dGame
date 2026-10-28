@@ -21,13 +21,32 @@ var current_heart_pieces: int = 1 # 1. Parça (T-Rex) tamamlandı varsayılır
 # --- Kazanılan Yetenekler ---
 var unlocked_abilities: Array[String] = []
 
-# --- Bölüm Durumu ---
 var current_stage_path: String = "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
 var is_in_cinematic: bool = false
+
+# --- Bölüm 2 (Vlad) Görev & Hikaye Durumu ---
+var is_commander_alive: bool = true
+var is_commander_rescued: bool = false
+var has_commander_orders: bool = false
+var fatih_audience_completed: bool = false
+
+# --- Bölüm İlerlemesi ---
+var completed_chapters: Array[String] = []
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+## Bölüm tamamlanma kontrolü
+func is_chapter_completed(chapter_id: String) -> bool:
+	return completed_chapters.has(chapter_id)
+
+
+## Bölüm tamamlandı olarak işaretle
+func complete_chapter(chapter_id: String) -> void:
+	if not completed_chapters.has(chapter_id):
+		completed_chapters.append(chapter_id)
 
 
 ## Yozlaşma puanı ekler ve kılıç isyanı sinyalini tetikler
@@ -78,4 +97,10 @@ func reset_state() -> void:
 	allies_sacrificed_count = 0
 	allies_killed_count = 0
 	unlocked_abilities.clear()
-	current_heart_pieces = 1
+	current_heart_pieces = 0
+	completed_chapters.clear()
+	current_stage_path = "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn"
+	is_commander_alive = true
+	is_commander_rescued = false
+	has_commander_orders = false
+	fatih_audience_completed = false

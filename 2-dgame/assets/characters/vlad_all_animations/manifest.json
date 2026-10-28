@@ -1,7 +1,7 @@
 {
   "character": "vlad_the_impaler",
   "version": "1.0.0",
-  "total_animations": 22,
+  "total_animations": 23,
   "universal_cell_size": [
     1280,
     720
@@ -706,6 +706,36 @@
           "start": 51,
           "end": 71
         }
+      }
+    },
+    {
+      "folder": "vlad_boss_throw_split",
+      "action": "normal_attack_throw",
+      "form": "normal",
+      "frame_count": 24,
+      "framerate": 14.0,
+      "duration_seconds": 1.714,
+      "loop": false,
+      "sprite_sheet": "vlad_boss_throw_split/sprite_sheet.png",
+      "sheet_dimensions": [
+        1920,
+        720
+      ],
+      "preview_gif": "vlad_boss_throw_split/preview.gif",
+      "phases": {
+        "windup": [
+          0,
+          10
+        ],
+        "release": 11,
+        "follow_through": [
+          12,
+          16
+        ],
+        "recovery": [
+          17,
+          23
+        ]
       }
     }
   ]

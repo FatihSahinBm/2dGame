@@ -1,0 +1,48 @@
+Animate the EXACT reference character: the same dark-fantasy medieval warlord Vlad, wearing his original feathered crown helmet, dark ornate plate armor, skull belt buckle, long tattered crimson cape and the same existing equipment. Preserve his identity, silhouette, proportions, pixel-art rendering, colors, armor details and weapon design. Do not redesign or reinterpret the character.
+
+## OUTPUT AND CAMERA — ABSOLUTE LOCK
+
+Create ONE continuous 6-second animation shot, not a storyboard, contact sheet, sprite-sheet collage, split screen, multi-panel layout or sequence of separate images.
+
+Full-frame 16:9 composition, 1280×720. Locked orthographic 2D side view. Vlad faces SCREEN RIGHT for the entire animation. His orientation must remain consistent; do not rotate him toward the camera or switch to a frontal or three-quarter view.
+
+Keep the camera completely stationary: no zoom, pan, shake, rotation, reframing, cuts or transitions. Maintain the exact same character scale and root position in every frame.
+
+Keep Vlad fully visible from the top of his crown to the soles of both boots. Both boots remain visible throughout, aligned to the same invisible ground baseline at y=680. His feet must not slide, lift, float or change spacing. Keep the character within the safe frame margins; only the thrown spear is allowed to exit the frame to the right.
+
+The entire canvas must be a perfectly uniform, edge-to-edge chroma green background, RGB (0,255,0). No rounded green panels, no black gutters, no borders, no separate cards, no background variation, no floor, no shadows, no gradients, no vignette and no green light spilling onto the character.
+
+Preserve crisp 2D pixel-art edges. No 3D redesign, realistic rendering, motion blur, smeared pixels, morphing, duplicated limbs or flickering armor details.
+
+## WEAPON OWNERSHIP — CRITICAL
+
+Use the exact spear from the reference. Vlad initially holds ONE spear securely in his weapon hand. Keep the same hand, grip, shaft length, spearhead design and weapon orientation throughout the preparation.
+
+The spearhead must point SCREEN RIGHT. The shaft must never pass through Vlad's head or torso. Do not change hands, teleport the spear, duplicate it or reverse its direction.
+
+The spear is a separate rigid object. At the release moment, Vlad's fingers visibly open and the spear physically separates from his hand with a clearly visible gap. The spear then travels independently in a straight horizontal path toward SCREEN RIGHT and exits the frame.
+
+After release, Vlad is completely empty-handed. The spear must NEVER remain attached to his outstretched hand, follow the hand, reappear in his grip or duplicate itself. No spear is visible in his hands during recovery or the final combat guard.
+
+## ACTION TIMELINE
+
+### 0.0–0.45 seconds — READY STANCE
+Vlad holds one spear in his weapon hand, standing in a stable, natural side-facing combat stance. His weapon arm is slightly bent, the spear held securely at a controlled diagonal with the spearhead pointing right. His free hand is separated from the weapon and rests in a natural balancing position. Both boots are firmly planted. The character remains still except for extremely subtle, natural cape movement.
+
+### 0.45–1.30 seconds — OVERHAND WIND-UP
+Vlad prepares to throw. He bends the weapon elbow and draws the spear backward and upward, bringing the gripping hand behind and slightly above the shoulder. The spear shaft angles upward while its point continues to face SCREEN RIGHT. His torso leans back slightly to load the throw. Keep his head, helmet and spear visually separate. Do not move the feet.
+
+### 1.30–1.70 seconds — AIM AND BRIEF PAUSE
+Vlad reaches a clear, readable overhand throwing pose. His weapon elbow is bent, his hand is drawn back, and the spear is securely gripped and aimed toward SCREEN RIGHT. Hold this anticipation pose briefly so the action is readable.
+
+### 1.70–1.95 seconds — THROW AND RELEASE
+Vlad rotates his torso forward and forcefully extends the weapon arm toward SCREEN RIGHT. At the precise release moment, his gripping fingers visibly open. The spear separates completely from the hand, with an unmistakable gap between hand and shaft. The spear immediately becomes an independent projectile and travels horizontally toward SCREEN RIGHT. The throwing hand is empty from the instant of release onward.
+
+### 1.95–2.50 seconds — FOLLOW-THROUGH
+Vlad finishes the throw with the empty weapon arm extended forward, then lets the arm continue naturally past the release point. The spear continues independently along the straight horizontal trajectory and exits the frame on the right.
+
+### 2.50–3.20 seconds — RECOVERY INTO EMPTY-HANDED GUARD
+Vlad returns to a balanced, empty-handed combat stance. His lead arm stays forward with the elbow slightly bent and the hand ready for combat. His rear arm retracts toward his side, with its fist near the ribs or hip. Both hands remain empty.
+
+### 3.20–6.00 seconds — FINAL HOLD
+Hold the same stable, empty-handed combat guard. Both hands separated, boots on baseline.

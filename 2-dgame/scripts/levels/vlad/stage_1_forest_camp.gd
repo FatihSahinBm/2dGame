@@ -19,9 +19,12 @@ extends Node2D
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
 @onready var dimensional_rift: DimensionalTimeRift = get_node_or_null("DimensionalTimeRift") as DimensionalTimeRift
 
+const ORDERS_DROP_SCENE = preload("res://scenes/objects/commander_orders_drop.tscn")
+
 var _ambush_cleared: bool = false
 var _is_transitioning: bool = false
 var _dialogue_played: bool = false
+var _orders_spawned: bool = false
 
 
 func _ready() -> void:
@@ -98,12 +101,23 @@ func _process(_delta: float) -> void:
 	# Kumandan oyuncuyu bekler; oyuncu sağ sınıra yaklaştığında otomatik geçiş
 	if _ambush_cleared and player and not _is_transitioning:
 		if player.global_position.x >= 1480.0:
+			var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+			if game_state and not game_state.is_commander_alive and not game_state.has_commander_orders:
+				return
 			_trigger_stage_transition()
 
 
 func _on_ambush_cleared() -> void:
-	if commander and is_instance_valid(commander) and commander.has_method("mark_rescued"):
-		commander.mark_rescued()
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if game_state and not game_state.is_commander_alive:
+		return
+
+	if commander and is_instance_valid(commander) and not commander._is_dead:
+		if game_state:
+			game_state.is_commander_alive = true
+			game_state.is_commander_rescued = true
+		if commander.has_method("mark_rescued"):
+			commander.mark_rescued()
 
 	# 1.35x Sinematik Zoom ile kurtarma diyaloğunu otomatik başlat
 	if not _dialogue_played and dialogue_box:
@@ -121,14 +135,54 @@ func _on_ambush_cleared() -> void:
 		, CONNECT_ONE_SHOT)
 
 
-func _on_commander_died(_death_pos: Vector2) -> void:
+func _on_commander_died(death_pos: Vector2) -> void:
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if game_state:
+		game_state.is_commander_alive = false
+		game_state.is_commander_rescued = false
+
 	_ambush_cleared = true
+
+	if not _orders_spawned:
+		_orders_spawned = true
+		_spawn_commander_orders(death_pos)
+
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial(
-			"Ordugaha İlerle",
-			"Sağa Koş",
-			"Kumandan şehit düştü! İlerideki Osmanlı ordugahına tek başına ulaşmalısın."
+			"Kumandan Şehit Düştü!",
+			"Fermanı Al ve İlerle",
+			"Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ulaşmalısın."
 		)
+
+
+func _spawn_commander_orders(pos: Vector2) -> void:
+	var orders_node: Area2D = null
+	if ORDERS_DROP_SCENE:
+		orders_node = ORDERS_DROP_SCENE.instantiate() as Area2D
+	if not orders_node:
+		orders_node = CommanderOrdersDrop.new()
+
+	orders_node.global_position = pos + Vector2(0.0, -12.0)
+	if orders_node.has_signal("collected"):
+		orders_node.collected.connect(_on_commander_orders_collected, CONNECT_ONE_SHOT)
+	add_child(orders_node)
+
+
+func _on_commander_orders_collected() -> void:
+	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if game_state:
+		game_state.has_commander_orders = true
+
+	if dialogue_box:
+		dialogue_box.start_dialogue_from_data("commander_orders_note")
+		dialogue_box.dialogue_completed.connect(func():
+			if hud and hud.has_method("set_tutorial"):
+				hud.set_tutorial(
+					"Ordugaha İlerle",
+					"Fermanı Fatih'e Götür",
+					"Şehit kumandanın fermanını aldın. Ormandan çıkıp Fatih Sultan Mehmed Han'ın ordugahına ilerle."
+				)
+		, CONNECT_ONE_SHOT)
 
 
 func _setup_hud() -> void:
@@ -155,6 +209,11 @@ func _setup_hud() -> void:
 
 func _on_exit_gate_entered(body: Node2D) -> void:
 	if body == player and not _is_transitioning:
+		var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
+		if game_state and not game_state.is_commander_alive and not game_state.has_commander_orders:
+			if hud and hud.has_method("set_tutorial"):
+				hud.set_tutorial("Önce Fermanı Al!", "Şehit Kumandan", "Yerdeki fermanı almadan ordugaha gidemezsin!")
+			return
 		_trigger_stage_transition()
 
 

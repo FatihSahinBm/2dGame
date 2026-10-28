@@ -16,6 +16,8 @@ extends Node2D
 @onready var heart_piece: Node2D = $HeartPieceVisual
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
 
+const StoryDataLoader = preload("res://scripts/autoloads/story_data_loader.gd")
+
 const TEX_ARENA_1 = preload("res://assets/backgrounds/stage_3_arena_1_throne.png")
 const TEX_ARENA_2 = preload("res://assets/backgrounds/stage_3_arena_2_balcony.png")
 const TEX_ARENA_3 = preload("res://assets/backgrounds/stage_3_arena_3_ramparts.png")
@@ -34,6 +36,8 @@ const TEX_ARENA_4 = preload("res://assets/backgrounds/stage_3_arena_4_belltower.
 
 var _boss_defeated: bool = false
 var _is_intro_dialogue: bool = true
+var _current_dialogue_state: String = "intro"
+var _played_form_taunts: Dictionary = { 1: false, 2: false, 3: false }
 var _player_camera: Camera2D = null
 
 var _sigil_1_destroyed: bool = false
@@ -62,7 +66,8 @@ func _ready() -> void:
 
 	if dialogue_box:
 		dialogue_box.dialogue_completed.connect(_on_dialogue_completed)
-		dialogue_box.start_dialogue_from_data("vlad_taunt")
+		_current_dialogue_state = "intro"
+		dialogue_box.start_dialogue_from_data("vlad_taunt", vlad_boss)
 
 	if vlad_boss:
 		vlad_boss.tree_exiting.connect(_on_vlad_boss_tree_exiting)
@@ -152,6 +157,21 @@ func _on_vlad_form_changed(new_form: int) -> void:
 			if hud and hud.has_method("set_tutorial"):
 				hud.set_tutorial("4. Faz: Ulu Çan Kulesi", "Son Karşılaşma", "Hava dalışlarında Ulu Çan'ı çalarak Vlad'ı sersemlet!")
 
+	# Form Taunt Diyalog Entegrasyonu:
+	if new_form in [1, 2, 3] and not _played_form_taunts.get(new_form, false):
+		_played_form_taunts[new_form] = true
+		var taunt_key: String = ""
+		match new_form:
+			1: taunt_key = "vlad_taunt_vampire"
+			2: taunt_key = "vlad_taunt_werewolf"
+			3: taunt_key = "vlad_taunt_bat"
+		
+		# Dönüşüm efektinin (kan dumanı ve silüet) tamamlanıp yeni formun netleşmesi için 1.2s bekle
+		get_tree().create_timer(1.2).timeout.connect(func():
+			if not _boss_defeated and is_instance_valid(vlad_boss) and not vlad_boss.is_dead and _current_dialogue_state == "none":
+				_play_form_taunt(taunt_key)
+		)
+
 
 func _open_barrier(barrier: StaticBody2D) -> void:
 	if not barrier:
@@ -196,21 +216,49 @@ func _setup_hud() -> void:
 		hud.set_tutorial("3. Sahne: Kan Taht Odası", "1. Faz: Voyvoda", "Mızrak atılımlarını ve impale zemin saldırılarını atlatarak yaklaş!")
 
 
-func _on_dialogue_completed() -> void:
-	if _is_intro_dialogue:
-		_is_intro_dialogue = false
-		if vlad_boss and "is_active" in vlad_boss:
+func _play_form_taunt(key: String) -> void:
+	if not dialogue_box or _boss_defeated:
+		return
+	var list: Array = StoryDataLoader.get_dialogue_sequence(key)
+	if list.is_empty():
+		push_warning("Stage3ThroneRoom: No dialogue found for %s, skipping." % key)
+		_resume_boss_after_dialogue()
+		return
+
+	_current_dialogue_state = "form_change"
+	dialogue_box.start_dialogue(list, vlad_boss)
+
+
+func _resume_boss_after_dialogue() -> void:
+	if vlad_boss and is_instance_valid(vlad_boss) and not vlad_boss.is_dead:
+		if vlad_boss.has_method("on_cinematic_ended"):
+			vlad_boss.on_cinematic_ended()
+		elif "is_active" in vlad_boss:
 			vlad_boss.is_active = true
-	else:
-		# Outro tamamlandı -> Bölüm sonu boyut yırtığı
-		var game_state: Node = get_node_or_null("/root/GameState")
-		if game_state:
-			game_state.current_heart_pieces += 1
-		if hud and hud.has_method("set_tutorial"):
-			hud.set_tutorial("Eflak Seferi Tamamlandı", "Boyut Yırtığı Açıldı", "Bir sonraki çağa açılan portala adım at...")
-		get_tree().create_timer(2.0).timeout.connect(func():
-			get_tree().change_scene_to_file("res://scenes/main.tscn")
-		)
+
+
+func _on_dialogue_completed() -> void:
+	match _current_dialogue_state:
+		"intro":
+			_current_dialogue_state = "none"
+			_is_intro_dialogue = false
+			_resume_boss_after_dialogue()
+		"form_change":
+			_current_dialogue_state = "none"
+			_resume_boss_after_dialogue()
+		"outro":
+			_current_dialogue_state = "none"
+			var game_state: Node = get_node_or_null("/root/GameState")
+			if game_state:
+				game_state.current_heart_pieces += 1
+			if hud and hud.has_method("set_tutorial"):
+				hud.set_tutorial("Eflak Seferi Tamamlandı", "Boyut Yırtığı Açıldı", "Bir sonraki çağa açılan portala adım at...")
+			get_tree().create_timer(2.0).timeout.connect(func():
+				get_tree().change_scene_to_file("res://scenes/main.tscn")
+			)
+		_:
+			_current_dialogue_state = "none"
+			_resume_boss_after_dialogue()
 
 
 func _physics_process(_delta: float) -> void:
@@ -252,4 +300,5 @@ func _on_flashback_finished() -> void:
 		add_child(fatih_inst)
 
 	if dialogue_box:
+		_current_dialogue_state = "outro"
 		dialogue_box.start_dialogue_from_data("fatih_outro")
