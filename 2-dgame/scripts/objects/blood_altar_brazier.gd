@@ -9,8 +9,12 @@ signal brazier_ignited()
 
 @export var is_ignited: bool = false
 
+const PositionalEmitter = preload("res://scripts/audio/positional_audio_emitter_2d.gd")
+
 @onready var fire_visual: CanvasItem = get_node_or_null("FireVisual") as CanvasItem
 @onready var prompt: Label = get_node_or_null("PromptLabel") as Label
+
+var _audio_emitter: Node2D = null
 
 
 func _ready() -> void:
@@ -49,6 +53,14 @@ func ignite_brazier() -> void:
 		tw.tween_property(fire_visual, "scale:y", 1.0, 0.2)
 
 	_spawn_ignite_label("🔥 Kan Mangalı Yandı!")
+	if not _audio_emitter:
+		var emitter = PositionalEmitter.new()
+		emitter.sound_key = "torch"
+		emitter.max_distance = 600.0
+		emitter.volume_db = -4.0
+		emitter.loop = true
+		_audio_emitter = emitter
+		add_child(_audio_emitter)
 	brazier_ignited.emit()
 
 

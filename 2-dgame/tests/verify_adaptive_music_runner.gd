@@ -275,3 +275,4 @@ func _test_scene_change_state_reset(audio_mgr: Node) -> void:
 	_assert_true(audio_mgr._current_boss_name == "", "Boss kaydı sıfırlandı.")
 
 	dummy_scene.queue_free()
+

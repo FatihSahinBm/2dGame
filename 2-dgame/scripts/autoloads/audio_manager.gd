@@ -84,7 +84,9 @@ var _combat_layer_player: AudioStreamPlayer = null
 var _combat_layer_tween: Tween = null
 var _current_combat_layer_key: String = "combat_layer"
 
-# Ortam ve Diyalog Çalıcıları
+# Ortam ve Diyalog Çalıcıları (Çift Çalıcı ile Yumuşak Ambience Cross-Fade)
+var _ambience_player_a: AudioStreamPlayer = null
+var _ambience_player_b: AudioStreamPlayer = null
 var _ambience_player: AudioStreamPlayer = null
 var _ambience_tween: Tween = null
 var _current_ambience_key: String = ""
@@ -160,11 +162,18 @@ func _init_players() -> void:
 	_combat_layer_player.volume_db = -80.0
 	add_child(_combat_layer_player)
 
-	# Ortam Çalıcısı
-	_ambience_player = AudioStreamPlayer.new()
-	_ambience_player.name = "AmbiencePlayer"
-	_ambience_player.bus = "Ambience"
-	add_child(_ambience_player)
+	# Ortam Çalıcıları (Çift Çalıcı ile Yumuşak Ambience Cross-Fade)
+	_ambience_player_a = AudioStreamPlayer.new()
+	_ambience_player_a.name = "AmbiencePlayerA"
+	_ambience_player_a.bus = "Ambience"
+	add_child(_ambience_player_a)
+
+	_ambience_player_b = AudioStreamPlayer.new()
+	_ambience_player_b.name = "AmbiencePlayerB"
+	_ambience_player_b.bus = "Ambience"
+	add_child(_ambience_player_b)
+
+	_ambience_player = _ambience_player_a
 
 	# Diyalog Çalıcısı
 	_dialogue_player = AudioStreamPlayer.new()
@@ -542,8 +551,16 @@ func _unmute_combat_layer(duration: float = 0.5, target_volume_db: float = -4.0)
 # 7. Ortam (Ambience) ve Diyalog (Dialogue)
 # ---------------------------------------------------------------------------
 func play_ambience(sound: Variant, fade_in_duration: float = 1.0, volume_db: float = 0.0) -> void:
+	crossfade_ambience(sound, fade_in_duration, volume_db)
+
+
+func crossfade_ambience(sound: Variant, duration: float = 1.0, target_volume_db: float = 0.0) -> void:
 	var key_str := str(sound)
-	if key_str == _current_ambience_key and _ambience_player.playing:
+	if key_str == _current_ambience_key and _ambience_player != null and _ambience_player.playing:
+		# Aynı ortam zaten çalıyor; ani seviye sıçraması olmadan hedef sesi yumuşat
+		if _ambience_player.volume_db != target_volume_db:
+			var tw := create_tween()
+			tw.tween_property(_ambience_player, "volume_db", target_volume_db, maxf(duration, 0.1))
 		return
 
 	var stream := _resolve_stream(sound)
@@ -554,14 +571,38 @@ func play_ambience(sound: Variant, fade_in_duration: float = 1.0, volume_db: flo
 	if _ambience_tween and is_instance_valid(_ambience_tween):
 		_ambience_tween.kill()
 
-	_ambience_player.stream = stream
-	_ambience_player.volume_db = -80.0
-	_ambience_player.play()
-	_fill_procedural_if_needed(_ambience_player, sound)
+	var incoming: AudioStreamPlayer = _ambience_player_b if _ambience_player == _ambience_player_a else _ambience_player_a
+	var outgoing: AudioStreamPlayer = _ambience_player
 
-	_ambience_tween = create_tween()
-	_ambience_tween.tween_property(_ambience_player, "volume_db", volume_db, maxf(fade_in_duration, 0.05))
+	incoming.stream = stream
+	incoming.volume_db = -80.0
+	incoming.play()
+	_fill_procedural_if_needed(incoming, sound)
+
+	_ambience_tween = create_tween().set_parallel(true)
+	_ambience_tween.tween_property(incoming, "volume_db", target_volume_db, maxf(duration, 0.05)).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	if outgoing and outgoing.playing:
+		_ambience_tween.tween_property(outgoing, "volume_db", -80.0, maxf(duration, 0.05)).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		_ambience_tween.chain().tween_callback(outgoing.stop)
+
+	_ambience_player = incoming
 	_current_ambience_key = key_str
+
+
+func play_zone_ambience(zone_name: String, fade_duration: float = 1.0, volume_db: float = -6.0) -> void:
+	var z := zone_name.to_lower()
+	var sound_key := ""
+	if z.contains("prehistoric") or z.contains("stone"):
+		sound_key = "prehistoric_ambience"
+	elif z.contains("vlad") or z.contains("wallachia") or z.contains("castle") or z.contains("throne"):
+		sound_key = "vlad_ambience"
+	elif z.contains("camp") or z.contains("raid") or z.contains("ottoman"):
+		sound_key = "camp_ambience"
+	else:
+		sound_key = z
+
+	crossfade_ambience(sound_key, fade_duration, volume_db)
 
 
 func stop_ambience(fade_out_duration: float = 1.0) -> void:
@@ -573,9 +614,14 @@ func stop_ambience(fade_out_duration: float = 1.0) -> void:
 	_ambience_tween = create_tween()
 	_ambience_tween.tween_property(_ambience_player, "volume_db", -80.0, maxf(fade_out_duration, 0.05))
 	_ambience_tween.tween_callback(func():
-		_ambience_player.stop()
+		if _ambience_player:
+			_ambience_player.stop()
 		_current_ambience_key = ""
 	)
+
+
+func get_current_ambience_key() -> String:
+	return _current_ambience_key
 
 
 func play_dialogue(sound: Variant, volume_db: float = 0.0) -> AudioStreamPlayer:
@@ -606,18 +652,26 @@ func _on_scene_changed(new_scene: Node) -> void:
 	match music_policy:
 		MusicScenePolicy.STOP:
 			stop_music(0.4)
+			stop_ambience(0.4)
 		MusicScenePolicy.MAINTAIN:
 			pass # Mevcut müzik aynen devam eder
 		MusicScenePolicy.AUTO_THEME:
 			if path.contains("main_menu"):
 				set_exploration_theme("menu_theme")
 				set_music_state(MusicState.EXPLORATION, 1.0)
+				stop_ambience(0.5)
 			elif path.contains("prehistoric") or path.contains("stoneage"):
 				set_exploration_theme("prehistoric_theme")
 				set_music_state(MusicState.EXPLORATION, 1.2)
-			elif path.contains("vlad") or path.contains("camp") or path.contains("throne"):
+				play_zone_ambience("prehistoric", 1.2, -6.0)
+			elif path.contains("camp"):
 				set_exploration_theme("vlad_theme")
 				set_music_state(MusicState.EXPLORATION, 1.2)
+				play_zone_ambience("camp", 1.2, -6.0)
+			elif path.contains("vlad") or path.contains("throne"):
+				set_exploration_theme("vlad_theme")
+				set_music_state(MusicState.EXPLORATION, 1.2)
+				play_zone_ambience("vlad", 1.2, -6.0)
 
 
 # ---------------------------------------------------------------------------
@@ -879,6 +933,94 @@ func _register_builtin_procedural_sounds() -> void:
 			var t := float(i) / 22050.0
 			var env := exp(-1.5 * t)
 			var s := (sin(t * 110.0 * TAU) * 0.3 + sin(t * 130.8 * TAU) * 0.2) * env
+			pb.push_frame(Vector2(s, s))
+
+	# --- Story 2D-112: Konumsal Sesler ve Bölgesel Ortam Sesleri ---
+
+	# Tarih Öncesi Vadi Ambiyansı (Rüzgâr, Uğultu ve Yankılanan Kuş Sesleri)
+	_sound_registry["prehistoric_ambience"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var wind := (randf() * 2.0 - 1.0) * 0.08 * (0.6 + 0.4 * sin(t * 0.4 * TAU))
+			var rumble := sin(t * 42.0 * TAU) * 0.12
+			var chirp := sin(t * 1250.0 * TAU) * exp(-15.0 * fmod(t * 2.5, 1.0)) * 0.05
+			var s := wind + rumble + chirp
+			pb.push_frame(Vector2(s, s))
+
+	# Gotik Eflak / Vlad Kalesi Ambiyansı (Gece Esintisi, Cırcır Böcekleri, Su Damlası)
+	_sound_registry["vlad_ambience"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var gust := (randf() * 2.0 - 1.0) * 0.06 * (0.5 + 0.5 * sin(t * 0.5 * TAU))
+			var cricket := sin(t * 4500.0 * TAU) * sin(t * 30.0 * TAU) * 0.04
+			var drip := sin(t * 900.0 * TAU) * exp(-40.0 * fmod(t * 1.2, 1.0)) * 0.06
+			var s := gust + cricket + drip
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["wallachia_ambience"] = _sound_registry["vlad_ambience"]
+
+	# Ordugâh Gece Baskını Ambiyansı (Ateş Korları, Uğultu ve Esinti)
+	_sound_registry["camp_ambience"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var breeze := (randf() * 2.0 - 1.0) * 0.07 * (0.7 + 0.3 * sin(t * 0.8 * TAU))
+			var crackle := (1.0 if randf() < 0.008 else 0.0) * (randf() * 2.0 - 1.0) * 0.35
+			var low_fire := sin(t * 58.0 * TAU) * 0.08
+			var s := breeze + crackle + low_fire
+			pb.push_frame(Vector2(s, s))
+
+	# 2D Konumsal Meşale Sesi (Torch)
+	_sound_registry["torch"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.5), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var flutter := (randf() * 2.0 - 1.0) * 0.15 * (0.8 + 0.2 * sin(t * 5.0 * TAU))
+			var crackle := (1.0 if randf() < 0.015 else 0.0) * 0.3
+			var s := flutter + crackle
+			pb.push_frame(Vector2(s, s))
+
+	# 2D Konumsal Kamp Ateşi Sesi (Campfire)
+	_sound_registry["campfire"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.6), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var low := sin(t * 60.0 * TAU) * 0.15
+			var flutter := (randf() * 2.0 - 1.0) * 0.2 * (0.7 + 0.3 * sin(t * 3.0 * TAU))
+			var pop := (1.0 if randf() < 0.02 else 0.0) * (randf() * 2.0 - 1.0) * 0.4
+			var s := low + flutter + pop
+			pb.push_frame(Vector2(s, s))
+
+	# 2D Konumsal Şelale Sesi (Waterfall)
+	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var roar := (randf() * 2.0 - 1.0) * 0.28
+			var rumble := sin(t * 85.0 * TAU) * 0.15 + sin(t * 130.0 * TAU) * 0.1
+			var s := roar + rumble
+			pb.push_frame(Vector2(s, s))
+
+	# 2D Düşman Adım Sesi (Enemy Step)
+	_sound_registry["enemy_step"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.12), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-35.0 * t)
+			var thud := sin(t * (95.0 - 40.0 * t) * TAU) * 0.5
+			var grit := (randf() * 2.0 - 1.0) * 0.2
+			var s := (thud + grit) * env
+			pb.push_frame(Vector2(s, s))
+
+	# 2D Zindan Su Damlaması (Dungeon Drip)
+	_sound_registry["dungeon_drip"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.15), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-25.0 * t)
+			var freq := 850.0 - 250.0 * t
+			var s := sin(t * freq * TAU) * env * 0.45
 			pb.push_frame(Vector2(s, s))
 
 

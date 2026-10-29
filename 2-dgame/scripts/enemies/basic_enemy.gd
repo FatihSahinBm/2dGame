@@ -22,6 +22,7 @@ signal died()
 # Durum Değişkenleri
 var is_dead: bool = false
 var _turn_pause_timer: float = 0.0
+var _step_timer: float = 0.0
 var _hit_flash_tween: Tween
 var _hp_bar_tween: Tween
 
@@ -82,11 +83,17 @@ func _physics_process(delta: float) -> void:
 	velocity.x = float(direction) * speed
 	move_and_slide()
 
-	# 7. Animasyon Güncellemesi
+	# 7. Animasyon ve Konumsal Adım Sesi Güncellemesi
 	if is_on_floor() and anim_sprite and anim_sprite.animation != &"hit":
 		if absf(velocity.x) > 5.0:
 			if anim_sprite.animation != &"walk":
 				anim_sprite.play(&"walk")
+			_step_timer -= delta
+			if _step_timer <= 0.0:
+				_step_timer = 0.45
+				var audio_mgr = get_node_or_null("/root/AudioManager")
+				if audio_mgr and audio_mgr.has_method("play_sound_2d"):
+					audio_mgr.play_sound_2d("enemy_step", global_position, null, -12.0, 450.0)
 		else:
 			if anim_sprite.animation != &"idle":
 				anim_sprite.play(&"idle")
