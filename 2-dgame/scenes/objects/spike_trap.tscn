@@ -20,6 +20,8 @@ shape = SubResource("RectangleShape2D_spikes")
 [node name="Visual" type="Node2D" parent="."]
 
 [node name="Spikes" type="Node2D" parent="Visual"]
+visible = false
+position = Vector2(0, 18)
 
 [node name="SpikesSprite" type="Sprite2D" parent="Visual/Spikes"]
 texture_filter = 1

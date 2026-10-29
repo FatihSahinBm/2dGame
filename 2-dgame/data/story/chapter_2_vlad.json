@@ -1,128 +1,213 @@
 {
   "chapter_id": 2,
   "era": "17 Haziran 1462 (Târgovişte & Eflak)",
+  "era_en": "June 17, 1462 (Târgovişte & Wallachia)",
   "title": "Târgovişte Gece Baskını ve Kan Surları",
+  "title_en": "Night Attack at Târgovişte & Walls of Blood",
   "synopsis": "Zaman yırtığından 15. yüzyıl Eflak ormanlarına savrulan ana karakter, Vlad Tepeş'in Osmanlı ordugahına düzenlediği gece baskınının ortasına düşer. Askeri bir çıkar ortaklığıyla Fatih Sultan Mehmed ile yolları kesişir. Karakter dünyayı kurtarmak için değil, Vlad'ın koruduğu Kalp Parçası'na ulaşmak için savaşır; kılıcına hapsedilmiş dost ruhu ise ahlaksız eylemlere madeni çığlıklarla direnir.",
+  "synopsis_en": "Hurled through the time rift into 15th-century Wallachian forests, the hero lands in the middle of Vlad the Impaler's nocturnal attack on the Ottoman encampment. Out of strategic necessity, paths cross with Sultan Mehmed II. The protagonist fights not to save the realm, but to seize the Heart Shard Vlad safeguards, while the soul trapped inside the blade shrieks against dishonorable deeds.",
   "dialogues": {
     "commander_rescue": [
       {
         "speaker": "Osmanlı Öncü Kumandanı",
+        "speaker_en": "Ottoman Vanguard Commander",
         "title": "Yeniçeri Ağası",
+        "title_en": "Janissary Captain",
         "text": "Var ol yiğidim! Vlad'ın gece yaratıkları pusu kurdu, canavarlar etrafımızı sarmıştı. Kılıcınla yetişmeseydin şehit düşmüştük!",
+        "text_en": "Bless you, brave warrior! Vlad's night terrors ambushed us and encircled our men. Had your blade not arrived in time, we would have perished!",
         "portrait": "janissary"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Seni Fatih'in otağına kadar takip edeceğim.",
+        "text_en": "I will escort you back to Mehmed's imperial camp.",
         "portrait": "player"
       },
       {
         "speaker": "Osmanlı Öncü Kumandanı",
+        "speaker_en": "Ottoman Vanguard Commander",
         "title": "Yeniçeri Ağası",
+        "title_en": "Janissary Captain",
         "text": "Ordugahımız hemen ileride! Hünkarımız Fatih Sultan Mehmed Han otağında sefer meclisini topladı. Hemen ardımdan gel!",
+        "text_en": "Our camp lies just ahead! Our Sovereign, Sultan Mehmed the Conqueror, has gathered his war council in his pavilion. Follow me!",
+        "portrait": "janissary"
+      }
+    ],
+    "soldier_campfire_rest": [
+      {
+        "speaker": "Gazi Yeniçeri",
+        "speaker_en": "Veteran Janissary",
+        "title": "Nöbetçi Asker",
+        "title_en": "Campfire Sentinel",
+        "text": "Ateşin başına otur yiğit, soluklan... Vlad'ın yaratıkları karanlıktan üzerimize çullandı lakin Osmanlı sancağı düşmez. Dinlen ve kılıcını bile.",
+        "text_en": "Take a seat by the embers, warrior, catch your breath... Vlad's abominations lunged from the shadows, but the Ottoman banner does not yield. Rest and hone your steel.",
+        "portrait": "janissary"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Sultan Fatih nerede bekliyor?",
+        "text_en": "Where does Sultan Mehmed await?",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Gazi Yeniçeri",
+        "speaker_en": "Veteran Janissary",
+        "title": "Nöbetçi Asker",
+        "title_en": "Campfire Sentinel",
+        "text": "Hemen ileride, sancakların dalgalandığı Otağ-ı Hümayun'da sefer divanını yönetiyor. Köprüye taarruz etmeden önce ateşimizde dinlen, iksirlerini tazele.",
+        "text_en": "Just ahead, presiding over the imperial war council in the grand pavilion where the banners fly. Rest at our hearth and refresh your draughts before storming the bridge.",
         "portrait": "janissary"
       }
     ],
     "fatih_intro": [
       {
         "speaker": "Osmanlı Öncü Kumandanı",
+        "speaker_en": "Ottoman Vanguard Commander",
         "title": "Yeniçeri Ağası",
+        "title_en": "Janissary Captain",
         "text": "Hünkarım! Gece baskınının cehenneminde canavarlar etrafımızı sarmışken, bu yabancı kılıcıyla yaratıkları biçti ve öncü kolumuzu kurtardı!",
+        "text_en": "My Sovereign! In the inferno of the night raid as beasts encircled us, this stranger carved through the horde with that sword and saved our vanguard!",
         "portrait": "janissary"
       },
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Yaklaş yabancı... Askerimi kurtardın lakin gözlerindeki o karanlık hırsı tanıyorum. Sen bir fedai değilsin. Vlad'ın surlarına neden yaklaştığını anlat.",
+        "text_en": "Step forward, stranger... You rescued my men, yet I recognize that dark hunger in your eyes. You are no loyal zealot. Speak: why do you venture towards Vlad's fortress?",
         "portrait": "fatih"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Yolumu kapatan şeyi bulmam gerekiyor.",
+        "text_en": "I must reclaim that which bars my path across time.",
         "portrait": "player"
       },
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Ben de kendi yolumun önündeki voyvodayı ezeceğim. Madem hedefimiz kale surlarının ardında birleşiyor; öncü hatla ilerle. Sonra kimin peşinde olduğumuzu görürüz.",
+        "text_en": "And I shall crush the treacherous Voivode who dares obstruct mine. Since our paths converge beyond the fortress walls; lead the vanguard assault. Then we shall see what you truly pursue.",
         "portrait": "fatih"
       }
     ],
     "commander_orders_note": [
       {
         "speaker": "Öncü Kumandanın Fermanı",
+        "speaker_en": "Vanguard Commander's Decree",
         "title": "Yazılı Emir",
+        "title_en": "Written Orders",
         "text": "'Fatih Sultan Mehmed Han'ın dikkatine: Orman yolu pusuya düşürüldü. Surlara açılan köprüye derhal taarruz edilmeli!'",
+        "text_en": "'For the attention of Sultan Mehmed: The forest pass was ambushed. The bridge leading to the citadel must be stormed without delay!'",
         "portrait": "janissary"
       }
     ],
     "ancient_heart_relief": [
       {
         "speaker": "Kadim Taş Kabartma",
+        "speaker_en": "Ancient Stone Relief",
         "title": "Kemik Arşivi",
+        "title_en": "Bone Archives",
         "text": "Taş kabartmada parçalanmış bir kalp betimlenmiş. Derin yarıklar, bir zamanlar bütün olan kadim bir özün zorla koparıldığını düşündürüyor...",
+        "text_en": "A shattered heart is etched into the weathered relief. Deep fissures suggest an ancient core was violently severed from its rightful whole...",
         "portrait": "none"
       },
       {
         "speaker": "",
+        "speaker_en": "",
         "title": "",
+        "title_en": "",
         "text": "*Kabza elinde aniden buz kesiyor. Kılıcın gövdesi titriyor; derinliklerinden boğuk, bastırılmış bir metalik inilti yükselip hızla sönüyor.*",
+        "text_en": "*The hilt turns ice-cold in your palm. The blade trembles violently, emitting a muffled, mournful metallic groan from its deep forged core.*",
         "portrait": "none"
       }
     ],
     "fatih_commander_fallen": [
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Yabancı... Öncü kolumun getireceği fermanı beklerdim, lakin otağıma tek başına girdin. Kumandanım nerede?",
+        "text_en": "Stranger... I awaited the decree my vanguard was to deliver, yet you enter my pavilion alone. Where is my commander?",
         "portrait": "fatih"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Orman pususunda can verdi. Üzerindeki ferman bu... Köprüye taarruz emrini taşıyor.",
+        "text_en": "He fell in the forest ambush. Here is the decree he carried... Bearing orders to assault the bridge.",
         "portrait": "player"
       },
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Demek Hamza Bey şehit düştü... Kanı yerde kalmayacak. Lakin fermanı getiren bir yabancının niyetini tartmadan kılıç çekmem. Kimsin sen?",
+        "text_en": "So Hamza Bey has fallen... His blood shall be avenged. Yet I draw no steel without weighing the intent of the stranger bearing his orders. Who are you?",
         "portrait": "fatih"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Kim olduğumun önemi yok. Surlar yıkılmalı, ben de o kaleye gireceğim.",
+        "text_en": "Who I am matters not. The ramparts must fall, and I am breaching that citadel.",
         "portrait": "player"
       },
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Karanlık bir hırs taşıyorsun lakin hedefimiz aynı surlara bakıyor. Öncü hatta katıl, köprü barikatlarını ez! Lakin bil ki arkanda sadece dostlar yürümeyecek.",
+        "text_en": "You carry a grim ambition, yet our eyes face the same fortress. Join the front line and smash the bridge barricades! But beware: you walk among wary allies.",
         "portrait": "fatih"
       }
     ],
     "archer_sidequest_callout": [
       {
         "speaker": "Kemankeş Çavuşu",
+        "speaker_en": "Janissary Archer Sergeant",
         "title": "Osmanlı Okçusu",
+        "title_en": "Ottoman Bowman",
         "text": "Hey yabancı! Dur bir dakika, beni dinle! Vadide erzak arabamız parçalandı, alevli ok sadaklarımız orada mahsur kaldı.",
+        "text_en": "Hail, stranger! Wait a moment, listen! In the valley our supply cart was shattered, and our flaming arrow quivers were abandoned there.",
         "portrait": "archer"
       },
       {
         "speaker": "Kemankeş Çavuşu",
+        "speaker_en": "Janissary Archer Sergeant",
         "title": "Osmanlı Okçusu",
+        "title_en": "Ottoman Bowman",
         "text": "O alevli oklar olmadan surlara açılan köprüdeki canavar barikatlarını temizleyemeyiz! Gidip sadaklarımı bulmama yardımcı olur musun?",
+        "text_en": "Without those fire arrows, we cannot pierce the monster barricades blocking the bridge! Will you assist in recovering my quivers?",
         "portrait": "archer",
         "choices": [
           {
             "text": "[1] Yardımcı Ol",
+            "text_en": "[1] Help Recover Quivers",
             "action": "accept"
           },
           {
             "text": "[2] Vaktim Yok",
+            "text_en": "[2] No Time",
             "action": "decline"
           }
         ]
@@ -131,56 +216,77 @@
     "archer_sidequest_accept": [
       {
         "speaker": "Kemankeş Çavuşu",
+        "speaker_en": "Janissary Archer Sergeant",
         "title": "Osmanlı Okçusu",
+        "title_en": "Ottoman Bowman",
         "text": "Var ol yiğidim! Gerideki kırık erzak arabasının yanına bak. Sadakları sağ salim getirirsen, köprü taarruzunda sana alevli ok desteği yağdıracağım!",
+        "text_en": "Blessings upon you! Search by the shattered supply cart behind us. Bring the quivers back, and I shall unleash a tempest of flaming arrows to cover your bridge assault!",
         "portrait": "archer"
       }
     ],
     "archer_sidequest_decline": [
       {
         "speaker": "Kemankeş Çavuşu",
+        "speaker_en": "Janissary Archer Sergeant",
         "title": "Osmanlı Okçusu",
+        "title_en": "Ottoman Bowman",
         "text": "Sen bilirsin yabancı... Lakin o köprüdeki vampir sürülerini tek başına yarman güç olacak. Fikrin değişirse ben buradayım.",
+        "text_en": "As you wish, traveler... Yet carving through those vampire swarms alone across that bridge will prove treacherous. Should you reconsider, find me here.",
         "portrait": "archer"
       }
     ],
     "archer_sidequest_waiting": [
       {
         "speaker": "Kemankeş Çavuşu",
+        "speaker_en": "Janissary Archer Sergeant",
         "title": "Osmanlı Okçusu",
+        "title_en": "Ottoman Bowman",
         "text": "Sadakları henüz bulamadın mı? Gerideki kırık erzak arabasını ara, köprüde oklara muhtacız!",
+        "text_en": "Have you not recovered the quivers yet? Search the wrecked cart behind us, our bowstrings hunger for them at the bridge!",
         "portrait": "archer"
       }
     ],
     "archer_sidequest_complete": [
       {
         "speaker": "Kemankeş Çavuşu",
+        "speaker_en": "Janissary Archer Sergeant",
         "title": "Osmanlı Okçusu",
+        "title_en": "Ottoman Bowman",
         "text": "Sadakları getirmişsin! Var ol yiğidim. Köprü taarruzunda yaylarımızı gerip canavarların barikatlarını ateşe boğacağız!",
+        "text_en": "You returned with the quivers! Mighty thanks, warrior. In the bridge assault, our drawn bows shall drown their barricades in consuming fire!",
         "portrait": "archer"
       }
     ],
     "blood_knight_intro": [
       {
         "speaker": "Eflak Kan Şövalyesi",
+        "speaker_en": "Wallachian Blood Knight",
         "title": "Vlad'ın Elit Muhafızı",
+        "title_en": "Vlad's Elite Guardian",
         "text": "Hahaha! Osmanlı'nın fani sürüsü ve yabancı gölge... Efendim Vlad Tepeş'in kale kapısına bir adım dahi yaklaşamazsınız! Kanınız bu köprüye mühürlenecek!",
+        "text_en": "Hahaha! The Sultan's mortal vermin and an interloping shadow... You shall not set foot near Lord Vlad's gate! Your blood will consecrate these stones!",
         "portrait": "blood_knight"
       }
     ],
     "battering_ram_victory": [
       {
         "speaker": "Osmanlı Öncü Kumandanı",
+        "speaker_en": "Ottoman Vanguard Commander",
         "title": "Yeniçeri Ağası",
+        "title_en": "Janissary Captain",
         "text": "Kan Şövalyesi devrildi! Yeniçeriler, koçbaşını getirin! Vurun kale kapısına! Vuruuun!",
+        "text_en": "The Blood Knight has fallen! Janissaries, advance the battering ram! Strike the fortress gate! Smaaaash!",
         "portrait": "janissary"
       }
     ],
     "battering_ram_victory_sergeant": [
       {
         "speaker": "Yeniçeri Çavuşu",
+        "speaker_en": "Janissary Sergeant",
         "title": "Kuşatma Eri",
+        "title_en": "Siege Engineer",
         "text": "Kan Şövalyesi devrildi! Yeniçeriler, koçbaşını getirin! Şehit kumandanımızın intikamı için vurun kale kapısına! Vuruuun!",
+        "text_en": "The Blood Knight is felled! Janissaries, bring up the ram! In vengeance for our fallen commander, shatter their gates! Haaaa!",
         "portrait": "janissary"
       }
     ],
@@ -204,74 +310,104 @@
     "vlad_taunt": [
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
         "text": "Hahaha! Osmanlı'nın kiralık gölgesi mi geldin? Yoksa kan kokusunun peşine düşen başka bir avcı mı?",
+        "text_en": "Hahaha! Have you come as the Ottoman's hired phantom? Or merely another scavenger tracking the reek of fresh blood?",
         "portrait": "vlad"
       },
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
         "text": "Bu kale benim hükümranlığım! Buradan sadece kazığa çakılmış kemiklerin çıkacak!",
+        "text_en": "This citadel is my dominion! From here, only your impaled bones shall ever depart!",
         "portrait": "vlad"
       }
     ],
     "vlad_taunt_human": [
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
         "text": "Hahaha! Osmanlı'nın kiralık gölgesi mi geldin? Yoksa kan kokusunun peşine düşen başka bir avcı mı?",
+        "text_en": "Hahaha! Have you come as the Ottoman's hired phantom? Or merely another scavenger tracking the reek of fresh blood?",
         "portrait": "vlad"
       },
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
         "text": "Bu kale benim hükümranlığım! Buradan sadece kazığa çakılmış kemiklerin çıkacak!",
+        "text_en": "This citadel is my dominion! From here, only your impaled bones shall ever depart!",
         "portrait": "vlad"
       }
     ],
     "vlad_taunt_vampire": [
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Vampir Hükümdar",
+        "title_en": "Vampire Sovereign",
         "text": "Fani zırhım parçalandı ama asıl kabusum şimdi başlıyor! Kan kalkanımın ardında can çekişeceksin!",
+        "text_en": "My mortal shell lies shattered, yet your true nightmare only now commences! Wither and bleed behind my shield of sanguis!",
         "portrait": "vlad"
       }
     ],
     "vlad_taunt_werewolf": [
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Kurt Adam (Lycan)",
+        "title_en": "Lycanthrope Beast",
         "text": "*Vahşi bir kükreme surları titretir!* Surlar kanımızla yıkılacak, etini kemiğinden ayıracağım!",
+        "text_en": "*A ferocious roar shakes the parapets!* The ramparts shall bathe in gore; I will rip your flesh from bone!",
         "portrait": "vlad"
       }
     ],
     "vlad_taunt_bat": [
       {
         "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
         "title": "Dev Yarasa",
+        "title_en": "Abyssal Bat",
         "text": "*Gökyüzünden yankılanan ultrasonik çığlık!* Gece bana ait! Çan kulesi senin mezar anıtın olacak!",
+        "text_en": "*An ultrasonic shriek pierces the midnight sky!* The night belongs to me! This bell tower shall be your eternal sepulcher!",
         "portrait": "vlad"
       }
     ],
     "memory_flashback": [
       {
         "speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+        "speaker_en": "Mage Companion (Echo of the Past)",
         "title": "Zamanın Başlangıcı",
+        "title_en": "Dawn of Genesis",
         "text": "...Neden?! Sana güvenmiştim! Bu kadim gücü bir faninin iradesine bağlayamazsın!",
+        "text_en": "...Why?! I trusted you! You cannot bind this primordial power to mortal whims!",
         "echo": true,
         "portrait": "friend_memory"
       },
       {
         "speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
+        "speaker_en": "Unknown Voice (Former Self)",
         "title": "Hafıza Yankısı",
+        "title_en": "Memory Resonator",
         "text": "Bu güç... kaderin ta kendisine boyun eğdirecek...",
+        "text_en": "This power... shall bend destiny itself to my will...",
         "echo": true,
         "portrait": "player_dark"
       },
       {
         "speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+        "speaker_en": "Mage Companion (Echo of the Past)",
         "title": "Zamanın Başlangıcı",
+        "title_en": "Dawn of Genesis",
         "text": "HAYIR! Kalbi ezerim de buna izin vermem... Affet beni kadim dünya...!",
+        "text_en": "NO! I would sooner shatter the Heart than permit this... Forgive me, ancient world...!",
         "echo": true,
         "portrait": "friend_memory"
       }
@@ -279,20 +415,29 @@
     "fatih_outro": [
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Voyvoda Vlad devrildi, Eflak semalarındaki kan sisi dağılıyor. Kaleyi güvenceye aldık yabancı. Lakin göğsünden söküp aldığın o tuhaf kordan sonra... kılıcından yükselen o feryat neydi öyle?",
+        "text_en": "Voivode Vlad lies broken, and the crimson mist over Wallachia dissipates. The fortress is secured, traveler. Yet after wrenching that bizarre ember from his breast... what was that mournful cry resonating from your sword?",
         "portrait": "fatih"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Yol henüz bitmedi... Kılıç bir sonraki yırtığı açıyor.",
+        "text_en": "The quest is not yet over... The blade tears open the next temporal rift.",
         "portrait": "player"
       },
       {
         "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
         "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
         "text": "Kaderinin peşinden git yabancı. Lakin unutma; kılıcının ardında bıraktığı gölgeyi karanlık bile gizleyemez.",
+        "text_en": "Pursue your destiny, traveler. But heed this: not even the deepest night can shroud the shadow your blade casts behind you.",
         "portrait": "fatih"
       }
     ],

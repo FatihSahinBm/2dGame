@@ -15,9 +15,10 @@
 [ext_resource type="Texture2D" path="res://assets/items/arrow_quiver.png" id="13_quiver_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/camp/ottoman_camp_ground.png" id="14_ground"]
 [ext_resource type="Script" path="res://scripts/objects/camp_night_raid_atmosphere.gd" id="15_atmo"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire_checkpoint.tscn" id="16_campfire"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1800, 60)
+size = Vector2(2800, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_gate"]
 size = Vector2(80, 220)
@@ -46,16 +47,16 @@ ground_y = 560.0
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="Environment"]
-position = Vector2(600, 590)
+position = Vector2(1000, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/Ground"]
 texture_filter = 1
-offset_left = -900.0
+offset_left = -1400.0
 offset_top = -30.0
-offset_right = 900.0
+offset_right = 1400.0
 offset_bottom = 120.0
 texture = ExtResource("14_ground")
 patch_margin_left = 16
@@ -89,7 +90,7 @@ texture = ExtResource("13_quiver_tex")
 
 [node name="RoyalTentVisual" type="Sprite2D" parent="Environment"]
 z_index = -1
-position = Vector2(1060, 365)
+position = Vector2(1950, 365)
 texture = ExtResource("9_tent")
 centered = false
 
@@ -97,6 +98,11 @@ centered = false
 position = Vector2(120, 560)
 has_sword = true
 is_armed = true
+
+[node name="CampfireCheckpoint" parent="." instance=ExtResource("16_campfire")]
+position = Vector2(820, 560)
+checkpoint_id = "camp_vanguard_campfire"
+is_lit = false
 
 [node name="Allies" type="Node2D" parent="."]
 
@@ -108,19 +114,27 @@ is_guard = true
 position = Vector2(480, 560)
 is_guard = true
 
+[node name="JanissaryResting1" parent="Allies" instance=ExtResource("5_soldier")]
+position = Vector2(750, 560)
+is_guard = true
+
+[node name="JanissaryResting2" parent="Allies" instance=ExtResource("5_soldier")]
+position = Vector2(890, 560)
+is_guard = true
+
 [node name="KemankesArcher" parent="Allies" instance=ExtResource("6_archer")]
-position = Vector2(760, 560)
+position = Vector2(1200, 560)
 
 [node name="JanissaryGuard2" parent="Allies" instance=ExtResource("5_soldier")]
-position = Vector2(940, 560)
+position = Vector2(1500, 560)
 is_guard = true
 
 [node name="JanissaryGuard3" parent="Allies" instance=ExtResource("5_soldier")]
-position = Vector2(1120, 560)
+position = Vector2(1780, 560)
 is_guard = true
 
 [node name="TentEntranceArea" type="Area2D" parent="."]
-position = Vector2(1200, 500)
+position = Vector2(2080, 500)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TentEntranceArea"]

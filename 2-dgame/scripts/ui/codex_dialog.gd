@@ -121,6 +121,9 @@ func close() -> void:
 func _switch_category(cat: String) -> void:
 	_current_category = cat
 	_selected_entry_id = ""
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("play_sfx"):
+		audio_mgr.play_sfx("page_turn", -2.0)
 	_refresh_ui()
 
 
@@ -146,6 +149,18 @@ func _refresh_ui() -> void:
 
 
 func _update_tab_buttons() -> void:
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+
+	if btn_enemies:
+		btn_enemies.text = "⚔️ Enemies" if is_en else "⚔️ Düşmanlar"
+	if btn_bosses:
+		btn_bosses.text = "👑 Bosses" if is_en else "👑 Elebaşılar"
+	if btn_characters:
+		btn_characters.text = "👥 Allies & NPCs" if is_en else "👥 Karakterler"
+	if btn_lore:
+		btn_lore.text = "📜 World Lore" if is_en else "📜 Dünya Bilgisi"
+
 	var map = {
 		"enemies": btn_enemies,
 		"bosses": btn_bosses,
@@ -168,13 +183,19 @@ func _update_progress() -> void:
 	if not codex_mgr or not codex_mgr.has_method("get_progress"):
 		return
 
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+
 	var prog: Dictionary = codex_mgr.get_progress(_current_category)
 	var unlocked_count: int = int(prog.get("unlocked", 0))
 	var total_count: int = int(prog.get("total", 0))
 	var pct: int = int(prog.get("percentage", 0))
 
 	if progress_label:
-		progress_label.text = "Keşif: %d / %d (%%%d)" % [unlocked_count, total_count, pct]
+		if is_en:
+			progress_label.text = "Discovered: %d / %d (%d%%)" % [unlocked_count, total_count, pct]
+		else:
+			progress_label.text = "Keşif: %d / %d (%%%d)" % [unlocked_count, total_count, pct]
 	if progress_bar:
 		progress_bar.max_value = float(maxi(1, total_count))
 		progress_bar.value = float(unlocked_count)
@@ -192,10 +213,13 @@ func _populate_entry_list() -> void:
 	if not codex_mgr:
 		return
 
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+
 	var entries: Array[Dictionary] = codex_mgr.get_entries_by_category(_current_category)
 	if entries.is_empty():
 		var empty_lbl = Label.new()
-		empty_lbl.text = "Bu kategoride kayıt bulunamadı."
+		empty_lbl.text = "No records found in this category." if is_en else "Bu kategoride kayıt bulunamadı."
 		empty_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		entry_list.add_child(empty_lbl)
 		return
@@ -214,7 +238,7 @@ func _populate_entry_list() -> void:
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 
 		var prefix = "🔒 " if is_locked else "📖 "
-		var title_text = str(display_data.get("title", e_id))
+		var title_text: String = str(display_data.get("title_en", "")) if (is_en and not str(display_data.get("title_en", "")).is_empty()) else str(display_data.get("title", e_id))
 		btn.text = " %s %s" % [prefix, title_text]
 
 		if is_locked:
@@ -235,6 +259,9 @@ func _populate_entry_list() -> void:
 
 		btn.pressed.connect(func():
 			_selected_entry_id = e_id
+			var audio_mgr = get_node_or_null("/root/AudioManager")
+			if audio_mgr and audio_mgr.has_method("play_sfx"):
+				audio_mgr.play_sfx("page_turn", -3.0)
 			entry_selected.emit(e_id)
 			_refresh_ui()
 		)
@@ -254,57 +281,68 @@ func _display_selected_entry() -> void:
 	if data.is_empty():
 		return
 
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
 	var is_locked: bool = bool(data.get("is_locked", false))
 
 	if title_label:
-		title_label.text = str(data.get("title", "???"))
+		var t_val := str(data.get("title_en", "")) if (is_en and not str(data.get("title_en", "")).is_empty()) else str(data.get("title", "???"))
+		title_label.text = t_val
 		title_label.modulate = Color(0.7, 0.75, 0.82, 1.0) if is_locked else Color(1, 0.95, 0.7, 1)
 
 	if subtitle_label:
-		subtitle_label.text = str(data.get("subtitle", ""))
+		var sub_val := str(data.get("subtitle_en", "")) if (is_en and not str(data.get("subtitle_en", "")).is_empty()) else str(data.get("subtitle", ""))
+		subtitle_label.text = sub_val
 
 	if category_badge:
 		var cat_name = str(data.get("category", "")).to_upper()
-		var badge_str = "KAYIT"
+		var badge_str = "ENTRY" if is_en else "KAYIT"
 		match cat_name:
-			"ENEMIES": badge_str = "⚔️ DÜŞMAN"
-			"BOSSES": badge_str = "👑 ELEBAŞI"
-			"CHARACTERS": badge_str = "👥 KARAKTER"
-			"LORE": badge_str = "📜 DÜNYA BİLGİSİ"
+			"ENEMIES": badge_str = "⚔️ ENEMY" if is_en else "⚔️ DÜŞMAN"
+			"BOSSES": badge_str = "👑 BOSS" if is_en else "👑 ELEBAŞI"
+			"CHARACTERS": badge_str = "👥 ALLY / NPC" if is_en else "👥 KARAKTER"
+			"LORE": badge_str = "📜 WORLD LORE" if is_en else "📜 DÜNYA BİLGİSİ"
 		category_badge.text = " %s " % badge_str
 
 	if era_badge:
-		era_badge.text = str(data.get("era", "Bilinmeyen Çağ"))
+		var era_val := str(data.get("era_en", "")) if (is_en and not str(data.get("era_en", "")).is_empty()) else str(data.get("era", "Bilinmeyen Çağ"))
+		era_badge.text = era_val
 
 	if desc_label:
-		desc_label.text = str(data.get("description", ""))
+		var d_val := str(data.get("description_en", "")) if (is_en and not str(data.get("description_en", "")).is_empty()) else str(data.get("description", ""))
+		desc_label.text = d_val
 
 	if tactics_label:
-		tactics_label.text = str(data.get("tactics", "Özel taktik bulunmuyor."))
+		var default_tac := "No special tactics." if is_en else "Özel taktik bulunmuyor."
+		var tac_val := str(data.get("tactics_en", "")) if (is_en and not str(data.get("tactics_en", "")).is_empty()) else str(data.get("tactics", default_tac))
+		tactics_label.text = tac_val
 
 	if weakness_label:
-		weakness_label.text = str(data.get("weakness", "Bilinmiyor"))
+		var default_weak := "Unknown" if is_en else "Bilinmiyor"
+		var w_val := str(data.get("weakness_en", "")) if (is_en and not str(data.get("weakness_en", "")).is_empty()) else str(data.get("weakness", default_weak))
+		weakness_label.text = w_val
 
 	if stats_summary_label:
-		stats_summary_label.text = str(data.get("stats_summary", ""))
+		var s_val := str(data.get("stats_summary_en", "")) if (is_en and not str(data.get("stats_summary_en", "")).is_empty()) else str(data.get("stats_summary", ""))
+		stats_summary_label.text = s_val
 
 	if kill_count_label:
 		if is_locked:
-			kill_count_label.text = "Karşılaşma: Henüz Yok"
+			kill_count_label.text = "Encounter: None" if is_en else "Karşılaşma: Henüz Yok"
 		else:
 			var kills: int = int(data.get("kills", 0))
 			var cat = str(data.get("category", ""))
 			if cat == "enemies" or cat == "bosses":
-				kill_count_label.text = "Yenilme Sayısı: %d" % kills
+				kill_count_label.text = ("Defeated: %d" if is_en else "Yenilme Sayısı: %d") % kills
 			else:
-				kill_count_label.text = "Durum: Keşfedildi"
+				kill_count_label.text = "Status: Discovered" if is_en else "Durum: Keşfedildi"
 
 	if status_label:
 		if is_locked:
-			status_label.text = "🔒 Henüz Keşfedilmedi"
+			status_label.text = "🔒 Not Yet Discovered" if is_en else "🔒 Henüz Keşfedilmedi"
 			status_label.modulate = Color(0.85, 0.45, 0.45, 1.0)
 		else:
-			status_label.text = "✓ Kayıt Açıldı"
+			status_label.text = "✓ Archive Unlocked" if is_en else "✓ Kayıt Açıldı"
 			status_label.modulate = Color(0.4, 0.9, 0.5, 1.0)
 
 	# İkon yüklemesi (Kilitliyse kilit simgesi veya karartılmış)

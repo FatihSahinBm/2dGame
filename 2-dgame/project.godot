@@ -92,6 +92,10 @@ pause={
 ]
 }
 
+[internationalization]
+
+locale/fallback="tr"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
@@ -100,7 +104,3 @@ pause={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
-
-[internationalization]
-
-locale/fallback="tr"

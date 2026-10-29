@@ -140,6 +140,11 @@ func _setup_internal_nodes() -> void:
 
 		visual.add_child(spikes_node)
 
+	# Başlangıçta gizli ve aşağıda başlasın
+	if mode != TrapMode.STATIC:
+		spikes_node.position.y = 18.0
+		spikes_node.visible = false
+
 
 func _physics_process(delta: float) -> void:
 	# 1. Hedef hasar bekleme sürelerini güncelle
@@ -232,8 +237,11 @@ func extend_spikes(animate: bool = true) -> void:
 		spikes_node.visible = true
 
 	var audio_mgr = get_node_or_null("/root/AudioManager")
-	if audio_mgr and audio_mgr.has_method("play_sfx"):
-		audio_mgr.play_sfx("spike_trap", -2.0)
+	if audio_mgr:
+		if audio_mgr.has_method("play_sound_2d"):
+			audio_mgr.play_sound_2d("spike_trap", global_position, null, -2.0)
+		elif audio_mgr.has_method("play_sfx"):
+			audio_mgr.play_sfx("spike_trap", -2.0)
 
 	spikes_extended.emit()
 

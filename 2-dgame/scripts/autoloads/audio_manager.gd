@@ -100,6 +100,7 @@ func _ready() -> void:
 	_ensure_audio_buses()
 	_init_players()
 	_register_builtin_procedural_sounds()
+	_load_audio_assets_from_disk()
 	load_audio_settings()
 
 
@@ -770,10 +771,37 @@ func has_sound(key: String) -> bool:
 	return _sound_registry.has(key)
 
 
+func _load_audio_assets_from_disk() -> void:
+	var sfx_keys: Array[String] = [
+		"sword_slash", "sword_hit", "parry_clang", "campfire", "checkpoint_activated",
+		"rest_heal", "spike_trap", "guillotine_swing", "page_turn", "codex_open",
+		"codex_close", "quest_complete", "inventory_open", "inventory_close"
+	]
+	for k in sfx_keys:
+		var p: String = "res://assets/audio/sfx/" + k + ".wav"
+		if ResourceLoader.exists(p):
+			var res = load(p)
+			if res is AudioStream:
+				_sound_registry[k] = res
+
+	var music_keys: Array[String] = ["camp_ambience", "vlad_theme"]
+	for m in music_keys:
+		var p: String = "res://assets/audio/music/" + m + ".wav"
+		if ResourceLoader.exists(p):
+			var res = load(p)
+			if res is AudioStream:
+				_sound_registry[m] = res
+
+
 func _resolve_stream(sound: Variant) -> AudioStream:
 	if sound is AudioStream:
 		return sound
 	if sound is String:
+		if sound.begins_with("res://"):
+			if ResourceLoader.exists(sound):
+				var loaded = load(sound)
+				if loaded is AudioStream:
+					return loaded
 		if _sound_registry.has(sound):
 			var entry = _sound_registry[sound]
 			if entry is AudioStream:
@@ -784,6 +812,17 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 				gen.mix_rate = 22050.0
 				gen.buffer_length = 2.5 if sound == "bell_toll" else 1.0
 				return gen
+
+		var check_paths := [
+			"res://assets/audio/sfx/" + sound + ".wav",
+			"res://assets/audio/music/" + sound + ".wav"
+		]
+		for cp in check_paths:
+			if ResourceLoader.exists(cp):
+				var res = load(cp)
+				if res is AudioStream:
+					_sound_registry[sound] = res
+					return res
 	return null
 
 

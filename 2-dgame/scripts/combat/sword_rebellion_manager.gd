@@ -20,7 +20,7 @@ const COOLDOWN_HIGH_CORRUPTION: float = 3.5      # Yüksek yozlaşmada iki isyan
 const COOLDOWN_EXTREME_CORRUPTION: float = 2.0   # Aşırı yozlaşmada iki isyan arası minimum süre (sn)
 
 const REBELLION_STAGGER_DURATION: float = 0.40   # Kılıcın direnmesi ve saldırının kesilme süresi (sn)
-const LABEL_COOLDOWN: float = 1.0                # Görsel metin spam engelleme süresi (sn)
+const LABEL_COOLDOWN: float = 2.2                # Görsel metin spam engelleme süresi (sn) (2s görünürlük + 0.5s fade)
 
 @export var shake_intensity: float = 12.0
 @export var sluggish_duration: float = 1.5
@@ -253,9 +253,9 @@ func _spawn_rebellion_label() -> void:
 		parent_scene.add_child(label)
 		var tw: Tween = label.create_tween()
 		tw.tween_property(label, "global_position:y", label.global_position.y - 18.0, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-		tw.tween_interval(0.9)
-		tw.tween_property(label, "modulate:a", 0.0, 0.5)
-		tw.parallel().tween_property(label, "global_position:y", label.global_position.y - 32.0, 0.5)
+		tw.tween_interval(2.0)
+		tw.tween_property(label, "modulate:a", 0.0, 0.6)
+		tw.parallel().tween_property(label, "global_position:y", label.global_position.y - 36.0, 0.6)
 		tw.tween_callback(label.queue_free)
 
 

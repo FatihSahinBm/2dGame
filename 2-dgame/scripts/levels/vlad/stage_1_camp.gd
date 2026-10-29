@@ -16,6 +16,7 @@ extends Node2D
 @onready var tent_gate: Area2D = $TentEntranceArea
 @onready var quiver_item: Area2D = get_node_or_null("Environment/BrokenCart/ArrowQuiverItem") as Area2D
 @onready var camp_commander: CharacterBody2D = get_node_or_null("Allies/JanissaryCommander") as CharacterBody2D
+@onready var campfire: CampfireCheckpoint = get_node_or_null("CampfireCheckpoint") as CampfireCheckpoint
 
 var _has_arrow_quiver: bool = false
 var _archer_quest_state: String = "NOT_STARTED" # "NOT_STARTED", "ACCEPTED", "DECLINED", "COMPLETED"
@@ -60,13 +61,23 @@ func _ready() -> void:
 	if tent_gate:
 		tent_gate.body_entered.connect(_on_tent_gate_entered)
 
+	if campfire:
+		campfire.checkpoint_activated.connect(_on_campfire_interacted)
+		campfire.player_rested.connect(func(_id): _on_campfire_interacted(_id))
+
+
+func _on_campfire_interacted(_checkpoint_id: String, _spawn_pos: Vector2 = Vector2.ZERO) -> void:
+	if dialogue_box and not _dialogue_in_progress:
+		var resting_soldier = get_node_or_null("Allies/JanissaryResting1") as Node2D
+		dialogue_box.start_dialogue_from_data("soldier_campfire_rest", resting_soldier)
+
 
 func _setup_camera() -> void:
 	if player:
 		var cam: Camera2D = player.get_node_or_null("Camera2D") as Camera2D
 		if cam:
 			cam.limit_left = -220
-			cam.limit_right = 1400
+			cam.limit_right = 2300
 			cam.limit_top = -140
 			cam.limit_bottom = 630
 

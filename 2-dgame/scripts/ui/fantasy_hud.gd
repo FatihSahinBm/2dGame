@@ -594,6 +594,3 @@ func toggle_codex() -> void:
 			codex_dialog.close()
 		else:
 			codex_dialog.open()
-
-
-

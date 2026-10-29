@@ -101,8 +101,11 @@ func _physics_process(delta: float) -> void:
 	if swing_dir != _last_swing_dir and absf(current_angle) < deg_to_rad(15.0):
 		_last_swing_dir = swing_dir
 		var audio_mgr = get_node_or_null("/root/AudioManager")
-		if audio_mgr and audio_mgr.has_method("play_sfx"):
-			audio_mgr.play_sfx("guillotine_swing", -4.0)
+		if audio_mgr:
+			if audio_mgr.has_method("play_sound_2d"):
+				audio_mgr.play_sound_2d("guillotine_swing", global_position, null, -16.0)
+			elif audio_mgr.has_method("play_sfx"):
+				audio_mgr.play_sfx("guillotine_swing", -16.0)
 		blade_swung.emit(current_angle)
 
 	# 3. Bıçak alanındaki hedefleri kontrol et

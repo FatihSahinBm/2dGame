@@ -1657,4 +1657,3 @@ func _play_sfx(sound_key: String, volume_db: float = 0.0, pitch_variance: float 
 			audio_mgr.play_sfx_varied(sound_key, volume_db, pitch_variance)
 		elif audio_mgr.has_method("play_sfx"):
 			audio_mgr.play_sfx(sound_key, volume_db)
-

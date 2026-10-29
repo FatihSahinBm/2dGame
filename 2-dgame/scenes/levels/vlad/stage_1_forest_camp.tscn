@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/allies/ottoman_soldier.tscn" id="12_soldier"]
 [ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="14_backdrop"]
 [ext_resource type="Texture2D" path="res://assets/environment/forest/forest_camp_ground.png" id="15_ground"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire_checkpoint.tscn" id="16_campfire"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1650, 60)
@@ -95,6 +96,11 @@ position = Vector2(540, 410)
 
 [node name="FlyingBat2" parent="AmbushZone/Enemies" instance=ExtResource("9_bat")]
 position = Vector2(660, 420)
+
+[node name="CampfireCheckpoint" parent="." instance=ExtResource("16_campfire")]
+position = Vector2(1020, 560)
+checkpoint_id = "forest_camp_campfire"
+is_lit = false
 
 [node name="ExitGate" type="Area2D" parent="."]
 position = Vector2(1520, 520)

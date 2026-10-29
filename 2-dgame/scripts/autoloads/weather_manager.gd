@@ -193,21 +193,37 @@ func _build_weather_layer() -> void:
 	_apply_intensity()
 
 
+var _rain_streak_texture: ImageTexture = null
+
+
+func _get_rain_streak_texture() -> ImageTexture:
+	if _rain_streak_texture:
+		return _rain_streak_texture
+	var img := Image.create(2, 22, false, Image.FORMAT_RGBA8)
+	for y in range(22):
+		var alpha: float = (float(y) / 22.0) * 0.85
+		for x in range(2):
+			img.set_pixel(x, y, Color(0.75, 0.88, 1.0, alpha))
+	_rain_streak_texture = ImageTexture.create_from_image(img)
+	return _rain_streak_texture
+
+
 func _create_rain_emitter() -> void:
 	var rain := CPUParticles2D.new()
 	rain.name = "RainEmitter"
-	rain.position = Vector2(640, -20)
+	rain.position = Vector2(640, -40)
 	rain.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
-	rain.emission_rect_extents = Vector2(760, 20)
-	rain.direction = Vector2(0.2, 1.0)
-	rain.spread = 4.0
-	rain.gravity = Vector2(0, 980)
-	rain.initial_velocity_min = 600.0
-	rain.initial_velocity_max = 800.0
-	rain.scale_amount_min = 1.8
-	rain.scale_amount_max = 3.2
-	rain.color = Color(0.72, 0.86, 1.0, 0.5)
-	rain.lifetime = 1.1
+	rain.emission_rect_extents = Vector2(850, 20)
+	rain.texture = _get_rain_streak_texture()
+	rain.direction = Vector2(0.18, 1.0)
+	rain.spread = 2.0
+	rain.gravity = Vector2(30, 850)
+	rain.initial_velocity_min = 700.0
+	rain.initial_velocity_max = 950.0
+	rain.scale_amount_min = 1.0
+	rain.scale_amount_max = 1.6
+	rain.color = Color(0.8, 0.9, 1.0, 0.65)
+	rain.lifetime = 1.0
 	_weather_canvas.add_child(rain)
 	_emitters.append(rain)
 

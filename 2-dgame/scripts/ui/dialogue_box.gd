@@ -142,11 +142,12 @@ func _on_typing_finished() -> void:
 		if choices_container:
 			choices_container.visible = false
 		if continue_prompt:
+			continue_prompt.text = "[Sol Tık / Boşluk / E: İlerle | TAB: Atla]"
 			continue_prompt.visible = true
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not panel.visible:
+func _input(event: InputEvent) -> void:
+	if not panel or not panel.visible:
 		return
 
 	# TAB: Diyaloğu / sinematiği atla
@@ -295,16 +296,24 @@ func _show_current_entry() -> void:
 		return
 
 	var entry: Dictionary = _dialogue_queue[_current_index] as Dictionary
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+
+	var speaker_str: String = entry.get("speaker_en", "") if (is_en and not str(entry.get("speaker_en", "")).is_empty()) else str(entry.get("speaker", ""))
+	var title_str: String = entry.get("title_en", "") if (is_en and not str(entry.get("title_en", "")).is_empty()) else str(entry.get("title", ""))
+	var text_str: String = entry.get("text_en", "") if (is_en and not str(entry.get("text_en", "")).is_empty()) else str(entry.get("text", ""))
+
 	if speaker_name_label:
-		speaker_name_label.text = entry.get("speaker", "")
+		speaker_name_label.text = speaker_str
 	if speaker_title_label:
-		speaker_title_label.text = entry.get("title", "")
-	_full_text = entry.get("text", "")
+		speaker_title_label.text = title_str
+	_full_text = text_str
 	_char_index = 0
 	_is_typing = true
 	if content_label:
 		content_label.text = ""
 	if continue_prompt:
+		continue_prompt.text = "[Left Click / Space / E: Advance | TAB: Skip]" if is_en else "[Sol Tık / Boşluk / E: İlerle | TAB: Atla]"
 		continue_prompt.visible = false
 
 	entry_started.emit(entry)
@@ -317,11 +326,15 @@ func _show_current_entry() -> void:
 		choices_container.visible = false
 	if _current_choices.size() > 0:
 		if choice_btn_1:
-			choice_btn_1.text = _current_choices[0].get("text", "[1] Evet")
+			var default_btn1 := "[1] Yes" if is_en else "[1] Evet"
+			var choice1_text := str(_current_choices[0].get("text_en", "")) if (is_en and not str(_current_choices[0].get("text_en", "")).is_empty()) else str(_current_choices[0].get("text", default_btn1))
+			choice_btn_1.text = choice1_text
 			choice_btn_1.visible = true
 		if choice_btn_2:
 			if _current_choices.size() > 1:
-				choice_btn_2.text = _current_choices[1].get("text", "[2] Hayır")
+				var default_btn2 := "[2] No" if is_en else "[2] Hayır"
+				var choice2_text := str(_current_choices[1].get("text_en", "")) if (is_en and not str(_current_choices[1].get("text_en", "")).is_empty()) else str(_current_choices[1].get("text", default_btn2))
+				choice_btn_2.text = choice2_text
 				choice_btn_2.visible = true
 			else:
 				choice_btn_2.visible = false

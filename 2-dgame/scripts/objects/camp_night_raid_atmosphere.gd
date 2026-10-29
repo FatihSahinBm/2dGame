@@ -135,6 +135,19 @@ func create_silhouette(kind: String = "swordsman", facing: float = 1.0) -> Node2
 		weapon.polygon = PackedVector2Array([Vector2(6, -18), Vector2(8, -20), Vector2(30, -34), Vector2(28, -30)])
 	weapon.color = col
 	root.add_child(weapon)
+
+	# Osmanlı Askeri Detaylı Asset Entegrasyonu
+	var frames_path := "res://assets/characters/allies/janissary/janissary_frames.tres" if kind == "swordsman" else "res://assets/characters/allies/kemankes/kemankes_frames.tres"
+	if ResourceLoader.exists(frames_path):
+		var anim := AnimatedSprite2D.new()
+		anim.sprite_frames = load(frames_path)
+		anim.scale = Vector2(0.48, 0.48)
+		anim.position = Vector2(0, -20)
+		anim.modulate = Color(0.22, 0.18, 0.25, 0.36)
+		if anim.sprite_frames.has_animation("idle"):
+			anim.play("idle")
+		root.add_child(anim)
+
 	root.scale.x = facing
 	return root
 
