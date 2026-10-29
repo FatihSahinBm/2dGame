@@ -98,6 +98,7 @@ var attack_cooldown_penalty: float = 1.0
 var sword_rebellion: Node = null
 var current_attack_type: String = ""
 var block_timer: float = 0.0
+var _initial_spawn_position: Vector2 = Vector2.ZERO
 
 # Sayaçlar
 var can_dash: bool = true
@@ -173,15 +174,43 @@ func _ready() -> void:
 	# Kılıç İsyanı (Sword Rebellion) yöneticisini ilklendir
 	_setup_rebellion_manager()
 
-	# Kayıtlı kontrol noktası varsa oradan başla
+	# Sahnenin tasarlanan orijinal spawn noktasını sakla
+	if _initial_spawn_position == Vector2.ZERO:
+		_initial_spawn_position = global_position
+
+	# Kayıtlı kontrol noktası varsa ve SADECE bu sahneye aitse oradan başla
 	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	var cur_scene_path: String = _get_current_level_path()
+
+	var can_apply_checkpoint: bool = false
 	if save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO:
+		if save_mgr.has_method("is_checkpoint_valid_for_scene"):
+			can_apply_checkpoint = save_mgr.is_checkpoint_valid_for_scene(cur_scene_path)
+		elif "cached_checkpoint_stage" in save_mgr:
+			var cp_stage: String = str(save_mgr.cached_checkpoint_stage)
+			can_apply_checkpoint = (cp_stage.is_empty() or cur_scene_path.is_empty() or cp_stage == cur_scene_path)
+
+	if can_apply_checkpoint:
 		global_position = save_mgr.cached_checkpoint_position
 		if camera and camera.has_method("reset_smoothing"):
 			camera.reset_smoothing()
 
 	# İkincil eşya HUD senkronizasyonu
 	_sync_hud_secondary()
+
+
+func _get_current_level_path() -> String:
+	if owner and "scene_file_path" in owner and not str(owner.scene_file_path).is_empty():
+		return str(owner.scene_file_path)
+	var p = get_parent()
+	while p:
+		if "scene_file_path" in p and not str(p.scene_file_path).is_empty():
+			if not str(p.scene_file_path).contains("verify_"):
+				return str(p.scene_file_path)
+		p = p.get_parent()
+	if is_inside_tree() and get_tree() and get_tree().current_scene:
+		return str(get_tree().current_scene.scene_file_path)
+	return ""
 
 
 func _setup_rebellion_manager() -> void:
@@ -1332,8 +1361,20 @@ func respawn_at_checkpoint() -> void:
 	_clear_drop_through_platform()
 
 	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	var cur_scene_path: String = _get_current_level_path()
+
+	var can_apply_cp: bool = false
 	if save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO:
+		if save_mgr.has_method("is_checkpoint_valid_for_scene"):
+			can_apply_cp = save_mgr.is_checkpoint_valid_for_scene(cur_scene_path)
+		elif "cached_checkpoint_stage" in save_mgr:
+			var cp_stage: String = str(save_mgr.cached_checkpoint_stage)
+			can_apply_cp = (cp_stage.is_empty() or cur_scene_path.is_empty() or cp_stage == cur_scene_path)
+
+	if can_apply_cp:
 		global_position = save_mgr.cached_checkpoint_position
+	elif _initial_spawn_position != Vector2.ZERO:
+		global_position = _initial_spawn_position
 
 	if camera and camera.has_method("reset_smoothing"):
 		camera.reset_smoothing()
@@ -1370,7 +1411,17 @@ func respawn_at_checkpoint() -> void:
 func respawn() -> void:
 	_clear_drop_through_platform()
 	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	var cur_scene_path: String = _get_current_level_path()
+
+	var has_valid_cp: bool = false
 	if save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO:
+		if save_mgr.has_method("is_checkpoint_valid_for_scene"):
+			has_valid_cp = save_mgr.is_checkpoint_valid_for_scene(cur_scene_path)
+		elif "cached_checkpoint_stage" in save_mgr:
+			var cp_stage: String = str(save_mgr.cached_checkpoint_stage)
+			has_valid_cp = (cp_stage.is_empty() or cur_scene_path.is_empty() or cp_stage == cur_scene_path)
+
+	if has_valid_cp or _initial_spawn_position != Vector2.ZERO:
 		respawn_at_checkpoint()
 	else:
 		get_tree().reload_current_scene()

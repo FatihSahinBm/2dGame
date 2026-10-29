@@ -26,14 +26,45 @@ var cached_player_stats: Dictionary = {}
 var cached_inventory: Dictionary = {}
 var cached_checkpoint_id: String = ""
 var cached_checkpoint_position: Vector2 = Vector2.ZERO
+var cached_checkpoint_stage: String = ""
 var recent_logs: Array[Dictionary] = []
 var autosave_enabled: bool = true
 var active_slot: int = DEFAULT_SLOT
+var _last_scene_path: String = ""
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_settings()
+
+
+func _on_scene_changed(new_scene_path: String) -> void:
+	if new_scene_path.is_empty():
+		return
+	# Eğer yeni sahne önceki checkpoint'in ait olduğu sahneden farklıysa,
+	# eski checkpoint koordinatını temizle ki yeni haritanın kendi spawn noktasında başlasın!
+	if not cached_checkpoint_stage.is_empty() and cached_checkpoint_stage != new_scene_path:
+		_log_event("Yeni sahneye geçildi (%s), eski kontrol noktası (%s @ %s) temizlendi." % [
+			new_scene_path, cached_checkpoint_id, str(cached_checkpoint_position)
+		])
+		cached_checkpoint_id = ""
+		cached_checkpoint_position = Vector2.ZERO
+		cached_checkpoint_stage = new_scene_path
+
+
+## Kontrol noktasının belirtilen sahne için geçerli olup olmadığını doğrular
+func is_checkpoint_valid_for_scene(scene_path: String) -> bool:
+	if cached_checkpoint_position == Vector2.ZERO:
+		return false
+	if cached_checkpoint_stage.is_empty() or scene_path.is_empty():
+		return true
+	return cached_checkpoint_stage.trim_prefix("res://") == scene_path.trim_prefix("res://")
+
+
+func clear_checkpoint() -> void:
+	cached_checkpoint_id = ""
+	cached_checkpoint_position = Vector2.ZERO
+	cached_checkpoint_stage = ""
 
 
 func set_autosave_enabled(enabled: bool) -> void:
@@ -145,10 +176,14 @@ func _is_gameplay_scene(path: String) -> bool:
 
 
 func _process(_delta: float) -> void:
-	# Aktif sahne ağacındaki sahneyi izleyerek GameState.current_stage_path değerini güncel tutar
+	# Aktif sahne ağacındaki sahneyi izleyerek GameState.current_stage_path ve checkpoint geçerliliğini güncel tutar
 	var tree: SceneTree = get_tree()
 	if tree and tree.current_scene:
 		var scene_path: String = tree.current_scene.scene_file_path
+		if not scene_path.is_empty() and scene_path != _last_scene_path:
+			_on_scene_changed(scene_path)
+			_last_scene_path = scene_path
+
 		if _is_gameplay_scene(scene_path):
 			var gs = _get_game_state()
 			if gs and gs.current_stage_path != scene_path:
@@ -374,6 +409,7 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 		"stage_data": {
 			"current_stage_path": stage_path,
 			"checkpoint_id": cached_checkpoint_id,
+			"checkpoint_stage": cached_checkpoint_stage if not cached_checkpoint_stage.is_empty() else stage_path,
 			"checkpoint_position": {
 				"x": cached_checkpoint_position.x,
 				"y": cached_checkpoint_position.y
@@ -592,6 +628,7 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 		var sd = final_data["stage_data"]
 		target_stage = str(sd.get("current_stage_path", DEFAULT_START_SCENE))
 		cached_checkpoint_id = str(sd.get("checkpoint_id", ""))
+		cached_checkpoint_stage = str(sd.get("checkpoint_stage", target_stage))
 		var cp_pos = sd.get("checkpoint_position", {})
 		if cp_pos is Dictionary:
 			cached_checkpoint_position = Vector2(float(cp_pos.get("x", 0.0)), float(cp_pos.get("y", 0.0)))
@@ -691,6 +728,9 @@ func apply_cached_stats_to_scene(target_node: Node = null) -> void:
 	if not scene:
 		return
 
+	var cur_path: String = scene.scene_file_path if "scene_file_path" in scene else ""
+	var can_apply_checkpoint: bool = is_checkpoint_valid_for_scene(cur_path)
+
 	var player = scene.find_child("Player", true, false)
 	if not player:
 		player = scene.find_child("CombatPlayer", true, false)
@@ -707,7 +747,7 @@ func apply_cached_stats_to_scene(target_node: Node = null) -> void:
 			player.active_secondary_type = str(cached_inventory["active_secondary_type"])
 		if player.has_method("_sync_hud_secondary"):
 			player._sync_hud_secondary()
-		if cached_checkpoint_position != Vector2.ZERO:
+		if can_apply_checkpoint and cached_checkpoint_position != Vector2.ZERO:
 			player.global_position = cached_checkpoint_position
 			var cam = player.get_node_or_null("Camera2D")
 			if cam and cam.has_method("reset_smoothing"):
@@ -737,10 +777,14 @@ func apply_cached_stats_to_scene(target_node: Node = null) -> void:
 
 
 ## Kontrol noktası kaydeder ve otomatik kayıt alır
-func set_checkpoint(checkpoint_id: String, position: Vector2, autosave: bool = true) -> void:
+func set_checkpoint(checkpoint_id: String, position: Vector2, autosave: bool = true, stage_path: String = "") -> void:
 	cached_checkpoint_id = checkpoint_id
 	cached_checkpoint_position = position
-	_log_event("Kontrol noktası belirlendi: %s @ %s" % [checkpoint_id, str(position)])
+	if not stage_path.is_empty():
+		cached_checkpoint_stage = stage_path
+	elif is_inside_tree() and get_tree() and get_tree().current_scene:
+		cached_checkpoint_stage = get_tree().current_scene.scene_file_path
+	_log_event("Kontrol noktası belirlendi: %s @ %s (Sahne: %s)" % [checkpoint_id, str(position), cached_checkpoint_stage])
 	if autosave and autosave_enabled:
 		save_game(active_slot)
 

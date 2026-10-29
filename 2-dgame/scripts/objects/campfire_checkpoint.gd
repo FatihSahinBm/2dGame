@@ -347,7 +347,12 @@ func ignite_and_rest(player_node: Node2D = null) -> void:
 	# 1. Kontrol noktasını SaveManager'a kaydet
 	var save_mgr = get_node_or_null("/root/SaveManager")
 	if save_mgr and save_mgr.has_method("set_checkpoint"):
-		save_mgr.set_checkpoint(checkpoint_id, spawn_pos, true)
+		var cur_stage_path: String = ""
+		if owner and "scene_file_path" in owner and not str(owner.scene_file_path).is_empty():
+			cur_stage_path = str(owner.scene_file_path)
+		elif is_inside_tree() and get_tree() and get_tree().current_scene:
+			cur_stage_path = get_tree().current_scene.scene_file_path
+		save_mgr.set_checkpoint(checkpoint_id, spawn_pos, true, cur_stage_path)
 
 	# 2. GameState kalıcı olay kaydı
 	var gs = get_node_or_null("/root/GameState")
