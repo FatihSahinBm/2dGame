@@ -425,7 +425,9 @@ func clean_weather() -> void:
 	_sound_delay_timer = null
 
 	if _weather_canvas and is_instance_valid(_weather_canvas):
-		_weather_canvas.queue_free()
+		if _weather_canvas.get_parent():
+			_weather_canvas.get_parent().remove_child(_weather_canvas)
+		_weather_canvas.free()
 		_weather_canvas = null
 
 

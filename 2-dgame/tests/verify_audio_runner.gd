@@ -46,6 +46,36 @@ func _run_all_tests() -> void:
 	_test_settings_persistence()
 	_test_settings_dialog_integration()
 
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr:
+		audio_mgr.stop_all_sfx()
+		audio_mgr.stop_music(0.0)
+		audio_mgr.stop_ambience(0.0)
+		for p in audio_mgr._sfx_pool:
+			p.stop()
+			p.stream = null
+		for p2d in audio_mgr._sfx_2d_pool:
+			p2d.stop()
+			p2d.stream = null
+		if audio_mgr._music_player_a:
+			audio_mgr._music_player_a.stop()
+			audio_mgr._music_player_a.stream = null
+		if audio_mgr._music_player_b:
+			audio_mgr._music_player_b.stop()
+			audio_mgr._music_player_b.stream = null
+		if audio_mgr._combat_layer_player:
+			audio_mgr._combat_layer_player.stop()
+			audio_mgr._combat_layer_player.stream = null
+		if audio_mgr._ambience_player_a:
+			audio_mgr._ambience_player_a.stop()
+			audio_mgr._ambience_player_a.stream = null
+		if audio_mgr._ambience_player_b:
+			audio_mgr._ambience_player_b.stop()
+			audio_mgr._ambience_player_b.stream = null
+		if audio_mgr._dialogue_player:
+			audio_mgr._dialogue_player.stop()
+			audio_mgr._dialogue_player.stream = null
+
 
 # ---------------------------------------------------------------------------
 # Test 1: Autoload Başlatma ve Bus Kontrolü
@@ -125,9 +155,22 @@ func _test_procedural_sounds() -> void:
 	print("\n--- Test 4: Prosedürel Ses Sentezleme Fallback ---")
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 
-	var builtins = ["ui_click", "jump", "dash", "sword_slash", "sword_hit", "player_hurt", "menu_theme", "prehistoric_theme", "vlad_theme"]
+	var builtins = [
+		"ui_click", "jump", "dash", "sword_slash", "sword_hit", "player_hurt",
+		"menu_theme", "prehistoric_theme", "vlad_theme",
+		"parry_clang", "player_death", "boss_roar", "blood_shield",
+		"blood_magic", "mist_dash", "werewolf_claw", "werewolf_leap",
+		"bat_scream", "bat_dive", "bell_toll", "sword_rebellion_whisper"
+	]
 	for s in builtins:
 		_assert_true(audio_mgr.has_sound(s), "Prosedürel ses kaydı mevcut: '%s'" % s)
+
+	# Anti-fatigue varyasyon testi
+	var varied_p = audio_mgr.play_sfx_varied("parry_clang", -1.0, 0.1)
+	_assert_true(varied_p != null, "play_sfx_varied başarıyla SFX çaldı.")
+
+	var varied_2d = audio_mgr.play_sound_2d_varied("bell_toll", Vector2(100, 100), null, 0.0, 600.0, 0.08)
+	_assert_true(varied_2d != null, "play_sound_2d_varied başarıyla 2D ses çaldı.")
 
 	# Harici ses dosyası kaydetme ve çalma
 	var custom_stream = AudioStreamGenerator.new()
@@ -272,5 +315,5 @@ func _test_settings_dialog_integration() -> void:
 	dialog._on_sfx_changed(72.0)
 	_assert_true(absf(audio_mgr.get_bus_volume_linear("SFX") - 0.72) < 0.05, "SettingsDialog SFX kaydırıcısı AudioManager'a %72 ses iletti.")
 
-	dialog.queue_free()
+	dialog.free()
 

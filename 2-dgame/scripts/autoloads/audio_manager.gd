@@ -223,6 +223,12 @@ func play_sfx(sound: Variant, volume_db: float = 0.0, pitch_scale: float = 1.0, 
 	return player
 
 
+## Anti-fatigue ses varyasyonu: Pitch ve volume'e doğal mikro değişimler katar
+func play_sfx_varied(sound: Variant, volume_db: float = 0.0, pitch_variance: float = 0.08, bus: String = "SFX") -> AudioStreamPlayer:
+	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
+	var final_vol: float = volume_db + randf_range(-0.5, 0.5)
+	return play_sfx(sound, final_vol, final_pitch, bus)
+
 func _get_available_sfx_player() -> AudioStreamPlayer:
 	# 1. Boşta (çalmayan) oyuncu ara
 	for p in _sfx_pool:
@@ -237,11 +243,33 @@ func _get_available_sfx_player() -> AudioStreamPlayer:
 
 func stop_all_sfx() -> void:
 	for p in _sfx_pool:
-		if p.playing:
-			p.stop()
+		p.stop()
+		p.stream = null
 	for p2d in _sfx_2d_pool:
-		if p2d.playing:
-			p2d.stop()
+		p2d.stop()
+		p2d.stream = null
+
+
+func _exit_tree() -> void:
+	stop_all_sfx()
+	if _music_player_a:
+		_music_player_a.stop()
+		_music_player_a.stream = null
+	if _music_player_b:
+		_music_player_b.stop()
+		_music_player_b.stream = null
+	if _combat_layer_player:
+		_combat_layer_player.stop()
+		_combat_layer_player.stream = null
+	if _ambience_player_a:
+		_ambience_player_a.stop()
+		_ambience_player_a.stream = null
+	if _ambience_player_b:
+		_ambience_player_b.stop()
+		_ambience_player_b.stream = null
+	if _dialogue_player:
+		_dialogue_player.stop()
+		_dialogue_player.stream = null
 
 
 # ---------------------------------------------------------------------------
@@ -273,6 +301,15 @@ func play_sound_2d(sound: Variant, global_pos: Vector2, parent_node: Node = null
 
 	_fill_procedural_if_needed(player, sound)
 	return player
+
+
+## Anti-fatigue 2D ses varyasyonu: Pitch ve volume'e mikro varyasyon katar
+func play_sound_2d_varied(sound: Variant, global_pos: Vector2, parent_node: Node = null, volume_db: float = 0.0, max_dist: float = 600.0, pitch_variance: float = 0.08, bus: String = "SFX") -> AudioStreamPlayer2D:
+	var final_vol: float = volume_db + randf_range(-0.5, 0.5)
+	var p := play_sound_2d(sound, global_pos, parent_node, final_vol, max_dist, bus)
+	if p:
+		p.pitch_scale = clampf(randf_range(1.0 - pitch_variance, 1.0 + pitch_variance), 0.2, 4.0)
+	return p
 
 
 # ---------------------------------------------------------------------------
@@ -745,7 +782,7 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 				# Prosedürel generator hazırla
 				var gen := AudioStreamGenerator.new()
 				gen.mix_rate = 22050.0
-				gen.buffer_length = 1.0
+				gen.buffer_length = 2.5 if sound == "bell_toll" else 1.0
 				return gen
 	return null
 
@@ -1268,6 +1305,151 @@ func _register_builtin_procedural_sounds() -> void:
 			var env := exp(-25.0 * t)
 			var freq := 850.0 - 250.0 * t
 			var s := sin(t * freq * TAU) * env * 0.45
+			pb.push_frame(Vector2(s, s))
+
+	# Kılıç Karşılama / Yansıtma (Parry Clang) - Parlak metalik çınlama ve yüksek harmonikler
+	_sound_registry["parry_clang"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.32), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-18.0 * t)
+			var spark := (randf() * 2.0 - 1.0) * exp(-50.0 * t) * 0.35
+			var metal := (sin(t * 880.0 * TAU) * 0.35 + sin(t * 1760.0 * TAU) * 0.25 + sin(t * 3520.0 * TAU) * 0.15) * env
+			var s := spark + metal
+			pb.push_frame(Vector2(s, s))
+
+	# Oyuncu Ölüm Teması / Ağır Çöküş (Player Death)
+	_sound_registry["player_death"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.65), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-4.0 * t)
+			var bass := sin(t * (110.0 - 50.0 * t) * TAU) * 0.4 * env
+			var sub := sin(t * 55.0 * TAU) * 0.35 * exp(-3.0 * t)
+			var minor := (sin(t * 220.0 * TAU) * 0.15 + sin(t * 261.6 * TAU) * 0.15) * exp(-6.0 * t)
+			var s := bass + sub + minor
+			pb.push_frame(Vector2(s, s))
+
+	# Boss Kükremesi / Dönüşüm Patlaması (Boss Roar) - Çift testere dişi, distorsiyon ve titreme
+	_sound_registry["boss_roar"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.7), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var tremolo := 0.7 + 0.3 * sin(t * 16.0 * TAU)
+			var saw1 := 2.0 * (fmod(t * 60.0, 1.0) - 0.5)
+			var saw2 := 2.0 * (fmod(t * 63.5, 1.0) - 0.5)
+			var noise := (randf() * 2.0 - 1.0) * 0.3
+			var roar := clampf((saw1 + saw2 + noise) * 1.4, -1.0, 1.0)
+			var env := sin(PI * clampf(t / 0.7, 0.0, 1.0)) * tremolo * 0.45
+			var s := roar * env
+			pb.push_frame(Vector2(s, s))
+
+	# Kan Kalkanı (Blood Shield) - Titreşen kan büyüsü rezonansı
+	_sound_registry["blood_shield"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.4), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-7.0 * t)
+			var pulse := 0.8 + 0.2 * sin(t * 24.0 * TAU)
+			var hum := sin(t * 82.4 * TAU) * 0.35
+			var magic := (sin(t * 330.0 * TAU) * 0.2 + sin(t * 660.0 * TAU) * 0.15) * pulse
+			var s := (hum + magic) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Kan Dalgası Büyüsü (Blood Magic Wave) - Alçalan koyu büyü frekans taraması
+	_sound_registry["blood_magic"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.45), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var sweep := lerpf(680.0, 120.0, clampf(t / 0.45, 0.0, 1.0))
+			var env := exp(-6.0 * t)
+			var tone := sin(t * sweep * TAU) * 0.3
+			var hiss := (randf() * 2.0 - 1.0) * 0.25 * env
+			var s := (tone + hiss) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Sis Kaçışı (Vampire Mist Dash) - Buharlaşma rüzgârı ve gizemli fısıltı
+	_sound_registry["mist_dash"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.3), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * clampf(t / 0.3, 0.0, 1.0))
+			var vapor := (randf() * 2.0 - 1.0) * 0.35 * env
+			var whoosh := sin(t * (280.0 - 120.0 * t) * TAU) * 0.25 * env
+			var s := vapor + whoosh
+			pb.push_frame(Vector2(s, s))
+
+	# Kurtadam Pençe Vuruşu (Werewolf Claw) - Sert yırtıcı darbe ve pençe kesiği
+	_sound_registry["werewolf_claw"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-18.0 * t)
+			var slash := (randf() * 2.0 - 1.0) * 0.4 * env
+			var growl := sin(t * (140.0 - 60.0 * t) * TAU) * 0.35 * env
+			var s := slash + growl
+			pb.push_frame(Vector2(s, s))
+
+	# Kurtadam Yere Çakılma (Werewolf Leap Slam) - Ağır sarsıntılı zemin darbesi
+	_sound_registry["werewolf_leap"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.35), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-12.0 * t)
+			var thud := sin(t * (90.0 - 45.0 * t) * TAU) * 0.5 * env
+			var debris := (randf() * 2.0 - 1.0) * 0.25 * exp(-20.0 * t)
+			var s := thud + debris
+			pb.push_frame(Vector2(s, s))
+
+	# Ultrasonik Yarasa Çığlığı (Bat Ultrasonic Scream) - Yüksek frekanslı vibratolu dalga
+	_sound_registry["bat_scream"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.4), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * clampf(t / 0.4, 0.0, 1.0))
+			var vibrato := sin(t * 32.0 * TAU) * 180.0
+			var freq := 2400.0 + vibrato - 400.0 * t
+			var s := sin(t * freq * TAU) * 0.28 * env
+			pb.push_frame(Vector2(s, s))
+
+	# Yarasa Hava Dalışı (Bat Swoop Dive) - Yırtıcı kanat rüzgârı ve hava akımı
+	_sound_registry["bat_dive"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.32), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * clampf(t / 0.32, 0.0, 1.0))
+			var wind := (randf() * 2.0 - 1.0) * 0.3 * env
+			var pitch := lerpf(900.0, 300.0, clampf(t / 0.32, 0.0, 1.0))
+			var swoop := sin(t * pitch * TAU) * 0.25 * env
+			var s := wind + swoop
+			pb.push_frame(Vector2(s, s))
+
+	# Ulu Çan Akustik Şok (Great Bell Toll) - Katkılı inharmonik katedral çanı
+	_sound_registry["bell_toll"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.95), pb.get_frames_available())
+		var f0 := 220.0
+		var partials := [1.0, 1.2, 1.5, 2.0, 2.76, 4.07]
+		var weights := [0.35, 0.25, 0.18, 0.12, 0.08, 0.05]
+		var decays := [2.5, 3.2, 3.8, 4.5, 5.5, 7.0]
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var s := 0.0
+			for p in range(partials.size()):
+				s += weights[p] * sin(t * f0 * partials[p] * TAU) * exp(-decays[p] * t)
+			var strike := (randf() * 2.0 - 1.0) * exp(-45.0 * t) * 0.2
+			var final_val := (s + strike) * 0.7
+			pb.push_frame(Vector2(final_val, final_val))
+
+	# Kılıç İsyanı Karanlık Fısıltısı (Sword Rebellion Whisper) - Story 2D-125
+	_sound_registry["sword_rebellion_whisper"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.45), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * clampf(t / 0.45, 0.0, 1.0))
+			var dissonant := sin(t * 185.0 * TAU) * 0.2 + sin(t * 196.0 * TAU) * 0.2
+			var low_hum := sin(t * 46.2 * TAU) * 0.35
+			var hiss := (randf() * 2.0 - 1.0) * 0.15 * env
+			var s := (dissonant + low_hum + hiss) * env
 			pb.push_frame(Vector2(s, s))
 
 

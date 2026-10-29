@@ -488,6 +488,7 @@ func _check_wall_slide(_delta: float) -> void:
 				_wall_jump_push_timer = 0.18
 				is_wall_sliding = false
 				_spawn_jump_puff()
+				_play_sfx("jump", -4.0)
 				return
 			return
 
@@ -568,12 +569,14 @@ func _handle_movement_and_skills(delta: float) -> void:
 		velocity.y = jump_velocity
 		_coyote_timer = 0.0
 		_jump_buffer_timer = 0.0
+		_play_sfx("jump", -4.0)
 	elif jump_just_pressed and double_jump_unlocked and _air_jumps_left > 0 and not is_on_floor() and not is_wall_sliding and not is_attacking and not is_defending:
 		# Çift Zıplama (Double Jump)
 		_air_jumps_left -= 1
 		velocity.y = jump_velocity * 0.88
 		_jump_buffer_timer = 0.0
 		_spawn_jump_puff()
+		_play_sfx("jump", -3.0, 0.12)
 		if anim_sprite and anim_sprite.sprite_frames.has_animation("jump"):
 			anim_sprite.play("jump")
 
@@ -596,6 +599,7 @@ func perform_dash() -> void:
 	set_collision_mask_value(2, false) # Düşmanların içinden geç
 	velocity.x = facing_dir * dash_speed
 	velocity.y = 0.0
+	_play_sfx("dash", -2.0)
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("dash"):
 		anim_sprite.play("dash")
 
@@ -885,6 +889,16 @@ func _find_hud() -> Node:
 		return null
 	return get_tree().current_scene.find_child("FantasyHUD", true, false)
 
+func _play_sfx(sound_key: String, volume_db: float = 0.0, pitch_variance: float = 0.08) -> void:
+	if not is_inside_tree():
+		return
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr:
+		if audio_mgr.has_method("play_sfx_varied"):
+			audio_mgr.play_sfx_varied(sound_key, volume_db, pitch_variance)
+		elif audio_mgr.has_method("play_sfx"):
+			audio_mgr.play_sfx(sound_key, volume_db)
+
 func _spawn_floating_text(text: String, font_color: Color = Color.WHITE) -> void:
 	var parent_scene: Node = get_parent()
 	if not parent_scene:
@@ -910,6 +924,7 @@ func perform_light_attack() -> void:
 	is_attacking = true
 	current_attack_type = "light"
 	attack_performed.emit("light")
+	_play_sfx("sword_slash", -3.0)
 	if absf(velocity.x) < light_attack_lunge:
 		velocity.x = facing_dir * light_attack_lunge
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack"):
@@ -929,6 +944,7 @@ func perform_combo_attack() -> void:
 	combo_timer = 0.0
 	current_attack_type = "combo"
 	attack_performed.emit("combo")
+	_play_sfx("sword_slash", -2.0, 0.12)
 	if absf(velocity.x) < 180.0:
 		velocity.x = facing_dir * 180.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack_combo"):
@@ -944,6 +960,7 @@ func perform_crouch_attack() -> void:
 	is_attacking = true
 	current_attack_type = "crouch"
 	attack_performed.emit("crouch")
+	_play_sfx("sword_slash", -4.0)
 	velocity.x = facing_dir * 60.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("crouch_attack"):
 		anim_sprite.play("crouch_attack")
@@ -997,6 +1014,7 @@ func _check_projectile_parry() -> bool:
 
 ## Yansıtma / Parry Görsel ve Hissiyat Geribildirimi (Juice)
 func _play_parry_feedback(impact_pos: Vector2) -> void:
+	_play_sfx("parry_clang", 0.0)
 	# 1. Hit-Stop (Mikro donma efekti - 0.06s)
 	Engine.time_scale = 0.08
 	get_tree().create_timer(0.06, true, false, true).timeout.connect(func():
@@ -1040,6 +1058,7 @@ func perform_heavy_attack() -> void:
 	combo_timer = 0.0
 	current_attack_type = "heavy"
 	attack_performed.emit("heavy")
+	_play_sfx("sword_slash", 0.0)
 	if absf(velocity.x) < heavy_attack_lunge:
 		velocity.x = facing_dir * heavy_attack_lunge
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("heavy_attack"):
@@ -1051,6 +1070,7 @@ func perform_heavy_attack() -> void:
 func _deal_damage_to_target(target: Object, dmg: int) -> void:
 	if not is_instance_valid(target):
 		return
+	_play_sfx("sword_hit", -2.0)
 	if target.is_in_group("allies"):
 		target.take_damage(dmg, self)
 		return
@@ -1197,6 +1217,7 @@ func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 	# Eğer savunmada değilken darbe alındıysa tam sersemleme (Hurt / Knockback)
 	if not is_defending:
 		is_hurt = true
+		_play_sfx("player_hurt", -1.0)
 		is_rebelling = false
 		is_attacking = false
 		is_parry_active = false
@@ -1407,6 +1428,10 @@ func die() -> void:
 	current_attack_type = ""
 	velocity = Vector2.ZERO
 	_clear_drop_through_platform()
+	_play_sfx("player_death", 0.0)
+	var audio_mgr = get_node_or_null("/root/AudioManager") if is_inside_tree() else null
+	if audio_mgr and audio_mgr.has_method("set_music_state"):
+		audio_mgr.set_music_state(audio_mgr.MusicState.DEFEAT)
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
 		anim_sprite.play("death")
 	player_died.emit()

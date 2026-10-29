@@ -904,6 +904,7 @@ func _execute_vampire_slash() -> void:
 
 func _execute_vampire_magic() -> void:
 	velocity.x = 0.0
+	_play_sfx("blood_magic", 0.0)
 	# 21 karelik kan büyüsü fırlatma anı: f 8
 	_begin_attack(&"vampire_attack_blood_magic", vampire_magic_damage, -1, -1, 8, func():
 		_spawn_blood_magic_projectile()
@@ -930,6 +931,7 @@ func _spawn_blood_magic_projectile() -> void:
 		proj.setup(spawn_pos, shoot_dir, self, vampire_magic_damage, _target_node)
 
 func _execute_werewolf_claws() -> void:
+	_play_sfx("werewolf_claw", 0.0)
 	# 24 karelik pençe kombosu: f 6..18 aktif hasar
 	_begin_attack(&"werewolf_attack_claws", werewolf_claw_damage, 6, 18)
 	velocity.x = float(direction) * 60.0
@@ -966,6 +968,7 @@ func _execute_werewolf_leap() -> void:
 	# f 15: impact_slam (zemine çarpış darbesi), ekran sarsıntısı ve zemin toz bulutu
 	# f 15..18: darbe şoku ve hasar alanı aktif
 	_begin_attack(&"werewolf_attack_leap", werewolf_leap_damage, 15, 18, 15, func():
+		_play_sfx("werewolf_leap", 1.0)
 		_trigger_screen_shake(6.5)
 		_spawn_ground_impact_dust(20.0 * float(direction))
 		_set_attack_hitbox(Vector2(120, 65), Vector2(25.0 * float(direction), -25.0))
@@ -1002,6 +1005,7 @@ func _execute_bat_dive() -> void:
 	# f 8..17: dalış ve hasar alanı aktif (380 px/sn hız)
 	# f 8: yüksek hızlı dalış itkisi ve ekran sarsıntısı
 	_begin_attack(&"bat_attack_dive", bat_dive_damage, 8, 17, 8, func():
+		_play_sfx("bat_dive", -1.0)
 		if _target_node and is_instance_valid(_target_node):
 			var target_aim: Vector2 = _target_node.global_position + Vector2(0.0, -12.0)
 			_bat_dive_dir = (target_aim - global_position).normalized()
@@ -1029,6 +1033,7 @@ func _execute_bat_screech() -> void:
 
 	# 24 karelik screech (0.85x hız): f 9..18 hasar alanı, f 9 çığlık şoku
 	_begin_attack(&"bat_attack_screech", bat_screech_damage, 9, 18, 9, func():
+		_play_sfx("bat_scream", 0.0)
 		_trigger_screen_shake(5.5)
 		if _target_node and is_instance_valid(_target_node) and "velocity" in _target_node:
 			var push_x: float = signf(_target_node.global_position.x - global_position.x)
@@ -1237,6 +1242,7 @@ func _recover_from_groggy() -> void:
 	groggy_recovered.emit()
 
 func trigger_bell_stun() -> void:
+	_play_sfx("bell_toll", 2.0)
 	if current_form == VladForm.BAT:
 		_trigger_groggy_stun()
 		_groggy_timer = 4.0
@@ -1266,6 +1272,7 @@ func break_blood_shield() -> void:
 
 func _execute_vampire_mist_dash() -> void:
 	_mist_dash_cooldown = 3.5
+	_play_sfx("mist_dash", -1.0)
 	if smoke_vfx:
 		smoke_vfx.visible = true
 		smoke_vfx.speed_scale = 1.8
@@ -1300,6 +1307,7 @@ func set_form(new_form: VladForm, play_smoke: bool = true) -> void:
 		_apply_form_visuals()
 		if current_form == VladForm.VAMPIRE:
 			blood_shield_active = true
+			_play_sfx("blood_shield", 0.0)
 		_is_transforming = false
 		if smoke_vfx:
 			smoke_vfx.visible = false
@@ -1339,6 +1347,7 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 		smoke_vfx.speed_scale = 1.0
 		smoke_vfx.play(&"vfx_blood_smoke_burst")
 
+	_play_sfx("boss_roar", 1.0)
 	_trigger_screen_shake(5.0)
 
 	# 1. Aşama (0.0s -> 0.70s): Duman zeminden fışkırırken eski form kızıl kan aurasıyla dumana çözülür/erir
@@ -1355,6 +1364,7 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 		_apply_form_visuals()
 		if current_form == VladForm.VAMPIRE:
 			blood_shield_active = true
+			_play_sfx("blood_shield", 0.0)
 		form_changed.emit(new_form)
 		var audio_mgr = get_node_or_null("/root/AudioManager")
 		if audio_mgr and audio_mgr.has_method("on_boss_phase_changed"):
@@ -1634,4 +1644,17 @@ func reset_boss() -> void:
 	if hurtbox_area:
 		hurtbox_area.monitoring = true
 		hurtbox_area.monitorable = true
+
+
+func _play_sfx(sound_key: String, volume_db: float = 0.0, pitch_variance: float = 0.08) -> void:
+	if not is_inside_tree():
+		return
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr:
+		if audio_mgr.has_method("play_sound_2d_varied"):
+			audio_mgr.play_sound_2d_varied(sound_key, global_position, null, volume_db, 800.0, pitch_variance)
+		elif audio_mgr.has_method("play_sfx_varied"):
+			audio_mgr.play_sfx_varied(sound_key, volume_db, pitch_variance)
+		elif audio_mgr.has_method("play_sfx"):
+			audio_mgr.play_sfx(sound_key, volume_db)
 

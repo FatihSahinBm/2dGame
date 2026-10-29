@@ -53,7 +53,7 @@ func _ready() -> void:
 
 func _setup_audio() -> void:
 	_audio_screech = AudioStreamPlayer.new()
-	_audio_screech.bus = "Master"
+	_audio_screech.bus = "SFX"
 	var gen: AudioStreamGenerator = AudioStreamGenerator.new()
 	gen.mix_rate = 22050.0
 	gen.buffer_length = 0.35
@@ -199,6 +199,9 @@ func _end_rebellion() -> void:
 func _play_screech_sound() -> void:
 	if not _audio_screech or not is_inside_tree():
 		return
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("play_sfx"):
+		audio_mgr.play_sfx("sword_rebellion_whisper", -2.0)
 	_audio_screech.play()
 	var playback: AudioStreamGeneratorPlayback = _audio_screech.get_stream_playback()
 	if playback:
