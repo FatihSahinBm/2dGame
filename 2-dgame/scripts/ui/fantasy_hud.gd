@@ -44,6 +44,15 @@ signal potion_used(potion_type: String)
 @onready var secondary_count: Label = get_node_or_null("BottomLeft/DiamondContainer/SlotTop/CountBadge") as Label
 @onready var secondary_key: Label = get_node_or_null("BottomLeft/DiamondContainer/SlotTop/KeyBadge/Label") as Label
 
+# Story 2D-121: Görev ve Hedef Takip Referansları
+@onready var objective_tracker: PanelContainer = get_node_or_null("TopLeft/HBoxContainer/BarsVBox/ObjectiveTracker") as PanelContainer
+@onready var objective_badge: Label = get_node_or_null("TopLeft/HBoxContainer/BarsVBox/ObjectiveTracker/VBox/HeaderHBox/Badge") as Label
+@onready var objective_title: Label = get_node_or_null("TopLeft/HBoxContainer/BarsVBox/ObjectiveTracker/VBox/HeaderHBox/QuestTitle") as Label
+@onready var objective_label: Label = get_node_or_null("TopLeft/HBoxContainer/BarsVBox/ObjectiveTracker/VBox/ObjectiveLabel") as Label
+@onready var objective_banner: PanelContainer = get_node_or_null("ObjectiveBanner") as PanelContainer
+@onready var banner_label: Label = get_node_or_null("ObjectiveBanner/BannerLabel") as Label
+@onready var quest_log_dialog: Control = get_node_or_null("QuestLogDialog") as Control
+
 @onready var tutorial_box: Control = get_node_or_null("BottomRight/TutorialBox") as Control
 @onready var tutorial_title: Label = $BottomRight/TutorialBox/HBox/VBox/TitleLabel
 @onready var tutorial_key: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/KeyBadge/Label
@@ -52,10 +61,12 @@ signal potion_used(potion_type: String)
 var _health_tween: Tween
 var _mana_tween: Tween
 var _tutorial_tween: Tween
+var _banner_tween: Tween
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_pause_system()
+	_setup_quest_system()
 	update_all()
 
 func _setup_pause_system() -> void:
@@ -264,7 +275,7 @@ func use_mana_potion() -> void:
 		update_potion_counts()
 		potion_used.emit("mana")
 
-## Girdi yönetimi: ESC / P / Gamepad START ile duraklatma / devam etme
+## Girdi yönetimi: ESC / P / Gamepad START ile duraklatma / devam etme, [J] / [L] ile Görev Günlüğü
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var is_escape: bool = event.keycode == KEY_ESCAPE \
@@ -272,6 +283,13 @@ func _input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_cancel") \
 			or event.is_action_pressed("pause")
 		var is_p: bool = event.keycode == KEY_P or event.physical_keycode == KEY_P
+
+		# Görev günlüğü açıksa öncelikle onu kapat
+		if quest_log_dialog and quest_log_dialog.visible:
+			if is_escape:
+				quest_log_dialog.close()
+				get_viewport().set_input_as_handled()
+				return
 
 		if is_escape or is_p:
 			toggle_pause()
@@ -284,12 +302,20 @@ func _input(event: InputEvent) -> void:
 			return
 
 func _unhandled_input(event: InputEvent) -> void:
-	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri
+	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri, [J] / [L] ile Görev Günlüğü
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_2 or event.physical_keycode == KEY_2:
 			use_health_potion()
 		elif event.keycode == KEY_4 or event.physical_keycode == KEY_4:
 			use_mana_potion()
+		elif event.keycode == KEY_J or event.physical_keycode == KEY_J \
+				or event.keycode == KEY_L or event.physical_keycode == KEY_L:
+			toggle_quest_log()
+			get_viewport().set_input_as_handled()
+	elif event is InputEventJoypadButton and event.pressed and not event.echo:
+		if event.button_index == JOY_BUTTON_BACK:
+			toggle_quest_log()
+			get_viewport().set_input_as_handled()
 
 func _get_scene_tree() -> SceneTree:
 	if is_inside_tree() and get_tree():
@@ -330,3 +356,153 @@ func is_game_paused() -> bool:
 	var tree = _get_scene_tree()
 	var tree_paused: bool = tree.paused if tree else false
 	return tree_paused or (pause_menu != null and pause_menu.visible)
+
+
+# ==============================================================================
+# STORY 2D-121: GÖREV VE HEDEF TAKİP ENTEGRASYONU
+# ==============================================================================
+
+func _setup_quest_system() -> void:
+	if not quest_log_dialog:
+		quest_log_dialog = find_child("QuestLogDialog", true, false) as Control
+	if not quest_log_dialog:
+		var ql_res = load("res://scenes/ui/quest_log_dialog.tscn")
+		if ql_res:
+			quest_log_dialog = ql_res.instantiate() as Control
+			quest_log_dialog.name = "QuestLogDialog"
+			add_child(quest_log_dialog)
+
+	var q_mgr = _get_quest_manager()
+	if q_mgr:
+		if not q_mgr.tracked_quest_changed.is_connected(_on_tracked_quest_changed):
+			q_mgr.tracked_quest_changed.connect(_on_tracked_quest_changed)
+		if not q_mgr.objective_completed.is_connected(_on_quest_objective_completed):
+			q_mgr.objective_completed.connect(_on_quest_objective_completed)
+		if not q_mgr.quest_completed.is_connected(_on_quest_completed_hud):
+			q_mgr.quest_completed.connect(_on_quest_completed_hud)
+		if not q_mgr.quest_started.is_connected(_on_quest_started_hud):
+			q_mgr.quest_started.connect(_on_quest_started_hud)
+
+		update_tracked_objective(q_mgr.get_tracked_quest())
+	else:
+		if objective_tracker:
+			objective_tracker.visible = false
+
+
+func _get_quest_manager() -> Node:
+	if is_inside_tree() and get_tree() and get_tree().root:
+		var node = get_tree().root.get_node_or_null("QuestManager")
+		if node:
+			return node
+	var fallback = get_node_or_null("/root/QuestManager")
+	if fallback:
+		return fallback
+	if QuestManager and QuestManager.instance:
+		return QuestManager.instance
+	return null
+
+
+## Takip edilen görevin HUD arayüzünü günceller
+func update_tracked_objective(quest: Dictionary) -> void:
+	if not objective_tracker:
+		return
+	if quest.is_empty() or quest.get("status") != "active":
+		objective_tracker.visible = false
+		return
+
+	objective_tracker.visible = true
+
+	var title: String = str(quest.get("title", ""))
+	var category: String = str(quest.get("category", "main"))
+	if objective_title:
+		objective_title.text = title
+
+	if objective_badge:
+		if category == "main":
+			objective_badge.text = "ANA GÖREV"
+		elif category == "side":
+			objective_badge.text = "YAN GÖREV"
+		else:
+			objective_badge.text = category.to_upper()
+
+	var desc: String = ""
+	var stages: Array = quest.get("stages", [])
+	var curr_idx: int = int(quest.get("current_stage", 0))
+	if curr_idx >= 0 and curr_idx < stages.size():
+		var st = stages[curr_idx]
+		desc = "• " + str(st.get("description", ""))
+	elif not stages.is_empty():
+		desc = "• " + str(stages[0].get("description", ""))
+	else:
+		desc = "• " + str(quest.get("description", ""))
+
+	if objective_label:
+		objective_label.text = desc
+
+
+## Ekranın üst-ortasında hedef tamamlama bayrağını (toast) gösterir
+func show_objective_complete_banner(text: String, is_quest: bool = false) -> void:
+	if not objective_banner:
+		return
+
+	if banner_label:
+		if is_quest:
+			banner_label.text = "🏆 GÖREV TAMAMLANDI!\n" + text
+		else:
+			banner_label.text = "🎯 HEDEF TAMAMLANDI!\n" + text
+
+	objective_banner.visible = true
+	objective_banner.modulate = Color(1, 1, 1, 0)
+	objective_banner.position.y = -40.0
+
+	if _banner_tween and _banner_tween.is_valid():
+		_banner_tween.kill()
+
+	_banner_tween = create_tween()
+	_banner_tween.set_parallel(true)
+	_banner_tween.tween_property(objective_banner, "modulate:a", 1.0, 0.3)
+	_banner_tween.tween_property(objective_banner, "position:y", 18.0, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	_banner_tween.chain().tween_interval(2.5)
+	_banner_tween.chain().tween_property(objective_banner, "modulate:a", 0.0, 0.4)
+	_banner_tween.tween_property(objective_banner, "position:y", -20.0, 0.4)
+	_banner_tween.chain().tween_callback(func():
+		if is_instance_valid(objective_banner):
+			objective_banner.visible = false
+	)
+
+
+## Görev günlüğü penceresini açar veya kapatır
+func toggle_quest_log() -> void:
+	_setup_quest_system()
+	if quest_log_dialog:
+		if quest_log_dialog.visible:
+			quest_log_dialog.close()
+		else:
+			quest_log_dialog.open()
+
+
+func _on_tracked_quest_changed(quest: Dictionary) -> void:
+	update_tracked_objective(quest)
+
+
+func _on_quest_objective_completed(_quest_id: String, _stage_id: String, stage_desc: String) -> void:
+	var q_mgr = _get_quest_manager()
+	if q_mgr:
+		update_tracked_objective(q_mgr.get_tracked_quest())
+	show_objective_complete_banner(stage_desc, false)
+
+
+func _on_quest_completed_hud(quest_id: String, quest: Dictionary) -> void:
+	var title = str(quest.get("title", quest_id))
+	show_objective_complete_banner(title, true)
+	var q_mgr = _get_quest_manager()
+	if q_mgr:
+		update_tracked_objective(q_mgr.get_tracked_quest())
+
+
+func _on_quest_started_hud(_quest_id: String, _quest: Dictionary) -> void:
+	var q_mgr = _get_quest_manager()
+	if q_mgr:
+		update_tracked_objective(q_mgr.get_tracked_quest())
+

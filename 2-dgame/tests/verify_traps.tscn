@@ -4,3 +4,4 @@
 
 [node name="VerifyTraps" type="Node"]
 script = ExtResource("1_runner")
+

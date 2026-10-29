@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://verify_quest_01"]
+
+[ext_resource type="Script" path="res://tests/verify_quest_runner.gd" id="1_runner"]
+
+[node name="VerifyQuest" type="Node2D"]
+script = ExtResource("1_runner")

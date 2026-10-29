@@ -4,3 +4,4 @@
 
 [node name="VerifyThrowables" type="Node2D"]
 script = ExtResource("1_runner")
+

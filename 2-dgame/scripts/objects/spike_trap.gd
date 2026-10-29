@@ -324,3 +324,4 @@ func _is_valid_target(body: Node) -> bool:
 
 	# Sadece hasar alabilir varlıklar
 	return body.has_method("take_damage") or body.has_method("hit")
+

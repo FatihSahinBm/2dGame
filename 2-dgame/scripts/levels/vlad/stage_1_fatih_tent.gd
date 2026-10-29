@@ -119,6 +119,13 @@ func _on_audience_completed() -> void:
 	if game_state:
 		game_state.fatih_audience_completed = true
 
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr:
+		if q_mgr.has_method("complete_quest"):
+			q_mgr.complete_quest("fatih_audience")
+		if q_mgr.has_method("start_quest"):
+			q_mgr.start_quest("bridge_assault")
+
 	if fatih_npc and is_instance_valid(fatih_npc):
 		var sprite = fatih_npc.get_node_or_null("Visual/AnimatedSprite2D") as AnimatedSprite2D
 		if sprite and sprite.sprite_frames.has_animation("command"):

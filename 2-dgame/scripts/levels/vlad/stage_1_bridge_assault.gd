@@ -180,6 +180,10 @@ func _spawn_burning_hit_vfx(pos: Vector2) -> void:
 func _on_blood_knight_died() -> void:
 	_knight_defeated = true
 
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("bridge_assault", "defeat_blood_knight")
+
 	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
 	var victory_key = "battering_ram_victory"
 	if game_state and not game_state.is_commander_alive:
@@ -223,6 +227,13 @@ func _on_exit_gate_entered(body: Node2D) -> void:
 
 func _trigger_dungeon_transition() -> void:
 	_is_transitioning = true
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr:
+		if q_mgr.has_method("advance_quest"):
+			q_mgr.advance_quest("bridge_assault", "enter_dungeon")
+		if q_mgr.has_method("start_quest"):
+			q_mgr.start_quest("vlad_confrontation")
+
 	if player and "can_move" in player:
 		player.can_move = false
 

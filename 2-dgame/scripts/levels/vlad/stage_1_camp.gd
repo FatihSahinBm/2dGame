@@ -25,9 +25,9 @@ var _is_transitioning: bool = false
 
 func _ready() -> void:
 	if player:
-		if not player.has_sword and player.has_method("pickup_sword"):
+		if "has_sword" in player and not player.has_sword and player.has_method("pickup_sword"):
 			player.pickup_sword()
-		elif not player.is_armed:
+		elif "is_armed" in player and not player.is_armed:
 			player.is_armed = true
 			if player.has_method("_emit_weapon_state"):
 				player._emit_weapon_state()
@@ -136,9 +136,13 @@ func _start_archer_callout() -> void:
 func _on_dialogue_choice_selected(action: String) -> void:
 	if action == "accept":
 		_archer_quest_state = "ACCEPTED"
+		var q_mgr = get_node_or_null("/root/QuestManager")
+		if q_mgr and q_mgr.has_method("start_quest"):
+			q_mgr.start_quest("archer_quivers")
 		if quiver_item and quiver_item.has_method("set_quest_active"):
 			quiver_item.set_quest_active(true)
-		dialogue_box.start_dialogue_from_data("archer_sidequest_accept", kemankes)
+		if dialogue_box and dialogue_box.has_method("start_dialogue_from_data"):
+			dialogue_box.start_dialogue_from_data("archer_sidequest_accept", kemankes)
 		if hud and hud.has_method("set_tutorial"):
 			hud.set_tutorial(
 				"Görev: Alevli Sadakları Bul",
@@ -147,7 +151,8 @@ func _on_dialogue_choice_selected(action: String) -> void:
 			)
 	elif action == "decline":
 		_archer_quest_state = "DECLINED"
-		dialogue_box.start_dialogue_from_data("archer_sidequest_decline", kemankes)
+		if dialogue_box and dialogue_box.has_method("start_dialogue_from_data"):
+			dialogue_box.start_dialogue_from_data("archer_sidequest_decline", kemankes)
 		if hud and hud.has_method("set_tutorial"):
 			hud.set_tutorial(
 				"Otağ-ı Hümayun'a İlerle",
@@ -158,6 +163,10 @@ func _on_dialogue_choice_selected(action: String) -> void:
 
 func _on_quiver_collected() -> void:
 	_has_arrow_quiver = true
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("archer_quivers", "find_quiver")
+
 	if hud and hud.has_method("set_quiver_visible"):
 		hud.set_quiver_visible(true, 1)
 
@@ -173,6 +182,10 @@ func _deliver_quiver_to_archer() -> void:
 	_archer_quest_state = "COMPLETED"
 	_has_arrow_quiver = false
 
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("archer_quivers", "deliver_quiver")
+
 	if hud and hud.has_method("set_quiver_visible"):
 		hud.set_quiver_visible(false)
 
@@ -180,7 +193,7 @@ func _deliver_quiver_to_archer() -> void:
 	if game_state and game_state.has_method("unlock_ability"):
 		game_state.unlock_ability("flaming_arrows")
 
-	if dialogue_box:
+	if dialogue_box and dialogue_box.has_method("start_dialogue_from_data"):
 		dialogue_box.start_dialogue_from_data("archer_sidequest_complete", kemankes)
 		dialogue_box.dialogue_completed.connect(func():
 			if hud and hud.has_method("set_tutorial"):
@@ -199,6 +212,10 @@ func _on_tent_gate_entered(body: Node2D) -> void:
 
 func _trigger_tent_transition() -> void:
 	_is_transitioning = true
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("fatih_audience", "enter_tent")
+
 	if player and "can_move" in player:
 		player.can_move = false
 

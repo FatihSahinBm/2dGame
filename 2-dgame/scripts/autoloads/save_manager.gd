@@ -357,6 +357,11 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 		if "persistent_events" in game_state and game_state.persistent_events is Dictionary:
 			persistent_events = game_state.persistent_events.duplicate(true)
 
+	var quests_data: Dictionary = {}
+	var quest_mgr = get_node_or_null("/root/QuestManager")
+	if quest_mgr and quest_mgr.has_method("export_save_data"):
+		quests_data = quest_mgr.export_save_data()
+
 	var save_data: Dictionary = {
 		"schema_version": CURRENT_SCHEMA_VERSION,
 		"version": CURRENT_SCHEMA_VERSION,
@@ -397,7 +402,8 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 			"is_commander_rescued": cmd_rescued,
 			"has_commander_orders": cmd_orders,
 			"fatih_audience_completed": fatih_done,
-			"persistent_events": persistent_events
+			"persistent_events": persistent_events,
+			"quests_data": quests_data
 		},
 		# Geriye dönük uyumluluk alanları (v1 flat fields):
 		"current_stage_path": stage_path,
@@ -625,6 +631,10 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 			game_state.fatih_audience_completed = bool(qs.get("fatih_audience_completed", false))
 			if qs.has("persistent_events") and qs["persistent_events"] is Dictionary and "persistent_events" in game_state:
 				game_state.persistent_events = qs["persistent_events"].duplicate(true)
+			if qs.has("quests_data") and qs["quests_data"] is Dictionary:
+				var quest_mgr = get_node_or_null("/root/QuestManager")
+				if quest_mgr and quest_mgr.has_method("import_save_data"):
+					quest_mgr.import_save_data(qs["quests_data"])
 		else:
 			if final_data.has("completed_chapters") and final_data["completed_chapters"] is Array:
 				game_state.completed_chapters.clear()

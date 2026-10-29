@@ -112,3 +112,4 @@ func _spawn_burn_particles() -> void:
 	fire.global_position = global_position
 	parent_scene.add_child(fire)
 	fire.finished.connect(fire.queue_free)
+

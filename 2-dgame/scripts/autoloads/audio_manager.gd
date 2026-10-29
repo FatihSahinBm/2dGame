@@ -1113,6 +1113,51 @@ func _register_builtin_procedural_sounds() -> void:
 			var click := sin(t * 1200.0 * TAU) * 0.35 * env
 			pb.push_frame(Vector2(click, click))
 
+	# Story 2D-121: Görev Günlüğü ve Hedef Takip Sesleri
+
+	# Görev Aşaması Tamamlandı / Çan Sesi (Objective Complete)
+	_sound_registry["objective_complete"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.4), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-8.0 * t)
+			var chime := (sin(t * 987.77 * TAU) * 0.3 + sin(t * 1318.5 * TAU) * 0.25) * env
+			pb.push_frame(Vector2(chime, chime))
+
+	# Görev Tamamlandı Zafer Fanfarı (Quest Complete)
+	_sound_registry["quest_complete"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.7), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-4.5 * t)
+			# Triad arpej (C5 -> E5 -> G5 -> C6)
+			var freq := 523.25
+			if t > 0.15: freq = 659.25
+			if t > 0.30: freq = 783.99
+			if t > 0.45: freq = 1046.50
+			var horn := sin(t * freq * TAU) * 0.3 * env
+			var sparkle := sin(t * freq * 2.0 * TAU) * 0.15 * env
+			var s := horn + sparkle
+			pb.push_frame(Vector2(s, s))
+
+	# Görev Günlüğü Açılış Parşömen Hışırtısı (Quest Log Open)
+	_sound_registry["quest_log_open"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.15), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * t / 0.15)
+			var paper := (randf() * 2.0 - 1.0) * 0.28 * env
+			pb.push_frame(Vector2(paper, paper))
+
+	# Görev Günlüğü Kapanış Sesi (Quest Log Close)
+	_sound_registry["quest_log_close"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.12), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-22.0 * t)
+			var paper := (randf() * 2.0 - 1.0) * 0.22 * env
+			pb.push_frame(Vector2(paper, paper))
+
 	# 2D Konumsal Şelale Sesi (Waterfall)
 	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
