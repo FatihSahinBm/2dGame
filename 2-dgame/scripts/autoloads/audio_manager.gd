@@ -785,16 +785,23 @@ func _load_audio_assets_from_disk() -> void:
 			if ResourceLoader.exists(p):
 				var res = load(p)
 				if res is AudioStream:
+					if res is AudioStreamWAV and k == "campfire":
+						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 					_sound_registry[k] = res
 					break
 
-	var music_keys: Array[String] = ["camp_ambience", "vlad_theme", "combat_theme", "menu_theme"]
+	var music_keys: Array[String] = [
+		"camp_ambience", "vlad_theme", "combat_theme", "menu_theme",
+		"prehistoric_theme", "prehistoric_ambience", "vlad_ambience"
+	]
 	for m in music_keys:
 		for ext in extensions:
 			var p: String = "res://assets/audio/music/" + m + ext
 			if ResourceLoader.exists(p):
 				var res = load(p)
 				if res is AudioStream:
+					if res is AudioStreamWAV:
+						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 					_sound_registry[m] = res
 					break
 
@@ -825,12 +832,16 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 			if ResourceLoader.exists(sfx_path):
 				var res = load(sfx_path)
 				if res is AudioStream:
+					if res is AudioStreamWAV and sound == "campfire":
+						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 					_sound_registry[sound] = res
 					return res
 			var music_path: String = "res://assets/audio/music/" + str(sound) + ext
 			if ResourceLoader.exists(music_path):
 				var res = load(music_path)
 				if res is AudioStream:
+					if res is AudioStreamWAV:
+						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 					_sound_registry[sound] = res
 					return res
 	return null
@@ -879,22 +890,29 @@ func _register_builtin_procedural_sounds() -> void:
 			var noise := (randf() * 2.0 - 1.0) * env * 0.35
 			pb.push_frame(Vector2(noise, noise))
 
-	# Kılıç Savurma (Slash)
+	# Kılıç Savurma (Slash) - Doğal aerodinamik çelik savrulması (Atari beepi yok)
 	_sound_registry["sword_slash"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.18), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
-			var env := sin(PI * t / 0.18)
-			var s := (sin(t * (400.0 - 180.0 * t) * TAU) * 0.3 + (randf() * 2.0 - 1.0) * 0.2) * env
+			var norm := t / 0.18
+			var noise := (randf() * 2.0 - 1.0)
+			var sweep_freq := lerpf(1800.0, 450.0, norm * norm)
+			var resonance := sin(t * sweep_freq * TAU) * 0.15
+			var env := sin(PI * norm) * (1.0 - norm)
+			var s := (noise * 0.65 + resonance) * env * 0.45
 			pb.push_frame(Vector2(s, s))
 
-	# Kılıç Vuruşu (Hit)
+	# Kılıç Vuruşu (Hit) - Tok gövde darbesi ve metalik titreşim
 	_sound_registry["sword_hit"] = func(pb: AudioStreamGeneratorPlayback):
-		var n := mini(int(22050.0 * 0.14), pb.get_frames_available())
+		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
-			var env := exp(-25.0 * t)
-			var s := (sin(t * 180.0 * TAU) * 0.5 + sin(t * 950.0 * TAU) * 0.25) * env
+			var norm := t / 0.22
+			var thud := sin(t * lerpf(120.0, 45.0, norm) * TAU) * 0.55 * exp(-18.0 * t)
+			var crack := (randf() * 2.0 - 1.0) * exp(-50.0 * t) * 0.35
+			var metal := sin(t * 1450.0 * TAU) * 0.15 * exp(-12.0 * t)
+			var s := thud + crack + metal
 			pb.push_frame(Vector2(s, s))
 
 	# Hasar Alma (Hurt)
@@ -1072,10 +1090,9 @@ func _register_builtin_procedural_sounds() -> void:
 		var n := mini(int(22050.0 * 0.6), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
-			var low := sin(t * 60.0 * TAU) * 0.15
-			var flutter := (randf() * 2.0 - 1.0) * 0.2 * (0.7 + 0.3 * sin(t * 3.0 * TAU))
-			var pop := (1.0 if randf() < 0.02 else 0.0) * (randf() * 2.0 - 1.0) * 0.4
-			var s := low + flutter + pop
+			var rumble := (randf() * 2.0 - 1.0) * 0.22 * (0.8 + 0.2 * sin(t * 3.5 * TAU))
+			var pop := ((randf() * 2.0 - 1.0) * 0.5) if randf() < 0.02 else 0.0
+			var s := rumble + pop
 			pb.push_frame(Vector2(s, s))
 
 	# Kontrol Noktası Aktivasyonu (Bright Chime & Ascending Harmonics)
@@ -1109,15 +1126,14 @@ func _register_builtin_procedural_sounds() -> void:
 			var s := (scrape + metal) * env
 			pb.push_frame(Vector2(s, s))
 
-	# Sallanan Giyotin / Sarkaç Bıçağı Rüzgârı (Guillotine Swing)
+	# Sallanan Giyotin / Sarkaç Bıçağı Rüzgârı (Çok hafif, yumuşak hava süzülmesi)
 	_sound_registry["guillotine_swing"] = func(pb: AudioStreamGeneratorPlayback):
-		var n := mini(int(22050.0 * 0.3), pb.get_frames_available())
+		var n := mini(int(22050.0 * 0.35), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
-			var env := sin(PI * t / 0.3)
-			var whoosh := (randf() * 2.0 - 1.0) * 0.3
-			var metal := sin(t * 220.0 * TAU) * 0.25
-			var s := (whoosh + metal) * env
+			var env := sin(PI * t / 0.35) ** 2
+			var whisper := (randf() * 2.0 - 1.0) * 0.14
+			var s := whisper * env * 0.35
 			pb.push_frame(Vector2(s, s))
 
 	# Çöken Platform Çatlama / Sallanma Sesi (Platform Crumble)
