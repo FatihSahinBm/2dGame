@@ -210,3 +210,4 @@ func _ready() -> void:
 		printerr("  SONUÇ: BAZI YERELLEŞTİRME TESTLERİ BAŞARISIZ OLDU! ")
 		print("========================================================\n")
 		get_tree().quit(1)
+

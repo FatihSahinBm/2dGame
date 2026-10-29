@@ -6,9 +6,6 @@ extends "res://scripts/player.gd"
 
 const SwordRebellionManager = preload("res://scripts/combat/sword_rebellion_manager.gd")
 
-var attack_cooldown_penalty: float = 1.0
-var sword_rebellion: Node = null
-
 
 func _ready() -> void:
 	super._ready()
@@ -17,8 +14,12 @@ func _ready() -> void:
 
 
 func _setup_rebellion_manager() -> void:
-	sword_rebellion = SwordRebellionManager.new()
-	add_child(sword_rebellion)
+	if not sword_rebellion:
+		sword_rebellion = get_node_or_null("SwordRebellionManager")
+		if not sword_rebellion:
+			sword_rebellion = SwordRebellionManager.new()
+			sword_rebellion.name = "SwordRebellionManager"
+			add_child(sword_rebellion)
 
 
 ## Can Yenileme (Müttefik sömürüsü veya vampirik darbeden)

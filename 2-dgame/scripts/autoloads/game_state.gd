@@ -49,10 +49,13 @@ func complete_chapter(chapter_id: String) -> void:
 		completed_chapters.append(chapter_id)
 
 
-## Yozlaşma puanı ekler ve kılıç isyanı sinyalini tetikler
+## Yozlaşma puanı ekler
 func add_corruption(amount: int) -> void:
+	var prev_score: int = corruption_score
 	corruption_score += amount
-	sword_rebellion_triggered.emit()
+	# Yozlaşma yüksek eşiğe (>= 50) yeni ulaştığında veya aşılırsa sinyal üretir
+	if prev_score < 50 and corruption_score >= 50:
+		sword_rebellion_triggered.emit()
 
 
 ## Müttefik askeri kurban etme (Aktif Sömürü)
@@ -61,6 +64,8 @@ func register_ally_sacrifice(soldier_type: String = "janissary") -> int:
 	allies_sacrificed_count += 1
 	add_corruption(20) # Aktif sömürü ciddi yozlaşma puanı verir
 	ally_betrayed.emit(soldier_type, true)
+	# Müttefik kurban edilmesi kılıç ruhunun doğrudan şiddetli isyanına yol açar
+	sword_rebellion_triggered.emit()
 	return 40 # +40 Can yenileme
 
 
@@ -69,6 +74,7 @@ func register_ally_kill(soldier_type: String = "janissary") -> void:
 	allies_killed_count += 1
 	add_corruption(12)
 	ally_betrayed.emit(soldier_type, false)
+	sword_rebellion_triggered.emit()
 
 
 ## Yetenek kontrolü

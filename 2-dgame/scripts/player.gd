@@ -74,6 +74,9 @@ var is_dashing: bool = false
 var is_sliding: bool = false
 var is_rolling: bool = false
 var is_wall_sliding: bool = false
+var is_rebelling: bool = false
+var attack_cooldown_penalty: float = 1.0
+var sword_rebellion: Node = null
 var current_attack_type: String = ""
 var block_timer: float = 0.0
 
@@ -147,6 +150,28 @@ func _ready() -> void:
 
 	# Dost birliklerin (allies) bizi bloklamasını önle - içlerinden geçilebilsin
 	_setup_ally_collision_exceptions()
+
+	# Kılıç İsyanı (Sword Rebellion) yöneticisini ilklendir
+	_setup_rebellion_manager()
+
+
+func _setup_rebellion_manager() -> void:
+	if not sword_rebellion:
+		sword_rebellion = get_node_or_null("SwordRebellionManager")
+		if not sword_rebellion:
+			var srm_script = load("res://scripts/combat/sword_rebellion_manager.gd")
+			if srm_script:
+				sword_rebellion = srm_script.new()
+				sword_rebellion.name = "SwordRebellionManager"
+				add_child(sword_rebellion)
+
+
+func _check_and_trigger_sword_rebellion() -> bool:
+	if not has_sword or is_dead or is_hurt or is_dashing or is_rolling:
+		return false
+	if sword_rebellion and sword_rebellion.has_method("check_and_trigger_attack_rebellion"):
+		return sword_rebellion.check_and_trigger_attack_rebellion()
+	return false
 
 
 func _setup_ally_collision_exceptions() -> void:
@@ -607,8 +632,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		drop_sword()
 		return
 
-	# Saldırı Girdileri (Kılıç varsa ve savunmada DEĞİLKEN)
-	if has_sword and not is_attacking and not is_rolling and not is_dashing and not is_sliding and not is_defending:
+	# Saldırı Girdileri (Kılıç varsa ve savunmada/isyanda DEĞİLKEN)
+	if has_sword and not is_attacking and not is_rolling and not is_dashing and not is_sliding and not is_defending and not is_rebelling:
 		# Sol Tık / J: Hafif Saldırı / Kombo / Eğilerek Saldırı
 		if (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT) \
 				or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_J) \
@@ -616,6 +641,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not is_armed:
 				is_armed = true
 				_emit_weapon_state()
+
+			# Kılıç İsyanı: Yüksek yozlaşmada kılıç darbeyi kesebilir
+			if _check_and_trigger_sword_rebellion():
+				return
 
 			if is_crouching:
 				perform_crouch_attack()
@@ -636,6 +665,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not is_armed:
 				is_armed = true
 				_emit_weapon_state()
+
+			# Kılıç İsyanı: Yüksek yozlaşmada kılıç darbeyi kesebilir
+			if _check_and_trigger_sword_rebellion():
+				return
+
 			perform_heavy_attack()
 			return
 
@@ -678,6 +712,8 @@ func toggle_shield_in_hand() -> void:
 
 ## Hafif Saldırı (Vuruş 1)
 func perform_light_attack() -> void:
+	if is_rebelling or not can_move or is_dead:
+		return
 	is_attacking = true
 	current_attack_type = "light"
 	attack_performed.emit("light")
@@ -693,6 +729,8 @@ func perform_light_attack() -> void:
 
 ## 2'li Akıcı Kombo Saldırısı (Vuruş 2)
 func perform_combo_attack() -> void:
+	if is_rebelling or not can_move or is_dead:
+		return
 	is_attacking = true
 	combo_step = 0
 	combo_timer = 0.0
@@ -708,6 +746,8 @@ func perform_combo_attack() -> void:
 
 ## Eğilerek Saldırı (Crouch Attack)
 func perform_crouch_attack() -> void:
+	if is_rebelling or not can_move or is_dead:
+		return
 	is_attacking = true
 	current_attack_type = "crouch"
 	attack_performed.emit("crouch")
@@ -800,6 +840,8 @@ func _play_parry_feedback(impact_pos: Vector2) -> void:
 
 ## Ağır Saldırı (Sağ Tık)
 func perform_heavy_attack() -> void:
+	if is_rebelling or not can_move or is_dead:
+		return
 	is_attacking = true
 	combo_step = 0
 	combo_timer = 0.0
@@ -962,6 +1004,7 @@ func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 	# Eğer savunmada değilken darbe alındıysa tam sersemleme (Hurt / Knockback)
 	if not is_defending:
 		is_hurt = true
+		is_rebelling = false
 		is_attacking = false
 		is_parry_active = false
 		current_attack_type = ""
