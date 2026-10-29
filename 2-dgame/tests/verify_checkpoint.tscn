@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://verify_checkpoint_01"]
+
+[ext_resource type="Script" path="res://tests/verify_checkpoint_runner.gd" id="1_runner"]
+
+[node name="VerifyCheckpoint" type="Node"]
+script = ExtResource("1_runner")

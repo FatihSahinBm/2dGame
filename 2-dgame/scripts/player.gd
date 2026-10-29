@@ -154,6 +154,13 @@ func _ready() -> void:
 	# Kılıç İsyanı (Sword Rebellion) yöneticisini ilklendir
 	_setup_rebellion_manager()
 
+	# Kayıtlı kontrol noktası varsa oradan başla
+	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	if save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO:
+		global_position = save_mgr.cached_checkpoint_position
+		if camera and camera.has_method("reset_smoothing"):
+			camera.reset_smoothing()
+
 
 func _setup_rebellion_manager() -> void:
 	if not sword_rebellion:
@@ -1107,9 +1114,59 @@ func _trigger_block_hit(original_amount: int, reduced_amount: int) -> void:
 			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.55)
 			tw.tween_callback(label.queue_free)
 
+func respawn_at_checkpoint() -> void:
+	is_dead = false
+	can_move = true
+	is_attacking = false
+	is_parry_active = false
+	is_hurt = false
+	current_health = max_health
+	velocity = Vector2.ZERO
+	_clear_drop_through_platform()
+
+	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	if save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO:
+		global_position = save_mgr.cached_checkpoint_position
+
+	if camera and camera.has_method("reset_smoothing"):
+		camera.reset_smoothing()
+
+	if anim_sprite and anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("idle"):
+		anim_sprite.play("idle")
+
+	# HUD tazeleme (Can & İksirler)
+	if is_inside_tree() and get_tree() and get_tree().current_scene:
+		var hud = get_tree().current_scene.find_child("FantasyHUD", true, false)
+		if hud:
+			if "current_health" in hud:
+				hud.current_health = max_health
+			if "health_potions" in hud:
+				hud.health_potions = 3
+			if "mana_potions" in hud:
+				hud.mana_potions = 2
+			if hud.has_method("update_all"):
+				hud.update_all()
+
+	# Kamp ateşi sıradan devriye düşmanlarını yeniden başlat
+	if is_inside_tree() and get_tree():
+		var campfires = get_tree().get_nodes_in_group("campfires")
+		for cf in campfires:
+			if cf.has_method("respawn_enemies"):
+				cf.respawn_enemies()
+
+	# Varsa ölüm ekranı CanvasLayer'ını kapat
+	for child in get_children():
+		if child is CanvasLayer and child.layer == 120:
+			child.queue_free()
+
+
 func respawn() -> void:
 	_clear_drop_through_platform()
-	get_tree().reload_current_scene()
+	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	if save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO:
+		respawn_at_checkpoint()
+	else:
+		get_tree().reload_current_scene()
 
 
 func _show_death_screen() -> void:
@@ -1138,8 +1195,11 @@ func _show_death_screen() -> void:
 	title.add_theme_font_size_override("font_size", 24)
 	vbox.add_child(title)
 
+	var save_mgr = get_node_or_null("/root/SaveManager") if is_inside_tree() else null
+	var has_checkpoint: bool = save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO
+
 	var prompt: Label = Label.new()
-	prompt.text = "[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ"
+	prompt.text = "[R] Tuşuna Basarak Kontrol Noktasından Yeniden Doğ" if has_checkpoint else "[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ"
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5, 1.0))
 	prompt.add_theme_color_override("font_outline_color", Color.BLACK)

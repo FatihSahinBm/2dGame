@@ -265,7 +265,8 @@ func _gather_live_stats() -> Dictionary:
 			if "has_sword" in player:
 				has_weapon = player.has_sword
 			if player is Node2D and not ("is_dead" in player and player.is_dead):
-				cached_checkpoint_position = player.global_position
+				if cached_checkpoint_position == Vector2.ZERO:
+					cached_checkpoint_position = player.global_position
 
 		var hud = cur.find_child("FantasyHUD", true, false)
 		if hud:
@@ -332,6 +333,7 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 	var cmd_rescued: bool = false
 	var cmd_orders: bool = false
 	var fatih_done: bool = false
+	var persistent_events: Dictionary = {}
 
 	if game_state:
 		corruption = game_state.corruption_score
@@ -344,6 +346,8 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 		cmd_rescued = game_state.is_commander_rescued
 		cmd_orders = game_state.has_commander_orders
 		fatih_done = game_state.fatih_audience_completed
+		if "persistent_events" in game_state and game_state.persistent_events is Dictionary:
+			persistent_events = game_state.persistent_events.duplicate(true)
 
 	var save_data: Dictionary = {
 		"schema_version": CURRENT_SCHEMA_VERSION,
@@ -382,7 +386,8 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 			"is_commander_alive": cmd_alive,
 			"is_commander_rescued": cmd_rescued,
 			"has_commander_orders": cmd_orders,
-			"fatih_audience_completed": fatih_done
+			"fatih_audience_completed": fatih_done,
+			"persistent_events": persistent_events
 		},
 		# Geriye dönük uyumluluk alanları (v1 flat fields):
 		"current_stage_path": stage_path,
@@ -608,6 +613,8 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 			game_state.is_commander_rescued = bool(qs.get("is_commander_rescued", false))
 			game_state.has_commander_orders = bool(qs.get("has_commander_orders", false))
 			game_state.fatih_audience_completed = bool(qs.get("fatih_audience_completed", false))
+			if qs.has("persistent_events") and qs["persistent_events"] is Dictionary and "persistent_events" in game_state:
+				game_state.persistent_events = qs["persistent_events"].duplicate(true)
 		else:
 			if final_data.has("completed_chapters") and final_data["completed_chapters"] is Array:
 				game_state.completed_chapters.clear()
@@ -635,7 +642,7 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 
 ## Yeni sahne yüklendiğinde oyuncu ve HUD değerlerini senkronize eder
 func apply_cached_stats_to_scene(target_node: Node = null) -> void:
-	if cached_player_stats.is_empty() and cached_inventory.is_empty():
+	if cached_player_stats.is_empty() and cached_inventory.is_empty() and cached_checkpoint_position == Vector2.ZERO:
 		return
 
 	var scene = target_node

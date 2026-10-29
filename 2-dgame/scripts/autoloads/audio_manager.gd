@@ -992,6 +992,24 @@ func _register_builtin_procedural_sounds() -> void:
 			var s := low + flutter + pop
 			pb.push_frame(Vector2(s, s))
 
+	# Kontrol Noktası Aktivasyonu (Bright Chime & Ascending Harmonics)
+	_sound_registry["checkpoint_activated"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.4), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-8.0 * t)
+			var s := (sin(t * 523.25 * TAU) * 0.25 + sin(t * 659.25 * TAU) * 0.25 + sin(t * 783.99 * TAU) * 0.25) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Dinlenme / Can Yenilenme (Warm Soothing Wave)
+	_sound_registry["rest_heal"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.35), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * t / 0.35)
+			var s := (sin(t * 440.0 * TAU) * 0.3 + sin(t * 880.0 * TAU) * 0.15) * env
+			pb.push_frame(Vector2(s, s))
+
 	# 2D Konumsal Şelale Sesi (Waterfall)
 	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())

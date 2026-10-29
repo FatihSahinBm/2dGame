@@ -34,6 +34,10 @@ var fatih_audience_completed: bool = false
 var completed_chapters: Array[String] = []
 
 
+# --- Kalıcı Dünya Olayları (Boss yenilgileri, açılan kapılar, kamp ateşleri) ---
+var persistent_events: Dictionary = {}
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -97,6 +101,16 @@ func get_ending_alignment() -> String:
 	return "redemption"
 
 
+## Kalıcı olay tamamlanma durumu belirler (Boss yenilgisi, açılan kapı vb.)
+func set_event_completed(event_id: String, completed: bool = true) -> void:
+	persistent_events[event_id] = completed
+
+
+## Kalıcı olay tamamlanma durumu sorgular
+func is_event_completed(event_id: String) -> bool:
+	return persistent_events.get(event_id, false)
+
+
 ## Yeni oyun / sıfırlama
 func reset_state() -> void:
 	corruption_score = 0
@@ -105,6 +119,7 @@ func reset_state() -> void:
 	unlocked_abilities.clear()
 	current_heart_pieces = 0
 	completed_chapters.clear()
+	persistent_events.clear()
 	current_stage_path = "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn"
 	is_commander_alive = true
 	is_commander_rescued = false
