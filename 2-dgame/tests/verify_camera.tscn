@@ -4,3 +4,4 @@
 
 [node name="VerifyCamera" type="Node"]
 script = ExtResource("1_runner")
+

@@ -166,3 +166,4 @@ func save_settings() -> void:
 	if wf:
 		wf.store_string(JSON.stringify(existing, "\t"))
 		wf.close()
+

@@ -107,6 +107,26 @@
     "tr": "Ekran Sarsıntısı:",
     "en": "Screen Shake:"
   },
+  "SETTINGS_WEATHER_EFFECTS": {
+    "tr": "Hava Efektleri:",
+    "en": "Weather Effects:"
+  },
+  "WEATHER_INTENSITY_OFF": {
+    "tr": "Kapalı",
+    "en": "Off"
+  },
+  "WEATHER_INTENSITY_LOW": {
+    "tr": "Düşük",
+    "en": "Low"
+  },
+  "WEATHER_INTENSITY_MED": {
+    "tr": "Orta",
+    "en": "Medium"
+  },
+  "WEATHER_INTENSITY_HIGH": {
+    "tr": "Yüksek",
+    "en": "High"
+  },
   "BTN_BACK": {
     "tr": "⮌ Geri",
     "en": "⮌ Back"

@@ -17,16 +17,16 @@ shadow_color = Color(0, 0, 0, 0.6)
 shadow_size = 14
 
 [node name="SettingsDialog" type="PanelContainer"]
-custom_minimum_size = Vector2(540, 520)
+custom_minimum_size = Vector2(540, 560)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -270.0
-offset_top = -260.0
+offset_top = -280.0
 offset_right = 270.0
-offset_bottom = 260.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
@@ -118,6 +118,25 @@ custom_minimum_size = Vector2(220, 24)
 layout_mode = 2
 size_flags_horizontal = 3
 value = 100.0
+
+[node name="WeatherLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Hava Efektleri:"
+
+[node name="WeatherOption" type="OptionButton" parent="Margin/VBox/Grid"]
+custom_minimum_size = Vector2(220, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 3
+item_count = 4
+popup/item_0/text = "Kapalı"
+popup/item_0/id = 0
+popup/item_1/text = "Düşük"
+popup/item_1/id = 1
+popup/item_2/text = "Orta"
+popup/item_2/id = 2
+popup/item_3/text = "Yüksek"
+popup/item_3/id = 3
 
 [node name="ReduceMotionLabel" type="Label" parent="Margin/VBox/Grid"]
 layout_mode = 2

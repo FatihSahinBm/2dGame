@@ -24,6 +24,9 @@ signal closed()
 @onready var screen_shake_label: Label = find_child("ScreenShakeLabel", true, false) as Label
 @onready var screen_shake_slider: HSlider = find_child("ScreenShakeSlider", true, false) as HSlider
 
+@onready var weather_label: Label = find_child("WeatherLabel", true, false) as Label
+@onready var weather_option: OptionButton = find_child("WeatherOption", true, false) as OptionButton
+
 @onready var reduce_motion_label: Label = find_child("ReduceMotionLabel", true, false) as Label
 @onready var reduce_motion_check: CheckBox = find_child("ReduceMotionCheck", true, false) as CheckBox
 @onready var reduce_flash_label: Label = find_child("ReduceFlashLabel", true, false) as Label
@@ -76,6 +79,10 @@ func _resolve_nodes() -> void:
 		screen_shake_label = find_child("ScreenShakeLabel", true, false) as Label
 	if not screen_shake_slider:
 		screen_shake_slider = find_child("ScreenShakeSlider", true, false) as HSlider
+	if not weather_label:
+		weather_label = find_child("WeatherLabel", true, false) as Label
+	if not weather_option:
+		weather_option = find_child("WeatherOption", true, false) as OptionButton
 	if not reduce_motion_label:
 		reduce_motion_label = find_child("ReduceMotionLabel", true, false) as Label
 	if not reduce_motion_check:
@@ -101,6 +108,8 @@ func _setup_signals() -> void:
 		fullscreen_check.toggled.connect(_on_fullscreen_toggled)
 	if screen_shake_slider and not screen_shake_slider.value_changed.is_connected(_on_screen_shake_changed):
 		screen_shake_slider.value_changed.connect(_on_screen_shake_changed)
+	if weather_option and not weather_option.item_selected.is_connected(_on_weather_selected):
+		weather_option.item_selected.connect(_on_weather_selected)
 	if reduce_motion_check and not reduce_motion_check.toggled.is_connected(_on_reduce_motion_toggled):
 		reduce_motion_check.toggled.connect(_on_reduce_motion_toggled)
 	if reduce_flash_check and not reduce_flash_check.toggled.is_connected(_on_reduce_flash_toggled):
@@ -154,6 +163,13 @@ func update_localized_texts() -> void:
 		fullscreen_check.text = "✓" if fullscreen_check.button_pressed else "✕"
 	if screen_shake_label:
 		screen_shake_label.text = tr("SETTINGS_SCREEN_SHAKE")
+	if weather_label:
+		weather_label.text = tr("SETTINGS_WEATHER_EFFECTS")
+	if weather_option:
+		weather_option.set_item_text(0, tr("WEATHER_INTENSITY_OFF"))
+		weather_option.set_item_text(1, tr("WEATHER_INTENSITY_LOW"))
+		weather_option.set_item_text(2, tr("WEATHER_INTENSITY_MED"))
+		weather_option.set_item_text(3, tr("WEATHER_INTENSITY_HIGH"))
 	if reduce_motion_label:
 		reduce_motion_label.text = tr("SETTINGS_REDUCE_MOTION")
 	if reduce_flash_label:
@@ -224,6 +240,13 @@ func _sync_current_values() -> void:
 	elif screen_shake_slider:
 		screen_shake_slider.value = 100.0
 
+	# Hava Efektleri (WeatherManager)
+	var wm = _get_autoload("WeatherManager")
+	if wm and weather_option:
+		weather_option.selected = int(wm.get_intensity())
+	elif weather_option:
+		weather_option.selected = 3
+
 	# Erişilebilirlik seçenekleri (CinematicManager)
 	var cm = _get_autoload("CinematicManager")
 	if cm:
@@ -255,6 +278,12 @@ func _on_screen_shake_changed(val: float) -> void:
 	var cam_mgr = _get_autoload("CameraManager")
 	if cam_mgr:
 		cam_mgr.set_screen_shake_intensity(val / 100.0)
+
+
+func _on_weather_selected(index: int) -> void:
+	var wm = _get_autoload("WeatherManager")
+	if wm:
+		wm.set_intensity(index)
 
 
 func _on_language_selected(index: int) -> void:
