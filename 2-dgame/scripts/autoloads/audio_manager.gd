@@ -2,16 +2,25 @@ extends Node
 
 ## res://scripts/autoloads/audio_manager.gd
 ## Story 2D-110: Merkezi Ses Yöneticisi (AudioManager)
+## Story 2D-111: Duruma Göre Değişen Müzik Katmanları (Adaptive Music & Layers)
 ## - Master, Music, SFX, Dialogue ve Ambience bağımsız ses yolları (AudioBus)
-## - Efekt havuzlama (Pooling) ve eşzamanlı ses sınırı yönetimi
+## - Efekt havuzlama (Pooling) ve eşzamanlı ses sınırı yönetimi (max_concurrent_sfx = 16)
 ## - Çift çalıcılı yumuşak müzik geçişi (cross-fade) ve sahne geçiş politikası
+## - Dinamik müzik durumları (EXPLORATION, COMBAT, BOSS, VICTORY, DEFEAT)
+## - Katmanlı müzik (Layered Audio) ve tam parça cross-fade desteği
+## - Çatışma soğuma gecikmesi (Hysteresis) ile ani müzik kesintilerinin ve sıçramalarının önlenmesi
+## - 4 Aşamalı boss temaları ve faz değişim entegrasyonu
+## - Kulaklık/hoparlör seviye sıçramalarını önleyen ses seviyesi normalizasyonu
 ## - 2D konumsal ses desteği (play_sound_2d)
 ## - Güvenli ses çalma: Olmayan ses anahtarı oyunu çökertmez, hata ayıklama kaydı bırakır
-## - Prosedürel ses sentezleme yedeği (harici ses dosyası olmasa bile çalışan zengin sesler)
+## - Prosedürel ses sentezleme yedeği (harici ses dosyası olmasa bile zengin ses motoru)
 ## - Kalıcı ses seviyeleri (user://game_settings.json)
 
 signal music_changed(track_key: String)
 signal bus_volume_changed(bus_name: String, linear_volume: float)
+signal music_state_changed(previous_state: MusicState, new_state: MusicState)
+signal boss_phase_changed(phase_index: int)
+signal combat_intensity_changed(intensity: float)
 
 const SETTINGS_PATH: String = "user://game_settings.json"
 const REQUIRED_BUSES: Array[String] = ["Master", "Music", "SFX", "Dialogue", "Ambience"]
@@ -22,8 +31,34 @@ enum MusicScenePolicy {
 	AUTO_THEME = 2   ## Seviye türüne göre otomatik tema çal / cross-fade yap
 }
 
+enum MusicState {
+	EXPLORATION = 0, ## Keşif modu (sakin, atmosferik tema)
+	COMBAT = 1,      ## Çatışma modu (tempolu dövüş teması veya ek ritim katmanı)
+	BOSS = 2,        ## Boss dövüşü modu (boss teması ve aşamalı fazlar)
+	VICTORY = 3,     ## Zafer / Boss yenilgi teması
+	DEFEAT = 4       ## Yenilgi / Oyuncu ölüm teması
+}
+
+enum CombatAudioMode {
+	CROSSFADE = 0,   ## Çatışmada doğrudan tam çatışma parçasına geçiş yap
+	LAYERED = 1      ## Keşif parçası çalarken üzerine ek ritim/perküsyon katmanı aç
+}
+
 @export var max_concurrent_sfx: int = 16
 @export var music_policy: MusicScenePolicy = MusicScenePolicy.AUTO_THEME
+@export var combat_audio_mode: CombatAudioMode = CombatAudioMode.CROSSFADE
+@export var combat_cooldown_delay: float = 2.5 ## Çatışma bittikten sonra sakinleşme süresi (Hysteresis)
+
+# Dinamik Müzik Durum Değişkenleri
+var current_music_state: MusicState = MusicState.EXPLORATION
+var _exploration_track_key: String = "menu_theme"
+var _combat_track_key: String = "combat_theme"
+var _current_boss_name: String = ""
+var _current_boss_phase: int = 1
+
+# Çatışma Takibi (Hysteresis)
+var _active_combatants: Array[Node] = []
+var _combat_cooldown_timer: float = 0.0
 
 # Ses kayıtları (key -> AudioStream veya Callable)
 var _sound_registry: Dictionary = {}
@@ -44,6 +79,11 @@ var _active_music_player: AudioStreamPlayer = null
 var _current_music_key: String = ""
 var _music_tween: Tween = null
 
+# Katmanlı Müzik Çalıcısı (Layered Audio için ek perküsyon/ritim)
+var _combat_layer_player: AudioStreamPlayer = null
+var _combat_layer_tween: Tween = null
+var _current_combat_layer_key: String = "combat_layer"
+
 # Ortam ve Diyalog Çalıcıları
 var _ambience_player: AudioStreamPlayer = null
 var _ambience_tween: Tween = null
@@ -61,14 +101,22 @@ func _ready() -> void:
 	load_audio_settings()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	# 1. Sahne Geçiş Kontrolü
 	var tree := get_tree()
-	if not tree:
-		return
-	var cur := tree.current_scene
-	if cur != _last_scene:
-		_on_scene_changed(cur)
-		_last_scene = cur
+	if tree:
+		var cur := tree.current_scene
+		if cur != _last_scene:
+			_on_scene_changed(cur)
+			_last_scene = cur
+
+	# 2. Çatışma Soğuma Sayacı (Hysteresis)
+	if _combat_cooldown_timer > 0.0:
+		_combat_cooldown_timer -= delta
+		if _combat_cooldown_timer <= 0.0:
+			_clean_dead_combatants()
+			if current_music_state == MusicState.COMBAT and _active_combatants.is_empty():
+				set_music_state(MusicState.EXPLORATION, 1.2)
 
 
 # ---------------------------------------------------------------------------
@@ -94,7 +142,7 @@ func has_bus(bus_name: String) -> bool:
 # 2. Çalıcı Düğümlerin ve Havuzun (Pooling) Başlatılması
 # ---------------------------------------------------------------------------
 func _init_players() -> void:
-	# Müzik çalıcıları
+	# Çift Müzik Çalıcıları
 	_music_player_a = AudioStreamPlayer.new()
 	_music_player_a.name = "MusicPlayerA"
 	_music_player_a.bus = "Music"
@@ -105,13 +153,20 @@ func _init_players() -> void:
 	_music_player_b.bus = "Music"
 	add_child(_music_player_b)
 
-	# Ortam çalıcısı
+	# Çatışma Katmanı Çalıcısı (Layered audio)
+	_combat_layer_player = AudioStreamPlayer.new()
+	_combat_layer_player.name = "CombatLayerPlayer"
+	_combat_layer_player.bus = "Music"
+	_combat_layer_player.volume_db = -80.0
+	add_child(_combat_layer_player)
+
+	# Ortam Çalıcısı
 	_ambience_player = AudioStreamPlayer.new()
 	_ambience_player.name = "AmbiencePlayer"
 	_ambience_player.bus = "Ambience"
 	add_child(_ambience_player)
 
-	# Diyalog çalıcısı
+	# Diyalog Çalıcısı
 	_dialogue_player = AudioStreamPlayer.new()
 	_dialogue_player.name = "DialoguePlayer"
 	_dialogue_player.bus = "Dialogue"
@@ -221,7 +276,11 @@ func play_music(sound: Variant, fade_in_duration: float = 0.8, volume_db: float 
 func crossfade_music(sound: Variant, duration: float = 1.0, target_volume_db: float = 0.0) -> void:
 	var key_str := str(sound)
 	if key_str == _current_music_key and _active_music_player != null and _active_music_player.playing:
-		return # Aynı parça zaten çalıyor, kesintiye uğratma
+		# Parça zaten çalıyor; gereksiz baştan başlatma yapma, yalnızca hedef ses seviyesini yumuşat
+		if _active_music_player.volume_db != target_volume_db:
+			var tw := create_tween()
+			tw.tween_property(_active_music_player, "volume_db", target_volume_db, maxf(duration, 0.1))
+		return
 
 	var stream := _resolve_stream(sound)
 	if not stream:
@@ -272,7 +331,215 @@ func get_current_music_key() -> String:
 
 
 # ---------------------------------------------------------------------------
-# 6. Ortam (Ambience) ve Diyalog (Dialogue)
+# 6. Dinamik Müzik Durumları ve Katman Yönetimi (Story 2D-111)
+# ---------------------------------------------------------------------------
+func set_music_state(new_state: MusicState, transition_duration: float = 1.0) -> void:
+	if new_state == current_music_state:
+		return # Durum zaten aktif, parçayı gereksiz baştan başlatma
+
+	var prev_state := current_music_state
+	current_music_state = new_state
+	music_state_changed.emit(prev_state, new_state)
+
+	match new_state:
+		MusicState.EXPLORATION:
+			_mute_combat_layer(transition_duration)
+			combat_intensity_changed.emit(0.0)
+			crossfade_music(_exploration_track_key, maxf(transition_duration, 0.4), -6.0)
+
+		MusicState.COMBAT:
+			combat_intensity_changed.emit(1.0)
+			if combat_audio_mode == CombatAudioMode.LAYERED:
+				_unmute_combat_layer(transition_duration)
+			else:
+				_mute_combat_layer(0.3)
+				crossfade_music(_combat_track_key, maxf(transition_duration, 0.3), -5.0)
+
+		MusicState.BOSS:
+			_mute_combat_layer(0.2)
+			combat_intensity_changed.emit(1.5)
+			var track_key := get_boss_phase_track_key(_current_boss_name, _current_boss_phase)
+			crossfade_music(track_key, maxf(transition_duration, 0.5), -4.0)
+
+		MusicState.VICTORY:
+			_mute_combat_layer(0.2)
+			combat_intensity_changed.emit(0.0)
+			crossfade_music("victory_theme", maxf(transition_duration, 0.4), -4.0)
+
+		MusicState.DEFEAT:
+			_mute_combat_layer(0.2)
+			combat_intensity_changed.emit(0.0)
+			crossfade_music("defeat_theme", maxf(transition_duration, 0.5), -6.0)
+
+
+func get_music_state() -> MusicState:
+	return current_music_state
+
+
+func set_exploration_theme(track_key: String) -> void:
+	_exploration_track_key = track_key
+	if current_music_state == MusicState.EXPLORATION:
+		crossfade_music(track_key, 1.0, -6.0)
+
+
+func set_combat_theme(track_key: String) -> void:
+	_combat_track_key = track_key
+	if current_music_state == MusicState.COMBAT and combat_audio_mode == CombatAudioMode.CROSSFADE:
+		crossfade_music(track_key, 0.6, -5.0)
+
+
+func set_combat_layer_key(layer_key: String) -> void:
+	_current_combat_layer_key = layer_key
+
+
+# --- Çatışma Olayları ve Soğuma Yönetimi (Hysteresis) ---
+func on_combat_started(combatant: Node = null) -> void:
+	if combatant and not _active_combatants.has(combatant):
+		_active_combatants.append(combatant)
+	_combat_cooldown_timer = 0.0
+
+	# Boss savaşındayken müzik durumunu normal çatışmaya düşürme
+	if current_music_state == MusicState.BOSS or current_music_state == MusicState.VICTORY:
+		return
+
+	if current_music_state != MusicState.COMBAT:
+		set_music_state(MusicState.COMBAT, 0.5)
+
+
+func on_combat_ended(combatant: Node = null, force: bool = false) -> void:
+	if combatant:
+		_active_combatants.erase(combatant)
+	_clean_dead_combatants()
+
+	if force:
+		_active_combatants.clear()
+		_combat_cooldown_timer = 0.0
+		if current_music_state == MusicState.COMBAT:
+			set_music_state(MusicState.EXPLORATION, 1.0)
+		return
+
+	if _active_combatants.is_empty():
+		# Düşmanlar ölünce ani müzik kesilmesini önlemek için soğuma (hysteresis) başlat
+		_combat_cooldown_timer = combat_cooldown_delay
+
+
+func _clean_dead_combatants() -> void:
+	var valid: Array[Node] = []
+	for c in _active_combatants:
+		if is_instance_valid(c) and not c.is_queued_for_deletion():
+			if "is_dead" in c and c.is_dead:
+				continue
+			valid.append(c)
+	_active_combatants = valid
+
+
+func get_active_combatant_count() -> int:
+	_clean_dead_combatants()
+	return _active_combatants.size()
+
+
+# --- Boss Savaşı ve Faz Yönetimi ---
+func on_boss_started(boss_name: String = "", initial_phase: int = 1) -> void:
+	_current_boss_name = boss_name
+	_current_boss_phase = maxi(1, initial_phase)
+	set_music_state(MusicState.BOSS, 0.8)
+
+
+func on_boss_phase_changed(phase_index: int) -> void:
+	var target_phase = maxi(1, phase_index)
+	if _current_boss_phase == target_phase and current_music_state == MusicState.BOSS:
+		return
+
+	_current_boss_phase = target_phase
+	boss_phase_changed.emit(_current_boss_phase)
+
+	if current_music_state == MusicState.BOSS:
+		var track_key := get_boss_phase_track_key(_current_boss_name, _current_boss_phase)
+		# Kulaklık ve hoparlör dengesi: Fazlar ilerledikçe artan dramatik güç (-4dB'den -2.5dB'ye)
+		var phase_volumes := { 1: -4.0, 2: -3.5, 3: -3.0, 4: -2.5 }
+		var target_vol: float = phase_volumes.get(_current_boss_phase, -3.5)
+		crossfade_music(track_key, 0.8, target_vol)
+
+
+func on_boss_defeated() -> void:
+	_current_boss_name = ""
+	_current_boss_phase = 1
+	set_music_state(MusicState.VICTORY, 0.8)
+
+
+func on_player_defeated() -> void:
+	_active_combatants.clear()
+	_combat_cooldown_timer = 0.0
+	set_music_state(MusicState.DEFEAT, 0.8)
+
+
+func register_boss_phase_theme(boss_name: String, phase: int, sound: Variant) -> void:
+	var p := maxi(1, phase)
+	var key := "%s_phase_%d" % [boss_name.to_lower(), p]
+	if sound is AudioStream:
+		register_sound(key, sound)
+	elif sound is Callable:
+		_sound_registry[key] = sound
+
+
+func get_boss_phase_track_key(boss_name: String, phase: int) -> String:
+	var p := maxi(1, phase)
+	if not boss_name.is_empty():
+		var named_key := "%s_phase_%d" % [boss_name.to_lower(), p]
+		if has_sound(named_key):
+			return named_key
+		var named_theme := "%s_theme_p%d" % [boss_name.to_lower(), p]
+		if has_sound(named_theme):
+			return named_theme
+
+	var generic_phase := "boss_phase_%d" % p
+	if has_sound(generic_phase):
+		return generic_phase
+
+	var generic_theme := "boss_theme_p%d" % p
+	if has_sound(generic_theme):
+		return generic_theme
+
+	return "vlad_theme"
+
+
+# --- Katmanlı Ses (Layer) Yardımcıları ---
+func _mute_combat_layer(duration: float = 0.5) -> void:
+	if not _combat_layer_player:
+		return
+	if _combat_layer_tween and is_instance_valid(_combat_layer_tween):
+		_combat_layer_tween.kill()
+
+	_combat_layer_tween = create_tween()
+	_combat_layer_tween.tween_property(_combat_layer_player, "volume_db", -80.0, maxf(duration, 0.05))
+	_combat_layer_tween.tween_callback(func():
+		if _combat_layer_player and current_music_state != MusicState.COMBAT:
+			_combat_layer_player.stop()
+	)
+
+
+func _unmute_combat_layer(duration: float = 0.5, target_volume_db: float = -4.0) -> void:
+	if not _combat_layer_player:
+		return
+	var stream := _resolve_stream(_current_combat_layer_key)
+	if not stream:
+		return
+
+	if _combat_layer_tween and is_instance_valid(_combat_layer_tween):
+		_combat_layer_tween.kill()
+
+	if not _combat_layer_player.playing:
+		_combat_layer_player.stream = stream
+		_combat_layer_player.volume_db = -80.0
+		_combat_layer_player.play()
+		_fill_procedural_if_needed(_combat_layer_player, _current_combat_layer_key)
+
+	_combat_layer_tween = create_tween()
+	_combat_layer_tween.tween_property(_combat_layer_player, "volume_db", target_volume_db, maxf(duration, 0.05))
+
+
+# ---------------------------------------------------------------------------
+# 7. Ortam (Ambience) ve Diyalog (Dialogue)
 # ---------------------------------------------------------------------------
 func play_ambience(sound: Variant, fade_in_duration: float = 1.0, volume_db: float = 0.0) -> void:
 	var key_str := str(sound)
@@ -324,11 +591,16 @@ func play_dialogue(sound: Variant, volume_db: float = 0.0) -> AudioStreamPlayer:
 
 
 # ---------------------------------------------------------------------------
-# 7. Sahne Geçişlerinde Müzik Davranışı (Sahne Politikası)
+# 8. Sahne Geçişlerinde Müzik Davranışı (Sahne Politikası)
 # ---------------------------------------------------------------------------
 func _on_scene_changed(new_scene: Node) -> void:
 	if not new_scene:
 		return
+
+	# Sahne değişiminde çatışan düşman listesini ve sayaçları sıfırla
+	on_combat_ended(null, true)
+	_current_boss_name = ""
+	_current_boss_phase = 1
 
 	var path := new_scene.scene_file_path.to_lower()
 	match music_policy:
@@ -338,15 +610,18 @@ func _on_scene_changed(new_scene: Node) -> void:
 			pass # Mevcut müzik aynen devam eder
 		MusicScenePolicy.AUTO_THEME:
 			if path.contains("main_menu"):
-				crossfade_music("menu_theme", 1.0, -6.0)
+				set_exploration_theme("menu_theme")
+				set_music_state(MusicState.EXPLORATION, 1.0)
 			elif path.contains("prehistoric") or path.contains("stoneage"):
-				crossfade_music("prehistoric_theme", 1.2, -8.0)
+				set_exploration_theme("prehistoric_theme")
+				set_music_state(MusicState.EXPLORATION, 1.2)
 			elif path.contains("vlad") or path.contains("camp") or path.contains("throne"):
-				crossfade_music("vlad_theme", 1.2, -8.0)
+				set_exploration_theme("vlad_theme")
+				set_music_state(MusicState.EXPLORATION, 1.2)
 
 
 # ---------------------------------------------------------------------------
-# 8. Ses Seviyeleri ve Bağımsız Bus Kontrolleri
+# 9. Ses Seviyeleri ve Bağımsız Bus Kontrolleri
 # ---------------------------------------------------------------------------
 func set_bus_volume_linear(bus_name: String, linear_vol: float) -> void:
 	var idx := AudioServer.get_bus_index(bus_name)
@@ -394,7 +669,7 @@ func is_bus_muted(bus_name: String) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# 9. Ses Kaydı ve Prosedürel Ses Sentezi Fallback
+# 10. Ses Kaydı ve Prosedürel Ses Sentezi Fallback
 # ---------------------------------------------------------------------------
 func register_sound(key: String, stream: AudioStream) -> void:
 	_sound_registry[key] = stream
@@ -508,7 +783,7 @@ func _register_builtin_procedural_sounds() -> void:
 			var pulse := sin(t * 146.8 * TAU) * 0.1 * sin(t * 2.0 * TAU)
 			pb.push_frame(Vector2(bass + pulse, bass + pulse))
 
-	# Vlad / Gotik Kalesi Teması
+	# Vlad / Gotik Kalesi Teması (Keşif Teması)
 	_sound_registry["vlad_theme"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
 		for i in range(n):
@@ -516,9 +791,99 @@ func _register_builtin_procedural_sounds() -> void:
 			var organ := sin(t * 65.4 * TAU) * 0.3 + sin(t * 130.8 * TAU) * 0.15 + sin(t * 196.0 * TAU) * 0.1
 			pb.push_frame(Vector2(organ, organ))
 
+	# --- Story 2D-111: Durumsal Müzik & Katmanlar ---
+
+	# Çatışma Ritim Katmanı (Layered Combat Percussion)
+	_sound_registry["combat_layer"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var beat := fmod(t * 4.0, 1.0)
+			var env := exp(-20.0 * beat)
+			var noise := (randf() * 2.0 - 1.0) * 0.25
+			var kick := sin(beat * 65.0 * TAU) * 0.35
+			var s := (noise + kick) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Normal Çatışma Teması (Driving Combat Battle)
+	_sound_registry["combat_theme"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var step := int(fmod(t * 4.0, 4.0))
+			var freqs := [110.0, 130.8, 146.8, 164.8]
+			var base_f: float = freqs[step]
+			var bass := sin(t * base_f * TAU) * 0.25
+			var beat := fmod(t * 4.0, 1.0)
+			var kick := sin(beat * 80.0 * TAU) * exp(-15.0 * beat) * 0.3
+			var s := bass + kick
+			pb.push_frame(Vector2(s, s))
+
+	# Boss Faz 1: Ağır Gotik Org Teması
+	var p1_func = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var s := (sin(t * 73.4 * TAU) * 0.3 + sin(t * 110.0 * TAU) * 0.2 + sin(t * 146.8 * TAU) * 0.15)
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["boss_phase_1"] = p1_func
+	_sound_registry["boss_theme_p1"] = p1_func
+
+	# Boss Faz 2: Hızlanan Gerilim & Kromatik Org
+	var p2_func = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var s := (sin(t * 77.8 * TAU) * 0.3 + sin(t * 155.6 * TAU) * 0.2 + sin(t * 233.1 * TAU) * 0.15)
+			var pulse := sin(t * 6.0 * TAU) * 0.1
+			pb.push_frame(Vector2(s + pulse, s + pulse))
+	_sound_registry["boss_phase_2"] = p2_func
+	_sound_registry["boss_theme_p2"] = p2_func
+
+	# Boss Faz 3: Agresif Kurt / Yırtıcı Savaş Nabzı
+	var p3_func = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var pulse := exp(-10.0 * fmod(t * 5.0, 1.0))
+			var s := (sin(t * 87.3 * TAU) * 0.35 + sin(t * 174.6 * TAU) * 0.2) * pulse
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["boss_phase_3"] = p3_func
+	_sound_registry["boss_theme_p3"] = p3_func
+
+	# Boss Faz 4: Final Yarasa / Kaotik Çan Kulesi Klimaksı
+	var p4_func = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var step := int(fmod(t * 8.0, 4.0))
+			var freqs := [146.8, 174.6, 220.0, 293.7]
+			var s := sin(t * freqs[step] * TAU) * 0.25 + sin(t * 73.4 * TAU) * 0.2
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["boss_phase_4"] = p4_func
+	_sound_registry["boss_theme_p4"] = p4_func
+
+	# Zafer Teması (Triumphant Fanfare)
+	_sound_registry["victory_theme"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-2.0 * t)
+			var s := (sin(t * 261.6 * TAU) * 0.3 + sin(t * 329.6 * TAU) * 0.25 + sin(t * 392.0 * TAU) * 0.2) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Yenilgi Teması (Somber Defeat)
+	_sound_registry["defeat_theme"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-1.5 * t)
+			var s := (sin(t * 110.0 * TAU) * 0.3 + sin(t * 130.8 * TAU) * 0.2) * env
+			pb.push_frame(Vector2(s, s))
+
 
 # ---------------------------------------------------------------------------
-# 10. Kalıcılık (user://game_settings.json)
+# 11. Kalıcılık (user://game_settings.json)
 # ---------------------------------------------------------------------------
 func load_audio_settings() -> void:
 	if not FileAccess.file_exists(SETTINGS_PATH):

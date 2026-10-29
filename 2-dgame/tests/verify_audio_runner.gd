@@ -273,3 +273,4 @@ func _test_settings_dialog_integration() -> void:
 	_assert_true(absf(audio_mgr.get_bus_volume_linear("SFX") - 0.72) < 0.05, "SettingsDialog SFX kaydırıcısı AudioManager'a %72 ses iletti.")
 
 	dialog.queue_free()
+

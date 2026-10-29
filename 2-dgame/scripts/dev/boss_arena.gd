@@ -54,6 +54,10 @@ func _ready() -> void:
 	# Boss giriş bildirimi
 	_show_boss_intro()
 
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("on_boss_started"):
+		audio_mgr.on_boss_started("ogre", 1)
+
 # ── HUD Tutorial ─────────────────────────────────────────────────────────────
 func _on_weapon_state_changed(has_weapon: bool, is_armed: bool = true) -> void:
 	if hud and hud.has_method("update_weapon_slot"):
@@ -97,6 +101,10 @@ func _on_boss_health_changed(new_hp: int, max_hp: int) -> void:
 		boss_hp_text.text = "%d / %d HP" % [maxi(0, new_hp), max_hp]
 
 func _on_boss_died(_node) -> void:
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("on_boss_defeated"):
+		audio_mgr.on_boss_defeated()
+
 	if boss_name_label:
 		boss_name_label.text = "GOR'GATH - YENİK DÜŞTÜ"
 		boss_name_label.add_theme_color_override("font_color", Color(0.55, 0.55, 0.60, 1.0))

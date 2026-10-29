@@ -1293,6 +1293,9 @@ func set_form(new_form: VladForm, play_smoke: bool = true) -> void:
 			blood_shield_active = true
 		_is_transforming = false
 		form_changed.emit(new_form)
+		var audio_mgr = get_node_or_null("/root/AudioManager")
+		if audio_mgr and audio_mgr.has_method("on_boss_phase_changed"):
+			audio_mgr.on_boss_phase_changed(int(new_form) + 1)
 
 func _perform_form_transformation(new_form: VladForm) -> void:
 	if _is_transforming or is_dead:
@@ -1337,6 +1340,9 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 		if current_form == VladForm.VAMPIRE:
 			blood_shield_active = true
 		form_changed.emit(new_form)
+		var audio_mgr = get_node_or_null("/root/AudioManager")
+		if audio_mgr and audio_mgr.has_method("on_boss_phase_changed"):
+			audio_mgr.on_boss_phase_changed(int(new_form) + 1)
 		if anim_sprite:
 			# Yeni form dumanın kalbinde kızıl silüet olarak başlar
 			anim_sprite.modulate = Color(2.2, 0.5, 0.5, 0.15)
@@ -1456,6 +1462,9 @@ func _die() -> void:
 	_clear_spear_throw_telegraph()
 
 	enemy_died.emit(self)
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("on_boss_defeated"):
+		audio_mgr.on_boss_defeated()
 
 	set_collision_layer_value(1, false)
 	set_collision_layer_value(2, false)

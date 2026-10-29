@@ -111,6 +111,10 @@ func take_damage(amount: int) -> void:
 	damaged.emit(actual_damage, current_health)
 	health_changed.emit(current_health, max_health)
 
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("on_combat_started"):
+		audio_mgr.on_combat_started(self)
+
 	if current_health <= 0:
 		_die()
 
@@ -192,6 +196,11 @@ func _die() -> void:
 	if is_dead:
 		return
 	is_dead = true
+
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("on_combat_ended"):
+		audio_mgr.on_combat_ended(self)
+
 	died.emit()
 	enemy_died.emit(self)
 
