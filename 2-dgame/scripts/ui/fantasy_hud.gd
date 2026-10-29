@@ -426,11 +426,10 @@ func _get_quest_manager() -> Node:
 		var node = get_tree().root.get_node_or_null("QuestManager")
 		if node:
 			return node
-	var fallback = get_node_or_null("/root/QuestManager")
-	if fallback:
-		return fallback
-	if QuestManager and QuestManager.instance:
-		return QuestManager.instance
+	if is_inside_tree():
+		var fallback = get_node_or_null("/root/QuestManager")
+		if fallback:
+			return fallback
 	return null
 
 

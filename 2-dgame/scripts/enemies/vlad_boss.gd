@@ -85,11 +85,13 @@ var _stagger_damage: int = 0
 var _stagger_decay_timer: float = 0.0
 var _groggy_timer: float = 0.0
 var _groggy_flash_tween: Tween = null
+var _trans_tween: Tween = null
 
 @onready var smoke_vfx: AnimatedSprite2D = $Visual/SmokeVFX
 
 func _ready() -> void:
 	monster_name = "Kazıklı Voyvoda Vlad"
+	codex_id = "vlad_boss"
 	max_health = 600
 	current_health = 600
 	speed = 46.0
@@ -1040,6 +1042,11 @@ func _execute_bat_screech() -> void:
 ## Hasar Alma, Sis Kaçışı & Faz Dönüşümleri & Sersemleme (Groggy)
 ## -----------------------------------------------------------------------------
 func take_damage(amount: int) -> void:
+	if is_inside_tree():
+		var codex_mgr = get_node_or_null("/root/CodexManager")
+		if codex_mgr and codex_mgr.has_method("record_encounter"):
+			codex_mgr.record_encounter("vlad_boss")
+
 	# Dönüşüm esnasında, sinematikte veya ölü durumdayken hasar alamaz (Sinematik Faz Dokunulmazlığı)
 	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
 	if is_dead or _is_transforming or _is_in_cinematic or not is_active or (game_state and game_state.is_in_cinematic):
@@ -1287,11 +1294,17 @@ func set_form(new_form: VladForm, play_smoke: bool = true) -> void:
 	if play_smoke:
 		_perform_form_transformation(new_form)
 	else:
+		if _trans_tween and _trans_tween.is_valid():
+			_trans_tween.kill()
 		current_form = new_form
 		_apply_form_visuals()
 		if current_form == VladForm.VAMPIRE:
 			blood_shield_active = true
 		_is_transforming = false
+		if smoke_vfx:
+			smoke_vfx.visible = false
+		if anim_sprite:
+			anim_sprite.modulate = Color.WHITE
 		form_changed.emit(new_form)
 		var audio_mgr = get_node_or_null("/root/AudioManager")
 		if audio_mgr and audio_mgr.has_method("on_boss_phase_changed"):
@@ -1300,6 +1313,9 @@ func set_form(new_form: VladForm, play_smoke: bool = true) -> void:
 func _perform_form_transformation(new_form: VladForm) -> void:
 	if _is_transforming or is_dead:
 		return
+
+	if _trans_tween and _trans_tween.is_valid():
+		_trans_tween.kill()
 
 	_is_transforming = true
 	velocity = Vector2.ZERO
@@ -1326,15 +1342,15 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 	_trigger_screen_shake(5.0)
 
 	# 1. Aşama (0.0s -> 0.70s): Duman zeminden fışkırırken eski form kızıl kan aurasıyla dumana çözülür/erir
-	var trans_tween: Tween = create_tween()
+	_trans_tween = create_tween()
 	if anim_sprite:
-		trans_tween.tween_property(anim_sprite, "modulate", Color(2.4, 0.4, 0.4, 0.05), 0.70).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		_trans_tween.tween_property(anim_sprite, "modulate", Color(2.4, 0.4, 0.4, 0.05), 0.70).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	else:
-		trans_tween.tween_interval(0.70)
+		_trans_tween.tween_interval(0.70)
 
 	# 2. Aşama (0.70s -> 0.95s): Dumanın %100 tam örtücülüğe ulaştığı tepe anda (peak cloud) form dönüşür
-	trans_tween.tween_interval(0.25)
-	trans_tween.tween_callback(func():
+	_trans_tween.tween_interval(0.25)
+	_trans_tween.tween_callback(func():
 		current_form = new_form
 		_apply_form_visuals()
 		if current_form == VladForm.VAMPIRE:
@@ -1349,15 +1365,15 @@ func _perform_form_transformation(new_form: VladForm) -> void:
 	)
 
 	# 3. Aşama (0.95s -> 1.80s): Duman seyrelerken ve yarasalar dağılırken yeni form dumanın içinden organik olarak belirir
-	trans_tween.tween_interval(0.10)
+	_trans_tween.tween_interval(0.10)
 	if anim_sprite:
-		trans_tween.tween_property(anim_sprite, "modulate", Color.WHITE, 0.75).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+		_trans_tween.tween_property(anim_sprite, "modulate", Color.WHITE, 0.75).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	else:
-		trans_tween.tween_interval(0.75)
+		_trans_tween.tween_interval(0.75)
 
 	# 4. Aşama (2.0s): Duman tamamen dağılır, boss savaş pozisyonunda hazır olarak aksiyona girer
-	trans_tween.tween_interval(0.20)
-	trans_tween.tween_callback(func():
+	_trans_tween.tween_interval(0.20)
+	_trans_tween.tween_callback(func():
 		if smoke_vfx:
 			smoke_vfx.visible = false
 		if anim_sprite:
@@ -1462,6 +1478,11 @@ func _die() -> void:
 	_clear_spear_throw_telegraph()
 
 	enemy_died.emit(self)
+	if is_inside_tree():
+		var codex_mgr = get_node_or_null("/root/CodexManager")
+		if codex_mgr and codex_mgr.has_method("record_kill"):
+			codex_mgr.record_kill("vlad_boss")
+
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 	if audio_mgr and audio_mgr.has_method("on_boss_defeated"):
 		audio_mgr.on_boss_defeated()
@@ -1570,3 +1591,47 @@ func on_cinematic_ended() -> void:
 	is_active = true
 	if not _is_transforming and current_state != State.GROGGY:
 		current_state = State.CHASE if _target_node else State.PATROL
+
+
+## Form adını metin olarak döner
+func get_form_name(form_val: VladForm = current_form) -> String:
+	match form_val:
+		VladForm.NORMAL: return "NORMAL"
+		VladForm.VAMPIRE: return "VAMPIRE"
+		VladForm.WEREWOLF: return "WEREWOLF"
+		VladForm.BAT: return "BAT"
+	return "UNKNOWN"
+
+
+## Boss'u başlangıç durumuna temizce sıfırlar (Yeniden deneme ve test durumları)
+func reset_boss() -> void:
+	if _trans_tween and _trans_tween.is_valid():
+		_trans_tween.kill()
+	is_dead = false
+	current_state = State.PATROL
+	current_form = VladForm.NORMAL
+	current_health = max_health
+	blood_shield_active = false
+	_is_transforming = false
+	_is_in_cinematic = false
+	is_active = true
+	_stagger_damage = 0
+	_groggy_timer = 0.0
+	_mist_dash_cooldown = 0.0
+	is_flying = false
+	velocity = Vector2.ZERO
+	_deactivate_hitbox()
+	_clear_spear_throw_telegraph()
+	_apply_form_visuals()
+	_update_health_bar()
+	if anim_sprite:
+		anim_sprite.modulate = Color.WHITE
+		anim_sprite.play(&"idle")
+	if smoke_vfx:
+		smoke_vfx.visible = false
+	set_collision_layer_value(1, true)
+	set_collision_layer_value(2, true)
+	if hurtbox_area:
+		hurtbox_area.monitoring = true
+		hurtbox_area.monitorable = true
+

@@ -157,12 +157,21 @@ func _update_localized_texts() -> void:
 	if btn_back_from_save:
 		btn_back_from_save.text = tr("BTN_BACK_TO_PAUSE")
 
-	if lbl_slot1_title:
-		lbl_slot1_title.text = tr("SLOT_TITLE") % 1
-	if lbl_slot2_title:
-		lbl_slot2_title.text = tr("SLOT_TITLE") % 2
-	if lbl_slot3_title:
-		lbl_slot3_title.text = tr("SLOT_TITLE") % 3
+	var slot_title_tmpl: String = tr("SLOT_TITLE")
+	if "%" in slot_title_tmpl:
+		if lbl_slot1_title:
+			lbl_slot1_title.text = slot_title_tmpl % 1
+		if lbl_slot2_title:
+			lbl_slot2_title.text = slot_title_tmpl % 2
+		if lbl_slot3_title:
+			lbl_slot3_title.text = slot_title_tmpl % 3
+	else:
+		if lbl_slot1_title:
+			lbl_slot1_title.text = "Yuva 1"
+		if lbl_slot2_title:
+			lbl_slot2_title.text = "Yuva 2"
+		if lbl_slot3_title:
+			lbl_slot3_title.text = "Yuva 3"
 
 	if btn_save_slot1:
 		btn_save_slot1.text = tr("BTN_SAVE")

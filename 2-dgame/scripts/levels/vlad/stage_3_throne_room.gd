@@ -77,6 +77,13 @@ func _ready() -> void:
 	if flashback_overlay:
 		flashback_overlay.flashback_finished.connect(_on_flashback_finished)
 
+	# Görev takibini başlat ve güncelle
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("start_quest"):
+		q_mgr.start_quest("vlad_confrontation")
+		q_mgr.advance_quest("vlad_confrontation", "reach_throne")
+		q_mgr.set_tracked_quest("vlad_confrontation")
+
 	_setup_arena_mechanics()
 
 
@@ -179,6 +186,7 @@ func _on_vlad_form_changed(new_form: int) -> void:
 func _open_barrier(barrier: StaticBody2D) -> void:
 	if not barrier:
 		return
+	barrier.set_meta("opened", true)
 	var col: CollisionShape2D = barrier.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if col:
 		col.set_deferred("disabled", true)
@@ -245,6 +253,9 @@ func _on_dialogue_completed() -> void:
 		"intro":
 			_current_dialogue_state = "none"
 			_is_intro_dialogue = false
+			var audio_mgr = get_node_or_null("/root/AudioManager")
+			if audio_mgr and audio_mgr.has_method("on_boss_started"):
+				audio_mgr.on_boss_started("vlad")
 			_resume_boss_after_dialogue()
 		"form_change":
 			_current_dialogue_state = "none"
@@ -253,7 +264,14 @@ func _on_dialogue_completed() -> void:
 			_current_dialogue_state = "none"
 			var game_state: Node = get_node_or_null("/root/GameState")
 			if game_state:
-				game_state.current_heart_pieces += 1
+				if game_state.has_method("complete_chapter"):
+					game_state.complete_chapter("vlad")
+				game_state.current_heart_pieces = maxi(game_state.current_heart_pieces, 2)
+
+			var save_mgr = get_node_or_null("/root/SaveManager")
+			if save_mgr and save_mgr.has_method("save_game"):
+				save_mgr.save_game(1)
+
 			if hud and hud.has_method("set_tutorial"):
 				hud.set_tutorial("Eflak Seferi Tamamlandı", "Boyut Yırtığı Açıldı", "Bir sonraki çağa açılan portala adım at...")
 			get_tree().create_timer(2.0).timeout.connect(func():
@@ -281,6 +299,14 @@ func _on_vlad_boss_tree_exiting() -> void:
 func _on_vlad_boss_defeated() -> void:
 	_boss_defeated = true
 
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("vlad_confrontation", "defeat_vlad")
+
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("on_boss_defeated"):
+		audio_mgr.on_boss_defeated()
+
 	# Kalp parçası kılıca çekilir
 	if heart_piece and player:
 		heart_piece.global_position = vlad_boss.global_position if is_instance_valid(vlad_boss) else Vector2(4850, 480)
@@ -305,3 +331,20 @@ func _on_flashback_finished() -> void:
 	if dialogue_box:
 		_current_dialogue_state = "outro"
 		dialogue_box.start_dialogue_from_data("fatih_outro")
+
+
+## Yeniden deneme ve test durumlarında arenayı temiz başlangıç durumuna döndürür
+func reset_arena() -> void:
+	_boss_defeated = false
+	_is_intro_dialogue = false
+	_current_dialogue_state = "none"
+	_played_form_taunts = { 1: false, 2: false, 3: false }
+	_sigil_1_destroyed = false
+	_sigil_2_destroyed = false
+
+	if vlad_boss and vlad_boss.has_method("reset_boss"):
+		vlad_boss.reset_boss()
+		vlad_boss.global_position = Vector2(850, 560)
+
+	_set_camera_arena(0, 1280)
+

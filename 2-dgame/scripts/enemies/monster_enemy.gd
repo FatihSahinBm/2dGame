@@ -263,10 +263,11 @@ func take_damage(amount: int) -> void:
 	damaged.emit(actual_damage, current_health)
 	health_changed.emit(current_health, max_health)
 
-	var codex_mgr = get_node_or_null("/root/CodexManager")
-	if codex_mgr and codex_mgr.has_method("record_encounter"):
-		var c_id = codex_id if not codex_id.is_empty() else monster_name.to_lower().replace(" ", "_")
-		codex_mgr.record_encounter(c_id)
+	if is_inside_tree():
+		var codex_mgr = get_node_or_null("/root/CodexManager")
+		if codex_mgr and codex_mgr.has_method("record_encounter"):
+			var c_id = codex_id if not codex_id.is_empty() else monster_name.to_lower().replace(" ", "_")
+			codex_mgr.record_encounter(c_id)
 
 	if current_health <= 0:
 		_die()
@@ -437,10 +438,11 @@ func _die() -> void:
 
 	enemy_died.emit(self)
 
-	var codex_mgr = get_node_or_null("/root/CodexManager")
-	if codex_mgr and codex_mgr.has_method("record_kill"):
-		var c_id = codex_id if not codex_id.is_empty() else monster_name.to_lower().replace(" ", "_")
-		codex_mgr.record_kill(c_id)
+	if is_inside_tree():
+		var codex_mgr = get_node_or_null("/root/CodexManager")
+		if codex_mgr and codex_mgr.has_method("record_kill"):
+			var c_id = codex_id if not codex_id.is_empty() else monster_name.to_lower().replace(" ", "_")
+			codex_mgr.record_kill(c_id)
 
 	# Çarpışmayı devre dışı bırak (Zemine basmaya devam etsin)
 	set_collision_layer_value(1, false)

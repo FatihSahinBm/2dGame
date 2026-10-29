@@ -486,3 +486,4 @@ func import_save_data(data: Dictionary) -> void:
 
 func reset_codex() -> void:
 	init_default_codex()
+
