@@ -258,18 +258,21 @@
         "speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
         "title": "Zamanın Başlangıcı",
         "text": "...Neden?! Sana güvenmiştim! Bu kadim gücü bir faninin iradesine bağlayamazsın!",
+        "echo": true,
         "portrait": "friend_memory"
       },
       {
         "speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
         "title": "Hafıza Yankısı",
         "text": "Bu güç... kaderin ta kendisine boyun eğdirecek...",
+        "echo": true,
         "portrait": "player_dark"
       },
       {
         "speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
         "title": "Zamanın Başlangıcı",
         "text": "HAYIR! Kalbi ezerim de buna izin vermem... Affet beni kadim dünya...!",
+        "echo": true,
         "portrait": "friend_memory"
       }
     ],

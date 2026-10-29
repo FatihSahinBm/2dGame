@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 LocalizationManager="*res://scripts/autoloads/localization_manager.gd"
+CinematicManager="*res://scripts/autoloads/cinematic_manager.gd"
 GameState="*res://scripts/autoloads/game_state.gd"
 StoryDataLoader="*res://scripts/autoloads/story_data_loader.gd"
 SaveManager="*res://scripts/autoloads/save_manager.gd"

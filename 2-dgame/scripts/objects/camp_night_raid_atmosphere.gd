@@ -467,3 +467,4 @@ func get_fire_count() -> int:
 
 func get_audio_point_count() -> int:
 	return _audio_points.size()
+

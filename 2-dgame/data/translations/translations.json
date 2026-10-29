@@ -1,4 +1,16 @@
 {
+  "FLASHBACK_PROMPT": {
+    "tr": "[Space / Sol Tık] İlerle  |  [Tab] Atla",
+    "en": "[Space / Left Click] Continue  |  [Tab] Skip"
+  },
+  "SETTINGS_REDUCE_MOTION": {
+    "tr": "Hareketi Azalt:",
+    "en": "Reduce Motion:"
+  },
+  "SETTINGS_REDUCE_FLASH": {
+    "tr": "Yanıp Sönmeyi Azalt:",
+    "en": "Reduce Flashing:"
+  },
   "MENU_MAIN_TITLE": {
     "tr": "ZAMANIN YANKISI",
     "en": "ECHO OF TIME"

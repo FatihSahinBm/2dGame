@@ -17,16 +17,16 @@ shadow_color = Color(0, 0, 0, 0.6)
 shadow_size = 14
 
 [node name="SettingsDialog" type="PanelContainer"]
-custom_minimum_size = Vector2(520, 390)
+custom_minimum_size = Vector2(540, 470)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -195.0
-offset_right = 260.0
-offset_bottom = 195.0
+offset_left = -270.0
+offset_top = -235.0
+offset_right = 270.0
+offset_bottom = 235.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
@@ -108,6 +108,22 @@ text = "Tam Ekran:"
 [node name="FullscreenCheck" type="CheckBox" parent="Margin/VBox/Grid"]
 layout_mode = 2
 text = "Etkin"
+
+[node name="ReduceMotionLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Hareketi Azalt:"
+
+[node name="ReduceMotionCheck" type="CheckBox" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "✕"
+
+[node name="ReduceFlashLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Yanıp Sönmeyi Azalt:"
+
+[node name="ReduceFlashCheck" type="CheckBox" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "✕"
 
 [node name="Spacer" type="Control" parent="Margin/VBox"]
 layout_mode = 2

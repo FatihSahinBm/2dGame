@@ -21,6 +21,11 @@ signal closed()
 @onready var display_label: Label = find_child("DisplayLabel", true, false) as Label
 @onready var fullscreen_check: CheckBox = find_child("FullscreenCheck", true, false) as CheckBox
 
+@onready var reduce_motion_label: Label = find_child("ReduceMotionLabel", true, false) as Label
+@onready var reduce_motion_check: CheckBox = find_child("ReduceMotionCheck", true, false) as CheckBox
+@onready var reduce_flash_label: Label = find_child("ReduceFlashLabel", true, false) as Label
+@onready var reduce_flash_check: CheckBox = find_child("ReduceFlashCheck", true, false) as CheckBox
+
 @onready var back_button: Button = find_child("BackButton", true, false) as Button
 
 var _signals_connected: bool = false
@@ -64,6 +69,14 @@ func _resolve_nodes() -> void:
 		display_label = find_child("DisplayLabel", true, false) as Label
 	if not fullscreen_check:
 		fullscreen_check = find_child("FullscreenCheck", true, false) as CheckBox
+	if not reduce_motion_label:
+		reduce_motion_label = find_child("ReduceMotionLabel", true, false) as Label
+	if not reduce_motion_check:
+		reduce_motion_check = find_child("ReduceMotionCheck", true, false) as CheckBox
+	if not reduce_flash_label:
+		reduce_flash_label = find_child("ReduceFlashLabel", true, false) as Label
+	if not reduce_flash_check:
+		reduce_flash_check = find_child("ReduceFlashCheck", true, false) as CheckBox
 	if not back_button:
 		back_button = find_child("BackButton", true, false) as Button
 
@@ -79,6 +92,10 @@ func _setup_signals() -> void:
 		sfx_slider.value_changed.connect(_on_sfx_changed)
 	if fullscreen_check and not fullscreen_check.toggled.is_connected(_on_fullscreen_toggled):
 		fullscreen_check.toggled.connect(_on_fullscreen_toggled)
+	if reduce_motion_check and not reduce_motion_check.toggled.is_connected(_on_reduce_motion_toggled):
+		reduce_motion_check.toggled.connect(_on_reduce_motion_toggled)
+	if reduce_flash_check and not reduce_flash_check.toggled.is_connected(_on_reduce_flash_toggled):
+		reduce_flash_check.toggled.connect(_on_reduce_flash_toggled)
 	if back_button and not back_button.pressed.is_connected(_on_back_pressed):
 		back_button.pressed.connect(_on_back_pressed)
 
@@ -126,6 +143,14 @@ func update_localized_texts() -> void:
 		display_label.text = tr("SETTINGS_FULLSCREEN")
 	if fullscreen_check:
 		fullscreen_check.text = "✓" if fullscreen_check.button_pressed else "✕"
+	if reduce_motion_label:
+		reduce_motion_label.text = tr("SETTINGS_REDUCE_MOTION")
+	if reduce_flash_label:
+		reduce_flash_label.text = tr("SETTINGS_REDUCE_FLASH")
+	if reduce_motion_check:
+		reduce_motion_check.text = "✓" if reduce_motion_check.button_pressed else "✕"
+	if reduce_flash_check:
+		reduce_flash_check.text = "✓" if reduce_flash_check.button_pressed else "✕"
 	if back_button:
 		back_button.text = tr("BTN_BACK")
 
@@ -180,6 +205,32 @@ func _sync_current_values() -> void:
 		var is_full = (mode == DisplayServer.WINDOW_MODE_FULLSCREEN or mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		fullscreen_check.button_pressed = is_full
 		fullscreen_check.text = "✓" if is_full else "✕"
+
+	# Erişilebilirlik seçenekleri (CinematicManager)
+	var cm = _get_autoload("CinematicManager")
+	if cm:
+		if reduce_motion_check:
+			reduce_motion_check.set_pressed_no_signal(cm.reduce_motion)
+			reduce_motion_check.text = "✓" if cm.reduce_motion else "✕"
+		if reduce_flash_check:
+			reduce_flash_check.set_pressed_no_signal(cm.reduce_flashing)
+			reduce_flash_check.text = "✓" if cm.reduce_flashing else "✕"
+
+
+func _on_reduce_motion_toggled(pressed: bool) -> void:
+	var cm = _get_autoload("CinematicManager")
+	if cm:
+		cm.set_reduce_motion(pressed)
+	if reduce_motion_check:
+		reduce_motion_check.text = "✓" if pressed else "✕"
+
+
+func _on_reduce_flash_toggled(pressed: bool) -> void:
+	var cm = _get_autoload("CinematicManager")
+	if cm:
+		cm.set_reduce_flashing(pressed)
+	if reduce_flash_check:
+		reduce_flash_check.text = "✓" if pressed else "✕"
 
 
 func _on_language_selected(index: int) -> void:

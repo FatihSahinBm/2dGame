@@ -64,3 +64,6 @@ SWORD_REBELLION_HINT_3,"*Kılıcın içinden tiz bir madeni feryat yükseliyor!*
 TUTORIAL_STONE_AGE_TITLE,"Bölüm 1: Taş Devri","Chapter 1: Stone Age"
 TUTORIAL_STONE_AGE_SUBTITLE,"Tarih Öncesi Kanyon","Prehistoric Canyon"
 TUTORIAL_STONE_AGE_CONTROLS,"Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]","Movement: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
+FLASHBACK_PROMPT,"[Space / Sol Tık] İlerle  |  [Tab] Atla","[Space / Left Click] Continue  |  [Tab] Skip"
+SETTINGS_REDUCE_MOTION,"Hareketi Azalt:","Reduce Motion:"
+SETTINGS_REDUCE_FLASH,"Yanıp Sönmeyi Azalt:","Reduce Flashing:"
