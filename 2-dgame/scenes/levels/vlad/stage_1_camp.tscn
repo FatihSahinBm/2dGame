@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" path="res://assets/objects/broken_cart.png" id="12_cart_tex"]
 [ext_resource type="Texture2D" path="res://assets/items/arrow_quiver.png" id="13_quiver_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/camp/ottoman_camp_ground.png" id="14_ground"]
+[ext_resource type="Script" path="res://scripts/objects/camp_night_raid_atmosphere.gd" id="15_atmo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1800, 60)
@@ -37,6 +38,10 @@ parallax_factor_x = 0.05
 parallax_factor_y = 0.02
 tile_count = 2
 fog_color = Color(0.12, 0.05, 0.04, 0.18)
+
+[node name="NightRaidAtmosphere" type="Node2D" parent="."]
+script = ExtResource("15_atmo")
+ground_y = 560.0
 
 [node name="Environment" type="Node2D" parent="."]
 

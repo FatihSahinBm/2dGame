@@ -4,3 +4,4 @@
 
 [node name="VerifySwordRebellion" type="Node"]
 script = ExtResource("1_runner")
+
