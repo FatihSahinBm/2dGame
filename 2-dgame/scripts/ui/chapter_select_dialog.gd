@@ -6,19 +6,24 @@ extends PanelContainer
 signal chapter_selected(chapter_index: int, stage_path: String)
 signal closed()
 
+@onready var title_label: Label = find_child("TitleLabel", true, false) as Label
 @onready var chapter_list: VBoxContainer = $Margin/VBox/Scroll/ChapterList
 @onready var back_button: Button = $Margin/VBox/BackButton
 
 const CHAPTERS: Array[Dictionary] = [
 	{
 		"index": 1,
+		"title_key": "CHAPTER_1_TITLE",
 		"title": "Bölüm 1: İlkel Vadi ve Siber Tyrant",
+		"era_key": "CHAPTER_1_ERA",
 		"era": "M.Ö. 65 Milyon Yıl — Tarih Öncesi Kanyon",
 		"scene": "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn"
 	},
 	{
 		"index": 2,
+		"title_key": "CHAPTER_2_TITLE",
 		"title": "Bölüm 2: Târgovişte Gece Ormanı ve Kan Kalesi",
+		"era_key": "CHAPTER_2_ERA",
 		"era": "1462 — Eflak Prensliği & Kazıklı Voyvoda",
 		"scene": "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
 	}
@@ -30,7 +35,16 @@ var _first_focus_btn: Button = null
 func _ready() -> void:
 	if back_button:
 		back_button.pressed.connect(_on_back_pressed)
+	var loc_mgr = _get_autoload("LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	hide()
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	if visible:
+		_populate_chapters()
 
 
 func open() -> void:
@@ -63,6 +77,11 @@ func _populate_chapters() -> void:
 	if not chapter_list:
 		return
 
+	if title_label:
+		title_label.text = tr("CHAPTER_SELECT_TITLE")
+	if back_button:
+		back_button.text = tr("BTN_BACK")
+
 	# Temizle
 	for child in chapter_list.get_children():
 		child.queue_free()
@@ -91,7 +110,8 @@ func _populate_chapters() -> void:
 		info_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 		var title_lbl: Label = Label.new()
-		title_lbl.text = str(ch["title"])
+		var raw_title = str(ch.get("title_key", ch["title"]))
+		title_lbl.text = tr(raw_title) if tr(raw_title) != raw_title else str(ch["title"])
 		title_lbl.add_theme_font_size_override("font_size", 16)
 		if not is_unlocked:
 			title_lbl.add_theme_color_override("font_color", Color(0.5, 0.5, 0.55, 1.0))
@@ -99,7 +119,8 @@ func _populate_chapters() -> void:
 			title_lbl.add_theme_color_override("font_color", Color(0.95, 0.85, 0.5, 1.0))
 
 		var era_lbl: Label = Label.new()
-		era_lbl.text = str(ch["era"])
+		var raw_era = str(ch.get("era_key", ch["era"]))
+		era_lbl.text = tr(raw_era) if tr(raw_era) != raw_era else str(ch["era"])
 		era_lbl.add_theme_font_size_override("font_size", 12)
 		era_lbl.add_theme_color_override("font_color", Color(0.65, 0.65, 0.7, 1.0))
 
@@ -119,7 +140,9 @@ func _populate_chapters() -> void:
 
 		if has_chapter_progress and save_mgr and save_mgr.has_method("get_friendly_stage_name"):
 			var prog_lbl: Label = Label.new()
-			prog_lbl.text = "Son Kalınan: " + save_mgr.get_friendly_stage_name(scene_path)
+			var raw_friendly = save_mgr.get_friendly_stage_name(scene_path)
+			var localized_friendly = tr(raw_friendly) if not raw_friendly.is_empty() else raw_friendly
+			prog_lbl.text = tr("LAST_PROGRESS") % localized_friendly
 			prog_lbl.add_theme_font_size_override("font_size", 11)
 			prog_lbl.add_theme_color_override("font_color", Color(0.4, 0.85, 0.55, 1.0))
 			info_box.add_child(prog_lbl)
@@ -129,13 +152,13 @@ func _populate_chapters() -> void:
 		btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
 		if is_unlocked:
-			btn.text = "▶ Devam Et" if has_chapter_progress else "Oyna"
+			btn.text = tr("BTN_RESUME_CHAPTER") if has_chapter_progress else tr("BTN_PLAY")
 			var target_to_load = scene_path
 			btn.pressed.connect(func(): _on_chapter_clicked(ch_idx, target_to_load))
 			if not _first_focus_btn:
 				_first_focus_btn = btn
 		else:
-			btn.text = "🔒 Kilitli"
+			btn.text = tr("BTN_LOCKED")
 			btn.disabled = true
 
 		card_box.add_child(info_box)

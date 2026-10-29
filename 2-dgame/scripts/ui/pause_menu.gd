@@ -12,6 +12,8 @@ signal saved(slot: int)
 
 @onready var backdrop: ColorRect = $Backdrop
 @onready var panel: PanelContainer = $Center/PanelContainer
+@onready var pause_title: Label = get_node_or_null("Center/PanelContainer/Margin/VBox/Title") as Label
+@onready var pause_subtitle: Label = get_node_or_null("Center/PanelContainer/Margin/VBox/Subtitle") as Label
 @onready var btn_resume: Button = $Center/PanelContainer/Margin/VBox/Buttons/BtnResume
 @onready var btn_save: Button = $Center/PanelContainer/Margin/VBox/Buttons/BtnSave
 @onready var btn_settings: Button = $Center/PanelContainer/Margin/VBox/Buttons/BtnSettings
@@ -20,19 +22,23 @@ signal saved(slot: int)
 
 # Kayıt Yuvaları Paneli
 @onready var save_slots_panel: PanelContainer = $Center/SaveSlotsPanel
+@onready var save_panel_title: Label = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/Title") as Label
 @onready var check_autosave: CheckBox = $Center/SaveSlotsPanel/Margin/VBox/AutoSaveRow/CheckAutoSave
 @onready var btn_back_from_save: Button = $Center/SaveSlotsPanel/Margin/VBox/BtnBackFromSave
 @onready var feedback_label: Label = $Center/SaveSlotsPanel/Margin/VBox/FeedbackLabel
 
 # Yuva 1, 2, 3 Düğümleri
+@onready var lbl_slot1_title: Label = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard1/HBox/InfoVBox/LblSlot1Title") as Label
 @onready var lbl_slot1_details: Label = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard1/HBox/InfoVBox/LblSlot1Details
 @onready var btn_save_slot1: Button = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard1/HBox/BtnSaveSlot1
 @onready var btn_load_slot1: Button = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard1/HBox/BtnLoadSlot1
 
+@onready var lbl_slot2_title: Label = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard2/HBox/InfoVBox/LblSlot2Title") as Label
 @onready var lbl_slot2_details: Label = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard2/HBox/InfoVBox/LblSlot2Details
 @onready var btn_save_slot2: Button = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard2/HBox/BtnSaveSlot2
 @onready var btn_load_slot2: Button = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard2/HBox/BtnLoadSlot2
 
+@onready var lbl_slot3_title: Label = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard3/HBox/InfoVBox/LblSlot3Title") as Label
 @onready var lbl_slot3_details: Label = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard3/HBox/InfoVBox/LblSlot3Details
 @onready var btn_save_slot3: Button = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard3/HBox/BtnSaveSlot3
 @onready var btn_load_slot3: Button = $Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard3/HBox/BtnLoadSlot3
@@ -53,12 +59,22 @@ func _ready() -> void:
 	if settings_dialog:
 		settings_dialog.visible = false
 
+	var loc_mgr = _get_autoload("LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+	_update_localized_texts()
+
 
 func _resolve_nodes() -> void:
 	if not backdrop:
 		backdrop = find_child("Backdrop", true, false) as ColorRect
 	if not panel:
 		panel = find_child("PanelContainer", true, false) as PanelContainer
+	if not pause_title:
+		pause_title = get_node_or_null("Center/PanelContainer/Margin/VBox/Title") as Label
+	if not pause_subtitle:
+		pause_subtitle = get_node_or_null("Center/PanelContainer/Margin/VBox/Subtitle") as Label
 	if not btn_resume:
 		btn_resume = find_child("BtnResume", true, false) as Button
 	if not btn_save:
@@ -72,6 +88,8 @@ func _resolve_nodes() -> void:
 
 	if not save_slots_panel:
 		save_slots_panel = find_child("SaveSlotsPanel", true, false) as PanelContainer
+	if not save_panel_title:
+		save_panel_title = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/Title") as Label
 	if not check_autosave:
 		check_autosave = find_child("CheckAutoSave", true, false) as CheckBox
 	if not btn_back_from_save:
@@ -79,6 +97,8 @@ func _resolve_nodes() -> void:
 	if not feedback_label:
 		feedback_label = find_child("FeedbackLabel", true, false) as Label
 
+	if not lbl_slot1_title:
+		lbl_slot1_title = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard1/HBox/InfoVBox/LblSlot1Title") as Label
 	if not lbl_slot1_details:
 		lbl_slot1_details = find_child("LblSlot1Details", true, false) as Label
 	if not btn_save_slot1:
@@ -86,6 +106,8 @@ func _resolve_nodes() -> void:
 	if not btn_load_slot1:
 		btn_load_slot1 = find_child("BtnLoadSlot1", true, false) as Button
 
+	if not lbl_slot2_title:
+		lbl_slot2_title = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard2/HBox/InfoVBox/LblSlot2Title") as Label
 	if not lbl_slot2_details:
 		lbl_slot2_details = find_child("LblSlot2Details", true, false) as Label
 	if not btn_save_slot2:
@@ -93,6 +115,8 @@ func _resolve_nodes() -> void:
 	if not btn_load_slot2:
 		btn_load_slot2 = find_child("BtnLoadSlot2", true, false) as Button
 
+	if not lbl_slot3_title:
+		lbl_slot3_title = get_node_or_null("Center/SaveSlotsPanel/Margin/VBox/SlotsContainer/SlotCard3/HBox/InfoVBox/LblSlot3Title") as Label
 	if not lbl_slot3_details:
 		lbl_slot3_details = find_child("LblSlot3Details", true, false) as Label
 	if not btn_save_slot3:
@@ -102,6 +126,57 @@ func _resolve_nodes() -> void:
 
 	if not settings_dialog:
 		settings_dialog = find_child("SettingsDialog", true, false) as PanelContainer
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_localized_texts()
+	if save_slots_panel and save_slots_panel.visible:
+		_refresh_slot_cards()
+
+
+func _update_localized_texts() -> void:
+	if pause_title:
+		pause_title.text = tr("PAUSE_TITLE")
+	if pause_subtitle:
+		pause_subtitle.text = tr("PAUSE_SUBTITLE")
+	if btn_resume:
+		btn_resume.text = tr("BTN_PAUSE_RESUME")
+	if btn_save:
+		btn_save.text = tr("BTN_SAVE_SLOTS")
+	if btn_settings:
+		btn_settings.text = tr("BTN_SETTINGS")
+	if btn_restart:
+		btn_restart.text = tr("BTN_RESTART")
+	if btn_main_menu:
+		btn_main_menu.text = tr("BTN_MAIN_MENU")
+
+	if save_panel_title:
+		save_panel_title.text = tr("SAVE_SLOTS_TITLE")
+	if check_autosave:
+		check_autosave.text = tr("AUTOSAVE_CHECK")
+	if btn_back_from_save:
+		btn_back_from_save.text = tr("BTN_BACK_TO_PAUSE")
+
+	if lbl_slot1_title:
+		lbl_slot1_title.text = tr("SLOT_TITLE") % 1
+	if lbl_slot2_title:
+		lbl_slot2_title.text = tr("SLOT_TITLE") % 2
+	if lbl_slot3_title:
+		lbl_slot3_title.text = tr("SLOT_TITLE") % 3
+
+	if btn_save_slot1:
+		btn_save_slot1.text = tr("BTN_SAVE")
+	if btn_save_slot2:
+		btn_save_slot2.text = tr("BTN_SAVE")
+	if btn_save_slot3:
+		btn_save_slot3.text = tr("BTN_SAVE")
+
+	if btn_load_slot1:
+		btn_load_slot1.text = tr("BTN_LOAD")
+	if btn_load_slot2:
+		btn_load_slot2.text = tr("BTN_LOAD")
+	if btn_load_slot3:
+		btn_load_slot3.text = tr("BTN_LOAD")
 
 
 func _setup_signals() -> void:
@@ -293,7 +368,7 @@ func _on_autosave_toggled(toggled_on: bool) -> void:
 	if save_mgr and save_mgr.has_method("set_autosave_enabled"):
 		save_mgr.set_autosave_enabled(toggled_on)
 	if feedback_label:
-		feedback_label.text = "Otomatik Kayıt: %s" % ("Açık" if toggled_on else "Kapalı")
+		feedback_label.text = tr("AUTOSAVE_STATUS_ON") if toggled_on else tr("AUTOSAVE_STATUS_OFF")
 
 
 func _refresh_slot_cards() -> void:
@@ -321,12 +396,14 @@ func _update_slot_card_ui(slot: int, details_lbl: Label, load_btn: Button, save_
 		}
 
 	if summary.get("has_save", false):
-		details_lbl.text = "Tarih: %s  |  Konum: %s" % [str(summary.get("timestamp", "-")), str(summary.get("location_name", "-"))]
+		var raw_loc = str(summary.get("location_name", "-"))
+		var loc_display = tr(raw_loc) if not raw_loc.is_empty() else raw_loc
+		details_lbl.text = tr("SLOT_DETAILS") % [str(summary.get("timestamp", "-")), loc_display]
 		details_lbl.add_theme_color_override("font_color", Color(0.85, 0.88, 0.95, 1.0))
 		if load_btn:
 			load_btn.disabled = false
 	else:
-		details_lbl.text = "Boş Yuva (Kayıt Bulunmuyor)"
+		details_lbl.text = tr("SLOT_EMPTY")
 		details_lbl.add_theme_color_override("font_color", Color(0.55, 0.58, 0.65, 0.8))
 		if load_btn:
 			load_btn.disabled = true
@@ -340,13 +417,13 @@ func _on_slot_save_clicked(slot: int) -> void:
 	var success: bool = save_mgr.save_game(slot)
 	if success:
 		if feedback_label:
-			feedback_label.text = "✓ Oyun Yuva %d'e başarıyla kaydedildi!" % slot
+			feedback_label.text = tr("SAVE_SUCCESS") % slot
 			feedback_label.add_theme_color_override("font_color", Color(0.35, 0.95, 0.55, 1.0))
 		_refresh_slot_cards()
 		saved.emit(slot)
 	else:
 		if feedback_label:
-			feedback_label.text = "✗ Kayıt yapılamadı!"
+			feedback_label.text = tr("SAVE_FAIL")
 			feedback_label.add_theme_color_override("font_color", Color(0.95, 0.35, 0.35, 1.0))
 
 

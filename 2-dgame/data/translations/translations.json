@@ -1,0 +1,262 @@
+{
+  "MENU_MAIN_TITLE": {
+    "tr": "ZAMANIN YANKISI",
+    "en": "ECHO OF TIME"
+  },
+  "MENU_SUBTITLE_DESC": {
+    "tr": "Bir Ruhun ve Çeliğin İntikam Destanı",
+    "en": "An Epic of Soul and Steel's Vengeance"
+  },
+  "STAGE_UNKNOWN": {
+    "tr": "Bilinmeyen Aşama",
+    "en": "Unknown Stage"
+  },
+  "SHOUT_ATTACK": {
+    "tr": "Hücum!",
+    "en": "Charge!"
+  },
+  "SHOUT_TRAITOR": {
+    "tr": "Hain!",
+    "en": "Traitor!"
+  },
+  "MENU_TITLE_1": {
+    "tr": "CHRONOS",
+    "en": "CHRONOS"
+  },
+  "MENU_TITLE_2": {
+    "tr": "BLADE",
+    "en": "BLADE"
+  },
+  "MENU_SUBTITLE": {
+    "tr": "ZAMAN YARIĞI & KAN VE KÜL ÇAĞI",
+    "en": "TIME RIFT & AGE OF BLOOD AND ASH"
+  },
+  "BTN_CONTINUE": {
+    "tr": "▶ Devam Et",
+    "en": "▶ Continue"
+  },
+  "BTN_NEW_GAME": {
+    "tr": "✦ Yeni Oyun",
+    "en": "✦ New Game"
+  },
+  "BTN_CHAPTER_SELECT": {
+    "tr": "📜 Bölüm Seçimi",
+    "en": "📜 Chapter Select"
+  },
+  "BTN_SETTINGS": {
+    "tr": "⚙ Ayarlar",
+    "en": "⚙ Settings"
+  },
+  "BTN_EXIT": {
+    "tr": "✕ Çıkış",
+    "en": "✕ Exit"
+  },
+  "CONFIRM_NEW_GAME_TITLE": {
+    "tr": "YENİ OYUN BAŞLAT",
+    "en": "START NEW GAME"
+  },
+  "CONFIRM_NEW_GAME_MSG": {
+    "tr": "Mevcut kayıt dosyanızın üzerine yazılacaktır. Devam etmek istiyor musunuz?",
+    "en": "Your current save file will be overwritten. Do you wish to continue?"
+  },
+  "BTN_CONFIRM": {
+    "tr": "Evet, Başlat",
+    "en": "Yes, Start"
+  },
+  "BTN_CANCEL": {
+    "tr": "İptal",
+    "en": "Cancel"
+  },
+  "SETTINGS_TITLE": {
+    "tr": "AYARLAR",
+    "en": "SETTINGS"
+  },
+  "SETTINGS_LANGUAGE": {
+    "tr": "Dil (Language):",
+    "en": "Language:"
+  },
+  "SETTINGS_MASTER_VOL": {
+    "tr": "Ana Ses (Master):",
+    "en": "Master Volume:"
+  },
+  "SETTINGS_MUSIC_VOL": {
+    "tr": "Müzik Sesi:",
+    "en": "Music Volume:"
+  },
+  "SETTINGS_SFX_VOL": {
+    "tr": "Efekt Sesi (SFX):",
+    "en": "SFX Volume:"
+  },
+  "SETTINGS_FULLSCREEN": {
+    "tr": "Tam Ekran Modu",
+    "en": "Fullscreen Mode"
+  },
+  "BTN_BACK": {
+    "tr": "⮌ Geri",
+    "en": "⮌ Back"
+  },
+  "CHAPTER_SELECT_TITLE": {
+    "tr": "BÖLÜM SEÇİMİ VE YOLCULUK",
+    "en": "CHAPTER SELECT & JOURNEY"
+  },
+  "CHAPTER_1_TITLE": {
+    "tr": "Bölüm 1: İlkel Vadi ve Siber Tyrant",
+    "en": "Chapter 1: Primeval Valley & Cyber Tyrant"
+  },
+  "CHAPTER_1_ERA": {
+    "tr": "M.Ö. 65 Milyon Yıl — Tarih Öncesi Kanyon",
+    "en": "65 Million BC — Prehistoric Canyon"
+  },
+  "CHAPTER_2_TITLE": {
+    "tr": "Bölüm 2: Târgovişte Gece Ormanı ve Kan Kalesi",
+    "en": "Chapter 2: Târgoviște Night Forest & Blood Castle"
+  },
+  "CHAPTER_2_ERA": {
+    "tr": "1462 — Eflak Prensliği & Kazıklı Voyvoda",
+    "en": "1462 — Principality of Wallachia & Vlad the Impaler"
+  },
+  "BTN_PLAY": {
+    "tr": "Oyna",
+    "en": "Play"
+  },
+  "BTN_RESUME_CHAPTER": {
+    "tr": "▶ Devam Et",
+    "en": "▶ Resume"
+  },
+  "BTN_LOCKED": {
+    "tr": "🔒 Kilitli",
+    "en": "🔒 Locked"
+  },
+  "LAST_PROGRESS": {
+    "tr": "Son Kalınan: %s",
+    "en": "Last Position: %s"
+  },
+  "PAUSE_TITLE": {
+    "tr": "OYUN DURAKLATILDI",
+    "en": "GAME PAUSED"
+  },
+  "PAUSE_SUBTITLE": {
+    "tr": "Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.",
+    "en": "Game is paused. Choose an option to continue or save."
+  },
+  "BTN_PAUSE_RESUME": {
+    "tr": "▶ Devam Et",
+    "en": "▶ Resume"
+  },
+  "BTN_SAVE_SLOTS": {
+    "tr": "💾 Oyunu Kaydet (3 Yuva)",
+    "en": "💾 Save Game (3 Slots)"
+  },
+  "BTN_RESTART": {
+    "tr": "↺ Bölümü Yeniden Başlat",
+    "en": "↺ Restart Stage"
+  },
+  "BTN_MAIN_MENU": {
+    "tr": "⌂ Ana Menü",
+    "en": "⌂ Main Menu"
+  },
+  "SAVE_SLOTS_TITLE": {
+    "tr": "KAYIT YUVALARI (3 YUVA)",
+    "en": "SAVE SLOTS (3 SLOTS)"
+  },
+  "AUTOSAVE_CHECK": {
+    "tr": " Otomatik Kayıt (Checkpoints) Açık",
+    "en": " Auto-Save (Checkpoints) Enabled"
+  },
+  "AUTOSAVE_STATUS_ON": {
+    "tr": "Otomatik Kayıt: Açık",
+    "en": "Auto-Save: Enabled"
+  },
+  "AUTOSAVE_STATUS_OFF": {
+    "tr": "Otomatik Kayıt: Kapalı",
+    "en": "Auto-Save: Disabled"
+  },
+  "SLOT_TITLE": {
+    "tr": "Yuva %d",
+    "en": "Slot %d"
+  },
+  "SLOT_EMPTY": {
+    "tr": "Boş Yuva (Kayıt Bulunmuyor)",
+    "en": "Empty Slot (No Save Found)"
+  },
+  "SLOT_DETAILS": {
+    "tr": "Tarih: %s  |  Konum: %s",
+    "en": "Date: %s  |  Location: %s"
+  },
+  "BTN_SAVE": {
+    "tr": "💾 Kaydet",
+    "en": "💾 Save"
+  },
+  "BTN_LOAD": {
+    "tr": "📂 Yükle",
+    "en": "📂 Load"
+  },
+  "SAVE_SUCCESS": {
+    "tr": "✓ Oyun Yuva %d'e başarıyla kaydedildi!",
+    "en": "✓ Game saved to Slot %d successfully!"
+  },
+  "SAVE_FAIL": {
+    "tr": "✗ Kayıt yapılamadı!",
+    "en": "✗ Failed to save game!"
+  },
+  "BTN_BACK_TO_PAUSE": {
+    "tr": "⮌ Menüye Dön",
+    "en": "⮌ Back to Menu"
+  },
+  "STAGE_STONE_AGE_1": {
+    "tr": "Bölüm 1: Tarih Öncesi Kanyon",
+    "en": "Chapter 1: Prehistoric Canyon"
+  },
+  "STAGE_STONE_AGE_2": {
+    "tr": "Bölüm 1: T-Rex Arenası",
+    "en": "Chapter 1: T-Rex Arena"
+  },
+  "STAGE_VLAD_1": {
+    "tr": "Bölüm 2: Târgovişte Ormanı",
+    "en": "Chapter 2: Târgoviște Forest"
+  },
+  "STAGE_VLAD_CAMP": {
+    "tr": "Bölüm 2: Osmanlı Ordugahı",
+    "en": "Chapter 2: Ottoman Camp"
+  },
+  "STAGE_VLAD_TENT": {
+    "tr": "Bölüm 2: Fatih Otağı",
+    "en": "Chapter 2: Fatih Tent"
+  },
+  "STAGE_VLAD_BRIDGE": {
+    "tr": "Bölüm 2: Köprü Taarruzu",
+    "en": "Chapter 2: Bridge Assault"
+  },
+  "STAGE_VLAD_DUNGEON": {
+    "tr": "Bölüm 2: Kale Mahzenleri",
+    "en": "Chapter 2: Castle Dungeons"
+  },
+  "STAGE_VLAD_THRONE": {
+    "tr": "Bölüm 2: Taht Odası",
+    "en": "Chapter 2: Throne Room"
+  },
+  "SWORD_REBELLION_HINT_1": {
+    "tr": "*Kılıç darbene direniyor!*",
+    "en": "*The blade resists your strike!*"
+  },
+  "SWORD_REBELLION_HINT_2": {
+    "tr": "*Ruh bu kıyıma ortak olmak istemiyor!*",
+    "en": "*The soul refuses to partake in slaughter!*"
+  },
+  "SWORD_REBELLION_HINT_3": {
+    "tr": "*Kılıcın içinden tiz bir madeni feryat yükseliyor!*",
+    "en": "*A piercing metallic shriek echoes from the blade!*"
+  },
+  "TUTORIAL_STONE_AGE_TITLE": {
+    "tr": "Bölüm 1: Taş Devri",
+    "en": "Chapter 1: Stone Age"
+  },
+  "TUTORIAL_STONE_AGE_SUBTITLE": {
+    "tr": "Tarih Öncesi Kanyon",
+    "en": "Prehistoric Canyon"
+  },
+  "TUTORIAL_STONE_AGE_CONTROLS": {
+    "tr": "Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]",
+    "en": "Movement: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
+  }
+}

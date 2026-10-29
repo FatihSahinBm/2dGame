@@ -72,39 +72,29 @@ func load_settings() -> void:
 
 func get_friendly_stage_name(stage_path: String) -> String:
 	if stage_path.is_empty():
-		return "Bilinmeyen Aşama"
+		return tr("STAGE_UNKNOWN")
 	if stage_path.contains("stage_1_prehistoric_valley") or stage_path.contains("prehistoric_valley"):
-		return "Bölüm 1: Tarih Öncesi Kanyon"
+		return tr("STAGE_STONE_AGE_1")
 	elif stage_path.contains("stage_2_trex_boss_arena"):
-		return "Bölüm 1: T-Rex Arenası"
+		return tr("STAGE_STONE_AGE_2")
 	elif stage_path.contains("stage_1_forest_camp"):
-		return "Bölüm 2: Târgovişte Ormanı"
+		return tr("STAGE_VLAD_1")
 	elif stage_path.contains("stage_1_camp"):
-		return "Bölüm 2: Osmanlı Ordugahı"
+		return tr("STAGE_VLAD_CAMP")
 	elif stage_path.contains("stage_1_fatih_tent"):
-		return "Bölüm 2: Fatih Otağı"
+		return tr("STAGE_VLAD_TENT")
 	elif stage_path.contains("stage_1_bridge_assault"):
-		return "Bölüm 2: Köprü Taarruzu"
+		return tr("STAGE_VLAD_BRIDGE")
 	elif stage_path.contains("stage_2_castle_dungeon"):
-		return "Bölüm 2: Kale Mahzenleri"
+		return tr("STAGE_VLAD_DUNGEON")
 	elif stage_path.contains("stage_3_throne_room"):
-		return "Bölüm 2: Taht Odası"
+		return tr("STAGE_VLAD_THRONE")
 	elif stage_path.contains("stoneage_01"):
-		return "Bölüm 1: Zaman Yarığı İnişi"
+		return tr("STAGE_STONE_AGE_1")
 	elif stage_path.contains("stoneage_02"):
-		return "Bölüm 1: Sessiz Vadi"
-	elif stage_path.contains("stoneage_03"):
-		return "Bölüm 1: Kırık Geçit"
-	elif stage_path.contains("stoneage_04"):
-		return "Bölüm 1: Avcı İzleri"
-	elif stage_path.contains("stoneage_05"):
-		return "Bölüm 1: Zamansal Parçalar"
-	elif stage_path.contains("stoneage_06"):
-		return "Bölüm 1: Yaratık Hakimiyeti"
+		return tr("STAGE_STONE_AGE_1")
 	elif stage_path.contains("stoneage_07"):
-		return "Bölüm 1: Ana T-Rex"
-	elif stage_path.contains("stoneage_08"):
-		return "Bölüm 1: İlk Kalp Parçası"
+		return tr("STAGE_STONE_AGE_2")
 
 	var basename = stage_path.get_file().get_basename()
 	basename = basename.replace("stage_", "Aşama ").replace("_", " ").capitalize()

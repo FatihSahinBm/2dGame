@@ -9,6 +9,9 @@ extends Control
 @onready var btn_settings: Button = $UI/MenuCenter/MenuButtons/BtnSettings
 @onready var btn_exit: Button = $UI/MenuCenter/MenuButtons/BtnExit
 
+@onready var title_label: Label = find_child("TitleLabel", true, false) as Label
+@onready var subtitle_label: Label = find_child("SubtitleLabel", true, false) as Label
+
 @onready var confirm_dialog: PanelContainer = $UI/ConfirmDialog
 @onready var chapter_dialog: PanelContainer = $UI/ChapterSelectDialog
 @onready var settings_dialog: PanelContainer = $UI/SettingsDialog
@@ -32,12 +35,23 @@ func _ready() -> void:
 		_connect_buttons()
 		_setup_dialog_signals()
 		_signals_connected = true
+
+	var loc_mgr = _get_autoload("LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+	_update_localized_texts()
 	_setup_focus_chain()
 	_update_continue_state()
 	_start_menu_audio()
 
 
 func _resolve_nodes() -> void:
+	if not title_label:
+		title_label = find_child("TitleLabel", true, false) as Label
+	if not subtitle_label:
+		subtitle_label = find_child("SubtitleLabel", true, false) as Label
 	if not btn_continue:
 		btn_continue = find_child("BtnContinue", true, false) as Button
 	if not btn_new_game:
@@ -59,6 +73,27 @@ func _resolve_nodes() -> void:
 		parallax_bg = find_child("ParallaxBackground", true, false) as Node2D
 	if not music_player:
 		music_player = find_child("MusicPlayer", true, false) as AudioStreamPlayer
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_localized_texts()
+
+
+func _update_localized_texts() -> void:
+	if title_label:
+		title_label.text = tr("MENU_MAIN_TITLE")
+	if subtitle_label:
+		subtitle_label.text = tr("MENU_SUBTITLE_DESC")
+	if btn_continue:
+		btn_continue.text = tr("BTN_CONTINUE")
+	if btn_new_game:
+		btn_new_game.text = tr("BTN_NEW_GAME")
+	if btn_chapter_select:
+		btn_chapter_select.text = tr("BTN_CHAPTER_SELECT")
+	if btn_settings:
+		btn_settings.text = tr("BTN_SETTINGS")
+	if btn_exit:
+		btn_exit.text = tr("BTN_EXIT")
 
 
 func _get_autoload(autoload_name: String) -> Node:
@@ -192,7 +227,7 @@ func _on_new_game_pressed() -> void:
 		return
 	var save_mgr = _get_autoload("SaveManager")
 	if save_mgr and save_mgr.has_save():
-		confirm_dialog.prompt("YENİ OYUN BAŞLAT", "Mevcut kayıt dosyanızın üzerine yazılacaktır. Devam etmek istiyor musunuz?")
+		confirm_dialog.prompt(tr("CONFIRM_NEW_GAME_TITLE"), tr("CONFIRM_NEW_GAME_MSG"))
 	else:
 		_start_brand_new_game()
 

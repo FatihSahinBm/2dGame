@@ -1,68 +1,98 @@
 {
   "chapter_id": 1,
   "era": "M.Ö. 65 Milyon Yıl — Tarih Öncesi Kanyon",
+  "era_en": "65 Million BC — Prehistoric Canyon",
   "title": "İlkel Vadi ve Siber Tyrant",
+  "title_en": "Primeval Valley & Cyber Tyrant",
   "synopsis": "Zaman yarığından tarih öncesi ilkel kanyona savrulan karakter, kılıcına hapsedilmiş mahpus ruhun madeni titreşimleriyle uyanır. Bu çağda zaman dengesini bozan şey, geleceğin sibernetik teknolojisi ve Dünyanın Kalbi parçasıyla mutasyona uğramış Dev Anne T-Rex'tir.",
+  "synopsis_en": "Hurled through the time rift into a primeval canyon, the hero awakes to the metallic tremors of the soul imprisoned within their blade. In this era, balance is shattered by a titanic Cyber-Tyrant T-Rex mutated with future machinery and a shard of the World's Heart.",
   "dialogues": {
     "intro_awakening": [
       {
         "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
         "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
         "text": "Uyan... Bu topraklar henüz insanın ayak basmadığı kadar kadim, lakin havadaki ozon ve makine kokusu geleceğe ait!",
+        "text_en": "Awaken... These lands are primeval, untouched by mankind, yet the scent of ozone and machinery in the air belongs to the future!",
         "portrait": "player"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Zaman yarığı bizi nereye fırlattı böyle? Yer altından gelen bu titreşimler de ne?",
+        "text_en": "Where did this time rift hurl us? And what are these vibrations rising from deep beneath the ground?",
         "portrait": "player"
       },
       {
         "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
         "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
         "text": "Dünyanın Kalbi... Parçalarından biri bu vadinin derinliklerinde çarpıyor. Ama yalnız değil; metal ve çelikle beslenen devasa bir canavar onu koruyor. Dikkatli ilerle!",
+        "text_en": "The Heart of the World... One of its shards beats in the depths of this valley. But it is not alone; a colossal beast sustained by steel and metal guards it. Tread carefully!",
         "portrait": "player"
       }
     ],
     "barricade_hint": [
       {
         "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
         "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
         "text": "Yol devasa fosilleşmiş kütükler ve taşlarla tıkanmış. Kılıcını savur, önündeki engelleri parçala!",
+        "text_en": "The path is blocked by massive petrified logs and boulders. Swing your blade and shatter the obstacles ahead!",
         "portrait": "player"
       }
     ],
     "trex_encounter": [
       {
         "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
         "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
         "text": "İşte orada! Gözlerine bak... Geleceğin mekanik kolları ve zırhı gövdesine kaynaklanmış. Göğsündeki o kor... Dünyanın Kalbi parçası!",
+        "text_en": "There it is! Look into its eyes... Mechanical arms and armor from the future are welded onto its frame. That glow in its chest... The Heart Shard!",
         "portrait": "player"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Bu çağda böyle bir teknolojinin olması imkansız... Biri bu dinozoru bilerek mutasyona uğratmış.",
+        "text_en": "Such technology is impossible in this age... Someone deliberately mutated this beast.",
         "portrait": "player"
       },
       {
         "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
         "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
         "text": "Ağzındaki siber lazer enerjisini toplayınca platformlara sığın! Zemin darbelerinden kaçın!",
+        "text_en": "When it gathers cyber-laser energy in its maw, take shelter on the platforms! Evade its shockwaves!",
         "portrait": "player"
       }
     ],
     "trex_victory": [
       {
         "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
         "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
         "text": "Canavar devrildi... Mekanik parçaları dağılıyor. Bak! Göğsünden sökülen o ışık... İlk Kalp Parçası kılıcımıza akıyor!",
+        "text_en": "The beast has fallen... Its cybernetic parts are scattering. Behold! That radiant light torn from its chest... The first Heart Shard flows into our blade!",
         "portrait": "player"
       },
       {
         "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
         "title": "",
+        "title_en": "",
         "text": "Bir parça tamamlandı. Ancak bu mekanik kolların nereden geldiğini bulmadan zaman yarığı kapanmayacak.",
+        "text_en": "One shard gathered. Yet until we discover where this cybernetic tech originated, the time rift will remain broken.",
         "portrait": "player"
       }
     ]
