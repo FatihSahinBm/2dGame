@@ -414,12 +414,15 @@ func _shake_camera(intensity: float) -> void:
 	if not _camera_ref:
 		_find_camera()
 	if _camera_ref:
-		var ct: Tween = create_tween()
-		var orig = _camera_ref.offset
-		ct.tween_property(_camera_ref, "offset", orig + Vector2(0, intensity), 0.05)
-		ct.tween_property(_camera_ref, "offset", orig + Vector2(0, -intensity * 0.7), 0.05)
-		ct.tween_property(_camera_ref, "offset", orig + Vector2(intensity * 0.4, 0), 0.05)
-		ct.tween_property(_camera_ref, "offset", orig, 0.08)
+		if _camera_ref.has_method("apply_shake"):
+			_camera_ref.apply_shake(intensity, 2, 0.25, 25.0, "trex_action")
+		else:
+			var ct: Tween = create_tween()
+			var orig = _camera_ref.offset
+			ct.tween_property(_camera_ref, "offset", orig + Vector2(0, intensity), 0.05)
+			ct.tween_property(_camera_ref, "offset", orig + Vector2(0, -intensity * 0.7), 0.05)
+			ct.tween_property(_camera_ref, "offset", orig + Vector2(intensity * 0.4, 0), 0.05)
+			ct.tween_property(_camera_ref, "offset", orig, 0.08)
 
 ## Özel Hitbox Vuruş Olayları
 func _on_laser_hitbox_body_entered(body: Node2D) -> void:

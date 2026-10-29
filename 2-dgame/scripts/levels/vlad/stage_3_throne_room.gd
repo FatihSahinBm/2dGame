@@ -117,10 +117,13 @@ func _check_blood_shield() -> void:
 
 func _set_camera_arena(limit_left: int, limit_right: int) -> void:
 	if _player_camera:
-		_player_camera.limit_left = limit_left
-		_player_camera.limit_right = limit_right
-		_player_camera.limit_top = -140
-		_player_camera.limit_bottom = 630
+		if _player_camera.has_method("enter_boss_arena"):
+			_player_camera.enter_boss_arena(Rect2(limit_left, -140, limit_right - limit_left, 770), Vector2(0.85, 0.85))
+		else:
+			_player_camera.limit_left = limit_left
+			_player_camera.limit_right = limit_right
+			_player_camera.limit_top = -140
+			_player_camera.limit_bottom = 630
 
 
 func _on_vlad_form_changed(new_form: int) -> void:

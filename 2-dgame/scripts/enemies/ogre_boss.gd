@@ -79,12 +79,15 @@ func _trigger_ground_smash_impact() -> void:
 		_find_camera()
 
 	if _camera_ref:
-		var cam_tween: Tween = create_tween()
-		var orig_offset = _camera_ref.offset
-		cam_tween.tween_property(_camera_ref, "offset", orig_offset + Vector2(0, screen_shake_intensity), 0.05)
-		cam_tween.tween_property(_camera_ref, "offset", orig_offset + Vector2(0, -screen_shake_intensity * 0.7), 0.06)
-		cam_tween.tween_property(_camera_ref, "offset", orig_offset + Vector2(0, screen_shake_intensity * 0.4), 0.05)
-		cam_tween.tween_property(_camera_ref, "offset", orig_offset, 0.08)
+		if _camera_ref.has_method("apply_shake"):
+			_camera_ref.apply_shake(screen_shake_intensity, 2, 0.25, 24.0, "ogre_smash")
+		else:
+			var cam_tween: Tween = create_tween()
+			var orig_offset = _camera_ref.offset
+			cam_tween.tween_property(_camera_ref, "offset", orig_offset + Vector2(0, screen_shake_intensity), 0.05)
+			cam_tween.tween_property(_camera_ref, "offset", orig_offset + Vector2(0, -screen_shake_intensity * 0.7), 0.06)
+			cam_tween.tween_property(_camera_ref, "offset", orig_offset + Vector2(0, screen_shake_intensity * 0.4), 0.05)
+			cam_tween.tween_property(_camera_ref, "offset", orig_offset, 0.08)
 
 	# 2. Yakındaki oyuncuya ek geri itme
 	if _target_node and is_instance_valid(_target_node):

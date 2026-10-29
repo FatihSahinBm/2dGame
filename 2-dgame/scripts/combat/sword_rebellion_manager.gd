@@ -212,6 +212,11 @@ func _play_screech_sound() -> void:
 
 
 func _apply_camera_shake(cam: Camera2D) -> void:
+	if not cam:
+		return
+	if cam.has_method("apply_shake"):
+		cam.apply_shake(shake_intensity, 2, 0.25, 28.0, "sword_rebellion")
+		return
 	var tw: Tween = create_tween()
 	tw.tween_property(cam, "offset", Vector2(randf_range(-shake_intensity, shake_intensity), randf_range(-shake_intensity, shake_intensity)), 0.04)
 	tw.tween_property(cam, "offset", Vector2(randf_range(-shake_intensity * 0.5, shake_intensity * 0.5), randf_range(-shake_intensity * 0.5, shake_intensity * 0.5)), 0.05)

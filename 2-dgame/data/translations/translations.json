@@ -103,6 +103,10 @@
     "tr": "Tam Ekran Modu",
     "en": "Fullscreen Mode"
   },
+  "SETTINGS_SCREEN_SHAKE": {
+    "tr": "Ekran Sarsıntısı:",
+    "en": "Screen Shake:"
+  },
   "BTN_BACK": {
     "tr": "⮌ Geri",
     "en": "⮌ Back"

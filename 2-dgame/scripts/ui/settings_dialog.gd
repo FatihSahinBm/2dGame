@@ -21,6 +21,9 @@ signal closed()
 @onready var display_label: Label = find_child("DisplayLabel", true, false) as Label
 @onready var fullscreen_check: CheckBox = find_child("FullscreenCheck", true, false) as CheckBox
 
+@onready var screen_shake_label: Label = find_child("ScreenShakeLabel", true, false) as Label
+@onready var screen_shake_slider: HSlider = find_child("ScreenShakeSlider", true, false) as HSlider
+
 @onready var reduce_motion_label: Label = find_child("ReduceMotionLabel", true, false) as Label
 @onready var reduce_motion_check: CheckBox = find_child("ReduceMotionCheck", true, false) as CheckBox
 @onready var reduce_flash_label: Label = find_child("ReduceFlashLabel", true, false) as Label
@@ -69,6 +72,10 @@ func _resolve_nodes() -> void:
 		display_label = find_child("DisplayLabel", true, false) as Label
 	if not fullscreen_check:
 		fullscreen_check = find_child("FullscreenCheck", true, false) as CheckBox
+	if not screen_shake_label:
+		screen_shake_label = find_child("ScreenShakeLabel", true, false) as Label
+	if not screen_shake_slider:
+		screen_shake_slider = find_child("ScreenShakeSlider", true, false) as HSlider
 	if not reduce_motion_label:
 		reduce_motion_label = find_child("ReduceMotionLabel", true, false) as Label
 	if not reduce_motion_check:
@@ -92,6 +99,8 @@ func _setup_signals() -> void:
 		sfx_slider.value_changed.connect(_on_sfx_changed)
 	if fullscreen_check and not fullscreen_check.toggled.is_connected(_on_fullscreen_toggled):
 		fullscreen_check.toggled.connect(_on_fullscreen_toggled)
+	if screen_shake_slider and not screen_shake_slider.value_changed.is_connected(_on_screen_shake_changed):
+		screen_shake_slider.value_changed.connect(_on_screen_shake_changed)
 	if reduce_motion_check and not reduce_motion_check.toggled.is_connected(_on_reduce_motion_toggled):
 		reduce_motion_check.toggled.connect(_on_reduce_motion_toggled)
 	if reduce_flash_check and not reduce_flash_check.toggled.is_connected(_on_reduce_flash_toggled):
@@ -143,6 +152,8 @@ func update_localized_texts() -> void:
 		display_label.text = tr("SETTINGS_FULLSCREEN")
 	if fullscreen_check:
 		fullscreen_check.text = "✓" if fullscreen_check.button_pressed else "✕"
+	if screen_shake_label:
+		screen_shake_label.text = tr("SETTINGS_SCREEN_SHAKE")
 	if reduce_motion_label:
 		reduce_motion_label.text = tr("SETTINGS_REDUCE_MOTION")
 	if reduce_flash_label:
@@ -206,6 +217,13 @@ func _sync_current_values() -> void:
 		fullscreen_check.button_pressed = is_full
 		fullscreen_check.text = "✓" if is_full else "✕"
 
+	# Ekran Sarsıntısı (CameraManager)
+	var cam_mgr = _get_autoload("CameraManager")
+	if cam_mgr and screen_shake_slider:
+		screen_shake_slider.value = cam_mgr.get_screen_shake_intensity() * 100.0
+	elif screen_shake_slider:
+		screen_shake_slider.value = 100.0
+
 	# Erişilebilirlik seçenekleri (CinematicManager)
 	var cm = _get_autoload("CinematicManager")
 	if cm:
@@ -231,6 +249,12 @@ func _on_reduce_flash_toggled(pressed: bool) -> void:
 		cm.set_reduce_flashing(pressed)
 	if reduce_flash_check:
 		reduce_flash_check.text = "✓" if pressed else "✕"
+
+
+func _on_screen_shake_changed(val: float) -> void:
+	var cam_mgr = _get_autoload("CameraManager")
+	if cam_mgr:
+		cam_mgr.set_screen_shake_intensity(val / 100.0)
 
 
 func _on_language_selected(index: int) -> void:

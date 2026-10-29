@@ -116,11 +116,14 @@ func _on_tremor_zone_entered(body: Node2D) -> void:
 
 func _trigger_ambient_tremor() -> void:
 	if _player_camera:
-		var tw_cam: Tween = create_tween()
-		tw_cam.tween_property(_player_camera, "offset:y", 12.0, 0.08)
-		tw_cam.tween_property(_player_camera, "offset:y", -10.0, 0.08)
-		tw_cam.tween_property(_player_camera, "offset:y", 6.0, 0.08)
-		tw_cam.tween_property(_player_camera, "offset:y", 0.0, 0.1)
+		if _player_camera.has_method("apply_shake"):
+			_player_camera.apply_shake(12.0, 2, 0.35, 20.0, "ambient_tremor")
+		else:
+			var tw_cam: Tween = create_tween()
+			tw_cam.tween_property(_player_camera, "offset:y", 12.0, 0.08)
+			tw_cam.tween_property(_player_camera, "offset:y", -10.0, 0.08)
+			tw_cam.tween_property(_player_camera, "offset:y", 6.0, 0.08)
+			tw_cam.tween_property(_player_camera, "offset:y", 0.0, 0.1)
 
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial(
@@ -137,10 +140,13 @@ func _on_boss_trigger_entered(body: Node2D) -> void:
 
 
 func _start_boss_fight() -> void:
-	# Kamerayı Boss Arenası içine kilitle (4300 - 5500 px)
+	# Kamerayı Boss Arenası içine kilitle (4300 - 5500 px) ve geniş görünüm ölçeğine geçir
 	if _player_camera:
-		_player_camera.limit_left = 4300
-		_player_camera.limit_right = 5500
+		if _player_camera.has_method("enter_boss_arena"):
+			_player_camera.enter_boss_arena(Rect2(4300, -220, 1200, 870), Vector2(0.82, 0.82))
+		else:
+			_player_camera.limit_left = 4300
+			_player_camera.limit_right = 5500
 
 	# Boss panelini animasyonla aç
 	if boss_panel:
