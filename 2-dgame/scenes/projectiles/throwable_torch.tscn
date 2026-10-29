@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://throwable_torch_01"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/throwable_projectile.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_torch"]
+radius = 8.0
+
+[node name="ThrowableTorch" type="Area2D"]
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("1_script")
+projectile_type = 1
+damage = 25
+lifetime = 4.0
+arc_gravity = 650.0
+initial_horizontal_speed = 340.0
+initial_vertical_speed = -220.0
+rotation_speed = 14.0
+creates_ground_hazard = true
+ground_hazard_duration = 2.5
+ground_hazard_dps = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_torch")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Handle" type="ColorRect" parent="Visual"]
+offset_left = -10.0
+offset_top = -2.0
+offset_right = 4.0
+offset_bottom = 2.0
+color = Color(0.42, 0.25, 0.12, 1)
+
+[node name="Head" type="ColorRect" parent="Visual"]
+offset_left = 4.0
+offset_top = -3.5
+offset_right = 9.0
+offset_bottom = 3.5
+color = Color(0.2, 0.2, 0.22, 1)
+
+[node name="Flame" type="ColorRect" parent="Visual"]
+offset_left = 7.0
+offset_top = -4.0
+offset_right = 13.0
+offset_bottom = 4.0
+color = Color(1, 0.65, 0.15, 1)
+
+[node name="TrailParticles" type="CPUParticles2D" parent="."]
+emitting = true
+amount = 16
+lifetime = 0.3
+spread = 60.0
+gravity = Vector2(0, -60)
+initial_velocity_min = 15.0
+initial_velocity_max = 35.0
+color = Color(1, 0.45, 0.1, 0.85)

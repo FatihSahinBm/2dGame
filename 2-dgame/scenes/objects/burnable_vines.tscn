@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://burnable_vines_01"]
+
+[ext_resource type="Script" path="res://scripts/objects/burnable_vines.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/objects/barricade_hurtbox.gd" id="2_hurtbox_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
+size = Vector2(32, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(40, 68)
+
+[node name="BurnableVines" type="StaticBody2D" groups=["barricades", "burnable", "damageable"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_box")
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["barricades", "burnable", "damageable"]]
+position = Vector2(0, -32)
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("2_hurtbox_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Vine1" type="ColorRect" parent="Visual"]
+offset_left = -14.0
+offset_top = -64.0
+offset_right = -6.0
+color = Color(0.18, 0.42, 0.16, 1)
+
+[node name="Vine2" type="ColorRect" parent="Visual"]
+offset_left = 6.0
+offset_top = -64.0
+offset_right = 14.0
+color = Color(0.14, 0.36, 0.12, 1)
+
+[node name="CrossVine1" type="ColorRect" parent="Visual"]
+offset_left = -16.0
+offset_top = -48.0
+offset_right = 16.0
+offset_bottom = -38.0
+color = Color(0.25, 0.48, 0.2, 1)
+
+[node name="CrossVine2" type="ColorRect" parent="Visual"]
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -14.0
+color = Color(0.22, 0.44, 0.18, 1)

@@ -402,6 +402,44 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_armor")
 
+[node name="KeyBadge" type="PanelContainer" parent="BottomLeft/DiamondContainer/SlotTop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -4.0
+offset_right = 7.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_key_badge")
+
+[node name="Label" type="Label" parent="BottomLeft/DiamondContainer/SlotTop/KeyBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 8
+text = "F"
+horizontal_alignment = 1
+
+[node name="CountBadge" type="Label" parent="BottomLeft/DiamondContainer/SlotTop"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -14.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = 11.0
+grow_horizontal = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "5"
+horizontal_alignment = 2
+
 [node name="SlotLeft" type="Control" parent="BottomLeft/DiamondContainer"]
 layout_mode = 1
 anchors_preset = 8

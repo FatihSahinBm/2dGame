@@ -19,6 +19,8 @@ signal potion_used(potion_type: String)
 @export var health_potions: int = 3
 @export var mana_potions: int = 2
 @export var has_weapon: bool = false
+@export var secondary_ammo: int = 5
+@export var active_secondary: String = "knife"
 
 # Düğüm Referansları
 @onready var health_bar: ProgressBar = $TopLeft/HBoxContainer/BarsVBox/HealthContainer/HealthBar
@@ -37,6 +39,10 @@ signal potion_used(potion_type: String)
 @onready var sword_glow: Control = $BottomLeft/DiamondContainer/SlotBottom/ActiveGlow
 @onready var potion_red_count: Label = $BottomLeft/DiamondContainer/SlotLeft/CountBadge
 @onready var potion_blue_count: Label = $BottomLeft/DiamondContainer/SlotRight/CountBadge
+@onready var secondary_slot: Control = get_node_or_null("BottomLeft/DiamondContainer/SlotTop") as Control
+@onready var secondary_icon: TextureRect = get_node_or_null("BottomLeft/DiamondContainer/SlotTop/Icon") as TextureRect
+@onready var secondary_count: Label = get_node_or_null("BottomLeft/DiamondContainer/SlotTop/CountBadge") as Label
+@onready var secondary_key: Label = get_node_or_null("BottomLeft/DiamondContainer/SlotTop/KeyBadge/Label") as Label
 
 @onready var tutorial_box: Control = get_node_or_null("BottomRight/TutorialBox") as Control
 @onready var tutorial_title: Label = $BottomRight/TutorialBox/HBox/VBox/TitleLabel
@@ -81,6 +87,7 @@ func update_all() -> void:
 	update_keys(keys)
 	update_weapon_slot(has_weapon)
 	update_potion_counts()
+	update_secondary_slot(active_secondary, secondary_ammo)
 
 ## Can Değerini Güncelle
 func update_health(new_health: int, new_max: int = -1, animate: bool = true) -> void:
@@ -158,6 +165,46 @@ func update_potion_counts() -> void:
 		potion_red_count.text = str(health_potions)
 	if potion_blue_count:
 		potion_blue_count.text = str(mana_potions)
+
+## İkincil Fırlatılabilir Eşya Slotunu Güncelle (Story 2D-130)
+func update_secondary_slot(item_type: String = "knife", count: int = -1) -> void:
+	if count >= 0:
+		secondary_ammo = count
+	active_secondary = item_type
+
+	if secondary_count:
+		secondary_count.text = str(secondary_ammo)
+		secondary_count.modulate = Color(1.0, 0.95, 0.7, 1.0) if secondary_ammo > 0 else Color(1.0, 0.35, 0.35, 1.0)
+
+	if secondary_icon:
+		match item_type:
+			"knife":
+				secondary_icon.modulate = Color(0.9, 0.95, 1.0, 1.0)
+			"torch":
+				secondary_icon.modulate = Color(1.0, 0.65, 0.2, 1.0)
+			"holy_water":
+				secondary_icon.modulate = Color(0.35, 0.85, 1.0, 1.0)
+			_:
+				secondary_icon.modulate = Color.WHITE
+
+		if secondary_ammo <= 0:
+			secondary_icon.modulate.a = 0.4
+		else:
+			secondary_icon.modulate.a = 1.0
+
+## Mühimmat Yokken Slot Titremesi ve Kırmızı Flaş (Story 2D-130)
+func flash_secondary_empty() -> void:
+	if not secondary_slot:
+		return
+
+	var orig_pos = secondary_slot.position
+	var tw = create_tween()
+	tw.tween_property(secondary_slot, "position:x", orig_pos.x - 5.0, 0.04)
+	tw.tween_property(secondary_slot, "position:x", orig_pos.x + 5.0, 0.04)
+	tw.tween_property(secondary_slot, "position:x", orig_pos.x - 3.0, 0.04)
+	tw.tween_property(secondary_slot, "position:x", orig_pos.x, 0.04)
+	tw.parallel().tween_property(secondary_slot, "modulate", Color(2.0, 0.4, 0.4, 1.0), 0.08)
+	tw.tween_property(secondary_slot, "modulate", Color.WHITE, 0.16)
 
 ## İpucu / Görev Kutusunu Güncelle (4 saniye sonra otomatik kaybolur)
 func set_tutorial(title: String, key_badge: String, desc: String) -> void:

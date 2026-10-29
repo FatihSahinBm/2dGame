@@ -20,11 +20,19 @@ var _is_destroyed: bool = false
 func _ready() -> void:
 	add_to_group("damageable")
 	add_to_group("barricades")
+	add_to_group("burnable")
 	add_to_group("enemies")
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = current_health
 		health_bar.visible = false
+
+
+func ignite(amount: int = 30) -> void:
+	if _is_destroyed:
+		return
+	_spawn_fire_particles()
+	take_damage(amount)
 
 
 func take_damage(amount: int, _attacker: Node2D = null) -> void:
@@ -126,3 +134,24 @@ func _spawn_splinters(is_explosion: bool) -> void:
 	particles.global_position = global_position
 	parent_scene.add_child(particles)
 	particles.finished.connect(particles.queue_free)
+
+
+func _spawn_fire_particles() -> void:
+	var parent_scene: Node = get_parent()
+	if not parent_scene:
+		return
+
+	var fire: CPUParticles2D = CPUParticles2D.new()
+	fire.emitting = true
+	fire.one_shot = true
+	fire.amount = 16
+	fire.lifetime = 0.5
+	fire.explosiveness = 0.8
+	fire.spread = 180.0
+	fire.gravity = Vector2(0, -180)
+	fire.initial_velocity_min = 40.0
+	fire.initial_velocity_max = 90.0
+	fire.color = Color(1.0, 0.5, 0.1, 1.0)
+	fire.global_position = global_position + Vector2(0, -30.0)
+	parent_scene.add_child(fire)
+	fire.finished.connect(fire.queue_free)

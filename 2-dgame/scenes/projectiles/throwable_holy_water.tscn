@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://throwable_holy_water_01"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/throwable_projectile.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_flask"]
+radius = 8.0
+
+[node name="ThrowableHolyWater" type="Area2D"]
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("1_script")
+projectile_type = 2
+damage = 45
+lifetime = 4.0
+arc_gravity = 700.0
+initial_horizontal_speed = 300.0
+initial_vertical_speed = -240.0
+rotation_speed = 10.0
+creates_ground_hazard = true
+ground_hazard_duration = 3.0
+ground_hazard_dps = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_flask")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="FlaskBody" type="ColorRect" parent="Visual"]
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+color = Color(0.3, 0.75, 1, 0.8)
+
+[node name="FlaskNeck" type="ColorRect" parent="Visual"]
+offset_left = -3.0
+offset_top = -9.0
+offset_right = 3.0
+offset_bottom = -6.0
+color = Color(0.85, 0.9, 0.95, 0.85)
+
+[node name="Stopper" type="ColorRect" parent="Visual"]
+offset_left = -3.5
+offset_top = -11.0
+offset_right = 3.5
+offset_bottom = -9.0
+color = Color(0.9, 0.75, 0.2, 1)
+
+[node name="TrailParticles" type="CPUParticles2D" parent="."]
+emitting = true
+amount = 14
+lifetime = 0.35
+spread = 180.0
+gravity = Vector2(0, 30)
+initial_velocity_min = 10.0
+initial_velocity_max = 25.0
+color = Color(0.4, 0.9, 1, 0.8)

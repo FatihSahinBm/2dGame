@@ -251,9 +251,11 @@ func _gather_live_stats() -> Dictionary:
 	var health_pots: int = 3
 	var mana_pots: int = 2
 	var has_weapon: bool = true
+	var sec_inventory: Dictionary = {"knife": 5, "torch": 3, "holy_water": 2}
+	var sec_active: String = "knife"
 
-	if tree and tree.current_scene:
-		var cur = tree.current_scene
+	if tree:
+		var cur = tree.current_scene if tree.current_scene else tree.root
 		var player = cur.find_child("Player", true, false)
 		if not player:
 			player = cur.find_child("CombatPlayer", true, false)
@@ -264,6 +266,10 @@ func _gather_live_stats() -> Dictionary:
 				max_health = player.max_health
 			if "has_sword" in player:
 				has_weapon = player.has_sword
+			if "secondary_inventory" in player and player.secondary_inventory is Dictionary:
+				sec_inventory = player.secondary_inventory.duplicate(true)
+			if "active_secondary_type" in player:
+				sec_active = player.active_secondary_type
 			if player is Node2D and not ("is_dead" in player and player.is_dead):
 				if cached_checkpoint_position == Vector2.ZERO:
 					cached_checkpoint_position = player.global_position
@@ -298,7 +304,9 @@ func _gather_live_stats() -> Dictionary:
 		"keys": keys,
 		"health_potions": health_pots,
 		"mana_potions": mana_pots,
-		"has_weapon": has_weapon
+		"has_weapon": has_weapon,
+		"secondary_inventory": sec_inventory,
+		"active_secondary_type": sec_active
 	}
 
 
@@ -372,7 +380,9 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 			"coins": live_stats["coins"],
 			"keys": live_stats["keys"],
 			"health_potions": live_stats["health_potions"],
-			"mana_potions": live_stats["mana_potions"]
+			"mana_potions": live_stats["mana_potions"],
+			"secondary_inventory": live_stats["secondary_inventory"],
+			"active_secondary_type": live_stats["active_secondary_type"]
 		},
 		"abilities": abilities,
 		"corruption_data": {
@@ -664,6 +674,12 @@ func apply_cached_stats_to_scene(target_node: Node = null) -> void:
 			player.max_health = int(cached_player_stats["max_health"])
 		if cached_player_stats.has("has_weapon") and "has_sword" in player:
 			player.has_sword = bool(cached_player_stats["has_weapon"])
+		if cached_inventory.has("secondary_inventory") and "secondary_inventory" in player:
+			player.secondary_inventory = cached_inventory["secondary_inventory"].duplicate(true)
+		if cached_inventory.has("active_secondary_type") and "active_secondary_type" in player:
+			player.active_secondary_type = str(cached_inventory["active_secondary_type"])
+		if player.has_method("_sync_hud_secondary"):
+			player._sync_hud_secondary()
 		if cached_checkpoint_position != Vector2.ZERO:
 			player.global_position = cached_checkpoint_position
 			var cam = player.get_node_or_null("Camera2D")

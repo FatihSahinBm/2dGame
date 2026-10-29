@@ -1056,6 +1056,63 @@ func _register_builtin_procedural_sounds() -> void:
 			var s := (click + stone) * env
 			pb.push_frame(Vector2(s, s))
 
+	# Story 2D-130: Fırlatılabilir İkincil Eşyalar Sesleri
+
+	# Eşya Fırlatma Rüzgârı (Throw Item)
+	_sound_registry["throw_item"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.18), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * t / 0.18)
+			var whoosh := (randf() * 2.0 - 1.0) * 0.32
+			var swoosh := sin(t * (340.0 - 150.0 * t) * TAU) * 0.2
+			var s := (whoosh + swoosh) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Fırlatma Bıçağı İsabet / Saplanma Sesi (Knife Hit)
+	_sound_registry["knife_hit"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.16), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-28.0 * t)
+			var clang := sin(t * (880.0 - 250.0 * t) * TAU) * 0.45
+			var scrape := (randf() * 2.0 - 1.0) * 0.2
+			var s := (clang + scrape) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Meşale Alev Patlaması / Yanma Sesi (Torch Burn)
+	_sound_registry["torch_burn"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.32), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-8.0 * t)
+			var crackle := (1.0 if randf() < 0.05 else 0.0) * (randf() * 2.0 - 1.0) * 0.4
+			var hiss := (randf() * 2.0 - 1.0) * 0.25
+			var rumble := sin(t * 110.0 * TAU) * 0.2
+			var s := (crackle + hiss + rumble) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Kutsal Su Kırılma ve Işıltı Sesi (Holy Water Shatter)
+	_sound_registry["holy_water_shatter"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.35), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var glass_env := exp(-45.0 * t)
+			var glass := (randf() * 2.0 - 1.0) * 0.35 * glass_env
+			var chime_env := exp(-6.0 * t)
+			var chime := (sin(t * 1250.0 * TAU) * 0.25 + sin(t * 1760.0 * TAU) * 0.18) * chime_env
+			var s := glass + chime
+			pb.push_frame(Vector2(s, s))
+
+	# Mühimmat Bitti / Boş Tetik Sesi (Empty Ammo)
+	_sound_registry["empty_ammo"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.08), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-40.0 * t)
+			var click := sin(t * 1200.0 * TAU) * 0.35 * env
+			pb.push_frame(Vector2(click, click))
+
 	# 2D Konumsal Şelale Sesi (Waterfall)
 	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())

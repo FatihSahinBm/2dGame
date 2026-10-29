@@ -23,6 +23,11 @@ signal shield_state_changed(is_holding: bool)
 signal attack_blocked(reduced_damage: int, original_damage: int)
 signal parry_performed()
 
+# Story 2D-130: Fırlatılabilir İkincil Eşya Sinyalleri
+signal secondary_item_changed(type: String, count: int)
+signal secondary_ammo_empty(type: String)
+signal secondary_thrown(type: String, count_remaining: int)
+
 # --- Ayarlar & Değişkenler ---
 @export_group("Stats & Movement")
 @export var can_move: bool = true
@@ -60,6 +65,20 @@ var _wall_jump_push_timer: float = 0.0
 
 # Yere kılıç fırlatma sahnesi
 const SWORD_PICKUP_SCENE = preload("res://scenes/items/sword_pickup.tscn")
+
+# Story 2D-130: İkincil Fırlatılabilir Eşyalar
+@export_group("Secondary Throwables")
+@export var secondary_inventory: Dictionary = {
+	"knife": 5,
+	"torch": 3,
+	"holy_water": 2
+}
+@export var active_secondary_type: String = "knife"
+var secondary_types: Array[String] = ["knife", "torch", "holy_water"]
+
+const KNIFE_PROJECTILE_SCENE = preload("res://scenes/projectiles/throwable_knife.tscn")
+const TORCH_PROJECTILE_SCENE = preload("res://scenes/projectiles/throwable_torch.tscn")
+const HOLY_WATER_PROJECTILE_SCENE = preload("res://scenes/projectiles/throwable_holy_water.tscn")
 
 # Durum Değişkenleri
 var facing_dir: float = 1.0 # 1.0 = sağ, -1.0 = sol
@@ -160,6 +179,9 @@ func _ready() -> void:
 		global_position = save_mgr.cached_checkpoint_position
 		if camera and camera.has_method("reset_smoothing"):
 			camera.reset_smoothing()
+
+	# İkincil eşya HUD senkronizasyonu
+	_sync_hud_secondary()
 
 
 func _setup_rebellion_manager() -> void:
@@ -302,6 +324,18 @@ func _ensure_input_actions() -> void:
 		var ev_kp3 = InputEventKey.new()
 		ev_kp3.physical_keycode = KEY_KP_3
 		InputMap.action_add_event("toggle_shield", ev_kp3)
+
+	if not InputMap.has_action("throw_secondary"):
+		InputMap.add_action("throw_secondary")
+		var ev_f = InputEventKey.new()
+		ev_f.physical_keycode = KEY_F
+		InputMap.action_add_event("throw_secondary", ev_f)
+
+	if not InputMap.has_action("cycle_secondary"):
+		InputMap.add_action("cycle_secondary")
+		var ev_q = InputEventKey.new()
+		ev_q.physical_keycode = KEY_Q
+		InputMap.action_add_event("cycle_secondary", ev_q)
 
 func _emit_weapon_state() -> void:
 	weapon_state_changed.emit(has_sword, is_armed)
@@ -639,6 +673,28 @@ func _unhandled_input(event: InputEvent) -> void:
 		drop_sword()
 		return
 
+	# [F] Tuşu: İkincil Fırlatılabilir Eşyayı At (Story 2D-130)
+	if event.is_action_pressed("throw_secondary") or (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_F or event.physical_keycode == KEY_F)):
+		throw_secondary()
+		return
+
+	# [Q] Tuşu: İkincil Eşya Değiştir (Story 2D-130)
+	if event.is_action_pressed("cycle_secondary") or (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_Q or event.physical_keycode == KEY_Q)):
+		cycle_secondary(1)
+		return
+
+	# Doğrudan İkincil Eşya Seçimi: [5] Bıçak, [6] Meşale, [7] Kutsal Su
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_5 or event.physical_keycode == KEY_5:
+			select_secondary("knife")
+			return
+		elif event.keycode == KEY_6 or event.physical_keycode == KEY_6:
+			select_secondary("torch")
+			return
+		elif event.keycode == KEY_7 or event.physical_keycode == KEY_7:
+			select_secondary("holy_water")
+			return
+
 	# Saldırı Girdileri (Kılıç varsa ve savunmada/isyanda DEĞİLKEN)
 	if has_sword and not is_attacking and not is_rolling and not is_dashing and not is_sliding and not is_defending and not is_rebelling:
 		# Sol Tık / J: Hafif Saldırı / Kombo / Eğilerek Saldırı
@@ -716,6 +772,136 @@ func toggle_shield_in_hand() -> void:
 			tw.tween_property(label, "global_position:y", label.global_position.y - 25.0, 0.5)
 			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.5)
 			tw.tween_callback(label.queue_free)
+
+## [F] Tuşu ile İkincil Fırlatılabilir Eşyayı Atar (Story 2D-130)
+func throw_secondary() -> bool:
+	if is_dead or is_hurt or is_sliding or is_rolling or is_dashing or not can_move:
+		return false
+
+	var current_ammo: int = secondary_inventory.get(active_secondary_type, 0)
+	if current_ammo <= 0:
+		secondary_ammo_empty.emit(active_secondary_type)
+
+		var audio_mgr = get_node_or_null("/root/AudioManager")
+		if audio_mgr and audio_mgr.has_method("play_sfx"):
+			audio_mgr.play_sfx("empty_ammo", 0.0)
+
+		var hud = _find_hud()
+		if hud and hud.has_method("flash_secondary_empty"):
+			hud.flash_secondary_empty()
+
+		var item_name_tr = _get_secondary_display_name(active_secondary_type)
+		_spawn_floating_text("⚠️ %s Tükendi! (0)" % item_name_tr, Color(1.0, 0.35, 0.35, 1.0))
+		return false
+
+	# Mühimmat azalt
+	secondary_inventory[active_secondary_type] = current_ammo - 1
+	var remaining_ammo = secondary_inventory[active_secondary_type]
+
+	# Mermiyi sahneye fırlat
+	var proj_scene: PackedScene = null
+	match active_secondary_type:
+		"knife":
+			proj_scene = KNIFE_PROJECTILE_SCENE
+		"torch":
+			proj_scene = TORCH_PROJECTILE_SCENE
+		"holy_water":
+			proj_scene = HOLY_WATER_PROJECTILE_SCENE
+		_:
+			proj_scene = KNIFE_PROJECTILE_SCENE
+
+	if proj_scene:
+		var proj = proj_scene.instantiate()
+		var spawn_pos = global_position + Vector2(facing_dir * 18.0, -18.0)
+		var spawn_parent: Node = get_parent() if get_parent() else self
+		spawn_parent.add_child(proj)
+		if proj.has_method("launch"):
+			proj.launch(spawn_pos, facing_dir, Vector2.ZERO, self)
+
+	# Sinyaller ve HUD senkronizasyonu
+	secondary_thrown.emit(active_secondary_type, remaining_ammo)
+	secondary_item_changed.emit(active_secondary_type, remaining_ammo)
+	_sync_hud_secondary()
+
+	return true
+
+## [Q] Tuşu ile İkincil Eşya Tipini Değiştirir (Story 2D-130)
+func cycle_secondary(direction: int = 1) -> void:
+	if secondary_types.is_empty():
+		return
+
+	var current_idx = secondary_types.find(active_secondary_type)
+	if current_idx == -1:
+		current_idx = 0
+
+	var next_idx = (current_idx + direction) % secondary_types.size()
+	if next_idx < 0:
+		next_idx += secondary_types.size()
+
+	active_secondary_type = secondary_types[next_idx]
+	var count = secondary_inventory.get(active_secondary_type, 0)
+	secondary_item_changed.emit(active_secondary_type, count)
+	_sync_hud_secondary()
+
+	var item_name_tr = _get_secondary_display_name(active_secondary_type)
+	_spawn_floating_text("🎒 %s (%d)" % [item_name_tr, count], Color(0.9, 0.95, 1.0, 1.0))
+
+func select_secondary(type: String) -> void:
+	if type in secondary_types and active_secondary_type != type:
+		active_secondary_type = type
+		var count = secondary_inventory.get(active_secondary_type, 0)
+		secondary_item_changed.emit(active_secondary_type, count)
+		_sync_hud_secondary()
+		var item_name_tr = _get_secondary_display_name(active_secondary_type)
+		_spawn_floating_text("🎒 %s (%d)" % [item_name_tr, count], Color(0.9, 0.95, 1.0, 1.0))
+
+func add_secondary_ammo(item_type: String, count: int) -> void:
+	secondary_inventory[item_type] = secondary_inventory.get(item_type, 0) + count
+	if item_type == active_secondary_type:
+		secondary_item_changed.emit(active_secondary_type, secondary_inventory[item_type])
+		_sync_hud_secondary()
+
+func get_secondary_ammo(item_type: String) -> int:
+	return secondary_inventory.get(item_type, 0)
+
+func _get_secondary_display_name(type: String) -> String:
+	match type:
+		"knife":
+			return "Fırlatma Bıçağı"
+		"torch":
+			return "Meşale / Ateş Bombası"
+		"holy_water":
+			return "Kutsal Su"
+		_:
+			return type.capitalize()
+
+func _sync_hud_secondary() -> void:
+	var hud = _find_hud()
+	if hud and hud.has_method("update_secondary_slot"):
+		hud.update_secondary_slot(active_secondary_type, secondary_inventory.get(active_secondary_type, 0))
+
+func _find_hud() -> Node:
+	if not is_inside_tree() or not get_tree() or not get_tree().current_scene:
+		return null
+	return get_tree().current_scene.find_child("FantasyHUD", true, false)
+
+func _spawn_floating_text(text: String, font_color: Color = Color.WHITE) -> void:
+	var parent_scene: Node = get_parent()
+	if not parent_scene:
+		return
+	var label := Label.new()
+	label.text = text
+	label.add_theme_color_override("font_color", font_color)
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.1, 1.0))
+	label.add_theme_constant_override("outline_size", 4)
+	label.add_theme_font_size_override("font_size", 12)
+	label.global_position = global_position + Vector2(-50.0, -48.0)
+	parent_scene.add_child(label)
+	var tw: Tween = label.create_tween()
+	if tw:
+		tw.tween_property(label, "global_position:y", label.global_position.y - 25.0, 0.5)
+		tw.parallel().tween_property(label, "modulate:a", 0.0, 0.5)
+		tw.tween_callback(label.queue_free)
 
 ## Hafif Saldırı (Vuruş 1)
 func perform_light_attack() -> void:
