@@ -777,20 +777,26 @@ func _load_audio_assets_from_disk() -> void:
 		"rest_heal", "spike_trap", "guillotine_swing", "page_turn", "codex_open",
 		"codex_close", "quest_complete", "inventory_open", "inventory_close"
 	]
-	for k in sfx_keys:
-		var p: String = "res://assets/audio/sfx/" + k + ".wav"
-		if ResourceLoader.exists(p):
-			var res = load(p)
-			if res is AudioStream:
-				_sound_registry[k] = res
+	var extensions: Array[String] = [".wav", ".mp3", ".ogg"]
 
-	var music_keys: Array[String] = ["camp_ambience", "vlad_theme"]
+	for k in sfx_keys:
+		for ext in extensions:
+			var p: String = "res://assets/audio/sfx/" + k + ext
+			if ResourceLoader.exists(p):
+				var res = load(p)
+				if res is AudioStream:
+					_sound_registry[k] = res
+					break
+
+	var music_keys: Array[String] = ["camp_ambience", "vlad_theme", "combat_theme", "menu_theme"]
 	for m in music_keys:
-		var p: String = "res://assets/audio/music/" + m + ".wav"
-		if ResourceLoader.exists(p):
-			var res = load(p)
-			if res is AudioStream:
-				_sound_registry[m] = res
+		for ext in extensions:
+			var p: String = "res://assets/audio/music/" + m + ext
+			if ResourceLoader.exists(p):
+				var res = load(p)
+				if res is AudioStream:
+					_sound_registry[m] = res
+					break
 
 
 func _resolve_stream(sound: Variant) -> AudioStream:
@@ -813,13 +819,17 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 				gen.buffer_length = 2.5 if sound == "bell_toll" else 1.0
 				return gen
 
-		var check_paths := [
-			"res://assets/audio/sfx/" + sound + ".wav",
-			"res://assets/audio/music/" + sound + ".wav"
-		]
-		for cp in check_paths:
-			if ResourceLoader.exists(cp):
-				var res = load(cp)
+		var extensions: Array[String] = [".wav", ".mp3", ".ogg"]
+		for ext in extensions:
+			var sfx_path: String = "res://assets/audio/sfx/" + str(sound) + ext
+			if ResourceLoader.exists(sfx_path):
+				var res = load(sfx_path)
+				if res is AudioStream:
+					_sound_registry[sound] = res
+					return res
+			var music_path: String = "res://assets/audio/music/" + str(sound) + ext
+			if ResourceLoader.exists(music_path):
+				var res = load(music_path)
 				if res is AudioStream:
 					_sound_registry[sound] = res
 					return res
