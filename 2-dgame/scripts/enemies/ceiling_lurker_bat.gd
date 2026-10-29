@@ -104,6 +104,10 @@ func take_damage(amount: int, attacker: Node2D = null) -> void:
 		health_bar.visible = true
 		health_bar.value = current_health
 
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_encounter"):
+		codex_mgr.record_encounter("ceiling_lurker_bat")
+
 	var tw: Tween = create_tween()
 	tw.tween_property(visual, "modulate", Color.RED, 0.06)
 	tw.tween_property(visual, "modulate", Color.WHITE, 0.1)
@@ -118,6 +122,10 @@ func take_damage(amount: int, attacker: Node2D = null) -> void:
 func _die() -> void:
 	_is_dead = true
 	velocity = Vector2.ZERO
+
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_kill"):
+		codex_mgr.record_kill("ceiling_lurker_bat")
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
 		anim_sprite.play("death")
 	queue_free()

@@ -56,6 +56,9 @@ signal potion_used(potion_type: String)
 # Story 2D-123: Envanter ve Kalp Parçaları Referansı
 @onready var inventory_dialog: Control = get_node_or_null("InventoryDialog") as Control
 
+# Story 2D-122: Düşman Kodeksi ve Bilgi Arşivi Referansı
+@onready var codex_dialog: Control = get_node_or_null("CodexDialog") as Control
+
 @onready var tutorial_box: Control = get_node_or_null("BottomRight/TutorialBox") as Control
 @onready var tutorial_title: Label = $BottomRight/TutorialBox/HBox/VBox/TitleLabel
 @onready var tutorial_key: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/KeyBadge/Label
@@ -302,6 +305,13 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				return
 
+		# Kodeks açıksa öncelikle onu kapat
+		if codex_dialog and codex_dialog.visible:
+			if is_escape:
+				codex_dialog.close()
+				get_viewport().set_input_as_handled()
+				return
+
 		if is_escape or is_p:
 			toggle_pause()
 			get_viewport().set_input_as_handled()
@@ -326,6 +336,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_I or event.physical_keycode == KEY_I \
 				or event.keycode == KEY_B or event.physical_keycode == KEY_B:
 			toggle_inventory()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_K or event.physical_keycode == KEY_K \
+				or event.keycode == KEY_O or event.physical_keycode == KEY_O:
+			toggle_codex()
 			get_viewport().set_input_as_handled()
 	elif event is InputEventJoypadButton and event.pressed and not event.echo:
 		if event.button_index == JOY_BUTTON_BACK:
@@ -556,5 +570,31 @@ func toggle_inventory() -> void:
 
 func _on_inventory_item_used(_item_id: String) -> void:
 	update_all()
+
+
+# ==============================================================================
+# STORY 2D-122: DÜŞMAN KODEKSİ VE DÜNYA BİLGİSİ ENTEGRASYONU
+# ==============================================================================
+
+func _setup_codex_system() -> void:
+	if not codex_dialog:
+		codex_dialog = find_child("CodexDialog", true, false) as Control
+	if not codex_dialog:
+		var cd_res = load("res://scenes/ui/codex_dialog.tscn")
+		if cd_res:
+			codex_dialog = cd_res.instantiate() as Control
+			codex_dialog.name = "CodexDialog"
+			add_child(codex_dialog)
+
+
+## Düşman kodeksi ve dünya bilgisi arşivini açar veya kapatır
+func toggle_codex() -> void:
+	_setup_codex_system()
+	if codex_dialog:
+		if codex_dialog.visible:
+			codex_dialog.close()
+		else:
+			codex_dialog.open()
+
 
 

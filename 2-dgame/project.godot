@@ -25,6 +25,7 @@ WeatherManager="*res://scripts/autoloads/weather_manager.gd"
 GameState="*res://scripts/autoloads/game_state.gd"
 StoryDataLoader="*res://scripts/autoloads/story_data_loader.gd"
 QuestManager="*res://scripts/autoloads/quest_manager.gd"
+CodexManager="*res://scripts/autoloads/codex_manager.gd"
 SaveManager="*res://scripts/autoloads/save_manager.gd"
 SceneTransition="*res://scenes/ui/scene_transition.tscn"
 

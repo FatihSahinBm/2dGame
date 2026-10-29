@@ -1,0 +1,317 @@
+[gd_scene load_steps=5 format=3 uid="uid://codex_dialog_01"]
+
+[ext_resource type="Script" path="res://scripts/ui/codex_dialog.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.08, 0.09, 0.13, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.58, 0.22, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 14
+shadow_color = Color(0, 0, 0, 0.65)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pane"]
+bg_color = Color(0.05, 0.06, 0.09, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.32, 0.4, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+bg_color = Color(0.14, 0.16, 0.24, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="CodexDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.04, 0.06, 0.75)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -230.0
+offset_right = 360.0
+offset_bottom = 230.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 14.0
+offset_right = -18.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderBar" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="MainTitle" type="Label" parent="Panel/VBox/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.86, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 15
+text = "📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ"
+
+[node name="KeyHint" type="Label" parent="Panel/VBox/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.75, 0.8)
+theme_override_font_sizes/font_size = 10
+text = "[K / O] Kapat  |  [TAB] Kategori  |  [ESC] Çıkış"
+
+[node name="TabsContainer" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnEnemies" type="Button" parent="Panel/VBox/TabsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "⚔️ Düşmanlar"
+
+[node name="BtnBosses" type="Button" parent="Panel/VBox/TabsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "👑 Elebaşılar"
+
+[node name="BtnCharacters" type="Button" parent="Panel/VBox/TabsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "👥 Karakterler"
+
+[node name="BtnLore" type="Button" parent="Panel/VBox/TabsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "📜 Dünya Bilgisi"
+
+[node name="MainSplit" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="LeftPane" type="PanelContainer" parent="Panel/VBox/MainSplit"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pane")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/LeftPane"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ProgressBox" type="HBoxContainer" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="Panel/VBox/MainSplit/LeftPane/VBox/ProgressBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.88, 1)
+theme_override_font_sizes/font_size = 10
+text = "Keşif: 1 / 7 (%14)"
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+max_value = 100.0
+step = 1.0
+value = 14.0
+show_percentage = false
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EntryList" type="VBoxContainer" parent="Panel/VBox/MainSplit/LeftPane/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="RightPane" type="PanelContainer" parent="Panel/VBox/MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_pane")
+
+[node name="ContentVBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/RightPane"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderBox" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+
+[node name="TitleBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/HeaderBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/HeaderBox/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Eflak Muhafız Piyadesi"
+
+[node name="SubtitleLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/HeaderBox/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.82, 0.85)
+theme_override_font_sizes/font_size = 10
+text = "Kaledeki Devriye Askerleri"
+
+[node name="BadgesBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/HeaderBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 3
+
+[node name="CategoryBadge" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/HeaderBox/BadgesBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_badge")
+text = " ⚔️ DÜŞMAN "
+horizontal_alignment = 1
+
+[node name="EraBadge" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/HeaderBox/BadgesBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.5, 1)
+theme_override_font_sizes/font_size = 8
+text = "Eflak — 1462"
+horizontal_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+
+[node name="VisualAndStats" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IconContainer" type="PanelContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pane")
+
+[node name="IconTexture" type="TextureRect" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats/IconContainer"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatsVBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="StatsSummaryLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats/StatsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 10
+text = "Tehlike: ⭐ | Can: 100 | Hasar: Fiziksel"
+
+[node name="KillCountLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats/StatsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.82, 0.9, 0.85)
+theme_override_font_sizes/font_size = 10
+text = "Yenilme Sayısı: 0"
+
+[node name="StatusLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats/StatsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 9
+text = "✓ Kayıt Açıldı"
+
+[node name="DescScroll" type="ScrollContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/DescScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.88, 0.9, 0.94, 0.92)
+theme_override_font_sizes/font_size = 11
+text = "Düşman veya kayıt hakkında ayrıntılı açıklama metni."
+autowrap_mode = 3
+
+[node name="TacticsBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TacticsTitle" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/TacticsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 10
+text = "🛡️ Savaş Taktikleri:"
+
+[node name="TacticsLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/TacticsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 0.88)
+theme_override_font_sizes/font_size = 10
+text = "Saldırı savurduktan sonra arkalarına yuvarlanarak (Roll) kombo vuruşu yapın."
+autowrap_mode = 3
+
+[node name="WeaknessBox" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+
+[node name="WeaknessTitle" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/WeaknessBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 10
+text = "⚡ Zayıflık:"
+
+[node name="WeaknessLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/WeaknessBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.8, 0.75, 0.95)
+theme_override_font_sizes/font_size = 10
+text = "Arkadan darbeler ve Fırlatma Bıçağı"
+
+[node name="Footer" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="BtnClose" type="Button" parent="Panel/VBox/Footer"]
+custom_minimum_size = Vector2(85, 26)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Kapat"

@@ -396,6 +396,10 @@ func _die() -> void:
 
 	enemy_died.emit(self)
 
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_kill"):
+		codex_mgr.record_kill("necromancer")
+
 	# Saldırı ve oyuncu gövde çarpışmasını kapat (oyuncu cesedin içinden geçebilir),
 	# ANCAK Zemin (Layer 1 Maskesi) açık kalmalı ki ceset yerin altına düşmesin!
 	set_collision_layer_value(1, false)

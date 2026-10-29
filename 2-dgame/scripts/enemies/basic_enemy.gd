@@ -10,6 +10,7 @@ signal died()
 @export_group("Stats")
 @export var max_health: int = 100
 @export var current_health: int = 100
+@export var codex_id: String = "basic_enemy"
 
 @export_group("Movement & Patrol")
 @export var speed: float = 75.0
@@ -118,6 +119,10 @@ func take_damage(amount: int) -> void:
 	damaged.emit(actual_damage, current_health)
 	health_changed.emit(current_health, max_health)
 
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_encounter") and not codex_id.is_empty():
+		codex_mgr.record_encounter(codex_id)
+
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 	if audio_mgr and audio_mgr.has_method("on_combat_started"):
 		audio_mgr.on_combat_started(self)
@@ -210,6 +215,10 @@ func _die() -> void:
 
 	died.emit()
 	enemy_died.emit(self)
+
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_kill") and not codex_id.is_empty():
+		codex_mgr.record_kill(codex_id)
 
 	# Çarpışmayı devre dışı bırak
 	set_collision_layer_value(1, false)

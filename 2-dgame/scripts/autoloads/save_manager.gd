@@ -362,6 +362,11 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 	if quest_mgr and quest_mgr.has_method("export_save_data"):
 		quests_data = quest_mgr.export_save_data()
 
+	var codex_data: Dictionary = {}
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("export_save_data"):
+		codex_data = codex_mgr.export_save_data()
+
 	var save_data: Dictionary = {
 		"schema_version": CURRENT_SCHEMA_VERSION,
 		"version": CURRENT_SCHEMA_VERSION,
@@ -403,8 +408,10 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 			"has_commander_orders": cmd_orders,
 			"fatih_audience_completed": fatih_done,
 			"persistent_events": persistent_events,
-			"quests_data": quests_data
+			"quests_data": quests_data,
+			"codex_data": codex_data
 		},
+		"codex_data": codex_data,
 		# Geriye dönük uyumluluk alanları (v1 flat fields):
 		"current_stage_path": stage_path,
 		"corruption_score": corruption,
@@ -635,6 +642,10 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 				var quest_mgr = get_node_or_null("/root/QuestManager")
 				if quest_mgr and quest_mgr.has_method("import_save_data"):
 					quest_mgr.import_save_data(qs["quests_data"])
+			if qs.has("codex_data") and qs["codex_data"] is Dictionary:
+				var codex_mgr = get_node_or_null("/root/CodexManager")
+				if codex_mgr and codex_mgr.has_method("import_save_data"):
+					codex_mgr.import_save_data(qs["codex_data"])
 		else:
 			if final_data.has("completed_chapters") and final_data["completed_chapters"] is Array:
 				game_state.completed_chapters.clear()
@@ -648,6 +659,12 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 				game_state.has_commander_orders = bool(final_data["has_commander_orders"])
 			if final_data.has("fatih_audience_completed"):
 				game_state.fatih_audience_completed = bool(final_data["fatih_audience_completed"])
+
+	# Doğrudan kök dizinden de codex_data kontrolü (geriye dönük ve esnek)
+	if final_data.has("codex_data") and final_data["codex_data"] is Dictionary:
+		var codex_mgr = get_node_or_null("/root/CodexManager")
+		if codex_mgr and codex_mgr.has_method("import_save_data"):
+			codex_mgr.import_save_data(final_data["codex_data"])
 
 	# İstatistik ve envanter önbelleğe alınır
 	if final_data.has("player_stats") and final_data["player_stats"] is Dictionary:

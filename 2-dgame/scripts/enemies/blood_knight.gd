@@ -161,6 +161,10 @@ func take_damage(amount: int, attacker: Node2D = null) -> void:
 	current_health -= amount
 	health_changed.emit(current_health, max_health)
 
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_encounter"):
+		codex_mgr.record_encounter("blood_knight")
+
 	if health_bar:
 		health_bar.value = current_health
 
@@ -204,6 +208,10 @@ func _die() -> void:
 	is_dead = true
 	died.emit()
 	enemy_died.emit(self)
+
+	var codex_mgr = get_node_or_null("/root/CodexManager")
+	if codex_mgr and codex_mgr.has_method("record_kill"):
+		codex_mgr.record_kill("blood_knight")
 
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("death"):
 		anim_sprite.play("death")

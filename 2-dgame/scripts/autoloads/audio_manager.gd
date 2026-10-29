@@ -1204,6 +1204,41 @@ func _register_builtin_procedural_sounds() -> void:
 			var s := metallic + snap
 			pb.push_frame(Vector2(s, s))
 
+	# Story 2D-122: Düşman Kodeksi ve Bilgi Arşivi Sesleri
+
+	# Kodeks Kitabı Açılış Sesi (Codex Open)
+	_sound_registry["codex_open"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * t / 0.22)
+			var parchment := (randf() * 2.0 - 1.0) * 0.26 * env
+			var bass_thud := sin(t * 130.0 * TAU) * 0.22 * exp(-14.0 * t)
+			var s := parchment + bass_thud
+			pb.push_frame(Vector2(s, s))
+
+	# Kodeks Kitabı Kapanış Sesi (Codex Close)
+	_sound_registry["codex_close"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.16), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-18.0 * t)
+			var book_slam := sin(t * 140.0 * TAU) * 0.35 * env
+			var leather := (randf() * 2.0 - 1.0) * 0.15 * env
+			var s := book_slam + leather
+			pb.push_frame(Vector2(s, s))
+
+	# Yeni Bilgi / Canavar Kilidi Açıldı Gizem Çanı (Codex Unlock)
+	_sound_registry["codex_unlock"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.45), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-5.5 * t)
+			var tone1 := sin(t * 659.25 * TAU) * 0.25 # E5
+			var tone2 := sin(t * 1046.50 * TAU) * 0.20 # C6
+			var chime := (tone1 + tone2) * env
+			pb.push_frame(Vector2(chime, chime))
+
 	# 2D Konumsal Şelale Sesi (Waterfall)
 	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
