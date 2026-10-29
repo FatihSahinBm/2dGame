@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+AudioManager="*res://scripts/autoloads/audio_manager.gd"
 LocalizationManager="*res://scripts/autoloads/localization_manager.gd"
 CinematicManager="*res://scripts/autoloads/cinematic_manager.gd"
 CameraManager="*res://scripts/autoloads/camera_manager.gd"
@@ -25,6 +26,10 @@ GameState="*res://scripts/autoloads/game_state.gd"
 StoryDataLoader="*res://scripts/autoloads/story_data_loader.gd"
 SaveManager="*res://scripts/autoloads/save_manager.gd"
 SceneTransition="*res://scenes/ui/scene_transition.tscn"
+
+[audio]
+
+buses/default_bus_layout="res://default_bus_layout.tres"
 
 [display]
 

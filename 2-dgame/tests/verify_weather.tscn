@@ -4,3 +4,4 @@
 
 [node name="VerifyWeather" type="Node"]
 script = ExtResource("1_runner")
+

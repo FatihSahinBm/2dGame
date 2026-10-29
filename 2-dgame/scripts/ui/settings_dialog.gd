@@ -208,24 +208,33 @@ func _sync_current_values() -> void:
 		language_option.selected = 1 if cur_loc == "en" else 0
 
 	# Ses otobüsleri
-	var master_idx = AudioServer.get_bus_index("Master")
-	if master_idx != -1 and master_slider:
-		var db_val = AudioServer.get_bus_volume_db(master_idx)
-		master_slider.value = db_to_linear(db_val) * 100.0
+	var audio_mgr = _get_autoload("AudioManager")
+	if audio_mgr and audio_mgr.has_method("get_bus_volume_linear"):
+		if master_slider:
+			master_slider.value = audio_mgr.get_bus_volume_linear("Master") * 100.0
+		if music_slider:
+			music_slider.value = audio_mgr.get_bus_volume_linear("Music") * 100.0
+		if sfx_slider:
+			sfx_slider.value = audio_mgr.get_bus_volume_linear("SFX") * 100.0
+	else:
+		var master_idx = AudioServer.get_bus_index("Master")
+		if master_idx != -1 and master_slider:
+			var db_val = AudioServer.get_bus_volume_db(master_idx)
+			master_slider.value = db_to_linear(db_val) * 100.0
 
-	var music_idx = AudioServer.get_bus_index("Music")
-	if music_idx != -1 and music_slider:
-		var db_val = AudioServer.get_bus_volume_db(music_idx)
-		music_slider.value = db_to_linear(db_val) * 100.0
-	elif music_slider:
-		music_slider.value = 80.0
+		var music_idx = AudioServer.get_bus_index("Music")
+		if music_idx != -1 and music_slider:
+			var db_val = AudioServer.get_bus_volume_db(music_idx)
+			music_slider.value = db_to_linear(db_val) * 100.0
+		elif music_slider:
+			music_slider.value = 80.0
 
-	var sfx_idx = AudioServer.get_bus_index("SFX")
-	if sfx_idx != -1 and sfx_slider:
-		var db_val = AudioServer.get_bus_volume_db(sfx_idx)
-		sfx_slider.value = db_to_linear(db_val) * 100.0
-	elif sfx_slider:
-		sfx_slider.value = 80.0
+		var sfx_idx = AudioServer.get_bus_index("SFX")
+		if sfx_idx != -1 and sfx_slider:
+			var db_val = AudioServer.get_bus_volume_db(sfx_idx)
+			sfx_slider.value = db_to_linear(db_val) * 100.0
+		elif sfx_slider:
+			sfx_slider.value = 80.0
 
 	if fullscreen_check:
 		var mode = DisplayServer.window_get_mode()
@@ -297,21 +306,33 @@ func _on_language_selected(index: int) -> void:
 
 
 func _on_master_changed(val: float) -> void:
-	var idx = AudioServer.get_bus_index("Master")
-	if idx != -1:
-		AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(val / 100.0, 0.0001)))
+	var audio_mgr = _get_autoload("AudioManager")
+	if audio_mgr and audio_mgr.has_method("set_bus_volume_linear"):
+		audio_mgr.set_bus_volume_linear("Master", val / 100.0)
+	else:
+		var idx = AudioServer.get_bus_index("Master")
+		if idx != -1:
+			AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(val / 100.0, 0.0001)))
 
 
 func _on_music_changed(val: float) -> void:
-	var idx = AudioServer.get_bus_index("Music")
-	if idx != -1:
-		AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(val / 100.0, 0.0001)))
+	var audio_mgr = _get_autoload("AudioManager")
+	if audio_mgr and audio_mgr.has_method("set_bus_volume_linear"):
+		audio_mgr.set_bus_volume_linear("Music", val / 100.0)
+	else:
+		var idx = AudioServer.get_bus_index("Music")
+		if idx != -1:
+			AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(val / 100.0, 0.0001)))
 
 
 func _on_sfx_changed(val: float) -> void:
-	var idx = AudioServer.get_bus_index("SFX")
-	if idx != -1:
-		AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(val / 100.0, 0.0001)))
+	var audio_mgr = _get_autoload("AudioManager")
+	if audio_mgr and audio_mgr.has_method("set_bus_volume_linear"):
+		audio_mgr.set_bus_volume_linear("SFX", val / 100.0)
+	else:
+		var idx = AudioServer.get_bus_index("SFX")
+		if idx != -1:
+			AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(val / 100.0, 0.0001)))
 
 
 func _on_fullscreen_toggled(is_fullscreen: bool) -> void:
