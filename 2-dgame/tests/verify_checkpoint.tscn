@@ -4,3 +4,4 @@
 
 [node name="VerifyCheckpoint" type="Node"]
 script = ExtResource("1_runner")
+

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://verify_traps_01"]
+
+[ext_resource type="Script" path="res://tests/verify_traps_runner.gd" id="1_runner"]
+
+[node name="VerifyTraps" type="Node"]
+script = ExtResource("1_runner")

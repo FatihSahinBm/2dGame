@@ -1010,6 +1010,52 @@ func _register_builtin_procedural_sounds() -> void:
 			var s := (sin(t * 440.0 * TAU) * 0.3 + sin(t * 880.0 * TAU) * 0.15) * env
 			pb.push_frame(Vector2(s, s))
 
+	# Story 2D-132: Tuzaklar ve Dinamik Platformlar Sesleri
+
+	# Kazıklı Zemin / Fırlama Sesi (Spike Trap)
+	_sound_registry["spike_trap"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-20.0 * t)
+			var scrape := (randf() * 2.0 - 1.0) * 0.35
+			var metal := sin(t * (750.0 - 200.0 * t) * TAU) * 0.4
+			var s := (scrape + metal) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Sallanan Giyotin / Sarkaç Bıçağı Rüzgârı (Guillotine Swing)
+	_sound_registry["guillotine_swing"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.3), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * t / 0.3)
+			var whoosh := (randf() * 2.0 - 1.0) * 0.3
+			var metal := sin(t * 220.0 * TAU) * 0.25
+			var s := (whoosh + metal) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Çöken Platform Çatlama / Sallanma Sesi (Platform Crumble)
+	_sound_registry["platform_crumble"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.28), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-10.0 * t)
+			var rumble := sin(t * 65.0 * TAU) * 0.4
+			var crackle := (1.0 if randf() < 0.03 else 0.0) * (randf() * 2.0 - 1.0) * 0.5
+			var s := (rumble + crackle) * env
+			pb.push_frame(Vector2(s, s))
+
+	# Çöken Platform Yeniden Birleşme Sesi (Platform Restore)
+	_sound_registry["platform_restore"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.25), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-12.0 * (0.25 - t))
+			var click := sin(t * 580.0 * TAU) * 0.35
+			var stone := sin(t * 120.0 * TAU) * 0.25
+			var s := (click + stone) * env
+			pb.push_frame(Vector2(s, s))
+
 	# 2D Konumsal Şelale Sesi (Waterfall)
 	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())
