@@ -1,0 +1,292 @@
+[gd_scene load_steps=5 format=3 uid="uid://inventory_dialog_01"]
+
+[ext_resource type="Script" path="res://scripts/ui/inventory_dialog.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.08, 0.09, 0.13, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.55, 0.25, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pane"]
+bg_color = Color(0.05, 0.06, 0.09, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.28, 0.35, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+bg_color = Color(0.12, 0.14, 0.2, 0.85)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="InventoryDialog" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.04, 0.06, 0.75)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -225.0
+offset_right = 350.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 14.0
+offset_right = -18.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderBar" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="MainTitle" type="Label" parent="Panel/VBox/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 15
+text = "🎒 ENVANTER VE KALINTILAR"
+
+[node name="KeyHint" type="Label" parent="Panel/VBox/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.75, 0.8)
+theme_override_font_sizes/font_size = 10
+text = "[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir"
+
+[node name="TabsContainer" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnItems" type="Button" parent="Panel/VBox/TabsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🎒 Çanta ve Donanım"
+
+[node name="BtnHeart" type="Button" parent="Panel/VBox/TabsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "💖 Dünya Kalbi Kadranı"
+
+[node name="MainSplit" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="LeftPane" type="PanelContainer" parent="Panel/VBox/MainSplit"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pane")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/LeftPane"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderLabel" type="Label" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "ÇANTA VE DONANIM"
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="VBoxContainer" parent="Panel/VBox/MainSplit/LeftPane/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="HeartProgressLabel" type="Label" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "Dünya Kalbi Bütünlüğü: 1 / 4 (%25)"
+horizontal_alignment = 1
+
+[node name="HeartQuadrantContainer" type="VBoxContainer" parent="Panel/VBox/MainSplit/LeftPane/VBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="QuadrantSlot1" type="Button" parent="Panel/VBox/MainSplit/LeftPane/VBox/HeartQuadrantContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "💎 Parça 1: Kadim Yankı (Taş Devri)"
+
+[node name="QuadrantSlot2" type="Button" parent="Panel/VBox/MainSplit/LeftPane/VBox/HeartQuadrantContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "🔒 Parça 2: Kan Mührü (Eflak)"
+
+[node name="QuadrantSlot3" type="Button" parent="Panel/VBox/MainSplit/LeftPane/VBox/HeartQuadrantContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "🔒 Parça 3: Güneş Çarkı (Antik Dünya)"
+
+[node name="QuadrantSlot4" type="Button" parent="Panel/VBox/MainSplit/LeftPane/VBox/HeartQuadrantContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "🔒 Parça 4: Sonsuzluk Çekirdeği"
+
+[node name="RightPane" type="PanelContainer" parent="Panel/VBox/MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_pane")
+
+[node name="ContentVBox" type="VBoxContainer" parent="Panel/VBox/MainSplit/RightPane"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.95, 0.75, 1)
+theme_override_font_sizes/font_size = 13
+text = "Eşya Başlığı"
+
+[node name="CategoryBadge" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_badge")
+text = "🧪 TÜKETİLEBİLİR"
+
+[node name="CountHBox" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+
+[node name="CountLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/CountHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 11
+text = "Taşınan Miktar: 3"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+
+[node name="IconContainer" type="CenterContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+
+[node name="ItemIcon" type="TextureRect" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/IconContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DescScroll" type="ScrollContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+
+[node name="DescLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/DescScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 0.92, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "Eşya açıklaması ve detaylı arka plan bilgisi burada görüntülenir."
+autowrap_mode = 3
+
+[node name="EffectLabel" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "⚡ Etki: +35 Can Puanı"
+
+[node name="ShortcutContainer" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ShortcutBadge" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/ShortcutContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_badge")
+text = "[2]"
+
+[node name="ShortcutDesc" type="Label" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/ShortcutContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.8, 0.85)
+theme_override_font_sizes/font_size = 10
+text = "Hızlı Kullanım Kısayolu"
+
+[node name="Spacer" type="Control" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionContainer" type="HBoxContainer" parent="Panel/VBox/MainSplit/RightPane/ContentVBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="BtnAction" type="Button" parent="Panel/VBox/MainSplit/RightPane/ContentVBox/ActionContainer"]
+custom_minimum_size = Vector2(160, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "İksiri İç (+35 Can)"
+
+[node name="Footer" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="FooterTip" type="Label" parent="Panel/VBox/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5, 0.55, 0.6, 0.75)
+theme_override_font_sizes/font_size = 9
+text = "İpucu: Tüketilebilir eşyaları [2] ve [4], fırlatılabilirleri [F] ile anında kullanabilirsiniz."
+
+[node name="BtnClose" type="Button" parent="Panel/VBox/Footer"]
+custom_minimum_size = Vector2(85, 26)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Kapat"

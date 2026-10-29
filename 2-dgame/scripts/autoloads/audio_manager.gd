@@ -1158,6 +1158,52 @@ func _register_builtin_procedural_sounds() -> void:
 			var paper := (randf() * 2.0 - 1.0) * 0.22 * env
 			pb.push_frame(Vector2(paper, paper))
 
+	# Story 2D-123: Envanter ve Eşya Kullanım Sesleri
+
+	# Envanter Çantası Açılış Sesi (Inventory Open)
+	_sound_registry["inventory_open"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.18), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := sin(PI * t / 0.18)
+			var rustle := (randf() * 2.0 - 1.0) * 0.25 * env
+			var buckle := sin(t * 1450.0 * TAU) * 0.12 * exp(-28.0 * t)
+			var s := rustle + buckle
+			pb.push_frame(Vector2(s, s))
+
+	# Envanter Çantası Kapanış Sesi (Inventory Close)
+	_sound_registry["inventory_close"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.14), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-20.0 * t)
+			var thud := sin(t * 180.0 * TAU) * 0.28 * env
+			var click := sin(t * 900.0 * TAU) * 0.15 * env
+			var s := thud + click
+			pb.push_frame(Vector2(s, s))
+
+	# İksir İçme / Yudumlama Sesi (Potion Drink)
+	_sound_registry["potion_drink"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.28), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-6.0 * t)
+			var gulp := sin(t * (240.0 - t * 160.0) * TAU) * 0.35 * env
+			var glass := sin(t * 1850.0 * TAU) * 0.12 * exp(-35.0 * t)
+			var s := gulp + glass
+			pb.push_frame(Vector2(s, s))
+
+	# Eşya / Silah Kuşanma Sesi (Item Equip)
+	_sound_registry["item_equip"] = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-12.0 * t)
+			var metallic := (sin(t * 880.0 * TAU) * 0.25 + sin(t * 1760.0 * TAU) * 0.18) * env
+			var snap := (randf() * 2.0 - 1.0) * 0.15 * exp(-40.0 * t)
+			var s := metallic + snap
+			pb.push_frame(Vector2(s, s))
+
 	# 2D Konumsal Şelale Sesi (Waterfall)
 	_sound_registry["waterfall"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.8), pb.get_frames_available())

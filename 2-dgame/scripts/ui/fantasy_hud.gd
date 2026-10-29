@@ -53,6 +53,9 @@ signal potion_used(potion_type: String)
 @onready var banner_label: Label = get_node_or_null("ObjectiveBanner/BannerLabel") as Label
 @onready var quest_log_dialog: Control = get_node_or_null("QuestLogDialog") as Control
 
+# Story 2D-123: Envanter ve Kalp Parçaları Referansı
+@onready var inventory_dialog: Control = get_node_or_null("InventoryDialog") as Control
+
 @onready var tutorial_box: Control = get_node_or_null("BottomRight/TutorialBox") as Control
 @onready var tutorial_title: Label = $BottomRight/TutorialBox/HBox/VBox/TitleLabel
 @onready var tutorial_key: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/KeyBadge/Label
@@ -67,6 +70,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_pause_system()
 	_setup_quest_system()
+	_setup_inventory_system()
 	update_all()
 
 func _setup_pause_system() -> void:
@@ -275,7 +279,7 @@ func use_mana_potion() -> void:
 		update_potion_counts()
 		potion_used.emit("mana")
 
-## Girdi yönetimi: ESC / P / Gamepad START ile duraklatma / devam etme, [J] / [L] ile Görev Günlüğü
+## Girdi yönetimi: ESC / P / Gamepad START ile duraklatma / devam etme, [J] / [L] ile Görev Günlüğü, [I] / [B] ile Envanter
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var is_escape: bool = event.keycode == KEY_ESCAPE \
@@ -283,6 +287,13 @@ func _input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_cancel") \
 			or event.is_action_pressed("pause")
 		var is_p: bool = event.keycode == KEY_P or event.physical_keycode == KEY_P
+
+		# Envanter açıksa öncelikle onu kapat
+		if inventory_dialog and inventory_dialog.visible:
+			if is_escape:
+				inventory_dialog.close()
+				get_viewport().set_input_as_handled()
+				return
 
 		# Görev günlüğü açıksa öncelikle onu kapat
 		if quest_log_dialog and quest_log_dialog.visible:
@@ -302,7 +313,7 @@ func _input(event: InputEvent) -> void:
 			return
 
 func _unhandled_input(event: InputEvent) -> void:
-	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri, [J] / [L] ile Görev Günlüğü
+	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri, [J] / [L] ile Görev Günlüğü, [I] / [B] ile Envanter
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_2 or event.physical_keycode == KEY_2:
 			use_health_potion()
@@ -312,9 +323,16 @@ func _unhandled_input(event: InputEvent) -> void:
 				or event.keycode == KEY_L or event.physical_keycode == KEY_L:
 			toggle_quest_log()
 			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_I or event.physical_keycode == KEY_I \
+				or event.keycode == KEY_B or event.physical_keycode == KEY_B:
+			toggle_inventory()
+			get_viewport().set_input_as_handled()
 	elif event is InputEventJoypadButton and event.pressed and not event.echo:
 		if event.button_index == JOY_BUTTON_BACK:
 			toggle_quest_log()
+			get_viewport().set_input_as_handled()
+		elif event.button_index == JOY_BUTTON_Y:
+			toggle_inventory()
 			get_viewport().set_input_as_handled()
 
 func _get_scene_tree() -> SceneTree:
@@ -505,4 +523,38 @@ func _on_quest_started_hud(_quest_id: String, _quest: Dictionary) -> void:
 	var q_mgr = _get_quest_manager()
 	if q_mgr:
 		update_tracked_objective(q_mgr.get_tracked_quest())
+
+
+# ==============================================================================
+# STORY 2D-123: ENVANTER VE KALP PARÇALARI ENTEGRASYONU
+# ==============================================================================
+
+func _setup_inventory_system() -> void:
+	if not inventory_dialog:
+		inventory_dialog = find_child("InventoryDialog", true, false) as Control
+	if not inventory_dialog:
+		var inv_res = load("res://scenes/ui/inventory_dialog.tscn")
+		if inv_res:
+			inventory_dialog = inv_res.instantiate() as Control
+			inventory_dialog.name = "InventoryDialog"
+			add_child(inventory_dialog)
+
+	if inventory_dialog and inventory_dialog.has_signal("item_used"):
+		if not inventory_dialog.item_used.is_connected(_on_inventory_item_used):
+			inventory_dialog.item_used.connect(_on_inventory_item_used)
+
+
+## Envanter ve Kalp Parçaları penceresini açar veya kapatır
+func toggle_inventory() -> void:
+	_setup_inventory_system()
+	if inventory_dialog:
+		if inventory_dialog.visible:
+			inventory_dialog.close()
+		else:
+			inventory_dialog.open()
+
+
+func _on_inventory_item_used(_item_id: String) -> void:
+	update_all()
+
 
