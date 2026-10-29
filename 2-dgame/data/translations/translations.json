@@ -294,5 +294,89 @@
   "TUTORIAL_STONE_AGE_CONTROLS": {
     "tr": "Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]",
     "en": "Movement: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
+  },
+  "TUTORIAL_CAMP_TITLE": {
+    "tr": "2. Harita: Osmanlı Ordugahı",
+    "en": "Stage 2: Ottoman Camp"
+  },
+  "TUTORIAL_CAMP_FERMAN_SUB": {
+    "tr": "Fermanı Fatih'e Sun",
+    "en": "Present the Imperial Decree"
+  },
+  "TUTORIAL_CAMP_FERMAN_DESC": {
+    "tr": "Şehit düşen kumandanın fermanını Fatih Sultan Mehmed Han'ın Otağı'na ulaştır.",
+    "en": "Deliver the fallen commander's decree to Sultan Mehmed's Pavilion."
+  },
+  "TUTORIAL_CAMP_OTAG_SUB": {
+    "tr": "Otağ-ı Hümayun'a İlerle",
+    "en": "Advance to the Imperial Pavilion"
+  },
+  "TUTORIAL_CAMP_OTAG_DESC": {
+    "tr": "Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle.",
+    "en": "Advance through the encampment towards Sultan Mehmed's pavilion on the right."
+  },
+  "TUTORIAL_BRIDGE_TITLE": {
+    "tr": "3. Harita: Köprü Kuşatması",
+    "en": "Stage 3: Bridge Assault"
+  },
+  "TUTORIAL_BRIDGE_SUB": {
+    "tr": "Barikatları Parçala",
+    "en": "Shatter the Barricades"
+  },
+  "TUTORIAL_BRIDGE_DESC": {
+    "tr": "Yeniçerilerle birlikte kazıklı barikatları parçala ve kale kapısına hücum et!",
+    "en": "Shatter the spiked barricades alongside the Janissaries and storm the fortress gate!"
+  },
+  "TUTORIAL_BLOOD_KNIGHT_TITLE": {
+    "tr": "Elit Muhafız!",
+    "en": "Elite Guardian!"
+  },
+  "TUTORIAL_BLOOD_KNIGHT_SUB": {
+    "tr": "Kan Şövalyesini Yen",
+    "en": "Defeat the Blood Knight"
+  },
+  "TUTORIAL_BLOOD_KNIGHT_DESC": {
+    "tr": "Vlad Tepeş'in kale kapısını koruyan Kan Şövalyesini alt et!",
+    "en": "Vanquish the Blood Knight guarding Vlad Tepes' citadel gate!"
+  },
+  "TUTORIAL_GATE_BROKEN_TITLE": {
+    "tr": "Kapı Parçalandı!",
+    "en": "Gate Shattered!"
+  },
+  "TUTORIAL_GATE_BROKEN_SUB": {
+    "tr": "Mahzenlere Adım At",
+    "en": "Enter the Catacombs"
+  },
+  "TUTORIAL_GATE_BROKEN_DESC": {
+    "tr": "Yeniçeriler koçbaşıyla kapıyı paramparça etti! Târgovişte mahzenlerine girerek Vlad'ın izini sür.",
+    "en": "The Janissaries battered down the gate! Descend into Târgoviște catacombs to hunt Vlad."
+  },
+  "TUTORIAL_THRONE_TITLE": {
+    "tr": "3. Sahne: Kan Taht Odası",
+    "en": "Stage 3: Blood Throne Room"
+  },
+  "TUTORIAL_THRONE_SUB": {
+    "tr": "1. Faz: Voyvoda",
+    "en": "Phase 1: The Voivode"
+  },
+  "TUTORIAL_THRONE_DESC": {
+    "tr": "Mızrak atılımlarını ve impale zemin saldırılarını atlatarak yaklaş!",
+    "en": "Evade spear thrusts and floor impalements to strike!"
+  },
+  "PROMPT_CAMPFIRE_REST": {
+    "tr": "[E] Kamp Ateşinde Dinlen",
+    "en": "[E] Rest at Campfire"
+  },
+  "PROMPT_CAMPFIRE_LIGHT": {
+    "tr": "[E] Kamp Ateşini Yak",
+    "en": "[E] Ignite Campfire"
+  },
+  "CAMPFIRE_LIT_MSG": {
+    "tr": "🔥 Kamp Ateşi Yakıldı - İlerleme Kaydedildi",
+    "en": "🔥 Campfire Lit - Progress Saved"
+  },
+  "CAMPFIRE_RESTED_MSG": {
+    "tr": "✨ Dinlenildi - Can & İksirler Yenilendi",
+    "en": "✨ Rested - Health & Potions Restored"
   }
 }

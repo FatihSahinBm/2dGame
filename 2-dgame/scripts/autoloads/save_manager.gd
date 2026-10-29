@@ -78,13 +78,21 @@ func is_autosave_enabled() -> bool:
 
 
 func save_settings() -> void:
-	var settings = {
-		"autosave_enabled": autosave_enabled,
-		"active_slot": active_slot
-	}
+	var existing: Dictionary = {}
+	if FileAccess.file_exists(SETTINGS_PATH):
+		var rf = FileAccess.open(SETTINGS_PATH, FileAccess.READ)
+		if rf:
+			var json = JSON.new()
+			if json.parse(rf.get_as_text()) == OK and json.data is Dictionary:
+				existing = json.data
+			rf.close()
+
+	existing["autosave_enabled"] = autosave_enabled
+	existing["active_slot"] = active_slot
+
 	var f = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
 	if f:
-		f.store_string(JSON.stringify(settings, "\t"))
+		f.store_string(JSON.stringify(existing, "\t"))
 		f.close()
 
 

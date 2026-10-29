@@ -30,6 +30,7 @@ func _ready() -> void:
 		printerr("  HATA: %d test BAŞARISIZ OLDU! (Başarılı: %d)" % [_failed_tests, _passed_tests])
 	print("========================================================\n")
 
+	await get_tree().process_frame
 	get_tree().quit(0 if _failed_tests == 0 else 1)
 
 

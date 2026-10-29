@@ -286,7 +286,9 @@ func _is_player(node: Node) -> bool:
 func _update_prompt_text() -> void:
 	if not prompt_label:
 		return
-	prompt_label.text = prompt_text_lit if is_lit else prompt_text_unlit
+	var lit_txt = tr("PROMPT_CAMPFIRE_REST") if TranslationServer.get_locale().begins_with("en") else prompt_text_lit
+	var unlit_txt = tr("PROMPT_CAMPFIRE_LIGHT") if TranslationServer.get_locale().begins_with("en") else prompt_text_unlit
+	prompt_label.text = lit_txt if is_lit else unlit_txt
 	prompt_label.visible = (_player_in_range != null)
 
 
@@ -369,12 +371,12 @@ func ignite_and_rest(player_node: Node2D = null) -> void:
 	# 5. Görsel ve ses geri bildirimi
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 	if not was_already_lit:
-		_spawn_floating_label("🔥 Kamp Ateşi Yakıldı - İlerleme Kaydedildi", Color(1.0, 0.65, 0.2, 1.0))
+		_spawn_floating_label(tr("CAMPFIRE_LIT_MSG"), Color(1.0, 0.65, 0.2, 1.0))
 		if audio_mgr and audio_mgr.has_method("play_sfx"):
 			audio_mgr.play_sfx("checkpoint_activated")
 		checkpoint_activated.emit(checkpoint_id, spawn_pos)
 	else:
-		_spawn_floating_label("✨ Dinlenildi - Can & İksirler Yenilendi", Color(0.35, 0.95, 0.55, 1.0))
+		_spawn_floating_label(tr("CAMPFIRE_RESTED_MSG"), Color(0.35, 0.95, 0.55, 1.0))
 		if audio_mgr and audio_mgr.has_method("play_sfx"):
 			audio_mgr.play_sfx("rest_heal")
 		player_rested.emit(checkpoint_id)

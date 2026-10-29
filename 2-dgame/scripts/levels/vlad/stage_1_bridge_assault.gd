@@ -89,11 +89,11 @@ func _setup_hud() -> void:
 				hud.update_health(hp, max_hp)
 		)
 	if hud.has_method("set_tutorial"):
-		var arrow_text = " (Alevli Ok Desteği Devrede!)" if _has_arrow_support else ""
+		var arrow_text = (" (" + tr("FLAMING_ARROW_SUPPORT_ACTIVE") + ")") if _has_arrow_support else ""
 		hud.set_tutorial(
-			"3. Harita: Köprü Kuşatması",
-			"Barikatları Parçala",
-			"Yeniçerilerle birlikte kazıklı barikatları parçala ve kale kapısına hücum et!" + arrow_text
+			tr("TUTORIAL_BRIDGE_TITLE"),
+			tr("TUTORIAL_BRIDGE_SUB"),
+			tr("TUTORIAL_BRIDGE_DESC") + arrow_text
 		)
 
 
@@ -118,9 +118,9 @@ func _trigger_blood_knight_intro() -> void:
 		dialogue_box.dialogue_completed.connect(func():
 			if hud and hud.has_method("set_tutorial"):
 				hud.set_tutorial(
-					"Elit Muhafız!",
-					"Kan Şövalyesini Yen",
-					"Vlad Tepeş'in kale kapısını koruyan Kan Şövalyesini alt et!"
+					tr("TUTORIAL_BLOOD_KNIGHT_TITLE"),
+					tr("TUTORIAL_BLOOD_KNIGHT_SUB"),
+					tr("TUTORIAL_BLOOD_KNIGHT_DESC")
 				)
 		, CONNECT_ONE_SHOT)
 
@@ -206,9 +206,9 @@ func _break_castle_gate() -> void:
 			_gate_breached = true
 			if hud and hud.has_method("set_tutorial"):
 				hud.set_tutorial(
-					"Kapı Parçalandı!",
-					"Mahzenlere Adım At",
-					"Yeniçeriler koçbaşıyla kapıyı paramparça etti! Târgovişte mahzenlerine girerek Vlad'ın izini sür."
+					tr("TUTORIAL_GATE_BROKEN_TITLE"),
+					tr("TUTORIAL_GATE_BROKEN_SUB"),
+					tr("TUTORIAL_GATE_BROKEN_DESC")
 				)
 			if exit_gate and exit_gate.overlaps_body(player) and not _is_transitioning:
 				_trigger_dungeon_transition()

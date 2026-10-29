@@ -291,21 +291,54 @@
       }
     ],
     "soldier_ambient_shouts": [
-      "Vurun yiğitler! Canavarlara geçit yok!",
-      "Alevli okları gerin! Gece yaratıkları ateşe dayanamaz!",
-      "Surlara doğru ilerleyin! Fatih'in sancağı düşmeyecek!",
-      "Gözünüzü dört açın, sislerin arasından saldırıyorlar!"
+      {
+        "text": "Vurun yiğitler! Canavarlara geçit yok!",
+        "text_en": "Strike, brave warriors! No passage for monsters!"
+      },
+      {
+        "text": "Alevli okları gerin! Gece yaratıkları ateşe dayanamaz!",
+        "text_en": "Draw the flame arrows! Night beasts cannot bear the fire!"
+      },
+      {
+        "text": "Surlara doğru ilerleyin! Fatih'in sancağı düşmeyecek!",
+        "text_en": "Advance towards the ramparts! Mehmed's banner shall not fall!"
+      },
+      {
+        "text": "Gözünüzü dört açın, sislerin arasından saldırıyorlar!",
+        "text_en": "Stay vigilant, they strike from within the mist!"
+      }
     ],
     "soldier_betrayal_shouts": [
-      "Ne yapıyorsun sen?! Biz senin müttefikiniz!",
-      "Hain! Bize kılıç çekti!",
-      "Aman Tanrım... O bir müttefik değil, bir canavar!",
-      "Geri çekilin! O kılıç bizim kanımızı emiyor!"
+      {
+        "text": "Ne yapıyorsun sen?! Biz senin müttefikiniz!",
+        "text_en": "What are you doing?! We are your allies!"
+      },
+      {
+        "text": "Hain! Bize kılıç çekti!",
+        "text_en": "Traitor! He drew his blade against us!"
+      },
+      {
+        "text": "Aman Tanrım... O bir müttefik değil, bir canavar!",
+        "text_en": "Heavens... He is no ally, he is a fiend!"
+      },
+      {
+        "text": "Geri çekilin! O kılıç bizim kanımızı emiyor!",
+        "text_en": "Fall back! That sword feeds upon our blood!"
+      }
     ],
     "sword_rebellion_texts": [
-      "*Kılıç şiddetle titriyor ve çığlık gibi madeni bir ses yankılanıyor...*",
-      "*Kılıcın kabzası elini yakıyor, ağırlığı iki katına çıkıyor...*",
-      "*Kılıcın metal gövdesinde karanlık çatlaklar beliriyor; silah darbene direniyor!*"
+      {
+        "text": "*Kılıç şiddetle titriyor ve çığlık gibi madeni bir ses yankılanıyor...*",
+        "text_en": "*The sword trembles violently and echoes a piercing metallic shriek...*"
+      },
+      {
+        "text": "*Kılıcın kabzası elini yakıyor, ağırlığı iki katına çıkıyor...*",
+        "text_en": "*The hilt sears your palm; the blade's weight turns to lead...*"
+      },
+      {
+        "text": "*Kılıcın metal gövdesinde karanlık çatlaklar beliriyor; silah darbene direniyor!*",
+        "text_en": "*Dark fissures pulse along the steel; the weapon defies your command!*"
+      }
     ],
     "vlad_taunt": [
       {

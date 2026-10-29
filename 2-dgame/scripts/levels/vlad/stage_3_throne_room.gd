@@ -224,7 +224,11 @@ func _setup_hud() -> void:
 				hud.update_health(hp, max_hp)
 		)
 	if hud.has_method("set_tutorial"):
-		hud.set_tutorial("3. Sahne: Kan Taht Odası", "1. Faz: Voyvoda", "Mızrak atılımlarını ve impale zemin saldırılarını atlatarak yaklaş!")
+		hud.set_tutorial(
+			tr("TUTORIAL_THRONE_TITLE"),
+			tr("TUTORIAL_THRONE_SUB"),
+			tr("TUTORIAL_THRONE_DESC")
+		)
 
 
 func _play_form_taunt(key: String) -> void:

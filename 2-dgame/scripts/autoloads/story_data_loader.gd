@@ -86,9 +86,10 @@ static func _localize_dialogue_sequence(raw_list: Array) -> Array:
 	var eng_tree = Engine.get_main_loop() as SceneTree
 	if eng_tree and eng_tree.root and eng_tree.root.has_node("LocalizationManager"):
 		loc = eng_tree.root.get_node("LocalizationManager").get_current_locale()
-	else:
+	if loc != "en":
 		var godot_loc = TranslationServer.get_locale().to_lower()
-		loc = "en" if godot_loc.begins_with("en") else "tr"
+		if godot_loc.begins_with("en"):
+			loc = "en"
 
 	var localized: Array = []
 	for item in raw_list:

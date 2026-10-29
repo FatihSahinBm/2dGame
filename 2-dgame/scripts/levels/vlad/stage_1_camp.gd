@@ -100,15 +100,15 @@ func _setup_hud() -> void:
 		var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
 		if game_state and not game_state.is_commander_alive:
 			hud.set_tutorial(
-				"2. Harita: Osmanlı Ordugahı",
-				"Fermanı Fatih'e Sun",
-				"Şehit düşen kumandanın fermanını Fatih Sultan Mehmed Han'ın Otağı'na ulaştır."
+				tr("TUTORIAL_CAMP_TITLE"),
+				tr("TUTORIAL_CAMP_FERMAN_SUB"),
+				tr("TUTORIAL_CAMP_FERMAN_DESC")
 			)
 		else:
 			hud.set_tutorial(
-				"2. Harita: Osmanlı Ordugahı",
-				"Otağ-ı Hümayun'a İlerle",
-				"Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle."
+				tr("TUTORIAL_CAMP_TITLE"),
+				tr("TUTORIAL_CAMP_OTAG_SUB"),
+				tr("TUTORIAL_CAMP_OTAG_DESC")
 			)
 
 

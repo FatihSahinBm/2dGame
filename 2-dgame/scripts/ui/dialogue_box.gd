@@ -108,10 +108,53 @@ func _ready() -> void:
 	_cine_source = "dialogue_%d" % get_instance_id()
 	if panel:
 		panel.visible = false
+		_setup_skip_button()
 	if choice_btn_1:
 		choice_btn_1.pressed.connect(func(): _on_choice_clicked(0))
 	if choice_btn_2:
 		choice_btn_2.pressed.connect(func(): _on_choice_clicked(1))
+
+
+func _setup_skip_button() -> void:
+	if not panel:
+		return
+	var skip_btn: Button = panel.get_node_or_null("SkipButton") as Button
+	if not skip_btn:
+		skip_btn = Button.new()
+		skip_btn.name = "SkipButton"
+		skip_btn.text = "⏭ Atla (TAB)"
+		skip_btn.anchors_preset = Control.PRESET_TOP_RIGHT
+		skip_btn.anchor_left = 1.0
+		skip_btn.anchor_right = 1.0
+		skip_btn.offset_left = -120.0
+		skip_btn.offset_top = 10.0
+		skip_btn.offset_right = -16.0
+		skip_btn.offset_bottom = 36.0
+		skip_btn.focus_mode = Control.FOCUS_NONE
+		
+		# Stil
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.18, 0.14, 0.22, 0.9)
+		sb.border_width_left = 1
+		sb.border_width_top = 1
+		sb.border_width_right = 1
+		sb.border_width_bottom = 1
+		sb.border_color = Color(0.85, 0.7, 0.35, 0.9)
+		sb.corner_radius_top_left = 4
+		sb.corner_radius_top_right = 4
+		sb.corner_radius_bottom_right = 4
+		sb.corner_radius_bottom_left = 4
+		skip_btn.add_theme_stylebox_override("normal", sb)
+		
+		var sb_hover := sb.duplicate() as StyleBoxFlat
+		sb_hover.bg_color = Color(0.35, 0.25, 0.12, 0.95)
+		sb_hover.border_color = Color(1.0, 0.85, 0.45, 1.0)
+		skip_btn.add_theme_stylebox_override("hover", sb_hover)
+		
+		skip_btn.add_theme_font_size_override("font_size", 11)
+		skip_btn.add_theme_color_override("font_color", Color(1.0, 0.9, 0.65, 1.0))
+		skip_btn.pressed.connect(skip_dialogue)
+		panel.add_child(skip_btn)
 
 
 func _process(delta: float) -> void:
@@ -297,11 +340,44 @@ func _show_current_entry() -> void:
 
 	var entry: Dictionary = _dialogue_queue[_current_index] as Dictionary
 	var loc_mgr = get_node_or_null("/root/LocalizationManager")
-	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+	var is_en: bool = false
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		is_en = (loc_mgr.get_current_locale() == "en")
+	else:
+		is_en = TranslationServer.get_locale().to_lower().begins_with("en")
 
-	var speaker_str: String = entry.get("speaker_en", "") if (is_en and not str(entry.get("speaker_en", "")).is_empty()) else str(entry.get("speaker", ""))
-	var title_str: String = entry.get("title_en", "") if (is_en and not str(entry.get("title_en", "")).is_empty()) else str(entry.get("title", ""))
-	var text_str: String = entry.get("text_en", "") if (is_en and not str(entry.get("text_en", "")).is_empty()) else str(entry.get("text", ""))
+	var raw_speaker: String = str(entry.get("speaker", ""))
+	var speaker_str: String = ""
+	if is_en:
+		if entry.has("speaker_en") and not str(entry.get("speaker_en", "")).is_empty():
+			speaker_str = str(entry["speaker_en"])
+		else:
+			var tr_s = TranslationServer.translate(raw_speaker)
+			speaker_str = tr_s if tr_s != raw_speaker else raw_speaker
+	else:
+		speaker_str = raw_speaker
+
+	var raw_title: String = str(entry.get("title", ""))
+	var title_str: String = ""
+	if is_en:
+		if entry.has("title_en") and not str(entry.get("title_en", "")).is_empty():
+			title_str = str(entry["title_en"])
+		else:
+			var tr_t = TranslationServer.translate(raw_title)
+			title_str = tr_t if tr_t != raw_title else raw_title
+	else:
+		title_str = raw_title
+
+	var raw_text: String = str(entry.get("text", ""))
+	var text_str: String = ""
+	if is_en:
+		if entry.has("text_en") and not str(entry.get("text_en", "")).is_empty():
+			text_str = str(entry["text_en"])
+		else:
+			var tr_x = TranslationServer.translate(raw_text)
+			text_str = tr_x if tr_x != raw_text else raw_text
+	else:
+		text_str = raw_text
 
 	if speaker_name_label:
 		speaker_name_label.text = speaker_str
@@ -315,6 +391,10 @@ func _show_current_entry() -> void:
 	if continue_prompt:
 		continue_prompt.text = "[Left Click / Space / E: Advance | TAB: Skip]" if is_en else "[Sol Tık / Boşluk / E: İlerle | TAB: Atla]"
 		continue_prompt.visible = false
+
+	var skip_btn = panel.get_node_or_null("SkipButton") as Button if panel else null
+	if skip_btn:
+		skip_btn.text = "⏭ Skip (TAB)" if is_en else "⏭ Atla (TAB)"
 
 	entry_started.emit(entry)
 	_show_echo(entry)
