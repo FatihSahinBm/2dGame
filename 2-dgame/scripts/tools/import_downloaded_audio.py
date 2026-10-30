@@ -26,7 +26,11 @@ TARGET_MAPPINGS = {
 
     # 2. Yakın Dövüş & Savunma (Combat & Sword)
     "sword_slash": ["sword_slash", "slash", "kilic_savur", "blade_slice"],
+    "sword_slash_whoosh": ["sword_slash_whoosh", "whoosh", "sword_whoosh", "hava_savur"],
+    "sword_slash_ring": ["sword_slash_ring", "blade_ring", "steel_ring", "celik_tini"],
     "sword_hit": ["sword_hit", "sword_strike", "vurus", "kilic_vurus", "cleave"],
+    "sword_hit_thud": ["sword_hit_thud", "body_impact", "flesh_hit", "et_darbe"],
+    "sword_hit_metal": ["sword_hit_metal", "armor_hit", "metal_hit", "zirh_darbe"],
     "parry_clang": ["parry_clang", "parry", "deflect", "clash", "sekme", "savusturma"],
     "sword_rebellion_whisper": ["rebellion", "whisper", "isyan", "fisilti", "corruption"],
 

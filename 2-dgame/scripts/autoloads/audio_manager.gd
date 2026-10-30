@@ -233,23 +233,84 @@ func play_sfx_varied(sound: Variant, volume_db: float = 0.0, pitch_variance: flo
 	return play_sfx(sound, final_vol, final_pitch, bus)
 
 
-## Endüstri Standardı Katmanlı Kılıç Savurma: 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
-func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05) -> AudioStreamPlayer:
+## Endüstri Standardı Katmanlı Kılıç Savurma (Dual-Layer: Whoosh + Transient Ring)
+## - Katman 1 (Whoosh): Düşük-orta frekanslı aerodinamik hava sürtünmesi (0.00s)
+## - Katman 2 (Ring): Yüksek frekanslı kristal çelik çınlaması (Transient Ring, ~15ms micro-offset)
+## - 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
+func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micro_delay_ms: float = 15.0) -> AudioStreamPlayer:
 	_sword_slash_round_robin = (_sword_slash_round_robin % 3) + 1
-	var variant_key := "sword_slash_%d" % _sword_slash_round_robin
-	var final_key := variant_key if has_sound(variant_key) else "sword_slash"
+	var rr_idx: int = _sword_slash_round_robin
+	
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+
+	# 1. Çift Katman Kontrolü (Whoosh + Ring)
+	var whoosh_key: String = ""
+	for k in ["sword_slash_whoosh_%d" % rr_idx, "sword_slash_whoosh"]:
+		if has_sound(k):
+			whoosh_key = k
+			break
+			
+	var ring_key: String = ""
+	for k in ["sword_slash_ring_%d" % rr_idx, "sword_slash_ring"]:
+		if has_sound(k):
+			ring_key = k
+			break
+
+	if not whoosh_key.is_empty() and not ring_key.is_empty():
+		# Katman 1: Hava rüzgarı (Whoosh) anında başlar
+		var p_whoosh: AudioStreamPlayer = play_sfx(whoosh_key, final_vol - 1.0, final_pitch * randf_range(0.98, 1.02), "SFX")
+		# Katman 2: Çelik çınlama (Ring) ~15ms mikro gecikmeyle (vuruş zirvesinde) patlar
+		if micro_delay_ms > 0.0 and is_inside_tree():
+			var timer := get_tree().create_timer(micro_delay_ms / 1000.0)
+			var captured_ring := ring_key
+			var captured_vol := final_vol
+			var captured_pitch := final_pitch
+			timer.timeout.connect(func():
+				play_sfx(captured_ring, captured_vol, captured_pitch, "SFX")
+			)
+		else:
+			play_sfx(ring_key, final_vol, final_pitch, "SFX")
+		return p_whoosh
+
+	# 2. Katmanlar yoksa: Standart Round-Robin tek parça (sword_slash_1/2/3 veya sword_slash)
+	var variant_key := "sword_slash_%d" % rr_idx
+	var final_key := variant_key if has_sound(variant_key) else "sword_slash"
 	return play_sfx(final_key, final_vol, final_pitch, "SFX")
 
 
-## Endüstri Standardı Katmanlı Kılıç Darbesi: 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
+## Endüstri Standardı Katmanlı Kılıç Darbesi (Dual-Layer: Body Impact + Metal Armor Crunch)
+## - Katman 1 (Thud): Tok kemik/et darbesi (anında patlar)
+## - Katman 2 (Metal): Keskin zırh parçalama ve bıçak titreşimi
+## - 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
 func play_sword_hit(volume_db: float = 0.0, pitch_variance: float = 0.05) -> AudioStreamPlayer:
 	_sword_hit_round_robin = (_sword_hit_round_robin % 3) + 1
-	var variant_key := "sword_hit_%d" % _sword_hit_round_robin
-	var final_key := variant_key if has_sound(variant_key) else "sword_hit"
+	var rr_idx: int = _sword_hit_round_robin
+	
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+
+	# 1. Çift Katman Kontrolü (Thud + Metal)
+	var thud_key: String = ""
+	for k in ["sword_hit_thud_%d" % rr_idx, "sword_hit_thud"]:
+		if has_sound(k):
+			thud_key = k
+			break
+
+	var metal_key: String = ""
+	for k in ["sword_hit_metal_%d" % rr_idx, "sword_hit_metal"]:
+		if has_sound(k):
+			metal_key = k
+			break
+
+	if not thud_key.is_empty() and not metal_key.is_empty():
+		var p_thud: AudioStreamPlayer = play_sfx(thud_key, final_vol, final_pitch, "SFX")
+		play_sfx(metal_key, final_vol - 2.0, final_pitch * randf_range(0.96, 1.04), "SFX")
+		return p_thud
+
+	# 2. Katmanlar yoksa: Standart Round-Robin tek parça (sword_hit_1/2/3 veya sword_hit)
+	var variant_key := "sword_hit_%d" % rr_idx
+	var final_key := variant_key if has_sound(variant_key) else "sword_hit"
 	return play_sfx(final_key, final_vol, final_pitch, "SFX")
 
 func _get_available_sfx_player() -> AudioStreamPlayer:
@@ -934,6 +995,36 @@ func _register_builtin_procedural_sounds() -> void:
 	_sound_registry["sword_slash_2"] = slash_proc
 	_sound_registry["sword_slash_3"] = slash_proc
 
+	# Çift Katman 1: Hava Sürtünmesi (Whoosh - Kütle ve rüzgar hissi)
+	var whoosh_proc = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.16), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var norm := t / 0.16
+			var noise := (randf() * 2.0 - 1.0)
+			var env := sin(PI * norm) ** 1.8
+			var s := noise * env * 0.38
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["sword_slash_whoosh"] = whoosh_proc
+	_sound_registry["sword_slash_whoosh_1"] = whoosh_proc
+	_sound_registry["sword_slash_whoosh_2"] = whoosh_proc
+	_sound_registry["sword_slash_whoosh_3"] = whoosh_proc
+
+	# Çift Katman 2: Kristal Çelik Tınısı (Transient Ring - Keskinlik patlaması)
+	var ring_proc = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-18.0 * t)
+			var steel := (sin(t * 1420.0 * TAU) * 0.38 + sin(t * 2840.0 * TAU) * 0.22) * env
+			var spark := (randf() * 2.0 - 1.0) * exp(-70.0 * t) * 0.32
+			var s := steel + spark
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["sword_slash_ring"] = ring_proc
+	_sound_registry["sword_slash_ring_1"] = ring_proc
+	_sound_registry["sword_slash_ring_2"] = ring_proc
+	_sound_registry["sword_slash_ring_3"] = ring_proc
+
 	# Kılıç Vuruşu (Hit) - Tok gövde darbesi ve metalik titreşim
 	var hit_proc = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
@@ -949,6 +1040,36 @@ func _register_builtin_procedural_sounds() -> void:
 	_sound_registry["sword_hit_1"] = hit_proc
 	_sound_registry["sword_hit_2"] = hit_proc
 	_sound_registry["sword_hit_3"] = hit_proc
+
+	# Çift Katman 1: Gövde/Kemik Tokluğu (Thud)
+	var thud_proc = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.20), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var norm := t / 0.20
+			var thud := sin(t * lerpf(110.0, 40.0, norm) * TAU) * 0.65 * exp(-20.0 * t)
+			var crack := (randf() * 2.0 - 1.0) * exp(-45.0 * t) * 0.30
+			var s := thud + crack
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["sword_hit_thud"] = thud_proc
+	_sound_registry["sword_hit_thud_1"] = thud_proc
+	_sound_registry["sword_hit_thud_2"] = thud_proc
+	_sound_registry["sword_hit_thud_3"] = thud_proc
+
+	# Çift Katman 2: Zırh/Metal Parçalama (Metal Crunch)
+	var metal_proc = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.24), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var env := exp(-15.0 * t)
+			var metal := (sin(t * 1520.0 * TAU) * 0.35 + sin(t * 2650.0 * TAU) * 0.22) * env
+			var scrape := (randf() * 2.0 - 1.0) * exp(-30.0 * t) * 0.25
+			var s := metal + scrape
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["sword_hit_metal"] = metal_proc
+	_sound_registry["sword_hit_metal_1"] = metal_proc
+	_sound_registry["sword_hit_metal_2"] = metal_proc
+	_sound_registry["sword_hit_metal_3"] = metal_proc
 
 	# Hasar Alma (Hurt)
 	_sound_registry["player_hurt"] = func(pb: AudioStreamGeneratorPlayback):

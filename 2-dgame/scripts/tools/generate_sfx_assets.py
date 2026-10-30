@@ -61,41 +61,84 @@ def apply_loop_crossfade(audio, fade_duration=0.35, fs=SAMPLE_RATE):
 # ---------------------------------------------------------------------------
 
 # 1. Sword Slash (Crisp physical steel blade slice through air - No retro beeps)
-def gen_sword_slash():
+def gen_sword_slash(pitch_mod=1.0):
     dur = 0.20
     t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
     noise = np.random.normal(0, 1, len(t))
     
     # Downward sweeping aero-acoustic resonance
-    seg1 = bandpass(noise, 2200, 5200)
-    seg2 = bandpass(noise, 900, 2800)
-    seg3 = bandpass(noise, 350, 1100)
+    seg1 = bandpass(noise, 2200 * pitch_mod, min(SAMPLE_RATE/2 - 100, 5200 * pitch_mod))
+    seg2 = bandpass(noise, 900 * pitch_mod, 2800 * pitch_mod)
+    seg3 = bandpass(noise, 350 * pitch_mod, 1100 * pitch_mod)
     w1 = np.clip(1.0 - t / (dur * 0.35), 0, 1)
     w2 = np.clip(np.sin(np.pi * t / dur), 0, 1)
     w3 = np.clip((t - dur * 0.35) / (dur * 0.65), 0, 1)
     swish = (seg1 * w1 + seg2 * w2 + seg3 * w3) * 0.85
     
     # Steel blade friction transient
-    blade_ring = (np.sin(2 * np.pi * 1420 * t) * 0.12 + np.sin(2 * np.pi * 2840 * t) * 0.08) * np.exp(-32.0 * t)
+    blade_ring = (np.sin(2 * np.pi * 1420 * pitch_mod * t) * 0.12 + np.sin(2 * np.pi * 2840 * pitch_mod * t) * 0.08) * np.exp(-32.0 * t)
     env = (np.sin(np.pi * (t / dur) ** 0.7) ** 2)
     audio = (swish + blade_ring) * env
     return normalize(audio, 0.88)
 
+# 1a. Katman 1: Hava Katmanı (Whoosh - Kütle ve Rüzgar)
+def gen_sword_slash_whoosh(pitch_mod=1.0):
+    dur = 0.18
+    t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
+    noise = np.random.normal(0, 1, len(t))
+    seg1 = bandpass(noise, 750 * pitch_mod, 2600 * pitch_mod)
+    seg2 = bandpass(noise, 320 * pitch_mod, 1200 * pitch_mod)
+    w = np.sin(np.pi * (t / dur)) ** 1.8
+    swish = (seg1 * 0.6 + seg2 * 0.5) * w
+    return normalize(swish, 0.82)
+
+# 1b. Katman 2: Çelik Çınlaması (Transient Ring - Keskinlik)
+def gen_sword_slash_ring(pitch_mod=1.0):
+    dur = 0.22
+    t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
+    spark = bandpass(np.random.normal(0, 1, len(t)), 2400, 7500) * np.exp(-65.0 * t) * 0.35
+    steel = (np.sin(2 * np.pi * 1420 * pitch_mod * t) * 0.38 +
+             np.sin(2 * np.pi * 2840 * pitch_mod * t) * 0.22 +
+             np.sin(2 * np.pi * 4260 * pitch_mod * t) * 0.10) * np.exp(-22.0 * t)
+    audio = spark + steel
+    return normalize(audio, 0.85)
+
 # 2. Sword Hit (Deep visceral cleave + steel resonance + flesh impact)
-def gen_sword_hit():
+def gen_sword_hit(pitch_mod=1.0):
     dur = 0.24
     t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
     imp_env = np.exp(-55.0 * t)
-    impact = np.sin(2 * np.pi * 95 * t) * 0.65 * imp_env
+    impact = np.sin(2 * np.pi * 95 * pitch_mod * t) * 0.65 * imp_env
     noise_crack = bandpass(np.random.normal(0, 1, len(t)), 250, 3200) * imp_env * 0.5
     
     # Metallic blade vibration
     ring_env = np.exp(-16.0 * t)
-    metal = (np.sin(2 * np.pi * 1480 * t) * 0.35 +
-             np.sin(2 * np.pi * 2650 * t) * 0.22 +
-             np.sin(2 * np.pi * 3980 * t) * 0.12) * ring_env
+    metal = (np.sin(2 * np.pi * 1480 * pitch_mod * t) * 0.35 +
+             np.sin(2 * np.pi * 2650 * pitch_mod * t) * 0.22 +
+             np.sin(2 * np.pi * 3980 * pitch_mod * t) * 0.12) * ring_env
     audio = impact + noise_crack + metal
     return normalize(audio, 0.90)
+
+# 2a. Katman 1: Gövde/Kemik Tokluğu (Body Thud)
+def gen_sword_hit_thud(pitch_mod=1.0):
+    dur = 0.20
+    t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
+    imp_env = np.exp(-48.0 * t)
+    impact = np.sin(2 * np.pi * 92 * pitch_mod * t) * 0.70 * imp_env
+    bone_crack = bandpass(np.random.normal(0, 1, len(t)), 200, 1800) * imp_env * 0.45
+    audio = impact + bone_crack
+    return normalize(audio, 0.88)
+
+# 2b. Katman 2: Zırh/Metal Titreşimi (Metal Ring)
+def gen_sword_hit_metal(pitch_mod=1.0):
+    dur = 0.25
+    t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
+    ring_env = np.exp(-18.0 * t)
+    spark = bandpass(np.random.normal(0, 1, len(t)), 2200, 6800) * np.exp(-50.0 * t) * 0.35
+    metal = (np.sin(2 * np.pi * 1480 * pitch_mod * t) * 0.40 +
+             np.sin(2 * np.pi * 2650 * pitch_mod * t) * 0.25) * ring_env
+    audio = spark + metal
+    return normalize(audio, 0.86)
 
 # 3. Parry Clang (Sharp, crystal-clear harmonic sword deflection)
 def gen_parry_clang():
@@ -477,9 +520,23 @@ def main():
     ensure_dir(music_dir)
 
     print("Generating High-Fidelity Studio Audio Assets via DSP...")
-    # SFX
+    # SFX - Kılıç ve Darbe Katmanları (Dual-Layer & Round-Robin)
     save_wav(os.path.join(sfx_dir, "sword_slash.wav"), gen_sword_slash())
+    save_wav(os.path.join(sfx_dir, "sword_slash_whoosh.wav"), gen_sword_slash_whoosh())
+    save_wav(os.path.join(sfx_dir, "sword_slash_ring.wav"), gen_sword_slash_ring())
+    for i, p in enumerate([0.96, 1.0, 1.04], 1):
+        save_wav(os.path.join(sfx_dir, f"sword_slash_{i}.wav"), gen_sword_slash(p))
+        save_wav(os.path.join(sfx_dir, f"sword_slash_whoosh_{i}.wav"), gen_sword_slash_whoosh(p))
+        save_wav(os.path.join(sfx_dir, f"sword_slash_ring_{i}.wav"), gen_sword_slash_ring(p))
+
     save_wav(os.path.join(sfx_dir, "sword_hit.wav"), gen_sword_hit())
+    save_wav(os.path.join(sfx_dir, "sword_hit_thud.wav"), gen_sword_hit_thud())
+    save_wav(os.path.join(sfx_dir, "sword_hit_metal.wav"), gen_sword_hit_metal())
+    for i, p in enumerate([0.95, 1.0, 1.05], 1):
+        save_wav(os.path.join(sfx_dir, f"sword_hit_{i}.wav"), gen_sword_hit(p))
+        save_wav(os.path.join(sfx_dir, f"sword_hit_thud_{i}.wav"), gen_sword_hit_thud(p))
+        save_wav(os.path.join(sfx_dir, f"sword_hit_metal_{i}.wav"), gen_sword_hit_metal(p))
+
     save_wav(os.path.join(sfx_dir, "parry_clang.wav"), gen_parry_clang())
     save_wav(os.path.join(sfx_dir, "campfire.wav"), gen_campfire())
     save_wav(os.path.join(sfx_dir, "checkpoint_activated.wav"), gen_checkpoint_chime())

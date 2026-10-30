@@ -29,10 +29,6 @@ CodexManager="*res://scripts/autoloads/codex_manager.gd"
 SaveManager="*res://scripts/autoloads/save_manager.gd"
 SceneTransition="*res://scenes/ui/scene_transition.tscn"
 
-[audio]
-
-buses/default_bus_layout="res://default_bus_layout.tres"
-
 [display]
 
 window/size/viewport_width=1280
