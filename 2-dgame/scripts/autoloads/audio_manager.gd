@@ -961,7 +961,7 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 			if ResourceLoader.exists(sfx_path):
 				var res = load(sfx_path)
 				if res is AudioStream:
-					if res is AudioStreamWAV and sound == "campfire":
+					if res is AudioStreamWAV and (sound == "campfire" or sound == "torch" or sound == "torch_burn"):
 						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 					_sound_registry[sound] = res
 					return res

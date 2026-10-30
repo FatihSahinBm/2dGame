@@ -310,7 +310,7 @@ func _build_fires() -> void:
 		fire_audio.name = "FireAudio_%d" % idx
 		fire_audio.sound_key = "campfire"
 		fire_audio.max_distance = 750.0
-		fire_audio.volume_db = 1.0
+		fire_audio.volume_db = -6.0
 		fire_audio.loop = true
 		fire_audio.autoplay = true
 		fire.add_child(fire_audio)
