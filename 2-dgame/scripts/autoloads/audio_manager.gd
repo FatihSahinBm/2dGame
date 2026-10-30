@@ -400,7 +400,10 @@ func _exit_tree() -> void:
 # ---------------------------------------------------------------------------
 # 4. 2D Konumsal Ses Çalma
 # ---------------------------------------------------------------------------
-func play_sound_2d(sound: Variant, global_pos: Vector2, parent_node: Node = null, volume_db: float = 0.0, max_dist: float = 1200.0, bus: String = "SFX") -> AudioStreamPlayer2D:
+func play_sound_2d(sound: Variant, global_pos: Vector2, parent_node: Variant = null, volume_db: float = 0.0, max_dist: float = 1200.0, bus: String = "SFX") -> AudioStreamPlayer2D:
+	if parent_node is float or parent_node is int:
+		volume_db = float(parent_node)
+		parent_node = null
 	var stream := _resolve_stream(sound)
 	if not stream:
 		push_warning("AudioManager: 2D ses anahtarı bulunamadı -> %s" % str(sound))
@@ -429,7 +432,10 @@ func play_sound_2d(sound: Variant, global_pos: Vector2, parent_node: Node = null
 
 
 ## Anti-fatigue 2D ses varyasyonu: Pitch ve volume'e mikro varyasyon katar
-func play_sound_2d_varied(sound: Variant, global_pos: Vector2, parent_node: Node = null, volume_db: float = 0.0, max_dist: float = 600.0, pitch_variance: float = 0.08, bus: String = "SFX") -> AudioStreamPlayer2D:
+func play_sound_2d_varied(sound: Variant, global_pos: Vector2, parent_node: Variant = null, volume_db: float = 0.0, max_dist: float = 600.0, pitch_variance: float = 0.08, bus: String = "SFX") -> AudioStreamPlayer2D:
+	if parent_node is float or parent_node is int:
+		volume_db = float(parent_node)
+		parent_node = null
 	var final_vol: float = volume_db + randf_range(-0.5, 0.5)
 	var p := play_sound_2d(sound, global_pos, parent_node, final_vol, max_dist, bus)
 	if p:

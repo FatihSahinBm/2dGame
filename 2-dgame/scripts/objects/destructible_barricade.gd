@@ -114,7 +114,7 @@ func _destroy() -> void:
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 	if audio_mgr:
 		if audio_mgr.has_method("play_sound_2d"):
-			audio_mgr.play_sound_2d("door_break", global_position, 0.0)
+			audio_mgr.play_sound_2d("door_break", global_position, null, 0.0)
 		elif audio_mgr.has_method("play_sfx"):
 			audio_mgr.play_sfx("door_break", 0.0)
 	visible = false
