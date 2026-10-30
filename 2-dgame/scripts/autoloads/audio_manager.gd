@@ -68,6 +68,7 @@ var _sfx_pool: Array[AudioStreamPlayer] = []
 var _sfx_pool_index: int = 0
 var _sword_slash_round_robin: int = 0
 var _sword_hit_round_robin: int = 0
+var _page_turn_round_robin: int = 0
 
 # 2D Ses Havuzu
 var _sfx_2d_pool: Array[AudioStreamPlayer2D] = []
@@ -206,7 +207,14 @@ func _init_players() -> void:
 # 3. SFX Çalma ve Havuzlama (Pooling & Concurrency Management)
 # ---------------------------------------------------------------------------
 func play_sfx(sound: Variant, volume_db: float = 0.0, pitch_scale: float = 1.0, bus: String = "SFX") -> AudioStreamPlayer:
-	var stream := _resolve_stream(sound)
+	var sound_to_play: Variant = sound
+	if sound is String and sound == "page_turn":
+		_page_turn_round_robin = (_page_turn_round_robin % 4) + 1
+		var candidate_key := "page_turn_%d" % _page_turn_round_robin
+		if has_sound(candidate_key):
+			sound_to_play = candidate_key
+
+	var stream := _resolve_stream(sound_to_play)
 	if not stream:
 		push_warning("AudioManager: Ses anahtarı veya kaynak bulunamadı -> %s" % str(sound))
 		return null
@@ -222,7 +230,7 @@ func play_sfx(sound: Variant, volume_db: float = 0.0, pitch_scale: float = 1.0, 
 	player.pitch_scale = clampf(pitch_scale, 0.2, 4.0)
 	player.play()
 
-	_fill_procedural_if_needed(player, sound)
+	_fill_procedural_if_needed(player, sound_to_play)
 	return player
 
 
@@ -231,6 +239,16 @@ func play_sfx_varied(sound: Variant, volume_db: float = 0.0, pitch_variance: flo
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.5, 0.5)
 	return play_sfx(sound, final_vol, final_pitch, bus)
+
+
+## Kitap sayfası değiştirme sesi (4'lü Round-Robin varyasyon ve mikro perde değişkenliği)
+func play_page_turn(volume_db: float = -2.0, pitch_variance: float = 0.04) -> AudioStreamPlayer:
+	_page_turn_round_robin = (_page_turn_round_robin % 4) + 1
+	var var_key := "page_turn_%d" % _page_turn_round_robin
+	var final_key := var_key if has_sound(var_key) else "page_turn"
+	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
+	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+	return play_sfx(final_key, final_vol, final_pitch, "SFX")
 
 
 ## Endüstri Standardı Katmanlı Kılıç Savurma (Dual-Layer: Whoosh + Transient Ring)

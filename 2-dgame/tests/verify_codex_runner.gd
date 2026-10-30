@@ -403,3 +403,18 @@ func _test_12_procedural_audio_feedback() -> void:
 
 	var unlock_res = audio_mgr.play_sfx("codex_unlock", -2.0)
 	_assert_true(unlock_res != null, "codex_unlock prosedürel sesi başarıyla tetiklendi")
+
+	# Sayfa çevirme varyasyonları ve döngüsü doğrulaması
+	_assert_true(audio_mgr.has_sound("page_turn_1"), "page_turn_1 sesi mevcut")
+	_assert_true(audio_mgr.has_sound("page_turn_2"), "page_turn_2 sesi mevcut")
+	_assert_true(audio_mgr.has_sound("page_turn_3"), "page_turn_3 sesi mevcut")
+	_assert_true(audio_mgr.has_sound("page_turn_4"), "page_turn_4 sesi mevcut")
+
+	var pt1 = audio_mgr.play_page_turn(-2.0)
+	_assert_true(pt1 != null and pt1.stream != null, "1. Sayfa çevirme varyasyonu çaldı")
+	var pt2 = audio_mgr.play_page_turn(-2.0)
+	_assert_true(pt2 != null and pt2.stream != null, "2. Sayfa çevirme varyasyonu çaldı")
+	var pt3 = audio_mgr.play_page_turn(-2.0)
+	_assert_true(pt3 != null and pt3.stream != null, "3. Sayfa çevirme varyasyonu çaldı")
+	var pt4 = audio_mgr.play_page_turn(-2.0)
+	_assert_true(pt4 != null and pt4.stream != null, "4. Sayfa çevirme varyasyonu çaldı")

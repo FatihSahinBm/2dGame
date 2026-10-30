@@ -122,8 +122,11 @@ func _switch_category(cat: String) -> void:
 	_current_category = cat
 	_selected_entry_id = ""
 	var audio_mgr = get_node_or_null("/root/AudioManager")
-	if audio_mgr and audio_mgr.has_method("play_sfx"):
-		audio_mgr.play_sfx("page_turn", -2.0)
+	if audio_mgr:
+		if audio_mgr.has_method("play_page_turn"):
+			audio_mgr.play_page_turn(-2.0)
+		elif audio_mgr.has_method("play_sfx"):
+			audio_mgr.play_sfx("page_turn", -2.0)
 	_refresh_ui()
 
 
@@ -278,8 +281,11 @@ func _populate_entry_list() -> void:
 		btn.pressed.connect(func():
 			_selected_entry_id = e_id
 			var audio_mgr = get_node_or_null("/root/AudioManager")
-			if audio_mgr and audio_mgr.has_method("play_sfx"):
-				audio_mgr.play_sfx("page_turn", -3.0)
+			if audio_mgr:
+				if audio_mgr.has_method("play_page_turn"):
+					audio_mgr.play_page_turn(-3.0)
+				elif audio_mgr.has_method("play_sfx"):
+					audio_mgr.play_sfx("page_turn", -3.0)
 			entry_selected.emit(e_id)
 			_refresh_ui()
 		)
