@@ -928,6 +928,26 @@ func _play_sfx(sound_key: String, volume_db: float = 0.0, pitch_variance: float 
 		elif audio_mgr.has_method("play_sfx"):
 			audio_mgr.play_sfx(sound_key, volume_db)
 
+## Endüstri standardı katmanlı kılıç savurma (Round-robin + %5 pitch varyasyonu)
+func _play_sword_slash(volume_db: float = 0.0) -> void:
+	if not is_inside_tree():
+		return
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("play_sword_slash"):
+		audio_mgr.play_sword_slash(volume_db, 0.05)
+	else:
+		_play_sfx("sword_slash", volume_db, 0.05)
+
+## Endüstri standardı katmanlı kılıç darbesi (Round-robin + %5 pitch varyasyonu)
+func _play_sword_hit(volume_db: float = 0.0) -> void:
+	if not is_inside_tree():
+		return
+	var audio_mgr = get_node_or_null("/root/AudioManager")
+	if audio_mgr and audio_mgr.has_method("play_sword_hit"):
+		audio_mgr.play_sword_hit(volume_db, 0.05)
+	else:
+		_play_sfx("sword_hit", volume_db, 0.05)
+
 func _spawn_floating_text(text: String, font_color: Color = Color.WHITE) -> void:
 	var parent_scene: Node = get_parent()
 	if not parent_scene:
@@ -953,7 +973,7 @@ func perform_light_attack() -> void:
 	is_attacking = true
 	current_attack_type = "light"
 	attack_performed.emit("light")
-	_play_sfx("sword_slash", -3.0)
+	_play_sword_slash(-3.0)
 	if absf(velocity.x) < light_attack_lunge:
 		velocity.x = facing_dir * light_attack_lunge
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack"):
@@ -973,7 +993,7 @@ func perform_combo_attack() -> void:
 	combo_timer = 0.0
 	current_attack_type = "combo"
 	attack_performed.emit("combo")
-	_play_sfx("sword_slash", -2.0, 0.12)
+	_play_sword_slash(-2.0)
 	if absf(velocity.x) < 180.0:
 		velocity.x = facing_dir * 180.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("attack_combo"):
@@ -989,7 +1009,7 @@ func perform_crouch_attack() -> void:
 	is_attacking = true
 	current_attack_type = "crouch"
 	attack_performed.emit("crouch")
-	_play_sfx("sword_slash", -4.0)
+	_play_sword_slash(-4.0)
 	velocity.x = facing_dir * 60.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("crouch_attack"):
 		anim_sprite.play("crouch_attack")
@@ -1087,7 +1107,7 @@ func perform_heavy_attack() -> void:
 	combo_timer = 0.0
 	current_attack_type = "heavy"
 	attack_performed.emit("heavy")
-	_play_sfx("sword_slash", 0.0)
+	_play_sword_slash(0.0)
 	if absf(velocity.x) < heavy_attack_lunge:
 		velocity.x = facing_dir * heavy_attack_lunge
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("heavy_attack"):
@@ -1099,7 +1119,7 @@ func perform_heavy_attack() -> void:
 func _deal_damage_to_target(target: Object, dmg: int) -> void:
 	if not is_instance_valid(target):
 		return
-	_play_sfx("sword_hit", -2.0)
+	_play_sword_hit(-2.0)
 	if target.is_in_group("allies"):
 		target.take_damage(dmg, self)
 		return

@@ -173,3 +173,4 @@ extract_and_composite(
 )
 
 print("All Codex portraits created successfully!")
+

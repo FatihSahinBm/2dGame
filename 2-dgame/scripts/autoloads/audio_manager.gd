@@ -66,6 +66,8 @@ var _sound_registry: Dictionary = {}
 # SFX Havuzu
 var _sfx_pool: Array[AudioStreamPlayer] = []
 var _sfx_pool_index: int = 0
+var _sword_slash_round_robin: int = 0
+var _sword_hit_round_robin: int = 0
 
 # 2D Ses Havuzu
 var _sfx_2d_pool: Array[AudioStreamPlayer2D] = []
@@ -229,6 +231,26 @@ func play_sfx_varied(sound: Variant, volume_db: float = 0.0, pitch_variance: flo
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.5, 0.5)
 	return play_sfx(sound, final_vol, final_pitch, bus)
+
+
+## Endüstri Standardı Katmanlı Kılıç Savurma: 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
+func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05) -> AudioStreamPlayer:
+	_sword_slash_round_robin = (_sword_slash_round_robin % 3) + 1
+	var variant_key := "sword_slash_%d" % _sword_slash_round_robin
+	var final_key := variant_key if has_sound(variant_key) else "sword_slash"
+	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
+	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+	return play_sfx(final_key, final_vol, final_pitch, "SFX")
+
+
+## Endüstri Standardı Katmanlı Kılıç Darbesi: 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
+func play_sword_hit(volume_db: float = 0.0, pitch_variance: float = 0.05) -> AudioStreamPlayer:
+	_sword_hit_round_robin = (_sword_hit_round_robin % 3) + 1
+	var variant_key := "sword_hit_%d" % _sword_hit_round_robin
+	var final_key := variant_key if has_sound(variant_key) else "sword_hit"
+	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
+	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+	return play_sfx(final_key, final_vol, final_pitch, "SFX")
 
 func _get_available_sfx_player() -> AudioStreamPlayer:
 	# 1. Boşta (çalmayan) oyuncu ara
@@ -772,38 +794,43 @@ func has_sound(key: String) -> bool:
 
 
 func _load_audio_assets_from_disk() -> void:
-	var sfx_keys: Array[String] = [
-		"sword_slash", "sword_hit", "parry_clang", "campfire", "checkpoint_activated",
-		"rest_heal", "spike_trap", "guillotine_swing", "page_turn", "codex_open",
-		"codex_close", "quest_complete", "inventory_open", "inventory_close"
-	]
-	var extensions: Array[String] = [".wav", ".mp3", ".ogg"]
+	# 1. Otomatik Dizin Taraması: res://assets/audio/sfx/ altındaki tüm sesleri yükle
+	var sfx_dir := DirAccess.open("res://assets/audio/sfx")
+	if sfx_dir:
+		sfx_dir.list_dir_begin()
+		var file_name = sfx_dir.get_next()
+		while not file_name.is_empty():
+			if not sfx_dir.current_is_dir() and not file_name.ends_with(".import"):
+				var ext = file_name.get_extension().to_lower()
+				if ext in ["wav", "mp3", "ogg"]:
+					var k = file_name.get_basename()
+					var p = "res://assets/audio/sfx/" + file_name
+					if ResourceLoader.exists(p):
+						var res = load(p)
+						if res is AudioStream:
+							if res is AudioStreamWAV and (k == "campfire" or k == "torch" or k == "waterfall"):
+								(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+							_sound_registry[k] = res
+			file_name = sfx_dir.get_next()
 
-	for k in sfx_keys:
-		for ext in extensions:
-			var p: String = "res://assets/audio/sfx/" + k + ext
-			if ResourceLoader.exists(p):
-				var res = load(p)
-				if res is AudioStream:
-					if res is AudioStreamWAV and k == "campfire":
-						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
-					_sound_registry[k] = res
-					break
-
-	var music_keys: Array[String] = [
-		"camp_ambience", "vlad_theme", "combat_theme", "menu_theme",
-		"prehistoric_theme", "prehistoric_ambience", "vlad_ambience"
-	]
-	for m in music_keys:
-		for ext in extensions:
-			var p: String = "res://assets/audio/music/" + m + ext
-			if ResourceLoader.exists(p):
-				var res = load(p)
-				if res is AudioStream:
-					if res is AudioStreamWAV:
-						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
-					_sound_registry[m] = res
-					break
+	# 2. Otomatik Dizin Taraması: res://assets/audio/music/ altındaki tüm müzik ve ortam seslerini yükle
+	var music_dir := DirAccess.open("res://assets/audio/music")
+	if music_dir:
+		music_dir.list_dir_begin()
+		var m_file = music_dir.get_next()
+		while not m_file.is_empty():
+			if not music_dir.current_is_dir() and not m_file.ends_with(".import"):
+				var ext = m_file.get_extension().to_lower()
+				if ext in ["wav", "mp3", "ogg"]:
+					var m_key = m_file.get_basename()
+					var mp = "res://assets/audio/music/" + m_file
+					if ResourceLoader.exists(mp):
+						var res = load(mp)
+						if res is AudioStream:
+							if res is AudioStreamWAV:
+								(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+							_sound_registry[m_key] = res
+			m_file = music_dir.get_next()
 
 
 func _resolve_stream(sound: Variant) -> AudioStream:
@@ -891,7 +918,7 @@ func _register_builtin_procedural_sounds() -> void:
 			pb.push_frame(Vector2(noise, noise))
 
 	# Kılıç Savurma (Slash) - Doğal aerodinamik çelik savrulması (Atari beepi yok)
-	_sound_registry["sword_slash"] = func(pb: AudioStreamGeneratorPlayback):
+	var slash_proc = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.18), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
@@ -902,9 +929,13 @@ func _register_builtin_procedural_sounds() -> void:
 			var env := sin(PI * norm) * (1.0 - norm)
 			var s := (noise * 0.65 + resonance) * env * 0.45
 			pb.push_frame(Vector2(s, s))
+	_sound_registry["sword_slash"] = slash_proc
+	_sound_registry["sword_slash_1"] = slash_proc
+	_sound_registry["sword_slash_2"] = slash_proc
+	_sound_registry["sword_slash_3"] = slash_proc
 
 	# Kılıç Vuruşu (Hit) - Tok gövde darbesi ve metalik titreşim
-	_sound_registry["sword_hit"] = func(pb: AudioStreamGeneratorPlayback):
+	var hit_proc = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
@@ -914,6 +945,10 @@ func _register_builtin_procedural_sounds() -> void:
 			var metal := sin(t * 1450.0 * TAU) * 0.15 * exp(-12.0 * t)
 			var s := thud + crack + metal
 			pb.push_frame(Vector2(s, s))
+	_sound_registry["sword_hit"] = hit_proc
+	_sound_registry["sword_hit_1"] = hit_proc
+	_sound_registry["sword_hit_2"] = hit_proc
+	_sound_registry["sword_hit_3"] = hit_proc
 
 	# Hasar Alma (Hurt)
 	_sound_registry["player_hurt"] = func(pb: AudioStreamGeneratorPlayback):
