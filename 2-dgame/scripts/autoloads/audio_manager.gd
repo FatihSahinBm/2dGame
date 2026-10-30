@@ -1715,6 +1715,20 @@ func _register_builtin_procedural_sounds() -> void:
 			var s := (dissonant + low_hum + hiss) * env
 			pb.push_frame(Vector2(s, s))
 
+	# Kapı Kırılma ve Parçalanma Sesi (Door Break / Kick)
+	var door_break_proc = func(pb: AudioStreamGeneratorPlayback):
+		var n := mini(int(22050.0 * 0.45), pb.get_frames_available())
+		for i in range(n):
+			var t := float(i) / 22050.0
+			var thud := sin(t * lerpf(90.0, 32.0, t / 0.45) * TAU) * 0.65 * exp(-14.0 * t)
+			var splinter := (randf() * 2.0 - 1.0) * exp(-22.0 * t) * 0.45
+			var slam := sin(t * 110.0 * TAU) * 0.3 * exp(-8.0 * t)
+			var s := thud + splinter + slam
+			pb.push_frame(Vector2(s, s))
+	_sound_registry["door_break"] = door_break_proc
+	_sound_registry["door_kick"] = door_break_proc
+	_sound_registry["gate_break"] = door_break_proc
+
 
 # ---------------------------------------------------------------------------
 # 11. Kalıcılık (user://game_settings.json)

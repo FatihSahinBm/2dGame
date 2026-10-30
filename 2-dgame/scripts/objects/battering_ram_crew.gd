@@ -165,6 +165,14 @@ func _execute_second_ram_strike(gate_node: Node2D, camera: Camera2D, player_node
 			# Kapı kanatlarının parçalanması ve içeri uçması
 			_shatter_gate_visuals(gate_node)
 
+			# Kapı parçalanma sesi
+			var audio_mgr = get_node_or_null("/root/AudioManager")
+			if audio_mgr:
+				if audio_mgr.has_method("play_sound_2d"):
+					audio_mgr.play_sound_2d("door_break", gate_node.global_position, 2.0)
+				elif audio_mgr.has_method("play_sfx"):
+					audio_mgr.play_sfx("door_break", 2.0)
+
 			# Zafer sevinci
 			var breach_shout = "KAPI YIKILDI! YABANCI, MAHZENE DAL VE VLAD'I BUL!" if _is_commander_alive else "KAPI PARÇALANDI! YABANCI, MAHZENE DAL VE İLERLE!"
 			_play_commander_shout(breach_shout)
