@@ -244,7 +244,21 @@ func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micr
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
 
-	# 1. Çift Katman Kontrolü (Whoosh + Ring)
+	# 1. Öncelik: Gerçek Stüdyo Kayıtları (sword_slash_1/2/3 veya sword_slash)
+	var variant_key := "sword_slash_%d" % rr_idx
+	var primary_key := variant_key if has_sound(variant_key) else ("sword_slash" if has_sound("sword_slash") else "")
+	
+	if not primary_key.is_empty():
+		var p_main := play_sfx(primary_key, final_vol, final_pitch, "SFX")
+		# İsteğe bağlı mikro-gecikmeli çelik transient katmanı (mikro detay ve katman uyumluluğu)
+		if micro_delay_ms > 0.0 and has_sound("sword_slash_ring") and is_inside_tree():
+			var timer := get_tree().create_timer(micro_delay_ms / 1000.0)
+			timer.timeout.connect(func():
+				play_sfx("sword_slash_ring", final_vol - 6.0, final_pitch, "SFX")
+			)
+		return p_main
+
+	# 2. İkincil / Sentetik Çift Katman Yedek (Whoosh + Ring)
 	var whoosh_key: String = ""
 	for k in ["sword_slash_whoosh_%d" % rr_idx, "sword_slash_whoosh"]:
 		if has_sound(k):
@@ -258,9 +272,7 @@ func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micr
 			break
 
 	if not whoosh_key.is_empty() and not ring_key.is_empty():
-		# Katman 1: Hava rüzgarı (Whoosh) anında başlar
 		var p_whoosh: AudioStreamPlayer = play_sfx(whoosh_key, final_vol - 1.0, final_pitch * randf_range(0.98, 1.02), "SFX")
-		# Katman 2: Çelik çınlama (Ring) ~15ms mikro gecikmeyle (vuruş zirvesinde) patlar
 		if micro_delay_ms > 0.0 and is_inside_tree():
 			var timer := get_tree().create_timer(micro_delay_ms / 1000.0)
 			var captured_ring := ring_key
@@ -273,10 +285,7 @@ func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micr
 			play_sfx(ring_key, final_vol, final_pitch, "SFX")
 		return p_whoosh
 
-	# 2. Katmanlar yoksa: Standart Round-Robin tek parça (sword_slash_1/2/3 veya sword_slash)
-	var variant_key := "sword_slash_%d" % rr_idx
-	var final_key := variant_key if has_sound(variant_key) else "sword_slash"
-	return play_sfx(final_key, final_vol, final_pitch, "SFX")
+	return null
 
 
 ## Endüstri Standardı Katmanlı Kılıç Darbesi (Dual-Layer: Body Impact + Metal Armor Crunch)
@@ -290,7 +299,14 @@ func play_sword_hit(volume_db: float = 0.0, pitch_variance: float = 0.05) -> Aud
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
 
-	# 1. Çift Katman Kontrolü (Thud + Metal)
+	# 1. Öncelik: Gerçek Stüdyo Darbe Kayıtları (sword_hit_1/2/3 veya sword_hit)
+	var variant_key := "sword_hit_%d" % rr_idx
+	var primary_key := variant_key if has_sound(variant_key) else ("sword_hit" if has_sound("sword_hit") else "")
+	
+	if not primary_key.is_empty():
+		return play_sfx(primary_key, final_vol, final_pitch, "SFX")
+
+	# 2. İkincil / Sentetik Çift Katman Yedek (Thud + Metal)
 	var thud_key: String = ""
 	for k in ["sword_hit_thud_%d" % rr_idx, "sword_hit_thud"]:
 		if has_sound(k):
@@ -308,10 +324,7 @@ func play_sword_hit(volume_db: float = 0.0, pitch_variance: float = 0.05) -> Aud
 		play_sfx(metal_key, final_vol - 2.0, final_pitch * randf_range(0.96, 1.04), "SFX")
 		return p_thud
 
-	# 2. Katmanlar yoksa: Standart Round-Robin tek parça (sword_hit_1/2/3 veya sword_hit)
-	var variant_key := "sword_hit_%d" % rr_idx
-	var final_key := variant_key if has_sound(variant_key) else "sword_hit"
-	return play_sfx(final_key, final_vol, final_pitch, "SFX")
+	return null
 
 func _get_available_sfx_player() -> AudioStreamPlayer:
 	# 1. Boşta (çalmayan) oyuncu ara

@@ -33,8 +33,11 @@ const MAX_ALPHA_EMBER: float = 0.55
 	Vector2(-60, 555), Vector2(620, 555), Vector2(1250, 555)
 ])
 
+const PositionalEmitter = preload("res://scripts/audio/positional_audio_emitter_2d.gd")
+
 var _tweens: Array[Tween] = []
 var _fire_nodes: Array[Node2D] = []
+var _fire_audio_emitters: Array[Node2D] = []
 var _silhouettes: Array[Node2D] = []
 var _spark_emitters: Array[CPUParticles2D] = []
 var _wind_emitters: Array[CPUParticles2D] = []
@@ -302,6 +305,17 @@ func _build_fires() -> void:
 		tw.tween_property(glow, "modulate:a", base - 0.1, 0.17)
 		tw.tween_property(glow, "modulate:a", base + 0.05, 0.11 + 0.02 * float(idx))
 
+		# Konumsal Kamp Ateşi / Yangın Çıtırtı Sesi
+		var fire_audio = PositionalEmitter.new()
+		fire_audio.name = "FireAudio_%d" % idx
+		fire_audio.sound_key = "campfire"
+		fire_audio.max_distance = 750.0
+		fire_audio.volume_db = 1.0
+		fire_audio.loop = true
+		fire_audio.autoplay = true
+		fire.add_child(fire_audio)
+		_fire_audio_emitters.append(fire_audio)
+
 		_fire_nodes.append(fire)
 		idx += 1
 
@@ -440,6 +454,13 @@ func _apply_quality() -> void:
 		elif not audio_on:
 			_audio_timer.stop()
 
+	for fa in _fire_audio_emitters:
+		if is_instance_valid(fa) and fa.has_method("play_sound"):
+			if audio_on:
+				fa.play_sound()
+			else:
+				fa.stop_sound()
+
 
 func _on_fps_check() -> void:
 	var fps := Engine.get_frames_per_second()
@@ -468,6 +489,10 @@ func cleanup() -> void:
 	for p in _audio_points:
 		if is_instance_valid(p):
 			p.stop()
+	for fa in _fire_audio_emitters:
+		if is_instance_valid(fa) and fa.has_method("stop_sound"):
+			fa.stop_sound()
+	_fire_audio_emitters.clear()
 
 
 ## Test ve doğrulama için: Tüm atmosfer öğelerinin en yüksek z_index değerini döndürür.

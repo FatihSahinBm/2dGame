@@ -322,8 +322,8 @@ func _update_visuals(animate: bool = true) -> void:
 			audio_emitter = PositionalEmitter.new()
 			audio_emitter.name = "CampfirePositionalAudio"
 			audio_emitter.sound_key = "campfire"
-			audio_emitter.max_distance = 700.0
-			audio_emitter.volume_db = -3.0
+			audio_emitter.max_distance = 950.0
+			audio_emitter.volume_db = 2.0
 			audio_emitter.loop = true
 			add_child(audio_emitter)
 	else:
