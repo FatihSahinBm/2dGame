@@ -3,26 +3,26 @@
 [ext_resource type="Script" path="res://scripts/ui/inventory_dialog.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-bg_color = Color(0.22, 0.14, 0.08, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.65, 0.46, 0.24, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-shadow_size = 18
-shadow_color = Color(0, 0, 0, 0.75)
+bg_color = Color(0.24, 0.15, 0.08, 0.98)
+border_width_left = 4
+border_width_top = 6
+border_width_right = 4
+border_width_bottom = 5
+border_color = Color(0.72, 0.52, 0.26, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_size = 28
+shadow_color = Color(0, 0, 0, 0.85)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pane"]
-bg_color = Color(0.12, 0.08, 0.05, 0.92)
+bg_color = Color(0.14, 0.09, 0.06, 0.94)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.48, 0.35, 0.2, 0.75)
+border_color = Color(0.52, 0.38, 0.22, 0.85)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -74,6 +74,42 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
 
+[node name="StrapLeft" type="ColorRect" parent="Panel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = -6.0
+offset_right = 72.0
+offset_bottom = 14.0
+color = Color(0.38, 0.22, 0.12, 1)
+
+[node name="BuckleLeft" type="ColorRect" parent="Panel/StrapLeft"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 19.0
+offset_bottom = 13.0
+color = Color(0.85, 0.70, 0.32, 1)
+
+[node name="StrapRight" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = -6.0
+offset_right = -50.0
+offset_bottom = 14.0
+grow_horizontal = 0
+color = Color(0.38, 0.22, 0.12, 1)
+
+[node name="BuckleRight" type="ColorRect" parent="Panel/StrapRight"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 19.0
+offset_bottom = 13.0
+color = Color(0.85, 0.70, 0.32, 1)
+
 [node name="VBox" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
@@ -97,7 +133,7 @@ theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
 theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 15
-text = "🎒 GEZGİNİN SIRT ÇANTASI & ENVANTERİ"
+text = "🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER"
 
 [node name="KeyHint" type="Label" parent="Panel/VBox/HeaderBar"]
 layout_mode = 2

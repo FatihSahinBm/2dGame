@@ -286,8 +286,14 @@ func _is_player(node: Node) -> bool:
 func _update_prompt_text() -> void:
 	if not prompt_label:
 		return
-	var lit_txt = tr("PROMPT_CAMPFIRE_REST") if TranslationServer.get_locale().begins_with("en") else prompt_text_lit
-	var unlit_txt = tr("PROMPT_CAMPFIRE_LIGHT") if TranslationServer.get_locale().begins_with("en") else prompt_text_unlit
+	var is_en: bool = false
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		is_en = loc_mgr.get_current_locale().to_lower().begins_with("en")
+	elif TranslationServer.has_method("get_locale"):
+		is_en = TranslationServer.get_locale().to_lower().begins_with("en")
+	var lit_txt = tr("PROMPT_CAMPFIRE_REST") if is_en else prompt_text_lit
+	var unlit_txt = tr("PROMPT_CAMPFIRE_LIGHT") if is_en else prompt_text_unlit
 	prompt_label.text = lit_txt if is_lit else unlit_txt
 	prompt_label.visible = (_player_in_range != null)
 
@@ -302,7 +308,10 @@ func _update_visuals(animate: bool = true) -> void:
 			tw.tween_property(fire_visual, "scale", Vector2(1.0, 1.0), 0.15)
 
 	if unlit_visual:
-		unlit_visual.modulate = Color(1.25, 1.15, 1.05, 1.0) if is_lit else Color(0.75, 0.75, 0.75, 1.0)
+		unlit_visual.modulate = Color(1.25, 1.15, 1.05, 1.0) if is_lit else Color(0.85, 0.85, 0.85, 1.0)
+		var unlit_smoke = unlit_visual.get_node_or_null("UnlitSmoke") as CPUParticles2D
+		if unlit_smoke:
+			unlit_smoke.emitting = not is_lit
 
 	if particles:
 		particles.emitting = is_lit

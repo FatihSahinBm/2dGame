@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_entrance_portcullis.png" id="27_entrance_portcullis"]
 [ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_blood_gate_arch.png" id="28_blood_gate_arch"]
 [ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_blood_portcullis.png" id="29_blood_portcullis"]
+[ext_resource type="PackedScene" path="res://scenes/objects/spike_trap.tscn" id="30_spike_trap"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_entrance"]
 size = Vector2(400, 50)
@@ -400,6 +401,16 @@ position = Vector2(575, 330)
 
 [node name="Guillotine2" parent="Traps" instance=ExtResource("8_guillotine")]
 position = Vector2(1040, 310)
+
+[node name="SpikeTrap1" parent="Traps" instance=ExtResource("30_spike_trap")]
+position = Vector2(920, 520)
+mode = 1
+active_duration = 1.4
+inactive_duration = 2.2
+
+[node name="SpikeTrap2" parent="Traps" instance=ExtResource("30_spike_trap")]
+position = Vector2(1620, 575)
+mode = 2
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
 position = Vector2(120, 530)

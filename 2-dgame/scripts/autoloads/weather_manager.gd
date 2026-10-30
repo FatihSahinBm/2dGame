@@ -199,11 +199,31 @@ var _rain_streak_texture: ImageTexture = null
 func _get_rain_streak_texture() -> ImageTexture:
 	if _rain_streak_texture:
 		return _rain_streak_texture
-	var img := Image.create(2, 22, false, Image.FORMAT_RGBA8)
-	for y in range(22):
-		var alpha: float = (float(y) / 22.0) * 0.85
-		for x in range(2):
-			img.set_pixel(x, y, Color(0.75, 0.88, 1.0, alpha))
+	# Doğal damla formu: 3x28 piksel, üstü incelen kuyruk, altı parlak su damlası çekirdeği
+	var width := 3
+	var height := 28
+	var img := Image.create(width, height, false, Image.FORMAT_RGBA8)
+	for y in range(height):
+		var y_ratio: float = float(y) / float(height - 1)
+		# Üstten alta doğru artan ve uçta yuvarlanan parlaklık eğrisi
+		var core_alpha: float
+		if y_ratio < 0.7:
+			core_alpha = lerpf(0.08, 0.65, y_ratio / 0.7)
+		else:
+			core_alpha = lerpf(0.65, 0.95, (y_ratio - 0.7) / 0.3)
+
+		# Merkez çizgi (x=1) kristal berraklığında parlak damla
+		img.set_pixel(1, y, Color(0.88, 0.94, 1.0, core_alpha))
+
+		# Yan pikseller (x=0 ve x=2) sadece damlanın alt kısmında yumuşak kenar verir
+		if y_ratio >= 0.65:
+			var edge_alpha: float = (core_alpha * 0.35)
+			img.set_pixel(0, y, Color(0.72, 0.85, 0.98, edge_alpha))
+			img.set_pixel(2, y, Color(0.72, 0.85, 0.98, edge_alpha))
+		else:
+			img.set_pixel(0, y, Color(0, 0, 0, 0))
+			img.set_pixel(2, y, Color(0, 0, 0, 0))
+
 	_rain_streak_texture = ImageTexture.create_from_image(img)
 	return _rain_streak_texture
 
@@ -215,15 +235,17 @@ func _create_rain_emitter() -> void:
 	rain.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
 	rain.emission_rect_extents = Vector2(850, 20)
 	rain.texture = _get_rain_streak_texture()
-	rain.direction = Vector2(0.18, 1.0)
-	rain.spread = 2.0
-	rain.gravity = Vector2(30, 850)
-	rain.initial_velocity_min = 700.0
-	rain.initial_velocity_max = 950.0
-	rain.scale_amount_min = 1.0
-	rain.scale_amount_max = 1.6
-	rain.color = Color(0.8, 0.9, 1.0, 0.65)
+	rain.direction = Vector2(0.2, 1.0)
+	rain.spread = 2.5
+	rain.gravity = Vector2(35, 880)
+	rain.initial_velocity_min = 680.0
+	rain.initial_velocity_max = 940.0
+	rain.scale_amount_min = 0.8
+	rain.scale_amount_max = 1.3
+	rain.color = Color(0.85, 0.93, 1.0, 0.78)
 	rain.lifetime = 1.0
+	if "particle_flag_align_y" in rain:
+		rain.particle_flag_align_y = true
 	_weather_canvas.add_child(rain)
 	_emitters.append(rain)
 

@@ -227,7 +227,7 @@ func _apply_camera_shake(cam: Camera2D) -> void:
 
 
 func _spawn_rebellion_label() -> void:
-	if not _player_ref:
+	if not _player_ref or not is_instance_valid(_player_ref):
 		return
 
 	var current_time: float = Time.get_ticks_msec() / 1000.0
@@ -238,25 +238,25 @@ func _spawn_rebellion_label() -> void:
 	var text: String = StoryDataLoader.get_random_sword_rebellion_text()
 	var label: Label = Label.new()
 	label.text = text
-	label.add_theme_color_override("font_color", Color(1.0, 0.25, 0.35, 1.0))
-	label.add_theme_color_override("font_outline_color", Color(0.08, 0.05, 0.1, 1.0))
-	label.add_theme_constant_override("outline_size", 4)
-	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color(1.0, 0.2, 0.25, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.0, 0.02, 1.0))
+	label.add_theme_constant_override("outline_size", 5)
+	label.add_theme_font_size_override("font_size", 14)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.custom_minimum_size = Vector2(360.0, 0.0)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.global_position = _player_ref.global_position + Vector2(-180.0, -75.0)
+	label.z_index = 100
+	label.top_level = false
+	label.position = Vector2(-180.0, -80.0)
 
-	var parent_scene: Node = _player_ref.get_parent()
-	if parent_scene:
-		parent_scene.add_child(label)
-		var tw: Tween = label.create_tween()
-		tw.tween_property(label, "global_position:y", label.global_position.y - 18.0, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-		tw.tween_interval(2.0)
-		tw.tween_property(label, "modulate:a", 0.0, 0.6)
-		tw.parallel().tween_property(label, "global_position:y", label.global_position.y - 36.0, 0.6)
-		tw.tween_callback(label.queue_free)
+	_player_ref.add_child(label)
+	var tw: Tween = label.create_tween()
+	tw.tween_property(label, "position:y", label.position.y - 8.0, 0.25).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(2.0) # Tam 2 saniye boyunca oyuncunun üzerinde sabit kalır
+	tw.tween_property(label, "modulate:a", 0.0, 0.5)
+	tw.parallel().tween_property(label, "position:y", label.position.y - 25.0, 0.5)
+	tw.tween_callback(label.queue_free)
 
 
 # --- Yardımcı ve Sorgulama Metotları ---

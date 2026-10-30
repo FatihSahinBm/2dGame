@@ -1115,25 +1115,26 @@ func _register_builtin_procedural_sounds() -> void:
 
 	# Story 2D-132: Tuzaklar ve Dinamik Platformlar Sesleri
 
-	# Kazıklı Zemin / Fırlama Sesi (Spike Trap)
+	# Kazıklı Zemin / Fırlama Sesi (Spike Trap - Yaylı Fırlama Mekanizması)
 	_sound_registry["spike_trap"] = func(pb: AudioStreamGeneratorPlayback):
-		var n := mini(int(22050.0 * 0.22), pb.get_frames_available())
+		var n := mini(int(22050.0 * 0.25), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
-			var env := exp(-20.0 * t)
-			var scrape := (randf() * 2.0 - 1.0) * 0.35
-			var metal := sin(t * (750.0 - 200.0 * t) * TAU) * 0.4
-			var s := (scrape + metal) * env
+			var env := exp(-25.0 * t)
+			var spring := sin(t * 1200.0 * TAU) * 0.45 * env
+			var scrape := (randf() * 2.0 - 1.0) * 0.3 * exp(-35.0 * t)
+			var stone := sin(t * 110.0 * TAU) * 0.4 * exp(-15.0 * t)
+			var s := spring + scrape + stone
 			pb.push_frame(Vector2(s, s))
 
-	# Sallanan Giyotin / Sarkaç Bıçağı Rüzgârı (Çok hafif, yumuşak hava süzülmesi)
+	# Sallanan Giyotin / Sarkaç Bıçağı Rüzgârı (Ultra hafif, yumuşak hava süzülmesi)
 	_sound_registry["guillotine_swing"] = func(pb: AudioStreamGeneratorPlayback):
 		var n := mini(int(22050.0 * 0.35), pb.get_frames_available())
 		for i in range(n):
 			var t := float(i) / 22050.0
-			var env := sin(PI * t / 0.35) ** 2
-			var whisper := (randf() * 2.0 - 1.0) * 0.14
-			var s := whisper * env * 0.35
+			var env := sin(PI * t / 0.35) ** 2.2
+			var whisper := (randf() * 2.0 - 1.0) * 0.08
+			var s := whisper * env * 0.15
 			pb.push_frame(Vector2(s, s))
 
 	# Çöken Platform Çatlama / Sallanma Sesi (Platform Crumble)

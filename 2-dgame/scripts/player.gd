@@ -188,9 +188,9 @@ func _ready() -> void:
 			can_apply_checkpoint = save_mgr.is_checkpoint_valid_for_scene(cur_scene_path)
 		elif "cached_checkpoint_stage" in save_mgr:
 			var cp_stage: String = str(save_mgr.cached_checkpoint_stage)
-			can_apply_checkpoint = (cp_stage.is_empty() or cur_scene_path.is_empty() or cp_stage == cur_scene_path)
+			can_apply_checkpoint = (not cp_stage.is_empty() and not cur_scene_path.is_empty() and cp_stage.trim_prefix("res://") == cur_scene_path.trim_prefix("res://"))
 
-	if can_apply_checkpoint:
+	if can_apply_checkpoint and save_mgr.cached_checkpoint_position != Vector2.ZERO:
 		global_position = save_mgr.cached_checkpoint_position
 		if camera and camera.has_method("reset_smoothing"):
 			camera.reset_smoothing()
@@ -1369,9 +1369,9 @@ func respawn_at_checkpoint() -> void:
 			can_apply_cp = save_mgr.is_checkpoint_valid_for_scene(cur_scene_path)
 		elif "cached_checkpoint_stage" in save_mgr:
 			var cp_stage: String = str(save_mgr.cached_checkpoint_stage)
-			can_apply_cp = (cp_stage.is_empty() or cur_scene_path.is_empty() or cp_stage == cur_scene_path)
+			can_apply_cp = (not cp_stage.is_empty() and not cur_scene_path.is_empty() and cp_stage.trim_prefix("res://") == cur_scene_path.trim_prefix("res://"))
 
-	if can_apply_cp:
+	if can_apply_cp and save_mgr.cached_checkpoint_position != Vector2.ZERO:
 		global_position = save_mgr.cached_checkpoint_position
 	elif _initial_spawn_position != Vector2.ZERO:
 		global_position = _initial_spawn_position
@@ -1419,7 +1419,7 @@ func respawn() -> void:
 			has_valid_cp = save_mgr.is_checkpoint_valid_for_scene(cur_scene_path)
 		elif "cached_checkpoint_stage" in save_mgr:
 			var cp_stage: String = str(save_mgr.cached_checkpoint_stage)
-			has_valid_cp = (cp_stage.is_empty() or cur_scene_path.is_empty() or cp_stage == cur_scene_path)
+			has_valid_cp = (not cp_stage.is_empty() and not cur_scene_path.is_empty() and cp_stage.trim_prefix("res://") == cur_scene_path.trim_prefix("res://"))
 
 	if has_valid_cp or _initial_spawn_position != Vector2.ZERO:
 		respawn_at_checkpoint()

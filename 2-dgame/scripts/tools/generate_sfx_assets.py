@@ -176,30 +176,31 @@ def gen_rest_melody():
         audio[start_idx:] += string
     return normalize(audio, 0.82)
 
-# 7. Spike Trap (Crisp mechanical release + stone friction + thrusting steel spikes)
+# 7. Spike Trap (Crisp high-tension spring release + mechanical latch snap + thrusting steel spikes)
 def gen_spike_trap():
-    dur = 0.35
+    dur = 0.38
     t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
-    snap = np.sin(2 * np.pi * 920 * t) * np.exp(-45.0 * t) * 0.45
-    spring = bandpass(np.random.normal(0, 1, len(t)), 750, 4200) * np.exp(-30.0 * t) * 0.4
-    
-    lock_t = np.clip(t - 0.06, 0, dur)
-    lock_env = np.exp(-16.0 * lock_t) * (t > 0.06)
-    metal = (np.sin(2 * np.pi * 640 * lock_t) * 0.35 + np.sin(2 * np.pi * 1280 * lock_t) * 0.25) * lock_env
-    stone = np.sin(2 * np.pi * 80 * lock_t) * 0.5 * lock_env
-    audio = snap + spring + metal + stone
+    # 1. High-tension latch release / spring snap
+    spring_snap = np.sin(2 * np.pi * 1250 * t) * np.exp(-60.0 * t) * 0.65
+    spring_twang = bandpass(np.random.normal(0, 1, len(t)), 900, 3800) * np.exp(-38.0 * t) * 0.55
+    # 2. Steel blade extension and stone frame impact
+    thud_t = np.clip(t - 0.035, 0, dur)
+    thud_env = np.exp(-24.0 * thud_t) * (t > 0.035)
+    blade_scrape = bandpass(np.random.normal(0, 1, len(t)), 2400, 6800) * thud_env * 0.45
+    steel_ring = (np.sin(2 * np.pi * 940 * thud_t) * 0.4 + np.sin(2 * np.pi * 1880 * thud_t) * 0.28) * thud_env
+    stone_thud = np.sin(2 * np.pi * 90 * thud_t) * 0.6 * thud_env
+    audio = spring_snap + spring_twang + blade_scrape + steel_ring + stone_thud
     return normalize(audio, 0.88)
 
-# 8. Guillotine Swing (Very gentle, soft natural air displacement - Mild and unhurried)
+# 8. Guillotine Swing (Ultra-soft, faint smooth air displacement - Comfortable and never annoying)
 def gen_guillotine_swing():
-    dur = 0.42
+    dur = 0.36
     t = np.linspace(0, dur, int(SAMPLE_RATE * dur), endpoint=False)
-    env = np.sin(np.pi * (t / dur)) ** 2
+    env = np.sin(np.pi * (t / dur)) ** 2.2
     noise = np.random.normal(0, 1, len(t))
-    whisper = lowpass(noise, 360) * 0.20
-    subtle_blade = np.sin(2 * np.pi * (130.0 - 35.0 * (t/dur)) * t) * 0.06
-    audio = (whisper + subtle_blade) * env * 0.42 # very gentle
-    return normalize(audio, 0.45)
+    whisper = lowpass(noise, 200) * 0.10 # soft low frequency air movement only
+    audio = whisper * env
+    return normalize(audio, 0.16) # faint, subtle ambient whoosh
 
 # 9. Page Turn (Authentic parchment turning rustle for Codex & Books)
 def gen_page_turn():

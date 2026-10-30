@@ -135,14 +135,28 @@ func switch_tab(tab_name: String) -> void:
 	refresh_inventory()
 
 
+func _is_english() -> bool:
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		if str(loc_mgr.get_current_locale()).to_lower().begins_with("en"):
+			return true
+	if TranslationServer.has_method("get_locale"):
+		if str(TranslationServer.get_locale()).to_lower().begins_with("en"):
+			return true
+	return false
+
+
 func _update_tab_buttons_style() -> void:
+	var is_en: bool = _is_english()
 	if btn_items_tab:
+		btn_items_tab.text = "🎒 Satchel & Gear" if is_en else "🎒 Çanta ve Donanım"
 		if _current_tab == "items":
 			btn_items_tab.modulate = Color(1.2, 1.1, 0.7, 1.0)
 		else:
 			btn_items_tab.modulate = Color(0.8, 0.85, 0.9, 0.8)
 
 	if btn_heart_tab:
+		btn_heart_tab.text = "💖 World Heart" if is_en else "💖 Dünya Kalbi Kadranı"
 		if _current_tab == "heart":
 			btn_heart_tab.modulate = Color(1.2, 0.8, 0.8, 1.0)
 		else:
@@ -152,18 +166,28 @@ func _update_tab_buttons_style() -> void:
 ## Tüm envanter ve Kalp Parçaları verilerini derler ve arayüzü günceller
 func refresh_inventory() -> void:
 	_fetch_live_data()
+	var is_en: bool = _is_english()
+
+	var main_title = get_node_or_null("Panel/VBox/HeaderBar/MainTitle") as Label
+	if main_title:
+		main_title.text = "🎒 TRAVELER'S LEATHER SATCHEL" if is_en else "🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER"
+	var key_hint = get_node_or_null("Panel/VBox/HeaderBar/KeyHint") as Label
+	if key_hint:
+		key_hint.text = "[I / B / ESC] Close  |  [TAB] Switch Tab" if is_en else "[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir"
+	if btn_close:
+		btn_close.text = "✖ Close (ESC)" if is_en else "✖ Kapat (ESC)"
 
 	if _current_tab == "items":
 		if list_scroll: list_scroll.visible = true
 		if heart_quadrant_container: heart_quadrant_container.visible = false
 		if heart_progress_label: heart_progress_label.visible = false
-		if left_title_label: left_title_label.text = "ÇANTA VE DONANIM"
+		if left_title_label: left_title_label.text = "SATCHEL & GEAR" if is_en else "ÇANTA VE DONANIM"
 		_populate_items_list()
 	else:
 		if list_scroll: list_scroll.visible = false
 		if heart_quadrant_container: heart_quadrant_container.visible = true
 		if heart_progress_label: heart_progress_label.visible = true
-		if left_title_label: left_title_label.text = "DÜNYA KALBİ KADRANI"
+		if left_title_label: left_title_label.text = "WORLD HEART CHRONOMETER" if is_en else "DÜNYA KALBİ KADRANI"
 		_populate_heart_quadrant()
 
 

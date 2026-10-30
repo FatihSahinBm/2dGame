@@ -142,15 +142,35 @@ func _on_codex_data_changed() -> void:
 
 
 func _refresh_ui() -> void:
+	var is_en: bool = _is_english()
+	var main_title = get_node_or_null("Panel/VBox/HeaderBar/MainTitle") as Label
+	if main_title:
+		main_title.text = "📖 ANCIENT BESTIARY & CHRONICLES" if is_en else "📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ"
+	var key_hint = get_node_or_null("Panel/VBox/HeaderBar/KeyHint") as Label
+	if key_hint:
+		key_hint.text = "[K / O] Close | [TAB] Category | [ESC] Exit" if is_en else "[K / O] Kapat | [TAB] Kategori | [ESC] Çıkış"
+	if btn_close:
+		btn_close.text = "✖ Close (ESC)" if is_en else "✖ Kapat (ESC)"
+
 	_update_tab_buttons()
 	_update_progress()
 	_populate_entry_list()
 	_display_selected_entry()
 
 
-func _update_tab_buttons() -> void:
+func _is_english() -> bool:
 	var loc_mgr = get_node_or_null("/root/LocalizationManager")
-	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		if str(loc_mgr.get_current_locale()).to_lower().begins_with("en"):
+			return true
+	if TranslationServer.has_method("get_locale"):
+		if str(TranslationServer.get_locale()).to_lower().begins_with("en"):
+			return true
+	return false
+
+
+func _update_tab_buttons() -> void:
+	var is_en: bool = _is_english()
 
 	if btn_enemies:
 		btn_enemies.text = "⚔️ Enemies" if is_en else "⚔️ Düşmanlar"
@@ -183,8 +203,7 @@ func _update_progress() -> void:
 	if not codex_mgr or not codex_mgr.has_method("get_progress"):
 		return
 
-	var loc_mgr = get_node_or_null("/root/LocalizationManager")
-	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+	var is_en: bool = _is_english()
 
 	var prog: Dictionary = codex_mgr.get_progress(_current_category)
 	var unlocked_count: int = int(prog.get("unlocked", 0))
@@ -213,8 +232,7 @@ func _populate_entry_list() -> void:
 	if not codex_mgr:
 		return
 
-	var loc_mgr = get_node_or_null("/root/LocalizationManager")
-	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+	var is_en: bool = _is_english()
 
 	var entries: Array[Dictionary] = codex_mgr.get_entries_by_category(_current_category)
 	if entries.is_empty():
@@ -281,8 +299,7 @@ func _display_selected_entry() -> void:
 	if data.is_empty():
 		return
 
-	var loc_mgr = get_node_or_null("/root/LocalizationManager")
-	var is_en: bool = (loc_mgr != null and loc_mgr.has_method("get_current_locale") and loc_mgr.get_current_locale() == "en")
+	var is_en: bool = _is_english()
 	var is_locked: bool = bool(data.get("is_locked", false))
 
 	if title_label:

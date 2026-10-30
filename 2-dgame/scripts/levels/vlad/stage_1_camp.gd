@@ -77,7 +77,7 @@ func _setup_camera() -> void:
 		var cam: Camera2D = player.get_node_or_null("Camera2D") as Camera2D
 		if cam:
 			cam.limit_left = -220
-			cam.limit_right = 2300
+			cam.limit_right = 2800
 			cam.limit_top = -140
 			cam.limit_bottom = 630
 

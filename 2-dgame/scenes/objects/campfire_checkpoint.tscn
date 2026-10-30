@@ -17,13 +17,40 @@ shape = SubResource("CircleShape2D_cf")
 
 [node name="UnlitVisual" type="Node2D" parent="Visual"]
 
+[node name="StoneRing" type="Polygon2D" parent="Visual/UnlitVisual"]
+color = Color(0.48, 0.44, 0.42, 1)
+polygon = PackedVector2Array(-28, 4, -22, -6, -10, -10, 10, -10, 22, -6, 28, 4, 22, 14, 10, 18, -10, 18, -22, 14)
+
+[node name="AshBed" type="Polygon2D" parent="Visual/UnlitVisual"]
+color = Color(0.2, 0.16, 0.16, 1)
+polygon = PackedVector2Array(-18, 4, -14, -4, 0, -6, 14, -4, 18, 4, 12, 12, -12, 12)
+
 [node name="Log1" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.35, 0.22, 0.12, 1)
-polygon = PackedVector2Array(-24, 6, -12, -4, 16, 8, 24, 12, 12, 14, -16, 12)
+color = Color(0.38, 0.24, 0.14, 1)
+polygon = PackedVector2Array(-22, 8, -6, -18, 2, -16, -14, 12)
 
 [node name="Log2" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.28, 0.18, 0.1, 1)
-polygon = PackedVector2Array(20, 6, 10, -5, -18, 7, -22, 11, -8, 14, 14, 12)
+color = Color(0.32, 0.2, 0.12, 1)
+polygon = PackedVector2Array(22, 8, 6, -18, -2, -16, 14, 12)
+
+[node name="Log3" type="Polygon2D" parent="Visual/UnlitVisual"]
+color = Color(0.44, 0.28, 0.16, 1)
+polygon = PackedVector2Array(-16, 10, 16, 10, 14, 15, -14, 15)
+
+[node name="UnlitSmoke" type="CPUParticles2D" parent="Visual/UnlitVisual"]
+position = Vector2(0, -6)
+amount = 8
+lifetime = 2.0
+emission_shape = 3
+emission_rect_extents = Vector2(8, 2)
+direction = Vector2(0.2, -1)
+spread = 15.0
+gravity = Vector2(5, -18)
+initial_velocity_min = 8.0
+initial_velocity_max = 16.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.7, 0.7, 0.75, 0.25)
 
 [node name="FireVisual" type="Node2D" parent="Visual"]
 visible = false

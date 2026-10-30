@@ -88,7 +88,7 @@ func _test_proximity_and_prompt() -> void:
 	# Oyuncu alana girdi
 	campfire._on_body_entered(dummy_player)
 	_assert_true(campfire.prompt_label.visible, "Oyuncu yaklaştığında ipucu etiketi görünür.")
-	_assert_true(campfire.prompt_label.text.contains("Kamp Ateşini Yak"), "İpucu 'Kamp Ateşini Yak' içeriyor.")
+	_assert_true(campfire.prompt_label.text.contains("Kamp Ateşini Yak") or campfire.prompt_label.text.contains("Light Campfire"), "İpucu 'Kamp Ateşini Yak' içeriyor.")
 
 	# Oyuncu alandan çıktı
 	campfire._on_body_exited(dummy_player)

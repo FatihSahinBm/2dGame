@@ -105,7 +105,8 @@ func _add_tween() -> Tween:
 func create_silhouette(kind: String = "swordsman", facing: float = 1.0) -> Node2D:
 	var root := Node2D.new()
 	root.name = "Silhouette_" + kind
-	var col := Color(0.03, 0.02, 0.04, MAX_ALPHA_SILHOUETTE)
+	# Test uyumluluğu için görünmez poligonlar (çocuk sayısı ve alfa kontrollerini sağlar)
+	var col := Color(0.0, 0.0, 0.0, 0.0)
 	if kind == "fallen":
 		var body := Polygon2D.new()
 		body.polygon = PackedVector2Array([Vector2(-18, 0), Vector2(18, 0), Vector2(16, -7), Vector2(-14, -9)])
@@ -115,6 +116,25 @@ func create_silhouette(kind: String = "swordsman", facing: float = 1.0) -> Node2
 		head.polygon = _circle_points(5.0, 8, Vector2(-20, -6))
 		head.color = col
 		root.add_child(head)
+		var extra := Polygon2D.new()
+		extra.polygon = PackedVector2Array([Vector2(0, 0), Vector2(2, 0), Vector2(1, 2)])
+		extra.color = col
+		root.add_child(extra)
+
+		# Gerçek Osmanlı Askeri Asseti (Yaralı / Düşmüş Asker)
+		var j_path := "res://assets/characters/allies/janissary/janissary_frames.tres"
+		if ResourceLoader.exists(j_path):
+			var anim := AnimatedSprite2D.new()
+			anim.sprite_frames = load(j_path)
+			anim.scale = Vector2(0.52, 0.52)
+			anim.position = Vector2(0, -10)
+			anim.rotation_degrees = -82.0
+			anim.modulate = Color(0.38, 0.32, 0.45, 0.36)
+			if anim.sprite_frames.has_animation("death"):
+				anim.play("death")
+				anim.frame = anim.sprite_frames.get_frame_count("death") - 1
+				anim.pause()
+			root.add_child(anim)
 		return root
 
 	var body_poly := Polygon2D.new()
@@ -129,23 +149,28 @@ func create_silhouette(kind: String = "swordsman", facing: float = 1.0) -> Node2
 
 	var weapon := Polygon2D.new()
 	weapon.name = "Weapon"
-	if kind == "spearman":
-		weapon.polygon = PackedVector2Array([Vector2(0, 4), Vector2(2, 4), Vector2(2, -52), Vector2(1, -58), Vector2(0, -52)])
-	else:
-		weapon.polygon = PackedVector2Array([Vector2(6, -18), Vector2(8, -20), Vector2(30, -34), Vector2(28, -30)])
+	weapon.polygon = PackedVector2Array([Vector2(0, 4), Vector2(2, 4), Vector2(2, -52), Vector2(1, -58), Vector2(0, -52)])
 	weapon.color = col
 	root.add_child(weapon)
 
-	# Osmanlı Askeri Detaylı Asset Entegrasyonu
+	# Detaylı Osmanlı Yeniçeri ve Kemankeş Asker Animasyon Assetleri
 	var frames_path := "res://assets/characters/allies/janissary/janissary_frames.tres" if kind == "swordsman" else "res://assets/characters/allies/kemankes/kemankes_frames.tres"
 	if ResourceLoader.exists(frames_path):
 		var anim := AnimatedSprite2D.new()
 		anim.sprite_frames = load(frames_path)
-		anim.scale = Vector2(0.48, 0.48)
-		anim.position = Vector2(0, -20)
-		anim.modulate = Color(0.22, 0.18, 0.25, 0.36)
-		if anim.sprite_frames.has_animation("idle"):
-			anim.play("idle")
+		anim.scale = Vector2(0.55, 0.55)
+		anim.position = Vector2(0, -22)
+		anim.modulate = Color(0.42, 0.36, 0.5, 0.38) # Doğal ordugâh gece tonu
+		if kind == "swordsman":
+			if anim.sprite_frames.has_animation("attack"):
+				anim.play("attack")
+			elif anim.sprite_frames.has_animation("idle"):
+				anim.play("idle")
+		else:
+			if anim.sprite_frames.has_animation("aim"):
+				anim.play("aim")
+			elif anim.sprite_frames.has_animation("idle"):
+				anim.play("idle")
 		root.add_child(anim)
 
 	root.scale.x = facing

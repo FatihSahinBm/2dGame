@@ -57,8 +57,14 @@ func is_checkpoint_valid_for_scene(scene_path: String) -> bool:
 	if cached_checkpoint_position == Vector2.ZERO:
 		return false
 	if cached_checkpoint_stage.is_empty() or scene_path.is_empty():
-		return true
-	return cached_checkpoint_stage.trim_prefix("res://") == scene_path.trim_prefix("res://")
+		return false
+	var valid: bool = (cached_checkpoint_stage.trim_prefix("res://") == scene_path.trim_prefix("res://"))
+	if not valid:
+		# Farklı sahneye ait kontrol noktası yeni haritaya sızamaz!
+		cached_checkpoint_position = Vector2.ZERO
+		cached_checkpoint_id = ""
+		cached_checkpoint_stage = scene_path
+	return valid
 
 
 func clear_checkpoint() -> void:
@@ -316,6 +322,7 @@ func _gather_live_stats() -> Dictionary:
 			if player is Node2D and not ("is_dead" in player and player.is_dead):
 				if cached_checkpoint_position == Vector2.ZERO:
 					cached_checkpoint_position = player.global_position
+					cached_checkpoint_stage = str(cur.scene_file_path) if cur and "scene_file_path" in cur else ""
 
 		var hud = cur.find_child("FantasyHUD", true, false)
 		if hud:
