@@ -1,9 +1,47 @@
 [gd_scene format=3 uid="uid://campfire_checkpoint_01"]
 
 [ext_resource type="Script" path="res://scripts/objects/campfire_checkpoint.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dn7yc6mnwa05b" path="res://assets/environment/campfire/campfire_hearth.png" id="2_hearth"]
+[ext_resource type="Texture2D" uid="uid://c3ycnmc4voq6" path="res://assets/environment/campfire/campfire_coals.png" id="3_coals"]
+[ext_resource type="Texture2D" uid="uid://kdwulq1pvgid" path="res://assets/environment/campfire/campfire_light_glow.png" id="4_glow"]
+[ext_resource type="Texture2D" uid="uid://7f37wa8ebxp0" path="res://assets/environment/campfire/campfire_flame_0.png" id="5_flame0"]
+[ext_resource type="Texture2D" uid="uid://1efi6mv2gx62" path="res://assets/environment/campfire/campfire_flame_1.png" id="6_flame1"]
+[ext_resource type="Texture2D" uid="uid://c8hwovsxnrash" path="res://assets/environment/campfire/campfire_flame_2.png" id="7_flame2"]
+[ext_resource type="Texture2D" uid="uid://cfrvf46a8ua2p" path="res://assets/environment/campfire/campfire_flame_3.png" id="8_flame3"]
+[ext_resource type="Texture2D" uid="uid://kammdok3wimr" path="res://assets/environment/campfire/campfire_flame_4.png" id="9_flame4"]
+[ext_resource type="Texture2D" uid="uid://bltrtvowoh2l7" path="res://assets/environment/campfire/campfire_flame_5.png" id="10_flame5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cf"]
 radius = 48.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_flame"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_flame0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_flame1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_flame2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_flame3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_flame4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_flame5")
+}],
+"loop": true,
+"name": &"flame_burn",
+"speed": 10.0
+}]
 
 [node name="CampfireCheckpoint" type="Area2D"]
 collision_layer = 4
@@ -17,28 +55,16 @@ shape = SubResource("CircleShape2D_cf")
 
 [node name="UnlitVisual" type="Node2D" parent="Visual"]
 
-[node name="StoneRing" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.48, 0.44, 0.42, 1)
-polygon = PackedVector2Array(-28, 4, -22, -6, -10, -10, 10, -10, 22, -6, 28, 4, 22, 14, 10, 18, -10, 18, -22, 14)
+[node name="HearthSprite" type="Sprite2D" parent="Visual/UnlitVisual"]
+position = Vector2(0, 4)
+texture = ExtResource("2_hearth")
 
-[node name="AshBed" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.2, 0.16, 0.16, 1)
-polygon = PackedVector2Array(-18, 4, -14, -4, 0, -6, 14, -4, 18, 4, 12, 12, -12, 12)
-
-[node name="Log1" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.38, 0.24, 0.14, 1)
-polygon = PackedVector2Array(-22, 8, -6, -18, 2, -16, -14, 12)
-
-[node name="Log2" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.32, 0.2, 0.12, 1)
-polygon = PackedVector2Array(22, 8, 6, -18, -2, -16, 14, 12)
-
-[node name="Log3" type="Polygon2D" parent="Visual/UnlitVisual"]
-color = Color(0.44, 0.28, 0.16, 1)
-polygon = PackedVector2Array(-16, 10, 16, 10, 14, 15, -14, 15)
+[node name="CoalsSprite" type="Sprite2D" parent="Visual/UnlitVisual"]
+position = Vector2(0, 4)
+texture = ExtResource("3_coals")
 
 [node name="UnlitSmoke" type="CPUParticles2D" parent="Visual/UnlitVisual"]
-position = Vector2(0, -6)
+position = Vector2(0, -4)
 amount = 8
 lifetime = 2.0
 emission_shape = 3
@@ -55,28 +81,33 @@ color = Color(0.7, 0.7, 0.75, 0.25)
 [node name="FireVisual" type="Node2D" parent="Visual"]
 visible = false
 
-[node name="OuterFlame" type="Polygon2D" parent="Visual/FireVisual"]
-color = Color(1, 0.45, 0.1, 0.9)
-polygon = PackedVector2Array(-14, 8, -8, -12, 0, -28, 8, -14, 14, 8, 0, 12)
+[node name="LightGlow" type="Sprite2D" parent="Visual/FireVisual"]
+material = SubResource("CanvasItemMaterial_add")
+position = Vector2(0, -4)
+scale = Vector2(1.2, 0.9)
+texture = ExtResource("4_glow")
+modulate = Color(1, 0.65, 0.25, 0.65)
 
-[node name="InnerFlame" type="Polygon2D" parent="Visual/FireVisual"]
-color = Color(1, 0.9, 0.3, 0.95)
-polygon = PackedVector2Array(-7, 6, -4, -6, 0, -18, 4, -8, 7, 6, 0, 8)
+[node name="AnimatedFlame" type="AnimatedSprite2D" parent="Visual/FireVisual"]
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_flame")
+animation = &"flame_burn"
+autoplay = "flame_burn"
 
 [node name="EmbersParticles" type="CPUParticles2D" parent="Visual"]
 emitting = false
-amount = 16
-lifetime = 1.2
+amount = 20
+lifetime = 1.3
 emission_shape = 3
-emission_rect_extents = Vector2(14, 4)
+emission_rect_extents = Vector2(12, 3)
 direction = Vector2(0, -1)
 spread = 25.0
-gravity = Vector2(0, -30)
+gravity = Vector2(0, -32)
 initial_velocity_min = 25.0
 initial_velocity_max = 55.0
 scale_amount_min = 1.5
-scale_amount_max = 3.0
-color = Color(1, 0.65, 0.2, 0.85)
+scale_amount_max = 3.5
+color = Color(1, 0.7, 0.22, 0.9)
 
 [node name="PromptLabel" type="Label" parent="Visual"]
 visible = false
@@ -91,4 +122,3 @@ theme_override_font_sizes/font_size = 11
 text = "[E] Kamp Ateşini Yak (Kontrol Noktası)"
 horizontal_alignment = 1
 vertical_alignment = 1
-

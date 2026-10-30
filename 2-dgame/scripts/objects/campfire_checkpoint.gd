@@ -102,22 +102,35 @@ func _setup_internal_nodes() -> void:
 	if not unlit_visual:
 		var unlit_node := Node2D.new()
 		unlit_node.name = "UnlitVisual"
-		# Basit odun ve taş görsel temsili
-		var log_poly := Polygon2D.new()
-		log_poly.polygon = PackedVector2Array([
-			Vector2(-24, 6), Vector2(-12, -4), Vector2(16, 8), Vector2(24, 12),
-			Vector2(12, 14), Vector2(-16, 12)
-		])
-		log_poly.color = Color(0.35, 0.22, 0.12, 1.0)
-		unlit_node.add_child(log_poly)
+		if ResourceLoader.exists("res://assets/environment/campfire/campfire_hearth.png"):
+			var hearth := Sprite2D.new()
+			hearth.name = "HearthSprite"
+			hearth.position = Vector2(0, 4)
+			hearth.texture = load("res://assets/environment/campfire/campfire_hearth.png")
+			unlit_node.add_child(hearth)
+			if ResourceLoader.exists("res://assets/environment/campfire/campfire_coals.png"):
+				var coals := Sprite2D.new()
+				coals.name = "CoalsSprite"
+				coals.position = Vector2(0, 4)
+				coals.texture = load("res://assets/environment/campfire/campfire_coals.png")
+				unlit_node.add_child(coals)
+		else:
+			# Basit odun ve taş görsel temsili
+			var log_poly := Polygon2D.new()
+			log_poly.polygon = PackedVector2Array([
+				Vector2(-24, 6), Vector2(-12, -4), Vector2(16, 8), Vector2(24, 12),
+				Vector2(12, 14), Vector2(-16, 12)
+			])
+			log_poly.color = Color(0.35, 0.22, 0.12, 1.0)
+			unlit_node.add_child(log_poly)
 
-		var log_poly2 := Polygon2D.new()
-		log_poly2.polygon = PackedVector2Array([
-			Vector2(20, 6), Vector2(10, -5), Vector2(-18, 7), Vector2(-22, 11),
-			Vector2(-8, 14), Vector2(14, 12)
-		])
-		log_poly2.color = Color(0.28, 0.18, 0.1, 1.0)
-		unlit_node.add_child(log_poly2)
+			var log_poly2 := Polygon2D.new()
+			log_poly2.polygon = PackedVector2Array([
+				Vector2(20, 6), Vector2(10, -5), Vector2(-18, 7), Vector2(-22, 11),
+				Vector2(-8, 14), Vector2(14, 12)
+			])
+			log_poly2.color = Color(0.28, 0.18, 0.1, 1.0)
+			unlit_node.add_child(log_poly2)
 
 		visual_root.add_child(unlit_node)
 		unlit_visual = unlit_node
@@ -127,24 +140,53 @@ func _setup_internal_nodes() -> void:
 	if not fire_visual:
 		var fire_node := Node2D.new()
 		fire_node.name = "FireVisual"
-		# İç içe alev poligonları
-		var outer_flame := Polygon2D.new()
-		outer_flame.name = "OuterFlame"
-		outer_flame.polygon = PackedVector2Array([
-			Vector2(-14, 8), Vector2(-8, -12), Vector2(0, -28), Vector2(8, -14),
-			Vector2(14, 8), Vector2(0, 12)
-		])
-		outer_flame.color = Color(1.0, 0.45, 0.1, 0.9)
-		fire_node.add_child(outer_flame)
+		if ResourceLoader.exists("res://assets/environment/campfire/campfire_flame_0.png"):
+			if ResourceLoader.exists("res://assets/environment/campfire/campfire_light_glow.png"):
+				var glow := Sprite2D.new()
+				glow.name = "LightGlow"
+				var mat := CanvasItemMaterial.new()
+				mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+				glow.material = mat
+				glow.position = Vector2(0, -4)
+				glow.scale = Vector2(1.2, 0.9)
+				glow.texture = load("res://assets/environment/campfire/campfire_light_glow.png")
+				glow.modulate = Color(1.0, 0.65, 0.25, 0.65)
+				fire_node.add_child(glow)
 
-		var inner_flame := Polygon2D.new()
-		inner_flame.name = "InnerFlame"
-		inner_flame.polygon = PackedVector2Array([
-			Vector2(-7, 6), Vector2(-4, -6), Vector2(0, -18), Vector2(4, -8),
-			Vector2(7, 6), Vector2(0, 8)
-		])
-		inner_flame.color = Color(1.0, 0.9, 0.3, 0.95)
-		fire_node.add_child(inner_flame)
+			var sf := SpriteFrames.new()
+			sf.add_animation("flame_burn")
+			sf.set_animation_speed("flame_burn", 10.0)
+			sf.set_animation_loop("flame_burn", true)
+			for i in range(6):
+				var frame_tex = load("res://assets/environment/campfire/campfire_flame_%d.png" % i)
+				if frame_tex:
+					sf.add_frame("flame_burn", frame_tex)
+			var anim_sprite := AnimatedSprite2D.new()
+			anim_sprite.name = "AnimatedFlame"
+			anim_sprite.sprite_frames = sf
+			anim_sprite.animation = "flame_burn"
+			anim_sprite.position = Vector2(0, -10)
+			anim_sprite.play("flame_burn")
+			fire_node.add_child(anim_sprite)
+		else:
+			# İç içe alev poligonları
+			var outer_flame := Polygon2D.new()
+			outer_flame.name = "OuterFlame"
+			outer_flame.polygon = PackedVector2Array([
+				Vector2(-14, 8), Vector2(-8, -12), Vector2(0, -28), Vector2(8, -14),
+				Vector2(14, 8), Vector2(0, 12)
+			])
+			outer_flame.color = Color(1.0, 0.45, 0.1, 0.9)
+			fire_node.add_child(outer_flame)
+
+			var inner_flame := Polygon2D.new()
+			inner_flame.name = "InnerFlame"
+			inner_flame.polygon = PackedVector2Array([
+				Vector2(-7, 6), Vector2(-4, -6), Vector2(0, -18), Vector2(4, -8),
+				Vector2(7, 6), Vector2(0, 8)
+			])
+			inner_flame.color = Color(1.0, 0.9, 0.3, 0.95)
+			fire_node.add_child(inner_flame)
 
 		visual_root.add_child(fire_node)
 		fire_visual = fire_node
@@ -238,10 +280,25 @@ func _process(delta: float) -> void:
 		if _cooldown_timer <= 0.0:
 			_is_resting_cooldown = false
 
-	# Ateş alevi için hafif nefes alma / titreşim efekti
+	# Ateş alevi ve ışık için organik nefes alma / titreşim efekti
 	if is_lit and fire_visual and fire_visual.visible:
-		var pulse := 1.0 + 0.06 * sin(Time.get_ticks_msec() * 0.008)
-		fire_visual.scale = Vector2(pulse, pulse)
+		var t := Time.get_ticks_msec() * 0.001
+		var flame_wobble_x := 1.0 + 0.04 * sin(t * 7.3) + 0.02 * sin(t * 13.7)
+		var flame_wobble_y := 1.0 + 0.05 * sin(t * 5.1) + 0.02 * cos(t * 11.2)
+		fire_visual.scale = Vector2(flame_wobble_x, flame_wobble_y)
+
+		# Yer ışığı parlama / titreme efekti (LightGlow)
+		var glow_sprite = fire_visual.get_node_or_null("LightGlow") as CanvasItem
+		if glow_sprite:
+			var glow_alpha := 0.65 + 0.12 * sin(t * 6.0) + 0.08 * sin(t * 11.0)
+			glow_sprite.modulate.a = clampf(glow_alpha, 0.45, 0.85)
+
+		# Közlerin akkorlaşma nabzı (CoalsSprite)
+		if unlit_visual:
+			var coals_sprite = unlit_visual.get_node_or_null("CoalsSprite") as CanvasItem
+			if coals_sprite:
+				var coals_pulse := 1.2 + 0.25 * sin(t * 3.5)
+				coals_sprite.modulate = Color(coals_pulse, coals_pulse * 0.75, coals_pulse * 0.45, 1.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -301,6 +358,12 @@ func _update_prompt_text() -> void:
 func _update_visuals(animate: bool = true) -> void:
 	if fire_visual:
 		fire_visual.visible = is_lit
+		var anim_flame = fire_visual.get_node_or_null("AnimatedFlame") as AnimatedSprite2D
+		if anim_flame:
+			if is_lit:
+				anim_flame.play("flame_burn")
+			else:
+				anim_flame.stop()
 		if is_lit and animate:
 			var tw := create_tween()
 			fire_visual.scale = Vector2(0.2, 0.2)
@@ -309,6 +372,9 @@ func _update_visuals(animate: bool = true) -> void:
 
 	if unlit_visual:
 		unlit_visual.modulate = Color(1.25, 1.15, 1.05, 1.0) if is_lit else Color(0.85, 0.85, 0.85, 1.0)
+		var coals_sprite = unlit_visual.get_node_or_null("CoalsSprite") as CanvasItem
+		if coals_sprite and not is_lit:
+			coals_sprite.modulate = Color(0.35, 0.32, 0.32, 1.0)
 		var unlit_smoke = unlit_visual.get_node_or_null("UnlitSmoke") as CPUParticles2D
 		if unlit_smoke:
 			unlit_smoke.emitting = not is_lit
