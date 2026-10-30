@@ -71,14 +71,21 @@ func _on_game_state_rebellion_signal() -> void:
 
 
 ## Oyuncu saldırmaya kalkıştığında çağrılır.
+## Kural: Düşmanlara saldırırken kılıç ASLA direnmez/isyan etmez (false döner).
 ## Yozlaşma düşükken (<50) ASLA tetiklenmez, doğrudan false döner.
 ## Yozlaşma yüksekken (>=50) kurallara göre isyanı tetikleyip saldırıyı keser (true döner).
-func check_and_trigger_attack_rebellion() -> bool:
+func check_and_trigger_attack_rebellion(is_targeting_enemy: bool = false) -> bool:
 	if not _player_ref or not is_instance_valid(_player_ref):
 		return false
 
 	# Durum çakışmalarını önle: ölü, yaralı veya zaten isyandaysa tetikleme
 	if _player_ref.get("is_dead") == true or _player_ref.get("is_hurt") == true or _is_rebelling:
+		return false
+
+	# Kural 0: Düşmana saldırırken kılıç ASLA direnmez!
+	if is_targeting_enemy:
+		return false
+	if _player_ref.has_method("has_enemy_in_attack_range") and _player_ref.has_enemy_in_attack_range():
 		return false
 
 	var game_state: Node = get_node_or_null("/root/GameState")

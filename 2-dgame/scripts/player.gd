@@ -225,10 +225,115 @@ func _setup_rebellion_manager() -> void:
 
 
 func _check_and_trigger_sword_rebellion() -> bool:
-	if not has_sword or is_dead or is_hurt or is_dashing or is_rolling:
+	if not has_sword or is_dead or is_hurt or is_dashing or is_rolling or is_rebelling:
+		return is_rebelling
+	# Kural: Düşmana saldırırken kılıç ASLA direnmez!
+	if has_enemy_in_attack_range():
 		return false
+	# Müttefike saldırı girişimi varsa kılıç derhal müttefiki korumak için isyan eder
+	if has_ally_in_attack_range():
+		if sword_rebellion and sword_rebellion.has_method("trigger_rebellion"):
+			sword_rebellion.trigger_rebellion(true, "attacked_ally")
+			return true
 	if sword_rebellion and sword_rebellion.has_method("check_and_trigger_attack_rebellion"):
-		return sword_rebellion.check_and_trigger_attack_rebellion()
+		return sword_rebellion.check_and_trigger_attack_rebellion(false)
+	return false
+
+
+## Önümüzdeki saldırı koridorunda düşman olup olmadığını kontrol eder.
+## Kılıç düşmanlara saldırırken ASLA direnmez; kılıç şeytanları ve canavarları yok etmek için vardır!
+func has_enemy_in_attack_range() -> bool:
+	if not is_inside_tree():
+		return false
+
+	# 1. AttackArea içindeki gövdeler ve alanlar (yalnızca izleme açıkken)
+	if attack_area and attack_area.is_inside_tree() and attack_area.monitoring:
+		for body in attack_area.get_overlapping_bodies():
+			if body != self and is_instance_valid(body) and _is_valid_enemy_target(body):
+				return true
+		for area in attack_area.get_overlapping_areas():
+			if not is_instance_valid(area) or area == self:
+				continue
+			var parent_node = area.get_parent()
+			if parent_node and parent_node != self and _is_valid_enemy_target(parent_node):
+				return true
+
+	# 2. Fizik uzayı doğrudan sorgusu (Saldırı hitbox'ının ön alanı)
+	var space_state = get_world_2d().direct_space_state if get_world_2d() else null
+	if space_state:
+		var query = PhysicsShapeQueryParameters2D.new()
+		var shape = CircleShape2D.new()
+		shape.radius = 85.0
+		query.shape = shape
+		query.transform = Transform2D(0.0, global_position + Vector2(facing_dir * 50.0, -16.0))
+		query.collision_mask = 31
+		var excludes: Array[RID] = [get_rid()]
+		if parabolic_shield and is_instance_valid(parabolic_shield):
+			excludes.append(parabolic_shield.get_rid())
+		query.exclude = excludes
+		query.collide_with_bodies = true
+		query.collide_with_areas = true
+		var results = space_state.intersect_shape(query, 16)
+		for r in results:
+			var col = r.get("collider")
+			if col and is_instance_valid(col) and col != self:
+				var target = col
+				if target is Area2D and target.get_parent() and target.get_parent() != self:
+					target = target.get_parent()
+				if _is_valid_enemy_target(target):
+					return true
+
+	# 3. Yakın çevrede (ileriye doğru 220px ve arkaya 35px menzilde) canlı düşman/boss var mı?
+	for group_name in ["enemies", "boss", "mini_boss"]:
+		var group_nodes = get_tree().get_nodes_in_group(group_name)
+		for node in group_nodes:
+			if not is_instance_valid(node) or not (node is Node2D):
+				continue
+			if node.get("is_dead") == true or node.get("_is_dead") == true:
+				continue
+			var diff: Vector2 = (node as Node2D).global_position - global_position
+			var forward_dist: float = diff.x * facing_dir
+			var vert_dist: float = absf(diff.y)
+			# Oyuncunun baktığı yönde 220 piksel içinde ve dikeyde ±95 piksel
+			if forward_dist >= -35.0 and forward_dist <= 220.0 and vert_dist <= 95.0:
+				return true
+			# Veya oyuncunun hemen dibinde (55px her yöne)
+			if diff.length() <= 55.0:
+				return true
+
+	return false
+
+
+## Saldırı menzilinde müttefik asker olup olmadığını kontrol eder.
+func has_ally_in_attack_range() -> bool:
+	if not is_inside_tree():
+		return false
+	var allies = get_tree().get_nodes_in_group("allies")
+	for ally in allies:
+		if not is_instance_valid(ally) or not (ally is Node2D):
+			continue
+		if ally.get("is_dead") == true or ally.get("_is_dead") == true:
+			continue
+		var diff: Vector2 = (ally as Node2D).global_position - global_position
+		var forward_dist: float = diff.x * facing_dir
+		var vert_dist: float = absf(diff.y)
+		if forward_dist >= -15.0 and forward_dist <= 100.0 and vert_dist <= 65.0:
+			return true
+	return false
+
+
+## Hedefin geçerli bir düşman olup olmadığını doğrular
+func _is_valid_enemy_target(target: Object) -> bool:
+	if not is_instance_valid(target) or target == self:
+		return false
+	if target.is_in_group("allies") or target.is_in_group("player"):
+		return false
+	if target.get("is_dead") == true or target.get("_is_dead") == true:
+		return false
+	if target.is_in_group("enemies") or target.is_in_group("damageable") or target.is_in_group("boss") or target.is_in_group("mini_boss") or target.is_in_group("barricades"):
+		return true
+	if target.has_method("take_damage") or target.has_method("hit"):
+		return true
 	return false
 
 
@@ -1121,6 +1226,9 @@ func _deal_damage_to_target(target: Object, dmg: int) -> void:
 		return
 	_play_sword_hit(-2.0)
 	if target.is_in_group("allies"):
+		# Müttefike saldırıldığında kılıç derhal şiddetle isyan eder
+		if sword_rebellion and sword_rebellion.has_method("trigger_rebellion"):
+			sword_rebellion.trigger_rebellion(true, "attacked_ally")
 		target.take_damage(dmg, self)
 		return
 	if target.has_method("take_damage"):

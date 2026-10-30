@@ -188,13 +188,64 @@ func _ready() -> void:
 	else:
 		print("PASS: Müttefik katlinde kılıç ruhu anında isyan sinyali üretti.")
 
+	# --- TEST SENARYOSU 8: Düşmana Saldırırken Kılıcın Direnmemesi Doğrulaması ---
+	print("\n--- Test 8: Düşman Hedeflendiğinde Kılıcın Direnmemesi ve Müttefik Koruması ---")
+	game_state.corruption_score = 95 # Aşırı yozlaşma seviyesinde bile düşmana direnmemeli
+	srm.reset_cooldown()
+
+	# 8.1 Düşman menzildeyken saldırı kontrolü
+	var dummy_enemy = CharacterBody2D.new()
+	dummy_enemy.name = "DummyEnemy"
+	dummy_enemy.add_to_group("enemies")
+	dummy_enemy.add_to_group("damageable")
+	dummy_enemy.position = player.global_position + Vector2(65.0, 0.0)
+	add_child(dummy_enemy)
+
+	if not player.has_enemy_in_attack_range():
+		printerr("FAIL: Önündeki düşman algılanamadı!")
+		all_passed = false
+	else:
+		print("PASS: Önündeki düşman başarıyla algılandı (has_enemy_in_attack_range = true).")
+
+	var enemy_attack_rebel = player._check_and_trigger_sword_rebellion()
+	if enemy_attack_rebel:
+		printerr("FAIL: Düşmana saldırırken kılıç isyan etti! Kılıç düşmanlara karşı asla direnmemeli!")
+		all_passed = false
+	else:
+		print("PASS: Düşmana saldırırken kılıç direnmedi; saldırı kesintisiz icra edildi.")
+
+	dummy_enemy.free()
+
+	# 8.2 Müttefik menzildeyken kılıcın müttefiki koruma isyanı
+	var dummy_ally = CharacterBody2D.new()
+	dummy_ally.name = "DummyAlly"
+	dummy_ally.add_to_group("allies")
+	dummy_ally.position = player.global_position + Vector2(50.0, 0.0)
+	add_child(dummy_ally)
+
+	srm.reset_cooldown()
+	if not player.has_ally_in_attack_range():
+		printerr("FAIL: Önündeki müttefik algılanamadı!")
+		all_passed = false
+	else:
+		print("PASS: Önündeki müttefik algılandı (has_ally_in_attack_range = true).")
+
+	var ally_attack_rebel = player._check_and_trigger_sword_rebellion()
+	if not ally_attack_rebel:
+		printerr("FAIL: Müttefike kılıç sallandığında kılıç isyan etmedi!")
+		all_passed = false
+	else:
+		print("PASS: Müttefike kılıç sallandığında kılıç müttefiki korumak için başarıyla isyan etti.")
+
+	dummy_ally.free()
+
 	# Temizlik
 	player.queue_free()
 	game_state.reset_state()
 
 	print("\n========================================================")
 	if all_passed:
-		print("  SONUÇ: 7/7 KILIÇ İSYANI TESTLERİ TAMAMEN BAŞARILI!   ")
+		print("  SONUÇ: 8/8 KILIÇ İSYANI TESTLERİ TAMAMEN BAŞARILI!   ")
 		print("========================================================\n")
 		get_tree().quit(0)
 	else:
