@@ -237,12 +237,22 @@ func play_sfx_varied(sound: Variant, volume_db: float = 0.0, pitch_variance: flo
 ## - Katman 1 (Whoosh): Düşük-orta frekanslı aerodinamik hava sürtünmesi (0.00s)
 ## - Katman 2 (Ring): Yüksek frekanslı kristal çelik çınlaması (Transient Ring, ~15ms micro-offset)
 ## - 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
-func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micro_delay_ms: float = 15.0) -> AudioStreamPlayer:
-	_sword_slash_round_robin = (_sword_slash_round_robin % 3) + 1
-	var rr_idx: int = _sword_slash_round_robin
-	
+func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micro_delay_ms: float = 15.0, specific_key: String = "") -> AudioStreamPlayer:
 	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
 	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+
+	# Belirli bir saldırı türü (sol tık: sword_slash_1 / sword_slash_2, sağ tık: sword_slash_heavy) verilmişse doğrudan çal
+	if not specific_key.is_empty() and has_sound(specific_key):
+		var p_direct := play_sfx(specific_key, final_vol, final_pitch, "SFX")
+		if micro_delay_ms > 0.0 and has_sound("sword_slash_ring") and is_inside_tree():
+			var timer := get_tree().create_timer(micro_delay_ms / 1000.0)
+			timer.timeout.connect(func():
+				play_sfx("sword_slash_ring", final_vol - 6.0, final_pitch, "SFX")
+			)
+		return p_direct
+
+	_sword_slash_round_robin = (_sword_slash_round_robin % 3) + 1
+	var rr_idx: int = _sword_slash_round_robin
 
 	# 1. Öncelik: Gerçek Stüdyo Kayıtları (sword_slash_1/2/3 veya sword_slash)
 	var variant_key := "sword_slash_%d" % rr_idx

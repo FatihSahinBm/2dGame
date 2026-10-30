@@ -104,3 +104,18 @@ func _run_all_tests() -> void:
 			break
 	_assert_true(any_playing_sfx, "15ms mikro-gecikmeli çelik transient katmanı başarıyla tetiklendi ve çalıyor.")
 
+	# 6. Sol ve Sağ Tık Kılıç Sesleri Doğrulaması
+	print("\n--- Test 6: Sol ve Sağ Tık Kılıç Sesleri (Light 1, Light 2, Heavy) ---")
+	_assert_true(audio_mgr.has_sound("sword_slash_1"), "Sol tık vuruş 1 ('sword_slash_1') mevcut.")
+	_assert_true(audio_mgr.has_sound("sword_slash_2"), "Sol tık kombo vuruş 2 ('sword_slash_2') mevcut.")
+	_assert_true(audio_mgr.has_sound("sword_slash_heavy"), "Sağ tık ağır vuruş ('sword_slash_heavy') mevcut.")
+
+	var p_left1 = audio_mgr.play_sword_slash(-2.0, 0.05, 15.0, "sword_slash_1")
+	_assert_true(p_left1 != null and p_left1.stream != null, "Sol tık vuruş 1 sesi başarıyla çalındı.")
+
+	var p_left2 = audio_mgr.play_sword_slash(-1.5, 0.05, 15.0, "sword_slash_2")
+	_assert_true(p_left2 != null and p_left2.stream != null, "Sol tık kombo vuruş 2 sesi başarıyla çalındı.")
+
+	var p_right = audio_mgr.play_sword_slash(0.0, 0.05, 15.0, "sword_slash_heavy")
+	_assert_true(p_right != null and p_right.stream != null, "Sağ tık ağır kılıç sesi başarıyla çalındı.")
+
