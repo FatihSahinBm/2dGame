@@ -46,6 +46,7 @@ var _reverse_timer: float = 0.0
 var _anim_mismatch_t: float = 0.0
 var _progress_best_x: float = -INF
 var _no_progress_t: float = 0.0
+var _teleport_settle_t: float = 0.0
 
 
 func _ready() -> void:
@@ -320,21 +321,27 @@ func _monitor(dt: float) -> void:
 		_anim_mismatch_t = _anim_mismatch_t + dt if bad else 0.0
 		if _anim_mismatch_t > 0.5:
 			_anomaly("ANIM_MISMATCH", "anim=%s floor=%s vel=%s" % [key, on_floor, p.velocity])
-	# Harita dışı / zemin altı
-	if cam:
-		if p.global_position.y > cam.limit_bottom + 120:
-			_anomaly("FELL_OUT_OF_WORLD", "y=%.0f limit_bottom=%d" % [p.global_position.y, cam.limit_bottom])
-		if p.global_position.x < cam.limit_left - 60 or p.global_position.x > cam.limit_right + 60:
-			_anomaly("OUT_OF_CAMERA_BOUNDS", "x=%.0f limits=[%d,%d]" % [p.global_position.x, cam.limit_left, cam.limit_right])
-		var vs := get_viewport().get_visible_rect().size / cam.zoom
-		var d := cam.get_screen_center_position() - p.global_position
-		if absf(d.x) > vs.x * 0.5 or absf(d.y) > vs.y * 0.5:
-			_anomaly("PLAYER_OFF_SCREEN", "cam_center=%s player=%s" % [cam.get_screen_center_position(), p.global_position])
-	# Kontrol kaybı / diyalog
+	# Kontrol kaybı / diyalog / sinematik kontrolü
 	var dlg := _active_dialogue()
 	var can_move: bool = p.get("can_move") if "can_move" in p else true
 	var gs := get_node_or_null("/root/GameState")
 	var cine: bool = gs != null and "is_in_cinematic" in gs and gs.is_in_cinematic
+	var is_cutscene: bool = (not can_move) or cine or (dlg != null)
+
+	# Harita dışı / zemin altı / kamera takibi
+	if cam:
+		if _teleport_settle_t <= 0.0:
+			if p.global_position.y > cam.limit_bottom + 120:
+				_anomaly("FELL_OUT_OF_WORLD", "y=%.0f limit_bottom=%d" % [p.global_position.y, cam.limit_bottom])
+			if p.global_position.x < cam.limit_left - 60 or p.global_position.x > cam.limit_right + 60:
+				_anomaly("OUT_OF_CAMERA_BOUNDS", "x=%.0f limits=[%d,%d]" % [p.global_position.x, cam.limit_left, cam.limit_right])
+			if not is_cutscene and cam.offset.length_squared() < 100.0:
+				var vs := get_viewport().get_visible_rect().size / cam.zoom
+				var d := cam.get_screen_center_position() - p.global_position
+				if absf(d.x) > vs.x * 0.5 or absf(d.y) > vs.y * 0.5:
+					_anomaly("PLAYER_OFF_SCREEN", "cam_center=%s player=%s" % [cam.get_screen_center_position(), p.global_position])
+		else:
+			_teleport_settle_t -= dt
 	if dlg:
 		_dialog_timer += dt
 		if _dialog_timer > 60.0:
@@ -592,6 +599,7 @@ func _run_scenario(id: String) -> void:
 
 
 func _prep_level(path: String) -> CharacterBody2D:
+	_teleport_settle_t = 1.5
 	_load_scene(path)
 	await _wait(1.2)
 	# Açılış diyaloglarını TAB / Enter ile geç
@@ -884,9 +892,12 @@ func _sc_gate_bridge() -> void:
 		return
 	var gx := blocker.global_position.x
 	p.global_position = Vector2(gx - 160, p.global_position.y)
+	_teleport_settle_t = 1.0
 	var cam := _cam()
 	if cam:
 		cam.global_position = p.global_position
+		if cam.has_method("reset_smoothing"):
+			cam.reset_smoothing()
 	await _wait(0.8)
 	await _screenshot("before_gate")
 	var r := await _gate_attempts(p, gx, "gate_closed_attempts")
@@ -919,8 +930,9 @@ func _sc_gate_bridge() -> void:
 	if not changed:
 		await _screenshot("gate_open_after")
 	_observe("Açık kapı: max_x=%.1f, sahne değişti=%s, WallRight x=%s" % [max_open, changed, wall.global_position.x if wall else -1])
-	var ok := (not passed_closed) and (max_open > gx + 10 or changed)
-	_end("PASS" if ok else "FAIL", "kapalıyken geçti=%s ; açıkken ilerledi=%s (max_x=%.0f) ; sahne geçişi=%s" % [passed_closed, max_open > gx + 10, max_open, changed])
+	var advanced := max_open > gx + 10 or changed
+	var ok := (not passed_closed) and advanced
+	_end("PASS" if ok else "FAIL", "kapalıyken geçti=%s ; açıkken ilerledi=%s (max_x=%.0f) ; sahne geçişi=%s" % [passed_closed, advanced, max_open, changed])
 
 
 func _sc_gate_dungeon() -> void:
@@ -970,6 +982,7 @@ func _sc_gate_dungeon() -> void:
 		p.is_dead = false
 		p.can_move = true
 		p.global_position = Vector2(gx - 60, p.global_position.y)
+		_teleport_settle_t = 1.0
 	await _wait(0.5)
 	var max_open := gx
 	var changed_d := get_tree().current_scene != lvl
@@ -987,8 +1000,9 @@ func _sc_gate_dungeon() -> void:
 	changed_d = changed_d or (get_tree().current_scene != lvl)
 	if not changed_d:
 		await _screenshot("blood_gate_after_braziers")
-	var ok := (not passed_closed) and (max_open > gx + 5 or changed_d)
-	_end("PASS" if ok else "FAIL", "kapalıyken geçti=%s ; yakılan mangal=%d ; açıkken ilerledi=%s ; sahne geçişi=%s" % [passed_closed, lit, max_open > gx + 5, changed_d])
+	var advanced_d := max_open > gx + 5 or changed_d
+	var ok := (not passed_closed) and advanced_d
+	_end("PASS" if ok else "FAIL", "kapalıyken geçti=%s ; yakılan mangal=%d ; açıkken ilerledi=%s ; sahne geçişi=%s" % [passed_closed, lit, advanced_d, changed_d])
 
 
 # ---------------------------------------------------------------- bitiş

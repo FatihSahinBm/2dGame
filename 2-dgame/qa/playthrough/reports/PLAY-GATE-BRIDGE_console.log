@@ -3,13 +3,11 @@ D3D12 12_0 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop
 
 [QA t=0.00] QA runner start mode=scenario scenario=PLAY-GATE-BRIDGE
 [QA t=1.81] BEGIN PLAY-GATE-BRIDGE Köprü: boss öncesi kapı geçilemez, sonrası açılır (res://scenes/levels/vlad/stage_1_bridge_assault.tscn)
-[QA t=1.81] ANOMALY PLAYER_OFF_SCREEN cam_center=(505.1852, 363.3334) player=(2148.0, 560.0)
-[QA t=1.81] screenshot PLAY-GATE-BRIDGE_01_ANOMALY_PLAYER_OFF_SCREEN.png
-[QA t=2.62] screenshot PLAY-GATE-BRIDGE_02_before_gate.png
-[QA t=15.64] screenshot PLAY-GATE-BRIDGE_03_gate_closed_attempts.png
+[QA t=2.62] screenshot PLAY-GATE-BRIDGE_01_before_gate.png
+[QA t=15.64] screenshot PLAY-GATE-BRIDGE_02_gate_closed_attempts.png
 [QA t=15.64] OBS Kapalı kapı: max_x=2308.0 gate_x=2308.0
 [QA t=15.64] OBS Koçbaşı hücum sekansı bekleniyor...
-[QA t=20.94] OBS Koçbaşı hücum sekansı tamamlandı!
+[QA t=20.95] OBS Koçbaşı hücum sekansı tamamlandı!
 [QA t=21.95] OBS Açık kapı: max_x=2308.0, sahne değişti=true, WallRight x=-1
-[QA t=21.95] END PLAY-GATE-BRIDGE -> PASS : kapalıyken geçti=false ; açıkken ilerledi=false (max_x=2308) ; sahne geçişi=true
+[QA t=21.95] END PLAY-GATE-BRIDGE -> PASS : kapalıyken geçti=false ; açıkken ilerledi=true (max_x=2308) ; sahne geçişi=true
 [QA t=21.95] FINISH exit_code=0

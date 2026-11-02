@@ -72,6 +72,12 @@ var _page_turn_round_robin: int = 0
 var _last_sword_slash_ms: int = 0
 var _sword_spam_count: int = 0
 
+# Concurrency, Throttling & Anti-Overlap Guard
+const MIN_SFX_INTERVAL_MS: int = 40
+const MAX_CONCURRENT_PER_SOUND: int = 3
+var _last_sound_play_ms: Dictionary = {}
+var _player_sound_keys: Dictionary = {}
+
 # 2D Ses Havuzu
 var _sfx_2d_pool: Array[AudioStreamPlayer2D] = []
 var _sfx_2d_index: int = 0
@@ -216,14 +222,21 @@ func play_sfx(sound: Variant, volume_db: float = 0.0, pitch_scale: float = 1.0, 
 		if has_sound(candidate_key):
 			sound_to_play = candidate_key
 
+	var now_ms := Time.get_ticks_msec()
+	var key_str := str(sound_to_play)
+	if now_ms - int(_last_sound_play_ms.get(key_str, 0)) < MIN_SFX_INTERVAL_MS:
+		return null
+	_last_sound_play_ms[key_str] = now_ms
+
 	var stream := _resolve_stream(sound_to_play)
 	if not stream:
 		push_warning("AudioManager: Ses anahtarı veya kaynak bulunamadı -> %s" % str(sound))
 		return null
 
-	var player := _get_available_sfx_player()
+	var player := _get_available_sfx_player(key_str)
 	if not player:
 		return null
+	_player_sound_keys[player] = key_str
 
 	player.stop()
 	player.bus = bus if has_bus(bus) else "SFX"
@@ -360,19 +373,29 @@ func play_sword_hit(volume_db: float = 0.0, pitch_variance: float = 0.05) -> Aud
 
 	return null
 
-func _get_available_sfx_player() -> AudioStreamPlayer:
-	# 1. Boşta (çalmayan) oyuncu ara
+func _get_available_sfx_player(sound_key: String = "") -> AudioStreamPlayer:
+	# 1. Aynı ses MAX_CONCURRENT_PER_SOUND kadar çalıyorsa en eskisini yeniden kullan (hırsızlık/steal)
+	if not sound_key.is_empty():
+		var playing_this_sound: Array[AudioStreamPlayer] = []
+		for p in _sfx_pool:
+			if p.playing and _player_sound_keys.get(p) == sound_key:
+				playing_this_sound.append(p)
+		if playing_this_sound.size() >= MAX_CONCURRENT_PER_SOUND:
+			return playing_this_sound[0]
+
+	# 2. Boşta (çalmayan) oyuncu ara
 	for p in _sfx_pool:
 		if not p.playing:
 			return p
 
-	# 2. Tüm oyuncular meşgulse: Round-robin ile en eskiyi yeniden kullan (recycle)
+	# 3. Tüm oyuncular meşgulse: Round-robin ile en eskiyi yeniden kullan (recycle)
 	var recycled: AudioStreamPlayer = _sfx_pool[_sfx_pool_index]
 	_sfx_pool_index = (_sfx_pool_index + 1) % _sfx_pool.size()
 	return recycled
 
 
 func stop_all_sfx() -> void:
+	_player_sound_keys.clear()
 	for p in _sfx_pool:
 		p.stop()
 		p.stream = null
@@ -410,6 +433,12 @@ func play_sound_2d(sound: Variant, global_pos: Vector2, parent_node: Variant = n
 	if parent_node is float or parent_node is int:
 		volume_db = float(parent_node)
 		parent_node = null
+	var now_ms := Time.get_ticks_msec()
+	var key_str := str(sound)
+	if now_ms - int(_last_sound_play_ms.get(key_str, 0)) < MIN_SFX_INTERVAL_MS:
+		return null
+	_last_sound_play_ms[key_str] = now_ms
+
 	var stream := _resolve_stream(sound)
 	if not stream:
 		push_warning("AudioManager: 2D ses anahtarı bulunamadı -> %s" % str(sound))

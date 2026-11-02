@@ -140,3 +140,4 @@ func _save_wav(rel_path: String, chunks: Array[PackedVector2Array], total_sample
 			f.store_16(r)
 
 	f.close()
+

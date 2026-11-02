@@ -1,10 +1,10 @@
 {
-  "finished": "2026-11-02T22:49:51",
+  "finished": "2026-11-03T00:22:52",
   "mode": "scenario",
   "records": [
     {
-      "actual": "kapalıyken geçti=false ; yakılan mangal=3 ; açıkken ilerledi=false ; sahne geçişi=true",
-      "anomalies": 2,
+      "actual": "kapalıyken geçti=false ; yakılan mangal=3 ; açıkken ilerledi=true ; sahne geçişi=true",
+      "anomalies": 0,
       "id": "PLAY-GATE-DUNGEON",
       "result": "PASS",
       "title": "Mahzen: 3 mangal yakılmadan Kan Sunağı kapısı geçilemez"

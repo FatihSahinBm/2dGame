@@ -3,11 +3,7 @@ D3D12 12_0 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop
 
 [QA t=0.00] QA runner start mode=scenario scenario=PLAY-GATE-DUNGEON
 [QA t=1.81] BEGIN PLAY-GATE-DUNGEON Mahzen: 3 mangal yakılmadan Kan Sunağı kapısı geçilemez (res://scenes/levels/vlad/stage_2_castle_dungeon.tscn)
-[QA t=1.82] ANOMALY PLAYER_OFF_SCREEN cam_center=(505.1852, 363.3333) player=(2050.0, 549.9948)
-[QA t=1.82] screenshot PLAY-GATE-DUNGEON_01_ANOMALY_PLAYER_OFF_SCREEN.png
-[QA t=11.75] ANOMALY AUDIO_OVERLAP 18 eşzamanlı SFX
-[QA t=11.75] screenshot PLAY-GATE-DUNGEON_02_ANOMALY_AUDIO_OVERLAP.png
-[QA t=15.77] screenshot PLAY-GATE-DUNGEON_03_blood_gate_closed.png
-[QA t=15.77] OBS Kapalı: max_x=2169.9 gate_x=2170.0, mangal düğümü=3
-[QA t=18.53] END PLAY-GATE-DUNGEON -> PASS : kapalıyken geçti=false ; yakılan mangal=3 ; açıkken ilerledi=false ; sahne geçişi=true
-[QA t=18.53] FINISH exit_code=0
+[QA t=15.63] screenshot PLAY-GATE-DUNGEON_01_blood_gate_closed.png
+[QA t=15.63] OBS Kapalı: max_x=2169.9 gate_x=2170.0, mangal düğümü=3
+[QA t=18.40] END PLAY-GATE-DUNGEON -> PASS : kapalıyken geçti=false ; yakılan mangal=3 ; açıkken ilerledi=true ; sahne geçişi=true
+[QA t=18.40] FINISH exit_code=0

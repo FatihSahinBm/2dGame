@@ -84,3 +84,4 @@ Pixel-art projelerindeki en büyük kalite kusuru **"Mixel"** (farklı çözün�
 * **REVIEW (İnceleme / Stil Notu):** 456 (%71.6) — Arka plan illüstrasyonları ve bazı efektler yüksek renk derinliği ve degrade içermektedir. Bu varlıklar pixel-art sahnenin arkasında zengin bir derinlik sunduğu için motor tarafında bozulmaya yol açmamakta ancak stil olarak modern-retro hibrit kategorisindedir.
 * **FAIL (Bozuk / Hatalı Dosya):** 0 (%0.0) — Projede bozuk PNG, okunamayan header veya kayıp sprite tespit edilmemiştir.
 * **Görsel Rapor:** `qa/art_direction/audit_overview.png` dosyasında pasta ve dağılım grafiği olarak belgelenmiştir.
+

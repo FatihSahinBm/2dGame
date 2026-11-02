@@ -29,7 +29,3 @@ ERROR: Can't find overlapping areas when monitoring is off.
    at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
    GDScript backtrace (most recent call first):
        [0] <anonymous lambda> (res://scripts/player.gd:1264)
-WARNING: 21 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2536)
-ERROR: 3 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:822)
