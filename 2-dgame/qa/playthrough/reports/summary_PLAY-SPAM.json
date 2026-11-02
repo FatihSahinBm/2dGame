@@ -1,0 +1,14 @@
+{
+  "finished": "2026-11-02T22:36:57",
+  "mode": "scenario",
+  "records": [
+    {
+      "actual": "max_sfx=5 kilit=false",
+      "anomalies": 0,
+      "id": "PLAY-SPAM",
+      "result": "PASS",
+      "title": "Kılıç tık spam (sol/sağ) — kilitlenme ve ses birikmesi"
+    }
+  ],
+  "scenario": "PLAY-SPAM"
+}

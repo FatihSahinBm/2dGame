@@ -1665,6 +1665,7 @@ func _start_safety_timer(timeout: float) -> void:
 			current_attack_type = ""
 			if attack_area:
 				attack_area.monitoring = false
+			_update_animation()
 	)
 
 func _on_animation_finished() -> void:
@@ -1674,11 +1675,14 @@ func _on_animation_finished() -> void:
 		current_attack_type = ""
 		if attack_area:
 			attack_area.monitoring = false
+		_update_animation()
 	if is_rolling:
 		is_rolling = false
 		_set_collision_box(NORMAL_COL_SIZE, NORMAL_COL_POS)
+		_update_animation()
 	if is_sliding:
 		_stop_slide()
+		_update_animation()
 
 func _play(anim_name: StringName) -> void:
 	if anim_sprite.animation != anim_name and anim_sprite.sprite_frames.has_animation(anim_name):

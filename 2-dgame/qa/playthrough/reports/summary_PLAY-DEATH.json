@@ -1,0 +1,14 @@
+{
+  "finished": "2026-11-02T22:36:32",
+  "mode": "scenario",
+  "records": [
+    {
+      "actual": "ölüm=true anim=death yeniden doğdu=true kontrol=true",
+      "anomalies": 0,
+      "id": "PLAY-DEATH",
+      "result": "PASS",
+      "title": "Ölüm ve yeniden doğma"
+    }
+  ],
+  "scenario": "PLAY-DEATH"
+}

@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+[QA t=0.00] QA runner start mode=scenario scenario=PLAY-002
+[QA t=2.08] BEGIN PLAY-002 İlk bölümde hareket, zıplama, saldırı animasyonları (res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn)
+[QA t=2.09] screenshot PLAY-002_01_idle.png
+[QA t=2.69] screenshot PLAY-002_02_run_right.png
+[QA t=4.21] screenshot PLAY-002_03_run_left.png
+[QA t=7.69] screenshot PLAY-002_04_after_double_jump.png
+[QA t=8.09] OBS PRE-ATK p.can_move=true p.is_attacking=false p.has_sword=true p.is_armed=true is_defending=false is_rebelling=false is_dead=false
+[QA t=8.09] OBS ATK_SIGNAL: light
+[QA t=8.20] OBS POST-ATK Sol tık p.can_move=true p.is_attacking=true anim=attack
+[QA t=8.21] screenshot PLAY-002_05_attack_light.png
+[QA t=8.43] OBS PRE-COMBO p.is_atk=false combo_step=1 combo_timer=0.16666666666667
+[QA t=8.43] OBS ATK_SIGNAL: combo
+[QA t=8.52] OBS POST-COMBO anim=idle cur_atk= is_atk=false
+[QA t=8.83] OBS ATK_SIGNAL: heavy
+[QA t=8.93] screenshot PLAY-002_06_attack_heavy.png
+[QA t=9.69] OBS CHECK-VEL vel=(0.0, 0.0) is_on_floor=true key_d=false key_a=false move_right=false paused=false
+[QA t=9.69] OBS PRE-CROUCH has_crouch_act=true is_act_pressed=false key_ctrl_pressed=false
+[QA t=9.99] OBS CHECK-CROUCH anim=crouch is_crouching=true is_dashing=false is_sliding=false is_rolling=false is_attacking=false is_hurt=false can_dash=true vel=(0.0, 0.0) has_act=true is_act=true is_key=true
+[QA t=10.00] screenshot PLAY-002_07_crouch.png
+[QA t=12.23] screenshot PLAY-002_08_back_to_idle.png
+[QA t=12.23] OBS PASS idle anim : idle
+[QA t=12.23] OBS PASS D -> run anim : run
+[QA t=12.23] OBS PASS D 1.2s -> x arttı : 160.0 -> 463.1
+[QA t=12.23] OBS PASS sağa bakış scale.x=1 : 1.0
+[QA t=12.23] OBS PASS A -> sola bakış scale.x=-1 : -1.0
+[QA t=12.23] OBS PASS Space -> jump anim : jump
+[QA t=12.23] OBS PASS zıplama yüksekliği > 40px : 155.1 px
+[QA t=12.23] OBS PASS fall anim görüldü : 
+[QA t=12.23] OBS PASS yere iniş : y=559.9
+[QA t=12.23] OBS PASS iniş sonrası y eski zemine döndü (±2px) : 559.93 vs 559.99
+[QA t=12.23] OBS PASS çift zıplama tek zıplamadan yüksek : 268.6 px
+[QA t=12.23] OBS PASS Saldırı (Sol tık) -> attack : attack
+[QA t=12.23] OBS PASS Kombo saldırı -> combo : sig_combo=true anim=idle
+[QA t=12.23] OBS PASS saldırı kilidi çözüldü (<2s) : 0.00s
+[QA t=12.23] OBS PASS Ağır saldırı (Sağ tık) -> heavy_attack : heavy_attack
+[QA t=12.23] OBS PASS ağır saldırı kilidi çözüldü : 0.15s
+[QA t=12.23] OBS PASS Ctrl -> crouch : crouch
+[QA t=12.23] OBS PASS Shift -> dash mesafesi : 256.0 px
+[QA t=12.23] OBS PASS idle'a dönüş : idle
+[QA t=12.23] END PLAY-002 -> PASS : 19/19 kontrol geçti
+[QA t=12.23] FINISH exit_code=0

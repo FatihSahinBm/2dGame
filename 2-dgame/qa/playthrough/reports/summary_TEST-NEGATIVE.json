@@ -1,0 +1,14 @@
+{
+  "finished": "2026-11-02T22:58:40",
+  "mode": "scenario",
+  "records": [
+    {
+      "actual": "Kontrollü negatif test: Başarısızlık başarıyla tespit edildi (Beklenen FAIL)",
+      "anomalies": 0,
+      "id": "TEST-NEGATIVE",
+      "result": "FAIL",
+      "title": "Kontrollü negatif test: Sahte pozitif denetimi"
+    }
+  ],
+  "scenario": "TEST-NEGATIVE"
+}

@@ -1,0 +1,115 @@
+{
+  "methodology": "Dijital Sinyal İşleme (DSP), Spektral FFT ve İstatistiksel Akustik Değerlendirme (Fiziksel kulak simülasyonu yerine nesnel sinyal analizi)",
+  "captures_analyzed": 5,
+  "source_campfire_check": {
+    "file": "campfire.wav",
+    "path": "assets/audio/sfx/campfire.wav",
+    "channels": 2,
+    "framerate": 44100,
+    "duration_s": 11.2,
+    "peak_dbfs": -8.22,
+    "rms_dbfs": -20.53,
+    "dc_offset": 7e-05,
+    "clipping_samples": 0,
+    "spectral_distribution": {
+      "low_pct": 99.8,
+      "mid_pct": 0.2,
+      "high_pct": 0.0
+    },
+    "analysis_plot": "campfire_analysis.png",
+    "status": "PASS",
+    "note": "Kaynak SFX dosya analizi (cızırtı ve loop doğrulama)"
+  },
+  "results": [
+    {
+      "file": "capture_ambience_prehistoric.wav",
+      "path": "qa/audio/captures/capture_ambience_prehistoric.wav",
+      "channels": 2,
+      "framerate": 44100,
+      "duration_s": 4.35,
+      "peak_dbfs": -15.53,
+      "rms_dbfs": -36.0,
+      "dc_offset": -2e-05,
+      "clipping_samples": 0,
+      "spectral_distribution": {
+        "low_pct": 91.7,
+        "mid_pct": 8.2,
+        "high_pct": 0.1
+      },
+      "analysis_plot": "capture_ambience_prehistoric_analysis.png",
+      "status": "PASS"
+    },
+    {
+      "file": "capture_ambience_vlad.wav",
+      "path": "qa/audio/captures/capture_ambience_vlad.wav",
+      "channels": 2,
+      "framerate": 44100,
+      "duration_s": 4.35,
+      "peak_dbfs": -15.53,
+      "rms_dbfs": -22.43,
+      "dc_offset": 8e-05,
+      "clipping_samples": 0,
+      "spectral_distribution": {
+        "low_pct": 96.5,
+        "mid_pct": 3.5,
+        "high_pct": 0.0
+      },
+      "analysis_plot": "capture_ambience_vlad_analysis.png",
+      "status": "PASS"
+    },
+    {
+      "file": "capture_campfire.wav",
+      "path": "qa/audio/captures/capture_campfire.wav",
+      "channels": 2,
+      "framerate": 44100,
+      "duration_s": 4.37,
+      "peak_dbfs": -18.7,
+      "rms_dbfs": -29.47,
+      "dc_offset": -1e-05,
+      "clipping_samples": 0,
+      "spectral_distribution": {
+        "low_pct": 99.7,
+        "mid_pct": 0.3,
+        "high_pct": 0.0
+      },
+      "analysis_plot": "capture_campfire_analysis.png",
+      "status": "PASS"
+    },
+    {
+      "file": "capture_sword_slashes.wav",
+      "path": "qa/audio/captures/capture_sword_slashes.wav",
+      "channels": 2,
+      "framerate": 44100,
+      "duration_s": 3.27,
+      "peak_dbfs": -4.16,
+      "rms_dbfs": -26.18,
+      "dc_offset": 9e-05,
+      "clipping_samples": 0,
+      "spectral_distribution": {
+        "low_pct": 15.7,
+        "mid_pct": 53.8,
+        "high_pct": 30.5
+      },
+      "analysis_plot": "capture_sword_slashes_analysis.png",
+      "status": "PASS"
+    },
+    {
+      "file": "capture_torch.wav",
+      "path": "qa/audio/captures/capture_torch.wav",
+      "channels": 2,
+      "framerate": 44100,
+      "duration_s": 4.35,
+      "peak_dbfs": -18.02,
+      "rms_dbfs": -29.44,
+      "dc_offset": -8e-05,
+      "clipping_samples": 0,
+      "spectral_distribution": {
+        "low_pct": 99.7,
+        "mid_pct": 0.3,
+        "high_pct": 0.0
+      },
+      "analysis_plot": "capture_torch_analysis.png",
+      "status": "PASS"
+    }
+  ]
+}

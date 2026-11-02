@@ -1,0 +1,14 @@
+{
+  "finished": "2026-11-02T22:35:39",
+  "mode": "scenario",
+  "records": [
+    {
+      "actual": "19/19 kontrol geçti",
+      "anomalies": 0,
+      "id": "PLAY-002",
+      "result": "PASS",
+      "title": "İlk bölümde hareket, zıplama, saldırı animasyonları"
+    }
+  ],
+  "scenario": "PLAY-002"
+}

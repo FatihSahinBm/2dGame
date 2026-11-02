@@ -1,0 +1,8 @@
+{
+  "detail": "cam_center=(708.0544, 383.3334) player=(677.5556, 651.9717)",
+  "kind": "PLAYER_OFF_SCREEN",
+  "player_pos": "(677.5556, 651.9717)",
+  "scene": "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn",
+  "screenshot": "PLAY-002_08_ANOMALY_PLAYER_OFF_SCREEN.png",
+  "t": 9.4
+}

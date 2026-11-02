@@ -1,0 +1,188 @@
+{
+  "actual": "19/19 kontrol geçti",
+  "anim_samples": {
+    "attack": 2,
+    "attack_combo": 1,
+    "crouch": 2,
+    "dash": 2,
+    "fall": 12,
+    "heavy_attack": 2,
+    "idle": 38,
+    "jump": 13,
+    "run": 21
+  },
+  "anomalies": [],
+  "checks": [
+    {
+      "name": "idle anim",
+      "pass": true,
+      "value": "idle"
+    },
+    {
+      "name": "D -> run anim",
+      "pass": true,
+      "value": "run"
+    },
+    {
+      "name": "D 1.2s -> x arttı",
+      "pass": true,
+      "value": "160.0 -> 463.1"
+    },
+    {
+      "name": "sağa bakış scale.x=1",
+      "pass": true,
+      "value": "1.0"
+    },
+    {
+      "name": "A -> sola bakış scale.x=-1",
+      "pass": true,
+      "value": "-1.0"
+    },
+    {
+      "name": "Space -> jump anim",
+      "pass": true,
+      "value": "jump"
+    },
+    {
+      "name": "zıplama yüksekliği > 40px",
+      "pass": true,
+      "value": "155.1 px"
+    },
+    {
+      "name": "fall anim görüldü",
+      "pass": true,
+      "value": ""
+    },
+    {
+      "name": "yere iniş",
+      "pass": true,
+      "value": "y=559.9"
+    },
+    {
+      "name": "iniş sonrası y eski zemine döndü (±2px)",
+      "pass": true,
+      "value": "559.93 vs 559.99"
+    },
+    {
+      "name": "çift zıplama tek zıplamadan yüksek",
+      "pass": true,
+      "value": "268.6 px"
+    },
+    {
+      "name": "Saldırı (Sol tık) -> attack",
+      "pass": true,
+      "value": "attack"
+    },
+    {
+      "name": "Kombo saldırı -> combo",
+      "pass": true,
+      "value": "sig_combo=true anim=idle"
+    },
+    {
+      "name": "saldırı kilidi çözüldü (<2s)",
+      "pass": true,
+      "value": "0.00s"
+    },
+    {
+      "name": "Ağır saldırı (Sağ tık) -> heavy_attack",
+      "pass": true,
+      "value": "heavy_attack"
+    },
+    {
+      "name": "ağır saldırı kilidi çözüldü",
+      "pass": true,
+      "value": "0.15s"
+    },
+    {
+      "name": "Ctrl -> crouch",
+      "pass": true,
+      "value": "crouch"
+    },
+    {
+      "name": "Shift -> dash mesafesi",
+      "pass": true,
+      "value": "256.0 px"
+    },
+    {
+      "name": "idle'a dönüş",
+      "pass": true,
+      "value": "idle"
+    }
+  ],
+  "duration_s": 10.15,
+  "end_pos": "(39.00926, 559.9717)",
+  "end_wall": "2026-11-02T22:35:39",
+  "expected": "Her girdi doğru animasyonu ve fiziksel tepkiyi üretir; kilitlenme/titreme yok",
+  "id": "PLAY-002",
+  "input_count": 19,
+  "inputs": [
+    "0.01 key D down",
+    "1.22 key D up",
+    "1.62 key A down",
+    "2.13 key A up",
+    "2.63 key Space down",
+    "2.89 key Space up",
+    "4.07 key Space down",
+    "4.22 key Space up",
+    "4.48 key Space down",
+    "4.63 key Space up",
+    "6.03 mouse 1 click @(505.1852, 266.6667)",
+    "6.36 mouse 1 click @(505.1852, 266.6667)",
+    "6.76 mouse 2 click @(505.1852, 266.6667)",
+    "7.61 key Ctrl down",
+    "7.92 key Ctrl up",
+    "8.32 key A down",
+    "8.52 key Shift down",
+    "8.63 key Shift up",
+    "9.14 key A up"
+  ],
+  "max_concurrent_sfx": 6,
+  "method": "Gerçek pencere + motor seviyesi klavye/fare girdisi (betikli)",
+  "observations": [
+    "6.01 PRE-ATK p.can_move=true p.is_attacking=false p.has_sword=true p.is_armed=true is_defending=false is_rebelling=false is_dead=false",
+    "6.01 ATK_SIGNAL: light",
+    "6.12 POST-ATK Sol tık p.can_move=true p.is_attacking=true anim=attack",
+    "6.35 PRE-COMBO p.is_atk=false combo_step=1 combo_timer=0.16666666666667",
+    "6.35 ATK_SIGNAL: combo",
+    "6.44 POST-COMBO anim=idle cur_atk= is_atk=false",
+    "6.75 ATK_SIGNAL: heavy",
+    "7.61 CHECK-VEL vel=(0.0, 0.0) is_on_floor=true key_d=false key_a=false move_right=false paused=false",
+    "7.61 PRE-CROUCH has_crouch_act=true is_act_pressed=false key_ctrl_pressed=false",
+    "7.91 CHECK-CROUCH anim=crouch is_crouching=true is_dashing=false is_sliding=false is_rolling=false is_attacking=false is_hurt=false can_dash=true vel=(0.0, 0.0) has_act=true is_act=true is_key=true",
+    "10.15 PASS idle anim : idle",
+    "10.15 PASS D -> run anim : run",
+    "10.15 PASS D 1.2s -> x arttı : 160.0 -> 463.1",
+    "10.15 PASS sağa bakış scale.x=1 : 1.0",
+    "10.15 PASS A -> sola bakış scale.x=-1 : -1.0",
+    "10.15 PASS Space -> jump anim : jump",
+    "10.15 PASS zıplama yüksekliği > 40px : 155.1 px",
+    "10.15 PASS fall anim görüldü : ",
+    "10.15 PASS yere iniş : y=559.9",
+    "10.15 PASS iniş sonrası y eski zemine döndü (±2px) : 559.93 vs 559.99",
+    "10.15 PASS çift zıplama tek zıplamadan yüksek : 268.6 px",
+    "10.15 PASS Saldırı (Sol tık) -> attack : attack",
+    "10.15 PASS Kombo saldırı -> combo : sig_combo=true anim=idle",
+    "10.15 PASS saldırı kilidi çözüldü (<2s) : 0.00s",
+    "10.15 PASS Ağır saldırı (Sağ tık) -> heavy_attack : heavy_attack",
+    "10.15 PASS ağır saldırı kilidi çözüldü : 0.15s",
+    "10.15 PASS Ctrl -> crouch : crouch",
+    "10.15 PASS Shift -> dash mesafesi : 256.0 px",
+    "10.15 PASS idle'a dönüş : idle"
+  ],
+  "result": "PASS",
+  "scene": "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn",
+  "screenshots": [
+    "PLAY-002_01_idle.png",
+    "PLAY-002_02_run_right.png",
+    "PLAY-002_03_run_left.png",
+    "PLAY-002_04_after_double_jump.png",
+    "PLAY-002_05_attack_light.png",
+    "PLAY-002_06_attack_heavy.png",
+    "PLAY-002_07_crouch.png",
+    "PLAY-002_08_back_to_idle.png"
+  ],
+  "start_pos": "(160.0, 559.9883)",
+  "start_t": 2.07960011111111,
+  "start_wall": "2026-11-02T22:35:28",
+  "title": "İlk bölümde hareket, zıplama, saldırı animasyonları"
+}

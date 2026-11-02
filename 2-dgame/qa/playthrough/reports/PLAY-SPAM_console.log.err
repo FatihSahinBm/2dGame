@@ -1,0 +1,48 @@
+ERROR: Can't find overlapping bodies when monitoring is off.
+   at: get_overlapping_bodies (scene/2d/physics/area_2d.cpp:465)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1257)
+ERROR: Can't find overlapping areas when monitoring is off.
+   at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1264)
+ERROR: Can't find overlapping bodies when monitoring is off.
+   at: get_overlapping_bodies (scene/2d/physics/area_2d.cpp:465)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1257)
+ERROR: Can't find overlapping areas when monitoring is off.
+   at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1264)
+ERROR: Can't find overlapping bodies when monitoring is off.
+   at: get_overlapping_bodies (scene/2d/physics/area_2d.cpp:465)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1257)
+ERROR: Can't find overlapping areas when monitoring is off.
+   at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1264)
+ERROR: Can't find overlapping bodies when monitoring is off.
+   at: get_overlapping_bodies (scene/2d/physics/area_2d.cpp:465)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1257)
+ERROR: Can't find overlapping areas when monitoring is off.
+   at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1264)
+ERROR: Can't find overlapping bodies when monitoring is off.
+   at: get_overlapping_bodies (scene/2d/physics/area_2d.cpp:465)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1257)
+ERROR: Can't find overlapping areas when monitoring is off.
+   at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1264)
+ERROR: Can't find overlapping bodies when monitoring is off.
+   at: get_overlapping_bodies (scene/2d/physics/area_2d.cpp:465)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1257)
+ERROR: Can't find overlapping areas when monitoring is off.
+   at: get_overlapping_areas (scene/2d/physics/area_2d.cpp:482)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://scripts/player.gd:1264)

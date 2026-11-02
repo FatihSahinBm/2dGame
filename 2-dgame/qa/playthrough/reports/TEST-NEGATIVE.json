@@ -1,0 +1,21 @@
+{
+  "actual": "Kontrollü negatif test: Başarısızlık başarıyla tespit edildi (Beklenen FAIL)",
+  "anim_samples": {},
+  "anomalies": [],
+  "duration_s": 0.51,
+  "end_pos": "n/a",
+  "end_wall": "2026-11-02T22:58:40",
+  "expected": "Kasıtlı başarısızlık koşulu test edilir",
+  "id": "TEST-NEGATIVE",
+  "input_count": 0,
+  "inputs": [],
+  "method": "Doğrulama testi",
+  "observations": [],
+  "result": "FAIL",
+  "scene": "res://qa/playthrough/qa_play_runner.tscn",
+  "screenshots": [],
+  "start_pos": "",
+  "start_t": 0.0,
+  "start_wall": "2026-11-02T22:58:39",
+  "title": "Kontrollü negatif test: Sahte pozitif denetimi"
+}

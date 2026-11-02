@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+[QA t=0.00] QA runner start mode=scenario scenario=PLAY-DEATH
+[QA t=2.08] BEGIN PLAY-DEATH Ölüm ve yeniden doğma (res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn)
+[QA t=3.79] screenshot PLAY-DEATH_01_death.png
+[QA t=4.82] screenshot PLAY-DEATH_02_death_screen.png
+[QA t=6.93] screenshot PLAY-DEATH_03_after_respawn.png
+[QA t=7.53] OBS death_anim=death dead=true alive_after=true hp=100 moved=true pos=(307.1111, 559.9883) spawn=(160.0, 559.9883)
+[QA t=7.53] END PLAY-DEATH -> PASS : ölüm=true anim=death yeniden doğdu=true kontrol=true
+[QA t=7.53] FINISH exit_code=0

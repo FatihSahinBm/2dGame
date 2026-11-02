@@ -1,0 +1,8 @@
+{
+  "detail": "cam_center=(505.1852, 363.3334) player=(2148.0, 560.0)",
+  "kind": "PLAYER_OFF_SCREEN",
+  "player_pos": "(2148.0, 560.0)",
+  "scene": "res://scenes/levels/vlad/stage_1_bridge_assault.tscn",
+  "screenshot": "PLAY-GATE-BRIDGE_01_ANOMALY_PLAYER_OFF_SCREEN.png",
+  "t": 0.01
+}

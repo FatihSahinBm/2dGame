@@ -1,0 +1,42 @@
+{
+  "actual": "ölüm=true anim=death yeniden doğdu=true kontrol=true",
+  "anim_samples": {
+    "death": 4,
+    "fall": 4,
+    "idle": 27,
+    "run": 15
+  },
+  "anomalies": [],
+  "duration_s": 5.46,
+  "end_pos": "(307.1111, 559.9883)",
+  "end_wall": "2026-11-02T22:36:32",
+  "expected": "Ölümde death animasyonu; ardından oyuncu tam canla geri döner ve kontrol edilebilir",
+  "id": "PLAY-DEATH",
+  "input_count": 8,
+  "inputs": [
+    "0.00 key D down",
+    "1.00 key D up",
+    "1.72 key R down",
+    "1.86 key R up",
+    "2.26 key Enter down",
+    "2.32 key Enter up",
+    "4.85 key D down",
+    "5.46 key D up"
+  ],
+  "max_concurrent_sfx": 1,
+  "method": "Hasar: doğrudan mekanik simülasyon (take_damage); sonrası motor seviyesi girdi",
+  "observations": [
+    "5.46 death_anim=death dead=true alive_after=true hp=100 moved=true pos=(307.1111, 559.9883) spawn=(160.0, 559.9883)"
+  ],
+  "result": "PASS",
+  "scene": "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn",
+  "screenshots": [
+    "PLAY-DEATH_01_death.png",
+    "PLAY-DEATH_02_death_screen.png",
+    "PLAY-DEATH_03_after_respawn.png"
+  ],
+  "start_pos": "(160.0, 559.9883)",
+  "start_t": 2.07537977777778,
+  "start_wall": "2026-11-02T22:36:27",
+  "title": "Ölüm ve yeniden doğma"
+}

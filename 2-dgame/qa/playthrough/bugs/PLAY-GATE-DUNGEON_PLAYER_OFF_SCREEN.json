@@ -1,0 +1,8 @@
+{
+  "detail": "cam_center=(505.1852, 363.3333) player=(2050.0, 549.9948)",
+  "kind": "PLAYER_OFF_SCREEN",
+  "player_pos": "(2050.0, 549.9948)",
+  "scene": "res://scenes/levels/vlad/stage_2_castle_dungeon.tscn",
+  "screenshot": "PLAY-GATE-DUNGEON_01_ANOMALY_PLAYER_OFF_SCREEN.png",
+  "t": 0.01
+}
