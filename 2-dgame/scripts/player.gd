@@ -1552,8 +1552,10 @@ func respawn() -> void:
 
 	if has_valid_cp or _initial_spawn_position != Vector2.ZERO:
 		respawn_at_checkpoint()
-	else:
+	elif is_inside_tree() and get_tree():
 		get_tree().reload_current_scene()
+	else:
+		respawn_at_checkpoint()
 
 
 func _show_death_screen() -> void:
