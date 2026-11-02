@@ -20,10 +20,16 @@
 [ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_door_right.png" id="18_door_r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(2450, 60)
+size = Vector2(2700, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
-size = Vector2(90, 220)
+size = Vector2(110, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 900)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate_blocker"]
+size = Vector2(24, 220)
 
 [node name="Stage1BridgeAssault" type="Node2D"]
 script = ExtResource("1_bridge")
@@ -41,17 +47,29 @@ fog_color = Color(0.15, 0.05, 0.04, 0.2)
 
 [node name="Environment" type="Node2D" parent="."]
 
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(5, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2332, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
 [node name="Ground" type="StaticBody2D" parent="Environment"]
-position = Vector2(1200, 590)
+position = Vector2(1300, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/Ground"]
 texture_filter = 1
-offset_left = -1225.0
+offset_left = -1350.0
 offset_top = -30.0
-offset_right = 1225.0
+offset_right = 1350.0
 offset_bottom = 120.0
 texture = ExtResource("14_ground")
 patch_margin_left = 16
@@ -134,6 +152,12 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate"]
 shape = SubResource("RectangleShape2D_gate")
+
+[node name="GateBlocker" type="StaticBody2D" parent="ExitGate"]
+position = Vector2(-12, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate/GateBlocker"]
+shape = SubResource("RectangleShape2D_gate_blocker")
 
 [node name="PortalBackdrop" type="ColorRect" parent="ExitGate"]
 offset_left = -22.0

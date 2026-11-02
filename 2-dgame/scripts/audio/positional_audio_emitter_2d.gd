@@ -110,6 +110,14 @@ func play_sound(fade_in_time: float = 0.0) -> void:
 		push_warning("PositionalAudioEmitter2D: Ses kaynağı çözülemedi -> " + sound_key)
 		return
 
+	if stream is AudioStreamWAV and loop:
+		var wav := stream as AudioStreamWAV
+		var total_samples: int = int(round(wav.get_length() * float(maxi(wav.mix_rate, 1))))
+		if total_samples > 0 and wav.loop_end <= 0:
+			wav.loop_begin = 0
+			wav.loop_end = total_samples
+		wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+
 	_player.stream = stream
 	_player.bus = bus if AudioServer.get_bus_index(bus) != -1 else "SFX"
 	_player.max_distance = max_distance

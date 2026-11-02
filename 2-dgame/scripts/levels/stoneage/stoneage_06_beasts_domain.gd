@@ -40,6 +40,8 @@ var _exit_triggered: bool = false
 
 func _ready() -> void:
 	_ensure_node_refs()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial("Canavarın İni", "Dikkat", "İn bölgesindeki dev fosil kalıntılarını geç ve sığınağa ulaş.")
 	_setup_player()
 	_setup_camera()
 	_setup_triggers()

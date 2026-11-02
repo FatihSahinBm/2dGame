@@ -46,11 +46,18 @@ position = Vector2(15, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+visible = false
 offset_left = -15.0
 offset_top = -350.0
 offset_right = 15.0
 offset_bottom = 350.0
 color = Color(0.12, 0.09, 0.08, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2185, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
 
 [node name="GroundStart" type="StaticBody2D" parent="Environment"]
 position = Vector2(310, 590)
@@ -112,7 +119,7 @@ scale = Vector2(0.65, 0.6)
 texture = ExtResource("10_ledge_tex")
 
 [node name="DestructibleBarricade" parent="Environment" instance=ExtResource("7_barricade")]
-position = Vector2(1480, 525)
+position = Vector2(1480, 560)
 
 [node name="BarricadeHintZone" type="Area2D" parent="Environment"]
 position = Vector2(1350, 500)
@@ -156,12 +163,8 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate"]
 shape = SubResource("RectangleShape2D_gate")
 
-[node name="GateVisual" type="ColorRect" parent="ExitGate"]
-offset_left = -20.0
-offset_top = -110.0
-offset_right = 20.0
-offset_bottom = 110.0
-color = Color(0.8, 0.35, 0.15, 0.45)
+[node name="ExitRiftVisual" parent="ExitGate" instance=ExtResource("5_rift")]
+position = Vector2(0, 0)
 
 [node name="GateGlow" type="CPUParticles2D" parent="ExitGate"]
 amount = 16

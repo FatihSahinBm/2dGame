@@ -38,13 +38,16 @@ size = Vector2(400, 50)
 size = Vector2(260, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_floor"]
-size = Vector2(1000, 60)
+size = Vector2(1150, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pit"]
 size = Vector2(1200, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
-size = Vector2(70, 220)
+size = Vector2(95, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 900)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lever"]
 size = Vector2(32, 32)
@@ -93,6 +96,18 @@ tile_count = 3
 fog_color = Color(0.04, 0.02, 0.05, 0.22)
 
 [node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(5, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2194, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
 
 [node name="EntranceMechanism" type="Node2D" parent="."]
 
@@ -337,16 +352,16 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="UpperCorridor" type="StaticBody2D" parent="Environment"]
-position = Vector2(1750, 575)
+position = Vector2(1825, 575)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/UpperCorridor"]
 shape = SubResource("RectangleShape2D_exit_floor")
 
 [node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/UpperCorridor"]
 texture_filter = 1
-offset_left = -500.0
+offset_left = -575.0
 offset_top = -30.0
-offset_right = 500.0
+offset_right = 575.0
 offset_bottom = 90.0
 texture = ExtResource("13_stone")
 patch_margin_left = 24
@@ -444,6 +459,12 @@ collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodAltarGate"]
 shape = SubResource("RectangleShape2D_gate")
+
+[node name="BloodGateStatic" type="StaticBody2D" parent="BloodAltarGate"]
+position = Vector2(-10, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BloodAltarGate/BloodGateStatic"]
+shape = SubResource("RectangleShape2D_portcullis")
 
 [node name="ArchVisual" type="Sprite2D" parent="BloodAltarGate"]
 z_index = 1

@@ -32,6 +32,8 @@ var _exit_triggered: bool = false
 
 func _ready() -> void:
 	_ensure_node_refs()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial("Zaman Yarığı", "A / D", "Bilinmeyen çağa düştün. İlerleyerek çıkışa ulaş.")
 
 	# Oyuncunun kılıç kuşanmasını sağla
 	if player:

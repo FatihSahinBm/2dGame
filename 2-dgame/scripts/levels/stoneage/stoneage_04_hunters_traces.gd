@@ -37,6 +37,8 @@ var _seen_presence: bool = false
 
 func _ready() -> void:
 	_ensure_node_refs()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial("Avcının İzleri", "İlerle", "Kadim yırtıcının devasa ayak izlerini ve ezilmiş ağaçları takip et.")
 	_setup_player()
 	_setup_triggers()
 	_play_fade_in()

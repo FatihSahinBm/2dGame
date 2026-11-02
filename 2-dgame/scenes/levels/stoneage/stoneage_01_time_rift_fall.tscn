@@ -19,7 +19,7 @@ size = Vector2(900, 60)
 size = Vector2(900, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_exit"]
-size = Vector2(500, 60)
+size = Vector2(700, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
 size = Vector2(200, 24)
@@ -59,6 +59,7 @@ position = Vector2(15, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+visible = false
 offset_left = -15.0
 offset_top = -400.0
 offset_right = 15.0
@@ -72,6 +73,7 @@ position = Vector2(2385, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+visible = false
 offset_left = -15.0
 offset_top = -400.0
 offset_right = 15.0
@@ -119,16 +121,16 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="GroundExit" type="StaticBody2D" parent="Environment"]
-position = Vector2(2050, 590)
+position = Vector2(2150, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
 shape = SubResource("RectangleShape2D_g_exit")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
 texture_filter = 1
-offset_left = -250.0
+offset_left = -350.0
 offset_top = -30.0
-offset_right = 250.0
+offset_right = 350.0
 offset_bottom = 150.0
 texture = ExtResource("5_ground_tex")
 patch_margin_left = 24

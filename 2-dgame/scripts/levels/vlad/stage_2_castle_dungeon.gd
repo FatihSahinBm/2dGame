@@ -80,7 +80,7 @@ func _setup_camera() -> void:
 		var cam: Camera2D = player.get_node_or_null("Camera2D") as Camera2D
 		if cam:
 			cam.limit_left = 0
-			cam.limit_right = 2300
+			cam.limit_right = 2215
 			cam.limit_top = -140
 			cam.limit_bottom = 630
 
@@ -154,6 +154,9 @@ func _unlock_throne_gate() -> void:
 	if _gate_unlocked:
 		return
 	_gate_unlocked = true
+	var blood_gate_col := get_node_or_null("BloodAltarGate/BloodGateStatic/CollisionShape2D") as CollisionShape2D
+	if blood_gate_col:
+		blood_gate_col.set_deferred("disabled", true)
 	var gate_bars = get_node_or_null("BloodAltarGate/PortcullisBars")
 	if gate_bars:
 		var tw: Tween = create_tween()

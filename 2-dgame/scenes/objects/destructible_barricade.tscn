@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://barricade_01"]
+[gd_scene load_steps=7 format=3 uid="uid://barricade_01"]
 
 [ext_resource type="Script" path="res://scripts/objects/destructible_barricade.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/objects/barricade_hurtbox.gd" id="2_hurtbox_script"]
+[ext_resource type="Texture2D" path="res://assets/objects/destructible_barricade.png" id="3_barricade_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
 size = Vector2(36, 68)
@@ -35,54 +36,10 @@ shape = SubResource("RectangleShape2D_hurtbox")
 
 [node name="Visual" type="Node2D" parent="."]
 
-[node name="PostLeft" type="ColorRect" parent="Visual"]
-offset_left = -16.0
-offset_top = -68.0
-offset_right = -8.0
-color = Color(0.35, 0.22, 0.14, 1)
-
-[node name="PostRight" type="ColorRect" parent="Visual"]
-offset_left = 8.0
-offset_top = -68.0
-offset_right = 16.0
-color = Color(0.35, 0.22, 0.14, 1)
-
-[node name="Plank1" type="ColorRect" parent="Visual"]
-offset_left = -18.0
-offset_top = -54.0
-offset_right = 18.0
-offset_bottom = -42.0
-color = Color(0.48, 0.32, 0.2, 1)
-
-[node name="Plank2" type="ColorRect" parent="Visual"]
-offset_left = -18.0
-offset_top = -32.0
-offset_right = 18.0
-offset_bottom = -20.0
-color = Color(0.45, 0.3, 0.18, 1)
-
-[node name="Plank3" type="ColorRect" parent="Visual"]
-offset_left = -18.0
-offset_top = -12.0
-offset_right = 18.0
-color = Color(0.42, 0.28, 0.16, 1)
-
-[node name="IronBrace" type="ColorRect" parent="Visual"]
-offset_left = -14.0
-offset_top = -36.0
-offset_right = 14.0
-offset_bottom = -30.0
-color = Color(0.25, 0.25, 0.28, 1)
-
-[node name="StakeTip1" type="Polygon2D" parent="Visual"]
-position = Vector2(-12, -68)
-color = Color(0.38, 0.24, 0.15, 1)
-polygon = PackedVector2Array(-4, 0, 0, -10, 4, 0)
-
-[node name="StakeTip2" type="Polygon2D" parent="Visual"]
-position = Vector2(12, -68)
-color = Color(0.38, 0.24, 0.15, 1)
-polygon = PackedVector2Array(-4, 0, 0, -10, 4, 0)
+[node name="BarricadeSprite" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -36)
+texture = ExtResource("3_barricade_tex")
 
 [node name="UI" type="Node2D" parent="."]
 position = Vector2(0, -78)

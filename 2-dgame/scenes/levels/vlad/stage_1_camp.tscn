@@ -23,6 +23,9 @@ size = Vector2(3400, 60)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_gate"]
 size = Vector2(80, 220)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 900)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_quiver"]
 size = Vector2(40, 48)
 
@@ -45,6 +48,18 @@ script = ExtResource("15_atmo")
 ground_y = 560.0
 
 [node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(-210, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2525, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
 
 [node name="Ground" type="StaticBody2D" parent="Environment"]
 position = Vector2(1100, 590)

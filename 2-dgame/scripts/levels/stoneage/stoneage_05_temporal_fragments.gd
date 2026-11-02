@@ -39,6 +39,8 @@ var _seen_socket: bool = false
 
 func _ready() -> void:
 	_ensure_node_refs()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial("Zamansal Parçalar", "Araştır", "Alanda bulunan mekanik eklem ve sibernetik zırh parçalarını incele.")
 	_setup_player()
 	_setup_triggers()
 	_play_fade_in()

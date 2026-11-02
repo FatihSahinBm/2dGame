@@ -15,10 +15,13 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/campfire_checkpoint.tscn" id="16_campfire"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1650, 60)
+size = Vector2(1800, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
 size = Vector2(80, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(30, 900)
 
 [node name="Stage1ForestCamp" type="Node2D" unique_id=1086725768]
 script = ExtResource("1_stage")
@@ -36,17 +39,29 @@ fog_color = Color(0.08, 0.03, 0.07, 0.22)
 
 [node name="Environment" type="Node2D" parent="."]
 
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(5, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1555, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("RectangleShape2D_wall")
+
 [node name="Ground" type="StaticBody2D" parent="Environment"]
-position = Vector2(800, 590)
+position = Vector2(850, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/Ground"]
 texture_filter = 1
-offset_left = -825.0
+offset_left = -900.0
 offset_top = -30.0
-offset_right = 825.0
+offset_right = 900.0
 offset_bottom = 120.0
 texture = ExtResource("15_ground")
 patch_margin_left = 16

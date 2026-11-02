@@ -20,22 +20,22 @@
 size = Vector2(40, 800)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_start"]
-size = Vector2(900, 60)
+size = Vector2(960, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_enc1"]
 size = Vector2(800, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_barr"]
-size = Vector2(500, 60)
+size = Vector2(550, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_enc2"]
-size = Vector2(800, 60)
+size = Vector2(850, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_trans"]
 size = Vector2(700, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g_arena"]
-size = Vector2(1100, 60)
+size = Vector2(1260, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
 size = Vector2(220, 24)
@@ -97,6 +97,7 @@ position = Vector2(20, 250)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+visible = false
 offset_left = -20.0
 offset_top = -400.0
 offset_right = 20.0
@@ -110,6 +111,7 @@ position = Vector2(5480, 250)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+visible = false
 offset_left = -20.0
 offset_top = -400.0
 offset_right = 20.0
@@ -117,16 +119,16 @@ offset_bottom = 400.0
 color = Color(0.1, 0.08, 0.07, 1)
 
 [node name="GroundStart" type="StaticBody2D" parent="Environment"]
-position = Vector2(460, 590)
+position = Vector2(480, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundStart"]
 shape = SubResource("RectangleShape2D_g_start")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundStart"]
 texture_filter = 1
-offset_left = -450.0
+offset_left = -480.0
 offset_top = -30.0
-offset_right = 450.0
+offset_right = 480.0
 offset_bottom = 150.0
 texture = ExtResource("13_ground_tex")
 patch_margin_left = 28
@@ -202,16 +204,16 @@ scale = Vector2(0.68, 0.6)
 texture = ExtResource("14_ledge_tex")
 
 [node name="GroundBarricade" type="StaticBody2D" parent="Environment"]
-position = Vector2(2450, 590)
+position = Vector2(2475, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundBarricade"]
 shape = SubResource("RectangleShape2D_g_barr")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundBarricade"]
 texture_filter = 1
-offset_left = -250.0
+offset_left = -275.0
 offset_top = -30.0
-offset_right = 250.0
+offset_right = 275.0
 offset_bottom = 150.0
 texture = ExtResource("13_ground_tex")
 patch_margin_left = 28
@@ -222,7 +224,7 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="DestructibleBarricade" parent="Environment" instance=ExtResource("9_barricade")]
-position = Vector2(2520, 525)
+position = Vector2(2520, 560)
 
 [node name="BarricadeHintZone" type="Area2D" parent="Environment"]
 position = Vector2(2380, 500)
@@ -232,16 +234,16 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_zone")
 
 [node name="GroundEncounter2" type="StaticBody2D" parent="Environment"]
-position = Vector2(3150, 590)
+position = Vector2(3175, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundEncounter2"]
 shape = SubResource("RectangleShape2D_g_enc2")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundEncounter2"]
 texture_filter = 1
-offset_left = -400.0
+offset_left = -425.0
 offset_top = -30.0
-offset_right = 400.0
+offset_right = 425.0
 offset_bottom = 150.0
 texture = ExtResource("13_ground_tex")
 patch_margin_left = 28
@@ -336,16 +338,16 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_boss_trigger")
 
 [node name="GroundArena" type="StaticBody2D" parent="Environment"]
-position = Vector2(4900, 590)
+position = Vector2(4930, 590)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundArena"]
 shape = SubResource("RectangleShape2D_g_arena")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundArena"]
 texture_filter = 1
-offset_left = -550.0
+offset_left = -630.0
 offset_top = -30.0
-offset_right = 550.0
+offset_right = 630.0
 offset_bottom = 150.0
 texture = ExtResource("13_ground_tex")
 patch_margin_left = 28
@@ -420,7 +422,7 @@ direction = -1
 position = Vector2(160, 460)
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(160, 520)
+position = Vector2(160, 560)
 has_sword = true
 is_armed = true
 

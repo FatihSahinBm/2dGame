@@ -69,7 +69,7 @@ func _setup_camera() -> void:
 		var cam: Camera2D = player.get_node_or_null("Camera2D") as Camera2D
 		if cam:
 			cam.limit_left = 0
-			cam.limit_right = 2400
+			cam.limit_right = 2350
 			cam.limit_top = -140
 			cam.limit_bottom = 630
 
@@ -200,10 +200,13 @@ func _on_blood_knight_died() -> void:
 
 
 func _break_castle_gate() -> void:
+	var gate_blocker_col := get_node_or_null("ExitGate/GateBlocker/CollisionShape2D") as CollisionShape2D
 	if battering_ram_crew and is_instance_valid(battering_ram_crew):
 		battering_ram_crew.play_assault_sequence(exit_gate, player, dialogue_box)
 		battering_ram_crew.sequence_completed.connect(func():
 			_gate_breached = true
+			if gate_blocker_col:
+				gate_blocker_col.set_deferred("disabled", true)
 			if hud and hud.has_method("set_tutorial"):
 				hud.set_tutorial(
 					tr("TUTORIAL_GATE_BROKEN_TITLE"),
@@ -215,6 +218,8 @@ func _break_castle_gate() -> void:
 		, CONNECT_ONE_SHOT)
 	else:
 		_gate_breached = true
+		if gate_blocker_col:
+			gate_blocker_col.set_deferred("disabled", true)
 		if portcullis_bars:
 			var tw_gate: Tween = create_tween()
 			tw_gate.tween_property(portcullis_bars, "position:y", portcullis_bars.position.y - 90.0, 0.7).set_trans(Tween.TRANS_QUAD)

@@ -744,7 +744,11 @@ func apply_cached_stats_to_scene(target_node: Node = null) -> void:
 		return
 
 	var cur_path: String = scene.scene_file_path if "scene_file_path" in scene else ""
-	var can_apply_checkpoint: bool = is_checkpoint_valid_for_scene(cur_path)
+	var can_apply_checkpoint: bool = true
+	if not cur_path.is_empty() and not cached_checkpoint_stage.is_empty():
+		can_apply_checkpoint = is_checkpoint_valid_for_scene(cur_path)
+	elif cur_path.is_empty() and not cached_checkpoint_stage.is_empty():
+		can_apply_checkpoint = (target_node != null)
 
 	var player = scene.find_child("Player", true, false)
 	if not player:

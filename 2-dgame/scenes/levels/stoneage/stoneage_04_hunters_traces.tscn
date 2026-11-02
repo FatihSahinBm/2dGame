@@ -34,7 +34,7 @@ size = Vector2(600, 60)
 size = Vector2(650, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_g"]
-size = Vector2(700, 60)
+size = Vector2(800, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
 size = Vector2(220, 24)
@@ -95,6 +95,7 @@ position = Vector2(15, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+visible = false
 offset_left = -15.0
 offset_top = -450.0
 offset_right = 15.0
@@ -108,6 +109,7 @@ position = Vector2(3985, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+visible = false
 offset_left = -15.0
 offset_top = -450.0
 offset_right = 15.0
@@ -239,16 +241,16 @@ position = Vector2(0, 10)
 texture = ExtResource("6_rock_tex")
 
 [node name="GroundExit" type="StaticBody2D" parent="Environment"]
-position = Vector2(3600, 600)
+position = Vector2(3650, 600)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
 shape = SubResource("RectangleShape2D_exit_g")
 
 [node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
 texture_filter = 1
-offset_left = -350.0
+offset_left = -400.0
 offset_top = -30.0
-offset_right = 350.0
+offset_right = 400.0
 offset_bottom = 150.0
 texture = ExtResource("4_ground_tex")
 patch_margin_left = 28
@@ -372,7 +374,7 @@ position = Vector2(3560, 568)
 texture = ExtResource("8_footprint_deep")
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(200, 530)
+position = Vector2(200, 560)
 has_sword = true
 is_armed = true
 

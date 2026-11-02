@@ -23,7 +23,7 @@ signal boss_phase_changed(phase_index: int)
 signal combat_intensity_changed(intensity: float)
 
 const SETTINGS_PATH: String = "user://game_settings.json"
-const REQUIRED_BUSES: Array[String] = ["Master", "Music", "SFX", "Dialogue", "Ambience"]
+const REQUIRED_BUSES: Array[String] = ["Master", "Music", "SFX", "UI", "Dialogue", "Ambience"]
 
 enum MusicScenePolicy {
 	MAINTAIN = 0,    ## Sahne değişse de mevcut müziği kesmeden devam ettir
@@ -69,6 +69,8 @@ var _sfx_pool_index: int = 0
 var _sword_slash_round_robin: int = 0
 var _sword_hit_round_robin: int = 0
 var _page_turn_round_robin: int = 0
+var _last_sword_slash_ms: int = 0
+var _sword_spam_count: int = 0
 
 # 2D Ses Havuzu
 var _sfx_2d_pool: Array[AudioStreamPlayer2D] = []
@@ -254,20 +256,24 @@ func play_page_turn(volume_db: float = -2.0, pitch_variance: float = 0.04) -> Au
 ## Endüstri Standardı Katmanlı Kılıç Savurma (Dual-Layer: Whoosh + Transient Ring)
 ## - Katman 1 (Whoosh): Düşük-orta frekanslı aerodinamik hava sürtünmesi (0.00s)
 ## - Katman 2 (Ring): Yüksek frekanslı kristal çelik çınlaması (Transient Ring, ~15ms micro-offset)
-## - 3'lü Round-Robin varyasyon ve ±%5 rastgele perde (pitch)
-func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.05, micro_delay_ms: float = 15.0, specific_key: String = "") -> AudioStreamPlayer:
-	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
-	var final_vol: float = volume_db + randf_range(-0.35, 0.35)
+## - 3'lü Round-Robin varyasyon, ±%8 doğal perde değişimi ve ardışık tıklama yorgunluk koruması (Anti-Fatigue Spam Damping)
+func play_sword_slash(volume_db: float = 0.0, pitch_variance: float = 0.08, micro_delay_ms: float = 15.0, specific_key: String = "") -> AudioStreamPlayer:
+	var now_ms: int = Time.get_ticks_msec()
+	if now_ms - _last_sword_slash_ms < 550:
+		_sword_spam_count = mini(_sword_spam_count + 1, 6)
+	else:
+		_sword_spam_count = 0
+	_last_sword_slash_ms = now_ms
 
-	# Belirli bir saldırı türü (sol tık: sword_slash_1 / sword_slash_2, sağ tık: sword_slash_heavy) verilmişse doğrudan çal
+	# Ardışık hızlı tıklamalarda kulak yorgunluğunu önleyen kademeli ses yumuşatma (Anti-Fatigue Spam Damping)
+	var spam_atten_db: float = float(_sword_spam_count) * 0.65
+	var final_pitch: float = randf_range(1.0 - pitch_variance, 1.0 + pitch_variance)
+	var final_vol: float = volume_db - spam_atten_db + randf_range(-0.4, 0.4)
+
+	# Belirli bir gerçek stüdyo saldırı kaydı (sol tık: sword_slash_1 / sword_slash_2, sağ tık: sword_slash_heavy)
+	# verilmişse kulak tırmalayan sentetik çınlama (sword_slash_ring) eklemeden doğrudan sıcak stüdyo kaydını çal
 	if not specific_key.is_empty() and has_sound(specific_key):
-		var p_direct := play_sfx(specific_key, final_vol, final_pitch, "SFX")
-		if micro_delay_ms > 0.0 and has_sound("sword_slash_ring") and is_inside_tree():
-			var timer := get_tree().create_timer(micro_delay_ms / 1000.0)
-			timer.timeout.connect(func():
-				play_sfx("sword_slash_ring", final_vol - 6.0, final_pitch, "SFX")
-			)
-		return p_direct
+		return play_sfx(specific_key, final_vol, final_pitch, "SFX")
 
 	_sword_slash_round_robin = (_sword_slash_round_robin % 3) + 1
 	var rr_idx: int = _sword_slash_round_robin
@@ -901,6 +907,19 @@ func has_sound(key: String) -> bool:
 	return _sound_registry.has(key)
 
 
+func _configure_wav_loop(wav: AudioStreamWAV, enable_loop: bool) -> void:
+	if not wav:
+		return
+	if enable_loop:
+		var total_samples: int = int(round(wav.get_length() * float(maxi(wav.mix_rate, 1))))
+		if total_samples > 0 and wav.loop_end <= 0:
+			wav.loop_begin = 0
+			wav.loop_end = total_samples
+		wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	else:
+		wav.loop_mode = AudioStreamWAV.LOOP_DISABLED
+
+
 func _load_audio_assets_from_disk() -> void:
 	# 1. Otomatik Dizin Taraması: res://assets/audio/sfx/ altındaki tüm sesleri yükle
 	var sfx_dir := DirAccess.open("res://assets/audio/sfx")
@@ -916,8 +935,9 @@ func _load_audio_assets_from_disk() -> void:
 					if ResourceLoader.exists(p):
 						var res = load(p)
 						if res is AudioStream:
-							if res is AudioStreamWAV and (k == "campfire" or k == "torch" or k == "waterfall"):
-								(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+							if res is AudioStreamWAV:
+								var is_loop_sfx: bool = (k == "campfire" or k == "torch" or k == "torch_burn" or k == "waterfall")
+								_configure_wav_loop(res as AudioStreamWAV, is_loop_sfx)
 							_sound_registry[k] = res
 			file_name = sfx_dir.get_next()
 
@@ -936,7 +956,7 @@ func _load_audio_assets_from_disk() -> void:
 						var res = load(mp)
 						if res is AudioStream:
 							if res is AudioStreamWAV:
-								(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+								_configure_wav_loop(res as AudioStreamWAV, true)
 							_sound_registry[m_key] = res
 			m_file = music_dir.get_next()
 
@@ -967,8 +987,9 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 			if ResourceLoader.exists(sfx_path):
 				var res = load(sfx_path)
 				if res is AudioStream:
-					if res is AudioStreamWAV and (sound == "campfire" or sound == "torch" or sound == "torch_burn"):
-						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+					if res is AudioStreamWAV:
+						var is_loop_sfx: bool = (sound == "campfire" or sound == "torch" or sound == "torch_burn" or sound == "waterfall")
+						_configure_wav_loop(res as AudioStreamWAV, is_loop_sfx)
 					_sound_registry[sound] = res
 					return res
 			var music_path: String = "res://assets/audio/music/" + str(sound) + ext
@@ -976,7 +997,7 @@ func _resolve_stream(sound: Variant) -> AudioStream:
 				var res = load(music_path)
 				if res is AudioStream:
 					if res is AudioStreamWAV:
-						(res as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+						_configure_wav_loop(res as AudioStreamWAV, true)
 					_sound_registry[sound] = res
 					return res
 	return null

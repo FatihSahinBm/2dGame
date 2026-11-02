@@ -85,6 +85,7 @@ position = Vector2(15, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallLeft"]
+visible = false
 offset_left = -15.0
 offset_top = -450.0
 offset_right = 15.0
@@ -98,6 +99,7 @@ position = Vector2(3985, 300)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+visible = false
 offset_left = -15.0
 offset_top = -450.0
 offset_right = 15.0
@@ -440,7 +442,7 @@ scale = Vector2(1.1, 1.1)
 texture = ExtResource("12_roots_tex")
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(200, 520)
+position = Vector2(200, 560)
 has_sword = true
 is_armed = true
 

@@ -30,6 +30,8 @@ var _seen_final_chasm: bool = false
 
 func _ready() -> void:
 	_ensure_node_refs()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial("Kırık Geçit", "Zıpla", "Kırık sütun ve kayalık platformları aşarak ilerle.")
 	_setup_player()
 	_setup_triggers()
 	_play_fade_in()

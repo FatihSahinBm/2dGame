@@ -27,6 +27,8 @@ var _seen_claws: bool = false
 
 func _ready() -> void:
 	_ensure_node_refs()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial("Sessiz Vadi", "Keşfet", "Vadideki devasa pençe izlerini ve fosilleri araştır.")
 	_setup_player()
 	_setup_triggers()
 	_play_fade_in()

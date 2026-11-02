@@ -445,6 +445,16 @@ func update_tracked_objective(quest: Dictionary) -> void:
 
 	var title: String = str(quest.get("title", ""))
 	var category: String = str(quest.get("category", "main"))
+	var is_stoneage_scene: bool = false
+	if is_inside_tree() and get_tree() and get_tree().current_scene:
+		var sp: String = get_tree().current_scene.scene_file_path.to_lower()
+		if sp.contains("stoneage") or sp.contains("stone_age") or sp.contains("prehistoric") or sp.contains("trex"):
+			is_stoneage_scene = true
+
+	if is_stoneage_scene and str(quest.get("id", "")) == "fatih_audience":
+		title = "Kadim Vadi ve İlk Kalp Parçası"
+		category = "main"
+
 	if objective_title:
 		objective_title.text = title
 
@@ -457,15 +467,18 @@ func update_tracked_objective(quest: Dictionary) -> void:
 			objective_badge.text = category.to_upper()
 
 	var desc: String = ""
-	var stages: Array = quest.get("stages", [])
-	var curr_idx: int = int(quest.get("current_stage", 0))
-	if curr_idx >= 0 and curr_idx < stages.size():
-		var st = stages[curr_idx]
-		desc = "• " + str(st.get("description", ""))
-	elif not stages.is_empty():
-		desc = "• " + str(stages[0].get("description", ""))
+	if is_stoneage_scene and str(quest.get("id", "")) == "fatih_audience":
+		desc = "• Zaman yarığının izini sür ve Kadim Kalp Parçası'na ulaş"
 	else:
-		desc = "• " + str(quest.get("description", ""))
+		var stages: Array = quest.get("stages", [])
+		var curr_idx: int = int(quest.get("current_stage", 0))
+		if curr_idx >= 0 and curr_idx < stages.size():
+			var st = stages[curr_idx]
+			desc = "• " + str(st.get("description", ""))
+		elif not stages.is_empty():
+			desc = "• " + str(stages[0].get("description", ""))
+		else:
+			desc = "• " + str(quest.get("description", ""))
 
 	if objective_label:
 		objective_label.text = desc
