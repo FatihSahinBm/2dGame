@@ -1,0 +1,17 @@
+[gd_resource type="AudioStreamRandomizer" format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/campfire_crackle_01.wav" id="1_5febr"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/campfire_crackle_02.wav" id="2_62jca"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/campfire_crackle_03.wav" id="3_k4e2g"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/campfire_crackle_04.wav" id="4_t6ehv"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/campfire_crackle_05.wav" id="5_thnn1"]
+
+[resource]
+random_pitch = 1.15
+random_volume_offset_db = 2.0
+streams_count = 5
+stream_0/stream = ExtResource("1_5febr")
+stream_1/stream = ExtResource("2_62jca")
+stream_2/stream = ExtResource("3_k4e2g")
+stream_3/stream = ExtResource("4_t6ehv")
+stream_4/stream = ExtResource("5_thnn1")

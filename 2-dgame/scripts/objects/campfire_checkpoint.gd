@@ -36,6 +36,8 @@ enum ActivationMode {
 @export var prompt_text_lit: String = "[E] Kamp Ateşinde Dinlen"
 
 const PositionalEmitter = preload("res://scripts/audio/positional_audio_emitter_2d.gd")
+const BED_STREAM = preload("res://assets/audio/sfx/campfire_bed_loop.wav")
+const CRACKLE_RANDOMIZER = preload("res://assets/audio/sfx/campfire_crackle_randomizer.tres")
 
 # Düğüm Referansları (Varsa sahneden, yoksa prosedürel inşa edilir)
 var visual_root: Node2D = null
@@ -45,7 +47,13 @@ var particles: CPUParticles2D = null
 var warm_light: PointLight2D = null
 var prompt_label: Label = null
 var col_shape: CollisionShape2D = null
-var audio_emitter: Node2D = null
+
+# İki Katmanlı (Hybrid Layer) Ses Düğümleri
+var bed_player: AudioStreamPlayer2D = null
+var crackle_player: AudioStreamPlayer2D = null
+var crackle_timer: Timer = null
+var _is_audio_culled: bool = false
+var audio_emitter: Node2D = null # Geriye dönük uyumluluk alias'ı
 
 var _player_in_range: Node2D = null
 var _respawnable_registry: Array[Dictionary] = []
@@ -228,6 +236,51 @@ func _setup_internal_nodes() -> void:
 		prompt_label.visible = false
 		visual_root.add_child(prompt_label)
 
+	# Two-layer Hybrid Audio Düğümleri (BedPlayer, CracklePlayer, CrackleTimer)
+	bed_player = get_node_or_null("BedPlayer") as AudioStreamPlayer2D
+	if not bed_player:
+		bed_player = AudioStreamPlayer2D.new()
+		bed_player.name = "BedPlayer"
+		bed_player.stream = BED_STREAM
+		bed_player.volume_db = -6.0
+		bed_player.max_distance = 450.0
+		bed_player.attenuation = 1.0
+		bed_player.bus = "SFX"
+		add_child(bed_player)
+	else:
+		bed_player.stream = BED_STREAM
+		bed_player.max_distance = 450.0
+		bed_player.volume_db = -6.0
+		bed_player.bus = "SFX"
+
+	crackle_player = get_node_or_null("CracklePlayer") as AudioStreamPlayer2D
+	if not crackle_player:
+		crackle_player = AudioStreamPlayer2D.new()
+		crackle_player.name = "CracklePlayer"
+		crackle_player.stream = CRACKLE_RANDOMIZER
+		crackle_player.volume_db = -2.0
+		crackle_player.max_distance = 450.0
+		crackle_player.attenuation = 1.0
+		crackle_player.bus = "SFX"
+		add_child(crackle_player)
+	else:
+		crackle_player.stream = CRACKLE_RANDOMIZER
+		crackle_player.max_distance = 450.0
+		crackle_player.volume_db = -2.0
+		crackle_player.bus = "SFX"
+
+	crackle_timer = get_node_or_null("CrackleTimer") as Timer
+	if not crackle_timer:
+		crackle_timer = Timer.new()
+		crackle_timer.name = "CrackleTimer"
+		crackle_timer.one_shot = true
+		add_child(crackle_timer)
+
+	if crackle_timer and not crackle_timer.timeout.is_connected(_on_crackle_timer_timeout):
+		crackle_timer.timeout.connect(_on_crackle_timer_timeout)
+
+	audio_emitter = bed_player
+
 
 func _check_initial_lit_state() -> void:
 	var save_mgr = get_node_or_null("/root/SaveManager")
@@ -299,6 +352,77 @@ func _process(delta: float) -> void:
 			if coals_sprite:
 				var coals_pulse := 1.2 + 0.25 * sin(t * 3.5)
 				coals_sprite.modulate = Color(coals_pulse, coals_pulse * 0.75, coals_pulse * 0.45, 1.0)
+
+	# Hybrid Audio Mesafe Kırpma (Distance Culling - 450 px max_distance)
+	if is_lit:
+		var listener_pos := _get_listener_position()
+		var dist := global_position.distance_to(listener_pos)
+		if dist > 450.0:
+			if not _is_audio_culled:
+				_is_audio_culled = true
+				if bed_player and bed_player.playing:
+					bed_player.stream_paused = true
+				if crackle_timer:
+					crackle_timer.paused = true
+		else:
+			if _is_audio_culled:
+				_is_audio_culled = false
+				if bed_player:
+					if not bed_player.playing:
+						bed_player.play()
+					else:
+						bed_player.stream_paused = false
+				if crackle_timer:
+					crackle_timer.paused = false
+			elif bed_player and not bed_player.playing:
+				bed_player.play()
+				if crackle_timer and crackle_timer.is_stopped():
+					crackle_timer.start(randf_range(0.8, 2.0))
+	else:
+		_stop_fire_audio()
+
+
+
+func _get_listener_position() -> Vector2:
+	if _player_in_range and is_instance_valid(_player_in_range):
+		return _player_in_range.global_position
+	if is_inside_tree():
+		var p = get_tree().get_first_node_in_group("player") as Node2D
+		if p and is_instance_valid(p):
+			return p.global_position
+		var vp = get_viewport()
+		if vp:
+			var cam = vp.get_camera_2d()
+			if cam and is_instance_valid(cam):
+				return cam.get_screen_center_position()
+	return global_position
+
+
+func _start_fire_audio() -> void:
+	if not is_lit:
+		return
+	if bed_player and not bed_player.playing:
+		bed_player.play()
+	if crackle_timer and crackle_timer.is_stopped():
+		crackle_timer.start(randf_range(0.8, 2.0))
+
+
+func _stop_fire_audio() -> void:
+	if bed_player and bed_player.playing:
+		bed_player.stop()
+	if crackle_player and crackle_player.playing:
+		crackle_player.stop()
+	if crackle_timer and not crackle_timer.is_stopped():
+		crackle_timer.stop()
+
+
+func _on_crackle_timer_timeout() -> void:
+	if not is_lit or not is_inside_tree():
+		return
+	if crackle_player and not _is_audio_culled:
+		crackle_player.play()
+	if is_lit and crackle_timer:
+		crackle_timer.start(randf_range(1.2, 3.8))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -382,20 +506,11 @@ func _update_visuals(animate: bool = true) -> void:
 	if particles:
 		particles.emitting = is_lit
 
-	# Positional Audio Emitter Yönetimi (Idempotent)
+	# Two-layer Hybrid Audio Yönetimi
 	if is_lit:
-		if not audio_emitter:
-			audio_emitter = PositionalEmitter.new()
-			audio_emitter.name = "CampfirePositionalAudio"
-			audio_emitter.sound_key = "campfire"
-			audio_emitter.max_distance = 950.0
-			audio_emitter.volume_db = -5.0
-			audio_emitter.loop = true
-			add_child(audio_emitter)
+		_start_fire_audio()
 	else:
-		if audio_emitter:
-			audio_emitter.queue_free()
-			audio_emitter = null
+		_stop_fire_audio()
 
 
 ## Kamp ateşini yakar, oyuncuyu dinlendirir, can/iksir tazeler ve kaydeder (İdempotent)

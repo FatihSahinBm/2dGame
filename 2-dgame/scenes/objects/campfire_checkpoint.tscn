@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cfrvf46a8ua2p" path="res://assets/environment/campfire/campfire_flame_3.png" id="8_flame3"]
 [ext_resource type="Texture2D" uid="uid://kammdok3wimr" path="res://assets/environment/campfire/campfire_flame_4.png" id="9_flame4"]
 [ext_resource type="Texture2D" uid="uid://bltrtvowoh2l7" path="res://assets/environment/campfire/campfire_flame_5.png" id="10_flame5"]
+[ext_resource type="AudioStream" uid="uid://djxp45nfb7fu0" path="res://assets/audio/sfx/campfire_bed_loop.wav" id="11_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/campfire_crackle_randomizer.tres" id="12_crackle"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cf"]
 radius = 48.0
@@ -122,3 +124,20 @@ theme_override_font_sizes/font_size = 11
 text = "[E] Kamp Ateşini Yak (Kontrol Noktası)"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BedPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_bed")
+volume_db = -6.0
+max_distance = 450.0
+attenuation = 1.0
+bus = &"SFX"
+
+[node name="CracklePlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_crackle")
+volume_db = -2.0
+max_distance = 450.0
+attenuation = 1.0
+bus = &"SFX"
+
+[node name="CrackleTimer" type="Timer" parent="."]
+one_shot = true

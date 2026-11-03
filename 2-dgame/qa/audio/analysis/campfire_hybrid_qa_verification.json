@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "criteria": {
+    "25s_real_scene_capture": {
+      "duration_s": 25.08,
+      "status": "PASS"
+    },
+    "11s_periodicity_elimination": {
+      "max_corr_11s": -0.0,
+      "status": "PASS"
+    },
+    "true_peak_above_3k5hz": {
+      "peak_dbfs": -23.49,
+      "ceiling_dbfs": -6.0,
+      "status": "PASS"
+    },
+    "distance_culling_450px": {
+      "amp_200px": 0.04291,
+      "amp_600px": 0.0,
+      "is_culled": true,
+      "status": "PASS"
+    }
+  }
+}
