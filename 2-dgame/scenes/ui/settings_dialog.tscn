@@ -154,6 +154,34 @@ text = "Yanıp Sönmeyi Azalt:"
 layout_mode = 2
 text = "✕"
 
+[node name="VibrationLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Gamepad Titreşimi:"
+
+[node name="VibrationCheck" type="CheckBox" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "✓"
+
+[node name="DeadzoneLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Analog Ölü Bölge:"
+
+[node name="DeadzoneSlider" type="HSlider" parent="Margin/VBox/Grid"]
+custom_minimum_size = Vector2(220, 24)
+layout_mode = 2
+min_value = 5.0
+max_value = 35.0
+step = 1.0
+value = 18.0
+
+[node name="ControllerInfoLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Aktif Giriş Cihazı:"
+
+[node name="ControllerInfoValue" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+text = "Klavye & Fare"
+
 [node name="Spacer" type="Control" parent="Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3

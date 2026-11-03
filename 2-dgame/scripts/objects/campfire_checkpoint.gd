@@ -475,7 +475,12 @@ func _update_prompt_text() -> void:
 		is_en = TranslationServer.get_locale().to_lower().begins_with("en")
 	var lit_txt = tr("PROMPT_CAMPFIRE_REST") if is_en else prompt_text_lit
 	var unlit_txt = tr("PROMPT_CAMPFIRE_LIGHT") if is_en else prompt_text_unlit
-	prompt_label.text = lit_txt if is_lit else unlit_txt
+	var raw_txt = lit_txt if is_lit else unlit_txt
+	var input_mgr = get_node_or_null('/root/InputControllerManager')
+	if input_mgr and input_mgr.has_method('format_prompt'):
+		prompt_label.text = input_mgr.format_prompt(raw_txt)
+	else:
+		prompt_label.text = raw_txt
 	prompt_label.visible = (_player_in_range != null)
 
 

@@ -641,9 +641,12 @@ func _handle_movement_and_skills(delta: float) -> void:
 
 	# Yatay Girdi (Vururken de serbestçe hareket edebilme)
 	var move_x: float = 0.0
-	if Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+	var stick_axis: float = Input.get_axis("move_left", "move_right")
+	if absf(stick_axis) > 0.15:
+		move_x = stick_axis
+	elif Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
 		move_x -= 1.0
-	if Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+	elif Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
 		move_x += 1.0
 
 	# Yüz Yönü
@@ -730,6 +733,9 @@ func _handle_movement_and_skills(delta: float) -> void:
 func perform_dash() -> void:
 	is_dashing = true
 	can_dash = false
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_method("vibrate_light"):
+		input_mgr.vibrate_light()
 	set_collision_mask_value(2, false) # Düşmanların içinden geç
 	velocity.x = facing_dir * dash_speed
 	velocity.y = 0.0
@@ -781,9 +787,9 @@ func perform_roll() -> void:
 ## Girdi Olayları (Kılıç Çekme, Fırlatma, Saldırılar, Yeniden Doğma)
 func _unhandled_input(event: InputEvent) -> void:
 	if is_dead:
-		if event is InputEventKey and event.pressed and not event.echo:
-			if event.keycode == KEY_R or event.physical_keycode == KEY_R:
-				respawn()
+		if (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_R or event.physical_keycode == KEY_R)) \
+				or (event is InputEventJoypadButton and event.pressed and not event.echo and (event.button_index == JOY_BUTTON_A or event.button_index == JOY_BUTTON_START)):
+			respawn()
 		return
 
 	if not can_move:
@@ -1209,6 +1215,9 @@ func perform_heavy_attack() -> void:
 	if is_rebelling or not can_move or is_dead:
 		return
 	is_attacking = true
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_method("vibrate_medium"):
+		input_mgr.vibrate_medium()
 	combo_step = 0
 	combo_timer = 0.0
 	current_attack_type = "heavy"
@@ -1368,6 +1377,10 @@ func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 	current_health = clampi(current_health - amount, 0, max_health)
 	player_damaged.emit(current_health, max_health)
 
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_method("vibrate_damage"):
+		input_mgr.vibrate_damage()
+
 	if current_health <= 0:
 		die()
 		return
@@ -1403,6 +1416,9 @@ func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 ## Perfect Block / Parry Efekti ve Geri Bildirimi (%100 Hasar Engelleme)
 func _trigger_perfect_parry(_incoming_amount: int) -> void:
 	parry_performed.emit()
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_method("vibrate_parry"):
+		input_mgr.vibrate_parry()
 
 	# 1. Hit-stop (Mikro donma hissi - 0.06s)
 	if is_inside_tree() and get_tree():
@@ -1588,7 +1604,10 @@ func _show_death_screen() -> void:
 	var has_checkpoint: bool = save_mgr and "cached_checkpoint_position" in save_mgr and save_mgr.cached_checkpoint_position != Vector2.ZERO
 
 	var prompt: Label = Label.new()
-	prompt.text = "[R] Tuşuna Basarak Kontrol Noktasından Yeniden Doğ" if has_checkpoint else "[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ"
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	var is_gamepad: bool = input_mgr and input_mgr.current_scheme == 1
+	var btn_hint: String = "[A / ✕ / OPTIONS]" if is_gamepad else "[R]"
+	prompt.text = "%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ" % btn_hint if has_checkpoint else "%s Tuşuna Basarak Bölümün Başından Yeniden Doğ" % btn_hint
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5, 1.0))
 	prompt.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -1605,6 +1624,9 @@ func die() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_method("vibrate_heavy"):
+		input_mgr.vibrate_heavy()
 	is_attacking = false
 	is_parry_active = false
 	current_attack_type = ""

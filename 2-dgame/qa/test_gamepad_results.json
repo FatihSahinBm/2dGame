@@ -1,0 +1,164 @@
+{
+	"details": {
+		"connected_devices": {
+			"active_device_name": "PS4 Controller",
+			"count": 1,
+			"current_scheme": 1,
+			"devices": [
+				0
+			],
+			"gamepad_type": 2,
+			"is_playstation_controller": true
+		},
+		"glyph_tests": {
+			"keyboard_glyphs": {
+				"interact": "[E]",
+				"pass": true
+			},
+			"playstation_glyphs": {
+				"dash": "[◯]",
+				"interact": "[▢]",
+				"jump": "[✕]",
+				"pass": true,
+				"pause": "[OPTIONS]"
+			},
+			"xbox_glyphs": {
+				"dash": "[B]",
+				"interact": "[X]",
+				"jump": "[A]",
+				"pass": true
+			}
+		},
+		"haptics": {
+			"api_calls_successful": true,
+			"multiplier": 1.0,
+			"vibration_enabled": true
+		},
+		"input_map": {
+			"attack_heavy": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"attack_light": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"crouch": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"cycle_secondary": {
+				"event_count": 2,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"dash": {
+				"event_count": 3,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"drop_item": {
+				"event_count": 2,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"interact": {
+				"event_count": 3,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"jump": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"move_down": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"move_left": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"move_right": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"move_up": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"pause": {
+				"event_count": 3,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"throw_secondary": {
+				"event_count": 3,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"toggle_shield": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"ui_accept": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"ui_cancel": {
+				"event_count": 2,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"ui_down": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"ui_left": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"ui_right": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			},
+			"ui_up": {
+				"event_count": 4,
+				"has_joypad": true,
+				"has_keyboard_or_mouse": true
+			}
+		},
+		"pause_menu": {
+			"closed_via_joypad_b": true,
+			"open_verified": true
+		},
+		"player_actions": {
+			"all_actions_passed": true,
+			"analog_axis_read": true,
+			"dash_button_b": true,
+			"jump_button_a": true,
+			"light_attack_button_x": true
+		},
+		"settings_and_dual_input": {
+			"deadzone_adjustment": true,
+			"dual_input_auto_switch": true,
+			"vibration_toggle": true
+		}
+	},
+	"passed_tests": 7,
+	"status": "PASS",
+	"total_tests": 7
+}

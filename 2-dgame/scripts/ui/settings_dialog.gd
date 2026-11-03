@@ -32,6 +32,13 @@ signal closed()
 @onready var reduce_flash_label: Label = find_child("ReduceFlashLabel", true, false) as Label
 @onready var reduce_flash_check: CheckBox = find_child("ReduceFlashCheck", true, false) as CheckBox
 
+@onready var vibration_label: Label = find_child("VibrationLabel", true, false) as Label
+@onready var vibration_check: CheckBox = find_child("VibrationCheck", true, false) as CheckBox
+@onready var deadzone_label: Label = find_child("DeadzoneLabel", true, false) as Label
+@onready var deadzone_slider: HSlider = find_child("DeadzoneSlider", true, false) as HSlider
+@onready var controller_info_label: Label = find_child("ControllerInfoLabel", true, false) as Label
+@onready var controller_info_value: Label = find_child("ControllerInfoValue", true, false) as Label
+
 @onready var back_button: Button = find_child("BackButton", true, false) as Button
 
 var _signals_connected: bool = false
@@ -91,6 +98,18 @@ func _resolve_nodes() -> void:
 		reduce_flash_label = find_child("ReduceFlashLabel", true, false) as Label
 	if not reduce_flash_check:
 		reduce_flash_check = find_child("ReduceFlashCheck", true, false) as CheckBox
+	if not vibration_label:
+		vibration_label = find_child("VibrationLabel", true, false) as Label
+	if not vibration_check:
+		vibration_check = find_child("VibrationCheck", true, false) as CheckBox
+	if not deadzone_label:
+		deadzone_label = find_child("DeadzoneLabel", true, false) as Label
+	if not deadzone_slider:
+		deadzone_slider = find_child("DeadzoneSlider", true, false) as HSlider
+	if not controller_info_label:
+		controller_info_label = find_child("ControllerInfoLabel", true, false) as Label
+	if not controller_info_value:
+		controller_info_value = find_child("ControllerInfoValue", true, false) as Label
 	if not back_button:
 		back_button = find_child("BackButton", true, false) as Button
 
@@ -114,6 +133,10 @@ func _setup_signals() -> void:
 		reduce_motion_check.toggled.connect(_on_reduce_motion_toggled)
 	if reduce_flash_check and not reduce_flash_check.toggled.is_connected(_on_reduce_flash_toggled):
 		reduce_flash_check.toggled.connect(_on_reduce_flash_toggled)
+	if vibration_check and not vibration_check.toggled.is_connected(_on_vibration_toggled):
+		vibration_check.toggled.connect(_on_vibration_toggled)
+	if deadzone_slider and not deadzone_slider.value_changed.is_connected(_on_deadzone_changed):
+		deadzone_slider.value_changed.connect(_on_deadzone_changed)
 	if back_button and not back_button.pressed.is_connected(_on_back_pressed):
 		back_button.pressed.connect(_on_back_pressed)
 
@@ -265,6 +288,34 @@ func _sync_current_values() -> void:
 		if reduce_flash_check:
 			reduce_flash_check.set_pressed_no_signal(cm.reduce_flashing)
 			reduce_flash_check.text = "✓" if cm.reduce_flashing else "✕"
+
+	# Gamepad Ayarları (InputControllerManager)
+	var input_mgr = _get_autoload("InputControllerManager")
+	if input_mgr:
+		if vibration_check:
+			vibration_check.set_pressed_no_signal(input_mgr.vibration_enabled)
+			vibration_check.text = "✓" if input_mgr.vibration_enabled else "✕"
+		if deadzone_slider:
+			deadzone_slider.set_value_no_signal(input_mgr.stick_deadzone * 100.0)
+		if controller_info_value:
+			if input_mgr.current_scheme == 1:
+				controller_info_value.text = "🎮 " + input_mgr.active_device_name
+			else:
+				controller_info_value.text = "⌨️ Klavye & Fare"
+
+
+func _on_vibration_toggled(pressed: bool) -> void:
+	var input_mgr = _get_autoload("InputControllerManager")
+	if input_mgr and input_mgr.has_method("set_vibration_enabled"):
+		input_mgr.set_vibration_enabled(pressed)
+	if vibration_check:
+		vibration_check.text = "✓" if pressed else "✕"
+
+
+func _on_deadzone_changed(val: float) -> void:
+	var input_mgr = _get_autoload("InputControllerManager")
+	if input_mgr and input_mgr.has_method("set_stick_deadzone"):
+		input_mgr.set_stick_deadzone(val / 100.0)
 
 
 func _on_reduce_motion_toggled(pressed: bool) -> void:

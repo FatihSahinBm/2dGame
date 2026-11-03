@@ -500,8 +500,8 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				return
 
-	elif event is InputEventJoypadButton and event.pressed and not event.echo:
-		if event.button_index == JOY_BUTTON_START:
+	elif event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_START or event.button_index == JOY_BUTTON_B or event.button_index == JOY_BUTTON_BACK:
 			if settings_dialog and settings_dialog.visible:
 				settings_dialog._on_back_pressed()
 			elif save_slots_panel and save_slots_panel.visible:
