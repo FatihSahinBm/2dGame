@@ -127,6 +127,48 @@ func _init() -> void:
 		_joy_motion(JOY_AXIS_LEFT_X, 1.0)
 	])
 	
+	_setup_action('dialogue_advance', 0.3, [
+		_key(KEY_SPACE), _key(KEY_ENTER), _key(KEY_E), _mouse(MOUSE_BUTTON_LEFT),
+		_joy_button(JOY_BUTTON_A),
+		_joy_button(JOY_BUTTON_X),
+		_joy_button(JOY_BUTTON_RIGHT_SHOULDER)
+	])
+	
+	_setup_action('dialogue_skip', 0.3, [
+		_key(KEY_TAB),
+		_joy_button(JOY_BUTTON_BACK),
+		_joy_button(JOY_BUTTON_START)
+	])
+	
+	_setup_action('use_health_potion', 0.3, [
+		_key(KEY_2),
+		_joy_button(JOY_BUTTON_DPAD_LEFT)
+	])
+	
+	_setup_action('use_mana_potion', 0.3, [
+		_key(KEY_4),
+		_joy_button(JOY_BUTTON_DPAD_RIGHT)
+	])
+	
+	_setup_action('toggle_inventory', 0.3, [
+		_key(KEY_I), _key(KEY_B),
+		_joy_button(JOY_BUTTON_Y)
+	])
+	
+	_setup_action('toggle_quest_log', 0.3, [
+		_key(KEY_J), _key(KEY_L),
+		_joy_button(JOY_BUTTON_BACK)
+	])
+	
+	_setup_action('toggle_codex', 0.3, [
+		_key(KEY_K), _key(KEY_O),
+		_joy_button(JOY_BUTTON_DPAD_UP)
+	])
+	
+	_setup_action('toggle_weapon', 0.3, [
+		_key(KEY_1),
+		_joy_button(JOY_BUTTON_LEFT_STICK)
+	])
 	var err = ProjectSettings.save()
 	if err == OK:
 		print("[InputSetup] project.godot başarıyla kaydedildi!")

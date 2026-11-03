@@ -64,23 +64,32 @@ func _unhandled_input(event: InputEvent) -> void:
 				or event.keycode == KEY_J or event.physical_keycode == KEY_J \
 				or event.keycode == KEY_L or event.physical_keycode == KEY_L:
 			close()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 		elif event.keycode == KEY_TAB or event.physical_keycode == KEY_TAB:
 			# Tab tuşu ile sekmeler arası geçiş
 			_switch_tab("completed" if _current_tab == "active" else "active")
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 	elif event is InputEventJoypadButton and event.pressed:
 		if event.button_index == JOY_BUTTON_B or event.button_index == JOY_BUTTON_START or event.button_index == JOY_BUTTON_BACK:
 			close()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
+			return
+		elif event.button_index == JOY_BUTTON_Y or event.button_index == JOY_BUTTON_LEFT_SHOULDER or event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
+			_switch_tab("completed" if _current_tab == "active" else "active")
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 
 
 func open() -> void:
-	_was_paused_before_open = get_tree().paused
-	get_tree().paused = true
+	if get_tree():
+		_was_paused_before_open = get_tree().paused
+		get_tree().paused = true
 	visible = true
 
 	var audio_mgr = get_node_or_null("/root/AudioManager")
@@ -92,7 +101,7 @@ func open() -> void:
 
 
 func close() -> void:
-	if not _was_paused_before_open:
+	if not _was_paused_before_open and get_tree():
 		get_tree().paused = false
 	visible = false
 

@@ -290,26 +290,72 @@ func format_prompt(text: String) -> String:
 	var is_ps := (current_gamepad_type == GamepadType.PLAYSTATION)
 	var formatted := text
 	if is_ps:
+		# Bileşik diyalog ve ara sahne ipuçları
+		formatted = formatted.replace("[Sol Tık / Boşluk / E: İlerle | TAB: Atla]", "[✕ / ▢: İlerle | SHARE: Atla]")
+		formatted = formatted.replace("[Left Click / Space / E: Advance | TAB: Skip]", "[✕ / ▢: Advance | SHARE: Skip]")
+		formatted = formatted.replace("[Space / Sol Tık]", "[✕ / ▢]")
+		formatted = formatted.replace("[Space / Left Click]", "[✕ / ▢]")
+		formatted = formatted.replace("[Tab]", "[SHARE]")
+		formatted = formatted.replace("[TAB]", "[SHARE]")
+		formatted = formatted.replace("(TAB)", "(SHARE)")
+		formatted = formatted.replace("(Tab)", "(SHARE)")
+		
+		# Seçenekler ve İkincil Eşyalar
+		formatted = formatted.replace("[1]", "[▢]")
+		formatted = formatted.replace("[2]", "[△]")
+		formatted = formatted.replace("[4]", "[D-Pad →]")
+		formatted = formatted.replace("[J / L]", "[SHARE]")
+		formatted = formatted.replace("[I / B]", "[△]")
+		formatted = formatted.replace("[K / O]", "[D-Pad ↑]")
+		
+		# Tekil tuşlar ve ipucu kalıpları
 		formatted = formatted.replace("[E]", "[▢]")
 		formatted = formatted.replace("[Space]", "[✕]")
 		formatted = formatted.replace("[Boşluk]", "[✕]")
 		formatted = formatted.replace("[Shift]", "[◯]")
-		formatted = formatted.replace("[Sol Tık]", "[▢ / R1]")
-		formatted = formatted.replace("[Sağ Tık]", "[△ / R2]")
+		formatted = formatted.replace("Shift: Dash", "◯: Dash")
 		formatted = formatted.replace("[Ctrl]", "[R3]")
+		formatted = formatted.replace("Ctrl: Eğil", "R3: Eğil")
+		formatted = formatted.replace("[Sol Tık]", "[▢ / R1]")
+		formatted = formatted.replace("Sol Tık:", "▢ / R1:")
+		formatted = formatted.replace("[Sağ Tık]", "[△ / R2]")
+		formatted = formatted.replace("Sağ Tık:", "△ / R2:")
 		formatted = formatted.replace("[ESC]", "[OPTIONS]")
 		formatted = formatted.replace("[G]", "[SHARE]")
 		formatted = formatted.replace("[3]", "[L1]")
 		formatted = formatted.replace("[F]", "[R2]")
 		formatted = formatted.replace("[Q]", "[D-Pad ↑]")
 	else:
+		# Bileşik diyalog ve ara sahne ipuçları
+		formatted = formatted.replace("[Sol Tık / Boşluk / E: İlerle | TAB: Atla]", "[A / X: İlerle | VIEW: Atla]")
+		formatted = formatted.replace("[Left Click / Space / E: Advance | TAB: Skip]", "[A / X: Advance | VIEW: Skip]")
+		formatted = formatted.replace("[Space / Sol Tık]", "[A / X]")
+		formatted = formatted.replace("[Space / Left Click]", "[A / X]")
+		formatted = formatted.replace("[Tab]", "[VIEW]")
+		formatted = formatted.replace("[TAB]", "[VIEW]")
+		formatted = formatted.replace("(TAB)", "(VIEW)")
+		formatted = formatted.replace("(Tab)", "(VIEW)")
+		
+		# Seçenekler ve İkincil Eşyalar
+		formatted = formatted.replace("[1]", "[X]")
+		formatted = formatted.replace("[2]", "[Y]")
+		formatted = formatted.replace("[4]", "[D-Pad →]")
+		formatted = formatted.replace("[J / L]", "[VIEW]")
+		formatted = formatted.replace("[I / B]", "[Y]")
+		formatted = formatted.replace("[K / O]", "[D-Pad ↑]")
+		
+		# Tekil tuşlar ve ipucu kalıpları
 		formatted = formatted.replace("[E]", "[X]")
 		formatted = formatted.replace("[Space]", "[A]")
 		formatted = formatted.replace("[Boşluk]", "[A]")
 		formatted = formatted.replace("[Shift]", "[B]")
-		formatted = formatted.replace("[Sol Tık]", "[X / RB]")
-		formatted = formatted.replace("[Sağ Tık]", "[Y / RT]")
+		formatted = formatted.replace("Shift: Dash", "B: Dash")
 		formatted = formatted.replace("[Ctrl]", "[R3]")
+		formatted = formatted.replace("Ctrl: Eğil", "R3: Eğil")
+		formatted = formatted.replace("[Sol Tık]", "[X / RB]")
+		formatted = formatted.replace("Sol Tık:", "X / RB:")
+		formatted = formatted.replace("[Sağ Tık]", "[Y / RT]")
+		formatted = formatted.replace("Sağ Tık:", "Y / RT:")
 		formatted = formatted.replace("[ESC]", "[START]")
 		formatted = formatted.replace("[G]", "[VIEW]")
 		formatted = formatted.replace("[3]", "[LB]")
@@ -409,8 +455,36 @@ func _ensure_input_map_actions() -> void:
 		"jump", "dash", "crouch", "interact", "attack_light",
 		"attack_heavy", "toggle_shield", "drop_item", "throw_secondary",
 		"cycle_secondary", "pause", "ui_accept", "ui_cancel",
-		"ui_up", "ui_down", "ui_left", "ui_right"
+		"ui_up", "ui_down", "ui_left", "ui_right",
+		"dialogue_advance", "dialogue_skip", "use_health_potion",
+		"use_mana_potion", "toggle_inventory", "toggle_quest_log",
+		"toggle_codex", "toggle_weapon"
 	]
 	for action in required_actions:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)
+			
+	_ensure_action_joypad_event("dialogue_advance", JOY_BUTTON_A)
+	_ensure_action_joypad_event("dialogue_advance", JOY_BUTTON_X)
+	_ensure_action_joypad_event("dialogue_advance", JOY_BUTTON_RIGHT_SHOULDER)
+	_ensure_action_joypad_event("dialogue_skip", JOY_BUTTON_BACK)
+	_ensure_action_joypad_event("dialogue_skip", JOY_BUTTON_START)
+	_ensure_action_joypad_event("use_health_potion", JOY_BUTTON_DPAD_LEFT)
+	_ensure_action_joypad_event("use_mana_potion", JOY_BUTTON_DPAD_RIGHT)
+	_ensure_action_joypad_event("toggle_inventory", JOY_BUTTON_Y)
+	_ensure_action_joypad_event("toggle_quest_log", JOY_BUTTON_BACK)
+	_ensure_action_joypad_event("toggle_weapon", JOY_BUTTON_LEFT_STICK)
+
+
+func _ensure_action_joypad_event(action: String, btn: JoyButton) -> void:
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	var events := InputMap.action_get_events(action)
+	for ev in events:
+		if ev is InputEventJoypadButton and ev.button_index == btn:
+			return
+	var new_ev := InputEventJoypadButton.new()
+	new_ev.button_index = btn
+	new_ev.device = -1
+	InputMap.action_add_event(action, new_ev)
+

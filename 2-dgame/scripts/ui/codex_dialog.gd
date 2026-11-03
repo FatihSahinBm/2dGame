@@ -80,22 +80,31 @@ func _unhandled_input(event: InputEvent) -> void:
 				or event.keycode == KEY_K or event.physical_keycode == KEY_K \
 				or event.keycode == KEY_O or event.physical_keycode == KEY_O:
 			close()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 		elif event.keycode == KEY_TAB or event.physical_keycode == KEY_TAB:
 			_cycle_category()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 	elif event is InputEventJoypadButton and event.pressed:
 		if event.button_index == JOY_BUTTON_B or event.button_index == JOY_BUTTON_START or event.button_index == JOY_BUTTON_BACK:
 			close()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
+			return
+		elif event.button_index == JOY_BUTTON_Y or event.button_index == JOY_BUTTON_LEFT_SHOULDER or event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
+			_cycle_category()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 
 
 func open() -> void:
-	_was_paused_before_open = get_tree().paused
-	get_tree().paused = true
+	if get_tree():
+		_was_paused_before_open = get_tree().paused
+		get_tree().paused = true
 	visible = true
 
 	var audio_mgr = get_node_or_null("/root/AudioManager")
@@ -107,7 +116,7 @@ func open() -> void:
 
 
 func close() -> void:
-	if not _was_paused_before_open:
+	if not _was_paused_before_open and get_tree():
 		get_tree().paused = false
 	visible = false
 
@@ -151,7 +160,15 @@ func _refresh_ui() -> void:
 		main_title.text = "📖 ANCIENT BESTIARY & CHRONICLES" if is_en else "📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ"
 	var key_hint = get_node_or_null("Panel/VBox/HeaderBar/KeyHint") as Label
 	if key_hint:
-		key_hint.text = "[K / O] Close | [TAB] Category | [ESC] Exit" if is_en else "[K / O] Kapat | [TAB] Kategori | [ESC] Çıkış"
+		var input_mgr = get_node_or_null("/root/InputControllerManager")
+		var is_gamepad: bool = (input_mgr != null and int(input_mgr.get("current_scheme")) == 1)
+		var is_ps: bool = (input_mgr != null and int(input_mgr.get("current_gamepad_type")) == 2)
+		if is_gamepad:
+			var close_str := "[◯ / OPTIONS]" if is_ps else "[B / MENU]"
+			var cat_str := "[L1 / R1 / △]" if is_ps else "[LB / RB / Y]"
+			key_hint.text = "%s Close | %s Category" % [close_str, cat_str] if is_en else "%s Kapat | %s Kategori" % [close_str, cat_str]
+		else:
+			key_hint.text = "[K / O] Close | [TAB] Category | [ESC] Exit" if is_en else "[K / O] Kapat | [TAB] Kategori | [ESC] Çıkış"
 	if btn_close:
 		btn_close.text = "✖ Close (ESC)" if is_en else "✖ Kapat (ESC)"
 

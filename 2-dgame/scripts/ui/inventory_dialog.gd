@@ -76,27 +76,32 @@ func _unhandled_input(event: InputEvent) -> void:
 				or event.keycode == KEY_I or event.physical_keycode == KEY_I \
 				or event.keycode == KEY_B or event.physical_keycode == KEY_B:
 			close()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 		elif event.keycode == KEY_TAB or event.physical_keycode == KEY_TAB:
 			switch_tab("heart" if _current_tab == "items" else "items")
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 	elif event is InputEventJoypadButton and event.pressed:
 		if event.button_index == JOY_BUTTON_B or event.button_index == JOY_BUTTON_START or event.button_index == JOY_BUTTON_BACK:
 			close()
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
-		elif event.button_index == JOY_BUTTON_Y:
+		elif event.button_index == JOY_BUTTON_Y or event.button_index == JOY_BUTTON_LEFT_SHOULDER or event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
 			switch_tab("heart" if _current_tab == "items" else "items")
-			get_viewport().set_input_as_handled()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 			return
 
 
 ## Envanter penceresini açar ve oyunu duraklatır
 func open() -> void:
-	_was_paused_before_open = get_tree().paused
-	get_tree().paused = true
+	if get_tree():
+		_was_paused_before_open = get_tree().paused
+		get_tree().paused = true
 	visible = true
 
 	var audio_mgr = get_node_or_null("/root/AudioManager")
@@ -109,7 +114,7 @@ func open() -> void:
 
 ## Envanter penceresini kapatır ve duraklatma durumunu geri yükler
 func close() -> void:
-	if not _was_paused_before_open:
+	if not _was_paused_before_open and get_tree():
 		get_tree().paused = false
 	visible = false
 
@@ -173,7 +178,15 @@ func refresh_inventory() -> void:
 		main_title.text = "🎒 TRAVELER'S LEATHER SATCHEL" if is_en else "🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER"
 	var key_hint = get_node_or_null("Panel/VBox/HeaderBar/KeyHint") as Label
 	if key_hint:
-		key_hint.text = "[I / B / ESC] Close  |  [TAB] Switch Tab" if is_en else "[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir"
+		var input_mgr = get_node_or_null("/root/InputControllerManager")
+		var is_gamepad: bool = (input_mgr != null and int(input_mgr.get("current_scheme")) == 1)
+		var is_ps: bool = (input_mgr != null and int(input_mgr.get("current_gamepad_type")) == 2)
+		if is_gamepad:
+			var close_str := "[◯ / OPTIONS]" if is_ps else "[B / MENU]"
+			var tab_str := "[L1 / R1 / △]" if is_ps else "[LB / RB / Y]"
+			key_hint.text = "%s Close  |  %s Switch Tab" % [close_str, tab_str] if is_en else "%s Kapat  |  %s Sekme Değiştir" % [close_str, tab_str]
+		else:
+			key_hint.text = "[I / B / ESC] Close  |  [TAB] Switch Tab" if is_en else "[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir"
 	if btn_close:
 		btn_close.text = "✖ Close (ESC)" if is_en else "✖ Kapat (ESC)"
 

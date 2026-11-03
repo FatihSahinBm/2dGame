@@ -226,15 +226,18 @@ func flash_secondary_empty() -> void:
 
 ## İpucu / Görev Kutusunu Güncelle (4 saniye sonra otomatik kaybolur)
 func set_tutorial(title: String, key_badge: String, desc: String) -> void:
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	var formatted_key: String = str(input_mgr.format_prompt(key_badge)) if (input_mgr and input_mgr.has_method("format_prompt")) else key_badge
+	var formatted_desc: String = str(input_mgr.format_prompt(desc)) if (input_mgr and input_mgr.has_method("format_prompt")) else desc
 	if tutorial_title:
 		tutorial_title.text = title
 	if tutorial_key:
-		tutorial_key.text = key_badge
+		tutorial_key.text = formatted_key
 		var key_badge_panel: Control = tutorial_key.get_parent() as Control
 		if key_badge_panel:
-			key_badge_panel.visible = not key_badge.is_empty()
+			key_badge_panel.visible = not formatted_key.is_empty()
 	if tutorial_desc:
-		tutorial_desc.text = desc
+		tutorial_desc.text = formatted_desc
 
 	if tutorial_box:
 		if _tutorial_tween:
@@ -336,7 +339,28 @@ func _input(event: InputEvent) -> void:
 				return
 
 func _unhandled_input(event: InputEvent) -> void:
-	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri, [J] / [L] ile Görev Günlüğü, [I] / [B] ile Envanter
+	# [2] Tuşu / Gamepad D-Pad Sol ile Can İksiri, [4] / D-Pad Sağ ile Mana İksiri, [J] / [L] / Gamepad SHARE ile Görev Günlüğü, [I] / [B] / Gamepad Y ile Envanter, [K] / [O] ile Kodeks
+	if event.is_action_pressed("use_health_potion"):
+		use_health_potion()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("use_mana_potion"):
+		use_mana_potion()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("toggle_inventory"):
+		toggle_inventory()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("toggle_quest_log"):
+		toggle_quest_log()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("toggle_codex"):
+		toggle_codex()
+		get_viewport().set_input_as_handled()
+		return
+
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_2 or event.physical_keycode == KEY_2:
 			use_health_potion()
@@ -355,7 +379,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			toggle_codex()
 			get_viewport().set_input_as_handled()
 	elif event is InputEventJoypadButton and event.pressed:
-		if event.button_index == JOY_BUTTON_BACK:
+		if event.button_index == JOY_BUTTON_DPAD_LEFT:
+			use_health_potion()
+			get_viewport().set_input_as_handled()
+		elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
+			use_mana_potion()
+			get_viewport().set_input_as_handled()
+		elif event.button_index == JOY_BUTTON_BACK:
 			toggle_quest_log()
 			get_viewport().set_input_as_handled()
 		elif event.button_index == JOY_BUTTON_Y:

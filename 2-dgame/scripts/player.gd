@@ -795,11 +795,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not can_move:
 		return
 
-	# [1] Tuşu: Kılıç Çekme / Kınına Sokma (Draw / Sheathe Toggle)
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_1 or event.keycode == KEY_KP_1:
-			toggle_weapon_draw()
-			return
+	# [1] Tuşu / Gamepad L3 (Left Stick): Kılıç Çekme / Kınına Sokma (Draw / Sheathe Toggle)
+	if (InputMap.has_action("toggle_weapon") and event.is_action_pressed("toggle_weapon")) \
+			or (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_1 or event.keycode == KEY_KP_1)) \
+			or (event is InputEventJoypadButton and event.pressed and event.button_index == JOY_BUTTON_LEFT_STICK):
+		toggle_weapon_draw()
+		return
 
 	# [3] Tuşu: Kalkanı Eline Alma / İndirme (Shield Equip / Stow Toggle)
 	if event.is_action_pressed("toggle_shield") or (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_3 or event.keycode == KEY_KP_3)):

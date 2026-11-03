@@ -114,6 +114,10 @@ func _ready() -> void:
 	if choice_btn_2:
 		choice_btn_2.pressed.connect(func(): _on_choice_clicked(1))
 
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_signal("scheme_changed"):
+		input_mgr.scheme_changed.connect(func(_scheme): _update_prompts_and_buttons())
+
 
 func _setup_skip_button() -> void:
 	if not panel:
@@ -185,35 +189,69 @@ func _on_typing_finished() -> void:
 		if choices_container:
 			choices_container.visible = false
 		if continue_prompt:
-			continue_prompt.text = "[Sol Tık / Boşluk / E: İlerle | TAB: Atla]"
 			continue_prompt.visible = true
+	_update_prompts_and_buttons()
 
 
 func _input(event: InputEvent) -> void:
 	if not panel or not panel.visible:
 		return
 
-	# TAB: Diyaloğu / sinematiği atla
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_TAB:
-		get_viewport().set_input_as_handled()
+	# TAB veya Gamepad SHARE / START: Diyaloğu / sinematiği atla
+	var is_skip_key: bool = (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_TAB or event.physical_keycode == KEY_TAB))
+	var is_skip_joy: bool = (event is InputEventJoypadButton and event.pressed and (event.button_index == JOY_BUTTON_BACK or event.button_index == JOY_BUTTON_START))
+	if is_skip_key or is_skip_joy or (InputMap.has_action("dialogue_skip") and event.is_action_pressed("dialogue_skip")):
+		if get_viewport():
+			get_viewport().set_input_as_handled()
 		skip_dialogue()
 		return
 
 	if _has_choices_active:
 		if event is InputEventKey and event.pressed and not event.echo:
-			if event.keycode == KEY_1 and _current_choices.size() > 0:
-				get_viewport().set_input_as_handled()
+			if (event.keycode == KEY_1 or event.physical_keycode == KEY_1) and _current_choices.size() > 0:
+				if get_viewport():
+					get_viewport().set_input_as_handled()
 				_on_choice_clicked(0)
 				return
-			elif event.keycode == KEY_2 and _current_choices.size() > 1:
-				get_viewport().set_input_as_handled()
+			elif (event.keycode == KEY_2 or event.physical_keycode == KEY_2) and _current_choices.size() > 1:
+				if get_viewport():
+					get_viewport().set_input_as_handled()
 				_on_choice_clicked(1)
 				return
+		elif event is InputEventJoypadButton and event.pressed:
+			# Square / X veya D-Pad Sol/Yukarı -> 1. Seçenek
+			if (event.button_index == JOY_BUTTON_X or event.button_index == JOY_BUTTON_DPAD_UP or event.button_index == JOY_BUTTON_DPAD_LEFT) and _current_choices.size() > 0:
+				if get_viewport():
+					get_viewport().set_input_as_handled()
+				_on_choice_clicked(0)
+				return
+			# Triangle / Y veya D-Pad Sağ/Aşağı -> 2. Seçenek
+			elif (event.button_index == JOY_BUTTON_Y or event.button_index == JOY_BUTTON_DPAD_DOWN or event.button_index == JOY_BUTTON_DPAD_RIGHT) and _current_choices.size() > 1:
+				if get_viewport():
+					get_viewport().set_input_as_handled()
+				_on_choice_clicked(1)
+				return
+			# Cross / A -> Odaktaki butonu seç (veya varsayılan 1. Seçenek)
+			elif event.button_index == JOY_BUTTON_A:
+				if choice_btn_2 and choice_btn_2.has_focus() and _current_choices.size() > 1:
+					if get_viewport():
+						get_viewport().set_input_as_handled()
+					_on_choice_clicked(1)
+					return
+				elif _current_choices.size() > 0:
+					if get_viewport():
+						get_viewport().set_input_as_handled()
+					_on_choice_clicked(0)
+					return
 		return
 
-	if (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER or event.keycode == KEY_E)) \
-			or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
-		get_viewport().set_input_as_handled()
+	var is_advance_key: bool = (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER or event.keycode == KEY_E or event.physical_keycode == KEY_SPACE or event.physical_keycode == KEY_ENTER or event.physical_keycode == KEY_E))
+	var is_advance_mouse: bool = (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT)
+	var is_advance_joy: bool = (event is InputEventJoypadButton and event.pressed and (event.button_index == JOY_BUTTON_A or event.button_index == JOY_BUTTON_X or event.button_index == JOY_BUTTON_RIGHT_SHOULDER))
+
+	if is_advance_key or is_advance_mouse or is_advance_joy or (InputMap.has_action("dialogue_advance") and event.is_action_pressed("dialogue_advance")):
+		if get_viewport():
+			get_viewport().set_input_as_handled()
 		if _is_typing:
 			_is_typing = false
 			content_label.text = _full_text
@@ -404,24 +442,68 @@ func _show_current_entry() -> void:
 	_has_choices_active = false
 	if choices_container:
 		choices_container.visible = false
-	if _current_choices.size() > 0:
-		if choice_btn_1:
-			var default_btn1 := "[1] Yes" if is_en else "[1] Evet"
-			var choice1_text := str(_current_choices[0].get("text_en", "")) if (is_en and not str(_current_choices[0].get("text_en", "")).is_empty()) else str(_current_choices[0].get("text", default_btn1))
-			choice_btn_1.text = choice1_text
-			choice_btn_1.visible = true
-		if choice_btn_2:
-			if _current_choices.size() > 1:
-				var default_btn2 := "[2] No" if is_en else "[2] Hayır"
-				var choice2_text := str(_current_choices[1].get("text_en", "")) if (is_en and not str(_current_choices[1].get("text_en", "")).is_empty()) else str(_current_choices[1].get("text", default_btn2))
-				choice_btn_2.text = choice2_text
-				choice_btn_2.visible = true
-			else:
-				choice_btn_2.visible = false
+	_update_prompts_and_buttons()
 
 	# Portre rengi/stili
 	var portrait_type: String = entry.get("portrait", "")
 	_apply_portrait_style(portrait_type)
+
+
+func _update_prompts_and_buttons() -> void:
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	var is_en: bool = false
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		is_en = loc_mgr.get_current_locale().to_lower().begins_with("en")
+	elif TranslationServer.has_method("get_locale"):
+		is_en = TranslationServer.get_locale().to_lower().begins_with("en")
+
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	var is_gamepad: bool = (input_mgr != null and int(input_mgr.get("current_scheme")) == 1) # 1 = GAMEPAD
+	var is_ps: bool = (input_mgr != null and int(input_mgr.get("current_gamepad_type")) == 2) # 2 = PLAYSTATION
+
+	# İlerleme / Atla İpucu
+	if continue_prompt:
+		var raw_prompt := "[Left Click / Space / E: Advance | TAB: Skip]" if is_en else "[Sol Tık / Boşluk / E: İlerle | TAB: Atla]"
+		if is_gamepad:
+			if is_ps:
+				continue_prompt.text = "[✕ / ▢: Advance | SHARE: Skip]" if is_en else "[✕ / ▢: İlerle | SHARE: Atla]"
+			else:
+				continue_prompt.text = "[A / X: Advance | VIEW: Skip]" if is_en else "[A / X: İlerle | VIEW: Atla]"
+		else:
+			continue_prompt.text = raw_prompt
+
+	# Atla Butonu
+	if panel:
+		var skip_btn = panel.get_node_or_null("SkipButton") as Button
+		if skip_btn:
+			if is_gamepad:
+				var skip_key := "SHARE" if is_ps else "VIEW"
+				skip_btn.text = "⏭ Skip (%s)" % skip_key if is_en else "⏭ Atla (%s)" % skip_key
+			else:
+				skip_btn.text = "⏭ Skip (TAB)" if is_en else "⏭ Atla (TAB)"
+
+	# Seçenek Butonları
+	if _current_choices.size() > 0:
+		if choice_btn_1:
+			var default_btn1 := "[1] Yes" if is_en else "[1] Evet"
+			var choice1_text := str(_current_choices[0].get("text_en", "")) if (is_en and not str(_current_choices[0].get("text_en", "")).is_empty()) else str(_current_choices[0].get("text", default_btn1))
+			if is_gamepad:
+				var glyph1 := "[▢] " if is_ps else "[X] "
+				choice1_text = choice1_text.replace("[1] ", glyph1).replace("[1]", glyph1)
+			choice_btn_1.text = choice1_text
+			choice_btn_1.visible = true
+
+		if choice_btn_2:
+			if _current_choices.size() > 1:
+				var default_btn2 := "[2] No" if is_en else "[2] Hayır"
+				var choice2_text := str(_current_choices[1].get("text_en", "")) if (is_en and not str(_current_choices[1].get("text_en", "")).is_empty()) else str(_current_choices[1].get("text", default_btn2))
+				if is_gamepad:
+					var glyph2 := "[△] " if is_ps else "[Y] "
+					choice2_text = choice2_text.replace("[2] ", glyph2).replace("[2]", glyph2)
+				choice_btn_2.text = choice2_text
+				choice_btn_2.visible = true
+			else:
+				choice_btn_2.visible = false
 
 
 func _on_choice_clicked(index: int) -> void:

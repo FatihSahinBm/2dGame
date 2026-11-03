@@ -73,3 +73,4 @@ func _run() -> void:
 	print(" SONUÇ: Daire / B (Circle) Tuşu Hatası Tamamen Düzeltildi (PASS)")
 	print("=================================================================")
 	quit(0)
+

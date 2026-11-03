@@ -70,6 +70,10 @@ func _ready() -> void:
 		rift_slash.visible = false
 	_build_filter_and_letterbox()
 
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_signal("scheme_changed"):
+		input_mgr.scheme_changed.connect(func(_scheme): _update_prompt_text())
+
 
 func _exit_tree() -> void:
 	# Sahne yeniden başlatma / değiştirme: girdi kilidini ve tween'leri serbest bırak
@@ -205,24 +209,42 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible or not is_playing():
 		return
 
-	# TAB: Flashback'i atla (yetenek verilir, kontroller ve filtreler sıfırlanır)
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_TAB:
-		get_viewport().set_input_as_handled()
+	# TAB veya Gamepad SHARE / START: Flashback'i atla (yetenek verilir, kontroller ve filtreler sıfırlanır)
+	var is_skip_key: bool = (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_TAB or event.physical_keycode == KEY_TAB))
+	var is_skip_joy: bool = (event is InputEventJoypadButton and event.pressed and (event.button_index == JOY_BUTTON_BACK or event.button_index == JOY_BUTTON_START))
+	if is_skip_key or is_skip_joy or (InputMap.has_action("dialogue_skip") and event.is_action_pressed("dialogue_skip")):
+		if get_viewport():
+			get_viewport().set_input_as_handled()
 		skip_flashback()
 		return
 
 	if _stage != Stage.MEMORY:
 		return
 
-	if (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER or event.keycode == KEY_E)) \
-			or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
-		get_viewport().set_input_as_handled()
+	var is_advance_key: bool = (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER or event.keycode == KEY_E or event.physical_keycode == KEY_SPACE or event.physical_keycode == KEY_ENTER or event.physical_keycode == KEY_E))
+	var is_advance_mouse: bool = (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT)
+	var is_advance_joy: bool = (event is InputEventJoypadButton and event.pressed and (event.button_index == JOY_BUTTON_A or event.button_index == JOY_BUTTON_X or event.button_index == JOY_BUTTON_RIGHT_SHOULDER))
+
+	if is_advance_key or is_advance_mouse or is_advance_joy or (InputMap.has_action("dialogue_advance") and event.is_action_pressed("dialogue_advance")):
+		if get_viewport():
+			get_viewport().set_input_as_handled()
 		if _is_typing:
 			_is_typing = false
 			text_label.text = _full_text
 			prompt_label.visible = true
 		else:
 			_advance_memory()
+
+
+func _update_prompt_text() -> void:
+	if not prompt_label:
+		return
+	var raw_prompt: String = tr("FLASHBACK_PROMPT")
+	var input_mgr = get_node_or_null("/root/InputControllerManager")
+	if input_mgr and input_mgr.has_method("format_prompt"):
+		prompt_label.text = input_mgr.format_prompt(raw_prompt)
+	else:
+		prompt_label.text = raw_prompt
 
 
 # ---------------------------------------------------------------------------
@@ -258,7 +280,7 @@ func play_vlad_memory_sequence() -> void:
 	_set_filter(1.0, fade_time)
 	_set_letterbox(true, 0.6)
 
-	prompt_label.text = tr("FLASHBACK_PROMPT")
+	_update_prompt_text()
 
 	_entries = StoryDataLoader.get_dialogue_sequence("memory_flashback")
 	_current_idx = 0

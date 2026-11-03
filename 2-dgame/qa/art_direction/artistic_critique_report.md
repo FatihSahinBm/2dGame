@@ -52,3 +52,4 @@ Oyunun 637 görsel varlığı 7 ana aileye ayrılarak [`qa/art_direction/contact
    `lenkraster quantize` veya `pixel-art/scripts/palette_remap.py` kullanılarak T-Rex sprite'ları Taş Devri paletine (32 renge) sabitlenmeli, dither filtrelenerek miksel yoğunluğu 2x piksel ölçeğine çekilmelidir.
 2. **Kromatik Kenar Temizliği:**
    T-Rex tırnaklarındaki mor specks pikselleri `scripts/outline_generator.py` ile temizlenerek gövde rengine uyumlu koyu zeytin yeşili kontur eklenmelidir.
+
