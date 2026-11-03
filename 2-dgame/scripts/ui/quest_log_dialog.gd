@@ -71,7 +71,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_switch_tab("completed" if _current_tab == "active" else "active")
 			get_viewport().set_input_as_handled()
 			return
-	elif event is InputEventJoypadButton and event.pressed and not event.echo:
+	elif event is InputEventJoypadButton and event.pressed:
 		if event.button_index == JOY_BUTTON_B or event.button_index == JOY_BUTTON_START or event.button_index == JOY_BUTTON_BACK:
 			close()
 			get_viewport().set_input_as_handled()

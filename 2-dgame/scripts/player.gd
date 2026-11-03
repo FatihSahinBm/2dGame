@@ -788,7 +788,7 @@ func perform_roll() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if is_dead:
 		if (event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_R or event.physical_keycode == KEY_R)) \
-				or (event is InputEventJoypadButton and event.pressed and not event.echo and (event.button_index == JOY_BUTTON_A or event.button_index == JOY_BUTTON_START)):
+				or (event is InputEventJoypadButton and event.pressed and (event.button_index == JOY_BUTTON_A or event.button_index == JOY_BUTTON_START)):
 			respawn()
 		return
 

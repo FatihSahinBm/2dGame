@@ -316,11 +316,24 @@ func _input(event: InputEvent) -> void:
 			toggle_pause()
 			get_viewport().set_input_as_handled()
 			return
-	elif event is InputEventJoypadButton and event.pressed and not event.echo:
+	elif event is InputEventJoypadButton and event.pressed:
 		if event.button_index == JOY_BUTTON_START:
 			toggle_pause()
 			get_viewport().set_input_as_handled()
 			return
+		elif event.button_index == JOY_BUTTON_B:
+			if inventory_dialog and inventory_dialog.visible:
+				inventory_dialog.close()
+				get_viewport().set_input_as_handled()
+				return
+			elif quest_log_dialog and quest_log_dialog.visible:
+				quest_log_dialog.close()
+				get_viewport().set_input_as_handled()
+				return
+			elif codex_dialog and codex_dialog.visible:
+				codex_dialog.close()
+				get_viewport().set_input_as_handled()
+				return
 
 func _unhandled_input(event: InputEvent) -> void:
 	# [2] Tuşu ile Can İksiri, [4] Tuşu ile Mana İksiri, [J] / [L] ile Görev Günlüğü, [I] / [B] ile Envanter
@@ -341,7 +354,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				or event.keycode == KEY_O or event.physical_keycode == KEY_O:
 			toggle_codex()
 			get_viewport().set_input_as_handled()
-	elif event is InputEventJoypadButton and event.pressed and not event.echo:
+	elif event is InputEventJoypadButton and event.pressed:
 		if event.button_index == JOY_BUTTON_BACK:
 			toggle_quest_log()
 			get_viewport().set_input_as_handled()
