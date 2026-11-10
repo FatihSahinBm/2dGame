@@ -23,16 +23,20 @@ signal boss_staggered()
 @export var stagger_threshold: int = 150
 @export var groggy_duration: float = 2.4
 
+const CyberLaserSystemScript = preload("res://scripts/enemies/cyber_laser_system.gd")
+
 # Hitbox referansları
 @onready var laser_hitbox: Area2D = get_node_or_null("Visual/LaserHitbox")
 @onready var slam_hitbox: Area2D = get_node_or_null("Visual/SlamHitbox")
 @onready var phase_label: Label = get_node_or_null("UI/PhaseLabel")
+@onready var cyber_laser: Node2D = get_node_or_null("Visual/CyberLaserSystem")
 
 var _camera_ref: Camera2D = null
 var _current_stagger: int = 0
 var _stagger_reset_timer: float = 0.0
 var _intro_played: bool = false
 var _is_performing_special: bool = false
+var _phase_2_triggered: bool = false
 var _laser_cooldown: float = 4.0
 var _slam_cooldown: float = 3.0
 var _special_attack_type: String = ""
@@ -49,6 +53,11 @@ func _ready() -> void:
 	knockback_resistance = 0.95 # Devasa boss neredeyse itilmez
 
 func _init_extra_hitboxes() -> void:
+	if not cyber_laser:
+		cyber_laser = get_node_or_null("Visual/CyberLaserSystem")
+	if cyber_laser and not cyber_laser.laser_completed.is_connected(_on_cyber_laser_completed):
+		cyber_laser.laser_completed.connect(_on_cyber_laser_completed)
+
 	laser_light = get_node_or_null("Visual/LaserHitbox/LaserLight") as PointLight2D
 	if laser_light:
 		laser_light.enabled = false
@@ -74,6 +83,9 @@ func _update_facing_direction() -> void:
 		laser_hitbox.position.x = 260.0 * float(direction)
 	if slam_hitbox:
 		slam_hitbox.position.x = 70.0 * float(direction)
+	if cyber_laser:
+		cyber_laser.position.x = 80.0 * float(direction)
+		cyber_laser.current_direction = direction
 	if ledge_ray and is_inside_tree():
 		ledge_ray.position.x = 60.0 * float(direction)
 		ledge_ray.force_raycast_update()
@@ -249,11 +261,25 @@ func _start_platform_slam_attack() -> void:
 ## 3. SİBER AĞIZ LAZERİ: ENERJİ IŞINI (attack_laser)
 func _start_laser_attack() -> void:
 	_special_attack_type = "laser"
-	_laser_cooldown = 6.0 if boss_phase == 2 else 4.0
+	_laser_cooldown = 5.5 if boss_phase == 2 else 4.0
 	if anim_sprite:
 		anim_sprite.play(&"attack_laser")
 
-	# Şarj aşaması ve hafif parıldama
+	if cyber_laser:
+		# 1. Aşama: Telegraph kırmızı nişan çizgisi ve şarj parçacıkları (0.85s)
+		cyber_laser.start_telegraph(direction)
+		var tween: Tween = create_tween()
+		tween.tween_interval(cyber_laser.telegraph_duration)
+		tween.tween_callback(func():
+			if current_state == State.ATTACK and not is_dead:
+				# 2. Aşama: Lazer ışını patlaması ve ekran sarsıntısı (0.8s)
+				cyber_laser.fire_laser(direction, int(attack_damage * 1.5))
+				_shake_camera(screen_shake_intensity * 0.95)
+		)
+		# 3. Aşama: Toparlanma buharı (1.2s) ve bitiş sinyali _on_cyber_laser_completed çağırır
+		return
+
+	# Geriye uyumluluk için eski lazer akışı fallback'i
 	var charge_tween = create_tween()
 	charge_tween.tween_property(anim_sprite, "modulate", Color(1.2, 2.0, 2.5, 1.0), 0.5)
 	charge_tween.tween_property(anim_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2)
@@ -265,7 +291,6 @@ func _start_laser_attack() -> void:
 		tw_cl.tween_property(laser_light, "energy", 2.2, 0.55)
 
 	var tween: Tween = create_tween()
-	# Frame 6: Lazer ateşleme anı (0.6s)
 	tween.tween_interval(0.6)
 	tween.tween_callback(func():
 		if current_state == State.ATTACK and not is_dead:
@@ -275,7 +300,6 @@ func _start_laser_attack() -> void:
 				laser_light.energy = 2.8
 			_shake_camera(screen_shake_intensity * 0.9)
 	)
-	# Lazer akışı süresi (0.9s)
 	tween.tween_interval(0.9)
 	tween.tween_callback(func():
 		if laser_hitbox:
@@ -287,6 +311,10 @@ func _start_laser_attack() -> void:
 	)
 	tween.tween_interval(0.5)
 	tween.tween_callback(_finish_attack)
+
+func _on_cyber_laser_completed() -> void:
+	if current_state == State.ATTACK and not is_dead:
+		_finish_attack()
 
 ## 4. KAPMA VE KARŞI SALDIRI (grab_counter)
 func _start_grab_counter_attack() -> void:
@@ -315,6 +343,8 @@ func _finish_attack() -> void:
 			laser_hitbox.monitoring = false
 		if slam_hitbox:
 			slam_hitbox.monitoring = false
+		if cyber_laser:
+			cyber_laser.stop_laser()
 
 		_attack_timer = attack_cooldown * (0.8 if boss_phase >= 2 else 1.0)
 		current_state = State.CHASE if _target_node else State.PATROL
@@ -366,6 +396,8 @@ func _enter_groggy_state() -> void:
 		laser_hitbox.monitoring = false
 	if slam_hitbox:
 		slam_hitbox.monitoring = false
+	if cyber_laser:
+		cyber_laser.stop_laser()
 
 	boss_staggered.emit()
 
@@ -382,15 +414,23 @@ func _enter_groggy_state() -> void:
 	)
 
 func _check_phase_transition() -> void:
-	var hp_ratio = float(current_health) / float(max_health)
-	var new_phase = 1
+	var hp_ratio: float = float(current_health) / float(max_health)
+	var new_phase: int = 1
 
 	if hp_ratio <= 0.30:
 		new_phase = 3
 	elif hp_ratio <= 0.60:
 		new_phase = 2
 
-	if new_phase != boss_phase:
+	# Faz 2 can eşiği (<= %60) ilk kez aşıldığında yalnızca bir kez etkinleşir
+	if new_phase >= 2 and not _phase_2_triggered:
+		_phase_2_triggered = true
+		boss_phase = new_phase
+		phase_changed.emit(boss_phase)
+		_on_phase_changed(boss_phase)
+		# İkinci faza geçildiğinde lazer saldırısı hemen hazır olsun
+		_laser_cooldown = 0.0
+	elif new_phase != boss_phase and _phase_2_triggered:
 		boss_phase = new_phase
 		phase_changed.emit(boss_phase)
 		_on_phase_changed(boss_phase)
@@ -472,6 +512,8 @@ func _die() -> void:
 		laser_hitbox.monitoring = false
 	if slam_hitbox:
 		slam_hitbox.monitoring = false
+	if cyber_laser:
+		cyber_laser.stop_laser()
 
 	enemy_died.emit(self)
 

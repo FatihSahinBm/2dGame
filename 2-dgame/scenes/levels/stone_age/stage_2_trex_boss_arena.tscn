@@ -51,6 +51,9 @@ size = Vector2(200, 200)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boss_trigger"]
 size = Vector2(120, 360)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_monolith"]
+size = Vector2(64, 84)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_panel"]
 bg_color = Color(0.04, 0.05, 0.08, 0.92)
 border_width_left = 2
@@ -402,6 +405,36 @@ one_way_collision = true
 texture_filter = 1
 position = Vector2(0, 8)
 scale = Vector2(0.68, 0.6)
+texture = ExtResource("14_ledge_tex")
+
+[node name="CoverMonolithLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(4760, 518)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CoverMonolithLeft"]
+shape = SubResource("RectangleShape2D_monolith")
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/CoverMonolithLeft"]
+texture_filter = 1
+position = Vector2(0, 4)
+rotation = 1.5708
+scale = Vector2(0.48, 0.44)
+texture = ExtResource("14_ledge_tex")
+
+[node name="CoverMonolithRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(5140, 518)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CoverMonolithRight"]
+shape = SubResource("RectangleShape2D_monolith")
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/CoverMonolithRight"]
+texture_filter = 1
+position = Vector2(0, 4)
+rotation = 1.5708
+scale = Vector2(0.48, 0.44)
 texture = ExtResource("14_ledge_tex")
 
 [node name="Enemies" type="Node2D" parent="."]

@@ -1,0 +1,94 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/cyber_laser_system.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="2_light_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_laser_box"]
+size = Vector2(520, 68)
+
+[node name="CyberLaserSystem" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="ObstacleRay" type="RayCast2D" parent="."]
+target_position = Vector2(520, 0)
+collision_mask = 1
+
+[node name="LaserHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaserHitbox"]
+position = Vector2(260, 0)
+shape = SubResource("RectangleShape2D_laser_box")
+
+[node name="TelegraphLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 520, 0)
+width = 3.0
+default_color = Color(1, 0.15, 0.15, 0.85)
+
+[node name="LaserBeam" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 520, 0)
+width = 34.0
+default_color = Color(0.12, 0.85, 1, 0.95)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LaserCore" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 520, 0)
+width = 12.0
+default_color = Color(1, 1, 1, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LaserLight" type="PointLight2D" parent="."]
+enabled = false
+color = Color(0.15, 0.85, 1, 1)
+energy = 2.4
+texture = ExtResource("2_light_tex")
+texture_scale = 2.6
+
+[node name="ChargeParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+lifetime = 0.45
+speed_scale = 1.2
+emission_shape = 1
+emission_sphere_radius = 24.0
+gravity = Vector2(0, 0)
+radial_accel_min = -80.0
+radial_accel_max = -40.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.2, 0.9, 1, 0.95)
+
+[node name="ImpactParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 22
+lifetime = 0.5
+explosiveness = 0.7
+spread = 180.0
+gravity = Vector2(0, 150)
+initial_velocity_min = 60.0
+initial_velocity_max = 140.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 0.65, 0.2, 0.95)
+
+[node name="ExhaustSteam" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 24
+lifetime = 0.9
+emission_shape = 3
+emission_rect_extents = Vector2(16, 10)
+direction = Vector2(0, -1)
+spread = 45.0
+gravity = Vector2(0, -35)
+initial_velocity_min = 35.0
+initial_velocity_max = 75.0
+scale_amount_min = 2.5
+scale_amount_max = 5.0
+color = Color(0.85, 0.9, 0.95, 0.65)

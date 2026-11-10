@@ -193,9 +193,15 @@ func _on_boss_phase_changed(new_phase: int) -> void:
 			boss_phase_label.text = "[ FAZ 1: STANDART ]"
 			boss_phase_label.modulate = Color(0.2, 0.85, 1.0)
 		2:
-			boss_phase_label.text = "[ FAZ 2: OVERDRIVE - HIZ VE SALDIRI ARTTI ]"
+			boss_phase_label.text = "[ FAZ 2: OVERDRIVE - SİBER LAZER AKTİF ]"
 			boss_phase_label.modulate = Color(1.0, 0.7, 0.2)
 			_flash_boss_panel()
+			if hud and hud.has_method("set_tutorial"):
+				hud.set_tutorial(
+					"DİKKAT: SİBER LAZER SALDIRISI!",
+					"Faz 2: Overdrive Devrede",
+					"Kırmızı nişan uyarısına dikkat et! Siper monolitinin arkasına saklan veya platformlara zıpla!"
+				)
 		3:
 			boss_phase_label.text = "[ FAZ 3: MELTDOWN - ÖLÜMCÜL LAZER ]"
 			boss_phase_label.modulate = Color(1.0, 0.2, 0.2)
@@ -254,7 +260,6 @@ func _reveal_exit_portal() -> void:
 		time_rift_exit.modulate.a = 0.0
 		var tw_rift: Tween = create_tween()
 		tw_rift.tween_property(time_rift_exit, "modulate:a", 1.0, 1.0)
-
 		var rift_area: Area2D = time_rift_exit.get_node_or_null("Area2D") as Area2D
 		if rift_area:
 			rift_area.body_entered.connect(func(body: Node2D):
@@ -262,10 +267,8 @@ func _reveal_exit_portal() -> void:
 					_transition_to_next_chapter()
 			)
 
-
 func _on_dialogue_completed() -> void:
 	pass
-
 
 func _transition_to_next_chapter() -> void:
 	var fade_overlay: ColorRect = ColorRect.new()
@@ -276,13 +279,11 @@ func _transition_to_next_chapter() -> void:
 	canvas.layer = 100
 	canvas.add_child(fade_overlay)
 	add_child(canvas)
-
 	var tw: Tween = create_tween()
 	tw.tween_property(fade_overlay, "color:a", 1.0, 0.8)
 	tw.tween_callback(func():
 		get_tree().change_scene_to_file(NEXT_CHAPTER_PATH)
 	)
-
 
 func _play_fade_in() -> void:
 	var fade_overlay: ColorRect = ColorRect.new()
@@ -293,7 +294,6 @@ func _play_fade_in() -> void:
 	canvas.layer = 100
 	canvas.add_child(fade_overlay)
 	add_child(canvas)
-
 	var tw: Tween = create_tween()
 	tw.tween_property(fade_overlay, "color:a", 0.0, 0.7)
 	tw.tween_callback(canvas.queue_free)
