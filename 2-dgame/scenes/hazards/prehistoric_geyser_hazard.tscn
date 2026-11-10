@@ -1,0 +1,83 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/prehistoric_geyser_hazard.gd" id="1_geyser"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="2_ledge_tex"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_light_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_damage"]
+size = Vector2(46, 110)
+
+[sub_resource type="Gradient" id="Gradient_eruption"]
+offsets = PackedFloat32Array(0, 0.25, 0.7, 1)
+colors = PackedColorArray(1, 0.9, 0.4, 0.95, 1, 0.4, 0.1, 0.9, 0.9, 0.2, 0.05, 0.7, 0.3, 0.2, 0.2, 0)
+
+[node name="PrehistoricGeyserHazard" type="Node2D"]
+script = ExtResource("1_geyser")
+
+[node name="FissureSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 4)
+scale = Vector2(0.24, 0.28)
+texture = ExtResource("2_ledge_tex")
+modulate = Color(0.45, 0.25, 0.2, 1)
+
+[node name="FissureCrater" type="ColorRect" parent="."]
+offset_left = -22.0
+offset_top = -4.0
+offset_right = 22.0
+offset_bottom = 6.0
+color = Color(0.15, 0.05, 0.02, 1)
+
+[node name="FissureGlowCore" type="ColorRect" parent="."]
+offset_left = -14.0
+offset_top = -2.0
+offset_right = 14.0
+offset_bottom = 4.0
+color = Color(1, 0.35, 0.1, 0.8)
+
+[node name="DamageArea" type="Area2D" parent="."]
+position = Vector2(0, -50)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("RectangleShape2D_damage")
+
+[node name="TelegraphSteam" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 14
+lifetime = 0.6
+speed_scale = 1.3
+direction = Vector2(0, -1)
+spread = 20.0
+gravity = Vector2(0, -40)
+initial_velocity_min = 30.0
+initial_velocity_max = 70.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(1, 0.55, 0.2, 0.75)
+
+[node name="EruptionSteam" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 32
+lifetime = 0.5
+speed_scale = 1.5
+direction = Vector2(0, -1)
+spread = 12.0
+gravity = Vector2(0, -100)
+initial_velocity_min = 180.0
+initial_velocity_max = 280.0
+scale_amount_min = 5.0
+scale_amount_max = 14.0
+color_ramp = SubResource("Gradient_eruption")
+
+[node name="FissureLight" type="PointLight2D" parent="."]
+position = Vector2(0, -12)
+color = Color(1, 0.45, 0.15, 1)
+energy = 0.6
+texture = ExtResource("3_light_tex")
+texture_scale = 1.2
+

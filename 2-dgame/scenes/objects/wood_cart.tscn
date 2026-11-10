@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/wood_cart.gd" id="1_cart"]
+[ext_resource type="Texture2D" path="res://assets/objects/broken_cart.png" id="2_cart_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(74, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_push"]
+size = Vector2(110, 50)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cart_hp_bg"]
+bg_color = Color(0.12, 0.1, 0.08, 0.85)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cart_hp_fill"]
+bg_color = Color(0.3, 0.75, 0.35, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="WoodCart" type="CharacterBody2D" groups=["damageable", "wood_cart"]]
+collision_layer = 4
+collision_mask = 1
+floor_stop_on_slope = true
+script = ExtResource("1_cart")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -19)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="CartSprite" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -22)
+scale = Vector2(0.09, 0.09)
+texture = ExtResource("2_cart_tex")
+
+[node name="WheelDust" type="CPUParticles2D" parent="Visual"]
+position = Vector2(-28, -2)
+emitting = false
+amount = 8
+lifetime = 0.4
+speed_scale = 1.2
+direction = Vector2(-1, -0.3)
+spread = 25.0
+gravity = Vector2(0, 50)
+initial_velocity_min = 20.0
+initial_velocity_max = 45.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.55, 0.45, 0.32, 0.6)
+
+[node name="PushZone" type="Area2D" parent="."]
+position = Vector2(-15, -20)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PushZone"]
+shape = SubResource("RectangleShape2D_push")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="PromptLabel" type="Label" parent="UI"]
+visible = false
+offset_left = -70.0
+offset_top = -68.0
+offset_right = 70.0
+offset_bottom = -50.0
+theme_override_colors/font_color = Color(1, 0.95, 0.6, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 11
+text = "[D veya E] Arabayı İt"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+visible = false
+offset_left = -30.0
+offset_top = -48.0
+offset_right = 30.0
+offset_bottom = -42.0
+theme_override_styles/background = SubResource("StyleBoxFlat_cart_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_cart_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="ProgressLabel" type="Label" parent="UI"]
+visible = false
+offset_left = -75.0
+offset_top = -36.0
+offset_right = 75.0
+offset_bottom = -22.0
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 0.9)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 9
+text = "Mağaraya Kalan: 120 m"
+horizontal_alignment = 1
+

@@ -16,12 +16,17 @@ extends Node2D
 @onready var exit_gate: Area2D = $ExitGate
 @onready var pit_hazard: Area2D = get_node_or_null("Environment/CanyonPitHazard") as Area2D
 @onready var sword_awakening_fx: CPUParticles2D = get_node_or_null("Effects/SwordAwakeningFX") as CPUParticles2D
+@onready var caveman_chief: Caveman = get_node_or_null("TribeCamp/CavemanChief") as Caveman
+@onready var wood_cart: WoodCart = get_node_or_null("Objects/WoodCart") as WoodCart
+@onready var barricade: Node2D = get_node_or_null("Environment/DestructibleBarricade") as Node2D
 
 var _player_camera: Camera2D = null
 var _intro_dialogue_played: bool = false
 var _barricade_hint_played: bool = false
+var _quest_active: bool = false
 
 const StoryDataLoaderScript = preload("res://scripts/autoloads/story_data_loader.gd")
+const RAPTOR_SCENE = preload("res://scenes/enemies/raptor.tscn")
 const STAGE_2_ARENA_PATH: String = "res://scenes/levels/stone_age/stage_2_trex_boss_arena.tscn"
 const RESPAWN_POINT: Vector2 = Vector2(480.0, 530.0)
 
@@ -54,6 +59,14 @@ func _ready() -> void:
 
 	if exit_gate and not exit_gate.body_entered.is_connected(_on_exit_gate_body_entered):
 		exit_gate.body_entered.connect(_on_exit_gate_body_entered)
+
+	if caveman_chief:
+		caveman_chief.quest_accepted.connect(_on_caveman_quest_accepted)
+		caveman_chief.became_hostile.connect(_on_caveman_became_hostile)
+
+	if wood_cart:
+		wood_cart.ambush_triggered.connect(_on_wood_cart_ambush)
+		wood_cart.delivered_to_cave.connect(_on_wood_cart_delivered)
 
 	_setup_tutorial_hud()
 
@@ -172,3 +185,65 @@ func _play_fade_in() -> void:
 	var tw: Tween = create_tween()
 	tw.tween_property(fade_overlay, "color:a", 0.0, 0.7)
 	tw.tween_callback(canvas.queue_free)
+
+
+func _on_caveman_quest_accepted() -> void:
+	_quest_active = true
+	if wood_cart:
+		wood_cart.activate_cart()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial(
+			"GÖREV: ODUN ARABASINI KURTAR",
+			"Kabilenin Kutsal Ateşi",
+			"Ormandaki arabayı mağara girişine kadar iterek ulaştır! Yırtıcılara dikkat et."
+		)
+
+
+func _on_caveman_became_hostile() -> void:
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial(
+			"SAVAŞ KARŞILAŞMASI!",
+			"Mağara Halkı Düşman Oldu",
+			"Kabile reisi ve savaşçıları alt ederek kanyondan çıkış yolunu aç!"
+		)
+	_apply_camera_shake(5.0, 0.4)
+
+
+func _on_wood_cart_ambush() -> void:
+	if dialogue_box:
+		dialogue_box.start_dialogue_from_data("wood_cart_ambush", player)
+
+	_apply_camera_shake(6.0, 0.5)
+
+	# Pusu yırtıcılarını araba civarında çağır
+	var spawn_pos: Vector2 = wood_cart.global_position if wood_cart else Vector2(1050.0, 560.0)
+	var raptor1 = RAPTOR_SCENE.instantiate() as CharacterBody2D
+	raptor1.global_position = spawn_pos + Vector2(120.0, 0.0)
+	var raptor2 = RAPTOR_SCENE.instantiate() as CharacterBody2D
+	raptor2.global_position = spawn_pos + Vector2(-120.0, 0.0)
+	add_child(raptor1)
+	add_child(raptor2)
+
+
+func _on_wood_cart_delivered() -> void:
+	if caveman_chief:
+		caveman_chief.complete_quest()
+	if hud and hud.has_method("set_tutorial"):
+		hud.set_tutorial(
+			"GÖREV TAMAMLANDI!",
+			"Kabilenin Minneti",
+			"Odunlar mağaraya ulaştı! Önündeki barikatı aşarak T-Rex arenasına ilerle."
+		)
+	if barricade and barricade.has_method("take_damage"):
+		barricade.take_damage(999)
+	_apply_camera_shake(4.0, 0.3)
+
+
+func _apply_camera_shake(intensity: float, duration: float) -> void:
+	if not _player_camera:
+		return
+	var tw: Tween = create_tween()
+	tw.tween_property(_player_camera, "offset:y", intensity, duration * 0.25)
+	tw.tween_property(_player_camera, "offset:y", -intensity * 0.8, duration * 0.25)
+	tw.tween_property(_player_camera, "offset:y", 0.0, duration * 0.5)
+

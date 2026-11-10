@@ -69,6 +69,15 @@ func _physics_process(delta: float) -> void:
 	fall_speed += gravity * delta
 	rock_sprite.position.y += fall_speed * delta
 
+	# Oyuncuya çarpma kontrolü
+	var players = get_tree().get_nodes_in_group("player")
+	for p in players:
+		if p is CharacterBody2D and rock_sprite.global_position.distance_to(p.global_position + Vector2(0, -20)) < 36.0:
+			if p.has_method("take_damage"):
+				p.take_damage(20, Vector2(0, 1) * 120.0)
+			_on_rock_impact()
+			return
+
 	# Zemin seviyesine çarpma kontrolü
 	if rock_sprite.global_position.y >= ground_y:
 		_on_rock_impact()

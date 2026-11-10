@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/stoneage/falling_rock_hazard.gd" id="1_rock_script"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="2_rock_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(90, 320)
+
+[sub_resource type="Gradient" id="Gradient_dust"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(0.8, 0.7, 0.55, 0.8, 0.5, 0.4, 0.3, 0.5, 0.2, 0.15, 0.1, 0)
+
+[node name="PrehistoricFallingRock" type="Node2D"]
+script = ExtResource("1_rock_script")
+warning_time = 0.5
+ground_y = 580.0
+
+[node name="TriggerArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2(0, 140)
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="RockSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("2_rock_tex")
+modulate = Color(0.65, 0.55, 0.5, 1)
+
+[node name="WarningDust" type="CPUParticles2D" parent="."]
+position = Vector2(0, -10)
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.6
+direction = Vector2(0, 1)
+spread = 35.0
+gravity = Vector2(0, 150)
+initial_velocity_min = 20.0
+initial_velocity_max = 45.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_ramp = SubResource("Gradient_dust")
+
+[node name="ImpactDust" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.85
+direction = Vector2(0, -1)
+spread = 70.0
+gravity = Vector2(0, 120)
+initial_velocity_min = 50.0
+initial_velocity_max = 120.0
+scale_amount_min = 3.0
+scale_amount_max = 6.0
+color_ramp = SubResource("Gradient_dust")
+

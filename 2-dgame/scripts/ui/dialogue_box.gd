@@ -29,6 +29,7 @@ const PORTRAIT_PLAYER = preload("res://assets/ui/portraits/portrait_player.png")
 const PORTRAIT_VLAD = preload("res://assets/ui/portraits/portrait_vlad.png")
 const PORTRAIT_KEMANKES = preload("res://assets/ui/portraits/portrait_kemankes.png")
 const PORTRAIT_BLOOD_KNIGHT = preload("res://assets/ui/portraits/portrait_blood_knight.png")
+const PORTRAIT_CAVEMAN = preload("res://assets/ui/portraits/portrait_caveman.png")
 
 @onready var panel: Control = $Panel
 @onready var letterbox_top: ColorRect = get_node_or_null("LetterboxTop") as ColorRect
@@ -549,6 +550,10 @@ func _apply_portrait_style(portrait_type: String) -> void:
 			if container:
 				container.visible = true
 			portrait_texture.texture = PORTRAIT_KEMANKES
+		"caveman", "orok", "ogre":
+			if container:
+				container.visible = true
+			portrait_texture.texture = PORTRAIT_CAVEMAN
 		"none", "empty":
 			if container:
 				container.visible = false

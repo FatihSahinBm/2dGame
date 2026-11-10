@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=33 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_1_prehistoric_valley.gd" id="1_valley"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -23,6 +23,11 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="21_flying_eye"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/mushroom.tscn" id="22_mushroom"]
 [ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="23_light_tex"]
+[ext_resource type="PackedScene" path="res://scenes/characters/caveman.tscn" id="24_caveman"]
+[ext_resource type="PackedScene" path="res://scenes/objects/wood_cart.tscn" id="25_cart"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/prehistoric_geyser_hazard.tscn" id="26_geyser"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/prehistoric_falling_rock.tscn" id="27_rock"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire.tscn" id="28_campfire"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
 size = Vector2(620, 60)
@@ -329,6 +334,38 @@ energy = 1.35
 texture = ExtResource("23_light_tex")
 texture_scale = 2.2
 
+[node name="TribeCamp" type="Node2D" parent="."]
+
+[node name="Campfire" parent="TribeCamp" instance=ExtResource("28_campfire")]
+position = Vector2(1785, 560)
+
+[node name="CavemanChief" parent="TribeCamp" instance=ExtResource("24_caveman")]
+position = Vector2(1750, 560)
+character_name = "Kabile Şefi Orok"
+title = "Mağara Halkı Reisi"
+is_chief = true
+
+[node name="CavemanWarrior" parent="TribeCamp" instance=ExtResource("24_caveman")]
+position = Vector2(1820, 560)
+character_name = "Mağara Savaşçısı"
+title = "Kabile Muhafızı"
+is_chief = false
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="WoodCart" parent="Objects" instance=ExtResource("25_cart")]
+position = Vector2(1150, 560)
+target_destination_x = 1720.0
+ambush_waypoint_x = 1320.0
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="PrehistoricGeyserHazard" parent="Hazards" instance=ExtResource("26_geyser")]
+position = Vector2(1260, 560)
+
+[node name="PrehistoricFallingRock" parent="Hazards" instance=ExtResource("27_rock")]
+position = Vector2(1420, 240)
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="FlyingEye1" parent="Enemies" instance=ExtResource("21_flying_eye")]
@@ -340,11 +377,11 @@ position = Vector2(1380, 560)
 direction = -1
 
 [node name="Mushroom1" parent="Enemies" instance=ExtResource("22_mushroom")]
-position = Vector2(1720, 560)
+position = Vector2(1580, 560)
 direction = -1
 
 [node name="Goblin1" parent="Enemies" instance=ExtResource("20_goblin")]
-position = Vector2(1980, 560)
+position = Vector2(2040, 560)
 direction = -1
 
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]

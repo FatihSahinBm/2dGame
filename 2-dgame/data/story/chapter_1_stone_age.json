@@ -95,6 +95,84 @@
         "text_en": "One shard gathered. Yet until we discover where this cybernetic tech originated, the time rift will remain broken.",
         "portrait": "player"
       }
+    ],
+    "caveman_encounter": [
+      {
+        "speaker": "Kabile Şefi Orok",
+        "speaker_en": "Tribal Chief Orok",
+        "title": "Mağara Halkı Reisi",
+        "title_en": "Canyon Tribe Elder",
+        "text": "Grr... Dur yabancı! Sırtındaki o parlak maden ve garip silah da ne? Vadideki yırtıcılar kabilemizin odun arabasını kuşattı. Ateşimiz sönerse kış bizi yok edecek!",
+        "text_en": "Grr... Halt, stranger! What is that gleaming metal and strange weapon upon you? The valley predators besieged our tribe's wood cart. If our fire dies, the cold will claim us all!",
+        "portrait": "caveman",
+        "choices": [
+          {
+            "text": "[1] Görevi Al: Odun Arabasını Kurtar",
+            "text_en": "[1] Accept Quest: Rescue Wood Cart",
+            "action": "accept_quest"
+          },
+          {
+            "text": "[2] Savaş: Yolumdan Çekil!",
+            "text_en": "[2] Fight: Out of My Way!",
+            "action": "start_fight"
+          }
+        ]
+      }
+    ],
+    "caveman_quest_accept": [
+      {
+        "speaker": "Kabile Şefi Orok",
+        "speaker_en": "Tribal Chief Orok",
+        "title": "Mağara Halkı Reisi",
+        "title_en": "Canyon Tribe Elder",
+        "text": "Grrah! Orok sana minnettar. Ormandaki odun arabasını buraya, mağara ocağımıza kadar it. Dikkat et; kan kokusu alan yırtıcılar ve kaynayan gayzerler yolda pusu kurmuştur!",
+        "text_en": "Grrah! Orok is in your debt. Push the wood cart through the forest to our cave hearth. Beware; blood-scented predators and scalding geysers lay in wait!",
+        "portrait": "caveman"
+      }
+    ],
+    "caveman_fight_shout": [
+      {
+        "speaker": "Kabile Şefi Orok",
+        "speaker_en": "Tribal Chief Orok",
+        "title": "Mağara Halkı Reisi",
+        "title_en": "Canyon Tribe Elder",
+        "text": "Demek avcının değil canavarın dilinden anlarsın! Kabile! Bu parıldayan yabancıyı ezin, etini raptorlara atın!",
+        "text_en": "So you speak the tongue of monsters, not allies! Tribe! Crush this shining intruder, throw his flesh to the raptors!",
+        "portrait": "caveman"
+      }
+    ],
+    "caveman_quest_active": [
+      {
+        "speaker": "Kabile Şefi Orok",
+        "speaker_en": "Tribal Chief Orok",
+        "title": "Mağara Halkı Reisi",
+        "title_en": "Canyon Tribe Elder",
+        "text": "Odun arabası ormanda bekliyor! Yırtıcılar kütükleri dağıtmadan onu mağaramıza ulaştır!",
+        "text_en": "The wood cart still stands in the forest! Escort it to our cave before the predators scatter the timber!",
+        "portrait": "caveman"
+      }
+    ],
+    "caveman_quest_complete": [
+      {
+        "speaker": "Kabile Şefi Orok",
+        "speaker_en": "Tribal Chief Orok",
+        "title": "Mağara Halkı Reisi",
+        "title_en": "Canyon Tribe Elder",
+        "text": "Başardın yabancı! Odunlar geldi, kutsal ateşimiz alevlendi. Kabilenin kapısı sana açıktır; bu koruyucu kabile gücünü kılıcına hediye ediyoruz!",
+        "text_en": "You succeeded, traveler! The timber is delivered, our sacred flame blazes anew. The tribe's pass is open to you; take our blessing into your blade!",
+        "portrait": "caveman"
+      }
+    ],
+    "wood_cart_ambush": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Dikkat et! Çalılıklardan gelen hırıltıları duyuyor musun? Aç yırtıcılar arabaya ve bize doğru atılıyor! Arabayı koru!",
+        "text_en": "Watch out! Hear those snarls in the underbrush? Ravenous predators are lunging for the cart and us! Defend the cart!",
+        "portrait": "player"
+      }
     ]
   }
 }
