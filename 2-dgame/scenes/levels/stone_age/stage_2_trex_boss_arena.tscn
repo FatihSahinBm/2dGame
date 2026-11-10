@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_2_trex_boss_arena.gd" id="1_arena"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -15,6 +15,8 @@
 [ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_moss_ground.png" id="13_ground_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="14_ledge_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/stone_age/cyber_rex_debris.png" id="15_debris_tex"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/raptor.tscn" id="16_raptor"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="17_light_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(40, 800)
@@ -323,6 +325,12 @@ scale_amount_min = 1.5
 scale_amount_max = 3.0
 color = Color(0.2, 0.9, 1, 0.85)
 
+[node name="DebrisLight" type="PointLight2D" parent="Environment/CyberRexDebrisProp"]
+color = Color(0.2, 0.85, 1, 1)
+energy = 0.85
+texture = ExtResource("17_light_tex")
+texture_scale = 1.25
+
 [node name="TremorZone" type="Area2D" parent="Environment"]
 position = Vector2(3750, 500)
 collision_layer = 0
@@ -398,8 +406,20 @@ texture = ExtResource("14_ledge_tex")
 
 [node name="Enemies" type="Node2D" parent="."]
 
+[node name="FlyingEyeEarly" parent="Enemies" instance=ExtResource("12_flying_eye")]
+position = Vector2(650, 360)
+direction = -1
+
+[node name="Raptor1" parent="Enemies" instance=ExtResource("16_raptor")]
+position = Vector2(880, 560)
+direction = -1
+
 [node name="Goblin1" parent="Enemies" instance=ExtResource("10_goblin")]
 position = Vector2(1450, 560)
+direction = -1
+
+[node name="Raptor2" parent="Enemies" instance=ExtResource("16_raptor")]
+position = Vector2(2650, 560)
 direction = -1
 
 [node name="Mushroom1" parent="Enemies" instance=ExtResource("11_mushroom")]
@@ -445,6 +465,12 @@ gravity = Vector2(0, 0)
 initial_velocity_min = 12.0
 initial_velocity_max = 40.0
 color = Color(1, 0.4, 0.1, 0.85)
+
+[node name="HeartLight" type="PointLight2D" parent="HeartPieceVisual"]
+color = Color(1, 0.35, 0.2, 1)
+energy = 1.3
+texture = ExtResource("17_light_tex")
+texture_scale = 1.8
 
 [node name="DimensionalTimeRiftExit" parent="." instance=ExtResource("6_rift")]
 position = Vector2(5380, 430)

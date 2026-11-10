@@ -13,6 +13,7 @@ const PositionalEmitter = preload("res://scripts/audio/positional_audio_emitter_
 
 @onready var fire_visual: CanvasItem = get_node_or_null("FireVisual") as CanvasItem
 @onready var prompt: Label = get_node_or_null("PromptLabel") as Label
+@onready var light: PointLight2D = get_node_or_null("PointLight2D") as PointLight2D
 
 var _audio_emitter: Node2D = null
 
@@ -24,6 +25,8 @@ func _ready() -> void:
 	body_exited.connect(_on_body_exited)
 	if fire_visual:
 		fire_visual.visible = is_ignited
+	if light:
+		light.enabled = is_ignited
 	if prompt:
 		prompt.visible = false
 
@@ -51,6 +54,11 @@ func ignite_brazier() -> void:
 		var tw: Tween = create_tween()
 		tw.tween_property(fire_visual, "scale:y", 1.4, 0.15)
 		tw.tween_property(fire_visual, "scale:y", 1.0, 0.2)
+	if light:
+		light.enabled = true
+		light.energy = 0.2
+		var tw_light: Tween = create_tween()
+		tw_light.tween_property(light, "energy", 1.35, 0.25)
 
 	_spawn_ignite_label("🔥 Kan Mangalı Yandı!")
 	if not _audio_emitter:

@@ -11,6 +11,7 @@ signal spawn_completed()
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var particles: CPUParticles2D = $Particles
 @onready var burst_particles: CPUParticles2D = $BurstParticles
+@onready var rift_light: PointLight2D = get_node_or_null("RiftLight") as PointLight2D
 
 var _base_scale: Vector2 = Vector2(1.0, 1.0)
 var _pulse_timer: float = 0.0
@@ -33,6 +34,8 @@ func _process(delta: float) -> void:
 		sprite.scale = Vector2(_base_scale.x + scale_offset, _base_scale.y - scale_offset)
 		var glow_val = 1.0 + (sin(_pulse_timer * 1.5) * 0.2)
 		sprite.modulate = Color(glow_val * 1.15, glow_val * 0.9, glow_val * 0.9, 1.0)
+	if rift_light:
+		rift_light.energy = 1.25 + sin(_pulse_timer * 2.0) * 0.35
 
 
 ## Bölüm başlangıcında oyuncunun yırtıktan fırlayarak çıkış sekansı
@@ -58,6 +61,10 @@ func play_player_emerge_sequence(player: CharacterBody2D) -> void:
 	if burst_particles:
 		burst_particles.restart()
 		burst_particles.emitting = true
+	if rift_light:
+		var tw_burst: Tween = create_tween()
+		tw_burst.tween_property(rift_light, "energy", 2.6, 0.1)
+		tw_burst.tween_property(rift_light, "energy", 1.25, 0.4)
 	rift_opened.emit()
 
 	# 4. Oyuncu yırtıktan ileri ve aşağıya doğru fırlar
@@ -101,6 +108,8 @@ func _shrink_and_vanish() -> void:
 	# Dikey ince bir yırtık çizgisine büzülme, ardından sönme
 	tw.tween_property(self, "scale", Vector2(0.04, 1.3), 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.parallel().tween_property(self, "modulate:a", 0.7, 0.22)
+	if rift_light:
+		tw.parallel().tween_property(rift_light, "energy", 0.0, 0.35)
 	tw.tween_property(self, "scale", Vector2(0.0, 0.0), 0.18).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	tw.parallel().tween_property(self, "modulate:a", 0.0, 0.18)
 	tw.tween_callback(queue_free)

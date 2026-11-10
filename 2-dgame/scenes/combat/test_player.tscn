@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/combat/combat_test_player.gd" id="1_script"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/combat/sword_overlay.gd" id="4_overlay"]
 [ext_resource type="PackedScene" path="res://scenes/combat/parabolic_shield.tscn" id="5_shield"]
 [ext_resource type="Script" path="res://scripts/camera/advanced_camera_2d.gd" id="6_cam"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="7_light_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(18, 38)
@@ -55,3 +56,10 @@ position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 script = ExtResource("6_cam")
 base_offset_position = Vector2(0, -70)
+
+[node name="PlayerLight" type="PointLight2D" parent="."]
+position = Vector2(0, -20)
+color = Color(0.9, 0.95, 1, 1)
+energy = 0.65
+texture = ExtResource("7_light_tex")
+texture_scale = 1.35

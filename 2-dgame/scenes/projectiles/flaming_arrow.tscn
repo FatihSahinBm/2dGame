@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://flaming_arrow_01"]
+[gd_scene load_steps=3 format=3 uid="uid://flaming_arrow_01"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/flaming_arrow.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="2_light_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
 size = Vector2(24, 6)
@@ -36,3 +37,10 @@ gravity = Vector2(0, -20)
 initial_velocity_min = 20.0
 initial_velocity_max = 40.0
 color = Color(1, 0.5, 0.1, 0.9)
+
+[node name="ArrowLight" type="PointLight2D" parent="."]
+position = Vector2(10, 0)
+color = Color(1, 0.65, 0.25, 1)
+energy = 0.95
+texture = ExtResource("2_light_tex")
+texture_scale = 0.85

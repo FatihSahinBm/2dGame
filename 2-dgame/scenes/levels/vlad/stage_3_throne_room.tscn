@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" path="res://assets/environment/castle/castle_transition_pilaster.png" id="24_pilaster"]
 [ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_ceiling_framing_fg.png" id="25_fg_ceiling"]
 [ext_resource type="Texture2D" path="res://assets/environment/castle/gothic_edge_framing_fg.png" id="26_fg_edge"]
+[ext_resource type="PackedScene" path="res://scenes/objects/wall_torch.tscn" id="27_torch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
 size = Vector2(1300, 60)
@@ -71,6 +72,9 @@ parallax_factor_x = 0.02
 parallax_factor_y = 0.01
 tile_count = 6
 fog_color = Color(0, 0, 0, 0)
+
+[node name="ThroneAmbiance" type="CanvasModulate" parent="."]
+color = Color(0.62, 0.58, 0.65, 1)
 
 [node name="WorldBackdrop" type="Node2D" parent="."]
 z_index = -50
@@ -311,6 +315,18 @@ offset_top = -165.0
 offset_right = 6.0
 offset_bottom = 165.0
 color = Color(0.65, 0.12, 0.18, 0.6)
+
+[node name="WallTorchLeft" parent="Environment/Arena1_ThroneRoom" instance=ExtResource("27_torch")]
+position = Vector2(200, 370)
+
+[node name="WallTorchCenter" parent="Environment/Arena1_ThroneRoom" instance=ExtResource("27_torch")]
+position = Vector2(600, 430)
+
+[node name="WallTorchRight" parent="Environment/Arena1_ThroneRoom" instance=ExtResource("27_torch")]
+position = Vector2(980, 370)
+
+[node name="WallTorchBarrier" parent="Environment/Arena1_ThroneRoom" instance=ExtResource("27_torch")]
+position = Vector2(1200, 380)
 
 [node name="Arena2_BloodHall" type="Node2D" parent="Environment"]
 

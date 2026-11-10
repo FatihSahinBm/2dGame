@@ -36,6 +36,7 @@ var _is_performing_special: bool = false
 var _laser_cooldown: float = 4.0
 var _slam_cooldown: float = 3.0
 var _special_attack_type: String = ""
+var laser_light: PointLight2D = null
 
 func _ready() -> void:
 	super._ready()
@@ -48,6 +49,9 @@ func _ready() -> void:
 	knockback_resistance = 0.95 # Devasa boss neredeyse itilmez
 
 func _init_extra_hitboxes() -> void:
+	laser_light = get_node_or_null("Visual/LaserHitbox/LaserLight") as PointLight2D
+	if laser_light:
+		laser_light.enabled = false
 	if laser_hitbox:
 		laser_hitbox.monitoring = false
 		if not laser_hitbox.body_entered.is_connected(_on_laser_hitbox_body_entered):
@@ -254,6 +258,12 @@ func _start_laser_attack() -> void:
 	charge_tween.tween_property(anim_sprite, "modulate", Color(1.2, 2.0, 2.5, 1.0), 0.5)
 	charge_tween.tween_property(anim_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2)
 
+	if laser_light:
+		laser_light.enabled = true
+		laser_light.energy = 0.4
+		var tw_cl = create_tween()
+		tw_cl.tween_property(laser_light, "energy", 2.2, 0.55)
+
 	var tween: Tween = create_tween()
 	# Frame 6: Lazer ateşleme anı (0.6s)
 	tween.tween_interval(0.6)
@@ -261,6 +271,8 @@ func _start_laser_attack() -> void:
 		if current_state == State.ATTACK and not is_dead:
 			if laser_hitbox:
 				laser_hitbox.monitoring = true
+			if laser_light:
+				laser_light.energy = 2.8
 			_shake_camera(screen_shake_intensity * 0.9)
 	)
 	# Lazer akışı süresi (0.9s)
@@ -268,6 +280,10 @@ func _start_laser_attack() -> void:
 	tween.tween_callback(func():
 		if laser_hitbox:
 			laser_hitbox.monitoring = false
+		if laser_light:
+			var tw_off = create_tween()
+			tw_off.tween_property(laser_light, "energy", 0.0, 0.25)
+			tw_off.tween_callback(func(): if laser_light: laser_light.enabled = false)
 	)
 	tween.tween_interval(0.5)
 	tween.tween_callback(_finish_attack)

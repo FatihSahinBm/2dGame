@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/trex_boss.tscn" id="1_trex"]
+
+[node name="Raptor" instance=ExtResource("1_trex")]
+scale = Vector2(0.42, 0.42)
+monster_name = "Vadi Raptoru"
+max_health = 160
+current_health = 160
+speed = 110.0
+chase_speed = 165.0
+attack_damage = 20
+attack_range = 75.0
+detection_range = 350.0
+screen_shake_intensity = 3.0
+stagger_threshold = 50
+knockback_resistance = 0.45
+

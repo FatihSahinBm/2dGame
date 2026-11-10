@@ -15,7 +15,9 @@
 [ext_resource type="Texture2D" path="res://assets/items/arrow_quiver.png" id="13_quiver_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/camp/ottoman_camp_ground.png" id="14_ground"]
 [ext_resource type="Script" path="res://scripts/objects/camp_night_raid_atmosphere.gd" id="15_atmo"]
-[ext_resource type="PackedScene" path="res://scenes/objects/campfire_checkpoint.tscn" id="16_campfire"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire_checkpoint.tscn" id="16_campfire_checkpoint"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire.tscn" id="17_campfire"]
+[ext_resource type="PackedScene" path="res://scenes/objects/wall_torch.tscn" id="18_torch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(3400, 60)
@@ -31,6 +33,9 @@ size = Vector2(40, 48)
 
 [node name="Stage1Camp" type="Node2D"]
 script = ExtResource("1_camp")
+
+[node name="CampAtmosphere" type="CanvasModulate" parent="."]
+color = Color(0.72, 0.69, 0.75, 1)
 
 [node name="WorldBackdrop" type="Node2D" parent="."]
 script = ExtResource("10_backdrop")
@@ -109,12 +114,21 @@ position = Vector2(2350, 365)
 texture = ExtResource("9_tent")
 centered = false
 
+[node name="Campfire" parent="Environment" instance=ExtResource("17_campfire")]
+position = Vector2(620, 560)
+
+[node name="TentTorchLeft" parent="Environment" instance=ExtResource("18_torch")]
+position = Vector2(1030, 480)
+
+[node name="TentTorchRight" parent="Environment" instance=ExtResource("18_torch")]
+position = Vector2(1210, 480)
+
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
 position = Vector2(120, 560)
 has_sword = true
 is_armed = true
 
-[node name="CampfireCheckpoint" parent="." instance=ExtResource("16_campfire")]
+[node name="CampfireCheckpoint" parent="." instance=ExtResource("16_campfire_checkpoint")]
 position = Vector2(820, 560)
 checkpoint_id = "camp_vanguard_campfire"
 is_lit = false

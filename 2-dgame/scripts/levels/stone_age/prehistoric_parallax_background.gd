@@ -110,7 +110,11 @@ func _setup_atmosphere_tint() -> void:
 
 func _process(_delta: float) -> void:
 	if not _camera:
-		_camera = get_viewport().get_camera_2d()
+		var vp: Viewport = get_viewport()
+		if vp:
+			_camera = vp.get_camera_2d()
+		if not _camera:
+			_camera = get_node_or_null("../CombatPlayer/Camera2D") as Camera2D
 		if not _camera:
 			return
 

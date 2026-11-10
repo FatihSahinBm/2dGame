@@ -29,6 +29,8 @@ signal time_rift_entered(player: Node2D)
 @onready var time_rift: Node2D = get_node_or_null("TemporalTimeRift")
 @onready var time_rift_sprite: Sprite2D = get_node_or_null("TemporalTimeRift/RiftSprite")
 @onready var time_rift_particles: CPUParticles2D = get_node_or_null("TemporalTimeRift/RiftParticles")
+@onready var time_rift_light: PointLight2D = get_node_or_null("TemporalTimeRift/RiftLight") as PointLight2D
+@onready var heart_light: PointLight2D = get_node_or_null("HeartFragment/HeartLight") as PointLight2D
 @onready var flashback_canvas: CanvasLayer = get_node_or_null("FlashbackSequence")
 
 var _player_camera: Camera2D = null
@@ -67,6 +69,10 @@ func _ensure_node_refs() -> void:
 		time_rift_sprite = get_node_or_null("TemporalTimeRift/RiftSprite") as Sprite2D
 	if not time_rift_particles:
 		time_rift_particles = get_node_or_null("TemporalTimeRift/RiftParticles") as CPUParticles2D
+	if not time_rift_light:
+		time_rift_light = get_node_or_null("TemporalTimeRift/RiftLight") as PointLight2D
+	if not heart_light:
+		heart_light = get_node_or_null("HeartFragment/HeartLight") as PointLight2D
 	if not flashback_canvas:
 		flashback_canvas = get_node_or_null("FlashbackSequence") as CanvasLayer
 
@@ -139,6 +145,8 @@ func _process(delta: float) -> void:
 			var pulse: float = 0.85 + (sin(_hover_time * 1.8) * 0.25)
 			heart_glow.scale = Vector2(pulse, pulse)
 			heart_glow.modulate.a = 0.65 + (sin(_hover_time * 1.8) * 0.2)
+		if heart_light:
+			heart_light.energy = 1.35 + sin(_hover_time * 1.8) * 0.35
 
 
 # -------------------------------------------------------------
@@ -173,6 +181,9 @@ func _collect_heart_fragment() -> void:
 		var tw: Tween = create_tween()
 		tw.tween_property(heart_node, "position", target_pos, 0.65).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		tw.parallel().tween_property(heart_node, "scale", Vector2(1.4, 1.4), 0.3)
+		if heart_light:
+			tw.parallel().tween_property(heart_light, "energy", 2.6, 0.25)
+			tw.parallel().tween_property(heart_light, "energy", 0.0, 0.4)
 		tw.tween_property(heart_node, "scale", Vector2(0.0, 0.0), 0.35)
 		tw.tween_callback(func():
 			if heart_node:
@@ -266,6 +277,10 @@ func _open_time_rift() -> void:
 
 		if time_rift_particles:
 			time_rift_particles.emitting = true
+		if time_rift_light:
+			time_rift_light.energy = 0.2
+			var tw_rl: Tween = create_tween()
+			tw_rl.tween_property(time_rift_light, "energy", 1.6, 0.7)
 
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial(

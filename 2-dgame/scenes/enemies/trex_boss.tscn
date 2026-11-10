@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/enemies/trex_boss.gd" id="1_script"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/trex_boss/trex_frames.tres" id="2_frames"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_light_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(110, 160)
@@ -76,6 +77,13 @@ sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"
 
+[node name="EyeCoreLight" type="PointLight2D" parent="Visual"]
+position = Vector2(55, -125)
+color = Color(1, 0.2, 0.15, 1)
+energy = 0.75
+texture = ExtResource("3_light_tex")
+texture_scale = 0.85
+
 [node name="Hitbox" type="Area2D" parent="Visual"]
 position = Vector2(140, -80)
 collision_layer = 0
@@ -93,6 +101,13 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/LaserHitbox"]
 shape = SubResource("RectangleShape2D_laser")
+
+[node name="LaserLight" type="PointLight2D" parent="Visual/LaserHitbox"]
+enabled = false
+color = Color(0.15, 0.9, 1, 1)
+energy = 2.4
+texture = ExtResource("3_light_tex")
+texture_scale = 2.6
 
 [node name="SlamHitbox" type="Area2D" parent="Visual"]
 position = Vector2(70, -30)

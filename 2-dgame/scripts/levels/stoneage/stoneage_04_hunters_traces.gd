@@ -33,6 +33,7 @@ var _seen_footprint: bool = false
 var _seen_trunk: bool = false
 var _deadfall_activated: bool = false
 var _seen_presence: bool = false
+var _last_grounded_pos: Vector2 = Vector2(250.0, 520.0)
 
 
 func _ready() -> void:
@@ -43,6 +44,26 @@ func _ready() -> void:
 	_setup_triggers()
 	_play_fade_in()
 	level_started.emit()
+
+
+func _physics_process(_delta: float) -> void:
+	if not player or not is_instance_valid(player):
+		return
+	if player.is_on_floor() and player.global_position.y < 620.0:
+		_last_grounded_pos = player.global_position
+	elif player.global_position.y > 690.0:
+		_recover_from_fall()
+
+
+func _recover_from_fall() -> void:
+	if not player or not is_instance_valid(player):
+		return
+	if player.has_method("take_damage"):
+		player.take_damage(15)
+	player.global_position = _last_grounded_pos
+	player.velocity = Vector2.ZERO
+	_apply_camera_shake(3.0, 0.3)
+
 
 
 func _ensure_node_refs() -> void:

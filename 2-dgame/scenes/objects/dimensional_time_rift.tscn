@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/objects/dimensional_time_rift.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/objects/dimensional_time_rift.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_light_tex"]
 
 [sub_resource type="Gradient" id="Gradient_particles"]
 offsets = PackedFloat32Array(0, 0.45, 1)
@@ -46,3 +47,9 @@ initial_velocity_max = 240.0
 scale_amount_min = 2.5
 scale_amount_max = 5.0
 color_ramp = SubResource("Gradient_burst")
+
+[node name="RiftLight" type="PointLight2D" parent="."]
+color = Color(1, 0.28, 0.22, 1)
+energy = 1.3
+texture = ExtResource("3_light_tex")
+texture_scale = 2.6

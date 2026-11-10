@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_1_prehistoric_valley.gd" id="1_valley"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -10,15 +10,25 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/stone_age/prehistoric_parallax_background.tscn" id="8_parallax"]
 [ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_moss_ground.png" id="9_ground_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="10_ledge_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/apex_distant_shadow.png" id="11_apex_shadow"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/prehistoric_ribcage_remnant.png" id="12_ribcage"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/domain_massive_skull_fossil.png" id="13_skull_fossil"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/fossil_bone_slab.png" id="14_bone_slab"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/claw_gouge_boulder.png" id="15_claw_gouge"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/hanging_cliff_roots.png" id="16_cliff_roots"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/prehistoric_cycad_bush.png" id="17_cycad_bush"]
+[ext_resource type="Texture2D" path="res://assets/props/stoneage/trampled_cycad_ferns.png" id="18_trampled_ferns"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/raptor.tscn" id="19_raptor"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/goblin.tscn" id="20_goblin"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/flying_eye.tscn" id="21_flying_eye"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/mushroom.tscn" id="22_mushroom"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="23_light_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
 size = Vector2(620, 60)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground2"]
-size = Vector2(460, 60)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground3"]
-size = Vector2(680, 60)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_continuous"]
+size = Vector2(1120, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
 size = Vector2(200, 24)
@@ -32,10 +42,135 @@ size = Vector2(80, 220)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hint"]
 size = Vector2(240, 180)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pit"]
+size = Vector2(520, 100)
+
 [node name="Stage1PrehistoricValley" type="Node2D"]
 script = ExtResource("1_valley")
 
 [node name="PrehistoricParallaxBackground" parent="." instance=ExtResource("8_parallax")]
+
+[node name="Silhouettes" type="Node2D" parent="."]
+
+[node name="ApexDistantShadow" type="Sprite2D" parent="Silhouettes"]
+modulate = Color(0.2, 0.25, 0.28, 0.42)
+z_index = -35
+texture_filter = 1
+position = Vector2(1380, 340)
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("11_apex_shadow")
+
+[node name="Atmosphere" type="Node2D" parent="."]
+
+[node name="CanyonFloorMist" type="CPUParticles2D" parent="Atmosphere"]
+position = Vector2(1100, 560)
+z_index = -4
+amount = 20
+lifetime = 7.0
+preprocess = 3.0
+emission_shape = 3
+emission_rect_extents = Vector2(1100, 50)
+direction = Vector2(1, -0.05)
+spread = 15.0
+gravity = Vector2(0, -1)
+initial_velocity_min = 8.0
+initial_velocity_max = 20.0
+scale_amount_min = 16.0
+scale_amount_max = 38.0
+color = Color(0.85, 0.95, 0.9, 0.12)
+
+[node name="AmbientPollenSpores" type="CPUParticles2D" parent="Atmosphere"]
+position = Vector2(1100, 320)
+z_index = -12
+amount = 24
+lifetime = 6.0
+preprocess = 2.5
+emission_shape = 3
+emission_rect_extents = Vector2(1100, 240)
+direction = Vector2(-0.8, 0.4)
+spread = 25.0
+gravity = Vector2(0, 4)
+initial_velocity_min = 10.0
+initial_velocity_max = 22.0
+scale_amount_min = 1.2
+scale_amount_max = 2.8
+color = Color(0.85, 0.95, 0.6, 0.22)
+
+[node name="Fossils" type="Node2D" parent="."]
+
+[node name="PrehistoricRibcage" type="Sprite2D" parent="Fossils"]
+modulate = Color(0.7, 0.65, 0.6, 0.85)
+z_index = -6
+texture_filter = 1
+position = Vector2(860, 565)
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("12_ribcage")
+
+[node name="ColossalSkullFossil" type="Sprite2D" parent="Fossils"]
+modulate = Color(0.85, 0.82, 0.78, 0.9)
+z_index = -2
+texture_filter = 1
+position = Vector2(2040, 510)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("13_skull_fossil")
+
+[node name="FossilBoneSlab" type="Sprite2D" parent="Fossils"]
+z_index = -1
+texture_filter = 1
+position = Vector2(1250, 368)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("14_bone_slab")
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="ClawGougeBoulder" type="Sprite2D" parent="Props"]
+z_index = -1
+texture_filter = 1
+position = Vector2(1410, 538)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("15_claw_gouge")
+
+[node name="AmberFossilGlow" type="PointLight2D" parent="Props/ClawGougeBoulder"]
+position = Vector2(0, -10)
+color = Color(1, 0.7, 0.3, 1)
+energy = 0.75
+texture = ExtResource("23_light_tex")
+texture_scale = 1.25
+
+[node name="CliffRootsLeft" type="Sprite2D" parent="Props"]
+z_index = -2
+texture_filter = 1
+position = Vector2(615, 575)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("16_cliff_roots")
+
+[node name="CliffRootsRight" type="Sprite2D" parent="Props"]
+z_index = -2
+texture_filter = 1
+position = Vector2(1105, 575)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("16_cliff_roots")
+
+[node name="PrehistoricCycad1" type="Sprite2D" parent="Props"]
+z_index = 2
+texture_filter = 1
+position = Vector2(220, 545)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("17_cycad_bush")
+
+[node name="PrehistoricCycad2" type="Sprite2D" parent="Props"]
+z_index = 2
+texture_filter = 1
+position = Vector2(1660, 545)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("17_cycad_bush")
+
+[node name="TrampledFerns" type="Sprite2D" parent="Props"]
+z_index = -1
+texture_filter = 1
+position = Vector2(1530, 550)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("18_trampled_ferns")
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -59,6 +194,12 @@ position = Vector2(2185, 300)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
 shape = SubResource("RectangleShape2D_wall")
 
+[node name="ColorRect" type="ColorRect" parent="Environment/WallRight"]
+offset_left = -15.0
+offset_top = -350.0
+offset_right = 15.0
+offset_bottom = 350.0
+color = Color(0.12, 0.09, 0.08, 1)
 [node name="GroundStart" type="StaticBody2D" parent="Environment"]
 position = Vector2(310, 590)
 
@@ -85,17 +226,25 @@ position = Vector2(740, 480)
 [node name="CollapsingPlat2" parent="Environment" instance=ExtResource("6_collapse")]
 position = Vector2(960, 440)
 
-[node name="GroundMid" type="StaticBody2D" parent="Environment"]
-position = Vector2(1330, 590)
+[node name="CanyonPitHazard" type="Area2D" parent="Environment"]
+position = Vector2(860, 690)
+collision_layer = 0
+collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundMid"]
-shape = SubResource("RectangleShape2D_ground2")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CanyonPitHazard"]
+shape = SubResource("RectangleShape2D_pit")
 
-[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundMid"]
+[node name="GroundRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(1660, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundRight"]
+shape = SubResource("RectangleShape2D_ground_continuous")
+
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundRight"]
 texture_filter = 1
-offset_left = -230.0
+offset_left = -560.0
 offset_top = -30.0
-offset_right = 230.0
+offset_right = 560.0
 offset_bottom = 120.0
 texture = ExtResource("9_ground_tex")
 patch_margin_left = 28
@@ -128,26 +277,6 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BarricadeHintZone"]
 shape = SubResource("RectangleShape2D_hint")
 
-[node name="GroundExit" type="StaticBody2D" parent="Environment"]
-position = Vector2(1880, 590)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
-shape = SubResource("RectangleShape2D_ground3")
-
-[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
-texture_filter = 1
-offset_left = -340.0
-offset_top = -30.0
-offset_right = 340.0
-offset_bottom = 120.0
-texture = ExtResource("9_ground_tex")
-patch_margin_left = 28
-patch_margin_top = 28
-patch_margin_right = 28
-patch_margin_bottom = 28
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
 [node name="DimensionalTimeRift" parent="." instance=ExtResource("5_rift")]
 position = Vector2(160, 440)
 
@@ -155,6 +284,26 @@ position = Vector2(160, 440)
 position = Vector2(160, 440)
 has_sword = true
 is_armed = true
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="SwordAwakeningFX" type="CPUParticles2D" parent="Effects"]
+position = Vector2(160, 520)
+emitting = false
+amount = 22
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.7
+emission_shape = 1
+emission_sphere_radius = 24.0
+direction = Vector2(0, -1)
+spread = 60.0
+gravity = Vector2(0, -40)
+initial_velocity_min = 25.0
+initial_velocity_max = 60.0
+scale_amount_min = 2.0
+scale_amount_max = 4.5
+color = Color(0.3, 0.9, 1.0, 0.9)
 
 [node name="ExitGate" type="Area2D" parent="."]
 position = Vector2(2120, 500)
@@ -174,8 +323,33 @@ emission_rect_extents = Vector2(15, 90)
 gravity = Vector2(20, -10)
 color = Color(1, 0.5, 0.2, 0.8)
 
+[node name="GateLight" type="PointLight2D" parent="ExitGate"]
+color = Color(1, 0.55, 0.2, 1)
+energy = 1.35
+texture = ExtResource("23_light_tex")
+texture_scale = 2.2
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="FlyingEye1" parent="Enemies" instance=ExtResource("21_flying_eye")]
+position = Vector2(850, 360)
+direction = -1
+
+[node name="Raptor1" parent="Enemies" instance=ExtResource("19_raptor")]
+position = Vector2(1380, 560)
+direction = -1
+
+[node name="Mushroom1" parent="Enemies" instance=ExtResource("22_mushroom")]
+position = Vector2(1720, 560)
+direction = -1
+
+[node name="Goblin1" parent="Enemies" instance=ExtResource("20_goblin")]
+position = Vector2(1980, 560)
+direction = -1
+
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
 
 [node name="DialogueBox" parent="." instance=ExtResource("4_dialogue")]
 
+[connection signal="body_entered" from="Environment/CanyonPitHazard" to="." method="_on_pit_hazard_entered"]
 [connection signal="body_entered" from="Environment/BarricadeHintZone" to="." method="_on_barricade_zone_entered"]

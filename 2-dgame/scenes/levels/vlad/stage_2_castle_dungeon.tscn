@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://stage2_castle_dungeon_01"]
+[gd_scene load_steps=21 format=3 uid="uid://stage2_castle_dungeon_01"]
 
 [ext_resource type="Script" path="res://scripts/levels/vlad/stage_2_castle_dungeon.gd" id="1_stage"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -30,6 +30,9 @@
 [ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_blood_gate_arch.png" id="28_blood_gate_arch"]
 [ext_resource type="Texture2D" path="res://assets/environment/dungeon/dungeon_blood_portcullis.png" id="29_blood_portcullis"]
 [ext_resource type="PackedScene" path="res://scenes/objects/spike_trap.tscn" id="30_spike_trap"]
+[ext_resource type="PackedScene" path="res://scenes/objects/wall_torch.tscn" id="31_torch"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="32_light_tex"]
+[ext_resource type="Script" path="res://scripts/objects/flickering_light_2d.gd" id="33_flicker"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_entrance"]
 size = Vector2(400, 50)
@@ -81,8 +84,23 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_entrance"]
+polygon = PackedVector2Array(-200, -25, 200, -25, 200, 25, -200, 25)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_mid"]
+polygon = PackedVector2Array(-130, -20, 130, -20, 130, 20, -130, 20)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_exit"]
+polygon = PackedVector2Array(-500, -30, 500, -30, 500, 30, -500, 30)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_portcullis"]
+polygon = PackedVector2Array(-10, -50, 10, -50, 10, 50, -10, 50)
+
 [node name="Stage2CastleDungeon" type="Node2D"]
 script = ExtResource("1_stage")
+
+[node name="DungeonAtmosphere" type="CanvasModulate" parent="."]
+color = Color(0.52, 0.52, 0.6, 1)
 
 [node name="WorldBackdrop" type="Node2D" parent="."]
 script = ExtResource("10_backdrop")
@@ -241,6 +259,25 @@ theme_override_font_sizes/font_size = 11
 text = "[E] Mangalı Yak"
 horizontal_alignment = 1
 
+[node name="PointLight2D" type="PointLight2D" parent="PuzzleBraziers/Brazier1"]
+position = Vector2(0, -18)
+enabled = false
+color = Color(1, 0.45, 0.25, 1)
+energy = 1.35
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_filter = 1
+texture = ExtResource("32_light_tex")
+texture_scale = 2.0
+script = ExtResource("33_flicker")
+base_energy = 1.35
+energy_jitter = 0.18
+flicker_speed = 9.0
+base_scale = 2.0
+scale_jitter = 0.08
+base_color = Color(1, 0.45, 0.25, 1)
+warm_color = Color(1, 0.2, 0.15, 1)
+
 [node name="Brazier2" type="Area2D" parent="PuzzleBraziers"]
 position = Vector2(1780, 535)
 collision_layer = 4
@@ -275,6 +312,25 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 11
 text = "[E] Mangalı Yak"
 horizontal_alignment = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="PuzzleBraziers/Brazier2"]
+position = Vector2(0, -18)
+enabled = false
+color = Color(1, 0.45, 0.25, 1)
+energy = 1.35
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_filter = 1
+texture = ExtResource("32_light_tex")
+texture_scale = 2.0
+script = ExtResource("33_flicker")
+base_energy = 1.35
+energy_jitter = 0.18
+flicker_speed = 9.0
+base_scale = 2.0
+scale_jitter = 0.08
+base_color = Color(1, 0.45, 0.25, 1)
+warm_color = Color(1, 0.2, 0.15, 1)
 
 [node name="Brazier3" type="Area2D" parent="PuzzleBraziers"]
 position = Vector2(2040, 535)
@@ -311,11 +367,33 @@ theme_override_font_sizes/font_size = 11
 text = "[E] Mangalı Yak"
 horizontal_alignment = 1
 
+[node name="PointLight2D" type="PointLight2D" parent="PuzzleBraziers/Brazier3"]
+position = Vector2(0, -18)
+enabled = false
+color = Color(1, 0.45, 0.25, 1)
+energy = 1.35
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_filter = 1
+texture = ExtResource("32_light_tex")
+texture_scale = 2.0
+script = ExtResource("33_flicker")
+base_energy = 1.35
+energy_jitter = 0.18
+flicker_speed = 9.0
+base_scale = 2.0
+scale_jitter = 0.08
+base_color = Color(1, 0.45, 0.25, 1)
+warm_color = Color(1, 0.2, 0.15, 1)
+
 [node name="EntranceLedge" type="StaticBody2D" parent="Environment"]
 position = Vector2(180, 575)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/EntranceLedge"]
 shape = SubResource("RectangleShape2D_entrance")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Environment/EntranceLedge"]
+occluder = SubResource("OccluderPolygon2D_entrance")
 
 [node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/EntranceLedge"]
 texture_filter = 1
@@ -337,6 +415,9 @@ position = Vector2(920, 520)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/MidLedge"]
 shape = SubResource("RectangleShape2D_mid_rock")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Environment/MidLedge"]
+occluder = SubResource("OccluderPolygon2D_mid")
+
 [node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/MidLedge"]
 texture_filter = 1
 offset_left = -130.0
@@ -356,6 +437,9 @@ position = Vector2(1825, 575)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/UpperCorridor"]
 shape = SubResource("RectangleShape2D_exit_floor")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Environment/UpperCorridor"]
+occluder = SubResource("OccluderPolygon2D_exit")
 
 [node name="StoneLedgeVisual" type="NinePatchRect" parent="Environment/UpperCorridor"]
 texture_filter = 1
@@ -477,6 +561,23 @@ z_index = 0
 texture_filter = 1
 position = Vector2(0, 28)
 texture = ExtResource("29_blood_portcullis")
+
+[node name="WallTorches" type="Node2D" parent="."]
+
+[node name="WallTorch1" parent="WallTorches" instance=ExtResource("31_torch")]
+position = Vector2(160, 480)
+
+[node name="WallTorch2" parent="WallTorches" instance=ExtResource("31_torch")]
+position = Vector2(920, 440)
+
+[node name="WallTorch3" parent="WallTorches" instance=ExtResource("31_torch")]
+position = Vector2(1440, 480)
+
+[node name="WallTorch4" parent="WallTorches" instance=ExtResource("31_torch")]
+position = Vector2(1880, 480)
+
+[node name="WallTorch5" parent="WallTorches" instance=ExtResource("31_torch")]
+position = Vector2(2120, 430)
 
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
 

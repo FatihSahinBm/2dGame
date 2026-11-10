@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/levels/stoneage/stoneage_08_first_heart_fragment.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
-[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/domain_trampled_soil_ground.png" id="3_ground_tex"]
-[ext_resource type="Texture2D" path="res://assets/tilesets/stoneage/domain_fossil_ledge.png" id="4_ledge_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_moss_ground.png" id="3_ground_tex"]
+[ext_resource type="Texture2D" path="res://assets/environment/stone_age/prehistoric_stone_ledge.png" id="4_ledge_tex"]
 [ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="5_hud"]
 [ext_resource type="Texture2D" path="res://assets/environment/stoneage/aftermath/fallen_trex_wreckage.png" id="6_wreckage_tex"]
 [ext_resource type="Texture2D" path="res://assets/environment/stoneage/aftermath/crater_impact_scorch.png" id="7_scorch_tex"]
@@ -16,21 +16,16 @@
 [ext_resource type="Texture2D" path="res://assets/backgrounds/flashbacks/flashback_wallachia_1462_camp.png" id="14_flash_camp_tex"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/flashbacks/flashback_sword_soul_vision.png" id="15_flash_sword_tex"]
 [ext_resource type="PackedScene" path="res://scenes/levels/stone_age/prehistoric_parallax_background.tscn" id="16_parallax"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="17_light_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(30, 900)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_ent"]
-size = Vector2(900, 60)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_crater"]
-size = Vector2(900, 60)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g_exit"]
-size = Vector2(700, 60)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2400, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
-size = Vector2(220, 24)
+size = Vector2(200, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_heart"]
 radius = 42.0
@@ -73,58 +68,18 @@ offset_right = 15.0
 offset_bottom = 450.0
 color = Color(0.02, 0.03, 0.04, 1)
 
-[node name="GroundEntrance" type="StaticBody2D" parent="Environment"]
-position = Vector2(450, 590)
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(1200, 590)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundEntrance"]
-shape = SubResource("RectangleShape2D_g_ent")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
 
-[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundEntrance"]
+[node name="GroundVisual" type="NinePatchRect" parent="Environment/Ground"]
 texture_filter = 1
-offset_left = -450.0
+offset_left = -1200.0
 offset_top = -30.0
-offset_right = 450.0
-offset_bottom = 150.0
-texture = ExtResource("3_ground_tex")
-patch_margin_left = 28
-patch_margin_top = 28
-patch_margin_right = 28
-patch_margin_bottom = 28
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="GroundCrater" type="StaticBody2D" parent="Environment"]
-position = Vector2(1350, 600)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundCrater"]
-shape = SubResource("RectangleShape2D_g_crater")
-
-[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundCrater"]
-texture_filter = 1
-offset_left = -450.0
-offset_top = -30.0
-offset_right = 450.0
-offset_bottom = 150.0
-texture = ExtResource("3_ground_tex")
-patch_margin_left = 28
-patch_margin_top = 28
-patch_margin_right = 28
-patch_margin_bottom = 28
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="GroundExit" type="StaticBody2D" parent="Environment"]
-position = Vector2(2040, 590)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/GroundExit"]
-shape = SubResource("RectangleShape2D_g_exit")
-
-[node name="GroundVisual" type="NinePatchRect" parent="Environment/GroundExit"]
-texture_filter = 1
-offset_left = -350.0
-offset_top = -30.0
-offset_right = 350.0
-offset_bottom = 150.0
+offset_right = 1200.0
+offset_bottom = 170.0
 texture = ExtResource("3_ground_tex")
 patch_margin_left = 28
 patch_margin_top = 28
@@ -134,51 +89,79 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="Ledge1" type="StaticBody2D" parent="Environment"]
-position = Vector2(750, 460)
+position = Vector2(650, 440)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ledge1"]
 shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/Ledge1"]
 texture_filter = 1
-position = Vector2(0, 10)
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
 texture = ExtResource("4_ledge_tex")
 
 [node name="Ledge2" type="StaticBody2D" parent="Environment"]
-position = Vector2(1750, 460)
+position = Vector2(1850, 440)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ledge2"]
 shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/Ledge2"]
 texture_filter = 1
-position = Vector2(0, 10)
+position = Vector2(0, 8)
+scale = Vector2(0.68, 0.6)
 texture = ExtResource("4_ledge_tex")
 
 [node name="BossAftermath" type="Node2D" parent="."]
 
 [node name="CraterScorch" type="Sprite2D" parent="BossAftermath"]
 texture_filter = 1
-position = Vector2(1350, 570)
+position = Vector2(1350, 560)
 texture = ExtResource("7_scorch_tex")
 
 [node name="FallenTrexWreckage" type="Sprite2D" parent="BossAftermath"]
 texture_filter = 1
-position = Vector2(1350, 500)
+position = Vector2(1350, 490)
 texture = ExtResource("6_wreckage_tex")
+
+[node name="WreckageSparks" type="CPUParticles2D" parent="BossAftermath/FallenTrexWreckage"]
+position = Vector2(-20, -10)
+amount = 16
+lifetime = 0.7
+preprocess = 0.5
+speed_scale = 1.2
+emission_shape = 3
+emission_rect_extents = Vector2(35, 20)
+direction = Vector2(0, -1)
+spread = 60.0
+gravity = Vector2(0, 140)
+initial_velocity_min = 25.0
+initial_velocity_max = 75.0
+scale_amount_min = 1.5
+scale_amount_max = 3.2
+color = Color(0.2, 0.9, 1, 0.95)
+
+[node name="WreckageLight" type="PointLight2D" parent="BossAftermath/FallenTrexWreckage"]
+position = Vector2(-20, -10)
+color = Color(0.2, 0.85, 1, 1)
+energy = 0.85
+texture = ExtResource("17_light_tex")
+texture_scale = 1.35
 
 [node name="ShatteredPlates1" type="Sprite2D" parent="BossAftermath"]
 texture_filter = 1
-position = Vector2(1160, 560)
+position = Vector2(1160, 555)
 texture = ExtResource("8_plates_tex")
 
 [node name="ShatteredPlates2" type="Sprite2D" parent="BossAftermath"]
 texture_filter = 1
-position = Vector2(1540, 560)
+position = Vector2(1540, 555)
 texture = ExtResource("8_plates_tex")
 
 [node name="AftermathSmoke" type="CPUParticles2D" parent="BossAftermath"]
-position = Vector2(1340, 490)
+position = Vector2(1340, 480)
 amount = 18
 lifetime = 2.4
 preprocess = 1.0
@@ -194,7 +177,7 @@ scale_amount_max = 4.5
 color = Color(0.25, 0.22, 0.2, 0.45)
 
 [node name="HeartFragment" type="Node2D" parent="."]
-position = Vector2(1350, 450)
+position = Vector2(1350, 435)
 z_index = 5
 
 [node name="GlowSprite" type="Sprite2D" parent="HeartFragment"]
@@ -228,9 +211,21 @@ collision_mask = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeartFragment/Area2D"]
 shape = SubResource("CircleShape2D_heart")
 
+[node name="HeartLight" type="PointLight2D" parent="HeartFragment"]
+color = Color(1, 0.45, 0.25, 1)
+energy = 1.35
+texture = ExtResource("17_light_tex")
+texture_scale = 1.9
+
 [node name="TemporalTimeRift" type="Node2D" parent="."]
 position = Vector2(1950, 470)
 z_index = 4
+
+[node name="RiftLight" type="PointLight2D" parent="TemporalTimeRift"]
+color = Color(0.25, 0.85, 1, 1)
+energy = 1.4
+texture = ExtResource("17_light_tex")
+texture_scale = 2.2
 
 [node name="RiftSprite" type="Sprite2D" parent="TemporalTimeRift"]
 texture_filter = 1
