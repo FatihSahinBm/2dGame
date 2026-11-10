@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" path="res://assets/effects/stoneage/domain_spore_mote.png" id="19_spore_tex"]
 [ext_resource type="Texture2D" path="res://assets/effects/stoneage/domain_ground_dust.png" id="20_dust_tex"]
 [ext_resource type="Texture2D" path="res://assets/props/stoneage/apex_distant_shadow.png" id="21_shadow_tex"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/death_zone.tscn" id="22_death_zone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(30, 900)
@@ -54,6 +55,18 @@ size = Vector2(280, 220)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_zone"]
 size = Vector2(100, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obs_trunk"]
+size = Vector2(160, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obs_ribcage"]
+size = Vector2(140, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obs_bones"]
+size = Vector2(90, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obs_skull"]
+size = Vector2(110, 48)
 
 [node name="StoneAge06BeastsDomain" type="Node2D"]
 script = ExtResource("1_level")
@@ -156,6 +169,7 @@ position = Vector2(780, 470)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeFossil1"]
 shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeFossil1"]
 texture_filter = 1
@@ -187,6 +201,7 @@ position = Vector2(1500, 460)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeTitanRoot1"]
 shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeTitanRoot1"]
 texture_filter = 1
@@ -218,6 +233,7 @@ position = Vector2(2280, 465)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeFossil2"]
 shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeFossil2"]
 texture_filter = 1
@@ -249,6 +265,7 @@ position = Vector2(3080, 470)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/LedgeTitanRoot2"]
 shape = SubResource("RectangleShape2D_ledge")
+one_way_collision = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/LedgeTitanRoot2"]
 texture_filter = 1
@@ -314,6 +331,9 @@ position = Vector2(2500, 280)
 scale = Vector2(1.8, 1.8)
 texture = ExtResource("21_shadow_tex")
 
+[node name="DeathZone" parent="Environment" instance=ExtResource("22_death_zone")]
+position = Vector2(2100, 740)
+
 [node name="PrehistoricForestProps" type="Node2D" parent="."]
 z_index = 1
 
@@ -322,19 +342,43 @@ texture_filter = 1
 position = Vector2(680, 465)
 texture = ExtResource("8_snapped_tree_tex")
 
-[node name="FallenColossusTrunk1" type="Sprite2D" parent="PrehistoricForestProps"]
-texture_filter = 1
+[node name="FallenColossusTrunk1" type="StaticBody2D" parent="PrehistoricForestProps"]
 position = Vector2(1380, 545)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrehistoricForestProps/FallenColossusTrunk1"]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_obs_trunk")
+
+[node name="Sprite2D" type="Sprite2D" parent="PrehistoricForestProps/FallenColossusTrunk1"]
+texture_filter = 1
 texture = ExtResource("9_fallen_trunk_tex")
 
-[node name="GiantRibcageCluster1" type="Sprite2D" parent="PrehistoricForestProps"]
-texture_filter = 1
+[node name="GiantRibcageCluster1" type="StaticBody2D" parent="PrehistoricForestProps"]
 position = Vector2(1720, 510)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrehistoricForestProps/GiantRibcageCluster1"]
+position = Vector2(0, -22)
+shape = SubResource("RectangleShape2D_obs_ribcage")
+
+[node name="Sprite2D" type="Sprite2D" parent="PrehistoricForestProps/GiantRibcageCluster1"]
+texture_filter = 1
 texture = ExtResource("10_ribcage_tex")
 
-[node name="BoneHeap1" type="Sprite2D" parent="PrehistoricForestProps"]
-texture_filter = 1
+[node name="BoneHeap1" type="StaticBody2D" parent="PrehistoricForestProps"]
 position = Vector2(1980, 550)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrehistoricForestProps/BoneHeap1"]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_obs_bones")
+
+[node name="Sprite2D" type="Sprite2D" parent="PrehistoricForestProps/BoneHeap1"]
+texture_filter = 1
 texture = ExtResource("11_bone_heap_tex")
 
 [node name="ColossalClawScar1" type="Sprite2D" parent="PrehistoricForestProps"]
@@ -342,9 +386,17 @@ texture_filter = 1
 position = Vector2(2380, 485)
 texture = ExtResource("12_claw_scar_tex")
 
-[node name="MassiveSkullFossil1" type="Sprite2D" parent="PrehistoricForestProps"]
-texture_filter = 1
+[node name="MassiveSkullFossil1" type="StaticBody2D" parent="PrehistoricForestProps"]
 position = Vector2(2840, 535)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrehistoricForestProps/MassiveSkullFossil1"]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_obs_skull")
+
+[node name="Sprite2D" type="Sprite2D" parent="PrehistoricForestProps/MassiveSkullFossil1"]
+texture_filter = 1
 texture = ExtResource("13_skull_fossil_tex")
 
 [node name="NestDepressionMound1" type="Sprite2D" parent="PrehistoricForestProps"]

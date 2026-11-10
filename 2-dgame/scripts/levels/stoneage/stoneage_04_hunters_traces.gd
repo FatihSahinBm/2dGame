@@ -52,16 +52,16 @@ func _physics_process(_delta: float) -> void:
 	if player.is_on_floor() and player.global_position.y < 620.0:
 		_last_grounded_pos = player.global_position
 	elif player.global_position.y > 690.0:
-		_recover_from_fall()
+		_handle_void_fall()
 
 
-func _recover_from_fall() -> void:
+func _handle_void_fall() -> void:
 	if not player or not is_instance_valid(player):
 		return
-	if player.has_method("take_damage"):
-		player.take_damage(15)
-	player.global_position = _last_grounded_pos
-	player.velocity = Vector2.ZERO
+	if player.has_method("die"):
+		player.die()
+	elif player.has_method("take_damage"):
+		player.take_damage(9999)
 	_apply_camera_shake(3.0, 0.3)
 
 

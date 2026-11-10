@@ -263,6 +263,9 @@ locale/fallback="tr"
 
 [physics]
 
+2d/default_gravity=1200.0
+common/physics_ticks_per_second=120
+common/max_physics_steps_per_frame=8
 3d/physics_engine="Jolt Physics"
 
 [rendering]

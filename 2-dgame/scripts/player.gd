@@ -43,6 +43,7 @@ signal secondary_thrown(type: String, count_remaining: int)
 @export var gravity: float = 1200.0
 @export var coyote_time: float = 0.12
 @export var jump_buffer_time: float = 0.12
+@export var fall_death_y: float = 750.0
 
 @export_group("Upgrades & Skills")
 @export var double_jump_unlocked: bool = true
@@ -144,8 +145,10 @@ func _ready() -> void:
 		add_to_group("player")
 	_ensure_input_actions()
 
-	# Düşman katmanıyla (Layer 2) fiziksel çarpışmayı aç (içlerine yürümeyi/geçmeyi önler)
+	# Katmanlarla fiziksel çarpışmayı aç: 1: Dünya/Engeller, 2: Düşmanlar, 3: Barikatlar
+	set_collision_mask_value(1, true)
 	set_collision_mask_value(2, true)
+	set_collision_mask_value(3, true)
 
 	if anim_sprite:
 		anim_sprite.animation_finished.connect(_on_animation_finished)
@@ -486,6 +489,11 @@ func _physics_process(delta: float) -> void:
 		if combo_timer <= 0.0:
 			combo_step = 0
 
+	# Boşluğa Düşme / Uçurum Ölüm Kontrolü
+	if not is_dead and global_position.y > fall_death_y:
+		die()
+		return
+
 	# 1. Ölüm Durumu
 	if is_dead:
 		if not is_on_floor():
@@ -676,8 +684,15 @@ func _handle_movement_and_skills(delta: float) -> void:
 	# 4. Eğilme (Ctrl tuşu)
 	var wants_crouch = wants_crouch_key and is_on_floor() and not is_attacking and not is_sliding and not is_defending
 	if wants_crouch != is_crouching:
-		is_crouching = wants_crouch
-		_set_collision_box(LOW_COL_SIZE if is_crouching else NORMAL_COL_SIZE, LOW_COL_POS if is_crouching else NORMAL_COL_POS)
+		if not wants_crouch and _has_ceiling_overhead():
+			is_crouching = true
+			_set_collision_box(LOW_COL_SIZE, LOW_COL_POS)
+		else:
+			is_crouching = wants_crouch
+			_set_collision_box(LOW_COL_SIZE if is_crouching else NORMAL_COL_SIZE, LOW_COL_POS if is_crouching else NORMAL_COL_POS)
+	elif is_crouching and not wants_crouch_key and not _has_ceiling_overhead():
+		is_crouching = false
+		_set_collision_box(NORMAL_COL_SIZE, NORMAL_COL_POS)
 
 	# 5. Zıplama Girdisi (Coyote Time, Buffer, Double Jump & Platformdan Aşağı İnme)
 	var raw_jump_down: bool = Input.is_action_pressed("jump") \
@@ -769,12 +784,30 @@ func _stop_slide() -> void:
 		return
 	is_sliding = false
 	var wants_crouch_key = Input.is_key_pressed(KEY_CTRL) or Input.is_physical_key_pressed(KEY_CTRL) or Input.is_action_pressed("crouch")
-	if wants_crouch_key:
+	if wants_crouch_key or _has_ceiling_overhead():
 		is_crouching = true
 		_set_collision_box(LOW_COL_SIZE, LOW_COL_POS)
 	else:
 		is_crouching = false
 		_set_collision_box(NORMAL_COL_SIZE, NORMAL_COL_POS)
+
+## Tavan Engeli Kontrolü (Alçak engellerin altından geçerken ayağa kalkmayı engeller)
+func _has_ceiling_overhead() -> bool:
+	if not is_inside_tree() or not get_world_2d():
+		return false
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	if not space_state:
+		return false
+	var offsets: Array[float] = [-7.0, 7.0]
+	for off_x in offsets:
+		var from_pos: Vector2 = global_position + Vector2(off_x, -18.0)
+		var to_pos: Vector2 = global_position + Vector2(off_x, -42.0)
+		var ray_params: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(from_pos, to_pos, 1)
+		ray_params.exclude = [get_rid()]
+		var hit: Dictionary = space_state.intersect_ray(ray_params)
+		if not hit.is_empty():
+			return true
+	return false
 
 ## Dodge Roll (Alt veya C)
 func perform_roll() -> void:
@@ -1496,6 +1529,9 @@ func _trigger_block_hit(original_amount: int, reduced_amount: int) -> void:
 			tw.parallel().tween_property(label, "modulate:a", 0.0, 0.55)
 			tw.tween_callback(label.queue_free)
 
+func set_spawn_position(pos: Vector2) -> void:
+	_initial_spawn_position = pos
+
 func respawn_at_checkpoint() -> void:
 	is_dead = false
 	can_move = true
@@ -1520,6 +1556,8 @@ func respawn_at_checkpoint() -> void:
 	if can_apply_cp and save_mgr.cached_checkpoint_position != Vector2.ZERO:
 		global_position = save_mgr.cached_checkpoint_position
 	elif _initial_spawn_position != Vector2.ZERO:
+		global_position = _initial_spawn_position
+	else:
 		global_position = _initial_spawn_position
 
 	if camera and camera.has_method("reset_smoothing"):
@@ -1641,6 +1679,12 @@ func die() -> void:
 		anim_sprite.play("death")
 	player_died.emit()
 	_show_death_screen()
+
+	# Otomatik yeniden doğma penceresi (boşluğa düşme ve ölüm durumunda beklemeden akıcı yeniden doğma)
+	get_tree().create_timer(1.8).timeout.connect(func():
+		if is_dead:
+			respawn()
+	)
 
 ## Kılıç Alma & Fırlatma
 func can_pickup_weapon() -> bool:
