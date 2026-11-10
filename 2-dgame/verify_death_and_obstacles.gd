@@ -161,7 +161,7 @@ func _run_async() -> void:
 	var ledge1 = domain.get_node_or_null("Environment/LedgeFossil1")
 
 	var trunk_ok = trunk is StaticBody2D and trunk.get_node_or_null("CollisionShape2D") != null
-	var ribcage_ok = ribcage is StaticBody2D and ribcage.get_node_or_null("CollisionShape2D") != null
+	var ribcage_ok = ribcage is StaticBody2D and (ribcage.get_node_or_null("CollisionShapeCeiling") != null or ribcage.get_node_or_null("CollisionShape2D") != null)
 	var bones_ok = bones is StaticBody2D and bones.get_node_or_null("CollisionShape2D") != null
 	var skull_ok = skull is StaticBody2D and skull.get_node_or_null("CollisionShape2D") != null
 	var dz_ok = death_zone_node != null and death_zone_node is Area2D

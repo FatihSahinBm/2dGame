@@ -128,10 +128,8 @@ func _setup_triggers() -> void:
 
 
 func _on_player_died() -> void:
-	call_deferred("_restart_level")
-
-
-func _restart_level() -> void:
+	# Ölüm animasyonunun tamamlanması için bekle, ardından sahneyi yeniden başlat
+	await get_tree().create_timer(1.6).timeout
 	if is_inside_tree():
 		get_tree().reload_current_scene()
 
