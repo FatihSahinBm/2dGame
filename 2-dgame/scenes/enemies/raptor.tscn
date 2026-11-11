@@ -1,18 +1,109 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=12 format=3 uid="uid://raptor_enemy_minion_01"]
 
-[ext_resource type="PackedScene" path="res://scenes/enemies/trex_boss.tscn" id="1_trex"]
+[ext_resource type="Script" path="res://scripts/enemies/raptor.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/trex_boss/trex_frames.tres" id="2_frames"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_light_tex"]
 
-[node name="Raptor" instance=ExtResource("1_trex")]
-scale = Vector2(0.42, 0.42)
-monster_name = "Vadi Raptoru"
-max_health = 160
-current_health = 160
-speed = 110.0
-chase_speed = 165.0
-attack_damage = 20
-attack_range = 75.0
-detection_range = 350.0
-screen_shake_intensity = 3.0
-stagger_threshold = 50
-knockback_resistance = 0.45
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(52, 76)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(56, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(56, 76)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 340.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.0980392, 0.113725, 0.152941, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.28, 0.35, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.9, 0.25, 0.18, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Raptor" type="CharacterBody2D" groups=["damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+floor_snap_length = 8.0
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -38)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -73)
+scale = Vector2(0.24, 0.24)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="TelegraphLight" type="PointLight2D" parent="Visual"]
+position = Vector2(26, -50)
+enabled = false
+color = Color(1, 0.2, 0.1, 1)
+energy = 1.8
+texture = ExtResource("3_light_tex")
+texture_scale = 0.9
+
+[node name="Hitbox" type="Area2D" parent="Visual"]
+position = Vector2(36, -38)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox"]
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual"]
+position = Vector2(26, 0)
+target_position = Vector2(0, 24)
+collision_mask = 1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -38)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+position = Vector2(0, -38)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -26.0
+offset_top = -92.0
+offset_right = 26.0
+offset_bottom = -86.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 110.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI"]

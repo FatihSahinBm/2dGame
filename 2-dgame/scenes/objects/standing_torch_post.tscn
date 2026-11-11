@@ -1,0 +1,114 @@
+[gd_scene load_steps=7 format=3 uid="uid://standing_torch_post_01"]
+
+[ext_resource type="Texture2D" path="res://assets/environment/campfire/campfire_hearth.png" id="1_hearth"]
+[ext_resource type="Texture2D" path="res://assets/props/lighting/wall_torch.png" id="2_torch"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_light_tex"]
+[ext_resource type="Script" path="res://scripts/objects/flickering_light_2d.gd" id="4_flicker"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/torch_burn.wav" id="5_audio"]
+
+[sub_resource type="Gradient" id="Gradient_flame"]
+offsets = PackedFloat32Array(0, 0.28, 0.68, 1)
+colors = PackedColorArray(1, 0.95, 0.5, 1, 1, 0.6, 0.1, 0.95, 0.9, 0.22, 0.05, 0.75, 0.25, 0.1, 0.1, 0)
+
+[sub_resource type="Gradient" id="Gradient_sparks"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0.9, 0.4, 1, 1, 0.45, 0.1, 0.85, 0.5, 0.15, 0.05, 0)
+
+[node name="StandingTorchPost" type="Node2D"]
+
+[node name="BaseHearth" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -4)
+scale = Vector2(0.55, 0.4)
+texture = ExtResource("1_hearth")
+
+[node name="WoodenPole" type="Polygon2D" parent="."]
+color = Color(0.28, 0.18, 0.11, 1)
+polygon = PackedVector2Array(-5, 0, 5, 0, 4, -68, -4, -68)
+
+[node name="PoleGrain" type="Polygon2D" parent="WoodenPole"]
+color = Color(0.38, 0.25, 0.16, 1)
+polygon = PackedVector2Array(-2, 0, 2, 0, 1.5, -68, -1.5, -68)
+
+[node name="VineWrapBottom" type="Polygon2D" parent="WoodenPole"]
+color = Color(0.24, 0.35, 0.18, 1)
+polygon = PackedVector2Array(-6, -14, 6, -16, 5.5, -20, -5.5, -18)
+
+[node name="VineWrapTop" type="Polygon2D" parent="WoodenPole"]
+color = Color(0.24, 0.35, 0.18, 1)
+polygon = PackedVector2Array(-5.5, -58, 5.5, -60, 5, -64, -5, -62)
+
+[node name="TorchHead" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1, -78)
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("2_torch")
+
+[node name="FlameCoreParticles" type="CPUParticles2D" parent="."]
+position = Vector2(3, -92)
+amount = 22
+lifetime = 0.65
+speed_scale = 1.15
+randomness = 0.35
+emission_shape = 3
+emission_rect_extents = Vector2(6, 2)
+direction = Vector2(0, -1)
+spread = 20.0
+gravity = Vector2(0, -48)
+initial_velocity_min = 22.0
+initial_velocity_max = 44.0
+scale_amount_min = 2.2
+scale_amount_max = 4.5
+color_ramp = SubResource("Gradient_flame")
+
+[node name="EmberSparks" type="CPUParticles2D" parent="."]
+position = Vector2(3, -94)
+amount = 14
+lifetime = 1.1
+speed_scale = 1.0
+randomness = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(8, 2)
+direction = Vector2(0.2, -1)
+spread = 35.0
+gravity = Vector2(8, -35)
+initial_velocity_min = 25.0
+initial_velocity_max = 55.0
+scale_amount_min = 1.5
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_sparks")
+
+[node name="SmokeParticles" type="CPUParticles2D" parent="."]
+position = Vector2(3, -102)
+amount = 8
+lifetime = 0.85
+speed_scale = 0.9
+direction = Vector2(0.2, -1)
+spread = 25.0
+gravity = Vector2(0, -25)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+scale_amount_min = 2.0
+scale_amount_max = 4.2
+color = Color(0.25, 0.2, 0.22, 0.35)
+
+[node name="FlickeringLight2D" type="PointLight2D" parent="."]
+position = Vector2(3, -92)
+color = Color(1, 0.72, 0.35, 1)
+energy = 1.2
+texture = ExtResource("3_light_tex")
+texture_scale = 2.2
+script = ExtResource("4_flicker")
+base_energy = 1.2
+energy_jitter = 0.18
+flicker_speed = 8.5
+base_scale = 2.2
+scale_jitter = 0.08
+
+[node name="TorchAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_audio")
+volume_db = -12.0
+autoplay = true
+max_distance = 450.0
+bus = &"SFX"
+

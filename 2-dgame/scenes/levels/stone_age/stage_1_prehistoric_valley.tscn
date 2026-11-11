@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_1_prehistoric_valley.gd" id="1_valley"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -28,6 +28,8 @@
 [ext_resource type="PackedScene" path="res://scenes/hazards/prehistoric_geyser_hazard.tscn" id="26_geyser"]
 [ext_resource type="PackedScene" path="res://scenes/hazards/prehistoric_falling_rock.tscn" id="27_rock"]
 [ext_resource type="PackedScene" path="res://scenes/objects/campfire.tscn" id="28_campfire"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/cyber_flying_bug.tscn" id="29_cyber_bug"]
+[ext_resource type="PackedScene" path="res://scenes/objects/standing_torch_post.tscn" id="32_torch_post"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground1"]
 size = Vector2(620, 60)
@@ -282,11 +284,14 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/BarricadeHintZone"]
 shape = SubResource("RectangleShape2D_hint")
 
-[node name="DimensionalTimeRift" parent="." instance=ExtResource("5_rift")]
-position = Vector2(160, 440)
+[node name="EntranceTorchLeft" parent="." instance=ExtResource("32_torch_post")]
+position = Vector2(95, 560)
+
+[node name="EntranceCampfire" parent="." instance=ExtResource("28_campfire")]
+position = Vector2(190, 560)
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(160, 440)
+position = Vector2(145, 560)
 has_sword = true
 is_armed = true
 
@@ -368,21 +373,19 @@ position = Vector2(1420, 240)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="FlyingEye1" parent="Enemies" instance=ExtResource("21_flying_eye")]
+[node name="CyberFlyingBug1" parent="Enemies" instance=ExtResource("29_cyber_bug")]
 position = Vector2(850, 360)
-direction = -1
 
 [node name="Raptor1" parent="Enemies" instance=ExtResource("19_raptor")]
 position = Vector2(1380, 560)
 direction = -1
 
-[node name="Mushroom1" parent="Enemies" instance=ExtResource("22_mushroom")]
-position = Vector2(1580, 560)
+[node name="Raptor2" parent="Enemies" instance=ExtResource("19_raptor")]
+position = Vector2(1650, 560)
 direction = -1
 
-[node name="Goblin1" parent="Enemies" instance=ExtResource("20_goblin")]
-position = Vector2(2040, 560)
-direction = -1
+[node name="CyberFlyingBug2" parent="Enemies" instance=ExtResource("29_cyber_bug")]
+position = Vector2(1950, 340)
 
 [node name="FantasyHUD" parent="." instance=ExtResource("3_hud")]
 

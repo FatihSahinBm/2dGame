@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=3 uid="uid://cyber_flying_bug_01"]
+
+[ext_resource type="Script" path="res://scripts/enemies/cyber_flying_bug.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/monsters/flying_eye/flying_eye_frames.tres" id="2_frames"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_light_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 380.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.0980392, 0.113725, 0.152941, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.28, 0.35, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.15, 0.85, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="CyberFlyingBug" type="CharacterBody2D" groups=["damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+modulate = Color(0.85, 1.1, 1.25, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -6)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="OpticLight" type="PointLight2D" parent="Visual"]
+position = Vector2(8, -6)
+color = Color(0.2, 0.9, 1, 1)
+energy = 1.2
+texture = ExtResource("3_light_tex")
+texture_scale = 0.85
+
+[node name="LaserAimLine" type="Line2D" parent="Visual"]
+visible = false
+z_index = 5
+width = 2.0
+default_color = Color(1, 0.2, 0.2, 0.85)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -6)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -22.0
+offset_top = -42.0
+offset_right = 22.0
+offset_bottom = -36.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 65.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI"]
+

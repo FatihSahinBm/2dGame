@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/props/lighting/campfire_wood.png" id="1_wood"]
-[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="2_light_tex"]
-[ext_resource type="Script" path="res://scripts/objects/flickering_light_2d.gd" id="3_flicker"]
+[ext_resource type="Texture2D" path="res://assets/environment/campfire/campfire_hearth.png" id="1_hearth"]
+[ext_resource type="Texture2D" path="res://assets/environment/campfire/campfire_coals.png" id="2_coals"]
+[ext_resource type="Texture2D" path="res://assets/props/lighting/campfire_wood.png" id="3_wood"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="4_light_tex"]
+[ext_resource type="Script" path="res://scripts/objects/flickering_light_2d.gd" id="5_flicker"]
 
 [sub_resource type="Gradient" id="Gradient_camp_flame"]
 offsets = PackedFloat32Array(0, 0.28, 0.68, 1)
@@ -14,13 +16,26 @@ colors = PackedColorArray(1, 0.9, 0.4, 1, 1, 0.45, 0.1, 0.85, 0.5, 0.15, 0.05, 0
 
 [node name="Campfire" type="Node2D"]
 
+[node name="HearthStones" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -2)
+scale = Vector2(1.1, 0.9)
+texture = ExtResource("1_hearth")
+
+[node name="GlowingCoals" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -5)
+scale = Vector2(1.2, 1.1)
+texture = ExtResource("2_coals")
+
 [node name="WoodSprite" type="Sprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("1_wood")
+position = Vector2(0, -7)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("3_wood")
 
 [node name="FlameCoreParticles" type="CPUParticles2D" parent="."]
-position = Vector2(0, -6)
+position = Vector2(0, -8)
 amount = 26
 lifetime = 0.65
 speed_scale = 1.15
@@ -37,7 +52,7 @@ scale_amount_max = 5.2
 color_ramp = SubResource("Gradient_camp_flame")
 
 [node name="EmberSparks" type="CPUParticles2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -12)
 amount = 14
 lifetime = 1.2
 speed_scale = 1.0
@@ -54,7 +69,7 @@ scale_amount_max = 3.0
 color_ramp = SubResource("Gradient_sparks")
 
 [node name="SmokeParticles" type="CPUParticles2D" parent="."]
-position = Vector2(2, -18)
+position = Vector2(2, -20)
 amount = 12
 lifetime = 1.2
 speed_scale = 0.85
@@ -70,18 +85,17 @@ scale_amount_max = 7.0
 color = Color(0.22, 0.18, 0.2, 0.3)
 
 [node name="FlickeringLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -12)
 color = Color(1, 0.65, 0.25, 1)
 energy = 1.35
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.55)
 shadow_filter = 1
-texture = ExtResource("2_light_tex")
+texture = ExtResource("4_light_tex")
 texture_scale = 2.4
-script = ExtResource("3_flicker")
+script = ExtResource("5_flicker")
 base_energy = 1.35
 energy_jitter = 0.2
 flicker_speed = 7.8
 base_scale = 2.4
 scale_jitter = 0.1
-

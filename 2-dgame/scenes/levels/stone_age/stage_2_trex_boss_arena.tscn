@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/stone_age/stage_2_trex_boss_arena.gd" id="1_arena"]
 [ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="2_player"]
@@ -17,6 +17,8 @@
 [ext_resource type="Texture2D" path="res://assets/environment/stone_age/cyber_rex_debris.png" id="15_debris_tex"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/raptor.tscn" id="16_raptor"]
 [ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="17_light_tex"]
+[ext_resource type="PackedScene" path="res://scenes/objects/standing_torch_post.tscn" id="18_torch_post"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire.tscn" id="19_campfire"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(40, 800)
@@ -471,11 +473,14 @@ direction = -1
 position = Vector2(4100, 400)
 direction = -1
 
-[node name="DimensionalTimeRift" parent="." instance=ExtResource("6_rift")]
-position = Vector2(160, 460)
+[node name="EntranceTorchLeft" parent="." instance=ExtResource("18_torch_post")]
+position = Vector2(95, 560)
+
+[node name="Campfire" parent="." instance=ExtResource("19_campfire")]
+position = Vector2(190, 560)
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]
-position = Vector2(160, 560)
+position = Vector2(145, 560)
 has_sword = true
 is_armed = true
 

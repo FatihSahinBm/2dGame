@@ -49,7 +49,7 @@ corner_radius_bottom_left = 3
 collision_layer = 2
 collision_mask = 1
 floor_stop_on_slope = true
-floor_snap_length = 4.0
+floor_snap_length = 8.0
 script = ExtResource("1_script")
 monster_name = "SİBER T-REX: MECHA-TYRANT"
 max_health = 750
@@ -72,21 +72,21 @@ shape = SubResource("RectangleShape2D_body")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
 texture_filter = 1
-position = Vector2(0, -139)
+position = Vector2(0, -127)
 scale = Vector2(0.42, 0.42)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="EyeCoreLight" type="PointLight2D" parent="Visual"]
-position = Vector2(55, -125)
+position = Vector2(55, -113)
 color = Color(1, 0.2, 0.15, 1)
 energy = 0.75
 texture = ExtResource("3_light_tex")
 texture_scale = 0.85
 
 [node name="Hitbox" type="Area2D" parent="Visual"]
-position = Vector2(140, -80)
+position = Vector2(140, -68)
 collision_layer = 0
 collision_mask = 1
 monitoring = false
@@ -95,7 +95,7 @@ monitoring = false
 shape = SubResource("RectangleShape2D_hitbox")
 
 [node name="LaserHitbox" type="Area2D" parent="Visual"]
-position = Vector2(260, -90)
+position = Vector2(260, -78)
 collision_layer = 0
 collision_mask = 1
 monitoring = false
@@ -111,7 +111,7 @@ texture = ExtResource("3_light_tex")
 texture_scale = 2.6
 
 [node name="CyberLaserSystem" parent="Visual" instance=ExtResource("4_laser")]
-position = Vector2(80, -90)
+position = Vector2(80, -78)
 
 [node name="SlamHitbox" type="Area2D" parent="Visual"]
 position = Vector2(70, -30)
