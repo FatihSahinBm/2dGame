@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/cyber_laser_system.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="2_light_tex"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/checkpoint_activated.wav" id="3_sfx_telegraph"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/guillotine_swing.wav" id="4_sfx_blast"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_laser_box"]
 size = Vector2(520, 68)
@@ -92,4 +94,18 @@ initial_velocity_max = 75.0
 scale_amount_min = 2.5
 scale_amount_max = 5.0
 color = Color(0.85, 0.9, 0.95, 0.65)
+
+[node name="TelegraphAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_sfx_telegraph")
+volume_db = -4.0
+pitch_scale = 1.75
+max_distance = 600.0
+bus = &"SFX"
+
+[node name="BlastAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_sfx_blast")
+volume_db = 2.0
+pitch_scale = 0.55
+max_distance = 700.0
+bus = &"SFX"
 

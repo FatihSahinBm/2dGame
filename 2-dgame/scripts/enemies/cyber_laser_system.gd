@@ -36,6 +36,8 @@ var current_actual_range: float = 520.0
 @onready var charge_particles: CPUParticles2D = $ChargeParticles
 @onready var impact_particles: CPUParticles2D = $ImpactParticles
 @onready var exhaust_steam: CPUParticles2D = $ExhaustSteam
+@onready var telegraph_audio: AudioStreamPlayer2D = get_node_or_null("TelegraphAudio") as AudioStreamPlayer2D
+@onready var blast_audio: AudioStreamPlayer2D = get_node_or_null("BlastAudio") as AudioStreamPlayer2D
 
 var _telegraph_tween: Tween = null
 
@@ -68,6 +70,10 @@ func _ensure_nodes() -> void:
 		impact_particles = get_node_or_null("ImpactParticles") as CPUParticles2D
 	if not exhaust_steam:
 		exhaust_steam = get_node_or_null("ExhaustSteam") as CPUParticles2D
+	if not telegraph_audio:
+		telegraph_audio = get_node_or_null("TelegraphAudio") as AudioStreamPlayer2D
+	if not blast_audio:
+		blast_audio = get_node_or_null("BlastAudio") as AudioStreamPlayer2D
 
 
 func _reset_all() -> void:
@@ -90,6 +96,10 @@ func _reset_all() -> void:
 		impact_particles.emitting = false
 	if exhaust_steam:
 		exhaust_steam.emitting = false
+	if telegraph_audio and telegraph_audio.playing:
+		telegraph_audio.stop()
+	if blast_audio and blast_audio.playing:
+		blast_audio.stop()
 
 
 ## 1. Aşama: Telegraph Uyarısı Başlat
@@ -124,6 +134,9 @@ func start_telegraph(dir: int) -> void:
 		var tw_l = create_tween()
 		tw_l.tween_property(laser_light, "energy", 1.8, telegraph_duration)
 
+	if telegraph_audio:
+		telegraph_audio.play()
+
 	telegraph_started.emit(dir, current_actual_range)
 
 
@@ -135,6 +148,11 @@ func fire_laser(dir: int, damage_override: int = -1) -> void:
 	current_direction = dir
 	if damage_override > 0:
 		base_damage = damage_override
+
+	if telegraph_audio and telegraph_audio.playing:
+		telegraph_audio.stop()
+	if blast_audio:
+		blast_audio.play()
 
 	if _telegraph_tween and _telegraph_tween.is_valid():
 		_telegraph_tween.kill()
@@ -185,13 +203,21 @@ func fire_laser(dir: int, damage_override: int = -1) -> void:
 func _on_blast_finished() -> void:
 	stop_laser()
 	play_recovery_steam()
-	laser_completed.emit()
+	var tw: Tween = create_tween()
+	tw.tween_interval(recovery_duration)
+	tw.tween_callback(func():
+		laser_completed.emit()
+	)
 
 
 ## Lazer akışını keser
 func stop_laser() -> void:
 	is_active = false
 	is_telegraphing = false
+	if blast_audio and blast_audio.playing:
+		blast_audio.stop()
+	if telegraph_audio and telegraph_audio.playing:
+		telegraph_audio.stop()
 	if laser_beam:
 		laser_beam.visible = false
 	if laser_core:

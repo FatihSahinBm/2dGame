@@ -22,6 +22,8 @@ signal boss_staggered()
 @export var boss_phase: int = 1 # 1: Standart, 2: Overdrive, 3: Meltdown
 @export var stagger_threshold: int = 150
 @export var groggy_duration: float = 2.4
+@export var laser_min_range: float = 120.0 # Orta mesafe başlangıcı (yakın dövüşün hemen üstü)
+@export var laser_max_range: float = 540.0 # Uzak mesafe sınırı (CyberLaserSystem max_range ile tam uyumlu)
 
 const CyberLaserSystemScript = preload("res://scripts/enemies/cyber_laser_system.gd")
 
@@ -163,7 +165,13 @@ func _process_chase(delta: float) -> void:
 		direction = target_dir
 		_update_facing_direction()
 
-	# Saldırı menzili kontrolü
+	# Faz 2+: Oyuncu orta veya uzak mesafedeyken (120px - 540px) lazer saldırısını devreye al
+	if boss_phase >= 2 and _laser_cooldown <= 0.0 and _attack_timer <= 0.0:
+		if dist >= laser_min_range and dist <= laser_max_range:
+			_start_laser_attack()
+			return
+
+	# Saldırı menzili kontrolü (Yakın dövüş)
 	if dist <= attack_range:
 		if _attack_timer <= 0.0:
 			_start_attack()
@@ -196,7 +204,7 @@ func _start_attack() -> void:
 		dist = global_position.distance_to(_target_node.global_position)
 
 	# Faza ve mesafeye göre saldırı seçimi
-	if boss_phase >= 2 and dist > 200.0 and _laser_cooldown <= 0.0:
+	if boss_phase >= 2 and dist >= laser_min_range and _laser_cooldown <= 0.0:
 		_start_laser_attack()
 	elif dist > 110.0 and _slam_cooldown <= 0.0:
 		_start_platform_slam_attack()
@@ -260,8 +268,10 @@ func _start_platform_slam_attack() -> void:
 
 ## 3. SİBER AĞIZ LAZERİ: ENERJİ IŞINI (attack_laser)
 func _start_laser_attack() -> void:
+	current_state = State.ATTACK
+	velocity.x = 0.0
 	_special_attack_type = "laser"
-	_laser_cooldown = 5.5 if boss_phase == 2 else 4.0
+	_laser_cooldown = 5.0 if boss_phase == 2 else 3.8
 	if anim_sprite:
 		anim_sprite.play(&"attack_laser")
 
@@ -430,6 +440,7 @@ func _check_phase_transition() -> void:
 		_on_phase_changed(boss_phase)
 		# İkinci faza geçildiğinde lazer saldırısı hemen hazır olsun
 		_laser_cooldown = 0.0
+		_attack_timer = 0.0
 	elif new_phase != boss_phase and _phase_2_triggered:
 		boss_phase = new_phase
 		phase_changed.emit(boss_phase)

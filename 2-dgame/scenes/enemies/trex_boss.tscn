@@ -63,6 +63,8 @@ knockback_resistance = 0.95
 attack_cooldown = 2.4
 screen_shake_intensity = 8.5
 turn_at_ledges = false
+laser_min_range = 120.0
+laser_max_range = 540.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -80)

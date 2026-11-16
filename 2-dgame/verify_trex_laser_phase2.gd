@@ -183,5 +183,208 @@ func _run_async() -> void:
 
 	arena.queue_free()
 
+	# -------------------------------------------------------------
+	# 7. TEST: Faz 2'de Oyuncu Orta Mesafedeyken (220 px) Lazer Saldırısının Tetiklenmesi
+	# -------------------------------------------------------------
+	total_tests += 1
+	var boss_mid = boss_scene.instantiate()
+	root.add_child(boss_mid)
+	boss_mid.global_position = Vector2(500.0, 300.0)
+	await process_frame
+	await physics_frame
+
+	var mock_player = CharacterBody2D.new()
+	mock_player.name = "TestPlayer"
+	mock_player.add_to_group("player")
+	mock_player.collision_layer = 1
+	var mp_shape = CollisionShape2D.new()
+	var mp_rect = RectangleShape2D.new()
+	mp_rect.size = Vector2(24, 48)
+	mp_shape.shape = mp_rect
+	mock_player.add_child(mp_shape)
+	root.add_child(mock_player)
+
+	# Oyuncuyu orta mesafeye koy (220 px mesafe: 500 + 220 = 720)
+	mock_player.global_position = Vector2(720.0, 300.0)
+	boss_mid._target_node = mock_player
+
+	# Boss'u doğrudan Faz 2'ye geçir
+	boss_mid.boss_phase = 2
+	boss_mid._phase_2_triggered = true
+	boss_mid._intro_played = true
+	boss_mid._laser_cooldown = 0.0
+	boss_mid._attack_timer = 0.0
+	boss_mid.current_state = boss_mid.State.CHASE
+
+	# Fizik adımı simüle et
+	await physics_frame
+	await physics_frame
+	await physics_frame
+
+	var laser_ctrl_mid = boss_mid.get_node_or_null("Visual/CyberLaserSystem")
+	var mid_laser_triggered = (
+		boss_mid.current_state == boss_mid.State.ATTACK and
+		boss_mid.velocity.x == 0.0 and
+		laser_ctrl_mid != null and
+		laser_ctrl_mid.is_telegraphing
+	)
+
+	if mid_laser_triggered:
+		print("✅ TEST 7 GEÇTİ: Faz 2'de oyuncu orta mesafedeyken (220 px) T-Rex lazer telegraph saldırısını başarıyla tetikledi.")
+		passed_tests += 1
+	else:
+		print("❌ TEST 7 BAŞARISIZ: Orta mesafede lazer tetiklenmedi! state: %s, vel: %s, is_telegraphing: %s" % [
+			boss_mid.current_state, boss_mid.velocity, (laser_ctrl_mid.is_telegraphing if laser_ctrl_mid else false)
+		])
+		quit(1)
+		return
+
+	boss_mid.queue_free()
+	mock_player.queue_free()
+	await process_frame
+
+	# -------------------------------------------------------------
+	# 8. TEST: Faz 2'de Oyuncu Uzak Mesafedeyken (420 px) Lazer Saldırısının Tetiklenmesi
+	# -------------------------------------------------------------
+	total_tests += 1
+	var boss_far = boss_scene.instantiate()
+	root.add_child(boss_far)
+	boss_far.global_position = Vector2(500.0, 300.0)
+	await process_frame
+	await physics_frame
+
+	var mock_player_far = CharacterBody2D.new()
+	mock_player_far.name = "TestPlayerFar"
+	mock_player_far.add_to_group("player")
+	mock_player_far.collision_layer = 1
+	var mp_shape2 = CollisionShape2D.new()
+	var mp_rect2 = RectangleShape2D.new()
+	mp_rect2.size = Vector2(24, 48)
+	mp_shape2.shape = mp_rect2
+	mock_player_far.add_child(mp_shape2)
+	root.add_child(mock_player_far)
+
+	# Oyuncuyu uzak mesafeye koy (420 px mesafe: 500 + 420 = 920)
+	mock_player_far.global_position = Vector2(920.0, 300.0)
+	boss_far._target_node = mock_player_far
+
+	boss_far.boss_phase = 2
+	boss_far._phase_2_triggered = true
+	boss_far._intro_played = true
+	boss_far._laser_cooldown = 0.0
+	boss_far._attack_timer = 0.0
+	boss_far.current_state = boss_far.State.CHASE
+
+	await physics_frame
+	await physics_frame
+	await physics_frame
+
+	var laser_ctrl_far = boss_far.get_node_or_null("Visual/CyberLaserSystem")
+	var far_laser_triggered = (
+		boss_far.current_state == boss_far.State.ATTACK and
+		boss_far.velocity.x == 0.0 and
+		laser_ctrl_far != null and
+		laser_ctrl_far.is_telegraphing
+	)
+
+	if far_laser_triggered:
+		print("✅ TEST 8 GEÇTİ: Faz 2'de oyuncu uzak mesafedeyken (420 px) T-Rex lazer saldırısını başarıyla tetikledi.")
+		passed_tests += 1
+	else:
+		print("❌ TEST 8 BAŞARISIZ: Uzak mesafede lazer tetiklenmedi! state: %s, vel: %s, is_telegraphing: %s" % [
+			boss_far.current_state, boss_far.velocity, (laser_ctrl_far.is_telegraphing if laser_ctrl_far else false)
+		])
+		quit(1)
+		return
+
+	boss_far.queue_free()
+	mock_player_far.queue_free()
+	await process_frame
+
+	# -------------------------------------------------------------
+	# 9. TEST: Faz 1'deyken T-Rex'in Lazer Açmadığının Doğrulanması (Faz Bütünlüğü)
+	# -------------------------------------------------------------
+	total_tests += 1
+	var boss_p1 = boss_scene.instantiate()
+	root.add_child(boss_p1)
+	boss_p1.global_position = Vector2(500.0, 300.0)
+	await process_frame
+	await physics_frame
+
+	var mock_player_p1 = CharacterBody2D.new()
+	mock_player_p1.name = "TestPlayerP1"
+	mock_player_p1.add_to_group("player")
+	mock_player_p1.collision_layer = 1
+	var mp_shape3 = CollisionShape2D.new()
+	var mp_rect3 = RectangleShape2D.new()
+	mp_rect3.size = Vector2(24, 48)
+	mp_shape3.shape = mp_rect3
+	mock_player_p1.add_child(mp_shape3)
+	root.add_child(mock_player_p1)
+
+	mock_player_p1.global_position = Vector2(750.0, 300.0)
+	boss_p1._target_node = mock_player_p1
+	boss_p1.boss_phase = 1
+	boss_p1._phase_2_triggered = false
+	boss_p1._intro_played = true
+	boss_p1._laser_cooldown = 0.0
+	boss_p1._attack_timer = 0.0
+	boss_p1.current_state = boss_p1.State.CHASE
+
+	await physics_frame
+	await physics_frame
+	await physics_frame
+
+	var laser_ctrl_p1 = boss_p1.get_node_or_null("Visual/CyberLaserSystem")
+	var p1_no_laser = (
+		laser_ctrl_p1 == null or
+		(not laser_ctrl_p1.is_telegraphing and not laser_ctrl_p1.is_active)
+	)
+
+	if p1_no_laser:
+		print("✅ TEST 9 GEÇTİ: Faz 1'deyken T-Rex asla lazer açmaz, yalnızca Faz 2 ve üzerinde aktifleşir.")
+		passed_tests += 1
+	else:
+		print("❌ TEST 9 BAŞARISIZ: Faz 1'de beklenmedik şekilde lazer açıldı!")
+		quit(1)
+		return
+
+	boss_p1.queue_free()
+	mock_player_p1.queue_free()
+	await process_frame
+
+	# -------------------------------------------------------------
+	# 10. TEST: Telegraph Uyarısı Sırasında Ses, Işık ve Yön Göstergesinin Doğrulanması
+	# -------------------------------------------------------------
+	total_tests += 1
+	var laser_audio_test = laser_scene.instantiate()
+	root.add_child(laser_audio_test)
+	await process_frame
+	await physics_frame
+
+	laser_audio_test.start_telegraph(1)
+	var t_audio = laser_audio_test.get_node_or_null("TelegraphAudio") as AudioStreamPlayer2D
+	var b_audio = laser_audio_test.get_node_or_null("BlastAudio") as AudioStreamPlayer2D
+	var t_light = laser_audio_test.get_node_or_null("LaserLight") as PointLight2D
+	var t_line = laser_audio_test.get_node_or_null("TelegraphLine") as Line2D
+
+	var audio_light_ok = (
+		t_audio != null and t_audio.stream != null and
+		b_audio != null and b_audio.stream != null and
+		t_light != null and t_light.enabled and
+		t_line != null and t_line.visible
+	)
+
+	if audio_light_ok:
+		print("✅ TEST 10 GEÇTİ: Telegraph uyarısında nişan çizgisi, şarj ışığı ve uyarı ses efektleri eksiksiz doğrulandı.")
+		passed_tests += 1
+	else:
+		print("❌ TEST 10 BAŞARISIZ: Telegraph görsel/ses bileşenleri eksik!")
+		quit(1)
+		return
+
+	laser_audio_test.queue_free()
+	await process_frame
+
 	print("\n=== TÜM TESTLER TAMAMLANDI: %d/%d Başarılı ===" % [passed_tests, total_tests])
 	quit(0)
