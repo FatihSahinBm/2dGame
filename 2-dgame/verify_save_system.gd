@@ -51,11 +51,11 @@ func _ready() -> void:
 	print("OK: v2 formatında kayıt dosyası başarıyla oluşturuldu.")
 
 	var info = save_mgr.get_save_info(1)
-	if int(info.get("schema_version", 0)) != 2:
-		push_error("FAIL: Kayıt dosyasında schema_version = 2 olmalı!")
+	if int(info.get("schema_version", 0)) != save_mgr.CURRENT_SCHEMA_VERSION:
+		push_error("FAIL: Kayıt dosyasında schema_version güncel sürüm olmalı!")
 		get_tree().quit(1)
 		return
-	print("OK: schema_version = 2 doğrulandı.")
+	print("OK: schema_version güncel sürüm (v%d) olarak doğrulandı." % save_mgr.CURRENT_SCHEMA_VERSION)
 
 	# 3. KULLANICI HATASI SENARYOSU DOĞRULAMASI:
 	# "Durdurduktan sonra ana menüye dönüp devam et diyince hangi bölümde durdurursam durdurayım trex partının başına atıyor"
@@ -165,7 +165,84 @@ func _ready() -> void:
 		push_error("FAIL: v1 corruption_score migration sonrası kayboldu!")
 		get_tree().quit(1)
 		return
-	print("OK: v1 eski kayıt biçimi v2 şemasına veri kaybı olmadan otomatik yükseltildi (Migrated).")
+	print("OK: v1 eski kayıt biçimi güncel şemaya veri kaybı olmadan otomatik yükseltildi (Migrated).")
+
+	# 6b. Bütünlük (Integrity) Testleri — Epic 2D-104
+	print("--- BUTUNLUK, DEGISTIRILMIS KAYIT VE DESTEKLENMEYEN SURUM TESTI ---")
+	var slot2_path = "user://savegame_slot_2.json"
+	var slot2_backup = "user://savegame_slot_2_backup.json"
+	save_mgr.delete_save(2)
+	game_state.corruption_score = 10
+	game_state.current_stage_path = stage2_path
+	save_mgr.cached_checkpoint_position = Vector2(123.456, 0.1 + 0.2)
+	save_mgr.save_game(2)
+	if not save_mgr.load_game(2) or game_state.corruption_score != 10:
+		push_error("FAIL: Küsuratlı konum içeren v3 kayıt kendi checksum'ıyla doğrulanamadı!")
+		get_tree().quit(1)
+		return
+	print("OK: v3 kayıt (küsuratlı değerlerle) tam içerik checksum'ından geçti.")
+
+	# Dosya elle değiştirilir (yozlaşma sıfırlanır), checksum eski hâliyle kalır; yedek yoktur
+	var tampered: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(slot2_path))
+	tampered["corruption_data"]["corruption_score"] = 0
+	var tamper_file = FileAccess.open(slot2_path, FileAccess.WRITE)
+	tamper_file.store_string(JSON.stringify(tampered, "\t"))
+	tamper_file.close()
+	if FileAccess.file_exists(slot2_backup):
+		DirAccess.remove_absolute(slot2_backup)
+	var error_messages: Array[String] = []
+	var on_save_error = func(_slot: int, message: String): error_messages.append(message)
+	save_mgr.save_error.connect(on_save_error)
+	game_state.corruption_score = 77
+	if save_mgr.load_game(2) or game_state.corruption_score != 77:
+		push_error("FAIL: İçeriği değiştirilmiş kayıt checksum doğrulamasından geçti!")
+		get_tree().quit(1)
+		return
+	if error_messages.is_empty() or not error_messages[-1].contains("bütünlük"):
+		push_error("FAIL: Değiştirilmiş kayıt için anlaşılır hata mesajı üretilmedi!")
+		get_tree().quit(1)
+		return
+	print("OK: Değiştirilmiş kayıt reddedildi, oyun durumu korunup anlaşılır hata verildi.")
+
+	# Checksum'ı silinmiş güncel sürüm kaydı da kabul edilmemeli
+	tampered.erase("checksum")
+	tamper_file = FileAccess.open(slot2_path, FileAccess.WRITE)
+	tamper_file.store_string(JSON.stringify(tampered, "\t"))
+	tamper_file.close()
+	if save_mgr.load_game(2):
+		push_error("FAIL: Checksum'ı silinmiş v3 kayıt kabul edildi!")
+		get_tree().quit(1)
+		return
+	print("OK: Checksum'ı silinmiş güncel sürüm kaydı reddedildi.")
+
+	# Daha yeni (desteklenmeyen) şema sürümü çökmeden reddedilmeli
+	var future_file = FileAccess.open(slot2_path, FileAccess.WRITE)
+	future_file.store_string(JSON.stringify({"schema_version": 99, "timestamp": "2099-01-01T00:00:00"}, "\t"))
+	future_file.close()
+	error_messages.clear()
+	if save_mgr.load_game(2) or error_messages.is_empty() or not error_messages[-1].contains("v99"):
+		push_error("FAIL: Desteklenmeyen şema sürümü kontrollü biçimde reddedilmedi!")
+		get_tree().quit(1)
+		return
+	save_mgr.save_error.disconnect(on_save_error)
+	print("OK: Desteklenmeyen şema sürümü (v99) çökmeden, açıklayıcı hatayla reddedildi.")
+
+	# Eski v2 kayıtları (sınırlı checksum) hâlâ yüklenebilmeli
+	var legacy_v2: Dictionary = {
+		"schema_version": 2, "version": 2, "timestamp": "2026-11-01T12:00:00",
+		"stage_data": {"current_stage_path": stage2_path, "checkpoint_id": "", "checkpoint_position": {"x": 0.0, "y": 0.0}},
+		"corruption_data": {"corruption_score": 33, "allies_sacrificed_count": 1, "allies_killed_count": 0, "current_heart_pieces": 1}
+	}
+	legacy_v2["checksum"] = ("2|%s|%s|%s" % [stage2_path, legacy_v2["timestamp"], save_mgr.INTEGRITY_SALT]).sha256_text()
+	var v2_file = FileAccess.open(slot2_path, FileAccess.WRITE)
+	v2_file.store_string(JSON.stringify(legacy_v2, "\t"))
+	v2_file.close()
+	if not save_mgr.load_game(2) or game_state.corruption_score != 33:
+		push_error("FAIL: v2 kayıt v3 şemasına yükseltilerek yüklenemedi!")
+		get_tree().quit(1)
+		return
+	print("OK: v2 kayıt eski checksum'ıyla doğrulanıp v3 şemasına yükseltildi.")
+	save_mgr.cached_checkpoint_position = Vector2(1820.0, 450.0)
 
 	# 7. QA HATA SENARYOSU DOĞRULAMASI (Oyuncu Konumu Korunumu):
 	# "Bölüm seçiminde oynaya bastıktan sonra bölümde ne kadar ileri olursan ol en başa atıyor.

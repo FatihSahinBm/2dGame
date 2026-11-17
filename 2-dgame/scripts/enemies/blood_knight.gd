@@ -20,6 +20,9 @@ var _is_attacking: bool = false
 var _attack_cooldown_timer: float = 0.0
 var _target_player: CharacterBody2D = null
 var _facing_dir: float = -1.0
+var skills: Node = null # Kan dalgası ve zincir (Story 2D-141)
+
+const BloodKnightSkills = preload("res://scripts/enemies/blood_knight_skills.gd")
 
 @onready var visual: Node2D = $Visual
 @onready var anim_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
@@ -33,6 +36,10 @@ func _ready() -> void:
 	add_to_group("mini_boss")
 	add_to_group("damageable")
 	current_health = max_health
+	_update_title()
+	skills = BloodKnightSkills.new()
+	skills.name = "Skills"
+	add_child(skills)
 
 	if health_bar:
 		health_bar.max_value = max_health
@@ -41,8 +48,24 @@ func _ready() -> void:
 	if visual:
 		visual.modulate = Color.WHITE
 
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_title()
+
+
+func _update_title() -> void:
+	if title_label:
+		title_label.text = tr("TITLE_BLOOD_KNIGHT")
+
 
 func on_cinematic_started() -> void:
+	if skills:
+		skills.cancel()
 	_is_attacking = false
 	velocity.x = 0.0
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
@@ -84,6 +107,8 @@ func _physics_process(delta: float) -> void:
 
 		if dist <= attack_range and _attack_cooldown_timer <= 0.0 and not _is_attacking:
 			_perform_blood_attack()
+		elif not _is_attacking and skills and skills.try_use(_target_player, dist):
+			_is_attacking = true
 		elif not _is_attacking:
 			velocity.x = _facing_dir * move_speed
 			if anim_sprite and anim_sprite.sprite_frames.has_animation("walk"):
@@ -205,7 +230,11 @@ func _spawn_damage_text(amount: int) -> void:
 
 
 func _die() -> void:
+	if is_dead:
+		return
 	is_dead = true
+	if skills:
+		skills.cancel()
 	died.emit()
 	enemy_died.emit(self)
 

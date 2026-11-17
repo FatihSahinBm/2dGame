@@ -25,7 +25,8 @@ extends Node2D
 @onready var dialogue_box: CanvasLayer = get_node_or_null("DialogueBox") as CanvasLayer
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
 
-const TEX_STAGE2_CHAIN = preload("res://assets/backgrounds/stage_2_zone_1_chain_room.png")
+const LevelStory = preload("res://scripts/components/level_story.gd")
+const TEX_STAGE2_CHAIN =preload("res://assets/backgrounds/stage_2_zone_1_chain_room.png")
 const TEX_STAGE2_GUILLOTINE = preload("res://assets/backgrounds/stage_2_zone_2_guillotine.png")
 const TEX_STAGE2_BONE = preload("res://assets/backgrounds/stage_2_zone_3_bone_archive.png")
 const TEX_STAGE2_ALTAR = preload("res://assets/backgrounds/stage_2_zone_4_blood_altar.png")
@@ -73,6 +74,33 @@ func _ready() -> void:
 				bone_mural_area.body_entered.connect(_on_bone_mural_entered)
 
 	_setup_braziers()
+	_apply_saved_world_state()
+
+
+## Kayıtlı dünya durumu: nesneler kendi durumlarını _ready'de yükler (çocuklar önce hazır olur);
+## seviye burada onlara bağlı kapıları anlatım, HUD ve diyalog üretmeden açık konuma getirir.
+func _apply_saved_world_state() -> void:
+	if chain_lever and "is_pulled" in chain_lever and chain_lever.is_pulled:
+		_outer_gate_unlocked = true
+		if outer_portcullis:
+			outer_portcullis.position.y -= 70.0
+		if outer_gate_col:
+			outer_gate_col.set_deferred("disabled", true)
+
+	for b: Node in get_tree().get_nodes_in_group("braziers"):
+		if is_ancestor_of(b) and "is_ignited" in b and b.is_ignited:
+			_braziers_lit += 1
+	if _braziers_lit >= 3:
+		_gate_unlocked = true
+		var blood_gate_col := get_node_or_null("BloodAltarGate/BloodGateStatic/CollisionShape2D") as CollisionShape2D
+		if blood_gate_col:
+			blood_gate_col.set_deferred("disabled", true)
+		var gate_bars := get_node_or_null("BloodAltarGate/PortcullisBars") as Node2D
+		if gate_bars:
+			gate_bars.position.y -= 80.0
+
+	if bone_mural_area and "is_examined" in bone_mural_area and bone_mural_area.is_examined:
+		_mural_reaction_done = true
 
 
 func _setup_camera() -> void:
@@ -105,6 +133,8 @@ func _on_outer_lever_activated() -> void:
 
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Dış Kapı Açıldı", "Zindana İlerle", "Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!")
+
+	LevelStory.play_delayed(self, ["dungeon_entry"] as Array[String], 0.7, player)
 
 
 func _on_mural_relief_examined() -> void:
@@ -168,6 +198,8 @@ func _unlock_throne_gate() -> void:
 			"Taht Odasına Yüksel",
 			"Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at."
 		)
+
+	LevelStory.play_delayed(self, ["blood_altar_unsealed"] as Array[String], 0.9, player)
 
 
 func _setup_hud() -> void:

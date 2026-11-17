@@ -1,0 +1,374 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/egypt/pharaoh/pharaoh_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="A_idle_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 0, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 0, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 0, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 144, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 144, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 144, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 144, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 288, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 288, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 288, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 288, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_beam_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 432, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_beam_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 432, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_beam_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 432, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 576, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 576, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 576, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 576, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_enraged_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 720, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_enraged_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 720, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_enraged_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 720, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_idle_enraged_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 720, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_enraged_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 864, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_enraged_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 864, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_enraged_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 864, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_walk_enraged_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 864, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_enraged_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 1008, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_enraged_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 1008, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_enraged_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 1008, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_cast_enraged_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 1008, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_beam_enraged_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 1152, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_beam_enraged_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 1152, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_beam_enraged_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 1152, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_enraged_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 1296, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_enraged_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 1296, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_enraged_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 1296, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_summon_enraged_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 1296, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_hurt_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 1440, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_death_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 1584, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_death_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 1584, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_death_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 1584, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_death_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 1584, 128, 144)
+
+[sub_resource type="AtlasTexture" id="A_death_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(512, 1584, 128, 144)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_3")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_cast_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_3")
+}],
+"loop": false,
+"name": &"cast",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_beam_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_beam_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_beam_2")
+}],
+"loop": true,
+"name": &"beam",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_summon_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_summon_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_summon_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_summon_3")
+}],
+"loop": false,
+"name": &"summon",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_idle_enraged_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_enraged_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_enraged_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_enraged_3")
+}],
+"loop": true,
+"name": &"idle_enraged",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_walk_enraged_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_enraged_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_enraged_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_enraged_3")
+}],
+"loop": true,
+"name": &"walk_enraged",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_cast_enraged_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_enraged_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_enraged_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_enraged_3")
+}],
+"loop": false,
+"name": &"cast_enraged",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_beam_enraged_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_beam_enraged_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_beam_enraged_2")
+}],
+"loop": true,
+"name": &"beam_enraged",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_summon_enraged_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_summon_enraged_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_summon_enraged_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_summon_enraged_3")
+}],
+"loop": false,
+"name": &"summon_enraged",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_hurt_0")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_death_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_4")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}]

@@ -36,8 +36,12 @@ var _seen_presence: bool = false
 var _last_grounded_pos: Vector2 = Vector2(250.0, 520.0)
 
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
+
 func _ready() -> void:
 	_ensure_node_refs()
+	LevelStory.play_delayed(self, ["hunters_traces"] as Array[String], 0.9)
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Avcının İzleri", "İlerle", "Kadim yırtıcının devasa ayak izlerini ve ezilmiş ağaçları takip et.")
 	_setup_player()

@@ -25,8 +25,12 @@ var _seen_trunk: bool = false
 var _seen_claws: bool = false
 
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
+
 func _ready() -> void:
 	_ensure_node_refs()
+	LevelStory.play_delayed(self, ["silent_valley_tracks"] as Array[String], 0.9)
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Sessiz Vadi", "Keşfet", "Vadideki devasa pençe izlerini ve fosilleri araştır.")
 	_setup_player()

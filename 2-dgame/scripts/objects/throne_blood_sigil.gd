@@ -37,7 +37,7 @@ func _destroy() -> void:
 	sigil_destroyed.emit()
 
 	var label: Label = Label.new()
-	label.text = "💥 Kan Mührü Parçalandı!"
+	label.text = tr("SIGIL_SHATTERED")
 	label.add_theme_color_override("font_color", Color(1.0, 0.2, 0.3, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)

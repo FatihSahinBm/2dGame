@@ -394,8 +394,13 @@ func _get_available_sfx_player(sound_key: String = "") -> AudioStreamPlayer:
 	return recycled
 
 
+func clear_sound_cooldowns() -> void:
+	_last_sound_play_ms.clear()
+
+
 func stop_all_sfx() -> void:
 	_player_sound_keys.clear()
+	_last_sound_play_ms.clear()
 	for p in _sfx_pool:
 		p.stop()
 		p.stream = null
@@ -504,6 +509,9 @@ func crossfade_music(sound: Variant, duration: float = 1.0, target_volume_db: fl
 
 	var incoming: AudioStreamPlayer = _music_player_b if _active_music_player == _music_player_a else _music_player_a
 	var outgoing: AudioStreamPlayer = _active_music_player
+	if incoming == null:
+		# Yönetici ağaca girmeden (ör. --script test koşucusunda elle örneklenince) çağrıldı
+		return
 
 	incoming.stream = stream
 	incoming.volume_db = -80.0
@@ -798,6 +806,12 @@ func play_zone_ambience(zone_name: String, fade_duration: float = 1.0, volume_db
 	var sound_key := ""
 	if z.contains("prehistoric") or z.contains("stone"):
 		sound_key = "prehistoric_ambience"
+	elif z.contains("egypt") or z.contains("desert") or z.contains("sandstorm"):
+		sound_key = "egypt_ambience"
+	elif z.contains("ww2") or z.contains("trench") or z.contains("bunker"):
+		sound_key = "ww2_ambience"
+	elif z.contains("future"):
+		sound_key = "future_ambience"
 	elif z.contains("vlad") or z.contains("wallachia") or z.contains("castle") or z.contains("throne"):
 		sound_key = "vlad_ambience"
 	elif z.contains("camp") or z.contains("raid") or z.contains("ottoman"):
@@ -863,7 +877,19 @@ func _on_scene_changed(new_scene: Node) -> void:
 				set_exploration_theme("menu_theme")
 				set_music_state(MusicState.EXPLORATION, 1.0)
 				stop_ambience(0.5)
-			elif path.contains("prehistoric") or path.contains("stoneage"):
+			elif path.contains("/egypt/"):
+				set_exploration_theme("egypt_theme")
+				set_music_state(MusicState.EXPLORATION, 1.2)
+				play_zone_ambience("egypt", 1.2, -6.0)
+			elif path.contains("/ww2/"):
+				set_exploration_theme("ww2_theme")
+				set_music_state(MusicState.EXPLORATION, 1.2)
+				play_zone_ambience("ww2", 1.2, -6.0)
+			elif path.contains("/future/"):
+				set_exploration_theme("bgm_future_assembly_tension" if path.contains("assembly") or path.contains("citadel") else "bgm_future_neon_ruins")
+				set_music_state(MusicState.EXPLORATION, 1.2)
+				play_zone_ambience("future", 1.2, -8.0)
+			elif path.contains("prehistoric") or path.contains("stoneage") or path.contains("stone_age"):
 				set_exploration_theme("prehistoric_theme")
 				set_music_state(MusicState.EXPLORATION, 1.2)
 				play_zone_ambience("prehistoric", 1.2, -6.0)

@@ -10,8 +10,9 @@ signal rebellion_applied(stagger_duration: float)
 signal rebellion_interrupted_attack()
 
 # --- Yozlaşma ve İsyan Eşikleri ---
-const CORRUPTION_THRESHOLD_HIGH: int = 50        # Yüksek yozlaşma alt eşiği (İsyan riski başlar)
-const CORRUPTION_THRESHOLD_EXTREME: int = 75     # Aşırı yozlaşma alt eşiği (Daha sık ve şiddetli isyan)
+const GameStateScript = preload("res://scripts/autoloads/game_state.gd")
+const CORRUPTION_THRESHOLD_HIGH: int = GameStateScript.CORRUPTION_HIGH_THRESHOLD        # Yüksek yozlaşma alt eşiği (İsyan riski başlar)
+const CORRUPTION_THRESHOLD_EXTREME: int = GameStateScript.CORRUPTION_EXTREME_THRESHOLD     # Aşırı yozlaşma alt eşiği (Daha sık ve şiddetli isyan)
 
 const REBELLION_CHANCE_HIGH: float = 0.35        # Yüksek yozlaşmada saldırı isyan olasılığı (%35)
 const REBELLION_CHANCE_EXTREME: float = 0.65     # Aşırı yozlaşmada saldırı isyan olasılığı (%65)

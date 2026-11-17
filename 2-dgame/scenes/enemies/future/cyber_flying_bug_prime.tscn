@@ -1,0 +1,97 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/cyber_flying_bug.gd" id="1_g455a"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/cyber_flying_bug_prime/cyber_flying_bug_prime_frames.tres" id="2_x0gk4"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_2lc5n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 380.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.0980392, 0.113725, 0.152941, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.28, 0.35, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.15, 0.85, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="CyberFlyingBugPrime" type="CharacterBody2D" unique_id=1270382858 groups=["damageable", "enemies", "future_enemies", "mechanical"]]
+collision_layer = 2
+script = ExtResource("1_g455a")
+monster_name = "Gelişmiş Siber Uçan Böcek"
+max_health = 70
+current_health = 70
+projectile_damage = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1105852474]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1435613622]
+modulate = Color(0.85, 1.1, 1.25, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=459132547]
+texture_filter = 1
+position = Vector2(0, -6)
+scale = Vector2(0.9, 0.9)
+sprite_frames = ExtResource("2_x0gk4")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="OpticLight" type="PointLight2D" parent="Visual" unique_id=1160786664]
+position = Vector2(8, -6)
+color = Color(0.2, 0.9, 1, 1)
+energy = 1.2
+texture = ExtResource("3_2lc5n")
+texture_scale = 0.85
+
+[node name="LaserAimLine" type="Line2D" parent="Visual" unique_id=1598410339]
+visible = false
+z_index = 5
+width = 2.0
+default_color = Color(1, 0.2, 0.2, 0.85)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=604501185]
+position = Vector2(0, -6)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1740516866]
+shape = SubResource("CircleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=843032534]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=227898454]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="UI" type="Node2D" parent="." unique_id=1799203247]
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=228690199]
+offset_left = -22.0
+offset_top = -42.0
+offset_right = 22.0
+offset_bottom = -36.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 65.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI" unique_id=140520929]

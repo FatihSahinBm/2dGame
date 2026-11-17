@@ -63,6 +63,7 @@ signal potion_used(potion_type: String)
 @onready var tutorial_title: Label = $BottomRight/TutorialBox/HBox/VBox/TitleLabel
 @onready var tutorial_key: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/KeyBadge/Label
 @onready var tutorial_desc: Label = $BottomRight/TutorialBox/HBox/VBox/KeyContainer/DescLabel
+@onready var status_label: Label = get_node_or_null("TopLeft/HBoxContainer/BarsVBox/CorruptionContainer/StatusLabel") as Label
 
 var _health_tween: Tween
 var _mana_tween: Tween
@@ -74,6 +75,24 @@ func _ready() -> void:
 	_setup_pause_system()
 	_setup_quest_system()
 	_setup_inventory_system()
+	_setup_status_system()
+	update_all()
+
+func _setup_status_system() -> void:
+	var game_state = get_node_or_null("/root/GameState")
+	if game_state and game_state.has_signal("corruption_changed"):
+		if not game_state.corruption_changed.is_connected(_on_corruption_changed):
+			game_state.corruption_changed.connect(_on_corruption_changed)
+
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+func _on_corruption_changed(_score: int) -> void:
+	update_corruption_status()
+
+func _on_locale_changed(_new_locale: String) -> void:
 	update_all()
 
 func _setup_pause_system() -> void:
@@ -106,6 +125,40 @@ func update_all() -> void:
 	update_weapon_slot(has_weapon)
 	update_potion_counts()
 	update_secondary_slot(active_secondary, secondary_ammo)
+	update_corruption_status()
+	var q_mgr = _get_quest_manager()
+	if q_mgr and q_mgr.has_method("get_tracked_quest"):
+		update_tracked_objective(q_mgr.get_tracked_quest())
+
+## Yozlaşma kademesine göre mühür etiketinin rengi (yalnızca görsel; oynanış verisini değiştirmez)
+const CORRUPTION_TIER_COLORS: Dictionary = {
+	"pure": Color(0.85, 0.95, 1.0),
+	"tainted": Color(1.0, 0.85, 0.55),
+	"corrupted": Color(1.0, 0.45, 0.35),
+	"dark": Color(0.85, 0.2, 0.45),
+}
+
+
+func update_corruption_status() -> void:
+	if not status_label:
+		return
+	var game_state = get_node_or_null("/root/GameState")
+	var val: int = int(game_state.corruption_score) if game_state and "corruption_score" in game_state else 0
+	# Kademe eşikleri GameState'te tek merkezde tanımlıdır (isyan ve son kuralıyla aynı)
+	var tier: String = str(game_state.get_corruption_tier()) if game_state and game_state.has_method("get_corruption_tier") else "pure"
+	var tier_key: String = "SEAL_%s_SOUL" % tier.to_upper()
+	status_label.modulate = CORRUPTION_TIER_COLORS.get(tier, Color.WHITE)
+	var translated_tier = tr(tier_key)
+	var fmt = tr("HUD_SEAL_FORMAT")
+	if not fmt.contains("%s"):
+		fmt = "MÜHÜR: %s (%d/100)"
+	status_label.text = fmt % [translated_tier, val]
+	# Renk yardımı: kademe yalnızca renkle değil simgeyle de belirtilir
+	var comfort: Node = get_node_or_null("/root/ComfortSettings")
+	if comfort and comfort.has_method("get_tier_symbol"):
+		var symbol: String = comfort.get_tier_symbol(tier)
+		if not symbol.is_empty():
+			status_label.text = symbol + " " + status_label.text
 
 ## Can Değerini Güncelle
 func update_health(new_health: int, new_max: int = -1, animate: bool = true) -> void:
@@ -230,14 +283,14 @@ func set_tutorial(title: String, key_badge: String, desc: String) -> void:
 	var formatted_key: String = str(input_mgr.format_prompt(key_badge)) if (input_mgr and input_mgr.has_method("format_prompt")) else key_badge
 	var formatted_desc: String = str(input_mgr.format_prompt(desc)) if (input_mgr and input_mgr.has_method("format_prompt")) else desc
 	if tutorial_title:
-		tutorial_title.text = title
+		tutorial_title.text = tr(title)
 	if tutorial_key:
-		tutorial_key.text = formatted_key
+		tutorial_key.text = tr(formatted_key)
 		var key_badge_panel: Control = tutorial_key.get_parent() as Control
 		if key_badge_panel:
 			key_badge_panel.visible = not formatted_key.is_empty()
 	if tutorial_desc:
-		tutorial_desc.text = formatted_desc
+		tutorial_desc.text = tr(formatted_desc)
 
 	if tutorial_box:
 		if _tutorial_tween:
@@ -486,7 +539,13 @@ func update_tracked_objective(quest: Dictionary) -> void:
 
 	objective_tracker.visible = true
 
-	var title: String = str(quest.get("title", ""))
+	var q_mgr = _get_quest_manager()
+	var title: String = ""
+	if q_mgr and q_mgr.has_method("get_localized_title"):
+		title = q_mgr.get_localized_title(quest)
+	else:
+		title = tr(str(quest.get("title", "")))
+
 	var category: String = str(quest.get("category", "main"))
 	var is_stoneage_scene: bool = false
 	if is_inside_tree() and get_tree() and get_tree().current_scene:
@@ -495,7 +554,7 @@ func update_tracked_objective(quest: Dictionary) -> void:
 			is_stoneage_scene = true
 
 	if is_stoneage_scene and str(quest.get("id", "")) == "fatih_audience":
-		title = "Kadim Vadi ve İlk Kalp Parçası"
+		title = tr("QUEST_STONEAGE_TITLE")
 		category = "main"
 
 	if objective_title:
@@ -503,25 +562,29 @@ func update_tracked_objective(quest: Dictionary) -> void:
 
 	if objective_badge:
 		if category == "main":
-			objective_badge.text = "ANA GÖREV"
+			objective_badge.text = tr("HUD_QUEST_MAIN")
 		elif category == "side":
-			objective_badge.text = "YAN GÖREV"
+			objective_badge.text = tr("HUD_QUEST_SIDE")
 		else:
-			objective_badge.text = category.to_upper()
+			objective_badge.text = tr(category.to_upper())
 
 	var desc: String = ""
 	if is_stoneage_scene and str(quest.get("id", "")) == "fatih_audience":
-		desc = "• Zaman yarığının izini sür ve Kadim Kalp Parçası'na ulaş"
+		desc = "• " + tr("QUEST_STONEAGE_DESC")
 	else:
 		var stages: Array = quest.get("stages", [])
 		var curr_idx: int = int(quest.get("current_stage", 0))
 		if curr_idx >= 0 and curr_idx < stages.size():
 			var st = stages[curr_idx]
-			desc = "• " + str(st.get("description", ""))
+			var st_desc = q_mgr.get_localized_stage_description(st) if (q_mgr and q_mgr.has_method("get_localized_stage_description")) else tr(str(st.get("description", "")))
+			desc = "• " + st_desc
 		elif not stages.is_empty():
-			desc = "• " + str(stages[0].get("description", ""))
+			var st0 = stages[0]
+			var st0_desc = q_mgr.get_localized_stage_description(st0) if (q_mgr and q_mgr.has_method("get_localized_stage_description")) else tr(str(st0.get("description", "")))
+			desc = "• " + st0_desc
 		else:
-			desc = "• " + str(quest.get("description", ""))
+			var q_desc = q_mgr.get_localized_description(quest) if (q_mgr and q_mgr.has_method("get_localized_description")) else tr(str(quest.get("description", "")))
+			desc = "• " + q_desc
 
 	if objective_label:
 		objective_label.text = desc
@@ -533,10 +596,8 @@ func show_objective_complete_banner(text: String, is_quest: bool = false) -> voi
 		return
 
 	if banner_label:
-		if is_quest:
-			banner_label.text = "🏆 GÖREV TAMAMLANDI!\n" + text
-		else:
-			banner_label.text = "🎯 HEDEF TAMAMLANDI!\n" + text
+		var banner_title = tr("HUD_QUEST_COMPLETED_BANNER") if is_quest else tr("HUD_OBJECTIVE_COMPLETED_BANNER")
+		banner_label.text = banner_title + "\n" + tr(text)
 
 	objective_banner.visible = true
 	objective_banner.modulate = Color(1, 1, 1, 0)

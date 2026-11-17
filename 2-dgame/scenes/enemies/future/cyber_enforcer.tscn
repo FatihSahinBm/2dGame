@@ -1,0 +1,91 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/future_enemy.gd" id="1_ypk20"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/cyber_enforcer/cyber_enforcer_frames.tres" id="2_gh731"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bawxv"]
+size = Vector2(22, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ox60"]
+size = Vector2(36.8, 41.6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwq5d"]
+size = Vector2(26, 56)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ngtx"]
+radius = 230.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrt3n"]
+bg_color = Color(0.08, 0.1, 0.16, 0.88)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0l3qi"]
+bg_color = Color(0.3, 0.85, 1, 1)
+
+[node name="CyberEnforcer" type="CharacterBody2D" unique_id=293237619 groups=["damageable", "enemies"]]
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("1_ypk20")
+behavior = "shield"
+monster_name = "Cyber Enforcer"
+codex_id = "cyber_enforcer"
+max_health = 110
+current_health = 110
+attack_damage = 18
+max_poise = 55.0
+attack_range = 46.0
+detection_range = 230.0
+speed = 60.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1842255188]
+position = Vector2(0, -26)
+shape = SubResource("RectangleShape2D_bawxv")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1889580795]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=855487271]
+texture_filter = 1
+position = Vector2(0, -18.6)
+scale = Vector2(0.62, 0.62)
+sprite_frames = ExtResource("2_gh731")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual" unique_id=1455768021]
+position = Vector2(25, -26)
+collision_layer = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox" unique_id=1872468936]
+shape = SubResource("RectangleShape2D_7ox60")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual" unique_id=2022531801]
+position = Vector2(17, 0)
+target_position = Vector2(0, 24)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=2072150947]
+position = Vector2(0, -26)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1006224550]
+shape = SubResource("RectangleShape2D_dwq5d")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1648710150]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=628839077]
+shape = SubResource("CircleShape2D_5ngtx")
+
+[node name="UI" type="Node2D" parent="." unique_id=30655209]
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=1939171339]
+offset_left = -22.0
+offset_top = -70.0
+offset_right = 22.0
+offset_bottom = -64.0
+theme_override_styles/background = SubResource("StyleBoxFlat_wrt3n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0l3qi")
+value = 100.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI" unique_id=650859017]

@@ -24,6 +24,21 @@ var _is_commander_alive: bool = true
 
 func _ready() -> void:
 	visible = false
+	_update_commander_title()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_commander_title()
+
+
+func _update_commander_title() -> void:
+	var title_lbl = get_node_or_null("Commander/TitleLabel") as Label
+	if title_lbl:
+		title_lbl.text = tr("TITLE_JANISSARY_COMMANDER") if _is_commander_alive else tr("TITLE_JANISSARY_SERGEANT")
 
 
 ## Koçbaşı hücum ve kapı parçalama sekansını başlatır
@@ -33,9 +48,7 @@ func play_assault_sequence(gate_node: Node2D, player_node: CharacterBody2D, dial
 	var game_state = get_node_or_null("/root/GameState") if is_inside_tree() else null
 	_is_commander_alive = game_state.is_commander_alive if game_state else true
 
-	var title_lbl = get_node_or_null("Commander/TitleLabel") as Label
-	if title_lbl:
-		title_lbl.text = "ÖNCÜ KUMANDAN" if _is_commander_alive else "YENİÇERİ ÇAVUŞU"
+	_update_commander_title()
 
 	var camera: Camera2D = null
 	if player_node:
@@ -70,7 +83,7 @@ func play_assault_sequence(gate_node: Node2D, player_node: CharacterBody2D, dial
 	tw_run.tween_callback(func():
 		_set_soldiers_animation("idle")
 		_spawn_dust_burst(global_position + Vector2(40.0, 0.0))
-		var initial_shout = "BİR, İKİİİ... KOÇBAŞINI SAVURUN!" if _is_commander_alive else "BİR, İKİİİ... ŞEHİT KUMANDANIN İNTİKAMI İÇİN SAVURUN!"
+		var initial_shout = tr("RAM_SHOUT_INITIAL_COMMANDER") if _is_commander_alive else tr("RAM_SHOUT_INITIAL_SERGEANT")
 		_play_commander_shout(initial_shout)
 		get_tree().create_timer(0.6).timeout.connect(func():
 			_execute_first_ram_strike(gate_node, camera, player_node, dialogue_box)
@@ -102,7 +115,7 @@ func _execute_first_ram_strike(gate_node: Node2D, camera: Camera2D, player_node:
 			# 💥 1. Darbe Etkisi (GÜÜÜM!)
 			_apply_screen_shake(camera, 11.0, 0.25)
 			_spawn_hit_spark(gate_node.global_position + Vector2(-16.0, 20.0), false)
-			_spawn_floating_text("💥 GÜÜÜM!", gate_node.global_position + Vector2(-25.0, -80.0), Color(1.0, 0.5, 0.2, 1.0), 16)
+			_spawn_floating_text(tr("RAM_IMPACT_FIRST"), gate_node.global_position + Vector2(-25.0, -80.0), Color(1.0, 0.5, 0.2, 1.0), 16)
 
 			# Kapı sarsıntısı
 			var tw_gate = create_tween()
@@ -118,7 +131,7 @@ func _execute_first_ram_strike(gate_node: Node2D, camera: Camera2D, player_node:
 
 			# Kumandan / Çavuş 2. darbe emri
 			get_tree().create_timer(0.45).timeout.connect(func():
-				var second_shout = "BİR DAHA! TÜM KUVVETİNİZLE! ALLAH ALLAH!" if _is_commander_alive else "BİR DAHA! GÜCÜNÜZÜN YETTİĞİNCE! ALLAH ALLAH!"
+				var second_shout = tr("RAM_SHOUT_SECOND_COMMANDER") if _is_commander_alive else tr("RAM_SHOUT_SECOND_SERGEANT")
 				_play_commander_shout(second_shout)
 				get_tree().create_timer(0.55).timeout.connect(func():
 					_execute_second_ram_strike(gate_node, camera, player_node, dialogue_box)
@@ -160,7 +173,7 @@ func _execute_second_ram_strike(gate_node: Node2D, camera: Camera2D, player_node
 			_spawn_hit_spark(gate_node.global_position + Vector2(-16.0, 20.0), true)
 			_spawn_splinters_explosion(gate_node.global_position + Vector2(0.0, 10.0))
 			_spawn_dust_burst(gate_node.global_position + Vector2(0.0, 40.0), 32)
-			_spawn_floating_text("💥💥 GÜÜÜÜÜÜMMM!", gate_node.global_position + Vector2(-40.0, -100.0), Color(1.0, 0.85, 0.2, 1.0), 22)
+			_spawn_floating_text(tr("RAM_IMPACT_SECOND"), gate_node.global_position + Vector2(-40.0, -100.0), Color(1.0, 0.85, 0.2, 1.0), 22)
 
 			# Kapı kanatlarının parçalanması ve içeri uçması
 			_shatter_gate_visuals(gate_node)
@@ -174,7 +187,7 @@ func _execute_second_ram_strike(gate_node: Node2D, camera: Camera2D, player_node
 					audio_mgr.play_sfx("door_break", 2.0)
 
 			# Zafer sevinci
-			var breach_shout = "KAPI YIKILDI! YABANCI, MAHZENE DAL VE VLAD'I BUL!" if _is_commander_alive else "KAPI PARÇALANDI! YABANCI, MAHZENE DAL VE İLERLE!"
+			var breach_shout = tr("RAM_SHOUT_BREACH_COMMANDER") if _is_commander_alive else tr("RAM_SHOUT_BREACH_SERGEANT")
 			_play_commander_shout(breach_shout)
 			_play_soldiers_cheer()
 
@@ -257,8 +270,8 @@ func _play_soldiers_cheer() -> void:
 		var tw_rest = create_tween()
 		tw_rest.tween_property(ram_visual, "position:y", ram_visual.position.y + 12.0, 0.2)
 
-	_spawn_floating_text("ALLAH ALLAH!", global_position + Vector2(20.0, -60.0), Color(1.0, 0.9, 0.4, 1.0), 13)
-	_spawn_floating_text("GAZA BİZİMDİR!", global_position + Vector2(-40.0, -75.0), Color(1.0, 0.85, 0.3, 1.0), 13)
+	_spawn_floating_text(tr("SOLDIER_CHEER_1"), global_position + Vector2(20.0, -60.0), Color(1.0, 0.9, 0.4, 1.0), 13)
+	_spawn_floating_text(tr("SOLDIER_CHEER_2"), global_position + Vector2(-40.0, -75.0), Color(1.0, 0.85, 0.3, 1.0), 13)
 
 
 func _play_commander_shout(text: String) -> void:
@@ -280,7 +293,7 @@ func _apply_screen_shake(camera: Camera2D, intensity: float, duration: float) ->
 
 func _spawn_floating_text(text: String, pos: Vector2, color: Color, size: int) -> void:
 	var label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_color_override("font_outline_color", Color(0.08, 0.02, 0.02, 1.0))
 	label.add_theme_constant_override("outline_size", 4)

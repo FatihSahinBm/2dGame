@@ -124,8 +124,10 @@ func _test_ignition_and_feedback() -> void:
 	_assert_true(campfire.is_lit, "Kamp ateşi yakıldı (is_lit == true).")
 	_assert_true(campfire.fire_visual.visible, "Alev görseli aktif ve görünür.")
 	_assert_true(campfire.particles.emitting, "Kıvılcım parçacıkları saçılmaya başladı.")
-	_assert_true(campfire.audio_emitter != null, "Konumsal ses yayıcısı (PositionalAudioEmitter2D) oluşturuldu.")
-	_assert_true(campfire.audio_emitter.sound_key == "campfire", "Ses anahtarı 'campfire' olarak ayarlandı.")
+	# Kamp ateşi iki katmanlı konumsal ses kullanır: sürekli zemin (BedPlayer) + rastgele çıtırtı (CracklePlayer)
+	_assert_true(campfire.audio_emitter is AudioStreamPlayer2D and campfire.audio_emitter == campfire.bed_player, "Konumsal zemin ses katmanı (BedPlayer) oluşturuldu.")
+	_assert_true(campfire.bed_player.stream != null and campfire.bed_player.max_distance > 0.0 and campfire.bed_player.attenuation > 0.0, "Zemin katmanı ses akışı ve mesafe zayıflamasıyla ayarlandı.")
+	_assert_true(campfire.crackle_player is AudioStreamPlayer2D and campfire.crackle_player.stream != null, "Çıtırtı katmanı (CracklePlayer) oluşturuldu.")
 	_assert_true(activated_signal_fired.size() == 1, "checkpoint_activated sinyali tam 1 kez yayınlandı.")
 	_assert_true(activated_signal_fired[0]["cid"] == "cp_ignite", "Sinyaldeki checkpoint_id doğru.")
 	_assert_true(activated_signal_fired[0]["pos"] == campfire.global_position + campfire.spawn_offset, "Sinyaldeki spawn konumu doğru hesaplandı.")
@@ -243,9 +245,9 @@ func _test_idempotent_interactions() -> void:
 	# Ses yayıcısı çoğalmamalı
 	var emitter_count: int = 0
 	for ch in campfire.get_children():
-		if ch.name.contains("PositionalAudio"):
+		if ch is AudioStreamPlayer2D:
 			emitter_count += 1
-	_assert_true(emitter_count == 1, "Art arda dinlenmeler çift/mükerrer ses yayıcı oluşturmadı (Tam 1 adet).")
+	_assert_true(emitter_count == 2, "Art arda dinlenmeler mükerrer ses yayıcı oluşturmadı (zemin + çıtırtı = tam 2 adet).")
 
 	# İpucu 'Dinlen' olarak güncellendi
 	campfire._player_in_range = Node2D.new()

@@ -1,0 +1,94 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/monster_enemy.gd" id="1_r"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/egypt/pyramid_guard/pyramid_guard_frames.tres" id="2_r"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(22, 56)
+
+[sub_resource type="RectangleShape2D" id="Hit"]
+size = Vector2(36, 40)
+
+[sub_resource type="RectangleShape2D" id="Hurt"]
+size = Vector2(26, 58)
+
+[sub_resource type="CircleShape2D" id="Detect"]
+radius = 230.0
+
+[sub_resource type="StyleBoxFlat" id="HpBg"]
+bg_color = Color(0.1, 0.11, 0.15, 0.88)
+
+[sub_resource type="StyleBoxFlat" id="HpFill"]
+bg_color = Color(0.92, 0.55, 0.2, 1)
+
+[node name="PyramidGuard" type="CharacterBody2D" groups=["damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+floor_snap_length = 4.0
+script = ExtResource("1_r")
+monster_name = "Pyramid Guard"
+codex_id = "pyramid_guard"
+max_health = 110
+current_health = 110
+speed = 60.0
+chase_speed = 100.0
+attack_damage = 18
+attack_range = 52.0
+knockback_resistance = 0.45
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -28.0)
+shape = SubResource("Body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -32)
+scale = Vector2(0.8, 0.8)
+sprite_frames = ExtResource("2_r")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual"]
+position = Vector2(26, -28.0)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox"]
+shape = SubResource("Hit")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual"]
+position = Vector2(20, 0)
+target_position = Vector2(0, 24)
+collision_mask = 1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -28.0)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("Hurt")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("Detect")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+offset_left = -22.0
+offset_top = -74.0
+offset_right = 22.0
+offset_bottom = -68.0
+theme_override_styles/background = SubResource("HpBg")
+theme_override_styles/fill = SubResource("HpFill")
+value = 100.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI"]

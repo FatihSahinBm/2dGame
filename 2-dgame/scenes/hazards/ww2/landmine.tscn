@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/ww2/landmine.gd" id="1_r"]
+
+[sub_resource type="RectangleShape2D" id="S1"]
+size = Vector2(28, 14)
+
+[node name="Landmine" type="Area2D"]
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("S1")

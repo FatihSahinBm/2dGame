@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/egypt/hieroglyph_tablet.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/objects/egypt/hieroglyph_tablet.png" id="2_r"]
+
+[sub_resource type="RectangleShape2D" id="Area"]
+size = Vector2(90, 72)
+
+[node name="HieroglyphTablet" type="Area2D"]
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -36)
+shape = SubResource("Area")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_r")
+offset = Vector2(0, -36)

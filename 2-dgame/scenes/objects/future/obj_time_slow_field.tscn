@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/future/time_slow_field.gd" id="1_ddofp"]
+
+[node name="TimeSlowField" type="Area2D" unique_id=764104112]
+script = ExtResource("1_ddofp")

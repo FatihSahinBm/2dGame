@@ -8,10 +8,29 @@ signal ally_betrayed(soldier_type: String, is_drained: bool)
 signal ability_unlocked(ability_id: String)
 signal sword_rebellion_triggered()
 
+# --- Oyun Sonu Kuralı (tek merkez) ---
+## Yozlaşma 0–100 ölçeğindedir. Aşağıdaki eşiklerden HERHANGİ biri sağlanırsa son "god_king",
+## aksi halde "redemption" olur. Eşitlik (tam eşik değeri) Tanrı-Kral sayılır.
+## Eksik/yüklenmemiş veri 0 kabul edilir, yani varsayılan son Kefaret'tir.
+const ENDING_REDEMPTION: String = "redemption"
+const ENDING_GOD_KING: String = "god_king"
+const ENDING_CORRUPTION_THRESHOLD: int = 50
+const ENDING_SACRIFICE_THRESHOLD: int = 3
+const ENDING_EVENT_KEY: String = "ending_alignment"
+
+# --- Yozlaşma Kademeleri (HUD, kılıç isyanı ve son kuralı aynı eşikleri kullanır) ---
+## 0            -> "pure"      Saf Ruh
+## 1 .. 49      -> "tainted"   Lekeli Ruh
+## 50 .. 74     -> "corrupted" Yozlaşmış Ruh (kılıç isyanı başlar; Tanrı-Kral sonu kilitlenir)
+## 75 .. 100    -> "dark"      Karanlık Ruh (isyan sıklaşır)
+const CORRUPTION_MAX: int = 100
+const CORRUPTION_HIGH_THRESHOLD: int = ENDING_CORRUPTION_THRESHOLD
+const CORRUPTION_EXTREME_THRESHOLD: int = 75
+
 # --- Ahlak ve Yozlaşma Durumu ---
 var corruption_score: int = 0:
 	set(val):
-		corruption_score = clampi(val, 0, 100)
+		corruption_score = clampi(val, 0, CORRUPTION_MAX)
 		corruption_changed.emit(corruption_score)
 
 var allies_sacrificed_count: int = 0
@@ -58,7 +77,7 @@ func add_corruption(amount: int) -> void:
 	var prev_score: int = corruption_score
 	corruption_score += amount
 	# Yozlaşma yüksek eşiğe (>= 50) yeni ulaştığında veya aşılırsa sinyal üretir
-	if prev_score < 50 and corruption_score >= 50:
+	if prev_score < ENDING_CORRUPTION_THRESHOLD and corruption_score >= ENDING_CORRUPTION_THRESHOLD:
 		sword_rebellion_triggered.emit()
 
 
@@ -96,9 +115,21 @@ func unlock_ability(ability_id: String) -> void:
 ## Oyun sonu eğilimini döndürür ("redemption" veya "god_king")
 func get_ending_alignment() -> String:
 	# Eğer müttefik sömürüsü ve katliamı yüksekse Tanrı-Kral yozlaşmasına gider
-	if corruption_score >= 50 or allies_sacrificed_count >= 3:
-		return "god_king"
-	return "redemption"
+	if corruption_score >= ENDING_CORRUPTION_THRESHOLD or allies_sacrificed_count >= ENDING_SACRIFICE_THRESHOLD:
+		return ENDING_GOD_KING
+	return ENDING_REDEMPTION
+
+
+## Bölüm sonunda verilen kararı kalıcı olaylara işler (kayıt dosyasına yazılır) ve döndürür
+func record_ending() -> String:
+	var alignment: String = get_ending_alignment()
+	persistent_events[ENDING_EVENT_KEY] = alignment
+	return alignment
+
+
+## Kayıtlı son kararını döndürür; henüz bir son görülmediyse boş metin
+func get_recorded_ending() -> String:
+	return str(persistent_events.get(ENDING_EVENT_KEY, ""))
 
 
 ## Kalıcı olay tamamlanma durumu belirler (Boss yenilgisi, açılan kapı vb.)
@@ -109,6 +140,17 @@ func set_event_completed(event_id: String, completed: bool = true) -> void:
 ## Kalıcı olay tamamlanma durumu sorgular
 func is_event_completed(event_id: String) -> bool:
 	return persistent_events.get(event_id, false)
+
+
+## Geçerli yozlaşma kademesi: "pure", "tainted", "corrupted" veya "dark"
+func get_corruption_tier() -> String:
+	if corruption_score >= CORRUPTION_EXTREME_THRESHOLD:
+		return "dark"
+	if corruption_score >= CORRUPTION_HIGH_THRESHOLD:
+		return "corrupted"
+	if corruption_score > 0:
+		return "tainted"
+	return "pure"
 
 
 ## Yeni oyun / sıfırlama

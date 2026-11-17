@@ -439,8 +439,8 @@
         "speaker_en": "Mage Companion (Echo of the Past)",
         "title": "Zamanın Başlangıcı",
         "title_en": "Dawn of Genesis",
-        "text": "HAYIR! Kalbi ezerim de buna izin vermem... Affet beni kadim dünya...!",
-        "text_en": "NO! I would sooner shatter the Heart than permit this... Forgive me, ancient world...!",
+        "text": "HAYIR! Dur! Kalp çatlıyor... Ne yaptın sen?! Beni de mi feda edeceksin?!",
+        "text_en": "NO! Stop! The Heart is cracking... What have you done?! Will you sacrifice me as well?!",
         "echo": true,
         "portrait": "friend_memory"
       }
@@ -474,10 +474,262 @@
         "portrait": "fatih"
       }
     ],
+    "forest_arrival": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Yarık seni ıslak yaprakların üstüne bırakıyor. Havada reçine, barut ve taze kan kokusu var. Uzakta davullar, yakında çığlıklar.*",
+        "text_en": "*The rift drops you onto wet leaves. The air smells of resin, gunpowder and fresh blood. Drums in the distance; screams close by.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "İkinci parça burada. Göğsümdeki boşluk onu çekiyor.",
+        "text_en": "The second shard is here. The hollow in my chest is pulling toward it.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kılıçtan söz yerine boğuk, madeni bir inilti yükseliyor. İlk parça mührü germiş; içindeki ses artık yalnızca çeliğin titreyişi.*",
+        "text_en": "*Instead of words, a muffled metallic groan rises from the sword. The first shard has strained the seal; the voice inside is now only the shiver of steel.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Sustun demek... Olsun. İleride çelik sesi var. Kim savaşıyorsa kaleye giden yolu biliyordur.",
+        "text_en": "So you have gone silent... So be it. There is the sound of steel ahead. Whoever is fighting will know the road to the fortress.",
+        "portrait": "player"
+      }
+    ],
+    "dungeon_entry": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kapı gıcırdayarak kalkıyor. Aşağıdan gelen hava soğuk değil; ılık ve nemli, bir canlının nefesi gibi.*",
+        "text_en": "*The gate rises with a groan. The air from below is not cold; it is warm and damp, like the breath of a living thing.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Koçbaşının sesi buraya inmiyor. Fatih'in askerleri surlarla uğraşsın; benim aradığım şey taşın altında.",
+        "text_en": "The battering ram cannot be heard down here. Let Mehmed's soldiers wrestle with the walls; what I seek lies beneath the stone.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kılıç, zindanın derinliklerine doğru kendiliğinden ağırlaşıyor — bir pusula iğnesi gibi.*",
+        "text_en": "*The sword grows heavy of its own accord, tilting toward the depths of the dungeon — like the needle of a compass.*",
+        "portrait": "none"
+      }
+    ],
+    "blood_altar_unsealed": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Üçüncü mangal tutuşunca sunaktaki kan geriye, yukarıya doğru akmaya başlıyor. Mühür çözülüyor.*",
+        "text_en": "*As the third brazier catches, the blood on the altar begins to flow backwards, upwards. The seal is coming undone.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
+        "title": "Taht Odasından Gelen Ses",
+        "title_en": "A Voice from the Throne Room",
+        "text": "Ateşlerimi yakan sen misin yabancı? Güzel. Kapıyı zorlamana gerek yok; seni ben davet ediyorum. Kalbimin yanında bir kazık boş duruyor.",
+        "text_en": "Is it you who lights my fires, stranger? Good. No need to force the door; I am inviting you in. There is an empty stake waiting beside my heart.",
+        "portrait": "vlad"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Parça onda. Kendi ağzıyla söyledi.",
+        "text_en": "He has the shard. He said so himself.",
+        "portrait": "player"
+      }
+    ],
+    "vlad_taunt_corrupted": [
+      {
+        "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
+        "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
+        "text": "Dur... Bu kokuyu tanırım. Üzerinde kendi askerlerinin kanı var. Sultan'ın sürüsünü tıpkı benim gibi sağmışsın!",
+        "text_en": "Wait... I know that scent. You wear the blood of your own soldiers. You have milked the Sultan's flock just as I would!",
+        "portrait": "vlad"
+      },
+      {
+        "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
+        "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
+        "text": "Sen avcı değilsin yabancı; sen benim henüz taht bulamamış halimsin. Gel, hangimizin açlığı daha büyük, görelim!",
+        "text_en": "You are no hunter, stranger; you are what I was before I found a throne. Come, let us see whose hunger runs deeper!",
+        "portrait": "vlad"
+      }
+    ],
+    "vlad_last_words": [
+      {
+        "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
+        "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
+        "text": "Bu kor... gökten düştüğü gece ülkem yanıyordu. Onu göğsüme ben bastım; halkımı korumak için canavar oldum.",
+        "text_en": "This ember... the night it fell from the sky, my country was burning. I pressed it into my own chest; I became a monster to protect my people.",
+        "portrait": "vlad"
+      },
+      {
+        "speaker": "Vlad Tepeş",
+        "speaker_en": "Vlad the Impaler",
+        "title": "Kazıklı Voyvoda",
+        "title_en": "Voivode of Wallachia",
+        "text": "Sen onu ne için istiyorsun yabancı? Benim bir sebebim vardı... Seninkini hatırlıyor musun bari?",
+        "text_en": "And what do you want it for, stranger? I had a reason... Do you even remember yours?",
+        "portrait": "vlad"
+      },
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kalp Parçası Voyvoda'nın göğsünden kopup kılıca akıyor. Çelik, bir insan sesiyle feryat ediyor.*",
+        "text_en": "*The Heart Shard tears free from the Voivode's chest and pours into the sword. The steel cries out in a human voice.*",
+        "portrait": "none"
+      }
+    ],
+    "fatih_outro_god_king": [
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
+        "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
+        "text": "Voyvoda Vlad devrildi. Lakin köprüden bu yana ardında bıraktığın naaşların yarısı benim askerim, yabancı. Yeniçerilerim sana artık 'müttefik' demiyor; adını anmaya korkuyorlar.",
+        "text_en": "Voivode Vlad has fallen. Yet half the corpses you left behind since the bridge are my own soldiers, stranger. My janissaries no longer call you 'ally'; they fear to speak your name.",
+        "portrait": "fatih"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Kale senin. Bana lazım olanı aldım.",
+        "text_en": "The fortress is yours. I have taken what I needed.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Fatih Sultan Mehmet",
+        "speaker_en": "Sultan Mehmed II",
+        "title": "Osmanlı Padişahı",
+        "title_en": "Ottoman Sultan",
+        "text": "Bir canavarı devirmek için bir başkasını otağıma almışım. Git. Ordum dönmeden topraklarımdan çıkmış ol. Bir daha karşılaşırsak sana kılıcımla hitap ederim.",
+        "text_en": "To bring down one monster, I welcomed another into my pavilion. Go. Be gone from my lands before my army returns. Should we meet again, I will address you with my sword.",
+        "portrait": "fatih"
+      }
+    ],
+    "epilogue_redemption": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kılıç havayı ikiye biçiyor; yırtığın ardında kızıl kum fırtınaları ve havada asılı piramitler titriyor. İki parça yan yana çarpıyor ve gerilen mührün altındaki ses, bir an için, yeniden duyuluyor.*",
+        "text_en": "*The sword cleaves the air in two; beyond the rift, crimson sandstorms and pyramids hanging in the sky shimmer. Two shards beat side by side, and for a moment the voice beneath the straining seal can be heard again.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Beni duyuyor musun? ...Güzel. Elini masumların kanına bulamadın. Şaşırdım; eskiden böyle biri değildin.",
+        "text_en": "Can you hear me? ...Good. You kept your hands clean of innocent blood. I am surprised; you were not such a man, once.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "O yüz... Anıda bana bağıran büyücü. Sendin. Sana ne yaptım?",
+        "text_en": "That face... The mage who shouted at me in the memory. It was you. What did I do to you?",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Parçaları topla. Hepsi bir araya geldiğinde cevabını ben vermeyeceğim; kendin hatırlayacaksın. Yürü. Seni çok uzun zamandır bekliyorum.",
+        "text_en": "Gather the shards. When they are whole I will not need to answer; you will remember it yourself. Walk on. I have been waiting for you a very long time.",
+        "portrait": "player"
+      }
+    ],
+    "epilogue_god_king": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kılıç havayı ikiye biçiyor; yırtığın ardında kızıl bir çöl beliriyor. İki parça yan yana çarpıyor; çeliğin feryadı, gerilen mührün altında boğulup susuyor.*",
+        "text_en": "*The sword cleaves the air in two; a crimson desert appears beyond the rift. Two shards beat side by side; the steel's cry drowns beneath the straining seal and falls silent.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Sustu. Nihayet.",
+        "text_en": "It is quiet. At last.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kabzadaki damga, kanla dolmuş bir mühür gibi parlıyor. Anıdaki ses — senin sesin — bu kez içeriden konuşuyor.*",
+        "text_en": "*The sigil on the hilt gleams like a seal brimming with blood. The voice from the memory — your own voice — now speaks from within.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
+        "speaker_en": "Unknown Voice (Former Self)",
+        "title": "Hafıza Yankısı",
+        "title_en": "Memory Resonator",
+        "text": "Bu güç kaderin ta kendisine boyun eğdirecek... Kalan parçalar bir tahtın basamakları. Çık.",
+        "text_en": "This power shall bend destiny itself... The remaining shards are the steps of a throne. Climb.",
+        "portrait": "player_dark"
+      }
+    ],
     "ability_unlock": {
       "id": "blood_mist_dash",
       "name": "Kan Sisi Atılması (Blood Mist Dash)",
-      "description": "Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür."
+      "name_en": "Blood Mist Dash",
+      "description": "Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür.",
+      "description_en": "With Vlad's defeat, vampiric power was imbued into the blade's corrupted shell. Pressing Dash (Shift) now transforms the bearer into a crimson mist phasing through foes and projectiles while leeching life from struck targets."
     }
   }
 }

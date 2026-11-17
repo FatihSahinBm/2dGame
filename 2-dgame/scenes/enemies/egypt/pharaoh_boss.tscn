@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/egypt/pharaoh_boss.gd" id="1_r"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/egypt/pharaoh/pharaoh_frames.tres" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_r"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(34, 90)
+
+[sub_resource type="RectangleShape2D" id="Staff"]
+size = Vector2(60, 60)
+
+[node name="PharaohBoss" type="CharacterBody2D" groups=["boss", "damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -45)
+shape = SubResource("Body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -68)
+sprite_frames = ExtResource("2_r")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="StaffHitbox" type="Area2D" parent="Visual"]
+position = Vector2(46, -40)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/StaffHitbox"]
+shape = SubResource("Staff")
+
+[node name="SunGlow" type="PointLight2D" parent="Visual"]
+position = Vector2(20, -110)
+color = Color(1, 0.75, 0.35, 1)
+energy = 0.9
+texture_scale = 1.4
+texture = ExtResource("3_r")

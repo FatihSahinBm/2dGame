@@ -16,6 +16,8 @@ signal attack_hit(target: Node2D)
 
 @export_group("Combat & AI")
 @export var attack_damage: int = 15
+## Duruş (poise) puanı; 0 ise bu düşmanda duruş sistemi yoktur (Story 2D-128)
+@export var max_poise: float = 60.0
 @export var attack_range: float = 44.0
 @export var detection_range: float = 200.0
 @export var attack_cooldown: float = 1.3
@@ -30,6 +32,7 @@ signal attack_hit(target: Node2D)
 @export var turn_at_walls: bool = true
 
 # Durum Değişkenleri
+const PoiseComponent = preload("res://scripts/combat/poise_component.gd")
 enum State { PATROL, CHASE, ATTACK, HURT, DEAD, GROGGY }
 var current_state: State = State.PATROL
 var is_dead: bool = false
@@ -69,6 +72,7 @@ func _ready() -> void:
 	# 2. Can barı ilklendirme
 	_init_health_bar()
 	_update_facing_direction()
+	PoiseComponent.attach_if_applicable(self)
 
 	# 3. Alan sinyalleri
 	if detection_area:
@@ -274,7 +278,7 @@ func take_damage(amount: int) -> void:
 	else:
 		# Sendeleme durumu
 		current_state = State.HURT
-		_hurt_timer = 0.22
+		_hurt_timer = maxf(_hurt_timer, 0.22) # Süren sersemlemeyi (parry/duruş kırılması) kısaltma
 
 ## Oyuncu Kılıç Hitbox Algılama (Kılıçla karşılık verildiğinde)
 func _on_hurtbox_area_entered(area: Area2D) -> void:
@@ -467,3 +471,18 @@ func _fade_and_free() -> void:
 	var fade_tween: Tween = create_tween()
 	fade_tween.tween_property(self, "modulate:a", 0.0, 0.4)
 	fade_tween.tween_callback(queue_free)
+
+
+## Saldırısı savuşturulduğunda kısa süre sersemler ve karşı saldırıya açık kalır (Story 2D-127).
+## Zaten sersemse süre uzamaz, yalnızca daha uzun olan geçerli kalır (üst üste binmez).
+func on_parried(duration: float = 0.9) -> void:
+	if is_dead or is_parry_immune():
+		return
+	current_state = State.HURT
+	_hurt_timer = maxf(_hurt_timer, duration)
+	velocity.x = 0.0
+
+
+## Boss ve mini-boss'lar savuşturmayla sersemletilemez (alt sınıflar true döndürerek bağışık olur)
+func is_parry_immune() -> bool:
+	return is_in_group("boss") or is_in_group("mini_boss")

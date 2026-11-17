@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/allies/egypt_slave.gd" id="1_rklmd"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/resistance_engineer/resistance_engineer_frames.tres" id="2_nsg7a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fa3cq"]
+size = Vector2(16, 40)
+
+[node name="ResistanceEngineer" type="CharacterBody2D" unique_id=619876167]
+collision_layer = 8
+script = ExtResource("1_rklmd")
+slave_id = "engineer_a"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=772490618]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_fa3cq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=895852620]
+texture_filter = 1
+position = Vector2(0, -28.8)
+scale = Vector2(0.72, 0.72)
+sprite_frames = ExtResource("2_nsg7a")
+animation = &"cower"
+autoplay = "cower"

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/egypt/sun_seal_door.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/objects/egypt/sun_seal_door.png" id="2_r"]
+
+[sub_resource type="RectangleShape2D" id="Door"]
+size = Vector2(70, 240)
+
+[node name="SunSealDoor" type="StaticBody2D"]
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -120)
+shape = SubResource("Door")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_r")
+offset = Vector2(0, -120)

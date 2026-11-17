@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tests/verify_egypt_chapter_runner.gd" id="1_runner"]
+
+[node name="VerifyEgyptChapter" type="Node"]
+script = ExtResource("1_runner")

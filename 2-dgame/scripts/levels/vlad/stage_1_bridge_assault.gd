@@ -26,6 +26,8 @@ var _knight_intro_done: bool = false
 var _knight_defeated: bool = false
 var _gate_breached: bool = false
 var _is_transitioning: bool = false
+var _barricades_left: int = 0
+var _barricade_objective_done: bool = false
 
 
 func _ready() -> void:
@@ -62,6 +64,34 @@ func _ready() -> void:
 		exit_gate.body_entered.connect(_on_exit_gate_entered)
 
 	_start_vanguard_charge()
+	_track_barricades()
+
+
+## Köprü barikatları yıkıldıkça sayar; hepsi yıkılınca "clear_barricades" hedefi tamamlanır.
+## (Bu hedef daha önce hiç tamamlanmıyor, görev Kan Şövalyesi ölse de bitmiyordu.)
+func _track_barricades() -> void:
+	_barricades_left = 0
+	for node: Node in get_tree().get_nodes_in_group("barricades"):
+		if is_ancestor_of(node) and node.has_signal("destroyed") and not node.is_queued_for_deletion():
+			_barricades_left += 1
+			node.destroyed.connect(_on_barricade_destroyed, CONNECT_ONE_SHOT)
+	if _barricades_left == 0:
+		_complete_barricade_objective()
+
+
+func _on_barricade_destroyed() -> void:
+	_barricades_left -= 1
+	if _barricades_left <= 0:
+		_complete_barricade_objective()
+
+
+func _complete_barricade_objective() -> void:
+	if _barricade_objective_done:
+		return
+	_barricade_objective_done = true
+	var q_mgr = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("bridge_assault", "clear_barricades")
 
 
 func _setup_camera() -> void:
@@ -179,6 +209,11 @@ func _spawn_burning_hit_vfx(pos: Vector2) -> void:
 
 func _on_blood_knight_died() -> void:
 	_knight_defeated = true
+	var play_stats: Node = get_node_or_null("/root/PlayStats")
+	if play_stats and play_stats.has_method("record_boss_defeated"):
+		play_stats.record_boss_defeated("blood_knight")
+	# Şövalyeye barikatların üstünden ulaşıldıysa önceki hedef de kapanır ki görev tamamlanabilsin
+	_complete_barricade_objective()
 
 	var q_mgr = get_node_or_null("/root/QuestManager")
 	if q_mgr and q_mgr.has_method("advance_quest"):

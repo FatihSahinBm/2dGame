@@ -19,6 +19,8 @@ extends Control
 @onready var parallax_bg: Node2D = $ParallaxBackground
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 
+const SAVE_SLOT_COUNT: int = 3
+const WorldObjectState = preload("res://scripts/components/world_object_state.gd")
 const NEW_GAME_START_SCENE: String = "res://scenes/levels/stone_age/stage_1_prehistoric_valley.tscn"
 
 var _buttons: Array[Button] = []
@@ -154,9 +156,7 @@ func _setup_focus_chain() -> void:
 func _update_continue_state() -> void:
 	_resolve_nodes()
 	var save_mgr = _get_autoload("SaveManager")
-	var has_save: bool = false
-	if save_mgr and save_mgr.has_method("has_save"):
-		has_save = save_mgr.has_save()
+	var has_save: bool = save_mgr != null and _resolve_continue_slot() > 0
 
 	if btn_continue:
 		btn_continue.disabled = not has_save
@@ -194,22 +194,50 @@ func _is_any_modal_open() -> bool:
 		(settings_dialog and settings_dialog.visible)
 
 
+# --- Kayıt Yuvası Seçimi ---
+
+## Oyuncunun son kullandığı kayıt yuvası (SaveManager.active_slot)
+func _get_active_slot() -> int:
+	var save_mgr = _get_autoload("SaveManager")
+	if save_mgr and "active_slot" in save_mgr:
+		return clampi(int(save_mgr.active_slot), 1, SAVE_SLOT_COUNT)
+	return 1
+
+
+## Devam Et'in açacağı yuva: son kullanılan yuvada kayıt varsa o, yoksa kaydı olan ilk yuva; hiç kayıt yoksa 0
+func _resolve_continue_slot() -> int:
+	var save_mgr = _get_autoload("SaveManager")
+	if not save_mgr or not save_mgr.has_method("has_save"):
+		return 0
+	var preferred: int = _get_active_slot()
+	if save_mgr.has_save(preferred):
+		return preferred
+	for slot: int in range(1, SAVE_SLOT_COUNT + 1):
+		if save_mgr.has_save(slot):
+			return slot
+	return 0
+
+
 # --- Buton Eylemleri ---
 
 func _on_continue_pressed() -> void:
 	if _is_any_modal_open():
 		return
 	var save_mgr = _get_autoload("SaveManager")
-	if not save_mgr or not save_mgr.has_save():
+	var slot: int = _resolve_continue_slot()
+	if not save_mgr or slot <= 0:
 		return
 
-	save_mgr.load_game()
+	if not save_mgr.load_game(slot):
+		# Kayıt ve yedeği kurtarılamadı: menüde kal, Devam Et durumunu yenile
+		_update_continue_state()
+		return
 	var target_scene = NEW_GAME_START_SCENE
 	var game_state = _get_autoload("GameState")
 	if game_state and not game_state.current_stage_path.is_empty():
 		target_scene = game_state.current_stage_path
 	elif save_mgr.has_method("get_save_info"):
-		var info = save_mgr.get_save_info()
+		var info = save_mgr.get_save_info(slot)
 		if info.has("stage_data") and info["stage_data"] is Dictionary:
 			var sp = str(info["stage_data"].get("current_stage_path", ""))
 			if not sp.is_empty():
@@ -226,7 +254,7 @@ func _on_new_game_pressed() -> void:
 	if _is_any_modal_open():
 		return
 	var save_mgr = _get_autoload("SaveManager")
-	if save_mgr and save_mgr.has_save():
+	if save_mgr and save_mgr.has_save(_get_active_slot()):
 		confirm_dialog.prompt(tr("CONFIRM_NEW_GAME_TITLE"), tr("CONFIRM_NEW_GAME_MSG"))
 	else:
 		_start_brand_new_game()
@@ -236,10 +264,13 @@ func _start_brand_new_game() -> void:
 	var game_state = _get_autoload("GameState")
 	if game_state and game_state.has_method("reset_state"):
 		game_state.reset_state()
+	var play_stats = _get_autoload("PlayStats")
+	if play_stats and play_stats.has_method("reset"):
+		play_stats.reset()
 
 	var save_mgr = _get_autoload("SaveManager")
 	if save_mgr and save_mgr.has_method("save_game"):
-		save_mgr.save_game()
+		save_mgr.save_game(_get_active_slot())
 
 	_transition_to_scene(NEW_GAME_START_SCENE)
 
@@ -252,11 +283,14 @@ func _on_chapter_select_pressed() -> void:
 
 func _on_chapter_chosen(_chapter_idx: int, scene_path: String) -> void:
 	var save_mgr = _get_autoload("SaveManager")
-	if save_mgr and save_mgr.has_method("has_save") and save_mgr.has_save():
-		save_mgr.load_game()
+	var slot: int = _resolve_continue_slot()
+	if save_mgr and slot > 0:
+		save_mgr.load_game(slot)
 	var game_state = _get_autoload("GameState")
 	if game_state:
 		game_state.current_stage_path = scene_path
+		# Bölüm baştan oynanırken kapı/barikat/toplanabilir durumları sıfırdan başlar
+		WorldObjectState.clear_all(game_state)
 	_transition_to_scene(scene_path)
 
 

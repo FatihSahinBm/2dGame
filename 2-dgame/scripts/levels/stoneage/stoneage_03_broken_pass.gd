@@ -29,8 +29,12 @@ var _seen_final_chasm: bool = false
 var _last_grounded_pos: Vector2 = Vector2(250.0, 520.0)
 
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
+
 func _ready() -> void:
 	_ensure_node_refs()
+	LevelStory.play_delayed(self, ["broken_pass"] as Array[String], 0.9)
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Kırık Geçit", "Zıpla", "Kırık sütun ve kayalık platformları aşarak ilerle.")
 	_setup_player()

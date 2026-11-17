@@ -1,0 +1,283 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/ww2/occult_doctor/occult_doctor_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="A_idle_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(96, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(192, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(480, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_idle_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(672, 0, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(96, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(192, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(480, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(672, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(768, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(960, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_walk_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1056, 104, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(96, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(192, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(480, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_cast_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(672, 208, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_hurt_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 312, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_hurt_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(96, 312, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_death_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 416, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_death_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(96, 416, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_death_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(192, 416, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_death_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 416, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_death_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 416, 96, 104)
+
+[sub_resource type="AtlasTexture" id="A_death_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(480, 416, 96, 104)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_11")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_cast_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cast_7")
+}],
+"loop": false,
+"name": &"cast",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_hurt_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_1")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_death_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_5")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}]

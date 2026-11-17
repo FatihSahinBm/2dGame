@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/future/future_laser_trap.gd" id="1_n1bfu"]
+
+[node name="FutureLaserTrap" type="Node2D" unique_id=615541360]
+script = ExtResource("1_n1bfu")

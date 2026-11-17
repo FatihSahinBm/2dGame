@@ -13,9 +13,27 @@ var _camera_ref: Camera2D = null
 
 func _ready() -> void:
 	super._ready()
+	_update_title()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	# Kamerayı bul (ekran sarsıntısı için)
 	_find_camera()
 	call_deferred("_check_initial_target")
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_title()
+
+
+func _update_title() -> void:
+	monster_name = tr("TITLE_OGRE_BOSS")
+	var lbl = get_node_or_null("UI/TitleLabel") as Label
+	if not lbl:
+		lbl = get_node_or_null("UI/BossTitle") as Label
+	if lbl:
+		lbl.text = tr("TITLE_OGRE_BOSS")
 
 func _check_initial_target() -> void:
 	if detection_area and not _target_node:
@@ -155,3 +173,8 @@ func _die() -> void:
 		get_tree().create_timer(5.4).timeout.connect(_fade_and_free)
 	else:
 		_fade_and_free()
+
+
+## Boss kuralı: saldırıları savuşturulabilir ama savuşturma bu düşmanı sersemletmez (Story 2D-127)
+func is_parry_immune() -> bool:
+	return true

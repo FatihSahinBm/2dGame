@@ -1,0 +1,30 @@
+{
+ "character": "commander_aura",
+ "frame_size": [
+  144,
+  152
+ ],
+ "feet_y": 148,
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "smoke",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "occult",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "core",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  }
+ ],
+ "notes": "Bağımsız duman/okült enerji VFX katmanı"
+}

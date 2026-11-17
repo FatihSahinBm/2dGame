@@ -21,6 +21,9 @@ signal tracked_quest_requested(quest_id: String)
 @onready var reward_label: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/RewardContainer/RewardLabel")
 @onready var btn_track: Button = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/TrackContainer/BtnTrack")
 @onready var btn_close: Button = get_node_or_null("Panel/VBox/Footer/BtnClose")
+@onready var main_title_label: Label = get_node_or_null("Panel/VBox/HeaderBar/MainTitle")
+@onready var key_hint_label: Label = get_node_or_null("Panel/VBox/HeaderBar/KeyHint")
+@onready var stages_title_label: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/StagesTitle")
 
 var _current_tab: String = "active" # "active" or "completed"
 var _selected_quest_id: String = ""
@@ -46,6 +49,25 @@ func _ready() -> void:
 		q_mgr.quest_updated.connect(_on_quest_data_changed)
 		q_mgr.quest_completed.connect(_on_quest_data_changed)
 		q_mgr.tracked_quest_changed.connect(_on_quest_data_changed)
+
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	if visible:
+		_refresh_ui()
+
+
+func _is_english() -> bool:
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		return str(loc_mgr.get_current_locale()).to_lower().begins_with("en")
+	if TranslationServer.has_method("get_locale"):
+		return str(TranslationServer.get_locale()).to_lower().begins_with("en")
+	return false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -138,6 +160,21 @@ func _refresh_ui() -> void:
 	if not quest_list_container:
 		return
 
+	var is_en: bool = _is_english()
+
+	if main_title_label:
+		main_title_label.text = tr("QUEST_LOG_TITLE")
+	if key_hint_label:
+		key_hint_label.text = tr("QUEST_LOG_HINT")
+	if btn_active_tab:
+		btn_active_tab.text = tr("QUEST_LOG_TAB_ACTIVE")
+	if btn_completed_tab:
+		btn_completed_tab.text = tr("QUEST_LOG_TAB_COMPLETED")
+	if btn_close:
+		btn_close.text = tr("QUEST_LOG_BTN_CLOSE")
+	if stages_title_label:
+		stages_title_label.text = tr("QUEST_LOG_OBJECTIVES_HEADER")
+
 	# Önceki butonları temizle
 	for ch in quest_list_container.get_children():
 		ch.queue_free()
@@ -150,7 +187,7 @@ func _refresh_ui() -> void:
 
 	if quest_list.is_empty():
 		var empty_lbl = Label.new()
-		empty_lbl.text = "Bu sekmede görev bulunmuyor." if _current_tab == "active" else "Henüz tamamlanan görev yok."
+		empty_lbl.text = tr("QUEST_LOG_EMPTY_ACTIVE") if _current_tab == "active" else tr("QUEST_LOG_EMPTY_COMPLETED")
 		empty_lbl.add_theme_color_override("font_color", Color(0.6, 0.65, 0.7, 0.8))
 		empty_lbl.add_theme_font_size_override("font_size", 11)
 		empty_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -171,11 +208,17 @@ func _refresh_ui() -> void:
 	for q in quest_list:
 		var btn = Button.new()
 		var is_main = q.get("category", "main") == "main"
-		var prefix = "👑 [ANA] " if is_main else "🏹 [YAN] "
+		var prefix = ("👑 [MAIN] " if is_en else "👑 [ANA] ") if is_main else ("🏹 [SIDE] " if is_en else "🏹 [YAN] ")
 		var is_tracked = (q["id"] == q_mgr.tracked_quest_id and q.get("status") == "active")
 		var track_mark = " 🎯" if is_tracked else ""
 
-		btn.text = prefix + str(q.get("title", "")) + track_mark
+		var title_str: String = ""
+		if q_mgr.has_method("get_localized_title"):
+			title_str = q_mgr.get_localized_title(q)
+		else:
+			title_str = tr(str(q.get("title", "")))
+
+		btn.text = prefix + title_str + track_mark
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		btn.add_theme_font_size_override("font_size", 11)
 
@@ -207,7 +250,7 @@ func get_selected_quest_id() -> String:
 
 func _show_quest_detail(q: Dictionary) -> void:
 	if q.is_empty():
-		if title_label: title_label.text = "Görev Seçilmedi"
+		if title_label: title_label.text = tr("QUEST_LOG_NO_SELECTION")
 		if category_badge: category_badge.visible = false
 		if desc_label: desc_label.text = ""
 		if reward_label: reward_label.text = ""
@@ -215,21 +258,37 @@ func _show_quest_detail(q: Dictionary) -> void:
 		_clear_stages()
 		return
 
+	var q_mgr = _get_quest_manager()
+	var is_en: bool = _is_english()
+
 	if title_label:
-		title_label.text = str(q.get("title", ""))
+		if q_mgr and q_mgr.has_method("get_localized_title"):
+			title_label.text = q_mgr.get_localized_title(q)
+		else:
+			title_label.text = tr(str(q.get("title", "")))
 
 	var is_main = q.get("category", "main") == "main"
 	if category_badge:
 		category_badge.visible = true
-		category_badge.text = "👑 ANA GÖREV" if is_main else "🏹 YAN GÖREV"
+		category_badge.text = tr("QUEST_LOG_BADGE_MAIN") if is_main else tr("QUEST_LOG_BADGE_SIDE")
 		category_badge.modulate = Color(1.0, 0.8, 0.2, 1.0) if is_main else Color(0.4, 0.85, 1.0, 1.0)
 
 	if desc_label:
-		desc_label.text = str(q.get("description", ""))
+		if q_mgr and q_mgr.has_method("get_localized_description"):
+			desc_label.text = q_mgr.get_localized_description(q)
+		else:
+			desc_label.text = tr(str(q.get("description", "")))
 
 	if reward_label:
-		var rew = str(q.get("reward_text", ""))
-		reward_label.text = "🎁 Ödül: %s" % rew if not rew.is_empty() else ""
+		var rew: String = ""
+		if q_mgr and q_mgr.has_method("get_localized_reward"):
+			rew = q_mgr.get_localized_reward(q)
+		else:
+			rew = tr(str(q.get("reward_text", "")))
+		var rew_fmt = tr("QUEST_LOG_REWARD_PREFIX")
+		if not rew_fmt.contains("%s"):
+			rew_fmt = "🎁 Ödül: %s"
+		reward_label.text = rew_fmt % rew if not rew.is_empty() else ""
 
 	# Hedef aşamaları kontrol listesi
 	_clear_stages()
@@ -242,7 +301,12 @@ func _show_quest_detail(q: Dictionary) -> void:
 
 			var lbl = Label.new()
 			var check = "✔ " if is_done else ("➤ " if is_current else "○ ")
-			lbl.text = check + str(st.get("description", ""))
+			var st_desc: String = ""
+			if q_mgr and q_mgr.has_method("get_localized_stage_description"):
+				st_desc = q_mgr.get_localized_stage_description(st)
+			else:
+				st_desc = tr(str(st.get("description", "")))
+			lbl.text = check + st_desc
 			lbl.add_theme_font_size_override("font_size", 11)
 
 			if is_done:
@@ -256,17 +320,16 @@ func _show_quest_detail(q: Dictionary) -> void:
 
 	# Takip etme butonu
 	if btn_track:
-		var q_mgr = _get_quest_manager()
 		var is_active = (q.get("status") == "active")
 		var is_already_tracked = (q_mgr and q_mgr.tracked_quest_id == q["id"])
 
 		btn_track.visible = is_active
 		if is_already_tracked:
-			btn_track.text = "🎯 Takip Ediliyor"
+			btn_track.text = tr("QUEST_LOG_BTN_TRACKED")
 			btn_track.disabled = true
 			btn_track.modulate = Color(0.7, 0.9, 0.7, 0.8)
 		else:
-			btn_track.text = "Takip Et"
+			btn_track.text = tr("QUEST_LOG_BTN_TRACK")
 			btn_track.disabled = false
 			btn_track.modulate = Color.WHITE
 

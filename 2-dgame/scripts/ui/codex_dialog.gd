@@ -32,7 +32,9 @@ const CATEGORIES: Array[String] = ["enemies", "bosses", "characters", "lore"]
 @onready var status_label: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/VisualAndStats/StatsVBox/StatusLabel")
 
 @onready var desc_label: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/DescScroll/DescLabel")
+@onready var tactics_title: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/TacticsBox/TacticsTitle")
 @onready var tactics_label: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/TacticsBox/TacticsLabel")
+@onready var weakness_title: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/WeaknessBox/WeaknessTitle")
 @onready var weakness_label: Label = get_node_or_null("Panel/VBox/MainSplit/RightPane/ContentVBox/WeaknessBox/WeaknessLabel")
 
 @onready var btn_close: Button = get_node_or_null("Panel/VBox/Footer/BtnClose")
@@ -45,6 +47,11 @@ var _was_paused_before_open: bool = false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
+
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 
 	if btn_enemies:
 		btn_enemies.pressed.connect(func(): _switch_category("enemies"))
@@ -148,6 +155,11 @@ func _cycle_category() -> void:
 	_switch_category(CATEGORIES[idx])
 
 
+func _on_locale_changed(_new_locale: String) -> void:
+	if visible:
+		_refresh_ui()
+
+
 func _on_codex_data_changed() -> void:
 	if visible:
 		_refresh_ui()
@@ -158,6 +170,9 @@ func _refresh_ui() -> void:
 	var main_title = get_node_or_null("Panel/VBox/HeaderBar/MainTitle") as Label
 	if main_title:
 		main_title.text = "📖 ANCIENT BESTIARY & CHRONICLES" if is_en else "📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ"
+	var left_header = get_node_or_null("Panel/VBox/MainSplit/LeftPane/VBox/HeaderLabel") as Label
+	if left_header:
+		left_header.text = "ARCHIVE INDEX" if is_en else "ARŞİV DİZİNİ"
 	var key_hint = get_node_or_null("Panel/VBox/HeaderBar/KeyHint") as Label
 	if key_hint:
 		var input_mgr = get_node_or_null("/root/InputControllerManager")
@@ -352,11 +367,15 @@ func _display_selected_entry() -> void:
 		var d_val := str(data.get("description_en", "")) if (is_en and not str(data.get("description_en", "")).is_empty()) else str(data.get("description", ""))
 		desc_label.text = d_val
 
+	if tactics_title:
+		tactics_title.text = "🛡️ Combat Tactics:" if is_en else "🛡️ Savaş Taktikleri:"
 	if tactics_label:
 		var default_tac := "No special tactics." if is_en else "Özel taktik bulunmuyor."
 		var tac_val := str(data.get("tactics_en", "")) if (is_en and not str(data.get("tactics_en", "")).is_empty()) else str(data.get("tactics", default_tac))
 		tactics_label.text = tac_val
 
+	if weakness_title:
+		weakness_title.text = "⚡ Weakness:" if is_en else "⚡ Zayıflık:"
 	if weakness_label:
 		var default_weak := "Unknown" if is_en else "Bilinmiyor"
 		var w_val := str(data.get("weakness_en", "")) if (is_en and not str(data.get("weakness_en", "")).is_empty()) else str(data.get("weakness", default_weak))

@@ -1,0 +1,273 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/ww2/commander/commander_aura_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="A_smoke_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_smoke_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 0, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_occult_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 152, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 304, 144, 152)
+
+[sub_resource type="AtlasTexture" id="A_core_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 304, 144, 152)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_smoke_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_smoke_11")
+}],
+"loop": true,
+"name": &"smoke",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_occult_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_occult_11")
+}],
+"loop": true,
+"name": &"occult",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_core_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_core_11")
+}],
+"loop": true,
+"name": &"core",
+"speed": 12.0
+}]

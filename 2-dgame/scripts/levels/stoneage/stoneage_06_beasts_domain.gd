@@ -39,8 +39,12 @@ var _exit_triggered: bool = false
 var _last_grounded_pos: Vector2 = Vector2(250.0, 520.0)
 
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
+
 func _ready() -> void:
 	_ensure_node_refs()
+	LevelStory.play_delayed(self, ["beasts_domain"] as Array[String], 0.9)
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Canavarın İni", "Dikkat", "İn bölgesindeki dev fosil kalıntılarını geç ve sığınağa ulaş.")
 	_setup_player()

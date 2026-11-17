@@ -198,12 +198,55 @@ func _ready() -> void:
 		else:
 			print("PASS: StoryDataLoader EN diyalog: ", en_seq[0]["speaker"], " -> ", en_seq[0]["text"].substr(0, 30))
 
+	# 11. Olay, Varlık ve Savaş Diyalogları Yerelleştirme Testi (Story 2D-120/121)
+	loc_mgr.set_locale("en")
+	var en_commander_title = tr("TITLE_JANISSARY_COMMANDER")
+	var en_knight_title = tr("TITLE_BLOOD_KNIGHT")
+	var en_vlad_title = tr("TITLE_VLAD_BOSS")
+	var en_ram_strike = tr("RAM_IMPACT_FIRST")
+	var en_ram_shout = tr("RAM_SHOUT_INITIAL_COMMANDER")
+	var en_barricade = tr("BARRICADE_DESTROYED")
+	var en_seal = tr("SEAL_PURE_SOUL")
+	var en_soldier_charge = tr("SOLDIER_SHOUT_CHARGE")
+
+	print("[EN] TITLE_JANISSARY_COMMANDER: ", en_commander_title)
+	print("[EN] TITLE_BLOOD_KNIGHT: ", en_knight_title)
+	print("[EN] TITLE_VLAD_BOSS: ", en_vlad_title)
+	print("[EN] RAM_IMPACT_FIRST: ", en_ram_strike)
+	print("[EN] RAM_SHOUT_INITIAL_COMMANDER: ", en_ram_shout)
+	print("[EN] BARRICADE_DESTROYED: ", en_barricade)
+	print("[EN] SEAL_PURE_SOUL: ", en_seal)
+	print("[EN] SOLDIER_SHOUT_CHARGE: ", en_soldier_charge)
+
+	if en_commander_title != "VANGUARD COMMANDER" or en_knight_title != "WALLACHIAN BLOOD KNIGHT" \
+			or en_vlad_title != "VLAD THE IMPALER" or en_ram_strike != "💥 BOOOOM!" \
+			or en_ram_shout != "ONE, TWOOO... HEAVE THE RAM!" \
+			or en_barricade != "🪵 BARRICADE DESTROYED!" or en_seal != "PURE SOUL" \
+			or en_soldier_charge != "Forward! Charge!":
+		printerr("FAIL: Savaş ve varlık İngilizce yerelleştirme metinleri beklenenle uyuşmuyor!")
+		all_passed = false
+	else:
+		print("PASS: Savaş ve varlık İngilizce yerelleştirme metinleri başarıyla doğrulandı.")
+
+	# QuestManager İki Dilli Görev Testi
+	var quest_mgr = get_node_or_null("/root/QuestManager")
+	if quest_mgr:
+		var q_title_en = quest_mgr.get_localized_title("fatih_audience")
+		var q_desc_en = quest_mgr.get_localized_description("fatih_audience")
+		print("[EN] QUEST TITLE: ", q_title_en)
+		print("[EN] QUEST DESC: ", q_desc_en.substr(0, 35))
+		if q_title_en != "Imperial Pavilion & War Council":
+			printerr("FAIL: QuestManager İngilizce görev başlığı hatalı! Bulunan: ", q_title_en)
+			all_passed = false
+		else:
+			print("PASS: QuestManager İngilizce görev başlığı ve açıklaması doğrulandı.")
+
 	# Testi sıfırla ve varsayılan dili ayarla
 	loc_mgr.set_locale("tr")
 
 	print("========================================================")
 	if all_passed:
-		print("  SONUÇ: 10/10 YERELLEŞTİRME TESTLERİ TAMAMEN BAŞARILI! ")
+		print("  SONUÇ: 11/11 YERELLEŞTİRME TESTLERİ TAMAMEN BAŞARILI! ")
 		print("========================================================\n")
 		get_tree().quit(0)
 	else:

@@ -11,11 +11,18 @@ signal collected()
 
 var _is_collected: bool = false
 
+const WorldObjectState = preload("res://scripts/components/world_object_state.gd")
+
 @onready var visual: CanvasItem = get_node_or_null("Visual") as CanvasItem
 @onready var prompt: Label = get_node_or_null("PromptLabel") as Label
 
 
 func _ready() -> void:
+	# Kayıtlı durum: toplanmış sadak yeniden oluşmaz (tek seferlik ödül)
+	if WorldObjectState.is_set(self, "collected"):
+		_is_collected = true
+		queue_free()
+		return
 	add_to_group("collectibles")
 	body_entered.connect(_on_body_entered)
 	if prompt:
@@ -44,6 +51,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 
 	_is_collected = true
+	WorldObjectState.mark(self, "collected")
 	collected.emit()
 	_spawn_pickup_feedback()
 	queue_free()
@@ -51,7 +59,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _show_locked_hint() -> void:
 	var label: Label = Label.new()
-	label.text = "🔒 Alevli Sadaklar (Önce Kemankeş ile konuş)"
+	label.text = tr("QUIVERS_LOCKED")
 	label.add_theme_color_override("font_color", Color(0.9, 0.8, 0.6, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)
@@ -69,7 +77,7 @@ func _show_locked_hint() -> void:
 
 func _spawn_pickup_feedback() -> void:
 	var label: Label = Label.new()
-	label.text = "🏹 Alevli Ok Sadakları Alındı!"
+	label.text = tr("QUIVERS_TAKEN")
 	label.add_theme_color_override("font_color", Color(1.0, 0.65, 0.2, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)

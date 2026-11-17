@@ -1,0 +1,591 @@
+[gd_resource type="SpriteFrames" load_steps=82 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/future/aegis_drone/aegis_drone_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_12"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1728, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_13"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1872, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_14"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2016, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_idle_15"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2160, 0, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_12"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1728, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_13"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1872, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_14"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2016, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_fly_15"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2160, 128, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_12"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1728, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_13"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1872, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_14"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2016, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_beam_lock_15"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2160, 256, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_12"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1728, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_13"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1872, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_14"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2016, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_hurt_15"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2160, 384, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(288, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(432, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(576, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_5"]
+atlas = ExtResource("1_sheet")
+region = Rect2(720, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_6"]
+atlas = ExtResource("1_sheet")
+region = Rect2(864, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_7"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1008, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_8"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_9"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1296, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_10"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1440, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_11"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1584, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_12"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1728, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_13"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1872, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_14"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2016, 512, 144, 128)
+
+[sub_resource type="AtlasTexture" id="A_drone_death_15"]
+atlas = ExtResource("1_sheet")
+region = Rect2(2160, 512, 144, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_idle_15")
+}],
+"loop": true,
+"name": &"drone_idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_fly_15")
+}],
+"loop": true,
+"name": &"drone_fly",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_beam_lock_15")
+}],
+"loop": false,
+"name": &"drone_beam_lock",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_hurt_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_hurt_15")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_drone_death_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drone_death_15")
+}],
+"loop": false,
+"name": &"drone_death",
+"speed": 12.0
+}]

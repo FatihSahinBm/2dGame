@@ -16,6 +16,9 @@ func _check(cond: bool, pass_msg: String, fail_msg: String) -> void:
 func _make_player() -> CharacterBody2D:
 	var p = load("res://scenes/combat/test_player.tscn").instantiate()
 	add_child(p)
+	# Test sahnesinde zemin yok: oyuncu boşluğa düşüp "boşluk ölümü" ile sahneyi yeniden
+	# yüklemesin (test sonsuz döngüye giriyordu) diye fizik işlemesi kapatılır.
+	p.set_physics_process(false)
 	var cam := Camera2D.new()
 	cam.name = "Camera2D"
 	p.add_child(cam)

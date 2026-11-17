@@ -1,0 +1,48 @@
+{
+ "character": "wounded_soldier",
+ "frame_size": [
+  56,
+  64
+ ],
+ "feet_y": 60,
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "frames": 8,
+   "loop": true,
+   "fps": 8.0
+  },
+  {
+   "name": "cower",
+   "frames": 8,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "walk",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "cheer",
+   "frames": 8,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "drained",
+   "frames": 6,
+   "loop": false,
+   "fps": 10.0
+  },
+  {
+   "name": "death",
+   "frames": 5,
+   "loop": false,
+   "fps": 10.0
+  }
+ ],
+ "notes": "Epic 2D-144 prosedürel sprite"
+}

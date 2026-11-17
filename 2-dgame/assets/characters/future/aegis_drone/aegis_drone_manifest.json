@@ -1,0 +1,53 @@
+{
+ "character": "aegis_drone",
+ "source": "output/future_sources/miniboss/aegis_core_twins",
+ "frame_size": [
+  144,
+  128
+ ],
+ "feet_y": 61,
+ "anchor": "center",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "drone_idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "drone_fly",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "drone_beam_lock",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 2,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "hurt",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 2,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "drone_death",
+   "row": 4,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 12.0
+  }
+ ]
+}

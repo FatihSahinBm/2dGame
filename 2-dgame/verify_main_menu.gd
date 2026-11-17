@@ -60,8 +60,10 @@ func _init() -> void:
 		root.add_child(save_mgr)
 
 	print("SaveManager testleri yapılıyor...")
-	# Temiz bir başlangıç için kayıt sil
-	save_mgr.delete_save(1)
+	# Temiz bir başlangıç için tüm yuvaları sil (Devam Et, kaydı olan herhangi bir yuvayı açabilir)
+	for slot_to_clear in range(1, 4):
+		save_mgr.delete_save(slot_to_clear)
+	save_mgr.active_slot = 1
 	if save_mgr.has_save(1):
 		push_error("FAIL: delete_save sonrası has_save true döndü!")
 		quit(1)
@@ -74,6 +76,27 @@ func _init() -> void:
 		quit(1)
 		return
 	print("OK: Kayıt yokken Devam Et butonu devre dışı (disabled=true).")
+
+	# Bölüm seçimi kuralı: 2. bölüm yalnızca 1. bölüm tamamlandıysa açılır
+	var gs_rule = root.get_node_or_null("GameState")
+	if not gs_rule:
+		# --script modunda autoload'lar ağaçta olmayabilir; kural testi için doğrudan yükle
+		gs_rule = load("res://scripts/autoloads/game_state.gd").new()
+		gs_rule.name = "GameState"
+		root.add_child(gs_rule)
+	if gs_rule:
+		gs_rule.reset_state()
+		if not save_mgr.is_chapter_unlocked(1) or save_mgr.is_chapter_unlocked(2):
+			push_error("FAIL: Kayıt yokken 1. bölüm açık, 2. bölüm kilitli olmalıydı!")
+			quit(1)
+			return
+		gs_rule.complete_chapter("chapter_1")
+		if not save_mgr.is_chapter_unlocked(2):
+			push_error("FAIL: 1. bölüm tamamlanınca 2. bölüm açılmalıydı!")
+			quit(1)
+			return
+		gs_rule.reset_state()
+		print("OK: Bölüm seçimi kuralı doğrulandı (2. bölüm, 1. bölüm tamamlanınca açılır).")
 
 	# Kayıt oluşturma testi
 	var save_success = save_mgr.save_game(1)
@@ -90,11 +113,25 @@ func _init() -> void:
 		return
 	print("OK: Kayıt varken Devam Et butonu aktif (disabled=false).")
 
+	# Devam Et doğru yuvayı açmalı: son kullanılan yuva, o boşsa kaydı olan ilk yuva
+	save_mgr.save_game(3)
+	if menu_inst._resolve_continue_slot() != 3:
+		push_error("FAIL: Son kullanılan yuva 3 iken Devam Et yuva %d seçti!" % menu_inst._resolve_continue_slot())
+		quit(1)
+		return
+	save_mgr.delete_save(3)
+	if menu_inst._resolve_continue_slot() != 1:
+		push_error("FAIL: Aktif yuva boşken Devam Et kaydı olan yuvaya (1) düşmedi!")
+		quit(1)
+		return
+	save_mgr.active_slot = 1
+	print("OK: Devam Et son kullanılan yuvayı, o boşsa kaydı olan ilk yuvayı seçiyor.")
+
 	# 4. Kayıt Yükleme & GameState Senkronizasyonu
 	var game_state = root.get_node_or_null("GameState")
 	if game_state:
 		game_state.corruption_score = 45
-		game_state.completed_chapters = ["chapter_1"]
+		game_state.complete_chapter("chapter_1")
 		save_mgr.save_game(1)
 		game_state.reset_state()
 		if game_state.corruption_score != 0:

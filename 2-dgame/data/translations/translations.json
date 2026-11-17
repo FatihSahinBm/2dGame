@@ -1,382 +1,2946 @@
 {
-  "FLASHBACK_PROMPT": {
-    "tr": "[Space / Sol Tık] İlerle  |  [Tab] Atla",
-    "en": "[Space / Left Click] Continue  |  [Tab] Skip"
-  },
-  "SETTINGS_REDUCE_MOTION": {
-    "tr": "Hareketi Azalt:",
-    "en": "Reduce Motion:"
-  },
-  "SETTINGS_REDUCE_FLASH": {
-    "tr": "Yanıp Sönmeyi Azalt:",
-    "en": "Reduce Flashing:"
-  },
-  "MENU_MAIN_TITLE": {
-    "tr": "ZAMANIN YANKISI",
-    "en": "ECHO OF TIME"
-  },
-  "MENU_SUBTITLE_DESC": {
-    "tr": "Bir Ruhun ve Çeliğin İntikam Destanı",
-    "en": "An Epic of Soul and Steel's Vengeance"
-  },
-  "STAGE_UNKNOWN": {
-    "tr": "Bilinmeyen Aşama",
-    "en": "Unknown Stage"
-  },
-  "SHOUT_ATTACK": {
-    "tr": "Hücum!",
-    "en": "Charge!"
-  },
-  "SHOUT_TRAITOR": {
-    "tr": "Hain!",
-    "en": "Traitor!"
-  },
-  "MENU_TITLE_1": {
-    "tr": "CHRONOS",
-    "en": "CHRONOS"
-  },
-  "MENU_TITLE_2": {
-    "tr": "BLADE",
-    "en": "BLADE"
-  },
-  "MENU_SUBTITLE": {
-    "tr": "ZAMAN YARIĞI & KAN VE KÜL ÇAĞI",
-    "en": "TIME RIFT & AGE OF BLOOD AND ASH"
-  },
-  "BTN_CONTINUE": {
-    "tr": "▶ Devam Et",
-    "en": "▶ Continue"
-  },
-  "BTN_NEW_GAME": {
-    "tr": "✦ Yeni Oyun",
-    "en": "✦ New Game"
-  },
-  "BTN_CHAPTER_SELECT": {
-    "tr": "📜 Bölüm Seçimi",
-    "en": "📜 Chapter Select"
-  },
-  "BTN_SETTINGS": {
-    "tr": "⚙ Ayarlar",
-    "en": "⚙ Settings"
-  },
-  "BTN_EXIT": {
-    "tr": "✕ Çıkış",
-    "en": "✕ Exit"
-  },
-  "CONFIRM_NEW_GAME_TITLE": {
-    "tr": "YENİ OYUN BAŞLAT",
-    "en": "START NEW GAME"
-  },
-  "CONFIRM_NEW_GAME_MSG": {
-    "tr": "Mevcut kayıt dosyanızın üzerine yazılacaktır. Devam etmek istiyor musunuz?",
-    "en": "Your current save file will be overwritten. Do you wish to continue?"
-  },
-  "BTN_CONFIRM": {
-    "tr": "Evet, Başlat",
-    "en": "Yes, Start"
-  },
-  "BTN_CANCEL": {
-    "tr": "İptal",
-    "en": "Cancel"
-  },
-  "SETTINGS_TITLE": {
-    "tr": "AYARLAR",
-    "en": "SETTINGS"
-  },
-  "SETTINGS_LANGUAGE": {
-    "tr": "Dil (Language):",
-    "en": "Language:"
-  },
-  "SETTINGS_MASTER_VOL": {
-    "tr": "Ana Ses (Master):",
-    "en": "Master Volume:"
-  },
-  "SETTINGS_MUSIC_VOL": {
-    "tr": "Müzik Sesi:",
-    "en": "Music Volume:"
-  },
-  "SETTINGS_SFX_VOL": {
-    "tr": "Efekt Sesi (SFX):",
-    "en": "SFX Volume:"
-  },
-  "SETTINGS_FULLSCREEN": {
-    "tr": "Tam Ekran Modu",
-    "en": "Fullscreen Mode"
-  },
-  "SETTINGS_SCREEN_SHAKE": {
-    "tr": "Ekran Sarsıntısı:",
-    "en": "Screen Shake:"
-  },
-  "SETTINGS_WEATHER_EFFECTS": {
-    "tr": "Hava Efektleri:",
-    "en": "Weather Effects:"
-  },
-  "WEATHER_INTENSITY_OFF": {
-    "tr": "Kapalı",
-    "en": "Off"
-  },
-  "WEATHER_INTENSITY_LOW": {
-    "tr": "Düşük",
-    "en": "Low"
-  },
-  "WEATHER_INTENSITY_MED": {
-    "tr": "Orta",
-    "en": "Medium"
-  },
-  "WEATHER_INTENSITY_HIGH": {
-    "tr": "Yüksek",
-    "en": "High"
-  },
-  "BTN_BACK": {
-    "tr": "⮌ Geri",
-    "en": "⮌ Back"
-  },
-  "CHAPTER_SELECT_TITLE": {
-    "tr": "BÖLÜM SEÇİMİ VE YOLCULUK",
-    "en": "CHAPTER SELECT & JOURNEY"
-  },
-  "CHAPTER_1_TITLE": {
-    "tr": "Bölüm 1: İlkel Vadi ve Siber Tyrant",
-    "en": "Chapter 1: Primeval Valley & Cyber Tyrant"
-  },
-  "CHAPTER_1_ERA": {
-    "tr": "M.Ö. 65 Milyon Yıl — Tarih Öncesi Kanyon",
-    "en": "65 Million BC — Prehistoric Canyon"
-  },
-  "CHAPTER_2_TITLE": {
-    "tr": "Bölüm 2: Târgovişte Gece Ormanı ve Kan Kalesi",
-    "en": "Chapter 2: Târgoviște Night Forest & Blood Castle"
-  },
-  "CHAPTER_2_ERA": {
-    "tr": "1462 — Eflak Prensliği & Kazıklı Voyvoda",
-    "en": "1462 — Principality of Wallachia & Vlad the Impaler"
-  },
-  "BTN_PLAY": {
-    "tr": "Oyna",
-    "en": "Play"
-  },
-  "BTN_RESUME_CHAPTER": {
-    "tr": "▶ Devam Et",
-    "en": "▶ Resume"
-  },
-  "BTN_LOCKED": {
-    "tr": "🔒 Kilitli",
-    "en": "🔒 Locked"
-  },
-  "LAST_PROGRESS": {
-    "tr": "Son Kalınan: %s",
-    "en": "Last Position: %s"
-  },
-  "PAUSE_TITLE": {
-    "tr": "OYUN DURAKLATILDI",
-    "en": "GAME PAUSED"
-  },
-  "PAUSE_SUBTITLE": {
-    "tr": "Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.",
-    "en": "Game is paused. Choose an option to continue or save."
-  },
-  "BTN_PAUSE_RESUME": {
-    "tr": "▶ Devam Et",
-    "en": "▶ Resume"
-  },
-  "BTN_SAVE_SLOTS": {
-    "tr": "💾 Oyunu Kaydet (3 Yuva)",
-    "en": "💾 Save Game (3 Slots)"
-  },
-  "BTN_RESTART": {
-    "tr": "↺ Bölümü Yeniden Başlat",
-    "en": "↺ Restart Stage"
-  },
-  "BTN_MAIN_MENU": {
-    "tr": "⌂ Ana Menü",
-    "en": "⌂ Main Menu"
-  },
-  "SAVE_SLOTS_TITLE": {
-    "tr": "KAYIT YUVALARI (3 YUVA)",
-    "en": "SAVE SLOTS (3 SLOTS)"
-  },
-  "AUTOSAVE_CHECK": {
-    "tr": " Otomatik Kayıt (Checkpoints) Açık",
-    "en": " Auto-Save (Checkpoints) Enabled"
-  },
-  "AUTOSAVE_STATUS_ON": {
-    "tr": "Otomatik Kayıt: Açık",
-    "en": "Auto-Save: Enabled"
-  },
-  "AUTOSAVE_STATUS_OFF": {
-    "tr": "Otomatik Kayıt: Kapalı",
-    "en": "Auto-Save: Disabled"
-  },
-  "SLOT_TITLE": {
-    "tr": "Yuva %d",
-    "en": "Slot %d"
-  },
-  "SLOT_EMPTY": {
-    "tr": "Boş Yuva (Kayıt Bulunmuyor)",
-    "en": "Empty Slot (No Save Found)"
-  },
-  "SLOT_DETAILS": {
-    "tr": "Tarih: %s  |  Konum: %s",
-    "en": "Date: %s  |  Location: %s"
-  },
-  "BTN_SAVE": {
-    "tr": "💾 Kaydet",
-    "en": "💾 Save"
-  },
-  "BTN_LOAD": {
-    "tr": "📂 Yükle",
-    "en": "📂 Load"
-  },
-  "SAVE_SUCCESS": {
-    "tr": "✓ Oyun Yuva %d'e başarıyla kaydedildi!",
-    "en": "✓ Game saved to Slot %d successfully!"
-  },
-  "SAVE_FAIL": {
-    "tr": "✗ Kayıt yapılamadı!",
-    "en": "✗ Failed to save game!"
-  },
-  "BTN_BACK_TO_PAUSE": {
-    "tr": "⮌ Menüye Dön",
-    "en": "⮌ Back to Menu"
-  },
-  "STAGE_STONE_AGE_1": {
-    "tr": "Bölüm 1: Tarih Öncesi Kanyon",
-    "en": "Chapter 1: Prehistoric Canyon"
-  },
-  "STAGE_STONE_AGE_2": {
-    "tr": "Bölüm 1: T-Rex Arenası",
-    "en": "Chapter 1: T-Rex Arena"
-  },
-  "STAGE_VLAD_1": {
-    "tr": "Bölüm 2: Târgovişte Ormanı",
-    "en": "Chapter 2: Târgoviște Forest"
-  },
-  "STAGE_VLAD_CAMP": {
-    "tr": "Bölüm 2: Osmanlı Ordugahı",
-    "en": "Chapter 2: Ottoman Camp"
-  },
-  "STAGE_VLAD_TENT": {
-    "tr": "Bölüm 2: Fatih Otağı",
-    "en": "Chapter 2: Fatih Tent"
-  },
-  "STAGE_VLAD_BRIDGE": {
-    "tr": "Bölüm 2: Köprü Taarruzu",
-    "en": "Chapter 2: Bridge Assault"
-  },
-  "STAGE_VLAD_DUNGEON": {
-    "tr": "Bölüm 2: Kale Mahzenleri",
-    "en": "Chapter 2: Castle Dungeons"
-  },
-  "STAGE_VLAD_THRONE": {
-    "tr": "Bölüm 2: Taht Odası",
-    "en": "Chapter 2: Throne Room"
-  },
-  "SWORD_REBELLION_HINT_1": {
-    "tr": "*Kılıç darbene direniyor!*",
-    "en": "*The blade resists your strike!*"
-  },
-  "SWORD_REBELLION_HINT_2": {
-    "tr": "*Ruh bu kıyıma ortak olmak istemiyor!*",
-    "en": "*The soul refuses to partake in slaughter!*"
-  },
-  "SWORD_REBELLION_HINT_3": {
-    "tr": "*Kılıcın içinden tiz bir madeni feryat yükseliyor!*",
-    "en": "*A piercing metallic shriek echoes from the blade!*"
-  },
-  "TUTORIAL_STONE_AGE_TITLE": {
-    "tr": "Bölüm 1: Taş Devri",
-    "en": "Chapter 1: Stone Age"
-  },
-  "TUTORIAL_STONE_AGE_SUBTITLE": {
-    "tr": "Tarih Öncesi Kanyon",
-    "en": "Prehistoric Canyon"
-  },
-  "TUTORIAL_STONE_AGE_CONTROLS": {
-    "tr": "Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]",
-    "en": "Movement: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
-  },
-  "TUTORIAL_CAMP_TITLE": {
-    "tr": "2. Harita: Osmanlı Ordugahı",
-    "en": "Stage 2: Ottoman Camp"
-  },
-  "TUTORIAL_CAMP_FERMAN_SUB": {
-    "tr": "Fermanı Fatih'e Sun",
-    "en": "Present the Imperial Decree"
-  },
-  "TUTORIAL_CAMP_FERMAN_DESC": {
-    "tr": "Şehit düşen kumandanın fermanını Fatih Sultan Mehmed Han'ın Otağı'na ulaştır.",
-    "en": "Deliver the fallen commander's decree to Sultan Mehmed's Pavilion."
-  },
-  "TUTORIAL_CAMP_OTAG_SUB": {
-    "tr": "Otağ-ı Hümayun'a İlerle",
-    "en": "Advance to the Imperial Pavilion"
-  },
-  "TUTORIAL_CAMP_OTAG_DESC": {
-    "tr": "Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle.",
-    "en": "Advance through the encampment towards Sultan Mehmed's pavilion on the right."
-  },
-  "TUTORIAL_BRIDGE_TITLE": {
-    "tr": "3. Harita: Köprü Kuşatması",
-    "en": "Stage 3: Bridge Assault"
-  },
-  "TUTORIAL_BRIDGE_SUB": {
-    "tr": "Barikatları Parçala",
-    "en": "Shatter the Barricades"
-  },
-  "TUTORIAL_BRIDGE_DESC": {
-    "tr": "Yeniçerilerle birlikte kazıklı barikatları parçala ve kale kapısına hücum et!",
-    "en": "Shatter the spiked barricades alongside the Janissaries and storm the fortress gate!"
-  },
-  "TUTORIAL_BLOOD_KNIGHT_TITLE": {
-    "tr": "Elit Muhafız!",
-    "en": "Elite Guardian!"
-  },
-  "TUTORIAL_BLOOD_KNIGHT_SUB": {
-    "tr": "Kan Şövalyesini Yen",
-    "en": "Defeat the Blood Knight"
-  },
-  "TUTORIAL_BLOOD_KNIGHT_DESC": {
-    "tr": "Vlad Tepeş'in kale kapısını koruyan Kan Şövalyesini alt et!",
-    "en": "Vanquish the Blood Knight guarding Vlad Tepes' citadel gate!"
-  },
-  "TUTORIAL_GATE_BROKEN_TITLE": {
-    "tr": "Kapı Parçalandı!",
-    "en": "Gate Shattered!"
-  },
-  "TUTORIAL_GATE_BROKEN_SUB": {
-    "tr": "Mahzenlere Adım At",
-    "en": "Enter the Catacombs"
-  },
-  "TUTORIAL_GATE_BROKEN_DESC": {
-    "tr": "Yeniçeriler koçbaşıyla kapıyı paramparça etti! Târgovişte mahzenlerine girerek Vlad'ın izini sür.",
-    "en": "The Janissaries battered down the gate! Descend into Târgoviște catacombs to hunt Vlad."
-  },
-  "TUTORIAL_THRONE_TITLE": {
-    "tr": "3. Sahne: Kan Taht Odası",
-    "en": "Stage 3: Blood Throne Room"
-  },
-  "TUTORIAL_THRONE_SUB": {
-    "tr": "1. Faz: Voyvoda",
-    "en": "Phase 1: The Voivode"
-  },
-  "TUTORIAL_THRONE_DESC": {
-    "tr": "Mızrak atılımlarını ve impale zemin saldırılarını atlatarak yaklaş!",
-    "en": "Evade spear thrusts and floor impalements to strike!"
-  },
-  "PROMPT_CAMPFIRE_REST": {
-    "tr": "[E] Kamp Ateşinde Dinlen",
-    "en": "[E] Rest at Campfire"
-  },
-  "PROMPT_CAMPFIRE_LIGHT": {
-    "tr": "[E] Kamp Ateşini Yak",
-    "en": "[E] Ignite Campfire"
-  },
-  "CAMPFIRE_LIT_MSG": {
-    "tr": "🔥 Kamp Ateşi Yakıldı - İlerleme Kaydedildi",
-    "en": "🔥 Campfire Lit - Progress Saved"
-  },
-  "CAMPFIRE_RESTED_MSG": {
-    "tr": "✨ Dinlenildi - Can & İksirler Yenilendi",
-    "en": "✨ Rested - Health & Potions Restored"
-  }
+	"FLASHBACK_PROMPT": {
+		"tr": "[Space / Sol Tık] İlerle  |  [Tab] Atla",
+		"en": "[Space / Left Click] Continue  |  [Tab] Skip"
+	},
+	"SETTINGS_REDUCE_MOTION": {
+		"tr": "Hareketi Azalt:",
+		"en": "Reduce Motion:"
+	},
+	"SETTINGS_REDUCE_FLASH": {
+		"tr": "Yanıp Sönmeyi Azalt:",
+		"en": "Reduce Flashing:"
+	},
+	"MENU_MAIN_TITLE": {
+		"tr": "ZAMANIN YANKISI",
+		"en": "ECHO OF TIME"
+	},
+	"MENU_SUBTITLE_DESC": {
+		"tr": "Bir Ruhun ve Çeliğin İntikam Destanı",
+		"en": "An Epic of Soul and Steel's Vengeance"
+	},
+	"STAGE_UNKNOWN": {
+		"tr": "Bilinmeyen Aşama",
+		"en": "Unknown Stage"
+	},
+	"SHOUT_ATTACK": {
+		"tr": "Hücum!",
+		"en": "Charge!"
+	},
+	"SHOUT_TRAITOR": {
+		"tr": "Hain!",
+		"en": "Traitor!"
+	},
+	"MENU_TITLE_1": {
+		"tr": "CHRONOS",
+		"en": "CHRONOS"
+	},
+	"MENU_TITLE_2": {
+		"tr": "BLADE",
+		"en": "BLADE"
+	},
+	"MENU_SUBTITLE": {
+		"tr": "ZAMAN YARIĞI & KAN VE KÜL ÇAĞI",
+		"en": "TIME RIFT & AGE OF BLOOD AND ASH"
+	},
+	"BTN_CONTINUE": {
+		"tr": "▶ Devam Et",
+		"en": "▶ Continue"
+	},
+	"BTN_NEW_GAME": {
+		"tr": "✦ Yeni Oyun",
+		"en": "✦ New Game"
+	},
+	"BTN_CHAPTER_SELECT": {
+		"tr": "📜 Bölüm Seçimi",
+		"en": "📜 Chapter Select"
+	},
+	"BTN_SETTINGS": {
+		"tr": "⚙ Ayarlar",
+		"en": "⚙ Settings"
+	},
+	"BTN_EXIT": {
+		"tr": "✕ Çıkış",
+		"en": "✕ Exit"
+	},
+	"CONFIRM_NEW_GAME_TITLE": {
+		"tr": "YENİ OYUN BAŞLAT",
+		"en": "START NEW GAME"
+	},
+	"CONFIRM_NEW_GAME_MSG": {
+		"tr": "Mevcut kayıt dosyanızın üzerine yazılacaktır. Devam etmek istiyor musunuz?",
+		"en": "Your current save file will be overwritten. Do you wish to continue?"
+	},
+	"BTN_CONFIRM": {
+		"tr": "Evet, Başlat",
+		"en": "Yes, Start"
+	},
+	"BTN_CANCEL": {
+		"tr": "İptal",
+		"en": "Cancel"
+	},
+	"SETTINGS_TITLE": {
+		"tr": "AYARLAR",
+		"en": "SETTINGS"
+	},
+	"SETTINGS_LANGUAGE": {
+		"tr": "Dil (Language):",
+		"en": "Language:"
+	},
+	"SETTINGS_MASTER_VOL": {
+		"tr": "Ana Ses (Master):",
+		"en": "Master Volume:"
+	},
+	"SETTINGS_MUSIC_VOL": {
+		"tr": "Müzik Sesi:",
+		"en": "Music Volume:"
+	},
+	"SETTINGS_SFX_VOL": {
+		"tr": "Efekt Sesi (SFX):",
+		"en": "SFX Volume:"
+	},
+	"SETTINGS_FULLSCREEN": {
+		"tr": "Tam Ekran Modu",
+		"en": "Fullscreen Mode"
+	},
+	"SETTINGS_SCREEN_SHAKE": {
+		"tr": "Ekran Sarsıntısı:",
+		"en": "Screen Shake:"
+	},
+	"SETTINGS_WEATHER_EFFECTS": {
+		"tr": "Hava Efektleri:",
+		"en": "Weather Effects:"
+	},
+	"WEATHER_INTENSITY_OFF": {
+		"tr": "Kapalı",
+		"en": "Off"
+	},
+	"WEATHER_INTENSITY_LOW": {
+		"tr": "Düşük",
+		"en": "Low"
+	},
+	"WEATHER_INTENSITY_MED": {
+		"tr": "Orta",
+		"en": "Medium"
+	},
+	"WEATHER_INTENSITY_HIGH": {
+		"tr": "Yüksek",
+		"en": "High"
+	},
+	"BTN_BACK": {
+		"tr": "⮌ Geri",
+		"en": "⮌ Back"
+	},
+	"CHAPTER_SELECT_TITLE": {
+		"tr": "BÖLÜM SEÇİMİ VE YOLCULUK",
+		"en": "CHAPTER SELECT & JOURNEY"
+	},
+	"CHAPTER_1_TITLE": {
+		"tr": "Bölüm 1: İlkel Vadi ve Siber Tyrant",
+		"en": "Chapter 1: Primeval Valley & Cyber Tyrant"
+	},
+	"CHAPTER_1_ERA": {
+		"tr": "M.Ö. 65 Milyon Yıl — Tarih Öncesi Kanyon",
+		"en": "65 Million BC — Prehistoric Canyon"
+	},
+	"CHAPTER_2_TITLE": {
+		"tr": "Bölüm 2: Târgovişte Gece Ormanı ve Kan Kalesi",
+		"en": "Chapter 2: Târgoviște Night Forest & Blood Castle"
+	},
+	"CHAPTER_2_ERA": {
+		"tr": "1462 — Eflak Prensliği & Kazıklı Voyvoda",
+		"en": "1462 — Principality of Wallachia & Vlad the Impaler"
+	},
+	"BTN_PLAY": {
+		"tr": "Oyna",
+		"en": "Play"
+	},
+	"BTN_RESUME_CHAPTER": {
+		"tr": "▶ Devam Et",
+		"en": "▶ Resume"
+	},
+	"BTN_LOCKED": {
+		"tr": "🔒 Kilitli",
+		"en": "🔒 Locked"
+	},
+	"LAST_PROGRESS": {
+		"tr": "Son Kalınan: %s",
+		"en": "Last Position: %s"
+	},
+	"PAUSE_TITLE": {
+		"tr": "OYUN DURAKLATILDI",
+		"en": "GAME PAUSED"
+	},
+	"PAUSE_SUBTITLE": {
+		"tr": "Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.",
+		"en": "Game is paused. Choose an option to continue or save."
+	},
+	"BTN_PAUSE_RESUME": {
+		"tr": "▶ Devam Et",
+		"en": "▶ Resume"
+	},
+	"BTN_SAVE_SLOTS": {
+		"tr": "💾 Oyunu Kaydet (3 Yuva)",
+		"en": "💾 Save Game (3 Slots)"
+	},
+	"BTN_RESTART": {
+		"tr": "↺ Bölümü Yeniden Başlat",
+		"en": "↺ Restart Stage"
+	},
+	"BTN_MAIN_MENU": {
+		"tr": "⌂ Ana Menü",
+		"en": "⌂ Main Menu"
+	},
+	"SAVE_SLOTS_TITLE": {
+		"tr": "KAYIT YUVALARI (3 YUVA)",
+		"en": "SAVE SLOTS (3 SLOTS)"
+	},
+	"AUTOSAVE_CHECK": {
+		"tr": " Otomatik Kayıt (Checkpoints) Açık",
+		"en": " Auto-Save (Checkpoints) Enabled"
+	},
+	"AUTOSAVE_STATUS_ON": {
+		"tr": "Otomatik Kayıt: Açık",
+		"en": "Auto-Save: Enabled"
+	},
+	"AUTOSAVE_STATUS_OFF": {
+		"tr": "Otomatik Kayıt: Kapalı",
+		"en": "Auto-Save: Disabled"
+	},
+	"SLOT_TITLE": {
+		"tr": "Yuva %d",
+		"en": "Slot %d"
+	},
+	"SLOT_EMPTY": {
+		"tr": "Boş Yuva (Kayıt Bulunmuyor)",
+		"en": "Empty Slot (No Save Found)"
+	},
+	"SLOT_DETAILS": {
+		"tr": "Tarih: %s  |  Konum: %s",
+		"en": "Date: %s  |  Location: %s"
+	},
+	"BTN_SAVE": {
+		"tr": "💾 Kaydet",
+		"en": "💾 Save"
+	},
+	"BTN_LOAD": {
+		"tr": "📂 Yükle",
+		"en": "📂 Load"
+	},
+	"SAVE_SUCCESS": {
+		"tr": "✓ Oyun Yuva %d'e başarıyla kaydedildi!",
+		"en": "✓ Game saved to Slot %d successfully!"
+	},
+	"SAVE_FAIL": {
+		"tr": "✗ Kayıt yapılamadı!",
+		"en": "✗ Failed to save game!"
+	},
+	"BTN_BACK_TO_PAUSE": {
+		"tr": "⮌ Menüye Dön",
+		"en": "⮌ Back to Menu"
+	},
+	"STAGE_STONE_AGE_1": {
+		"tr": "Bölüm 1: Tarih Öncesi Kanyon",
+		"en": "Chapter 1: Prehistoric Canyon"
+	},
+	"STAGE_STONE_AGE_2": {
+		"tr": "Bölüm 1: T-Rex Arenası",
+		"en": "Chapter 1: T-Rex Arena"
+	},
+	"STAGE_VLAD_1": {
+		"tr": "Bölüm 2: Târgovişte Ormanı",
+		"en": "Chapter 2: Târgoviște Forest"
+	},
+	"STAGE_VLAD_CAMP": {
+		"tr": "Bölüm 2: Osmanlı Ordugahı",
+		"en": "Chapter 2: Ottoman Camp"
+	},
+	"STAGE_VLAD_TENT": {
+		"tr": "Bölüm 2: Fatih Otağı",
+		"en": "Chapter 2: Fatih Tent"
+	},
+	"STAGE_VLAD_BRIDGE": {
+		"tr": "Bölüm 2: Köprü Taarruzu",
+		"en": "Chapter 2: Bridge Assault"
+	},
+	"STAGE_VLAD_DUNGEON": {
+		"tr": "Bölüm 2: Kale Mahzenleri",
+		"en": "Chapter 2: Castle Dungeons"
+	},
+	"STAGE_VLAD_THRONE": {
+		"tr": "Bölüm 2: Taht Odası",
+		"en": "Chapter 2: Throne Room"
+	},
+	"SWORD_REBELLION_HINT_1": {
+		"tr": "*Kılıç darbene direniyor!*",
+		"en": "*The blade resists your strike!*"
+	},
+	"SWORD_REBELLION_HINT_2": {
+		"tr": "*Ruh bu kıyıma ortak olmak istemiyor!*",
+		"en": "*The soul refuses to partake in slaughter!*"
+	},
+	"SWORD_REBELLION_HINT_3": {
+		"tr": "*Kılıcın içinden tiz bir madeni feryat yükseliyor!*",
+		"en": "*A piercing metallic shriek echoes from the blade!*"
+	},
+	"TUTORIAL_STONE_AGE_TITLE": {
+		"tr": "Bölüm 1: Taş Devri",
+		"en": "Chapter 1: Stone Age"
+	},
+	"TUTORIAL_STONE_AGE_SUBTITLE": {
+		"tr": "Tarih Öncesi Kanyon",
+		"en": "Prehistoric Canyon"
+	},
+	"TUTORIAL_STONE_AGE_CONTROLS": {
+		"tr": "Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]",
+		"en": "Movement: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
+	},
+	"TUTORIAL_CAMP_TITLE": {
+		"tr": "2. Harita: Osmanlı Ordugahı",
+		"en": "Stage 2: Ottoman Camp"
+	},
+	"TUTORIAL_CAMP_FERMAN_SUB": {
+		"tr": "Fermanı Fatih'e Sun",
+		"en": "Present the Imperial Decree"
+	},
+	"TUTORIAL_CAMP_FERMAN_DESC": {
+		"tr": "Şehit düşen kumandanın fermanını Fatih Sultan Mehmed Han'ın Otağı'na ulaştır.",
+		"en": "Deliver the fallen commander's decree to Sultan Mehmed's Pavilion."
+	},
+	"TUTORIAL_CAMP_OTAG_SUB": {
+		"tr": "Otağ-ı Hümayun'a İlerle",
+		"en": "Advance to the Imperial Pavilion"
+	},
+	"TUTORIAL_CAMP_OTAG_DESC": {
+		"tr": "Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle.",
+		"en": "Advance through the encampment towards Sultan Mehmed's pavilion on the right."
+	},
+	"TUTORIAL_BRIDGE_TITLE": {
+		"tr": "3. Harita: Köprü Kuşatması",
+		"en": "Stage 3: Bridge Assault"
+	},
+	"TUTORIAL_BRIDGE_SUB": {
+		"tr": "Barikatları Parçala",
+		"en": "Shatter the Barricades"
+	},
+	"TUTORIAL_BRIDGE_DESC": {
+		"tr": "Yeniçerilerle birlikte kazıklı barikatları parçala ve kale kapısına hücum et!",
+		"en": "Shatter the spiked barricades alongside the Janissaries and storm the fortress gate!"
+	},
+	"TUTORIAL_BLOOD_KNIGHT_TITLE": {
+		"tr": "Elit Muhafız!",
+		"en": "Elite Guardian!"
+	},
+	"TUTORIAL_BLOOD_KNIGHT_SUB": {
+		"tr": "Kan Şövalyesini Yen",
+		"en": "Defeat the Blood Knight"
+	},
+	"TUTORIAL_BLOOD_KNIGHT_DESC": {
+		"tr": "Vlad Tepeş'in kale kapısını koruyan Kan Şövalyesini alt et!",
+		"en": "Vanquish the Blood Knight guarding Vlad Tepes' citadel gate!"
+	},
+	"TUTORIAL_GATE_BROKEN_TITLE": {
+		"tr": "Kapı Parçalandı!",
+		"en": "Gate Shattered!"
+	},
+	"TUTORIAL_GATE_BROKEN_SUB": {
+		"tr": "Mahzenlere Adım At",
+		"en": "Enter the Catacombs"
+	},
+	"TUTORIAL_GATE_BROKEN_DESC": {
+		"tr": "Yeniçeriler koçbaşıyla kapıyı paramparça etti! Târgovişte mahzenlerine girerek Vlad'ın izini sür.",
+		"en": "The Janissaries battered down the gate! Descend into Târgoviște catacombs to hunt Vlad."
+	},
+	"TUTORIAL_THRONE_TITLE": {
+		"tr": "3. Sahne: Kan Taht Odası",
+		"en": "Stage 3: Blood Throne Room"
+	},
+	"TUTORIAL_THRONE_SUB": {
+		"tr": "1. Faz: Voyvoda",
+		"en": "Phase 1: The Voivode"
+	},
+	"TUTORIAL_THRONE_DESC": {
+		"tr": "Mızrak atılımlarını ve impale zemin saldırılarını atlatarak yaklaş!",
+		"en": "Evade spear thrusts and floor impalements to strike!"
+	},
+	"PROMPT_CAMPFIRE_REST": {
+		"tr": "[E] Kamp Ateşinde Dinlen",
+		"en": "[E] Rest at Campfire"
+	},
+	"PROMPT_CAMPFIRE_LIGHT": {
+		"tr": "[E] Kamp Ateşini Yak",
+		"en": "[E] Ignite Campfire"
+	},
+	"CAMPFIRE_LIT_MSG": {
+		"tr": "🔥 Kamp Ateşi Yakıldı - İlerleme Kaydedildi",
+		"en": "🔥 Campfire Lit - Progress Saved"
+	},
+	"CAMPFIRE_RESTED_MSG": {
+		"tr": "✨ Dinlenildi - Can & İksirler Yenilendi",
+		"en": "✨ Rested - Health & Potions Restored"
+	},
+	"TITLE_JANISSARY_COMMANDER": {
+		"tr": "ÖNCÜ KUMANDAN",
+		"en": "VANGUARD COMMANDER"
+	},
+	"TITLE_JANISSARY_SERGEANT": {
+		"tr": "YENİÇERİ ÇAVUŞU",
+		"en": "JANISSARY SERGEANT"
+	},
+	"TITLE_BLOOD_KNIGHT": {
+		"tr": "EFLAK KAN ŞÖVALYESİ",
+		"en": "WALLACHIAN BLOOD KNIGHT"
+	},
+	"TITLE_FATIH": {
+		"tr": "Fatih Sultan Mehmed",
+		"en": "Sultan Mehmed II"
+	},
+	"TITLE_VLAD_BOSS": {
+		"tr": "VLAD TEPEŞ",
+		"en": "VLAD THE IMPALER"
+	},
+	"TITLE_NECROMANCER": {
+		"tr": "Ölüm Büyücüsü",
+		"en": "Necromancer"
+	},
+	"TITLE_TREX_PHASE_1": {
+		"tr": "[ FAZ 1: AKTİF ]",
+		"en": "[ PHASE 1: ACTIVE ]"
+	},
+	"TITLE_TREX_PHASE_2": {
+		"tr": "[ FAZ 2: SİBER ÖFKE ]",
+		"en": "[ PHASE 2: CYBER ENRAGE ]"
+	},
+	"TITLE_TREX_PHASE_3": {
+		"tr": "[ FAZ 3: NÜKLEER ÇÖKÜŞ ]",
+		"en": "[ PHASE 3: CORE MELTDOWN ]"
+	},
+	"SEAL_PURE_SOUL": {
+		"tr": "SAF RUH",
+		"en": "PURE SOUL"
+	},
+	"SEAL_TAINTED_SOUL": {
+		"tr": "LEKELİ RUH",
+		"en": "TAINTED SOUL"
+	},
+	"SEAL_CORRUPTED_SOUL": {
+		"tr": "YOZLAŞMIŞ RUH",
+		"en": "CORRUPTED SOUL"
+	},
+	"SEAL_DARK_SOUL": {
+		"tr": "KARANLIK RUH",
+		"en": "DARK SOUL"
+	},
+	"HUD_SEAL_FORMAT": {
+		"tr": "MÜHÜR: %s (%d/100)",
+		"en": "SEAL: %s (%d/100)"
+	},
+	"HUD_QUEST_MAIN": {
+		"tr": "ANA GÖREV",
+		"en": "MAIN QUEST"
+	},
+	"HUD_QUEST_SIDE": {
+		"tr": "YAN GÖREV",
+		"en": "SIDE QUEST"
+	},
+	"HUD_QUEST_COMPLETED_BANNER": {
+		"tr": "🏆 GÖREV TAMAMLANDI!",
+		"en": "🏆 QUEST COMPLETED!"
+	},
+	"HUD_OBJECTIVE_COMPLETED_BANNER": {
+		"tr": "🎯 HEDEF TAMAMLANDI!",
+		"en": "🎯 OBJECTIVE COMPLETED!"
+	},
+	"QUEST_STONEAGE_TITLE": {
+		"tr": "Kadim Vadi ve İlk Kalp Parçası",
+		"en": "Primeval Valley & The First Heart Shard"
+	},
+	"QUEST_STONEAGE_DESC": {
+		"tr": "Zaman yarığının izini sür ve Kadim Kalp Parçası'na ulaş",
+		"en": "Trace the time rift and reach the Ancient Heart Shard"
+	},
+	"RAM_SHOUT_INITIAL_COMMANDER": {
+		"tr": "BİR, İKİİİ... KOÇBAŞIYI VURUN!",
+		"en": "ONE, TWOOO... HEAVE THE RAM!"
+	},
+	"RAM_SHOUT_INITIAL_SERGEANT": {
+		"tr": "BİR, İKİİİ... ŞEHİT KUMANDANIN İNTİKAMI İÇİN SAVURUN!",
+		"en": "ONE, TWOOO... HEAVE FOR THE FALLEN COMMANDER!"
+	},
+	"RAM_IMPACT_FIRST": {
+		"tr": "💥 GÜÜÜM!",
+		"en": "💥 BOOOOM!"
+	},
+	"RAM_SHOUT_SECOND_COMMANDER": {
+		"tr": "BİR DAHA! TÜM KUVVETİNİZLE! ALLAH ALLAH!",
+		"en": "AGAIN! WITH ALL YOUR MIGHT! CHARGE!"
+	},
+	"RAM_SHOUT_SECOND_SERGEANT": {
+		"tr": "BİR DAHA! GÜCÜNÜZÜN YETTİĞİNCE! ALLAH ALLAH!",
+		"en": "AGAIN! WITH EVERYTHING YOU'VE GOT! FORWARD!"
+	},
+	"RAM_IMPACT_SECOND": {
+		"tr": "💥💥 GÜÜÜÜÜÜMMM!",
+		"en": "💥💥 KABOOOOM!"
+	},
+	"RAM_SHOUT_BREACH_COMMANDER": {
+		"tr": "KAPI YIKILDI! YABANCI, MAHZENE DAL VE VLAD'I BUL!",
+		"en": "THE GATE IS BREACHED! STRANGER, STORM THE DUNGEON AND FIND VLAD!"
+	},
+	"RAM_SHOUT_BREACH_SERGEANT": {
+		"tr": "KAPI PARÇALANDI! YABANCI, MAHZENE DAL VE İLERLE!",
+		"en": "THE GATE HAS SHATTERED! STRANGER, BREACH THE CRYPTS AND ADVANCE!"
+	},
+	"SOLDIER_CHEER_1": {
+		"tr": "ALLAH ALLAH!",
+		"en": "FORWARD!"
+	},
+	"SOLDIER_CHEER_2": {
+		"tr": "GAZA BİZİMDİR!",
+		"en": "VICTORY IS OURS!"
+	},
+	"SOLDIER_SHOUT_CHARGE": {
+		"tr": "Allah Allah ileri! Hücum!",
+		"en": "Forward! Charge!"
+	},
+	"COMMANDER_SHOUT_BARRICADES": {
+		"tr": "Yıkın barikatları! Hücum!",
+		"en": "Tear down the barricades! Charge!"
+	},
+	"COMMANDER_SHOUT_MEHMED_TENT": {
+		"tr": "Yiğit yabancı! Gel, seni derhal Hünkarımız Fatih Sultan Mehmet'in otağına götüreyim!",
+		"en": "Brave stranger! Come, let me escort you to Sultan Mehmed's royal tent at once!"
+	},
+	"FATIH_SHOUT_CHARGE": {
+		"tr": "ORDUM! HÜCUM EDİN! EFLAK SURLARI YIKILACAK!",
+		"en": "MY ARMY! CHARGE! THE WALLACHIAN WALLS SHALL FALL!"
+	},
+	"FATIH_SHOUT_SIEGE_BEGINS": {
+		"tr": "FATİH: 'YENİÇERİLERİM! KUŞATMA BAŞLASIN! BARİKATLARI YIKIN!'",
+		"en": "MEHMED: 'JANISSARIES! COMMENCE THE SIEGE! TEAR DOWN THE BARRICADES!'"
+	},
+	"BARRICADE_DESTROYED": {
+		"tr": "🪵 BARİKAT KIRILDI!",
+		"en": "🪵 BARRICADE DESTROYED!"
+	},
+	"SIGIL_SHATTERED": {
+		"tr": "💥 Kan Mührü Parçalandı!",
+		"en": "💥 Blood Sigil Shattered!"
+	},
+	"LEVER_CHAIN_PULLED": {
+		"tr": "⛓️ Zincir Çekildi! (Dış Kapı Açıldı)",
+		"en": "⛓️ Chain Pulled! (Outer Gate Opened)"
+	},
+	"VINES_BURNED": {
+		"tr": "🌿🔥 SARMAŞIKLAR YANDI!",
+		"en": "🌿🔥 VINES INCINERATED!"
+	},
+	"BRAZIER_LIT": {
+		"tr": "🔥 Kan Mangalı Yandı!",
+		"en": "🔥 Blood Brazier Ignited!"
+	},
+	"QUIVERS_LOCKED": {
+		"tr": "🔒 Alevli Sadaklar (Önce Kemankeş ile konuş)",
+		"en": "🔒 Flaming Quivers (Speak to Archer Sergeant first)"
+	},
+	"QUIVERS_TAKEN": {
+		"tr": "🏹 Alevli Ok Sadakları Alındı!",
+		"en": "🏹 Flaming Quivers Acquired!"
+	},
+	"ORDERS_PROMPT": {
+		"tr": "📜 Kumandanın Emri\n[E] Oku",
+		"en": "📜 Commander's Orders\n[E] Read"
+	},
+	"ORDERS_TAKEN": {
+		"tr": "📜 Öncü Kumandanın Fermanı Alındı!",
+		"en": "📜 Vanguard Commander's Orders Acquired!"
+	},
+	"QUEST_FATIH_TITLE": {
+		"tr": "Otağ-ı Hümayun ve Sefer Meclisi",
+		"en": "Imperial Pavilion & War Council"
+	},
+	"QUEST_FATIH_DESC": {
+		"tr": "Vlad Tepeş'in gece baskını sonrası Fatih Sultan Mehmed Han'ın otağına gir ve ortak hedef doğrultusunda huzura çık.",
+		"en": "After Vlad the Impaler's night assault, enter Sultan Mehmed II's imperial pavilion and stand before the Conqueror for a shared cause."
+	},
+	"QUEST_FATIH_STAGE_1": {
+		"tr": "Fatih Sultan Mehmed'in otağına gir",
+		"en": "Enter Sultan Mehmed's pavilion"
+	},
+	"QUEST_FATIH_REWARD": {
+		"tr": "Padişah İttifakı & Taş Köprü Taarruz Emri",
+		"en": "Imperial Alliance & Bridge Assault Order"
+	},
+	"QUEST_ARCHER_TITLE": {
+		"tr": "Alevli Ok Sadakları",
+		"en": "Flaming Arrow Quivers"
+	},
+	"QUEST_ARCHER_DESC": {
+		"tr": "Kemankeş Çavuşu'nun vadideki kırık erzak arabasında kalan alevli ok sadaklarını bul ve teslim et.",
+		"en": "Find the flaming arrow quivers left in the broken supply cart in the valley and deliver them to the Archer Sergeant."
+	},
+	"QUEST_ARCHER_STAGE_1": {
+		"tr": "Kırık erzak arabasından alevli sadakları topla",
+		"en": "Collect flaming quivers from the damaged supply cart"
+	},
+	"QUEST_ARCHER_STAGE_2": {
+		"tr": "Sadakları ordugahtaki Kemankeş'e teslim et",
+		"en": "Deliver the quivers to the Archer Sergeant at camp"
+	},
+	"QUEST_ARCHER_REWARD": {
+		"tr": "Alevli Ok Yağmuru Desteği & Yetenek",
+		"en": "Volley of Fire Support & Ability"
+	},
+	"QUEST_BRIDGE_TITLE": {
+		"tr": "Kan Surları ve Taş Köprü Taarruzu",
+		"en": "Walls of Blood & Stone Bridge Assault"
+	},
+	"QUEST_BRIDGE_DESC": {
+		"tr": "Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.",
+		"en": "Breach the barricades and beast defenses on the stone bridge, the only path into Vlad's stronghold."
+	},
+	"QUEST_BRIDGE_STAGE_1": {
+		"tr": "Köprüdeki ahşap barikatları ve muhafızları aş",
+		"en": "Breach the wooden barricades and bridge guards"
+	},
+	"QUEST_BRIDGE_STAGE_2": {
+		"tr": "Eflak Kan Şövalyesi'ni mağlup et",
+		"en": "Defeat the Wallachian Blood Knight"
+	},
+	"QUEST_BRIDGE_STAGE_3": {
+		"tr": "Kale kapısını zorlayarak zindana sız",
+		"en": "Batter down the fortress gate and infiltrate the dungeons"
+	},
+	"QUEST_BRIDGE_REWARD": {
+		"tr": "Kale Zindanlarına Geçiş",
+		"en": "Access to Castle Dungeons"
+	},
+	"QUEST_VLAD_TITLE": {
+		"tr": "Taht Odası ve Vlad Tepeş",
+		"en": "Throne Room & Vlad the Impaler"
+	},
+	"QUEST_VLAD_DESC": {
+		"tr": "Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.",
+		"en": "Solve the dungeon mechanisms, reach Vlad's throne chamber, and reclaim the second Heart Shard."
+	},
+	"QUEST_VLAD_STAGE_1": {
+		"tr": "Zindan mekanizmasını çözüp taht odasına gir",
+		"en": "Solve dungeon seals and enter the throne chamber"
+	},
+	"QUEST_VLAD_STAGE_2": {
+		"tr": "Dört aşamalı savaşta Vlad Tepeş'i mağlup et",
+		"en": "Defeat Vlad the Impaler across four combat phases"
+	},
+	"QUEST_VLAD_REWARD": {
+		"tr": "İkinci Kalp Parçası & Eflak Bölümü Zaferi",
+		"en": "Second Heart Shard & Wallachia Chapter Victory"
+	},
+	"QUEST_LOG_TITLE": {
+		"tr": "📜 GÖREV GÜNLÜĞÜ",
+		"en": "📜 QUEST LOG"
+	},
+	"QUEST_LOG_HINT": {
+		"tr": "[J / L] Kapat  |  [TAB] Sekme Değiştir",
+		"en": "[J / L] Close  |  [TAB] Switch Tab"
+	},
+	"QUEST_LOG_TAB_ACTIVE": {
+		"tr": "⚔️ Aktif Görevler",
+		"en": "⚔️ Active Quests"
+	},
+	"QUEST_LOG_TAB_COMPLETED": {
+		"tr": "🏆 Tamamlanan Görevler",
+		"en": "🏆 Completed Quests"
+	},
+	"QUEST_LOG_EMPTY_ACTIVE": {
+		"tr": "Bu sekmede görev bulunmuyor.",
+		"en": "No active quests in this log."
+	},
+	"QUEST_LOG_EMPTY_COMPLETED": {
+		"tr": "Henüz tamamlanan görev yok.",
+		"en": "No completed quests yet."
+	},
+	"QUEST_LOG_NO_SELECTION": {
+		"tr": "Görev Seçilmedi",
+		"en": "No Quest Selected"
+	},
+	"QUEST_LOG_BADGE_MAIN": {
+		"tr": "👑 ANA GÖREV",
+		"en": "👑 MAIN QUEST"
+	},
+	"QUEST_LOG_BADGE_SIDE": {
+		"tr": "🏹 YAN GÖREV",
+		"en": "🏹 SIDE QUEST"
+	},
+	"QUEST_LOG_OBJECTIVES_HEADER": {
+		"tr": "🎯 Hedef Aşamaları:",
+		"en": "🎯 Objectives:"
+	},
+	"QUEST_LOG_REWARD_PREFIX": {
+		"tr": "🎁 Ödül: %s",
+		"en": "🎁 Reward: %s"
+	},
+	"QUEST_LOG_BTN_TRACKED": {
+		"tr": "🎯 Takip Ediliyor",
+		"en": "🎯 Tracked"
+	},
+	"QUEST_LOG_BTN_TRACK": {
+		"tr": "Takip Et",
+		"en": "Track Quest"
+	},
+	"QUEST_LOG_BTN_CLOSE": {
+		"tr": "Kapat",
+		"en": "Close"
+	},
+	"PROMPT_TALK_FATIH": {
+		"tr": "[E] Hünkar ile Görüş",
+		"en": "[E] Speak to the Sultan"
+	},
+	"PROMPT_TAKE_SWORD": {
+		"tr": "[E] Kılıcı Al",
+		"en": "[E] Take Sword"
+	},
+	"PROMPT_PULL_CHAIN": {
+		"tr": "[E] Zinciri Çek",
+		"en": "[E] Pull Chain"
+	},
+	"PROMPT_INSPECT_RELIEF": {
+		"tr": "[E] Kadim Kabartmayı İncele",
+		"en": "[E] Inspect Ancient Relief"
+	},
+	"PROMPT_IGNITE_BRAZIER": {
+		"tr": "[E] Mangalı Yak",
+		"en": "[E] Light Brazier"
+	},
+	"ÖNCÜ KUMANDAN": {
+		"tr": "ÖNCÜ KUMANDAN",
+		"en": "VANGUARD COMMANDER"
+	},
+	"YENİÇERİ ÇAVUŞU": {
+		"tr": "YENİÇERİ ÇAVUŞU",
+		"en": "JANISSARY SERGEANT"
+	},
+	"EFLAK KAN ŞÖVALYESİ": {
+		"tr": "EFLAK KAN ŞÖVALYESİ",
+		"en": "WALLACHIAN BLOOD KNIGHT"
+	},
+	"FATİH SULTAN MEHMET": {
+		"tr": "FATİH SULTAN MEHMET",
+		"en": "SULTAN MEHMED II"
+	},
+	"KAZIKLI VOYVODA VLAD": {
+		"tr": "KAZIKLI VOYVODA VLAD",
+		"en": "VLAD THE IMPALER"
+	},
+	"MÜHÜR: SAF RUH (0/100)": {
+		"tr": "MÜHÜR: SAF RUH (0/100)",
+		"en": "SEAL: PURE SOUL (0/100)"
+	},
+	"SAF RUH": {
+		"tr": "SAF RUH",
+		"en": "PURE SOUL"
+	},
+	"LEKELİ RUH": {
+		"tr": "LEKELİ RUH",
+		"en": "TAINTED SOUL"
+	},
+	"YOZLAŞMIŞ RUH": {
+		"tr": "YOZLAŞMIŞ RUH",
+		"en": "CORRUPTED SOUL"
+	},
+	"KARANLIK RUH": {
+		"tr": "KARANLIK RUH",
+		"en": "DARK SOUL"
+	},
+	"💥 GÜÜÜM!": {
+		"tr": "💥 GÜÜÜM!",
+		"en": "💥 BOOOOM!"
+	},
+	"💥💥 GÜÜÜÜÜÜMMM!": {
+		"tr": "💥💥 GÜÜÜÜÜÜMMM!",
+		"en": "💥💥 KABOOOOM!"
+	},
+	"ALLAH ALLAH!": {
+		"tr": "ALLAH ALLAH!",
+		"en": "FORWARD!"
+	},
+	"GAZA BİZİMDİR!": {
+		"tr": "GAZA BİZİMDİR!",
+		"en": "VICTORY IS OURS!"
+	},
+	"Allah Allah! İleri!": {
+		"tr": "Allah Allah! İleri!",
+		"en": "Forward! Charge!"
+	},
+	"🪵 BARİKAT YIKILDI!": {
+		"tr": "🪵 BARİKAT YIKILDI!",
+		"en": "🪵 BARRICADE DESTROYED!"
+	},
+	"💥 Kan Mührü Parçalandı!": {
+		"tr": "💥 Kan Mührü Parçalandı!",
+		"en": "💥 Blood Sigil Shattered!"
+	},
+	"⛓️ Zincir Çekildi! (Dış Kapı Açıldı)": {
+		"tr": "⛓️ Zincir Çekildi! (Dış Kapı Açıldı)",
+		"en": "⛓️ Chain Pulled! (Outer Gate Opened)"
+	},
+	"🌿🔥 SARMAŞIKLAR YANDI!": {
+		"tr": "🌿🔥 SARMAŞIKLAR YANDI!",
+		"en": "🌿🔥 VINES INCINERATED!"
+	},
+	"🔥 Kan Mangalı Yandı!": {
+		"tr": "🔥 Kan Mangalı Yandı!",
+		"en": "🔥 Blood Brazier Ignited!"
+	},
+	"TITLE_TREX_BOSS": {
+		"tr": "SİBER T-REX: MECHA-TYRANT",
+		"en": "CYBER T-REX: MECHA-TYRANT"
+	},
+	"TITLE_OGRE_BOSS": {
+		"tr": "KARA BOYNUZLU DEV OGRE",
+		"en": "DARK-HORNED GIANT OGRE"
+	},
+	"SİBER T-REX: MECHA-TYRANT": {
+		"tr": "SİBER T-REX: MECHA-TYRANT",
+		"en": "CYBER T-REX: MECHA-TYRANT"
+	},
+	"KARA BOYNUZLU DEV OGRE": {
+		"tr": "KARA BOYNUZLU DEV OGRE",
+		"en": "DARK-HORNED GIANT OGRE"
+	},
+	"Ölüm Büyücüsü": {
+		"tr": "Ölüm Büyücüsü",
+		"en": "Necromancer"
+	},
+	"PROMPT_EXAMINE_MURAL": {
+		"tr": "[E] Kadim Kabartmayı İncele",
+		"en": "[E] Examine Ancient Relief"
+	},
+	"[E] Kadim Kabartmayı İncele": {
+		"tr": "[E] Kadim Kabartmayı İncele",
+		"en": "[E] Examine Ancient Relief"
+	},
+	"[E] Mangalı Yak": {
+		"tr": "[E] Mangalı Yak",
+		"en": "[E] Light Brazier"
+	},
+	"[E] Zinciri Çek": {
+		"tr": "[E] Zinciri Çek",
+		"en": "[E] Pull Chain"
+	},
+	"[E] Kılıcı Al": {
+		"tr": "[E] Kılıcı Al",
+		"en": "[E] Take Sword"
+	},
+	"[E] Hünkar ile Görüş": {
+		"tr": "[E] Hünkar ile Görüş",
+		"en": "[E] Speak to the Sultan"
+	},
+	"[E] Kamp Ateşini Yak (Kontrol Noktası)": {
+		"tr": "[E] Kamp Ateşini Yak (Kontrol Noktası)",
+		"en": "[E] Light Campfire (Checkpoint)"
+	},
+	"[E] Kamp Ateşinde Dinlen": {
+		"tr": "[E] Kamp Ateşinde Dinlen",
+		"en": "[E] Rest at Campfire"
+	},
+	"Ferman [E] / Temas": {
+		"tr": "Ferman [E] / Temas",
+		"en": "Orders [E] / Touch"
+	},
+	"🔥 -25 (Kemankeş Oku)": {
+		"tr": "🔥 -25 (Kemankeş Oku)",
+		"en": "🔥 -25 (Archer Volley)"
+	},
+	"*Kılıç zemine sürtünerek tiz bir madeni feryat koparır...*": {
+		"tr": "*Kılıç zemine sürtünerek tiz bir madeni feryat koparır...*",
+		"en": "*The blade scrapes against the ground, unleashing a piercing metallic wail...*"
+	},
+	"*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titriyor...*": {
+		"tr": "*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titriyor...*",
+		"en": "*The ancient stone relief on the wall... A shattered heart... The blade quivers deeply...*"
+	},
+	"1. Harita: Orman Pususu": {
+		"tr": "1. Harita: Orman Pususu",
+		"en": "Map 1: Forest Ambush"
+	},
+	"Osmanlı Birliğini Kurtar": {
+		"tr": "Osmanlı Birliğini Kurtar",
+		"en": "Rescue Ottoman Vanguard"
+	},
+	"[A/D] Koş | [Space] Zıpla | [Sol Tık] Saldır. İleride pusuya düşen Osmanlı birliğini kurtar!": {
+		"tr": "[A/D] Koş | [Space] Zıpla | [Sol Tık] Saldır. İleride pusuya düşen Osmanlı birliğini kurtar!",
+		"en": "[A/D] Move | [Space] Jump | [L-Click] Attack. Rescue the ambushed Ottoman vanguard ahead!"
+	},
+	"Ordugaha İlerle": {
+		"tr": "Ordugaha İlerle",
+		"en": "Advance to Camp"
+	},
+	"Kumandanla Birlikte İlerle": {
+		"tr": "Kumandanla Birlikte İlerle",
+		"en": "Advance with the Commander"
+	},
+	"Kumandan seni Fatih Sultan Mehmed'in ordugahına götürüyor. Sağ tarafa doğru ilerle.": {
+		"tr": "Kumandan seni Fatih Sultan Mehmed'in ordugahına götürüyor. Sağ tarafa doğru ilerle.",
+		"en": "The Commander leads you to Sultan Mehmed II's encampment. Advance to the right."
+	},
+	"Kumandan Şehit Düştü!": {
+		"tr": "Kumandan Şehit Düştü!",
+		"en": "The Commander has Fallen!"
+	},
+	"Fermanı Al ve İlerle": {
+		"tr": "Fermanı Al ve İlerle",
+		"en": "Collect the Decree & Advance"
+	},
+	"Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ulaşmalısın.": {
+		"tr": "Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ulaşmalısın.",
+		"en": "The Commander fell in battle! Retrieve the fallen orders and reach Sultan Mehmed's camp."
+	},
+	"Fermanı Fatih'e Götür": {
+		"tr": "Fermanı Fatih'e Götür",
+		"en": "Bring Decree to Mehmed II"
+	},
+	"Şehit kumandanın fermanını aldın. Ormandan çıkıp Fatih Sultan Mehmed Han'ın ordugahına ilerle.": {
+		"tr": "Şehit kumandanın fermanını aldın. Ormandan çıkıp Fatih Sultan Mehmed Han'ın ordugahına ilerle.",
+		"en": "You recovered the fallen Commander's decree. Leave the forest and proceed to Sultan Mehmed II's war camp."
+	},
+	"Önce Fermanı Al!": {
+		"tr": "Önce Fermanı Al!",
+		"en": "Pick Up the Decree First!"
+	},
+	"Şehit Kumandan": {
+		"tr": "Şehit Kumandan",
+		"en": "Fallen Commander"
+	},
+	"Yerdeki fermanı almadan ordugaha gidemezsin!": {
+		"tr": "Yerdeki fermanı almadan ordugaha gidemezsin!",
+		"en": "You cannot proceed to the camp without the commander's orders!"
+	},
+	"Görev: Alevli Sadakları Bul": {
+		"tr": "Görev: Alevli Sadakları Bul",
+		"en": "Quest: Find Flaming Quivers"
+	},
+	"Erzak Arabasına Dön": {
+		"tr": "Erzak Arabasına Dön",
+		"en": "Return to Supply Cart"
+	},
+	"Vadideki kırık erzak arabasından alevli ok sadaklarını topla.": {
+		"tr": "Vadideki kırık erzak arabasından alevli ok sadaklarını topla.",
+		"en": "Collect flaming arrow quivers from the wrecked supply cart in the valley."
+	},
+	"Otağ-ı Hümayun'a İlerle": {
+		"tr": "Otağ-ı Hümayun'a İlerle",
+		"en": "Proceed to Imperial Tent"
+	},
+	"Fatih'in Çadırı": {
+		"tr": "Fatih'in Çadırı",
+		"en": "Sultan's Tent"
+	},
+	"Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile [E] konuş.)": {
+		"tr": "Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile [E] konuş.)",
+		"en": "Advance right to Sultan Mehmed's pavilion. (Or speak with Archer Sergeant [E] if you change your mind.)"
+	},
+	"Sadaklar Alındı!": {
+		"tr": "Sadaklar Alındı!",
+		"en": "Quivers Retrieved!"
+	},
+	"Kemankeş'e Götür": {
+		"tr": "Kemankeş'e Götür",
+		"en": "Deliver to Archer"
+	},
+	"Alevli ok sadaklarını ordugahtaki Kemankeş Çavuşu'na teslim et.": {
+		"tr": "Alevli ok sadaklarını ordugahtaki Kemankeş Çavuşu'na teslim et.",
+		"en": "Deliver the flaming quivers to Archer Sergeant at the camp."
+	},
+	"Okçu Desteği Sağlandı!": {
+		"tr": "Okçu Desteği Sağlandı!",
+		"en": "Archer Volley Unlocked!"
+	},
+	"Fatih'in Otağına Gir": {
+		"tr": "Fatih'in Otağına Gir",
+		"en": "Enter Sultan's Tent"
+	},
+	"Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına gir.": {
+		"tr": "Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına gir.",
+		"en": "The marksman will rain fiery arrows during the assault! Enter the Imperial Pavilion on the right."
+	},
+	"Otağ-ı Hümayun": {
+		"tr": "Otağ-ı Hümayun",
+		"en": "Imperial Pavilion"
+	},
+	"Hünkarın Huzuru": {
+		"tr": "Hünkarın Huzuru",
+		"en": "Sultan's Presence"
+	},
+	"Fatih Sultan Mehmed Han sefer haritası başında...": {
+		"tr": "Fatih Sultan Mehmed Han sefer haritası başında...",
+		"en": "Sultan Mehmed II stands before the war map..."
+	},
+	"BRAZIER_SEAL_PROGRESS": {
+		"tr": "Kan Sunağı Mührü (%d/3)",
+		"en": "Blood Altar Seal (%d/3)"
+	},
+	"TUTORIAL_BRAZIER_SUB": {
+		"tr": "Mangalları Yak",
+		"en": "Light Braziers"
+	},
+	"TUTORIAL_BRAZIER_BODY": {
+		"tr": "3 kan mangalını yakarak taht odasına açılan mühürlü kapıyı serbest bırak.",
+		"en": "Light 3 blood braziers to unseal the gate to the throne room."
+	},
+	"TUTORIAL_OUTER_GATE_TITLE": {
+		"tr": "Dış Kapı Açıldı",
+		"en": "Outer Gate Opened"
+	},
+	"TUTORIAL_OUTER_GATE_SUB": {
+		"tr": "Zindana İlerle",
+		"en": "Advance to Dungeon"
+	},
+	"TUTORIAL_OUTER_GATE_BODY": {
+		"tr": "Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!",
+		"en": "Step into the dark crypts. Beware of ambushing bats and guillotines!"
+	},
+	"TUTORIAL_SEAL_BROKEN_TITLE": {
+		"tr": "Mühür Kırıldı!",
+		"en": "Seal Shattered!"
+	},
+	"TUTORIAL_SEAL_BROKEN_SUB": {
+		"tr": "Taht Odasına Yüksel",
+		"en": "Ascend to Throne Room"
+	},
+	"TUTORIAL_SEAL_BROKEN_BODY": {
+		"tr": "Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at.",
+		"en": "The Blood Altar Gate has opened! Step into Vlad Dracula's throne hall."
+	},
+	"TUTORIAL_STAGE2_TITLE": {
+		"tr": "2. Sahne: Târgovişte Mahzenleri",
+		"en": "Stage 2: Târgovişte Crypts"
+	},
+	"TUTORIAL_STAGE2_SUB": {
+		"tr": "Giriş Kapısını Aç [E]",
+		"en": "Open Entrance Gate [E]"
+	},
+	"TUTORIAL_STAGE2_BODY": {
+		"tr": "Demir zinciri çekerek mahzen kapısını arala.",
+		"en": "Pull the iron chain to breach the crypt gate."
+	},
+	"Dış Kapı Açıldı": {
+		"tr": "Dış Kapı Açıldı",
+		"en": "Outer Gate Opened"
+	},
+	"Zindana İlerle": {
+		"tr": "Zindana İlerle",
+		"en": "Enter the Dungeon"
+	},
+	"Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!": {
+		"tr": "Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!",
+		"en": "Step into the dark crypts. Beware of ambushing bats and guillotines!"
+	},
+	"Mühür Kırıldı!": {
+		"tr": "Mühür Kırıldı!",
+		"en": "Seal Broken!"
+	},
+	"Taht Odasına Yüksel": {
+		"tr": "Taht Odasına Yüksel",
+		"en": "Ascend to Throne Room"
+	},
+	"Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at.": {
+		"tr": "Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at.",
+		"en": "The Blood Altar Gate is open! Enter Vlad the Impaler's throne hall."
+	},
+	"2. Sahne: Târgovişte Mahzenleri": {
+		"tr": "2. Sahne: Târgovişte Mahzenleri",
+		"en": "Stage 2: Târgovişte Crypts"
+	},
+	"Giriş Kapısını Aç [E]": {
+		"tr": "Giriş Kapısını Aç [E]",
+		"en": "Open Entrance Gate [E]"
+	},
+	"Demir zinciri çekerek mahzen kapısını arala.": {
+		"tr": "Demir zinciri çekerek mahzen kapısını arala.",
+		"en": "Pull the iron chains to unseal the crypt gateway."
+	},
+	"Mangalları Yak": {
+		"tr": "Mangalları Yak",
+		"en": "Ignite the Braziers"
+	},
+	"3 kan mangalını yakarak taht odasına açılan mühürlü kapıyı serbest bırak.": {
+		"tr": "3 kan mangalını yakarak taht odasına açılan mühürlü kapıyı serbest bırak.",
+		"en": "Ignite all 3 blood braziers to break the seal to the throne chamber."
+	},
+	"Kemer Yıkıldı!": {
+		"tr": "Kemer Yıkıldı!",
+		"en": "Archway Collapsed!"
+	},
+	"Taktik Başarılı": {
+		"tr": "Taktik Başarılı",
+		"en": "Tactics Successful"
+	},
+	"Vlad molozların altında sersemledi!": {
+		"tr": "Vlad molozların altında sersemledi!",
+		"en": "Vlad is stunned beneath the rubble!"
+	},
+	"Ulu Çan Çalındı!": {
+		"tr": "Ulu Çan Çalındı!",
+		"en": "Great Bell Tolled!"
+	},
+	"Akustik Şok": {
+		"tr": "Akustik Şok",
+		"en": "Acoustic Shock"
+	},
+	"Yarasa Vlad ses dalgasıyla yere çakıldı!": {
+		"tr": "Yarasa Vlad ses dalgasıyla yere çakıldı!",
+		"en": "Bat Vlad crashed down from the shockwave!"
+	},
+	"Kan Kalkanı Kırıldı!": {
+		"tr": "Kan Kalkanı Kırıldı!",
+		"en": "Blood Shield Shattered!"
+	},
+	"Savunma Düştü": {
+		"tr": "Savunma Düştü",
+		"en": "Defenses Down"
+	},
+	"Vlad'ın mühürleri parçalandı, doğrudan saldır!": {
+		"tr": "Vlad'ın mühürleri parçalandı, doğrudan saldır!",
+		"en": "Vlad's seals are broken, strike him directly!"
+	},
+	"2. Faz: Kan Salonu": {
+		"tr": "2. Faz: Kan Salonu",
+		"en": "Phase 2: Hall of Blood"
+	},
+	"Kan Kalkanı Aktif": {
+		"tr": "Kan Kalkanı Aktif",
+		"en": "Blood Shield Active"
+	},
+	"Platformlardaki 2 kan mührünü parçalayarak kalkanı yok et!": {
+		"tr": "Platformlardaki 2 kan mührünü parçalayarak kalkanı yok et!",
+		"en": "Destroy the 2 blood sigils on the platforms to bring down the shield!"
+	},
+	"3. Faz: Yıkılan Surlar": {
+		"tr": "3. Faz: Yıkılan Surlar",
+		"en": "Phase 3: Collapsing Ramparts"
+	},
+	"Yırtıcı Av": {
+		"tr": "Yırtıcı Av",
+		"en": "Predatory Hunt"
+	},
+	"Zayıf kemer düzeneğini Vlad'ın üzerine yık veya karşı saldırı kolla!": {
+		"tr": "Zayıf kemer düzeneğini Vlad'ın üzerine yık veya karşı saldırı kolla!",
+		"en": "Collapse the fragile archway onto Vlad or watch for a counter-attack!"
+	},
+	"4. Faz: Ulu Çan Kulesi": {
+		"tr": "4. Faz: Ulu Çan Kulesi",
+		"en": "Phase 4: Great Bell Tower"
+	},
+	"Son Karşılaşma": {
+		"tr": "Son Karşılaşma",
+		"en": "Final Confrontation"
+	},
+	"Hava dalışlarında Ulu Çan'ı çalarak Vlad'ı sersemlet!": {
+		"tr": "Hava dalışlarında Ulu Çan'ı çalarak Vlad'ı sersemlet!",
+		"en": "Ring the Great Bell during his dive attacks to stun Vlad!"
+	},
+	"Eflak Seferi Tamamlandı": {
+		"tr": "Eflak Seferi Tamamlandı",
+		"en": "Wallachia Campaign Complete"
+	},
+	"Boyut Yırtığı Açıldı": {
+		"tr": "Boyut Yırtığı Açıldı",
+		"en": "Dimensional Rift Unsealed"
+	},
+	"Bir sonraki çağa açılan portala adım at...": {
+		"tr": "Bir sonraki çağa açılan portala adım at...",
+		"en": "Step through the portal leading to the next era..."
+	},
+	"3. Sahne: Vlad'ın Taht Salonu": {
+		"tr": "3. Sahne: Vlad'ın Taht Salonu",
+		"en": "Stage 3: Vlad's Throne Hall"
+	},
+	"Kanın Hükümdarı": {
+		"tr": "Kanın Hükümdarı",
+		"en": "Sovereign of Blood"
+	},
+	"Kazıklı Voyvoda Vlad Tepeş ile nihai yüzleşme!": {
+		"tr": "Kazıklı Voyvoda Vlad Tepeş ile nihai yüzleşme!",
+		"en": "The final confrontation with Vlad the Impaler!"
+	},
+	"ANA GÖREV": {
+		"tr": "ANA GÖREV",
+		"en": "MAIN QUEST"
+	},
+	"YAN GÖREV": {
+		"tr": "YAN GÖREV",
+		"en": "SIDE QUEST"
+	},
+	"Kan Surları ve Taş Köprü Taarruzu": {
+		"tr": "Kan Surları ve Taş Köprü Taarruzu",
+		"en": "Walls of Blood & Stone Bridge Assault"
+	},
+	"Walls of Blood & Stone Bridge Assault": {
+		"tr": "Kan Surları ve Taş Köprü Taarruzu",
+		"en": "Walls of Blood & Stone Bridge Assault"
+	},
+	"Taht Odası ve Vlad Tepeş": {
+		"tr": "Taht Odası ve Vlad Tepeş",
+		"en": "Throne Room & Vlad the Impaler"
+	},
+	"Throne Room & Vlad the Impaler": {
+		"tr": "Taht Odası ve Vlad Tepeş",
+		"en": "Throne Room & Vlad the Impaler"
+	},
+	"Dört aşamalı savaşta Vlad Tepeş'i mağlup et": {
+		"tr": "Dört aşamalı savaşta Vlad Tepeş'i mağlup et",
+		"en": "Defeat Vlad the Impaler across four combat phases"
+	},
+	"Defeat Vlad the Impaler across four combat phases": {
+		"tr": "Dört aşamalı savaşta Vlad Tepeş'i mağlup et",
+		"en": "Defeat Vlad the Impaler across four combat phases"
+	},
+	"Köprüdeki ahşap barikatları ve muhafızları aş": {
+		"tr": "Köprüdeki ahşap barikatları ve muhafızları aş",
+		"en": "Breach the wooden barricades and bridge guards"
+	},
+	"Breach the wooden barricades and bridge guards": {
+		"tr": "Köprüdeki ahşap barikatları ve muhafızları aş",
+		"en": "Breach the wooden barricades and bridge guards"
+	},
+	"Eflak Kan Şövalyesi'ni mağlup et": {
+		"tr": "Eflak Kan Şövalyesi'ni mağlup et",
+		"en": "Defeat the Wallachian Blood Knight"
+	},
+	"Defeat the Wallachian Blood Knight": {
+		"tr": "Eflak Kan Şövalyesi'ni mağlup et",
+		"en": "Defeat the Wallachian Blood Knight"
+	},
+	"Kale kapısını zorlayarak zindana sız": {
+		"tr": "Kale kapısını zorlayarak zindana sız",
+		"en": "Batter down the fortress gate and infiltrate the dungeons"
+	},
+	"Batter down the fortress gate and infiltrate the dungeons": {
+		"tr": "Kale kapısını zorlayarak zindana sız",
+		"en": "Batter down the fortress gate and infiltrate the dungeons"
+	},
+	"Zindan mekanizmasını çözüp taht odasına gir": {
+		"tr": "Zindan mekanizmasını çözüp taht odasına gir",
+		"en": "Solve dungeon seals and enter the throne chamber"
+	},
+	"Solve dungeon seals and enter the throne chamber": {
+		"tr": "Zindan mekanizmasını çözüp taht odasına gir",
+		"en": "Solve dungeon seals and enter the throne chamber"
+	},
+	"Otağ-ı Hümayun ve Sefer Meclisi": {
+		"tr": "Otağ-ı Hümayun ve Sefer Meclisi",
+		"en": "Imperial Pavilion & War Council"
+	},
+	"Fatih Sultan Mehmed'in otağına gir ve sefer divanına katıl": {
+		"tr": "Fatih Sultan Mehmed'in otağına gir ve sefer divanına katıl",
+		"en": "Enter Sultan Mehmed II's tent and join the council"
+	},
+	"➤ Fatih Sultan Mehmed'in otağına gir": {
+		"tr": "➤ Fatih Sultan Mehmed'in otağına gir",
+		"en": "➤ Enter Sultan Mehmed II's Pavilion"
+	},
+	"Vadideki kırık erzak arabasından sadakları al": {
+		"tr": "Vadideki kırık erzak arabasından sadakları al",
+		"en": "Retrieve quivers from the wrecked supply cart in the valley"
+	},
+	"Sadakları ordugahtaki Kemankeş'e teslim et": {
+		"tr": "Sadakları ordugahtaki Kemankeş'e teslim et",
+		"en": "Deliver quivers to the Archer Sergeant at the camp"
+	},
+	"Alevli Sadak Arayışı": {
+		"tr": "Alevli Sadak Arayışı",
+		"en": "Search for Flaming Quivers"
+	},
+	"Vadideki kırık erzak arabasından alevli ok sadaklarını topla ve ordugahtaki Kemankeş Çavuşu'na teslim et.": {
+		"tr": "Vadideki kırık erzak arabasından alevli ok sadaklarını topla ve ordugahtaki Kemankeş Çavuşu'na teslim et.",
+		"en": "Gather flaming quivers from the wrecked cart in the valley and deliver them to the Archer Sergeant."
+	},
+	"Alevli Ok Yağmuru Desteği & Yetenek": {
+		"tr": "Alevli Ok Yağmuru Desteği & Yetenek",
+		"en": "Volley of Fire Support & Ability"
+	},
+	"Kale Zindanlarına Geçiş": {
+		"tr": "Kale Zindanlarına Geçiş",
+		"en": "Access to Castle Dungeons"
+	},
+	"İkinci Kalp Parçası & Eflak Bölümü Zaferi": {
+		"tr": "İkinci Kalp Parçası & Eflak Bölümü Zaferi",
+		"en": "Second Heart Shard & Wallachia Chapter Victory"
+	},
+	"Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.": {
+		"tr": "Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.",
+		"en": "Breach the barricades and beast defenses on the stone bridge, the only path into Vlad's stronghold."
+	},
+	"Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.": {
+		"tr": "Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.",
+		"en": "Solve the dungeon mechanisms, reach Vlad's throne chamber, and reclaim the second Heart Shard."
+	},
+	"🛡️ Savaş Taktikleri:": {
+		"tr": "🛡️ Savaş Taktikleri:",
+		"en": "🛡️ Combat Tactics:"
+	},
+	"⚡ Zayıflık:": {
+		"tr": "⚡ Zayıflık:",
+		"en": "⚡ Weakness:"
+	},
+	"Savaş Taktikleri:": {
+		"tr": "Savaş Taktikleri:",
+		"en": "Combat Tactics:"
+	},
+	"Zayıflık:": {
+		"tr": "Zayıflık:",
+		"en": "Weakness:"
+	},
+	"🛡️ Savaş Taktikleri": {
+		"tr": "🛡️ Savaş Taktikleri",
+		"en": "🛡️ Combat Tactics"
+	},
+	"⚡ Zayıflık": {
+		"tr": "⚡ Zayıflık",
+		"en": "⚡ Weakness"
+	},
+	"Savaş Taktikleri": {
+		"tr": "Savaş Taktikleri",
+		"en": "Combat Tactics"
+	},
+	"Zayıflık": {
+		"tr": "Zayıflık",
+		"en": "Weakness"
+	},
+	"ARŞİV DİZİNİ": {
+		"tr": "ARŞİV DİZİNİ",
+		"en": "ARCHIVE INDEX"
+	},
+	"Arşiv Dizini": {
+		"tr": "Arşiv Dizini",
+		"en": "Archive Index"
+	},
+	"📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ": {
+		"tr": "📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ",
+		"en": "📖 ANCIENT BESTIARY & CHRONICLES"
+	},
+	"[K / O] Kapat  |  [TAB] Kategori  |  [ESC] Çıkış": {
+		"tr": "[K / O] Kapat  |  [TAB] Kategori  |  [ESC] Çıkış",
+		"en": "[K / O] Close  |  [TAB] Category  |  [ESC] Exit"
+	},
+	"⚔️ Düşmanlar": {
+		"tr": "⚔️ Düşmanlar",
+		"en": "⚔️ Enemies"
+	},
+	"👑 Elebaşılar": {
+		"tr": "👑 Elebaşılar",
+		"en": "👑 Bosses"
+	},
+	"👥 Karakterler": {
+		"tr": "👥 Karakterler",
+		"en": "👥 Allies & NPCs"
+	},
+	"📜 Dünya Bilgisi": {
+		"tr": "📜 Dünya Bilgisi",
+		"en": "📜 World Lore"
+	},
+	"Keşif:": {
+		"tr": "Keşif:",
+		"en": "Discovery:"
+	},
+	"✓ Kayıt Açıldı": {
+		"tr": "✓ Kayıt Açıldı",
+		"en": "✓ Entry Unlocked"
+	},
+	"🔒 Kilitli Kayıt": {
+		"tr": "🔒 Kilitli Kayıt",
+		"en": "🔒 Locked Entry"
+	},
+	"Yenilme Sayısı: %d": {
+		"tr": "Yenilme Sayısı: %d",
+		"en": "Defeated: %d"
+	},
+	"Karşılaşma: Henüz Yok": {
+		"tr": "Karşılaşma: Henüz Yok",
+		"en": "Encounter: None"
+	},
+	"Karşılaşma: %d kez": {
+		"tr": "Karşılaşma: %d kez",
+		"en": "Encountered: %d times"
+	},
+	"Keşif: %d / %d (%%%d)": {
+		"tr": "Keşif: %d / %d (%%%d)",
+		"en": "Discovery: %d / %d (%d%%)"
+	},
+	"Düşman veya kayıt hakkında ayrıntılı açıklama metni.": {
+		"tr": "Düşman veya kayıt hakkında ayrıntılı açıklama metni.",
+		"en": "Detailed lore and description of the selected archive entry."
+	},
+	"Saldırı savurduktan sonra arkalarına yuvarlanarak (Roll) kombo vuruşu yapın.": {
+		"tr": "Saldırı savurduktan sonra arkalarına yuvarlanarak (Roll) kombo vuruşu yapın.",
+		"en": "Evade their slash with a dodge roll, then counterattack from behind."
+	},
+	"Arkadan darbeler ve Fırlatma Bıçağı": {
+		"tr": "Arkadan darbeler ve Fırlatma Bıçağı",
+		"en": "Backstabs & Throwing Knives"
+	},
+	"Eflak Muhafız Piyadesi": {
+		"tr": "Eflak Muhafız Piyadesi",
+		"en": "Wallachian Guard Infantry"
+	},
+	" ⚔️ DÜŞMAN ": {
+		"tr": " ⚔️ DÜŞMAN ",
+		"en": " ⚔️ ENEMY "
+	},
+	"DEATH_TITLE": {
+		"tr": "💀 YENİLDİN",
+		"en": "💀 YOU DIED"
+	},
+	"💀 YENİLDİN": {
+		"tr": "💀 YENİLDİN",
+		"en": "💀 YOU DIED"
+	},
+	"YENİLDİN": {
+		"tr": "YENİLDİN",
+		"en": "YOU DIED"
+	},
+	"DEATH_RESPAWN_CHECKPOINT": {
+		"tr": "%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ",
+		"en": "Press %s to Respawn at Checkpoint"
+	},
+	"DEATH_RESPAWN_STAGE_START": {
+		"tr": "%s Tuşuna Basarak Bölümün Başından Yeniden Doğ",
+		"en": "Press %s to Respawn at Stage Start"
+	},
+	"%s Tuşuna Basarak Bölümün Başından Yeniden Doğ": {
+		"tr": "%s Tuşuna Basarak Bölümün Başından Yeniden Doğ",
+		"en": "Press %s to Respawn at Stage Start"
+	},
+	"%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ": {
+		"tr": "%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ",
+		"en": "Press %s to Respawn at Checkpoint"
+	},
+	"[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ": {
+		"tr": "[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ",
+		"en": "Press [R] to Respawn at Stage Start"
+	},
+	"[R] Tuşuna Basarak Kontrol Noktasından Yeniden Doğ": {
+		"tr": "[R] Tuşuna Basarak Kontrol Noktasından Yeniden Doğ",
+		"en": "Press [R] to Respawn at Checkpoint"
+	},
+	"⚔️ YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI": {
+		"tr": "⚔️ YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI",
+		"en": "⚔️ CORRUPTED SHELL MUTATION ACQUIRED"
+	},
+	"YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI": {
+		"tr": "YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI",
+		"en": "CORRUPTED SHELL MUTATION ACQUIRED"
+	},
+	"Kan Sisi Atılması (Blood Mist Dash)": {
+		"tr": "Kan Sisi Atılması (Blood Mist Dash)",
+		"en": "Blood Mist Dash"
+	},
+	"Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür.": {
+		"tr": "Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür.",
+		"en": "With Vlad's defeat, vampiric power was imbued into the blade's corrupted shell. Pressing Dash (Shift) now transforms the bearer into a crimson mist phasing through foes and projectiles while leeching life from struck targets."
+	},
+	"BÜYÜCÜ ARKADAŞ (HAFIZA)": {
+		"tr": "BÜYÜCÜ ARKADAŞ (HAFIZA)",
+		"en": "MAGE COMPANION (MEMORY)"
+	},
+	"...Bunu yapamazsın! Sana güvenmiştim! Dünyanın Kalbi bir fani tarafından mühürlenemez!": {
+		"tr": "...Bunu yapamazsın! Sana güvenmiştim! Dünyanın Kalbi bir fani tarafından mühürlenemez!",
+		"en": "...You cannot do this! I trusted you! The World Heart cannot be sealed by a mortal!"
+	},
+	"FLASHBACK_1462_TITLE": {
+		"tr": "M.S. 1462 — Eflak Ormanları / Gece Baskını",
+		"en": "1462 A.D. — Wallachian Forests / Night Assault"
+	},
+	"FLASHBACK_1462_VOICE": {
+		"tr": "Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!'",
+		"en": "Imprisoned Blade Soul: 'Look... Behold that blood-soaked night; the second shard beats there! The first spark of the World Heart has awakened. The time rift calls to you!'"
+	},
+	"M.S. 1462 — Eflak Ormanları / Gece Baskını": {
+		"tr": "M.S. 1462 — Eflak Ormanları / Gece Baskını",
+		"en": "1462 A.D. — Wallachian Forests / Night Assault"
+	},
+	"Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!'": {
+		"tr": "Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!'",
+		"en": "Imprisoned Blade Soul: 'Look... Behold that blood-soaked night; the second shard beats there! The first spark of the World Heart has awakened. The time rift calls to you!'"
+	},
+	"COMBAT_HUD_ARMED": {
+		"tr": "⚔️ KILIÇ KUŞANILDI  •  [Sol Tık] Savurma  |  [Sağ Tık] Güçlü Vuruş  |  [G] Kılıcı Fırlat",
+		"en": "⚔️ SWORD ARMED  •  [L-Click] Slash  |  [R-Click] Heavy Strike  |  [G] Throw Sword"
+	},
+	"COMBAT_HUD_UNARMED": {
+		"tr": "✋ SİLAHSIZ  •  Kılıcın yanına gidip [E] tuşuna basarak alın",
+		"en": "✋ UNARMED  •  Approach the sword and press [E] to equip"
+	},
+	"⚔️ KILIÇ KUŞANILDI  •  [Sol Tık] Savurma  |  [Sağ Tık] Güçlü Vuruş  |  [G] Kılıcı Fırlat": {
+		"tr": "⚔️ KILIÇ KUŞANILDI  •  [Sol Tık] Savurma  |  [Sağ Tık] Güçlü Vuruş  |  [G] Kılıcı Fırlat",
+		"en": "⚔️ SWORD ARMED  •  [L-Click] Slash  |  [R-Click] Heavy Strike  |  [G] Throw Sword"
+	},
+	"✋ SİLAHSIZ  •  Kılıcın yanına gidip [E] tuşuna basarak alın": {
+		"tr": "✋ SİLAHSIZ  •  Kılıcın yanına gidip [E] tuşuna basarak alın",
+		"en": "✋ UNARMED  •  Approach the sword and press [E] to equip"
+	},
+	"Hareket: [A / D] veya [← / →]  |  Zıplama: [Space] / [W]  |  Kılıç Alma: [E]  |  Fırlatma: [G]": {
+		"tr": "Hareket: [A / D] veya [← / →]  |  Zıplama: [Space] / [W]  |  Kılıç Alma: [E]  |  Fırlatma: [G]",
+		"en": "Move: [A / D] or [← / →]  |  Jump: [Space] / [W]  |  Pick Sword: [E]  |  Throw: [G]"
+	},
+	"Platformlara zıpla": {
+		"tr": "Platformlara zıpla",
+		"en": "Jump across platforms"
+	},
+	"ile zıpla": {
+		"tr": "ile zıpla",
+		"en": "to jump"
+	},
+	"TITLE_OTTOMAN_SULTAN": {
+		"tr": "Osmanlı Padişahı",
+		"en": "Ottoman Sultan"
+	},
+	"Fatih Sultan Mehmed": {
+		"tr": "Fatih Sultan Mehmed",
+		"en": "Sultan Mehmed II"
+	},
+	"Osmanlı Padişahı": {
+		"tr": "Osmanlı Padişahı",
+		"en": "Ottoman Sultan"
+	},
+	"Öncü Kumandan": {
+		"tr": "Öncü Kumandan",
+		"en": "Vanguard Commander"
+	},
+	"Osmanlı Öncü Kumandanı": {
+		"tr": "Osmanlı Öncü Kumandanı",
+		"en": "Ottoman Vanguard Commander"
+	},
+	"Eflak Kan Şövalyesi": {
+		"tr": "Eflak Kan Şövalyesi",
+		"en": "Wallachian Blood Knight"
+	},
+	"Vlad Tepeş": {
+		"tr": "Vlad Tepeş",
+		"en": "Vlad the Impaler"
+	},
+	"Yeniçeri Ağası": {
+		"tr": "Yeniçeri Ağası",
+		"en": "Janissary Agha"
+	},
+	"Gazi Yeniçeri": {
+		"tr": "Gazi Yeniçeri",
+		"en": "Veteran Janissary"
+	},
+	"Nöbetçi Asker": {
+		"tr": "Nöbetçi Asker",
+		"en": "Camp Sentry"
+	},
+	"Kemankeş Çavuşu": {
+		"tr": "Kemankeş Çavuşu",
+		"en": "Archer Sergeant"
+	},
+	"Mahpus Kılıç Ruhu": {
+		"tr": "Mahpus Kılıç Ruhu",
+		"en": "Imprisoned Blade Soul"
+	},
+	"BİR, İKİİİ... KOÇBAŞIYI VURUN!": {
+		"tr": "BİR, İKİİİ... KOÇBAŞIYI VURUN!",
+		"en": "ONE, TWOOO... HEAVE THE RAM!"
+	},
+	"🪵 BARİKAT KIRILDI!": {
+		"tr": "🪵 BARİKAT KIRILDI!",
+		"en": "🪵 BARRICADE DESTROYED!"
+	},
+	"Allah Allah ileri! Hücum!": {
+		"tr": "Allah Allah ileri! Hücum!",
+		"en": "Forward! Charge!"
+	},
+	"Allah Allah ileri!": {
+		"tr": "Allah Allah ileri!",
+		"en": "Forward!"
+	},
+	"Hücum!": {
+		"tr": "Hücum!",
+		"en": "Charge!"
+	},
+	"Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ilerle.": {
+		"tr": "Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ilerle.",
+		"en": "The Commander has fallen! Pick up the imperial decree and make your way to Sultan Mehmed II's camp."
+	},
+	"Yerdeki fermanı almadan ordugaha giremezsin. Geri dönüp fermanı al.": {
+		"tr": "Yerdeki fermanı almadan ordugaha giremezsin. Geri dönüp fermanı al.",
+		"en": "You cannot enter the camp without the decree. Turn back and retrieve it."
+	},
+	"Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile konuşup görevi kabul edebilirsin)": {
+		"tr": "Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile konuşup görevi kabul edebilirsin)",
+		"en": "Proceed to Sultan Mehmed II's Pavilion on the right. (You can also speak with the Archer to accept his request)"
+	},
+	"Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına ilerle.": {
+		"tr": "Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına ilerle.",
+		"en": "Archers will rain fiery arrows during the bridge assault! Proceed to the Imperial Pavilion on the right."
+	},
+	"Karanlık mahzenlere adım at, Vlad Tepeş'in izini sür.": {
+		"tr": "Karanlık mahzenlere adım at, Vlad Tepeş'in izini sür.",
+		"en": "Step into the dark crypts and track Vlad the Impaler."
+	},
+	"Kan Sunağı Mührü (%d/3)": {
+		"tr": "Kan Sunağı Mührü (%d/3)",
+		"en": "Blood Altar Seal (%d/3)"
+	},
+	"Vlad molozların altında sersemledi! Şimdi hücum et!": {
+		"tr": "Vlad molozların altında sersemledi! Şimdi hücum et!",
+		"en": "Vlad is stunned beneath the rubble! Strike now!"
+	},
+	"Yarasa Vlad ses dalgasıyla yere çakıldı! Şimdi kombo savur!": {
+		"tr": "Yarasa Vlad ses dalgasıyla yere çakıldı! Şimdi kombo savur!",
+		"en": "Bat Vlad crashes down from the soundwave! Unleash your combo now!"
+	},
+	"Vlad'ın mühürleri parçalandı! Saldır!": {
+		"tr": "Vlad'ın mühürleri parçalandı! Saldır!",
+		"en": "Vlad's wards are shattered! Attack!"
+	},
+	"Platformlardaki 2 kan kristalini kılıcınla parçalayarak Vlad'ın kalkanını indir!": {
+		"tr": "Platformlardaki 2 kan kristalini kılıcınla parçalayarak Vlad'ın kalkanını indir!",
+		"en": "Shatter both blood crystals on the platforms to breach Vlad's shield!"
+	},
+	"Zayıf kemer düzeneğini kılıcınla vurarak molozları Vlad'ın üzerine devir!": {
+		"tr": "Zayıf kemer düzeneğini kılıcınla vurarak molozları Vlad'ın üzerine devir!",
+		"en": "Strike the crumbling arch mechanism to collapse rubble onto Vlad!"
+	},
+	"Hava dalışlarında ulu çanın ipini kes veya vurarak akustik şokla yere düşür!": {
+		"tr": "Hava dalışlarında ulu çanın ipini kes veya vurarak akustik şokla yere düşür!",
+		"en": "Cut or strike the bell rope during his aerial dive to stun him with acoustic shock!"
+	},
+	"Bir sonraki çağa geçmek için parıldayan uzay-zaman yırtığına adım at.": {
+		"tr": "Bir sonraki çağa geçmek için parıldayan uzay-zaman yırtığına adım at.",
+		"en": "Step into the shimmering rift to journey to the next era."
+	},
+	"*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titreşir.*": {
+		"tr": "*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titreşir.*",
+		"en": "*Ancient stone relief on the wall... A shattered heart... The blade resonates deeply.*"
+	},
+	"Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.": {
+		"tr": "Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.",
+		"en": "Game paused. Select an option to resume or save."
+	},
+	"↺ Bölümü Yeniden Başlat": {
+		"tr": "↺ Bölümü Yeniden Başlat",
+		"en": "↺ Restart Chapter"
+	},
+	"⌂ Ana Menü": {
+		"tr": "⌂ Ana Menü",
+		"en": "⌂ Main Menu"
+	},
+	" Otomatik Kayıt (Checkpoints) Açık": {
+		"tr": " Otomatik Kayıt (Checkpoints) Açık",
+		"en": " Auto-Save (Checkpoints) Active"
+	},
+	"Kayıt Yok": {
+		"tr": "Kayıt Yok",
+		"en": "No Save"
+	},
+	"📂 Yükle": {
+		"tr": "📂 Yükle",
+		"en": "📂 Load"
+	},
+	"⮌ Menüye Dön": {
+		"tr": "⮌ Menüye Dön",
+		"en": "⮌ Return to Menu"
+	},
+	"Ana Menüye Dön": {
+		"tr": "Ana Menüye Dön",
+		"en": "Return to Main Menu"
+	},
+	"📜 GÖREV GÜNLÜĞÜ": {
+		"tr": "📜 GÖREV GÜNLÜĞÜ",
+		"en": "📜 QUEST LOG"
+	},
+	"[J / L] Kapat  |  [TAB] Sekme Değiştir": {
+		"tr": "[J / L] Kapat  |  [TAB] Sekme Değiştir",
+		"en": "[J / L] Close  |  [TAB] Switch Tab"
+	},
+	"⚔️ Aktif Görevler": {
+		"tr": "⚔️ Aktif Görevler",
+		"en": "⚔️ Active Quests"
+	},
+	"🏆 Tamamlanan Görevler": {
+		"tr": "🏆 Tamamlanan Görevler",
+		"en": "🏆 Completed Quests"
+	},
+	"Görev Başlığı": {
+		"tr": "Görev Başlığı",
+		"en": "Quest Title"
+	},
+	"👑 ANA GÖREV": {
+		"tr": "👑 ANA GÖREV",
+		"en": "👑 MAIN QUEST"
+	},
+	"Görev açıklaması ve arka plan hikayesi burada görüntülenir.": {
+		"tr": "Görev açıklaması ve arka plan hikayesi burada görüntülenir.",
+		"en": "Quest description and backstory are displayed here."
+	},
+	"🎯 Hedef Aşamaları:": {
+		"tr": "🎯 Hedef Aşamaları:",
+		"en": "🎯 Objective Stages:"
+	},
+	"🎁 Ödül: Alevli Ok Desteği": {
+		"tr": "🎁 Ödül: Alevli Ok Desteği",
+		"en": "🎁 Reward: Flaming Arrow Support"
+	},
+	"🎯 Bu Görevi Takip Et": {
+		"tr": "🎯 Bu Görevi Takip Et",
+		"en": "🎯 Track This Quest"
+	},
+	"🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER": {
+		"tr": "🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER",
+		"en": "🎒 TRAVELER'S LEATHER SATCHEL & INVENTORY"
+	},
+	"[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir": {
+		"tr": "[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir",
+		"en": "[I / B / ESC] Close  |  [TAB] Switch Tab"
+	},
+	"🎒 Çanta ve Donanım": {
+		"tr": "🎒 Çanta ve Donanım",
+		"en": "🎒 Satchel & Gear"
+	},
+	"💖 Dünya Kalbi Kadranı": {
+		"tr": "💖 Dünya Kalbi Kadranı",
+		"en": "💖 World Heart Chronometer"
+	},
+	"ÇANTA VE DONANIM": {
+		"tr": "ÇANTA VE DONANIM",
+		"en": "SATCHEL & GEAR"
+	},
+	"Dünya Kalbi Bütünlüğü: 1 / 4 (%25)": {
+		"tr": "Dünya Kalbi Bütünlüğü: 1 / 4 (%25)",
+		"en": "World Heart Integrity: 1 / 4 (25%)"
+	},
+	"💎 Parça 1: Kadim Yankı (Taş Devri)": {
+		"tr": "💎 Parça 1: Kadim Yankı (Taş Devri)",
+		"en": "💎 Shard 1: Ancient Echo (Stone Age)"
+	},
+	"🔒 Parça 2: Kan Mührü (Eflak)": {
+		"tr": "🔒 Parça 2: Kan Mührü (Eflak)",
+		"en": "🔒 Shard 2: Blood Seal (Wallachia)"
+	},
+	"🔒 Parça 3: Güneş Çarkı (Antik Dünya)": {
+		"tr": "🔒 Parça 3: Güneş Çarkı (Antik Dünya)",
+		"en": "🔒 Shard 3: Sun Wheel (Ancient World)"
+	},
+	"🔒 Parça 4: Sonsuzluk Çekirdeği": {
+		"tr": "🔒 Parça 4: Sonsuzluk Çekirdeği",
+		"en": "🔒 Shard 4: Infinity Core"
+	},
+	"Eşya Başlığı": {
+		"tr": "Eşya Başlığı",
+		"en": "Item Title"
+	},
+	"🧪 TÜKETİLEBİLİR": {
+		"tr": "🧪 TÜKETİLEBİLİR",
+		"en": "🧪 CONSUMABLE"
+	},
+	"Taşınan Miktar: 3": {
+		"tr": "Taşınan Miktar: 3",
+		"en": "Carried: 3"
+	},
+	"Eşya açıklaması ve detaylı arka plan bilgisi burada görüntülenir.": {
+		"tr": "Eşya açıklaması ve detaylı arka plan bilgisi burada görüntülenir.",
+		"en": "Item lore and description will be displayed here."
+	},
+	"⚡ Etki: +35 Can Puanı": {
+		"tr": "⚡ Etki: +35 Can Puanı",
+		"en": "⚡ Effect: +35 Health Points"
+	},
+	"Hızlı Kullanım Kısayolu": {
+		"tr": "Hızlı Kullanım Kısayolu",
+		"en": "Quick Use Shortcut"
+	},
+	"İksiri İç (+35 Can)": {
+		"tr": "İksiri İç (+35 Can)",
+		"en": "Drink Potion (+35 HP)"
+	},
+	"İpucu: Tüketilebilir eşyaları [2] ve [4], fırlatılabilirleri [F] ile anında kullanabilirsiniz.": {
+		"tr": "İpucu: Tüketilebilir eşyaları [2] ve [4], fırlatılabilirleri [F] ile anında kullanabilirsiniz.",
+		"en": "Tip: Quick-use consumables with [2] and [4], throwables with [F]."
+	},
+	"[Space / Sol Tık] İlerle": {
+		"tr": "[Space / Sol Tık] İlerle",
+		"en": "[Space / Left Click] Advance"
+	},
+	"[Space / Sol Tık] Devam": {
+		"tr": "[Space / Sol Tık] Devam",
+		"en": "[Space / Left Click] Continue"
+	},
+	"[1] Yardımcı Ol": {
+		"tr": "[1] Yardımcı Ol",
+		"en": "[1] Offer Assistance"
+	},
+	"Düşmanımız bir, hedefimiz açık. Yeniçerilerim ve Kemankeşlerim kalenin surlarını dövüyor...": {
+		"tr": "Düşmanımız bir, hedefimiz açık. Yeniçerilerim ve Kemankeşlerim kalenin surlarını dövüyor...",
+		"en": "Our foe is one, our path is clear. My Janissaries and Archers batter the fortress ramparts..."
+	},
+	"Mahpus Kılıç Ruhu ve Dünyanın Kalbi": {
+		"tr": "Mahpus Kılıç Ruhu ve Dünyanın Kalbi",
+		"en": "Imprisoned Blade Soul & Heart of the World"
+	},
+	"Bölüm Seçimi": {
+		"tr": "Bölüm Seçimi",
+		"en": "Chapter Select"
+	},
+	"BÖLÜM SEÇİMİ": {
+		"tr": "BÖLÜM SEÇİMİ",
+		"en": "CHAPTER SELECT"
+	},
+	"Çıkış": {
+		"tr": "Çıkış",
+		"en": "Exit"
+	},
+	"Ekran Sarsıntısı:": {
+		"tr": "Ekran Sarsıntısı:",
+		"en": "Screen Shake:"
+	},
+	"Müzik:": {
+		"tr": "Müzik:",
+		"en": "Music:"
+	},
+	"Kapalı": {
+		"tr": "Kapalı",
+		"en": "Off"
+	},
+	"Düşük": {
+		"tr": "Düşük",
+		"en": "Low"
+	},
+	"Yüksek": {
+		"tr": "Yüksek",
+		"en": "High"
+	},
+	"Gamepad Titreşimi:": {
+		"tr": "Gamepad Titreşimi:",
+		"en": "Gamepad Vibration:"
+	},
+	"Analog Ölü Bölge:": {
+		"tr": "Analog Ölü Bölge:",
+		"en": "Analog Deadzone:"
+	},
+	"Aktif Giriş Cihazı:": {
+		"tr": "Aktif Giriş Cihazı:",
+		"en": "Active Input Device:"
+	},
+	"FLAMING_ARROW_SUPPORT_ACTIVE": {
+		"tr": "Alevli Ok Desteği Aktif",
+		"en": "Flaming Arrow Support Active"
+	},
+	"WOOD_CART_PROGRESS": {
+		"tr": "Mağaraya Kalan: %d m (%% %d)",
+		"en": "To the Cave: %d m (%d%%)"
+	},
+	"PROMPT_TALK_TO": {
+		"tr": "[E] Konuş (%s)",
+		"en": "[E] Talk (%s)"
+	},
+	"FLOAT_BLOCKED": {
+		"tr": "🛡️ BLOKLANDI! (-%%80) [-%d HP]",
+		"en": "🛡️ BLOCKED! (-80%%) [-%d HP]"
+	},
+	"FLOAT_HOLY_PURGE": {
+		"tr": "✨ KUTSAL ARINMA! -%d",
+		"en": "✨ HOLY PURGE! -%d"
+	},
+	"FLOAT_HEAL": {
+		"tr": "+%d CAN",
+		"en": "+%d HP"
+	},
+	"Bölüm 1: Taş Devri": {
+		"tr": "Bölüm 1: Taş Devri",
+		"en": "Chapter 1: Stone Age"
+	},
+	"Tarih Öncesi Kanyon": {
+		"tr": "Tarih Öncesi Kanyon",
+		"en": "Prehistoric Canyon"
+	},
+	"Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]": {
+		"tr": "Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]",
+		"en": "Move: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
+	},
+	"GÖREV: KANYONU GEÇ": {
+		"tr": "GÖREV: KANYONU GEÇ",
+		"en": "QUEST: CROSS THE CANYON"
+	},
+	"Kadim Kılıcın Uyanışı": {
+		"tr": "Kadim Kılıcın Uyanışı",
+		"en": "Awakening of the Ancient Blade"
+	},
+	"Platformları aş, kılıcınla antik barikatı parçala ve vadi geçidine ulaş!": {
+		"tr": "Platformları aş, kılıcınla antik barikatı parçala ve vadi geçidine ulaş!",
+		"en": "Cross the platforms, shatter the ancient barricade with your blade and reach the valley pass!"
+	},
+	"GÖREV: ODUN ARABASINI KURTAR": {
+		"tr": "GÖREV: ODUN ARABASINI KURTAR",
+		"en": "QUEST: RESCUE THE WOOD CART"
+	},
+	"Kabilenin Kutsal Ateşi": {
+		"tr": "Kabilenin Kutsal Ateşi",
+		"en": "The Tribe's Sacred Fire"
+	},
+	"Ormandaki arabayı mağara girişine kadar iterek ulaştır! Yırtıcılara dikkat et.": {
+		"tr": "Ormandaki arabayı mağara girişine kadar iterek ulaştır! Yırtıcılara dikkat et.",
+		"en": "Push the cart from the forest to the cave entrance! Beware of predators."
+	},
+	"SAVAŞ KARŞILAŞMASI!": {
+		"tr": "SAVAŞ KARŞILAŞMASI!",
+		"en": "COMBAT ENCOUNTER!"
+	},
+	"Mağara Halkı Düşman Oldu": {
+		"tr": "Mağara Halkı Düşman Oldu",
+		"en": "The Cave Folk Turned Hostile"
+	},
+	"Kabile reisi ve savaşçıları alt ederek kanyondan çıkış yolunu aç!": {
+		"tr": "Kabile reisi ve savaşçıları alt ederek kanyondan çıkış yolunu aç!",
+		"en": "Defeat the chief and his warriors to open the way out of the canyon!"
+	},
+	"GÖREV TAMAMLANDI!": {
+		"tr": "GÖREV TAMAMLANDI!",
+		"en": "QUEST COMPLETE!"
+	},
+	"Kabilenin Minneti": {
+		"tr": "Kabilenin Minneti",
+		"en": "The Tribe's Gratitude"
+	},
+	"Odunlar mağaraya ulaştı! Önündeki barikatı aşarak T-Rex arenasına ilerle.": {
+		"tr": "Odunlar mağaraya ulaştı! Önündeki barikatı aşarak T-Rex arenasına ilerle.",
+		"en": "The timber reached the cave! Pass the barricade ahead and advance to the T-Rex arena."
+	},
+	"Tarih Öncesi Vadi & Siber Tyrant'ın İzi": {
+		"tr": "Tarih Öncesi Vadi & Siber Tyrant'ın İzi",
+		"en": "Prehistoric Valley & Trail of the Cyber Tyrant"
+	},
+	"UYARI: ANORMAL TİTREŞİMLER": {
+		"tr": "UYARI: ANORMAL TİTREŞİMLER",
+		"en": "WARNING: ABNORMAL TREMORS"
+	},
+	"Geleceğe Ait Siber Sinyaller": {
+		"tr": "Geleceğe Ait Siber Sinyaller",
+		"en": "Cyber Signals from the Future"
+	},
+	"Kopmuş devasa sibernetik pençeler... Canavar çok yakında!": {
+		"tr": "Kopmuş devasa sibernetik pençeler... Canavar çok yakında!",
+		"en": "Severed colossal cybernetic claws... The beast is very close!"
+	},
+	"PATRON DÖVÜŞÜ: SİBER T-REX": {
+		"tr": "PATRON DÖVÜŞÜ: SİBER T-REX",
+		"en": "BOSS FIGHT: CYBER T-REX"
+	},
+	"Dev Mecha-Tyrant": {
+		"tr": "Dev Mecha-Tyrant",
+		"en": "Giant Mecha-Tyrant"
+	},
+	"Lazerden ve yer sarsıntılarından kaçmak için yüksek platformlara tırman!": {
+		"tr": "Lazerden ve yer sarsıntılarından kaçmak için yüksek platformlara tırman!",
+		"en": "Climb the high platforms to escape the laser and the ground tremors!"
+	},
+	"DİKKAT: SİBER LAZER SALDIRISI!": {
+		"tr": "DİKKAT: SİBER LAZER SALDIRISI!",
+		"en": "CAUTION: CYBER LASER ATTACK!"
+	},
+	"Faz 2: Overdrive Devrede": {
+		"tr": "Faz 2: Overdrive Devrede",
+		"en": "Phase 2: Overdrive Engaged"
+	},
+	"Kırmızı nişan uyarısına dikkat et! Siper monolitinin arkasına saklan veya platformlara zıpla!": {
+		"tr": "Kırmızı nişan uyarısına dikkat et! Siper monolitinin arkasına saklan veya platformlara zıpla!",
+		"en": "Watch for the red targeting warning! Hide behind the cover monolith or jump to the platforms!"
+	},
+	"[ FAZ 1: STANDART ]": {
+		"tr": "[ FAZ 1: STANDART ]",
+		"en": "[ PHASE 1: STANDARD ]"
+	},
+	"[ FAZ 2: OVERDRIVE - SİBER LAZER AKTİF ]": {
+		"tr": "[ FAZ 2: OVERDRIVE - SİBER LAZER AKTİF ]",
+		"en": "[ PHASE 2: OVERDRIVE - CYBER LASER ACTIVE ]"
+	},
+	"[ FAZ 3: MELTDOWN - ÖLÜMCÜL LAZER ]": {
+		"tr": "[ FAZ 3: MELTDOWN - ÖLÜMCÜL LAZER ]",
+		"en": "[ PHASE 3: MELTDOWN - LETHAL LASER ]"
+	},
+	"Zaman Yarığı": {
+		"tr": "Zaman Yarığı",
+		"en": "Time Rift"
+	},
+	"Bilinmeyen çağa düştün. İlerleyerek çıkışa ulaş.": {
+		"tr": "Bilinmeyen çağa düştün. İlerleyerek çıkışa ulaş.",
+		"en": "You have fallen into an unknown age. Press on and reach the exit."
+	},
+	"Sessiz Vadi": {
+		"tr": "Sessiz Vadi",
+		"en": "Silent Valley"
+	},
+	"Keşfet": {
+		"tr": "Keşfet",
+		"en": "Explore"
+	},
+	"Vadideki devasa pençe izlerini ve fosilleri araştır.": {
+		"tr": "Vadideki devasa pençe izlerini ve fosilleri araştır.",
+		"en": "Investigate the colossal claw marks and fossils in the valley."
+	},
+	"Kırık Geçit": {
+		"tr": "Kırık Geçit",
+		"en": "Broken Pass"
+	},
+	"Zıpla": {
+		"tr": "Zıpla",
+		"en": "Jump"
+	},
+	"Kırık sütun ve kayalık platformları aşarak ilerle.": {
+		"tr": "Kırık sütun ve kayalık platformları aşarak ilerle.",
+		"en": "Advance across the broken pillars and rocky platforms."
+	},
+	"Avcının İzleri": {
+		"tr": "Avcının İzleri",
+		"en": "The Hunter's Traces"
+	},
+	"İlerle": {
+		"tr": "İlerle",
+		"en": "Advance"
+	},
+	"Kadim yırtıcının devasa ayak izlerini ve ezilmiş ağaçları takip et.": {
+		"tr": "Kadim yırtıcının devasa ayak izlerini ve ezilmiş ağaçları takip et.",
+		"en": "Follow the ancient predator's colossal footprints and the crushed trees."
+	},
+	"Zamansal Parçalar": {
+		"tr": "Zamansal Parçalar",
+		"en": "Temporal Fragments"
+	},
+	"Araştır": {
+		"tr": "Araştır",
+		"en": "Investigate"
+	},
+	"Alanda bulunan mekanik eklem ve sibernetik zırh parçalarını incele.": {
+		"tr": "Alanda bulunan mekanik eklem ve sibernetik zırh parçalarını incele.",
+		"en": "Examine the mechanical joints and cybernetic armor fragments in the area."
+	},
+	"Canavarın İni": {
+		"tr": "Canavarın İni",
+		"en": "The Beast's Lair"
+	},
+	"Dikkat": {
+		"tr": "Dikkat",
+		"en": "Caution"
+	},
+	"İn bölgesindeki dev fosil kalıntılarını geç ve sığınağa ulaş.": {
+		"tr": "İn bölgesindeki dev fosil kalıntılarını geç ve sığınağa ulaş.",
+		"en": "Cross the giant fossil remains of the lair and reach the shelter."
+	},
+	"TAŞ DEVRİ — ZAFER VE HİKMET": {
+		"tr": "TAŞ DEVRİ — ZAFER VE HİKMET",
+		"en": "STONE AGE — VICTORY AND WISDOM"
+	},
+	"İlk Kalp Parçası": {
+		"tr": "İlk Kalp Parçası",
+		"en": "The First Heart Shard"
+	},
+	"Kraterdeki kadim Dünyanın Kalbi parçasına yaklaş ve kaderini öğren.": {
+		"tr": "Kraterdeki kadim Dünyanın Kalbi parçasına yaklaş ve kaderini öğren.",
+		"en": "Approach the ancient shard of the World's Heart in the crater and learn your fate."
+	},
+	"ÇAĞLARIN YANKISI — KALBİN ÇAĞRISI": {
+		"tr": "ÇAĞLARIN YANKISI — KALBİN ÇAĞRISI",
+		"en": "ECHO OF THE AGES — THE HEART'S SUMMONS"
+	},
+	"M.S. 1462 / Eflak Seferi": {
+		"tr": "M.S. 1462 / Eflak Seferi",
+		"en": "1462 A.D. / Wallachian Campaign"
+	},
+	"Kalp Parçası, bir sonraki parçanın çarptığı geceyi gösteriyor...": {
+		"tr": "Kalp Parçası, bir sonraki parçanın çarptığı geceyi gösteriyor...",
+		"en": "The Heart Shard reveals the night where the next shard beats..."
+	},
+	"ZAMAN YIRTIĞI AÇILDI": {
+		"tr": "ZAMAN YIRTIĞI AÇILDI",
+		"en": "TIME RIFT OPENED"
+	},
+	"Geleceğe ve Geçmişe Açılan Geçit": {
+		"tr": "Geleceğe ve Geçmişe Açılan Geçit",
+		"en": "A Gateway to Future and Past"
+	},
+	"Yırtığa girerek Taş Devri'nden sonraki çağa (Eflak Seferi) adım at!": {
+		"tr": "Yırtığa girerek Taş Devri'nden sonraki çağa (Eflak Seferi) adım at!",
+		"en": "Enter the rift and step from the Stone Age into the next era (the Wallachian Campaign)!"
+	},
+	"✓ Odun Arabası Mağaraya Ulaştı!": {
+		"tr": "✓ Odun Arabası Mağaraya Ulaştı!",
+		"en": "✓ The Wood Cart Reached the Cave!"
+	},
+	"✗ Araba Parçalandı!": {
+		"tr": "✗ Araba Parçalandı!",
+		"en": "✗ The Cart Was Destroyed!"
+	},
+	"[D veya E] Arabayı İt": {
+		"tr": "[D veya E] Arabayı İt",
+		"en": "[D or E] Push the Cart"
+	},
+	"🛡️ KALKAN ELDE (Sağ Tık: Savun)": {
+		"tr": "🛡️ KALKAN ELDE (Sağ Tık: Savun)",
+		"en": "🛡️ SHIELD RAISED (Right Click: Guard)"
+	},
+	"⚔️ KALKAN İNDİRİLDİ (Sağ Tık: Ağır Saldırı)": {
+		"tr": "⚔️ KALKAN İNDİRİLDİ (Sağ Tık: Ağır Saldırı)",
+		"en": "⚔️ SHIELD LOWERED (Right Click: Heavy Attack)"
+	},
+	"⚡ PERFECT BLOCK / PARRY! (0 Hasar)": {
+		"tr": "⚡ PERFECT BLOCK / PARRY! (0 Hasar)",
+		"en": "⚡ PERFECT BLOCK / PARRY! (0 Damage)"
+	},
+	"🛡️ BAĞIŞIK (Kutsal Değil)": {
+		"tr": "🛡️ BAĞIŞIK (Kutsal Değil)",
+		"en": "🛡️ IMMUNE (Not Holy)"
+	},
+	"⌨️ Klavye & Fare": {
+		"tr": "⌨️ Klavye & Fare",
+		"en": "⌨️ Keyboard & Mouse"
+	},
+	"TOAST_CONTROLLER_CONNECTED": {
+		"tr": "🎮 Kontrolcü Bağlandı: %s",
+		"en": "🎮 Controller Connected: %s"
+	},
+	"TOAST_CONTROLLER_DISCONNECTED": {
+		"tr": "⚠️ Kontrolcü Ayrıldı (Klavye Moduna Geçildi)",
+		"en": "⚠️ Controller Disconnected (Switched to Keyboard)"
+	},
+	"SETTINGS_DISPLAY_MODE": {
+		"tr": "Ekran Modu:",
+		"en": "Display Mode:"
+	},
+	"SETTINGS_RESOLUTION": {
+		"tr": "Çözünürlük:",
+		"en": "Resolution:"
+	},
+	"SETTINGS_VSYNC": {
+		"tr": "Dikey Eşitleme (VSync):",
+		"en": "Vertical Sync (VSync):"
+	},
+	"SETTINGS_FPS_LIMIT": {
+		"tr": "Kare Hızı Sınırı:",
+		"en": "Frame Rate Limit:"
+	},
+	"FPS_UNLIMITED": {
+		"tr": "Sınırsız",
+		"en": "Unlimited"
+	},
+	"DISPLAY_MODE_WINDOWED": {
+		"tr": "Pencereli",
+		"en": "Windowed"
+	},
+	"DISPLAY_MODE_BORDERLESS": {
+		"tr": "Çerçevesiz Tam Ekran",
+		"en": "Borderless Fullscreen"
+	},
+	"DISPLAY_MODE_FULLSCREEN": {
+		"tr": "Özel Tam Ekran",
+		"en": "Exclusive Fullscreen"
+	},
+	"FLOAT_MIST_DODGE": {
+		"tr": "🩸 SİS: HASAR ALINMADI",
+		"en": "🩸 MIST: NO DAMAGE"
+	},
+	"SECRET_FOUND_TITLE": {
+		"tr": "GİZLİ ODA BULUNDU!",
+		"en": "SECRET ROOM FOUND!"
+	},
+	"SECRET_FOUND_SUB": {
+		"tr": "Duvar Yıkıldı",
+		"en": "Wall Broken"
+	},
+	"SECRET_FOUND_DESC": {
+		"tr": "Çatlak duvarın ardında saklı bir oda var. Ödül: %d altın.",
+		"en": "A hidden chamber lies behind the cracked wall. Reward: %d gold."
+	},
+	"SETTINGS_DIALOGUE_TEXT_SIZE": {
+		"tr": "Diyalog Metni Boyutu:",
+		"en": "Dialogue Text Size:"
+	},
+	"SETTINGS_HOLD_TO_ATTACK": {
+		"tr": "Basılı Tutarak Saldır:",
+		"en": "Hold to Attack:"
+	},
+	"SETTINGS_COLOR_ASSIST": {
+		"tr": "Renk Yardımı (Simgeler):",
+		"en": "Color Assist (Symbols):"
+	},
+	"TEXT_SIZE_NORMAL": {
+		"tr": "Normal",
+		"en": "Normal"
+	},
+	"TEXT_SIZE_LARGE": {
+		"tr": "Büyük",
+		"en": "Large"
+	},
+	"TEXT_SIZE_XLARGE": {
+		"tr": "Çok Büyük",
+		"en": "Extra Large"
+	},
+	"LOADING_TITLE": {
+		"tr": "Yükleniyor...",
+		"en": "Loading..."
+	},
+	"LOADING_FAILED_TITLE": {
+		"tr": "Yükleme Başarısız",
+		"en": "Loading Failed"
+	},
+	"LOADING_FAILED_DESC": {
+		"tr": "Sahne yüklenemedi. Önceki ekrana dönülüyor.",
+		"en": "The scene could not be loaded. Returning to the previous screen."
+	},
+	"LOADING_TIP_1": {
+		"tr": "İpucu: Kamp ateşinde dinlenmek ilerlemeni kaydeder, canını ve iksirlerini yeniler.",
+		"en": "Tip: Resting at a campfire saves your progress and restores health and potions."
+	},
+	"LOADING_TIP_2": {
+		"tr": "İpucu: Savunmayı saldırı gelmeden hemen önce açarsan saldırıyı savuşturur, düşmanı sersemletirsin.",
+		"en": "Tip: Raise your guard just before a hit lands to parry it and stagger the enemy."
+	},
+	"LOADING_TIP_3": {
+		"tr": "İpucu: Müttefiklerini sömürmek can verir ama yozlaşmanı artırır; kılıç bunu unutmaz.",
+		"en": "Tip: Draining your allies restores health but raises corruption; the sword does not forget."
+	},
+	"LOADING_TIP_4": {
+		"tr": "İpucu: Havadayken aşağı yönle birlikte saldırırsan yere sert iniş yaparsın.",
+		"en": "Tip: Attack while holding down in mid-air to perform a plunge attack."
+	},
+	"LOADING_TIP_5": {
+		"tr": "İpucu: Ağır saldırılar düşmanın duruşunu hafif saldırılardan çok daha hızlı kırar.",
+		"en": "Tip: Heavy attacks break an enemy's poise far faster than light ones."
+	},
+	"RESULTS_TITLE": {
+		"tr": "YOLCULUK ÖZETİ",
+		"en": "JOURNEY SUMMARY"
+	},
+	"RESULTS_TIME": {
+		"tr": "Oyun Süresi:",
+		"en": "Play Time:"
+	},
+	"RESULTS_DEATHS": {
+		"tr": "Ölüm:",
+		"en": "Deaths:"
+	},
+	"RESULTS_DAMAGE_TAKEN": {
+		"tr": "Alınan Hasar:",
+		"en": "Damage Taken:"
+	},
+	"RESULTS_BOSSES": {
+		"tr": "Yenilen Bekçi ve Boss:",
+		"en": "Guardians & Bosses Defeated:"
+	},
+	"RESULTS_ITEMS": {
+		"tr": "Toplanan Öğe:",
+		"en": "Items Collected:"
+	},
+	"RESULTS_QUESTS": {
+		"tr": "Tamamlanan Görev:",
+		"en": "Quests Completed:"
+	},
+	"RESULTS_HEART_PIECES": {
+		"tr": "Kalp Parçası:",
+		"en": "Heart Shards:"
+	},
+	"RESULTS_CORRUPTION": {
+		"tr": "Yozlaşma:",
+		"en": "Corruption:"
+	},
+	"RESULTS_ENDING": {
+		"tr": "Bitiş:",
+		"en": "Ending:"
+	},
+	"RESULTS_ENDING_REDEMPTION": {
+		"tr": "Kefaret",
+		"en": "Redemption"
+	},
+	"RESULTS_ENDING_GOD_KING": {
+		"tr": "Tanrı-Kral",
+		"en": "God-King"
+	},
+	"RESULTS_ENDING_NONE": {
+		"tr": "Henüz belirlenmedi",
+		"en": "Not yet decided"
+	},
+	"RESULTS_REPLAY": {
+		"tr": "↻ Baştan Oyna",
+		"en": "↻ Play Again"
+	},
+	"RESULTS_MAIN_MENU": {
+		"tr": "⮌ Ana Menü",
+		"en": "⮌ Main Menu"
+	},
+	"CHAPTER_3_TITLE": {
+		"tr": "Bölüm 3: Antik Mısır ve Lanetli Firavun Kral",
+		"en": "Chapter 3: Ancient Egypt & the Cursed Pharaoh King"
+	},
+	"CHAPTER_3_ERA": {
+		"tr": "Antik Mısır — Zaman Kırılması",
+		"en": "Ancient Egypt — Time Fracture"
+	},
+	"STAGE_EGYPT_1": {
+		"tr": "Bölüm 3: Kızıl Çöl",
+		"en": "Chapter 3: Crimson Desert"
+	},
+	"STAGE_EGYPT_2": {
+		"tr": "Bölüm 3: Anıt-Mezar Avlusu",
+		"en": "Chapter 3: Tomb Courtyard"
+	},
+	"STAGE_EGYPT_3": {
+		"tr": "Bölüm 3: Lanetli Anıt-Mezar",
+		"en": "Chapter 3: The Cursed Tomb"
+	},
+	"STAGE_EGYPT_4": {
+		"tr": "Bölüm 3: Güneş Taht Odası",
+		"en": "Chapter 3: Throne of the Sun"
+	},
+	"RESULTS_CONTINUE": {
+		"tr": "▶ Zaman Yırtığına Gir",
+		"en": "▶ Enter the Time Rift"
+	},
+	"HUD_SEAL_WEAKENED": {
+		"tr": "Mühür yarı yarıya zayıfladı",
+		"en": "Seal half-broken"
+	},
+	"PROMPT_EGYPT_INSPECT": {
+		"tr": "[E] İncele",
+		"en": "[E] Inspect"
+	},
+	"PROMPT_EGYPT_SARCOPHAGUS": {
+		"tr": "[E] Lanetli Lahdi İncele",
+		"en": "[E] Inspect the Cursed Sarcophagus"
+	},
+	"PROMPT_EGYPT_SLAVE": {
+		"tr": "[E] Köleyle Konuş",
+		"en": "[E] Speak with the Slave"
+	},
+	"PROMPT_EGYPT_TABLET": {
+		"tr": "[E] Hiyeroglifleri Oku",
+		"en": "[E] Read the Hieroglyphs"
+	},
+	"EGYPT_ABILITY_TAG": {
+		"tr": "⚔️ MÜHÜR YARI YARIYA ZAYIFLADI",
+		"en": "⚔️ THE SEAL IS HALF-BROKEN"
+	},
+	"EGYPT_BOSS_NAME": {
+		"tr": "Lanetli Firavun Kral",
+		"en": "The Cursed Pharaoh King"
+	},
+	"EGYPT_SEAL_PROGRESS": {
+		"tr": "Güneş Mührü: %d / %d",
+		"en": "Sun Seals: %d / %d"
+	},
+	"EGYPT_FLOAT_POTION": {
+		"tr": "+ Şifalı İksir",
+		"en": "+ Healing Draught"
+	},
+	"EGYPT_FLOAT_SLAVE_FREED": {
+		"tr": "Köle Özgür! (Kefaret)",
+		"en": "Slave Freed! (Redemption)"
+	},
+	"EGYPT_FLOAT_SLAVE_KILLED": {
+		"tr": "Masum Kanı (+12 Yozlaşma)",
+		"en": "Innocent Blood (+12 Corruption)"
+	},
+	"EGYPT_FLOAT_SOULS_DRAINED": {
+		"tr": "Ruh Sömürüldü (+20 Yozlaşma)",
+		"en": "Soul Drained (+20 Corruption)"
+	},
+	"EGYPT_TUT_01_TITLE": {
+		"tr": "Sahne 1: Kızıl Çöl",
+		"en": "Scene 1: The Crimson Desert"
+	},
+	"EGYPT_TUT_01_SUB": {
+		"tr": "Asılı Piramitlerin Gölgesinde",
+		"en": "In the Shadow of Hanging Pyramids"
+	},
+	"EGYPT_TUT_01_DESC": {
+		"tr": "Kum tuzaklarından zıplayarak kaç, Piramit Muhafızlarını yen ve doğuya ilerle.",
+		"en": "Jump clear of the sand traps, defeat the Pyramid Guards and press east."
+	},
+	"EGYPT_TUT_02_TITLE": {
+		"tr": "Sahne 2: Anıt-Mezar Avlusu",
+		"en": "Scene 2: The Tomb Courtyard"
+	},
+	"EGYPT_TUT_02_SUB": {
+		"tr": "Kefaret mi, Yozlaşma mı?",
+		"en": "Redemption or Corruption?"
+	},
+	"EGYPT_TUT_02_DESC": {
+		"tr": "Kafes muhafızlarını yen, sonra [E] ile kölelerin kaderine karar ver. Lanetli lahitleri sömürebilir ya da kırabilirsin.",
+		"en": "Defeat the cage guards, then decide the slaves' fate with [E]. You may drain or shatter the cursed sarcophagi."
+	},
+	"EGYPT_TUT_02_DONE_TITLE": {
+		"tr": "Avlu Sessizleşti",
+		"en": "The Courtyard Falls Silent"
+	},
+	"EGYPT_TUT_02_DONE_SUB": {
+		"tr": "Anıt-Mezara İlerle",
+		"en": "Proceed to the Tomb"
+	},
+	"EGYPT_TUT_02_DONE_DESC": {
+		"tr": "Tüm kafesler karara bağlandı. Doğudaki anıt-mezar kapısına ilerle.",
+		"en": "Every cage has been decided. Head to the tomb gate in the east."
+	},
+	"EGYPT_TUT_03_TITLE": {
+		"tr": "Sahne 3: Lanetli Anıt-Mezar",
+		"en": "Scene 3: The Cursed Tomb"
+	},
+	"EGYPT_TUT_03_SUB": {
+		"tr": "İki Güneş Mührünü Bul",
+		"en": "Find Both Sun Seals"
+	},
+	"EGYPT_TUT_03_DESC": {
+		"tr": "Kızıl işaret beliren yerlerden güneş ışını düşer — işaretten çık. Çukura dikkat et.",
+		"en": "Sun beams strike where a crimson mark appears — step out of it. Mind the pit."
+	},
+	"EGYPT_TUT_04_TITLE": {
+		"tr": "Sahne 4: Güneş Taht Odası",
+		"en": "Scene 4: Throne of the Sun"
+	},
+	"EGYPT_TUT_04_SUB": {
+		"tr": "Lanetli Firavun Kral",
+		"en": "The Cursed Pharaoh King"
+	},
+	"EGYPT_TUT_04_DESC": {
+		"tr": "Işın telegraph'larından kaç, ışından sonraki toparlanma anında saldır. Mumyalar kalkarsa önce onları temizle.",
+		"en": "Dodge the beam telegraphs and strike during his recovery after each beam. Clear the mummies first when they rise."
+	},
+	"EGYPT_EXIT_GUARDS_TITLE": {
+		"tr": "Muhafızlar Yolu Kesiyor",
+		"en": "Guards Block the Way"
+	},
+	"EGYPT_EXIT_GUARDS_SUB": {
+		"tr": "Önce Muhafızları Yen",
+		"en": "Defeat the Guards First"
+	},
+	"EGYPT_EXIT_GUARDS_DESC": {
+		"tr": "Piramit Muhafızları hâlâ ayakta; onları yenmeden avluya geçemezsin.",
+		"en": "Pyramid Guards still stand; you cannot reach the courtyard until they fall."
+	},
+	"EGYPT_EXIT_CAGES_TITLE": {
+		"tr": "Avlu Seni Bekliyor",
+		"en": "The Courtyard Awaits"
+	},
+	"EGYPT_EXIT_CAGES_SUB": {
+		"tr": "Kölelerin Kaderi",
+		"en": "The Slaves' Fate"
+	},
+	"EGYPT_EXIT_CAGES_DESC": {
+		"tr": "Anıt-mezara girmeden önce her kafesteki kölenin kaderine karar ver.",
+		"en": "Decide the fate of the slave in every cage before entering the tomb."
+	},
+	"EGYPT_MUMMY_WAVE_TITLE": {
+		"tr": "Ölüler Kalkıyor!",
+		"en": "The Dead Rise!"
+	},
+	"EGYPT_MUMMY_WAVE_SUB": {
+		"tr": "Mumya Dalgası",
+		"en": "Mummy Wave"
+	},
+	"EGYPT_MUMMY_WAVE_DESC": {
+		"tr": "Mumyalar kalkış anında savunmasızdır — ağır saldırıyla hızlıca temizle.",
+		"en": "Mummies are vulnerable while rising — clear them fast with heavy attacks."
+	},
+	"EGYPT_CHAPTER_DONE_TITLE": {
+		"tr": "Bölüm 3 Tamamlandı",
+		"en": "Chapter 3 Complete"
+	},
+	"EGYPT_CHAPTER_DONE_SUB": {
+		"tr": "3. Kalp Parçası Alındı",
+		"en": "Third Heart Shard Claimed"
+	},
+	"EGYPT_CHAPTER_DONE_DESC": {
+		"tr": "Zaman yırtığı savaş çağına açıldı...",
+		"en": "The time rift opens onto an age of war..."
+	},
+	"CHAPTER_4_TITLE": {
+		"tr": "Bölüm 4: Cani Komutan ve Demir Kalp",
+		"en": "Chapter 4: The Butcher Commander and the Iron Heart"
+	},
+	"CHAPTER_4_ERA": {
+		"tr": "2. Dünya Savaşı — Demir Cephe",
+		"en": "World War II — The Iron Front"
+	},
+	"STAGE_WW2_1": {
+		"tr": "2. Dünya Savaşı: Bombalanmış Siperler",
+		"en": "World War II: Bombed Trenches"
+	},
+	"STAGE_WW2_2": {
+		"tr": "2. Dünya Savaşı: Yıkık Şehir ve Viyadük",
+		"en": "World War II: Ruined City & Viaduct"
+	},
+	"STAGE_WW2_3": {
+		"tr": "2. Dünya Savaşı: Gizli Silah Laboratuvarı",
+		"en": "World War II: Secret Weapons Laboratory"
+	},
+	"STAGE_WW2_4": {
+		"tr": "2. Dünya Savaşı: Komuta Sığınağı",
+		"en": "World War II: Command Bunker"
+	},
+	"STAGE_WW2_5": {
+		"tr": "2. Dünya Savaşı: Anı Kırılması",
+		"en": "World War II: Memory Fracture"
+	},
+	"WW2_BOSS_NAME": {
+		"tr": "Cani Komutan",
+		"en": "The Butcher Commander"
+	},
+	"WW2_OFFICER_NAME": {
+		"tr": "Alev Makineli Ağır Siper Subayı",
+		"en": "Heavy Flamethrower Trench Officer"
+	},
+	"WW2_DOCTOR_NAME": {
+		"tr": "Okült Başhekim",
+		"en": "Occult Chief Physician"
+	},
+	"WW2_EXPERIMENT_NAME": {
+		"tr": "Başarısız Deney",
+		"en": "The Failed Experiment"
+	},
+	"WW2_ABILITY_TAG": {
+		"tr": "⚔️ MÜHÜR SON GÜNLERİNİ SAYIYOR",
+		"en": "⚔️ THE SEAL COUNTS ITS FINAL DAYS"
+	},
+	"HUD_SEAL_VOW": {
+		"tr": "İntikam yemini: mühür son günlerini sayıyor",
+		"en": "Vow of vengeance: the seal counts its final days"
+	},
+	"PROMPT_WW2_WOUNDED": {
+		"tr": "[E] Yaralı askerle konuş",
+		"en": "[E] Talk to the wounded soldier"
+	},
+	"PROMPT_WW2_PRISONER": {
+		"tr": "[E] Esirle konuş",
+		"en": "[E] Talk to the prisoner"
+	},
+	"PROMPT_WW2_RELAY": {
+		"tr": "[E] Röleyi çevir",
+		"en": "[E] Flip the relay"
+	},
+	"PROMPT_WW2_RADIO": {
+		"tr": "[E] Telsizi kullan",
+		"en": "[E] Use the radio"
+	},
+	"PROMPT_WW2_SEAL": {
+		"tr": "[E] Okült mührü incele",
+		"en": "[E] Examine the occult seal"
+	},
+	"PROMPT_WW2_INSPECT": {
+		"tr": "[E] İncele",
+		"en": "[E] Inspect"
+	},
+	"WW2_TUT_01_TITLE": {
+		"tr": "Bombalanmış Siperler",
+		"en": "Bombed Trenches"
+	},
+	"WW2_TUT_01_SUB": {
+		"tr": "Islığı duyunca sığınağa koş",
+		"en": "Run for shelter when you hear the whistle"
+	},
+	"WW2_TUT_01_DESC": {
+		"tr": "Kızıl işaretler topçu düşüşünü gösterir. [T] El bombası, [H] Sargı bezi, [V] Gaz filtresi.",
+		"en": "Red markers show where shells will land. [T] Grenade, [H] Bandage, [V] Gas filter."
+	},
+	"WW2_TUT_01_DONE_TITLE": {
+		"tr": "Siper Kapısı Açıldı",
+		"en": "Trench Gate Open"
+	},
+	"WW2_TUT_01_DONE_SUB": {
+		"tr": "Subay yenildi",
+		"en": "The officer has fallen"
+	},
+	"WW2_TUT_01_DONE_DESC": {
+		"tr": "Doğuya, yıkık şehre ilerle.",
+		"en": "Push east into the ruined city."
+	},
+	"WW2_EXIT_OFFICER_TITLE": {
+		"tr": "Yol Kapalı",
+		"en": "The Way Is Barred"
+	},
+	"WW2_EXIT_OFFICER_SUB": {
+		"tr": "Siper Subayı geçidi tutuyor",
+		"en": "The Trench Officer holds the gate"
+	},
+	"WW2_EXIT_OFFICER_DESC": {
+		"tr": "Arkasına geç ya da dalış saldırısıyla sırt tankını patlat.",
+		"en": "Get behind him or burst his back tank with a plunge attack."
+	},
+	"WW2_TUT_02_TITLE": {
+		"tr": "Yıkık Şehir",
+		"en": "The Ruined City"
+	},
+	"WW2_TUT_02_SUB": {
+		"tr": "Projektörlerden uzak dur",
+		"en": "Stay out of the searchlights"
+	},
+	"WW2_TUT_02_DESC": {
+		"tr": "Işığa yakalanırsan takviye gelir. Viyadükte hareketli vagonlara atla.",
+		"en": "If the light catches you, reinforcements arrive. Jump onto the moving cars on the viaduct."
+	},
+	"WW2_ALARM_TITLE": {
+		"tr": "ALARM!",
+		"en": "ALARM!"
+	},
+	"WW2_ALARM_SUB": {
+		"tr": "Projektör seni yakaladı",
+		"en": "A searchlight spotted you"
+	},
+	"WW2_ALARM_DESC": {
+		"tr": "Takviyeler geliyor — gölgelerde kal.",
+		"en": "Reinforcements are coming — keep to the shadows."
+	},
+	"WW2_TUT_03_TITLE": {
+		"tr": "Gizli Laboratuvar",
+		"en": "The Secret Laboratory"
+	},
+	"WW2_TUT_03_SUB": {
+		"tr": "Gaz koridorunu aş",
+		"en": "Get through the gas corridor"
+	},
+	"WW2_TUT_03_DESC": {
+		"tr": "Röleler vantilatörleri çalıştırır. Gaz filtresi ([V]) seni korur.",
+		"en": "The relays drive the ventilators. A gas filter ([V]) protects you."
+	},
+	"WW2_RELAY_TITLE": {
+		"tr": "Güç Röleleri",
+		"en": "Power Relays"
+	},
+	"WW2_RELAY_SUB": {
+		"tr": "Şema: AÇIK — KAPALI — AÇIK",
+		"en": "Diagram: ON — OFF — ON"
+	},
+	"WW2_RELAY_DESC": {
+		"tr": "Röleleri şemadaki sıraya getir; vantilatörler gazı çekip kapıyı açar.",
+		"en": "Set the relays to match the diagram; the ventilators will clear the gas and open the door."
+	},
+	"WW2_TUBES_TITLE": {
+		"tr": "Okült Kalkan",
+		"en": "Occult Shield"
+	},
+	"WW2_TUBES_SUB": {
+		"tr": "Önce enerji tüplerini kır",
+		"en": "Break the energy tubes first"
+	},
+	"WW2_TUBES_DESC": {
+		"tr": "Deney yere vurdukça arena daralır; vuruştan önce zıpla.",
+		"en": "Each slam of the Experiment narrows the arena; jump before it lands."
+	},
+	"WW2_TUT_03_DONE_TITLE": {
+		"tr": "Laboratuvar Susturuldu",
+		"en": "Laboratory Silenced"
+	},
+	"WW2_TUT_03_DONE_SUB": {
+		"tr": "Başhekim ve Deney yenildi",
+		"en": "The Physician and the Experiment have fallen"
+	},
+	"WW2_TUT_03_DONE_DESC": {
+		"tr": "Komuta sığınağına giden kapı açık.",
+		"en": "The door to the command bunker is open."
+	},
+	"WW2_EXIT_LAB_TITLE": {
+		"tr": "Kapı Mühürlü",
+		"en": "The Door Is Sealed"
+	},
+	"WW2_EXIT_LAB_SUB": {
+		"tr": "Laboratuvarın efendileri hâlâ ayakta",
+		"en": "The masters of the lab still stand"
+	},
+	"WW2_EXIT_LAB_DESC": {
+		"tr": "Başhekim'i ve Deney'i yen.",
+		"en": "Defeat the Physician and the Experiment."
+	},
+	"WW2_TUT_04_TITLE": {
+		"tr": "Cani Komutan",
+		"en": "The Butcher Commander"
+	},
+	"WW2_TUT_04_SUB": {
+		"tr": "Kum torbalarının arkasında siper al",
+		"en": "Take cover behind the sandbags"
+	},
+	"WW2_TUT_04_DESC": {
+		"tr": "Form 2'de savuşturma ve ağır vuruşla kalkanı kır; Form 3'te enerji sütunlarını parçala.",
+		"en": "In Form 2 break the shield with parries and heavy blows; in Form 3 smash the energy pillars."
+	},
+	"WW2_TUT_05_TITLE": {
+		"tr": "Anı Kırılması",
+		"en": "Memory Fracture"
+	},
+	"WW2_TUT_05_SUB": {
+		"tr": "Dördüncü parça kılıçta",
+		"en": "The fourth shard is in the blade"
+	},
+	"WW2_TUT_05_DESC": {
+		"tr": "Hatırla.",
+		"en": "Remember."
+	},
+	"WW2_CHAPTER_DONE_TITLE": {
+		"tr": "Bölüm 4 Tamamlandı",
+		"en": "Chapter 4 Complete"
+	},
+	"WW2_CHAPTER_DONE_SUB": {
+		"tr": "4. Kalp Parçası Alındı",
+		"en": "Fourth Heart Shard Claimed"
+	},
+	"WW2_CHAPTER_DONE_DESC": {
+		"tr": "Zaman yırtığı geleceğin makinelerine açıldı...",
+		"en": "The time rift opens onto the machines of the future..."
+	},
+	"WW2_FLOAT_ARMOR": {
+		"tr": "ZIRH! (Arkaya geç)",
+		"en": "ARMOUR! (Get behind)"
+	},
+	"WW2_FLOAT_TANK_BURST": {
+		"tr": "TANK PATLADI!",
+		"en": "TANK BURST!"
+	},
+	"WW2_FLOAT_SHIELD": {
+		"tr": "OKÜLT KALKAN",
+		"en": "OCCULT SHIELD"
+	},
+	"WW2_FLOAT_POISE_BROKEN": {
+		"tr": "KALKAN KIRILDI!",
+		"en": "SHIELD BROKEN!"
+	},
+	"WW2_FLOAT_WOUNDED_SAVED": {
+		"tr": "Yaralı Kurtarıldı! (Kefaret)",
+		"en": "Wounded Saved! (Redemption)"
+	},
+	"WW2_FLOAT_LIFE_DRAINED": {
+		"tr": "Yaşam Gücü Sömürüldü (+20 Yozlaşma)",
+		"en": "Life Force Drained (+20 Corruption)"
+	},
+	"WW2_FLOAT_INNOCENT_KILLED": {
+		"tr": "Masum Öldürüldü (+12 Yozlaşma)",
+		"en": "Innocent Killed (+12 Corruption)"
+	},
+	"WW2_FLOAT_PRISONER_FREED": {
+		"tr": "Esir Özgür! (Kefaret)",
+		"en": "Prisoner Freed! (Redemption)"
+	},
+	"WW2_FLOAT_REACTOR_SACRIFICE": {
+		"tr": "Reaktöre Feda Edildi (+20 Yozlaşma)",
+		"en": "Sacrificed to the Reactor (+20 Corruption)"
+	},
+	"WW2_FLOAT_BATTERY_SILENCED": {
+		"tr": "Batarya Susturuldu: topçu %50 zayıf",
+		"en": "Battery Silenced: artillery 50% weaker"
+	},
+	"WW2_FLOAT_NO_ITEM": {
+		"tr": "%s yok ya da kullanılamaz",
+		"en": "%s unavailable"
+	},
+	"CHAPTER_5_TITLE": {
+		"tr": "Bölüm 5: AI Lord ve İşlemci Kalbi",
+		"en": "Chapter 5: The AI Lord and the Processor Heart"
+	},
+	"CHAPTER_5_ERA": {
+		"tr": "Uzak Gelecek — Distopik Dünya",
+		"en": "Far Future — The Dystopian World"
+	},
+	"STAGE_FUTURE_1": {
+		"tr": "Neon Enkazı",
+		"en": "Neon Ruins"
+	},
+	"STAGE_FUTURE_2": {
+		"tr": "Zamansal Montaj Hattı",
+		"en": "Temporal Assembly Line"
+	},
+	"STAGE_FUTURE_3": {
+		"tr": "Direniş Veri Kalesi",
+		"en": "Resistance Data Citadel"
+	},
+	"STAGE_FUTURE_4": {
+		"tr": "AI Lord Çekirdek Kulesi",
+		"en": "AI Lord's Core Tower"
+	},
+	"STAGE_FUTURE_5": {
+		"tr": "Kılıcın Kırılışı",
+		"en": "The Shattering of the Blade"
+	},
+	"FUT_TUT_01_TITLE": {
+		"tr": "Neon Enkazı",
+		"en": "Neon Ruins"
+	},
+	"FUT_TUT_01_SUB": {
+		"tr": "Lazer taramalarından siper al",
+		"en": "Take cover from the laser scans"
+	},
+	"FUT_TUT_01_DESC": {
+		"tr": "Kırmızı nişan çizgisi lazerin geleceğini gösterir; bloklar ışını keser. [T] EMP, [H] Nano-Kit, [V] Faz Kalkanı, [B] Plazma, [J] Enjektör.",
+		"en": "A red aim line warns of the laser; blocks stop the beam. [T] EMP, [H] Nano-Kit, [V] Phase Shield, [B] Plasma, [J] Injector."
+	},
+	"FUT_TUT_02_TITLE": {
+		"tr": "Zamansal Montaj Hattı",
+		"en": "Temporal Assembly Line"
+	},
+	"FUT_TUT_02_SUB": {
+		"tr": "Bantları terminalden çevir, preslerin ritmini oku",
+		"en": "Reverse belts at the terminal, read the presses' rhythm"
+	},
+	"FUT_TUT_02_DESC": {
+		"tr": "Sarı ışık presin ineceğini gösterir. Mavi zaman alanları yavaşlatır, kırmızılar hızlandırır.",
+		"en": "An amber light means the press is coming down. Blue time fields slow you, red ones speed you up."
+	},
+	"FUT_TUT_03_TITLE": {
+		"tr": "Direniş Veri Kalesi",
+		"en": "Resistance Data Citadel"
+	},
+	"FUT_TUT_03_SUB": {
+		"tr": "Terminalleri sırayla hackle, sunucu düğümlerini yok et",
+		"en": "Hack the terminals in order, destroy the server nodes"
+	},
+	"FUT_TUT_03_DESC": {
+		"tr": "EMP terminalleri lazer kapılarını söndürür. Üç düğüm düşerse AI Lord'un desteği yarıya iner.",
+		"en": "EMP terminals shut down laser gates. If all three nodes fall, the AI Lord's support is halved."
+	},
+	"FUT_TUT_04_TITLE": {
+		"tr": "AI Lord Çekirdek Kulesi",
+		"en": "AI Lord's Core Tower"
+	},
+	"FUT_TUT_04_SUB": {
+		"tr": "Lazer ızgaralarından Kan Sisi ile geç",
+		"en": "Pass through laser grids with the Blood Mist"
+	},
+	"FUT_TUT_04_DESC": {
+		"tr": "Sürekli yanan ızgaralar yalnızca Kan Sisi Atılması ya da Faz Kalkanı ile aşılır. Taht odası zirvede.",
+		"en": "Always-on grids can only be crossed with the Blood Mist Dash or a Phase Shield. The throne room is at the top."
+	},
+	"FUT_TUT_05_TITLE": {
+		"tr": "Kılıcın Kırılışı",
+		"en": "The Shattering of the Blade"
+	},
+	"FUT_TUT_05_SUB": {
+		"tr": "Beşinci parça",
+		"en": "The fifth shard"
+	},
+	"FUT_TUT_05_DESC": {
+		"tr": "İşlemci kalbi AI Lord'un göğsünde atıyor...",
+		"en": "The processor heart beats in the AI Lord's chest..."
+	},
+	"FUT_CHAPTER_DONE_TITLE": {
+		"tr": "Bölüm 5 Tamamlandı",
+		"en": "Chapter 5 Complete"
+	},
+	"FUT_CHAPTER_DONE_SUB": {
+		"tr": "Kılıcın kabuğu kırıldı",
+		"en": "The blade's shell is broken"
+	},
+	"FUT_CHAPTER_DONE_DESC": {
+		"tr": "Hiçlik Arenası'nın kapısı açıldı...",
+		"en": "The gate to the Void Arena stands open..."
+	},
+	"FUT_ABILITY_TAG": {
+		"tr": "💠 ALTINCI ÇEKİRDEK UYANDI",
+		"en": "💠 THE SIXTH CORE HAS AWAKENED"
+	},
+	"FUT_BOSS_NAME": {
+		"tr": "AI Lord",
+		"en": "AI Lord"
+	},
+	"FUT_WARDEN_NAME": {
+		"tr": "Krono-Muhafız",
+		"en": "Chrono-Warden"
+	},
+	"FUT_AEGIS_NAME": {
+		"tr": "AEGIS-09 Güvenlik Çekirdeği",
+		"en": "AEGIS-09 Security Core"
+	},
+	"FUT_EXIT_WARDEN_TITLE": {
+		"tr": "Kapı Kilitli",
+		"en": "Gate Locked"
+	},
+	"FUT_EXIT_WARDEN_SUB": {
+		"tr": "Krono-Muhafız kapı kilidini koruyor",
+		"en": "The Chrono-Warden guards the gate lock"
+	},
+	"FUT_EXIT_WARDEN_DESC": {
+		"tr": "Muhafızı yen; sırtındaki soğutma hücresine vur.",
+		"en": "Defeat the Warden; strike the cooling cell on its back."
+	},
+	"FUT_EXIT_AEGIS_TITLE": {
+		"tr": "Veri Çekirdeği Aktif",
+		"en": "Data Core Active"
+	},
+	"FUT_EXIT_AEGIS_SUB": {
+		"tr": "AEGIS-09 asansörü kilitliyor",
+		"en": "AEGIS-09 is locking the lift"
+	},
+	"FUT_EXIT_AEGIS_DESC": {
+		"tr": "Dronları indir ya da EMP kullan, sonra çekirdeği yok et.",
+		"en": "Down the drones or use an EMP, then destroy the core."
+	},
+	"FUT_FLOAT_ARMOR_BLOCK": {
+		"tr": "Zırh engelledi!",
+		"en": "Armour blocked!"
+	},
+	"FUT_FLOAT_GROGGY": {
+		"tr": "SOĞUTMA ARIZASI!",
+		"en": "COOLING FAILURE!"
+	},
+	"FUT_FLOAT_SHIELD_BLOCK": {
+		"tr": "Kalkan aktif",
+		"en": "Shield active"
+	},
+	"FUT_FLOAT_SHIELD_DOWN": {
+		"tr": "KALKAN ÇÖKTÜ!",
+		"en": "SHIELD DOWN!"
+	},
+	"FUT_FLOAT_SHIELD_BROKEN": {
+		"tr": "Enerji kalkanı kırıldı!",
+		"en": "Energy shield broken!"
+	},
+	"FUT_FLOAT_SURVIVOR_SAVED": {
+		"tr": "Tahliye edildi! (Kefaret)",
+		"en": "Evacuated! (Redemption)"
+	},
+	"FUT_FLOAT_LIFE_DRAINED": {
+		"tr": "Enerji Sömürüldü (+20 Yozlaşma)",
+		"en": "Energy Drained (+20 Corruption)"
+	},
+	"FUT_FLOAT_INNOCENT_KILLED": {
+		"tr": "Masum Öldürüldü (+12 Yozlaşma)",
+		"en": "Innocent Killed (+12 Corruption)"
+	},
+	"FUT_FLOAT_NODE_DOWN": {
+		"tr": "Sunucu düğümü düştü: %d/%d",
+		"en": "Server node down: %d/%d"
+	},
+	"FUT_FLOAT_NO_ITEM": {
+		"tr": "%s yok ya da kullanılamaz",
+		"en": "%s unavailable"
+	},
+	"PROMPT_FUT_SURVIVOR": {
+		"tr": "[E] Direnişçiyle konuş",
+		"en": "[E] Talk to the resistance fighter"
+	},
+	"PROMPT_FUT_ENGINEER": {
+		"tr": "[E] Mühendisle konuş",
+		"en": "[E] Talk to the engineer"
+	},
+	"PROMPT_FUT_TERMINAL": {
+		"tr": "[E] Terminali hackle",
+		"en": "[E] Hack the terminal"
+	},
+	"PROMPT_FUT_CONVEYOR": {
+		"tr": "[E] Bant yönünü çevir",
+		"en": "[E] Reverse the belts"
+	},
+	"PROMPT_FUT_INSPECT": {
+		"tr": "[E] İncele",
+		"en": "[E] Inspect"
+	},
+	"PROMPT_FUT_SCAN": {
+		"tr": "[E] Şemayı tara",
+		"en": "[E] Scan the schematic"
+	},
+	"PROMPT_FUT_SEAL_DOOR": {
+		"tr": "[E] Kalp Rezonansı ile mührü çöz",
+		"en": "[E] Unseal with Heart Resonance"
+	},
+	"PROMPT_FUT_BEACON_ACTIVATE": {
+		"tr": "[E] Kontrol işaretini etkinleştir",
+		"en": "[E] Activate the checkpoint beacon"
+	},
+	"PROMPT_FUT_BEACON_REST": {
+		"tr": "[E] İşarette dinlen",
+		"en": "[E] Rest at the beacon"
+	}
 }

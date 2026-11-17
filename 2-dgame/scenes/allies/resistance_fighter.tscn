@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/allies/egypt_slave.gd" id="1_f7634"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/resistance_fighter/resistance_fighter_frames.tres" id="2_2mmg8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l0rg5"]
+size = Vector2(16, 40)
+
+[node name="ResistanceFighter" type="CharacterBody2D" unique_id=581853721]
+collision_layer = 8
+script = ExtResource("1_f7634")
+slave_id = "survivor_a"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1399627755]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_l0rg5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338407661]
+texture_filter = 1
+position = Vector2(0, -23.04)
+scale = Vector2(0.72, 0.72)
+sprite_frames = ExtResource("2_2mmg8")
+animation = &"cower"
+autoplay = "cower"

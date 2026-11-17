@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/ww2/rescue_spot.gd" id="1_r"]
+[ext_resource type="PackedScene" path="res://scenes/allies/ww2_wounded_soldier.tscn" id="2_r"]
+
+[sub_resource type="RectangleShape2D" id="S1"]
+size = Vector2(130, 100)
+
+[node name="RescueSpot" type="Area2D"]
+script = ExtResource("1_r")
+kind = "wounded"
+reward_item = "field_bandage"
+reward_amount = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -50)
+shape = SubResource("S1")
+
+[node name="Npc" parent="." instance=ExtResource("2_r")]

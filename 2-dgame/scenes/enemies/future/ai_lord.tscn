@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/ai_lord_boss.gd" id="1_ae8pw"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/ai_lord_sovereign/ai_lord_sovereign_frames.tres" id="2_lqisg"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_dtqjj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h8xeh"]
+size = Vector2(46, 120)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_p05x5"]
+blend_mode = 1
+
+[node name="AiLordBoss" type="CharacterBody2D" unique_id=1164515612 groups=["damageable", "enemies"]]
+collision_layer = 2
+script = ExtResource("1_ae8pw")
+max_health = 1500
+codex_id = "ai_lord"
+boss_group = "boss"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=85840074]
+position = Vector2(0, -60)
+shape = SubResource("RectangleShape2D_h8xeh")
+
+[node name="Visual" type="Node2D" parent="." unique_id=38369799]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=2002645371]
+texture_filter = 1
+scale = Vector2(0.75, 0.75)
+sprite_frames = ExtResource("2_lqisg")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Glow" type="Sprite2D" parent="Visual" unique_id=238197682]
+modulate = Color(0.4, 0.8, 1, 0.35)
+z_index = -1
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_p05x5")
+position = Vector2(0, -60)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_dtqjj")

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/ww2/armored_train_car.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/objects/ww2/armored_train_car.png" id="2_r"]
+
+[sub_resource type="RectangleShape2D" id="S1"]
+size = Vector2(300, 30)
+
+[node name="ArmoredTrainCar" type="AnimatableBody2D"]
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("S1")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_r")
+offset = Vector2(0, 36)

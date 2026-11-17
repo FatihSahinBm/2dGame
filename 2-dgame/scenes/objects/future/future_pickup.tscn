@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/future_pickup.gd" id="1_0lh2f"]
+
+[node name="FuturePickup" type="Area2D" unique_id=1624299730]
+script = ExtResource("1_0lh2f")

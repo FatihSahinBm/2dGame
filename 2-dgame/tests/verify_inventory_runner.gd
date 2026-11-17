@@ -243,7 +243,7 @@ func _test_7_heart_quadrant_progression() -> void:
 	# Kalp kadranı sekmesine geç
 	dialog.switch_tab("heart")
 	_assert_true(dialog.heart_quadrant_container.visible, "Kalp kadranı görünür oldu")
-	_assert_true("1 / 4" in dialog.heart_progress_label.text and "25" in dialog.heart_progress_label.text, "Kadran 1/4 ve %25 ilerleme gösterdi")
+	_assert_true("1 / 6" in dialog.heart_progress_label.text and "16" in dialog.heart_progress_label.text, "Kadran 1/6 ve %16 ilerleme gösterdi")
 
 	var slot1: Button = dialog.heart_quadrant_container.get_node_or_null("QuadrantSlot1")
 	var slot2: Button = dialog.heart_quadrant_container.get_node_or_null("QuadrantSlot2")
@@ -253,7 +253,7 @@ func _test_7_heart_quadrant_progression() -> void:
 	# 2. Kalp Parçasını topla (Vlad Boss zaferi simülasyonu)
 	game_state.set("current_heart_pieces", 2)
 	dialog.refresh_inventory()
-	_assert_true("2 / 4" in dialog.heart_progress_label.text and "50" in dialog.heart_progress_label.text, "Kadran 2/4 ve %50 ilerleme gösterdi")
+	_assert_true("2 / 6" in dialog.heart_progress_label.text and "33" in dialog.heart_progress_label.text, "Kadran 2/6 ve %33 ilerleme gösterdi")
 	_assert_true("💎" in slot2.text, "2. Kalp Parçası artık toplandı ve parıldıyor (💎)")
 
 	dialog.close()

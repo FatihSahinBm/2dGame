@@ -1,0 +1,85 @@
+{
+ "character": "cyber_enforcer",
+ "source": "output/future_sources/enemies/cyber_enforcer",
+ "frame_size": [
+  152,
+  112
+ ],
+ "feet_y": 86,
+ "anchor": "feet",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "walk",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "run",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 16.0
+  },
+  {
+   "name": "attack",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "slash_combo",
+   "row": 4,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "block",
+   "row": 5,
+   "frames": 16,
+   "source_frames": 2,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "hurt",
+   "row": 6,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "hit",
+   "row": 7,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "death",
+   "row": 8,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 12.0
+  }
+ ]
+}

@@ -1,0 +1,92 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/future_enemy.gd" id="1_nw4va"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/hydraulic_juggernaut/hydraulic_juggernaut_frames.tres" id="2_p2clh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ve327"]
+size = Vector2(40, 70)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7e86"]
+size = Vector2(49.6, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3mgjx"]
+size = Vector2(44, 74)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_drauo"]
+radius = 220.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ine7t"]
+bg_color = Color(0.08, 0.1, 0.16, 0.88)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7idqn"]
+bg_color = Color(0.3, 0.85, 1, 1)
+
+[node name="HydraulicJuggernaut" type="CharacterBody2D" unique_id=1717789157 groups=["damageable", "enemies"]]
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("1_nw4va")
+behavior = "heavy"
+monster_name = "Hydraulic Juggernaut"
+codex_id = "hydraulic_juggernaut"
+max_health = 260
+current_health = 260
+attack_damage = 26
+max_poise = 200.0
+attack_range = 62.0
+detection_range = 220.0
+speed = 40.0
+chase_speed = 70.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=948996777]
+position = Vector2(0, -35)
+shape = SubResource("RectangleShape2D_ve327")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1438146155]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=1364367488]
+texture_filter = 1
+position = Vector2(0, -32.4)
+scale = Vector2(0.72, 0.72)
+sprite_frames = ExtResource("2_p2clh")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual" unique_id=1095855139]
+position = Vector2(34, -35)
+collision_layer = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox" unique_id=640576077]
+shape = SubResource("RectangleShape2D_g7e86")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual" unique_id=1171654797]
+position = Vector2(26, 0)
+target_position = Vector2(0, 24)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=151983519]
+position = Vector2(0, -35)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=960929551]
+shape = SubResource("RectangleShape2D_3mgjx")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=74075164]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1272935055]
+shape = SubResource("CircleShape2D_drauo")
+
+[node name="UI" type="Node2D" parent="." unique_id=390987917]
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=1206545714]
+offset_left = -22.0
+offset_top = -88.0
+offset_right = 22.0
+offset_bottom = -82.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ine7t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7idqn")
+value = 100.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI" unique_id=1203321622]

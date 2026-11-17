@@ -1,0 +1,77 @@
+{
+ "character": "chrono_drone",
+ "source": "output/future_sources/enemies/chrono_drone",
+ "frame_size": [
+  144,
+  104
+ ],
+ "feet_y": 49,
+ "anchor": "center",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "walk",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "run",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": true,
+   "fps": 14.0
+  },
+  {
+   "name": "attack",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "pulse_cast",
+   "row": 4,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "hurt",
+   "row": 5,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "hit",
+   "row": 6,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "death",
+   "row": 7,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 12.0
+  }
+ ]
+}

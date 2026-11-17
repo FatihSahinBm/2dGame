@@ -143,7 +143,7 @@ func _update_progress_ui() -> void:
 		return
 	var remaining_dist: float = maxf(0.0, target_destination_x - global_position.x)
 	var pct: int = clampi(int(100.0 - (remaining_dist / (target_destination_x - 300.0) * 100.0)), 0, 100)
-	progress_label.text = "Mağaraya Kalan: %d m (%% %d)" % [int(remaining_dist / 10.0), pct]
+	progress_label.text = tr("WOOD_CART_PROGRESS") % [int(remaining_dist / 10.0), pct]
 
 
 func take_damage(amount: int) -> void:

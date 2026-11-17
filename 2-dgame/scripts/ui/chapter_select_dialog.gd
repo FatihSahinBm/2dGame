@@ -26,6 +26,30 @@ const CHAPTERS: Array[Dictionary] = [
 		"era_key": "CHAPTER_2_ERA",
 		"era": "1462 — Eflak Prensliği & Kazıklı Voyvoda",
 		"scene": "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
+	},
+	{
+		"index": 3,
+		"title_key": "CHAPTER_3_TITLE",
+		"title": "Bölüm 3: Antik Mısır ve Lanetli Firavun Kral",
+		"era_key": "CHAPTER_3_ERA",
+		"era": "Antik Mısır — Zaman Kırılması",
+		"scene": "res://scenes/levels/egypt/egypt_01_crimson_desert.tscn"
+	},
+	{
+		"index": 4,
+		"title_key": "CHAPTER_4_TITLE",
+		"title": "Bölüm 4: Cani Komutan ve Demir Kalp",
+		"era_key": "CHAPTER_4_ERA",
+		"era": "2. Dünya Savaşı — Demir Cephe",
+		"scene": "res://scenes/levels/ww2/stage_1_bombed_trenches.tscn"
+	},
+	{
+		"index": 5,
+		"title_key": "CHAPTER_5_TITLE",
+		"title": "Bölüm 5: AI Lord ve İşlemci Kalbi",
+		"era_key": "CHAPTER_5_ERA",
+		"era": "Uzak Gelecek — Distopik Dünya",
+		"scene": "res://scenes/levels/future/stage_1_neon_ruins.tscn"
 	}
 ]
 
@@ -135,6 +159,15 @@ func _populate_chapters() -> void:
 				scene_path = saved_stage
 				has_chapter_progress = true
 			elif ch_idx == 2 and saved_stage.contains("vlad"):
+				scene_path = saved_stage
+				has_chapter_progress = true
+			elif ch_idx == 3 and saved_stage.contains("/egypt/"):
+				scene_path = saved_stage
+				has_chapter_progress = true
+			elif ch_idx == 4 and saved_stage.contains("/ww2/"):
+				scene_path = saved_stage
+				has_chapter_progress = true
+			elif ch_idx == 5 and saved_stage.contains("/future/"):
 				scene_path = saved_stage
 				has_chapter_progress = true
 

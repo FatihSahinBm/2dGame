@@ -18,16 +18,35 @@ var _dialogue_done: bool = false
 @onready var visual: Node2D = $Visual
 @onready var anim_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var prompt_label: Label = $UI/PromptLabel
+@onready var title_label: Label = $UI/TitleLabel
 
 
 func _ready() -> void:
 	_setup_player_collision_exception()
+	_update_ui_texts()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	if prompt_label:
 		prompt_label.visible = false
 	if anim_sprite and anim_sprite.sprite_frames.has_animation("idle"):
 		anim_sprite.play("idle")
 	if visual:
 		visual.scale.x = -absf(visual.scale.x)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_ui_texts()
+
+
+func _update_ui_texts() -> void:
+	if title_label:
+		title_label.text = tr("TITLE_FATIH")
+	if prompt_label:
+		prompt_label.text = tr("PROMPT_TALK_FATIH")
+	character_name = tr("TITLE_FATIH")
+	title = tr("TITLE_OTTOMAN_SULTAN")
 
 
 func _setup_player_collision_exception() -> void:
@@ -93,13 +112,13 @@ func _on_dialogue_completed() -> void:
 		tw.tween_property(visual, "scale:x", dir_x * 1.0, 0.2)
 
 	# Baş üstünde emir metni
-	_spawn_command_shout("ORDUM! HÜCUM EDİN! EFLAK SURLARI YIKILACAK!")
+	_spawn_command_shout(tr("FATIH_SHOUT_CHARGE"))
 
 
 
 func _spawn_command_shout(text: String) -> void:
 	var label: Label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3, 1.0))
 	label.add_theme_color_override("font_outline_color", Color(0.1, 0.05, 0.0, 1.0))
 	label.add_theme_constant_override("outline_size", 5)

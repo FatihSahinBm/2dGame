@@ -28,11 +28,27 @@ var _reposition_dir: int = 0
 
 func _ready() -> void:
 	super._ready()
-	if monster_name == "Monster":
-		monster_name = "Ölüm Büyücüsü"
+	_update_title()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	if detection_range < 650.0:
 		detection_range = 650.0
 	attack_range = melee_range
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_title()
+
+
+func _update_title() -> void:
+	monster_name = tr("TITLE_NECROMANCER")
+	var lbl = get_node_or_null("UI/TitleLabel") as Label
+	if not lbl:
+		lbl = get_node_or_null("UI/BossTitle") as Label
+	if lbl:
+		lbl.text = tr("TITLE_NECROMANCER")
 
 func _update_facing_direction() -> void:
 	super._update_facing_direction()
@@ -420,3 +436,8 @@ func _die() -> void:
 		get_tree().create_timer(3.5).timeout.connect(_fade_and_free)
 	else:
 		_fade_and_free()
+
+
+## Boss kuralı: saldırıları savuşturulabilir ama savuşturma bu düşmanı sersemletmez (Story 2D-127)
+func is_parry_immune() -> bool:
+	return true

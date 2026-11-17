@@ -1,0 +1,216 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/future/stage_5_sword_shattering.gd" id="1_54ahw"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="2_n6q8q"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_sky_neon_storm.png" id="3_51c6y"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_distant_skyscrapers.png" id="4_doppc"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_mid_viaduct_monorail.png" id="5_16k67"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_fg_cables_debris.png" id="6_pvl2f"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/neon_rain_streak.png" id="7_rlblx"]
+[ext_resource type="Texture2D" path="res://assets/environment/future/ground_core_citadel.png" id="8_00kp2"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/death_zone.tscn" id="9_as6ww"]
+[ext_resource type="Script" path="res://scripts/hazards/death_zone.gd" id="10_3px2a"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/ai_lord_singularity/ai_lord_singularity_frames.tres" id="11_bli17"]
+[ext_resource type="Texture2D" path="res://assets/items/future/heart_piece_5.png" id="12_n5hj7"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/time_vortex.png" id="13_urq2c"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/neon_spark.png" id="14_jick7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/dimensional_time_rift.tscn" id="15_1sg0l"]
+[ext_resource type="Script" path="res://scripts/objects/dimensional_time_rift.gd" id="16_51tfr"]
+[ext_resource type="PackedScene" path="res://scenes/ui/flashback_overlay.tscn" id="17_2n2a6"]
+[ext_resource type="Script" path="res://scripts/ui/flashback_overlay.gd" id="18_4j6qq"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="19_c1qrp"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="20_l2h20"]
+[ext_resource type="Script" path="res://scripts/combat/combat_test_player.gd" id="21_s7wor"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="22_gwinh"]
+[ext_resource type="Script" path="res://scripts/ui/fantasy_hud.gd" id="23_ax8j7"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="24_p8127"]
+[ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="25_201yi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7usx"]
+size = Vector2(30, 1110)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shdm8"]
+size = Vector2(30, 1110)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i0df2"]
+size = Vector2(1800, 220)
+
+[node name="FutureStage5SwordShattering" type="Node2D" unique_id=702503679]
+script = ExtResource("1_54ahw")
+camera_limits = Rect2i(0, -140, 1800, 910)
+tutorial_keys = PackedStringArray("FUT_TUT_05_TITLE", "FUT_TUT_05_SUB", "FUT_TUT_05_DESC")
+
+[node name="Ambient" type="CanvasModulate" parent="." unique_id=1749279188]
+color = Color(0.75, 0.68, 1, 1)
+
+[node name="WorldBackdrop" type="Node2D" parent="." unique_id=1641817724]
+z_index = -60
+script = ExtResource("2_n6q8q")
+background_texture = ExtResource("3_51c6y")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.03
+parallax_factor_y = 0.01
+tile_count = 4
+fog_color = Color(0, 0, 0, 0)
+
+[node name="FarLayer" type="Node2D" parent="." unique_id=139697744]
+z_index = -58
+script = ExtResource("2_n6q8q")
+background_texture = ExtResource("4_doppc")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.1
+tile_count = 4
+fog_color = Color(0, 0, 0, 0)
+
+[node name="MidLayer" type="Node2D" parent="." unique_id=847229112]
+z_index = -56
+script = ExtResource("2_n6q8q")
+background_texture = ExtResource("5_16k67")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.25
+parallax_factor_y = 0.03
+tile_count = 4
+fog_color = Color(0, 0, 0, 0)
+
+[node name="NearLayer" type="Node2D" parent="." unique_id=316321003]
+z_index = -52
+script = ExtResource("2_n6q8q")
+background_texture = ExtResource("6_pvl2f")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.45
+parallax_factor_y = 0.04
+tile_count = 4
+fog_color = Color(0, 0, 0, 0)
+
+[node name="NeonRain" type="CPUParticles2D" parent="." unique_id=1782147528]
+z_index = 20
+position = Vector2(900, -180)
+amount = 260
+texture = ExtResource("7_rlblx")
+lifetime = 2.2
+preprocess = 2.0
+emission_shape = 3
+emission_rect_extents = Vector2(900, 20)
+direction = Vector2(-0.2, 1)
+spread = 4.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 380.0
+initial_velocity_max = 460.0
+color = Color(0.6, 0.85, 1, 0.55)
+
+[node name="Environment" type="Node2D" parent="." unique_id=30995066]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment" unique_id=1253383601]
+position = Vector2(5, 315)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft" unique_id=1654695986]
+shape = SubResource("RectangleShape2D_g7usx")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment" unique_id=493837296]
+position = Vector2(1795, 315)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight" unique_id=1808385880]
+shape = SubResource("RectangleShape2D_shdm8")
+
+[node name="ThroneRuins" type="StaticBody2D" parent="Environment" unique_id=1338749420]
+position = Vector2(900, 670)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/ThroneRuins" unique_id=1397866332]
+shape = SubResource("RectangleShape2D_i0df2")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/ThroneRuins" unique_id=1212570636]
+texture_filter = 1
+offset_left = -900.0
+offset_top = -110.0
+offset_right = 900.0
+offset_bottom = 110.0
+texture = ExtResource("8_00kp2")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="DeathZone" type="Area2D" parent="." unique_id=2053762888 instance=ExtResource("9_as6ww")]
+position = Vector2(900, 860)
+collision_layer = 0
+monitorable = false
+script = ExtResource("10_3px2a")
+
+[node name="AiLordRemains" type="Node2D" parent="." unique_id=750964778]
+position = Vector2(1150, 560)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="AiLordRemains" unique_id=1451884425]
+texture_filter = 1
+position = Vector2(0, -62.25)
+scale = Vector2(0.75, 0.75)
+sprite_frames = ExtResource("11_bli17")
+animation = &"collapse_death"
+frame = 15
+
+[node name="HeartPieceVisual" type="Sprite2D" parent="." unique_id=996252586]
+visible = false
+z_index = 30
+texture_filter = 1
+position = Vector2(1150, 500)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("12_n5hj7")
+
+[node name="WizardShadow" type="Node2D" parent="." unique_id=1361249325]
+position = Vector2(1450, 330)
+
+[node name="Silhouette" type="Sprite2D" parent="WizardShadow" unique_id=1739105541]
+modulate = Color(0.12, 0.02, 0.18, 0.9)
+z_index = 25
+texture_filter = 1
+scale = Vector2(1.8, 2.4)
+texture = ExtResource("13_urq2c")
+
+[node name="Smoke" type="CPUParticles2D" parent="WizardShadow" unique_id=13974160]
+amount = 40
+texture = ExtResource("14_jick7")
+lifetime = 2.0
+emission_shape = 1
+emission_sphere_radius = 70.0
+gravity = Vector2(0, -20)
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.25, 0.05, 0.3, 0.6)
+
+[node name="VoidRift" type="Node2D" parent="." unique_id=1200247920 instance=ExtResource("15_1sg0l")]
+position = Vector2(1600, 420)
+script = ExtResource("16_51tfr")
+
+[node name="FlashbackOverlay" type="CanvasLayer" parent="." unique_id=274642539 instance=ExtResource("17_2n2a6")]
+layer = 15
+script = ExtResource("18_4j6qq")
+
+[node name="Lights" type="Node2D" parent="." unique_id=1743267784]
+
+[node name="CoreGlow" type="PointLight2D" parent="Lights" unique_id=1682095785]
+position = Vector2(1150, 480)
+color = Color(0.4, 0.6, 1, 1)
+energy = 1.2
+texture = ExtResource("19_c1qrp")
+texture_scale = 1.6
+
+[node name="CombatPlayer" type="CharacterBody2D" parent="." unique_id=700871583 instance=ExtResource("20_l2h20")]
+position = Vector2(420, 500)
+collision_mask = 7
+script = ExtResource("21_s7wor")
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" type="CanvasLayer" parent="." unique_id=1466050535 instance=ExtResource("22_gwinh")]
+process_mode = 3
+layer = 10
+script = ExtResource("23_ax8j7")
+
+[node name="DialogueBox" type="CanvasLayer" parent="." unique_id=648973144 instance=ExtResource("24_p8127")]
+layer = 25
+script = ExtResource("25_201yi")

@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/aegis_core.gd" id="1_aeu63"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/aegis_core/aegis_core_frames.tres" id="2_t23rk"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/shield_orb.png" id="3_8ecwu"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="4_8s3tr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0144"]
+size = Vector2(46, 46)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_y03f6"]
+blend_mode = 1
+
+[node name="AegisCore" type="CharacterBody2D" unique_id=605110529 groups=["damageable", "enemies"]]
+collision_layer = 2
+script = ExtResource("1_aeu63")
+max_health = 500
+codex_id = "aegis_core"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1856260004]
+shape = SubResource("RectangleShape2D_o0144")
+
+[node name="Visual" type="Node2D" parent="." unique_id=773893581]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=1461262658]
+texture_filter = 1
+scale = Vector2(0.9, 0.9)
+sprite_frames = ExtResource("2_t23rk")
+animation = &"core_idle"
+autoplay = "core_idle"
+
+[node name="Shield" type="Sprite2D" parent="Visual" unique_id=1489776890]
+modulate = Color(0.6, 0.9, 1, 0.55)
+z_index = 2
+texture_filter = 1
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("3_8ecwu")
+
+[node name="Glow" type="Sprite2D" parent="Visual" unique_id=1009831933]
+modulate = Color(0.4, 0.8, 1, 0.35)
+z_index = -1
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_y03f6")
+position = Vector2(0, -23)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_8s3tr")

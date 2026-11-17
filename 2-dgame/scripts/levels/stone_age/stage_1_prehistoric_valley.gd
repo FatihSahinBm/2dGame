@@ -29,6 +29,8 @@ const StoryDataLoaderScript = preload("res://scripts/autoloads/story_data_loader
 const RAPTOR_SCENE = preload("res://scenes/enemies/raptor.tscn")
 const STAGE_2_ARENA_PATH: String = "res://scenes/levels/stone_age/stage_2_trex_boss_arena.tscn"
 const RESPAWN_POINT: Vector2 = Vector2(480.0, 530.0)
+const LevelStory = preload("res://scripts/components/level_story.gd")
+const TRIBE_BETRAYAL_CORRUPTION: int = 10
 
 
 func _ready() -> void:
@@ -63,12 +65,15 @@ func _ready() -> void:
 	if caveman_chief:
 		caveman_chief.quest_accepted.connect(_on_caveman_quest_accepted)
 		caveman_chief.became_hostile.connect(_on_caveman_became_hostile)
+		caveman_chief.caveman_died.connect(_on_caveman_chief_died)
 
 	if wood_cart:
 		wood_cart.ambush_triggered.connect(_on_wood_cart_ambush)
 		wood_cart.delivered_to_cave.connect(_on_wood_cart_delivered)
 
 	_setup_tutorial_hud()
+	_quest("start_quest", "stone_age_first_shard")
+	_quest("set_tracked_quest", "stone_age_first_shard")
 
 	# Kılıcın ilk uyanış sekansını 0.4 saniye sonra başlat
 	get_tree().create_timer(0.4).timeout.connect(_trigger_sword_awakening)
@@ -152,6 +157,7 @@ func _on_barricade_zone_entered(body: Node2D) -> void:
 
 func _on_exit_gate_body_entered(body: Node2D) -> void:
 	if body == player:
+		_quest("advance_quest", "stone_age_first_shard", "cross_canyon")
 		_transition_to_boss_arena()
 
 
@@ -189,6 +195,8 @@ func _play_fade_in() -> void:
 
 func _on_caveman_quest_accepted() -> void:
 	_quest_active = true
+	_quest("start_quest", "orok_wood_cart")
+	_quest("set_tracked_quest", "orok_wood_cart")
 	if wood_cart:
 		wood_cart.activate_cart()
 	if hud and hud.has_method("set_tutorial"):
@@ -208,6 +216,17 @@ func _on_caveman_became_hostile() -> void:
 		)
 	_apply_camera_shake(5.0, 0.4)
 
+	# Seçimin bedeli: kabileye kılıç çekmek yozlaşmayı artırır ve hikâyeye işlenir
+	if not LevelStory.has_event(self, "orok_tribe_slain"):
+		LevelStory.set_event(self, "orok_tribe_slain")
+		var game_state: Node = get_node_or_null("/root/GameState")
+		if game_state and game_state.has_method("add_corruption"):
+			game_state.add_corruption(TRIBE_BETRAYAL_CORRUPTION)
+
+
+func _on_caveman_chief_died() -> void:
+	LevelStory.play_delayed(self, ["caveman_fight_aftermath"] as Array[String], 0.8, player)
+
 
 func _on_wood_cart_ambush() -> void:
 	if dialogue_box:
@@ -226,6 +245,9 @@ func _on_wood_cart_ambush() -> void:
 
 
 func _on_wood_cart_delivered() -> void:
+	LevelStory.set_event(self, "orok_tribe_helped")
+	_quest("advance_quest", "orok_wood_cart", "escort_cart")
+	_quest("set_tracked_quest", "stone_age_first_shard")
 	if caveman_chief:
 		caveman_chief.complete_quest()
 	if hud and hud.has_method("set_tutorial"):
@@ -247,3 +269,13 @@ func _apply_camera_shake(intensity: float, duration: float) -> void:
 	tw.tween_property(_player_camera, "offset:y", -intensity * 0.8, duration * 0.25)
 	tw.tween_property(_player_camera, "offset:y", 0.0, duration * 0.5)
 
+
+## Görev yöneticisine güvenli erişim (autoload yoksa sessizce atlar)
+func _quest(method: String, quest_id: String, stage: Variant = null) -> void:
+	var q_mgr: Node = get_node_or_null("/root/QuestManager")
+	if q_mgr == null or not q_mgr.has_method(method):
+		return
+	if stage == null:
+		q_mgr.call(method, quest_id)
+	else:
+		q_mgr.call(method, quest_id, stage)

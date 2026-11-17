@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/future_checkpoint_beacon.gd" id="1_gpayr"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/obj_checkpoint_beacon_off.png" id="2_iqy7j"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/obj_checkpoint_beacon.png" id="3_vfuwc"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/neon_spark.png" id="4_8dya8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pykq6"]
+radius = 48.0
+
+[node name="CheckpointBeacon" type="Area2D" unique_id=1823474449]
+collision_layer = 0
+script = ExtResource("1_gpayr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2092522799]
+shape = SubResource("CircleShape2D_pykq6")
+
+[node name="Visual" type="Node2D" parent="." unique_id=766843435]
+
+[node name="UnlitVisual" type="Node2D" parent="Visual" unique_id=374551248]
+
+[node name="HearthSprite" type="Sprite2D" parent="Visual/UnlitVisual" unique_id=181758986]
+texture_filter = 1
+position = Vector2(0, -48)
+texture = ExtResource("2_iqy7j")
+
+[node name="FireVisual" type="Node2D" parent="Visual" unique_id=287194429]
+
+[node name="BeaconSprite" type="Sprite2D" parent="Visual/FireVisual" unique_id=483706185]
+texture_filter = 1
+position = Vector2(0, -48)
+texture = ExtResource("3_vfuwc")
+
+[node name="LightGlow" type="Sprite2D" parent="Visual/FireVisual" unique_id=2055031021]
+modulate = Color(0.4, 0.9, 1, 0.6)
+texture_filter = 1
+position = Vector2(0, -80)
+scale = Vector2(5, 5)
+texture = ExtResource("4_8dya8")
+
+[node name="EmbersParticles" type="CPUParticles2D" parent="Visual" unique_id=1045002392]
+position = Vector2(0, -88)
+emitting = false
+amount = 16
+texture = ExtResource("4_8dya8")
+lifetime = 1.4
+gravity = Vector2(0, -20)
+color = Color(0.4, 0.9, 1, 0.8)
+
+[node name="PromptLabel" type="Label" parent="Visual" unique_id=1451001252]
+visible = false
+offset_left = -80.0
+offset_top = -130.0
+offset_right = -80.0
+offset_bottom = -130.0
+theme_override_font_sizes/font_size = 11

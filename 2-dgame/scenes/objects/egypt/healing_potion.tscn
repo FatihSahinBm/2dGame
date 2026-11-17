@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/egypt/egypt_pickup.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/objects/egypt/healing_potion.png" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_r"]
+
+[sub_resource type="CircleShape2D" id="Area"]
+radius = 18.0
+
+[node name="EgyptPickup" type="Area2D"]
+script = ExtResource("1_r")
+kind = "potion"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Area")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_r")
+offset = Vector2(0, 0)
+
+[node name="Glow" type="PointLight2D" parent="."]
+color = Color(1, 0.3, 0.35, 1)
+energy = 0.7
+texture_scale = 0.5
+texture = ExtResource("3_r")

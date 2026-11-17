@@ -1,0 +1,72 @@
+{
+ "character": "commander_form1",
+ "frame_size": [
+  144,
+  152
+ ],
+ "feet_y": 148,
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "move",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "telegraph",
+   "frames": 8,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "attack_1",
+   "frames": 8,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "attack_2",
+   "frames": 8,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "attack_3",
+   "frames": 8,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "phase_transition",
+   "frames": 10,
+   "loop": false,
+   "fps": 10.0
+  },
+  {
+   "name": "groggy",
+   "frames": 8,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "hurt",
+   "frames": 2,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "death",
+   "frames": 8,
+   "loop": false,
+   "fps": 10.0
+  }
+ ],
+ "notes": "Form 1 — Vlad paritesinde animasyon seti"
+}

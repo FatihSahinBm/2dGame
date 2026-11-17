@@ -395,12 +395,18 @@ func _test_12_procedural_audio_feedback() -> void:
 	# Prosedürel ses fonksiyonlarının kayıtlı olduğunu doğrula
 	_assert_true(audio_mgr.has_method("play_sfx"), "AudioManager.play_sfx mevcut")
 
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var open_res = audio_mgr.play_sfx("codex_open", -2.0)
 	_assert_true(open_res != null, "codex_open prosedürel sesi başarıyla tetiklendi")
 
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var close_res = audio_mgr.play_sfx("codex_close", -2.0)
 	_assert_true(close_res != null, "codex_close prosedürel sesi başarıyla tetiklendi")
 
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var unlock_res = audio_mgr.play_sfx("codex_unlock", -2.0)
 	_assert_true(unlock_res != null, "codex_unlock prosedürel sesi başarıyla tetiklendi")
 
@@ -410,11 +416,19 @@ func _test_12_procedural_audio_feedback() -> void:
 	_assert_true(audio_mgr.has_sound("page_turn_3"), "page_turn_3 sesi mevcut")
 	_assert_true(audio_mgr.has_sound("page_turn_4"), "page_turn_4 sesi mevcut")
 
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var pt1 = audio_mgr.play_page_turn(-2.0)
 	_assert_true(pt1 != null and pt1.stream != null, "1. Sayfa çevirme varyasyonu çaldı")
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var pt2 = audio_mgr.play_page_turn(-2.0)
 	_assert_true(pt2 != null and pt2.stream != null, "2. Sayfa çevirme varyasyonu çaldı")
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var pt3 = audio_mgr.play_page_turn(-2.0)
 	_assert_true(pt3 != null and pt3.stream != null, "3. Sayfa çevirme varyasyonu çaldı")
+	if audio_mgr.has_method("clear_sound_cooldowns"):
+		audio_mgr.clear_sound_cooldowns()
 	var pt4 = audio_mgr.play_page_turn(-2.0)
 	_assert_true(pt4 != null and pt4.stream != null, "4. Sayfa çevirme varyasyonu çaldı")

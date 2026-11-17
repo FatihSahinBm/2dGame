@@ -9,9 +9,13 @@ signal attack_hit(target: Node2D)
 
 enum State { PATROL, DETECT, APPROACH, TELEGRAPH, ATTACK, RETREAT, HURT, DEAD }
 
+const PoiseComponent = preload("res://scripts/combat/poise_component.gd")
+
 @export_group("Monster Profile")
 @export var monster_name: String = "Vadi Raptoru"
 @export var max_health: int = 110
+## Duruş (poise) puanı; 0 ise duruş sistemi yoktur (Story 2D-128)
+@export var max_poise: float = 90.0
 @export var current_health: int = 110
 
 @export_group("Movement")
@@ -51,6 +55,7 @@ var _target_node: Node2D = null
 @onready var damage_numbers: Node2D = $UI/DamageNumbers
 
 func _ready() -> void:
+	PoiseComponent.attach_if_applicable(self)
 	add_to_group("enemies")
 	add_to_group("damageable")
 	current_health = max_health
@@ -192,7 +197,7 @@ func take_damage(amount: int) -> void:
 		_die()
 	else:
 		current_state = State.HURT
-		_hurt_timer = 0.26
+		_hurt_timer = maxf(_hurt_timer, 0.26) # Süren sersemlemeyi kısaltma
 		velocity.x = -float(direction) * 160.0 * (1.0 - knockback_resistance)
 		if anim_sprite: anim_sprite.play("hurt")
 
@@ -270,3 +275,13 @@ func _on_detection_body_exited(_body: Node2D) -> void:
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if not is_dead and area.name == "AttackArea": take_damage(25)
+
+
+## Saldırısı savuşturulduğunda kısa süre sersemler ve karşı saldırıya açık kalır (Story 2D-127).
+## Zaten sersemse süre uzamaz, yalnızca daha uzun olan geçerli kalır (üst üste binmez).
+func on_parried(duration: float = 0.9) -> void:
+	if is_dead:
+		return
+	current_state = State.HURT
+	_hurt_timer = maxf(_hurt_timer, duration)
+	velocity.x = 0.0

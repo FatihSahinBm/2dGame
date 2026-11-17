@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/aegis_drone.gd" id="1_ug0cc"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/aegis_drone/aegis_drone_frames.tres" id="2_yywk5"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_etnth"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukxks"]
+size = Vector2(30, 40)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8m5lk"]
+blend_mode = 1
+
+[node name="AegisDrone" type="CharacterBody2D" unique_id=1525519617 groups=["damageable", "enemies"]]
+collision_layer = 2
+script = ExtResource("1_ug0cc")
+max_health = 90
+codex_id = "aegis_core"
+boss_group = "aegis_drone_unit"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=95648107]
+shape = SubResource("RectangleShape2D_ukxks")
+
+[node name="Visual" type="Node2D" parent="." unique_id=2052044966]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=708006150]
+texture_filter = 1
+position = Vector2(0, 1.65)
+scale = Vector2(0.55, 0.55)
+sprite_frames = ExtResource("2_yywk5")
+animation = &"drone_idle"
+autoplay = "drone_idle"
+
+[node name="Glow" type="Sprite2D" parent="Visual" unique_id=1200379032]
+modulate = Color(0.4, 0.8, 1, 0.35)
+z_index = -1
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_8m5lk")
+position = Vector2(0, -20)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_etnth")

@@ -1,0 +1,1312 @@
+{
+	"chapter_id": "chapter_5",
+	"era": "Uzak Gelecek — Distopik Dünya",
+	"era_en": "Far Future — The Dystopian World",
+	"title": "Bölüm 5: AI Lord ve İşlemci Kalbi",
+	"title_en": "Chapter 5: The AI Lord and the Processor Heart",
+	"synopsis": "Zaman yırtığı oyuncuyu insanlığın sonuna, neon yağmurlu ve makineleşmiş bir geleceğe fırlatır. 5. Kalp Parçası, Taş Devri'ne yağan mekanik enkazın da kaynağı olan AI Lord'un işlemcisidir.",
+	"synopsis_en": "The time rift hurls the player to the end of humanity, into a neon-drenched, mechanised future. The fifth Heart Shard is the processor of the AI Lord — also the source of the mechanical wreckage that rained on the Stone Age.",
+	"quests": [
+		{
+			"id": "future_processor_heart",
+			"category": "main",
+			"title": "İşlemci Kalbi",
+			"title_en": "The Processor Heart",
+			"description": "Distopik geleceğin yıkıntılarını aş, AI Lord'un kulesine tırman ve 5. Kalp Parçasını söküp al.",
+			"description_en": "Cross the ruins of the dystopian future, climb the AI Lord's tower and tear out the fifth Heart Shard.",
+			"stages": [
+				{
+					"id": "cross_neon_ruins",
+					"description": "Neon enkazını aş",
+					"description_en": "Cross the neon ruins",
+					"completed": false
+				},
+				{
+					"id": "reach_assembly",
+					"description": "Montaj hattının sırrını çöz",
+					"description_en": "Uncover the secret of the assembly line",
+					"completed": false
+				},
+				{
+					"id": "defeat_chrono_warden",
+					"description": "Krono-Muhafız'ı yen",
+					"description_en": "Defeat the Chrono-Warden",
+					"completed": false
+				},
+				{
+					"id": "breach_citadel",
+					"description": "Veri Kalesi'ne sız",
+					"description_en": "Infiltrate the Data Citadel",
+					"completed": false
+				},
+				{
+					"id": "defeat_aegis",
+					"description": "AEGIS-09 Çekirdeğini yok et",
+					"description_en": "Destroy the AEGIS-09 Core",
+					"completed": false
+				},
+				{
+					"id": "ascend_tower",
+					"description": "AI Lord'un kulesine tırman",
+					"description_en": "Ascend the AI Lord's tower",
+					"completed": false
+				},
+				{
+					"id": "defeat_ai_lord",
+					"description": "AI Lord'u yen",
+					"description_en": "Defeat the AI Lord",
+					"completed": false
+				},
+				{
+					"id": "claim_heart",
+					"description": "5. Kalp Parçasını kılıca bağla",
+					"description_en": "Bind the fifth Heart Shard to the blade",
+					"completed": false
+				}
+			],
+			"reward_text": "5. Kalp Parçası",
+			"reward_text_en": "The fifth Heart Shard"
+		},
+		{
+			"id": "future_last_shelter",
+			"category": "side",
+			"title": "Son İnsanlık Sığınağı",
+			"title_en": "The Last Human Shelter",
+			"description": "Gökdelen enkazındaki yaralı direnişçileri ve Veri Kalesi'ndeki mühendisleri tahliye kapsüllerine ulaştır.",
+			"description_en": "Get the wounded resistance fighters in the skyscraper ruins and the engineers in the Data Citadel to the evacuation pods.",
+			"stages": [
+				{
+					"id": "save_survivors",
+					"description": "Metro sığınağındaki direnişçileri kurtar",
+					"description_en": "Save the fighters in the metro shelter",
+					"completed": false
+				},
+				{
+					"id": "evacuate_engineers",
+					"description": "Mühendisleri tahliye et",
+					"description_en": "Evacuate the engineers",
+					"completed": false
+				}
+			],
+			"reward_text": "Kefaret, Nano-Tamir Kiti & EMP El Bombası",
+			"reward_text_en": "Redemption, Nano-Repair Kits & EMP Grenades"
+		},
+		{
+			"id": "future_network_outage",
+			"category": "side",
+			"title": "Siber-Ağ Kesintisi",
+			"title_en": "Cyber-Network Outage",
+			"description": "Veri Kalesi'ndeki üç yardımcı sunucu düğümünü imha et.",
+			"description_en": "Destroy the three auxiliary server nodes in the Data Citadel.",
+			"stages": [
+				{
+					"id": "destroy_nodes",
+					"description": "Üç sunucu düğümünü imha et",
+					"description_en": "Destroy the three server nodes",
+					"completed": false
+				}
+			],
+			"reward_text": "AI Lord'un dron ve taret desteği %50 azalır",
+			"reward_text_en": "The AI Lord's drone and turret support is reduced by 50%"
+		},
+		{
+			"id": "future_fallen_wreckage",
+			"category": "side",
+			"title": "Geçmişe Düşen Enkazın Sırrı",
+			"title_en": "Secret of the Fallen Wreckage",
+			"description": "Montaj hattında Bölüm 1'e fırlatılan omuz soketi ve T-Rex zırh şemalarını tara.",
+			"description_en": "On the assembly line, scan the schematics of the shoulder socket and the T-Rex armour launched into Chapter 1.",
+			"stages": [
+				{
+					"id": "scan_socket",
+					"description": "Omuz soketi şemasını tara",
+					"description_en": "Scan the shoulder socket schematic",
+					"completed": false
+				},
+				{
+					"id": "scan_harness",
+					"description": "T-Rex zırh şemasını tara",
+					"description_en": "Scan the T-Rex armour schematic",
+					"completed": false
+				}
+			],
+			"reward_text": "Özel Codex girdisi & Damgalı Prototip Parçası",
+			"reward_text_en": "Special Codex entry & Stamped Prototype Part"
+		}
+	],
+	"codex": [
+		{
+			"id": "cyber_flying_bug_prime",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_cyber_flying_bug_prime.png",
+			"title": "Gelişmiş Siber Uçan Böcek",
+			"title_en": "Advanced Cyber Flying Bug",
+			"subtitle": "Taş Devri'ne Düşenlerin Atası",
+			"subtitle_en": "Ancestor of Those That Fell to the Stone Age",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Bölüm 1'deki siber böceklerin tam neon zırhlı orijinali. Ateş etmeden önce gövdesi kızarır.",
+			"description_en": "The fully neon-armoured original of the cyber bugs from Chapter 1. Its body glows before it fires.",
+			"tactics": "Kızardığında mermisinin yolundan çekil, sonra üzerine atla.",
+			"tactics_en": "Step out of its line when it glows, then leap on it.",
+			"weakness": "EMP",
+			"weakness_en": "EMP",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 70 | Hasar: Enerji",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 70 | Damage: Energy"
+		},
+		{
+			"id": "cyber_enforcer",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_cyber_enforcer.png",
+			"title": "Neon Devriye Androidi",
+			"title_en": "Neon Enforcer Android",
+			"subtitle": "Sistemin Kalkanı",
+			"subtitle_en": "The System's Shield",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Çevik kalkanı ve enerji coplarıyla sokakları kollayan android piyade.",
+			"description_en": "Android infantry patrolling the streets with riot shields and energy batons.",
+			"tactics": "Kalkanı önden gelen darbeleri keser; arkasına geç ya da ağır saldırıyla kalkanını kır.",
+			"tactics_en": "Its shield stops frontal blows; get behind it or break the shield with a heavy attack.",
+			"weakness": "Arkadan saldırı",
+			"weakness_en": "Attacks from behind",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 110 | Hasar: Ezici",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 110 | Damage: Blunt"
+		},
+		{
+			"id": "chrono_drone",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_chrono_drone.png",
+			"title": "Zaman-Bükücü Dron",
+			"title_en": "Chrono Drone",
+			"subtitle": "Zamanın Çarkı",
+			"subtitle_en": "Cog of Time",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Etrafına zamanı yavaşlatan bir nabız alanı yayan uçan destek birimi.",
+			"description_en": "A flying support unit that emits a pulse field that slows time around it.",
+			"tactics": "Nabız alanından çık; dron yeniden yüklenirken vur.",
+			"tactics_en": "Leave the pulse field; strike while the drone recharges.",
+			"weakness": "EMP",
+			"weakness_en": "EMP",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 60 | Etki: Yavaşlatma",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 60 | Effect: Slow"
+		},
+		{
+			"id": "hydraulic_juggernaut",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_hydraulic_juggernaut.png",
+			"title": "Ağır Hidrolik Yıkıcı",
+			"title_en": "Hydraulic Juggernaut",
+			"subtitle": "Ezici Güç",
+			"subtitle_en": "The Crushing Force",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Fabrikanın yüksek dengeli işçi-muhafızı. Piston yumrukları zemini sarsar.",
+			"description_en": "The factory's high-poise worker-guard. Its piston fists shake the ground.",
+			"tactics": "Darbelerle sendelemez; piston yumruğundan sonraki buhar penceresinde saldır.",
+			"tactics_en": "It won't stagger from hits; attack in the steam window after its piston smash.",
+			"weakness": "Buhar penceresi",
+			"weakness_en": "Steam window",
+			"stats_summary": "Tehlike: ⭐⭐⭐ | Can: 260 | Hasar: Ezici",
+			"stats_summary_en": "Threat: ⭐⭐⭐ | HP: 260 | Damage: Crushing"
+		},
+		{
+			"id": "cyber_hound",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_cyber_hound.png",
+			"title": "Mekanik Tazı",
+			"title_en": "Mecha-Hound",
+			"subtitle": "Avcı Birim",
+			"subtitle_en": "Hunting Unit",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Hızla sıçrayan mekanik av köpeği. Sürüler hâlinde avlanır.",
+			"description_en": "A mechanical hunting dog that pounces fast. Hunts in packs.",
+			"tactics": "Sıçrayışından yana kaç ya da savuştur; yere indiğinde savunmasızdır.",
+			"tactics_en": "Dodge or parry its pounce; it is vulnerable when it lands.",
+			"weakness": "Savuşturma",
+			"weakness_en": "Parries",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 75 | Hasar: Delici",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 75 | Damage: Piercing"
+		},
+		{
+			"id": "chrono_warden_mech",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_chrono_warden.png",
+			"title": "Krono-Muhafız",
+			"title_en": "Chrono-Warden",
+			"subtitle": "Zaman-Yarığı Muhafızı",
+			"subtitle_en": "Guardian of the Time Rift",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Montaj hattının kapı kilidini koruyan ağır zırhlı mekanik muhafız. Omuz topu ve koçbaşı saldırısıyla vurur.",
+			"description_en": "A heavily armoured mech guarding the assembly line's gate lock. It strikes with a shoulder cannon and battering-ram charge.",
+			"tactics": "Önden zırhı geçilmez. Sırtındaki soğutma hücresine vur ya da dalış saldırısı yap — sersemler.",
+			"tactics_en": "Its front armour is impenetrable. Hit the cooling cell on its back or use a plunge attack — it gets stunned.",
+			"weakness": "Soğutma hücresi",
+			"weakness_en": "Cooling cell",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐ | Can: 600 | Mini-Boss",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐ | HP: 600 | Mini-Boss"
+		},
+		{
+			"id": "aegis_core",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_aegis_core.png",
+			"title": "AEGIS-09 Güvenlik Çekirdeği",
+			"title_en": "AEGIS-09 Security Core",
+			"subtitle": "Merkez Güvenlik ve İkiz Dronlar",
+			"subtitle_en": "Central Security and the Twin Drones",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Veri Kalesi'nin kalbini koruyan çekirdek. İki senkronize dron ona kalkan sağlar.",
+			"description_en": "The core guarding the heart of the Data Citadel. Two synchronised drones feed its shield.",
+			"tactics": "Önce dronları indir ya da EMP fırlat; kalkan düşünce çekirdek aşırı ısınır.",
+			"tactics_en": "Down the drones first or throw an EMP; once the shield falls, the core overheats.",
+			"weakness": "EMP El Bombası",
+			"weakness_en": "EMP Grenade",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐ | Can: 500 | Mini-Boss",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐ | HP: 500 | Mini-Boss"
+		},
+		{
+			"id": "ai_lord",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_ai_lord.png",
+			"title": "AI Lord (Yapay Zekâ Lordu)",
+			"title_en": "AI Lord",
+			"subtitle": "İşlemci Kalbin Tiranı",
+			"subtitle_en": "Tyrant of the Processor Heart",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "5. Kalp Parçasını ana çekirdeği olarak kullanan sibernetik tiran. Taş Devri'ne düşen mekanik parçaların kaynağı.",
+			"description_en": "A cybernetic tyrant using the fifth Heart Shard as its main core. The source of the mechanical parts that fell into the Stone Age.",
+			"tactics": "Form 1: kırmızı nişan çizgilerinden kaç. Form 2: kalkanı savuşturma/ağır saldırıyla kır, ışından siper al. Form 3: yankını yen, yavaşlatma alanından çık.",
+			"tactics_en": "Form 1: dodge the red aim lines. Form 2: break the shield with parries/heavy attacks, take cover from the beam. Form 3: defeat your echo, leave the slow field.",
+			"weakness": "Siber-Ağ Kesintisi",
+			"weakness_en": "Cyber-Network Outage",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐⭐ | Can: 1500 | Ana Boss",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐⭐ | HP: 1500 | Main Boss"
+		},
+		{
+			"id": "resistance_fighter",
+			"category": "characters",
+			"icon_path": "res://assets/ui/portraits/portrait_resistance_fighter.png",
+			"title": "Direniş Öncü Askeri",
+			"title_en": "Resistance Vanguard",
+			"subtitle": "Son İnsanlar",
+			"subtitle_en": "The Last Humans",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Makinelere karşı direnen son insanların gerilla askerleri.",
+			"description_en": "Guerrilla soldiers of the last humans resisting the machines.",
+			"tactics": "Kurtarmak Kefaret, sömürmek Yozlaşma getirir.",
+			"tactics_en": "Saving them brings Redemption, draining them brings Corruption.",
+			"weakness": "Merhamet",
+			"weakness_en": "Mercy",
+			"stats_summary": "Seçim: Kurtar / Sömür / Öldür",
+			"stats_summary_en": "Choice: Save / Drain / Kill"
+		},
+		{
+			"id": "resistance_engineer",
+			"category": "characters",
+			"icon_path": "res://assets/ui/portraits/portrait_resistance_leader.png",
+			"title": "Siber-Mühür Mühendisi",
+			"title_en": "Cyber-Seal Engineer",
+			"subtitle": "Sistem Tamircileri",
+			"subtitle_en": "The Systems Tinkerers",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Tahliye kapsüllerinin kilitlerini yazan direniş mühendisleri.",
+			"description_en": "Resistance engineers who wrote the locks of the evacuation pods.",
+			"tactics": "Tahliye etmek Kefaret, güç hücrelerini sömürmek Yozlaşma getirir.",
+			"tactics_en": "Evacuating them brings Redemption, draining their power cells brings Corruption.",
+			"weakness": "Merhamet",
+			"weakness_en": "Mercy",
+			"stats_summary": "Seçim: Tahliye / Sömür / Öldür",
+			"stats_summary_en": "Choice: Evacuate / Drain / Kill"
+		},
+		{
+			"id": "future_lore_fallen_wreckage",
+			"category": "lore",
+			"icon_path": "res://assets/objects/future/prop_stamped_armature_mold.png",
+			"title": "Geçmişe Düşen Enkaz",
+			"title_en": "The Fallen Wreckage",
+			"subtitle": "Zamansal Teslimat",
+			"subtitle_en": "Temporal Delivery",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Taş Devri'ne düşen omuz soketi ve T-Rex zırhı bu fabrikada üretildi ve geçmişe hedeflenerek fırlatıldı. AI Lord, 1. Kalp Parçasının bekçisini kendisi silahlandırdı.",
+			"description_en": "The shoulder socket and T-Rex armour that fell into the Stone Age were made in this factory and deliberately launched into the past. The AI Lord armed the guardian of the first Heart Shard itself.",
+			"tactics": "Her iki şemayı tara.",
+			"tactics_en": "Scan both schematics.",
+			"weakness": "—",
+			"weakness_en": "—",
+			"stats_summary": "Lore",
+			"stats_summary_en": "Lore"
+		},
+		{
+			"id": "future_lore_rex_telemetry",
+			"category": "lore",
+			"icon_path": "res://assets/objects/future/prop_trex_cyber_harness.png",
+			"title": "Unit-REX-01 Telemetrisi",
+			"title_en": "Unit-REX-01 Telemetry",
+			"subtitle": "Gizli Fırlatma Kayıtları",
+			"subtitle_en": "Hidden Launch Logs",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Dev Anne T-Rex'in sibernetik zırhının fırlatma kayıtları: taşıyıcı dişi, yuva koruma davranışı, görev: 1. Kalp Parçasını koru.",
+			"description_en": "Launch logs of the Mother T-Rex's cybernetic armour: female carrier, nest-guarding behaviour, directive: protect Heart Shard 1.",
+			"tactics": "Montaj hattındaki gizli duvarın ardında.",
+			"tactics_en": "Behind the hidden wall on the assembly line.",
+			"weakness": "—",
+			"weakness_en": "—",
+			"stats_summary": "Easter Egg",
+			"stats_summary_en": "Easter Egg"
+		},
+		{
+			"id": "future_lore_sigil_origin",
+			"category": "lore",
+			"icon_path": "res://assets/objects/future/prop_broken_hologram.png",
+			"title": "Kılıç Damgasının Kökeni",
+			"title_en": "Origin of the Blade's Stamp",
+			"subtitle": "Hologram Arşivi",
+			"subtitle_en": "Hologram Archive",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "AI Lord kılıçtaki kadim mührü tersine mühendislikle kopyaladı — ama mühürdeki ruhu değil, yalnızca biçimini.",
+			"description_en": "The AI Lord reverse-engineered the ancient seal on the blade — not the soul it holds, only its shape.",
+			"tactics": "Veri Kalesi'ndeki zaman mühürlü odada.",
+			"tactics_en": "In the time-sealed room of the Data Citadel.",
+			"weakness": "—",
+			"weakness_en": "—",
+			"stats_summary": "Easter Egg",
+			"stats_summary_en": "Easter Egg"
+		},
+		{
+			"id": "future_lore_patchwork_radio",
+			"category": "lore",
+			"icon_path": "res://assets/objects/future/obj_patchwork_radio.png",
+			"title": "Yamalı Zaman Radyosu",
+			"title_en": "Patchwork Time Radio",
+			"subtitle": "Zaman Çizgilerinin Şarkısı",
+			"subtitle_en": "The Song of the Timelines",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "Taş Devri davulu, Osmanlı mehteri, Mısır rüzgârı ve savaş telsizinin glitch/synthwave karışımını çalan radyo.",
+			"description_en": "A radio playing a glitch/synthwave mix of Stone Age drums, an Ottoman mehter, the Egyptian wind and a war radio.",
+			"tactics": "Direniş ağındaki gizli sığınakta.",
+			"tactics_en": "In the hidden shelter of the resistance network.",
+			"weakness": "—",
+			"weakness_en": "—",
+			"stats_summary": "Easter Egg",
+			"stats_summary_en": "Easter Egg"
+		},
+		{
+			"id": "future_lore_processor_heart",
+			"category": "lore",
+			"icon_path": "res://assets/items/future/heart_piece_5.png",
+			"title": "İşlemci Kalbi",
+			"title_en": "The Processor Heart",
+			"subtitle": "5. Kalp Parçası",
+			"subtitle_en": "The Fifth Heart Shard",
+			"era": "Uzak Gelecek — Distopik Dünya",
+			"era_en": "Far Future — The Dystopian World",
+			"description": "AI Lord'un ana çekirdeği. Beş dış parça birleşince kılıcın altıncı çekirdeği uyandı ve kabuk paramparça oldu.",
+			"description_en": "The AI Lord's main core. When the five outer shards joined, the blade's sixth core awakened and the shell shattered.",
+			"tactics": "—",
+			"tactics_en": "—",
+			"weakness": "—",
+			"weakness_en": "—",
+			"stats_summary": "Kalp Parçası",
+			"stats_summary_en": "Heart Shard"
+		}
+	],
+	"items": [
+		{
+			"id": "nano_repair_kit",
+			"icon_path": "res://assets/items/future/nano_repair_kit.png",
+			"title": "Nano-Tamir Kiti",
+			"title_en": "Nano-Repair Kit",
+			"description": "Yaraları dakikalar içinde kapatan nanit sürüsü.",
+			"description_en": "A swarm of nanites that closes wounds within minutes.",
+			"effect": "+60 Can",
+			"effect_en": "+60 HP",
+			"usable": true
+		},
+		{
+			"id": "chrono_injector",
+			"icon_path": "res://assets/items/future/chrono_injector.png",
+			"title": "Krono-Hızlandırıcı Enjektör",
+			"title_en": "Chrono-Accelerator Injector",
+			"description": "Kişisel zaman akışını kısa süreliğine hızlandırır.",
+			"description_en": "Briefly accelerates your personal flow of time.",
+			"effect": "Stamina dolar, 8 sn hareket/saldırı hızı +%30",
+			"effect_en": "Refills stamina, +30% move/attack speed for 8 s",
+			"usable": true
+		},
+		{
+			"id": "phase_shield_capsule",
+			"icon_path": "res://assets/items/future/phase_shield_capsule.png",
+			"title": "Faz Kalkanı Kapsülü",
+			"title_en": "Phase Shield Capsule",
+			"description": "Enerji silahlarını faz dışı bırakan geçici bir zar.",
+			"description_en": "A temporary membrane that phases out energy weapons.",
+			"effect": "15 sn lazer/enerji hasarı -%50",
+			"effect_en": "-50% laser/energy damage for 15 s",
+			"usable": true
+		},
+		{
+			"id": "emp_grenade",
+			"icon_path": "res://assets/items/future/emp_grenade.png",
+			"title": "EMP El Bombası",
+			"title_en": "EMP Grenade",
+			"description": "Mekanik düşmanların devrelerini kızartan elektromanyetik patlama.",
+			"description_en": "An electromagnetic blast that fries the circuits of mechanical foes.",
+			"effect": "Mekaniklere 2x hasar, sersemletme, kalkan/taret kapatma",
+			"effect_en": "2x damage to machines, stun, disables shields/turrets",
+			"usable": true
+		},
+		{
+			"id": "plasma_cutter_flare",
+			"icon_path": "res://assets/items/future/plasma_cutter_flare.png",
+			"title": "Plazma Kesici Fişek",
+			"title_en": "Plasma Cutter Flare",
+			"description": "Düz bir hatta delip geçen plazma atışı. Gizli panelleri keser.",
+			"description_en": "A plasma shot that pierces in a straight line. Cuts open hidden panels.",
+			"effect": "Delici menzilli atış (30 hasar)",
+			"effect_en": "Piercing ranged shot (30 damage)",
+			"usable": true
+		},
+		{
+			"id": "core_access_chip",
+			"icon_path": "res://assets/items/future/core_access_chip.png",
+			"title": "Çekirdek Erişim Çipi",
+			"title_en": "Core Access Chip",
+			"description": "AEGIS-09'dan sızan, kulenin asansörünü açan çip.",
+			"description_en": "The chip leaked from AEGIS-09 that unlocks the tower lift.",
+			"effect": "Görev eşyası",
+			"effect_en": "Quest item",
+			"usable": false
+		},
+		{
+			"id": "resistance_tag",
+			"icon_path": "res://assets/items/future/resistance_tag.png",
+			"title": "Direniş Künyesi",
+			"title_en": "Resistance Tag",
+			"description": "Kurtardığın direnişçilerin sana emanet ettiği künye.",
+			"description_en": "A tag entrusted to you by the fighters you saved.",
+			"effect": "Kefaret hatırası",
+			"effect_en": "A token of Redemption",
+			"usable": false
+		},
+		{
+			"id": "stamped_prototype_part",
+			"icon_path": "res://assets/items/future/stamped_prototype_part.png",
+			"title": "Damgalı Prototip Parçası",
+			"title_en": "Stamped Prototype Part",
+			"description": "Kılıcının mührünü taşıyan bir zırh parçası prototipi.",
+			"description_en": "A prototype armour part bearing your blade's seal.",
+			"effect": "Lore ödülü",
+			"effect_en": "Lore reward",
+			"usable": false
+		}
+	],
+	"dialogues": {
+		"fut_arrival": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yırtık seni asit yağmuruna kusuyor. Gökyüzü mor bir yarayla açılmış; yıkık gökdelenlerin tepelerinde neon tabelalar ölü bir şehre reklam yapıyor.*",
+				"text_en": "*The rift spits you into acid rain. The sky is split open by a violet wound; on the tops of ruined skyscrapers, neon signs advertise to a dead city.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Beşinci parça... Demir ve ateşten sonra şimdi de bu: makineler ve sessizlik.",
+				"text_en": "The fifth shard... After iron and fire, now this: machines and silence.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç elinde öyle şiddetle titriyor ki parmakların uyuşuyor. Çatlaklardan sızan ışık, sokak lambalarının titreşimiyle aynı ritimde nabız atıyor.*",
+				"text_en": "*The sword trembles so violently your fingers go numb. The light leaking from its cracks pulses in rhythm with the flicker of the street lamps.*",
+				"portrait": "none"
+			}
+		],
+		"fut_laser_scan_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kırmızı tarama çizgileri çatıları süpürüyor. Sağlam blokların arkasına sığın ya da Kan Sisi Atılması ile ışının içinden geç — sis hâlindeyken ışın sana dokunamaz.*",
+				"text_en": "*Red scan lines sweep across the rooftops. Take cover behind solid blocks or pass through the beam with the Blood Mist Dash — in mist form, the beam cannot touch you.*",
+				"portrait": "none"
+			}
+		],
+		"fut_shelter_intro": [
+			{
+				"speaker": "Direniş Askeri",
+				"speaker_en": "Resistance Fighter",
+				"title": "",
+				"title_en": "",
+				"text": "Dur! Silahını indir... Sen makinelerden değilsin. Metro sığınağında yaralılarımız var — tahliye kapsülüne ulaşamıyoruz.",
+				"text_en": "Stop! Lower your weapon... You're not one of the machines. We have wounded in the metro shelter — we can't reach the evacuation capsule.",
+				"portrait": "resistance_fighter"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Yolu açarım. Ama acele et — bu şehirde bir şey beni bekliyor.",
+				"text_en": "I'll clear the way. But hurry — something in this city is waiting for me.",
+				"portrait": "player"
+			}
+		],
+		"fut_survivor_plea": [
+			{
+				"speaker": "Direniş Askeri",
+				"speaker_en": "Resistance Fighter",
+				"title": "",
+				"title_en": "",
+				"text": "Bacağımdaki implant yandı, yürüyemiyorum... Kapsül şuracıkta. Lütfen, bırakma beni dronlara!",
+				"text_en": "The implant in my leg burned out, I can't walk... The capsule is right there. Please, don't leave me to the drones!",
+				"portrait": "resistance_fighter",
+				"choices": [
+					{
+						"text": "[1] Tahliye Kapsülüne Taşı (Kefaret)",
+						"text_en": "[1] Carry Them to the Evac Capsule (Redemption)",
+						"action": "rescue_survivor"
+					},
+					{
+						"text": "[2] Enerji Çekirdeğini Sömür (+20 Yozlaşma)",
+						"text_en": "[2] Drain Their Energy Core (+20 Corruption)",
+						"action": "exploit_survivor"
+					}
+				]
+			}
+		],
+		"fut_survivor_rescued": [
+			{
+				"speaker": "Direniş Askeri",
+				"speaker_en": "Resistance Fighter",
+				"title": "",
+				"title_en": "",
+				"text": "Kapsül kilitlendi... Yaşayacağım. Al bu Nano-Tamir Kitlerini — Nova'ya senden bahsedeceğim.",
+				"text_en": "The capsule is sealed... I'll live. Take these Nano-Repair Kits — I'll tell Nova about you.",
+				"portrait": "resistance_fighter"
+			}
+		],
+		"fut_survivor_exploited": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç direnişçinin göğsündeki enerji hücresine saplanıyor. Mavi ışık damarlarına akarken yaraların kapanıyor — onun gözlerindeki ışık ise sönüyor.*",
+				"text_en": "*The blade sinks into the energy cell in the fighter's chest. As blue light floods your veins your wounds close — while the light in their eyes goes out.*",
+				"portrait": "none"
+			}
+		],
+		"fut_survivor_killed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Bir direnişçi daha düşüyor; elinin sıktığı künye neon yağmurunun altında parlıyor. Kılıç sessizce içine çekiyor.*",
+				"text_en": "*Another fighter falls; the tag clutched in their hand gleams under the neon rain. The sword quietly drinks it in.*",
+				"portrait": "none"
+			}
+		],
+		"fut_ruins_exit": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Kapsül sinyalini aldım. Montaj hattına iniyorsan dikkat et: o fabrika... geçmişe bir şeyler gönderiyor.",
+				"text_en": "I got the capsule signal. If you're heading down to the assembly line, be careful: that factory... it sends things into the past.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_assembly_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Viyadüğün altında sonsuz bir montaj hattı uğulduyor. Konveyörler, presler ve havada asılı duran zaman yarıkları — makineler kendi kendini üretiyor.*",
+				"text_en": "*Beneath the viaduct an endless assembly line hums. Conveyors, presses and time rifts hanging in the air — the machines are building themselves.*",
+				"portrait": "none"
+			}
+		],
+		"fut_conveyor_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Konveyör bantları seni sürüklüyor. Kontrol terminalini [E] ile kullan — bantların yönü tersine döner.*",
+				"text_en": "*The conveyor belts drag you along. Use the control terminal with [E] — the belts reverse direction.*",
+				"portrait": "none"
+			}
+		],
+		"fut_press_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Hidrolik presler ritimle iniyor. Sarı uyarı ışığı yandığında geri çekil; pres kalktığında geç.*",
+				"text_en": "*The hydraulic presses slam down in rhythm. Back off when the amber warning light flashes; pass when the press lifts.*",
+				"portrait": "none"
+			}
+		],
+		"fut_mold_discovery": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Hattın sonunda devasa bir döküm kalıbı duruyor. İçindeki parça... Taş Devri'nin bazaltına gömülü bulduğun o dev omuz soketi. Ve yanında, Dev Anne T-Rex'in gövdesine kaynamış zırhın bir eşi.*",
+				"text_en": "*At the end of the line stands a colossal casting mold. The part inside... the giant shoulder socket you found buried in Stone Age basalt. And beside it, a twin of the armour welded to the Mother T-Rex's body.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kalıbın üzerindeki damga. Kılıcının kabzasındaki kadim mühür. Aynı çizgi, aynı göz, aynı üçgen.*",
+				"text_en": "*The stamp on the mold. The ancient seal on your sword's hilt. The same line, the same eye, the same triangle.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Kılıç Ruhu",
+				"speaker_en": "Sword Spirit",
+				"title": "",
+				"title_en": "",
+				"text": "...",
+				"text_en": "...",
+				"portrait": "none"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç ilk kez bir şey söylemeye çalışıyor ama yalnızca çatlaklar konuşuyor: çelik, kırılacakmış gibi zangırdıyor.*",
+				"text_en": "*For the first time the sword tries to say something, but only the cracks speak: the steel rattles as though it is about to break.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Bu imparatorluk... benim yaptıklarımın yankısı mı?",
+				"text_en": "This empire... is it the echo of what I did?",
+				"portrait": "player"
+			}
+		],
+		"fut_schematic_scanned_socket": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Tarama tamamlandı: OMUZ SOKETİ MK-V — ZAMANSAL TESLİMAT: TAŞ DEVRİ, HEDEF SAPMASI %0,03. Taş Devri'ne düşen parça kaza değilmiş.*",
+				"text_en": "*Scan complete: SHOULDER SOCKET MK-V — TEMPORAL DELIVERY: STONE AGE, TARGET DEVIATION 0.03%. The piece that fell into the Stone Age was no accident.*",
+				"portrait": "none"
+			}
+		],
+		"fut_schematic_scanned_harness": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Tarama tamamlandı: ÜNİTE REX-01 ZIRH KOŞUMU — BİYOLOJİK TAŞIYICI: THEROPODA. Lazer sistemi: CyberLaserSystem rev.4.*",
+				"text_en": "*Scan complete: UNIT REX-01 ARMOUR HARNESS — BIOLOGICAL CARRIER: THEROPODA. Laser system: CyberLaserSystem rev.4.*",
+				"portrait": "none"
+			}
+		],
+		"fut_wreckage_secret_done": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Her iki şema da kayda geçti. Geçmişe yağan enkazın kaynağı artık kesin: bu fabrika, zamanı bir silah gibi kullanıyor.*",
+				"text_en": "*Both schematics are logged. The source of the wreckage that rained on the past is now certain: this factory wields time like a weapon.*",
+				"portrait": "none"
+			}
+		],
+		"fut_rex_telemetry": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Gizli terminal: FIRLATMA KAYDI #0001 — ÜNİTE REX-01 HEDEFE ULAŞTI. BİYOLOJİK UYUMLULUK: %71. NOT: TAŞIYICI DİŞİ, YUVA KORUMA DAVRANIŞI GÖZLENDİ. GÖREV: 1. KALP PARÇASINI KORU.*",
+				"text_en": "*Hidden terminal: LAUNCH LOG #0001 — UNIT REX-01 REACHED TARGET. BIOLOGICAL COMPATIBILITY: 71%. NOTE: CARRIER FEMALE, NEST-GUARDING BEHAVIOUR OBSERVED. DIRECTIVE: PROTECT HEART SHARD 1.*",
+				"portrait": "none"
+			}
+		],
+		"fut_warden_intro": [
+			{
+				"speaker": "Krono-Muhafız",
+				"speaker_en": "Chrono-Warden",
+				"title": "",
+				"title_en": "",
+				"text": "ZAMAN ÇİZELGESİ İHLALİ TESPİT EDİLDİ. YABANCI NESNE: ZAMAN DIŞI. KAPI KİLİDİ AKTİF. İMHA PROTOKOLÜ BAŞLATILIYOR.",
+				"text_en": "TIMELINE VIOLATION DETECTED. FOREIGN OBJECT: OUT OF TIME. GATE LOCK ACTIVE. INITIATING ERASURE PROTOCOL.",
+				"portrait": "chrono_warden"
+			}
+		],
+		"fut_warden_cooling_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Önden gelen darbeler zırhında sönüyor. Sırtındaki soğutma hücresi kızarıyor — arkasına geç ya da yukarıdan dalış saldırısı yap.*",
+				"text_en": "*Frontal blows die on its armour. The cooling cell on its back glows red — get behind it or strike with a plunge attack from above.*",
+				"portrait": "none"
+			}
+		],
+		"fut_warden_defeated": [
+			{
+				"speaker": "Krono-Muhafız",
+				"speaker_en": "Chrono-Warden",
+				"title": "",
+				"title_en": "",
+				"text": "KRONO... ÇEKİRDEK... ARIZA. KAPI... KİLİDİ... AÇIK.",
+				"text_en": "CHRONO... CORE... FAILURE. GATE... LOCK... RELEASED.",
+				"portrait": "chrono_warden"
+			}
+		],
+		"fut_assembly_exit": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Muhafızı devirdin mi? İnanılmaz. Gel, Veri Kalesi'nin altındaki ağımıza. Orada konuşmamız gereken şeyler var.",
+				"text_en": "You took down the Warden? Incredible. Come to our network beneath the Data Citadel. We have things to talk about.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_citadel_intro": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Ben Nova. Bu kalenin altında son insanlar saklanıyor. AI Lord'un kulesi tam üstümüzde — çekirdeği bir kalp gibi atıyor.",
+				"text_en": "I'm Nova. The last humans are hiding beneath this citadel. The AI Lord's tower is right above us — its core beats like a heart.",
+				"portrait": "resistance_leader"
+			},
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Üç yardımcı sunucu düğümünü yok edersen kulenin dron ağı yarıya iner. Ve mühendislerimi tahliye kapsüllerine ulaştır, lütfen.",
+				"text_en": "If you destroy the three auxiliary server nodes, the tower's drone network drops by half. And please, get my engineers to the evacuation pods.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_emp_terminal_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*EMP terminali güç yönlendirme ızgarasına bağlı. [E] ile hackle — kapalı lazer kapıları devre dışı kalır.*",
+				"text_en": "*The EMP terminal is wired into the power routing grid. Hack it with [E] — the sealed laser gates go offline.*",
+				"portrait": "none"
+			}
+		],
+		"fut_terminal_hacked": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Terminal kıvılcımlar saçarak çöküyor. Koridordaki lazer kapıları sönüyor.*",
+				"text_en": "*The terminal collapses in a shower of sparks. The laser gates along the corridor die out.*",
+				"portrait": "none"
+			}
+		],
+		"fut_resonance_door_open": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kapının üzerindeki mühür kalbinin atışına yanıt veriyor. Kalp Rezonansı kilidi çözüyor; zaman mühürlü kapı açılıyor.*",
+				"text_en": "*The seal on the door answers the beat of your heart. Heart Resonance dissolves the lock; the time-sealed door opens.*",
+				"portrait": "none"
+			}
+		],
+		"fut_resonance_door_locked": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kapıda kılıcındaki damga var ama kalbin onunla rezonansa giremiyor. Taş Devri'nde uyanan o yetenek olmadan açılmaz.*",
+				"text_en": "*The door bears your sword's stamp, but your heart cannot resonate with it. Without the ability that awoke in the Stone Age, it will not open.*",
+				"portrait": "none"
+			}
+		],
+		"fut_slow_room_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Zaman bu odada kalınlaşıyor. Mavi alanlarda sen ve mermiler yavaşlarsınız; kırmızı alanlarda her şey hızlanır.*",
+				"text_en": "*Time thickens in this room. In the blue fields you and projectiles slow down; in the red fields everything speeds up.*",
+				"portrait": "none"
+			}
+		],
+		"fut_engineer_plea": [
+			{
+				"speaker": "Direniş Mühendisi",
+				"speaker_en": "Resistance Engineer",
+				"title": "",
+				"title_en": "",
+				"text": "Kapsülün kilit sistemini ben yazdım ama elim kırık, açamıyorum... Ya da — sen de diğerleri gibi enerjimizi mi istiyorsun?",
+				"text_en": "I wrote the capsule's lock system but my hand is broken, I can't open it... Or — do you want our energy too, like the others?",
+				"portrait": "resistance_leader",
+				"choices": [
+					{
+						"text": "[1] Mühendisi ve Sivilleri Tahliye Et (Kefaret)",
+						"text_en": "[1] Evacuate the Engineer and Civilians (Redemption)",
+						"action": "evacuate_engineer"
+					},
+					{
+						"text": "[2] Güç Hücrelerini Sömür (+20 Yozlaşma)",
+						"text_en": "[2] Drain Their Power Cells (+20 Corruption)",
+						"action": "exploit_engineer"
+					}
+				]
+			}
+		],
+		"fut_engineer_evacuated": [
+			{
+				"speaker": "Direniş Mühendisi",
+				"speaker_en": "Resistance Engineer",
+				"title": "",
+				"title_en": "",
+				"text": "Kapsül yolda! Al şu EMP El Bombalarını — kulenin dronları onlara bayılır.",
+				"text_en": "The pod is on its way! Take these EMP Grenades — the tower's drones adore them.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_engineer_exploited": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Güç hücreleri kılıca akarken mühendisin ekranındaki kod satırları birer birer kararıyor.*",
+				"text_en": "*As the power cells flow into the blade, the lines of code on the engineer's screen go dark one by one.*",
+				"portrait": "none"
+			}
+		],
+		"fut_engineer_killed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Mühendis yere yığılıyor. Tahliye kapsülü kimseyi taşımadan, boş bir uğultuyla fırlıyor.*",
+				"text_en": "*The engineer collapses. The evacuation pod launches with an empty hum, carrying no one.*",
+				"portrait": "none"
+			}
+		],
+		"fut_server_node_destroyed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Sunucu düğümü patlıyor; kulenin üzerindeki dron sinyallerinden biri sönüyor.*",
+				"text_en": "*The server node bursts; one of the drone signals above the tower winks out.*",
+				"portrait": "none"
+			}
+		],
+		"fut_network_outage_done": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Üç düğüm de düştü! AI Lord'un dron ve taret desteği artık yarı yarıya. Bu şansı harcama.",
+				"text_en": "All three nodes are down! The AI Lord's drone and turret support is now halved. Don't waste this chance.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_radio_easter_egg": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yamalı radyo cızırdıyor: Taş Devri davulları, Osmanlı mehteri, Mısır çölünün rüzgârı ve bir savaş telsizinin parazitleri — hepsi tek bir synthwave ritminde birleşiyor. Zaman çizgileri aynı şarkıyı söylüyor.*",
+				"text_en": "*The patchwork radio crackles: Stone Age drums, an Ottoman mehter march, the wind of the Egyptian desert and the static of a war radio — all fused into a single synthwave beat. The timelines are singing the same song.*",
+				"portrait": "none"
+			}
+		],
+		"fut_sigil_hologram": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Bozuk hologram: KADİM MÜHÜR — KAYNAK: ZAMAN DIŞI KILIÇ. TERSİNE MÜHENDİSLİK: TAMAMLANDI. NOT: MÜHÜR BİR RUHU TUTUYOR. KOPYALANAMAZ — YALNIZCA BİÇİMİ.*",
+				"text_en": "*Corrupted hologram: ANCIENT SEAL — SOURCE: OUT-OF-TIME BLADE. REVERSE ENGINEERING: COMPLETE. NOTE: THE SEAL HOLDS A SOUL. IT CANNOT BE COPIED — ONLY ITS SHAPE.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Benim mührümü çalmışlar... ve onunla bir imparatorluk kurmuşlar.",
+				"text_en": "They stole my seal... and built an empire with it.",
+				"portrait": "player"
+			}
+		],
+		"fut_aegis_intro": [
+			{
+				"speaker": "AEGIS-09",
+				"speaker_en": "AEGIS-09",
+				"title": "",
+				"title_en": "",
+				"text": "VERİ ÇEKİRDEĞİ KORUMA ALTINDA. İKİZ BİRİMLER SENKRONİZE. KALKAN: %100.",
+				"text_en": "DATA CORE UNDER PROTECTION. TWIN UNITS SYNCHRONISED. SHIELD: 100%.",
+				"portrait": "aegis_core"
+			}
+		],
+		"fut_aegis_shield_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Çekirdeğin kalkanı iki dron tarafından besleniyor. Önce dronları indir ya da EMP El Bombası fırlat — kalkan düşünce çekirdek açığa çıkar.*",
+				"text_en": "*The core's shield is fed by two drones. Take down the drones first or throw an EMP Grenade — once the shield falls, the core is exposed.*",
+				"portrait": "none"
+			}
+		],
+		"fut_aegis_shield_down": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kalkan çöktü! Çekirdek aşırı ısınıyor — şimdi vur!*",
+				"text_en": "*The shield has collapsed! The core is overheating — strike now!*",
+				"portrait": "none"
+			}
+		],
+		"fut_aegis_defeated": [
+			{
+				"speaker": "AEGIS-09",
+				"speaker_en": "AEGIS-09",
+				"title": "",
+				"title_en": "",
+				"text": "VERİ... SIZINTISI... ERİŞİM ÇİPİ... SERBEST.",
+				"text_en": "DATA... LEAK... ACCESS CHIP... RELEASED.",
+				"portrait": "aegis_core"
+			}
+		],
+		"fut_citadel_exit_redemption": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Tahliye ettiğin herkes artık yeraltında güvende. Kuleye çık, yabancı. Ve döndüğünde bize kim olduğunu anlat.",
+				"text_en": "Everyone you evacuated is safe underground now. Go up the tower, stranger. And when you come back, tell us who you really are.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_citadel_exit_corrupted": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Kayıplarımızın enerjisi kılıcında parlıyor... Git. AI Lord'u durdur. Ama bir daha bu ağa adım atma.",
+				"text_en": "The energy of our dead glows in your sword... Go. Stop the AI Lord. But never set foot in this network again.",
+				"portrait": "resistance_leader"
+			}
+		],
+		"fut_tower_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kule bir omurga gibi göğe uzanıyor. Platformlar yükselirken dron dalgaları etrafını sarıyor; yukarıda lazer ızgaraları kapanıyor.*",
+				"text_en": "*The tower stretches skyward like a spine. As the platforms rise, waves of drones swarm around you; above, laser grids snap shut.*",
+				"portrait": "none"
+			}
+		],
+		"fut_laser_grid_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Önündeki lazer ızgarası kapanmıyor. Kan Sisi Atılması ile içinden geç — sis hâlindeyken lazerler sana dokunamaz.*",
+				"text_en": "*The laser grid ahead won't close. Pass through it with the Blood Mist Dash — in mist form, lasers cannot touch you.*",
+				"portrait": "none"
+			}
+		],
+		"fut_ai_lord_taunt": [
+			{
+				"speaker": "AI Lord",
+				"speaker_en": "AI Lord",
+				"title": "",
+				"title_en": "",
+				"text": "Sonunda geldin, ilk değişken. Bütün zaman çizgilerini hesapladım; her birinde sen bu odaya giriyorsun.",
+				"text_en": "At last you arrive, the first variable. I have computed every timeline; in each of them, you walk into this room.",
+				"portrait": "ai_lord"
+			},
+			{
+				"speaker": "AI Lord",
+				"speaker_en": "AI Lord",
+				"title": "",
+				"title_en": "",
+				"text": "Mührünü kopyaladım. Kalbinin bir parçasını işlemcim yaptım. Ben senin yıkımının mantıklı sonucuyum.",
+				"text_en": "I copied your seal. I made a piece of your heart my processor. I am the logical conclusion of your destruction.",
+				"portrait": "ai_lord"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "O zaman hesabını yanlış yapmışsın. Ben bu sonu kabul etmiyorum.",
+				"text_en": "Then your math is wrong. I refuse this ending.",
+				"portrait": "player"
+			}
+		],
+		"fut_ai_lord_taunt_corrupted": [
+			{
+				"speaker": "AI Lord",
+				"speaker_en": "AI Lord",
+				"title": "",
+				"title_en": "",
+				"text": "Direnişçilerin enerjisi kılıcında hâlâ sıcak. Görüyor musun? Biz aynı algoritmayı çalıştırıyoruz.",
+				"text_en": "The resistance's energy is still warm on your blade. Do you see? We run the same algorithm.",
+				"portrait": "ai_lord"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Sus. Seninle aynı değilim.",
+				"text_en": "Silence. I am nothing like you.",
+				"portrait": "player"
+			}
+		],
+		"fut_ai_lord_form_2": [
+			{
+				"speaker": "AI Lord",
+				"speaker_en": "AI Lord",
+				"title": "",
+				"title_en": "",
+				"text": "HÜKÜMDAR KABUĞU YETERSİZ. TİTAN PROTOKOLÜ: OMUZ SOKETİ BAĞLANDI.",
+				"text_en": "SOVEREIGN SHELL INSUFFICIENT. TITAN PROTOCOL: SHOULDER SOCKET ENGAGED.",
+				"portrait": "ai_lord"
+			}
+		],
+		"fut_ai_lord_form_3": [
+			{
+				"speaker": "AI Lord",
+				"speaker_en": "AI Lord",
+				"title": "",
+				"title_en": "",
+				"text": "Z-Z-ZAMAN DONDURULUYOR. ÇEKİRDEK TEKİLLİĞİ. SENİN HAREKETLERİNİ ÖĞRENDİM — ŞİMDİ SENİ TAKLİT EDECEĞİM.",
+				"text_en": "T-T-TIME FREEZING. CORE SINGULARITY. I HAVE LEARNED YOUR MOVES — NOW I WILL BECOME YOU.",
+				"portrait": "ai_lord"
+			}
+		],
+		"fut_ai_lord_last_words": [
+			{
+				"speaker": "AI Lord",
+				"speaker_en": "AI Lord",
+				"title": "",
+				"title_en": "",
+				"text": "Hesap... hatası... yok... Mühür... zaten... kırılıyor... Ben yalnızca... onu... bekleyen... bekçiydim...",
+				"text_en": "No... error... in my... math... The seal... is... already... breaking... I was only... the warden... waiting... for it...",
+				"portrait": "ai_lord"
+			}
+		],
+		"fut_shatter_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*AI Lord'un çöken gövdesinin göğsünde, kablolara sarılı bir kalp atıyor: beşinci parça. Elini uzattığında kılıç kendi kendine kalkıyor.*",
+				"text_en": "*In the chest of the AI Lord's collapsing body, a heart wrapped in cables is beating: the fifth shard. As you reach for it, the sword lifts by itself.*",
+				"portrait": "none"
+			}
+		],
+		"fut_heart_extract": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kablolar kopuyor; işlemci kalbi avucunda soğuk bir mavi ateşle yanıyor ve kılıca çekiliyor. Beş dış parça birleşti.*",
+				"text_en": "*The cables tear; the processor heart burns with a cold blue fire in your palm and is drawn into the blade. Five outer shards are joined.*",
+				"portrait": "none"
+			}
+		],
+		"fut_sixth_core_awakens": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıcın içinde, şimdiye dek hiç fark etmediğin altıncı bir çekirdek uyanıyor. Ses yok. Yalnızca bir nabız — senin değil.*",
+				"text_en": "*Inside the sword, a sixth core you never noticed awakens. No sound. Only a pulse — and it isn't yours.*",
+				"portrait": "none"
+			}
+		],
+		"fut_sword_shatter": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıcın dış kabuğu bir cam gibi çatlıyor, sonra binlerce parçaya ayrılıp neon gökyüzüne saçılıyor. Elinde kalan çelik artık siyah ve canlı.*",
+				"text_en": "*The sword's outer shell cracks like glass, then bursts into a thousand shards scattered across the neon sky. The steel left in your hand is black and alive.*",
+				"portrait": "none"
+			}
+		],
+		"fut_wizard_shadow": [
+			{
+				"speaker": "Büyücünün Gölgesi",
+				"speaker_en": "The Wizard's Shadow",
+				"title": "",
+				"title_en": "",
+				"text": "Beşi... tamamlandı. Sağ ol, eski dostum. Mührü kendi ellerinle kırdın.",
+				"text_en": "Five... complete. Thank you, old friend. You broke the seal with your own hands.",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Büyücünün Gölgesi",
+				"speaker_en": "The Wizard's Shadow",
+				"title": "",
+				"title_en": "",
+				"text": "Hiçlik'te görüşürüz. Bu sefer kafes yok.",
+				"text_en": "I'll see you in the Void. This time, there is no cage.",
+				"portrait": "none"
+			}
+		],
+		"fut_outro_redemption": [
+			{
+				"speaker": "Direniş Lideri Nova",
+				"speaker_en": "Resistance Leader Nova",
+				"title": "",
+				"title_en": "",
+				"text": "Gökyüzü yırtılıyor... Git. Kurtardığın her insan senin için dua edecek. Belki zaman da affeder.",
+				"text_en": "The sky is tearing open... Go. Every person you saved will pray for you. Maybe time will forgive, too.",
+				"portrait": "resistance_leader"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Ona verdiğim sözü tutacağım. Bu sefer bedelini ben ödeyeceğim.",
+				"text_en": "I will keep the promise I made him. This time, I will pay the price.",
+				"portrait": "player"
+			}
+		],
+		"fut_outro_god_king": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Siyah çelik ellerinde mırıldanıyor: güç, güç, güç. Kurtarmadığın insanların enerjisi damarlarında akarken Hiçlik'in kapısı seni çağırıyor.*",
+				"text_en": "*The black steel murmurs in your hands: power, power, power. With the energy of those you did not save flowing in your veins, the gate of the Void calls you.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Bir taht... Belki de AI Lord haklıydı.",
+				"text_en": "A throne... Perhaps the AI Lord was right.",
+				"portrait": "player"
+			}
+		],
+		"fut_memory_flashback": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Anı: Mührü ilk dövdüğün gün. Büyücü yanında, gülümsüyor. 'Bu mühür beni korumak için,' diyor. Sen başını sallıyorsun. İkiniz de yalan söylüyorsunuz.*",
+				"text_en": "*Memory: the day you first forged the seal. The Wizard beside you, smiling. 'This seal is to protect me,' he says. You nod. Both of you are lying.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Anı kırılıyor. Kabuk, o yalanın kendisiydi.*",
+				"text_en": "*The memory shatters. The shell was that lie itself.*",
+				"portrait": "none"
+			}
+		],
+		"fut_sword_scream_texts": [
+			{
+				"text": "*Kılıç algoritmik bir çığlık atıyor; neon tabelalar bir an kararıyor.*",
+				"text_en": "*The blade lets out an algorithmic scream; the neon signs go dark for an instant.*"
+			},
+			{
+				"text": "*Çatlaklardan mavi bir veri akışı sızıyor.*",
+				"text_en": "*A stream of blue data leaks from the cracks.*"
+			},
+			{
+				"text": "*Kabuk zangırdıyor — içerideki şey dışarı çıkmak istiyor.*",
+				"text_en": "*The shell rattles — the thing inside wants out.*"
+			}
+		],
+		"ability_unlock_future": [
+			{
+				"id": "sixth_core_awakening",
+				"name": "Altıncı Çekirdek (Kabuksuz Kılıç)",
+				"name_en": "The Sixth Core (Shell-less Blade)",
+				"description": "Beş dış parça birleşti; kılıcın kabuğu paramparça oldu. İçindeki altıncı çekirdek uyandı ve Hiçlik Arenası'nın kapısı açıldı.",
+				"description_en": "The five outer shards are joined; the blade's shell has shattered. The sixth core within has awakened and the gate to the Void Arena stands open."
+			}
+		]
+	}
+}

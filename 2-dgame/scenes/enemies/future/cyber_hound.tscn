@@ -1,0 +1,91 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/future_enemy.gd" id="1_aeibl"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/cyber_hound/cyber_hound_frames.tres" id="2_nibn1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kp3ce"]
+size = Vector2(40, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sl7hv"]
+size = Vector2(35.2, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_31if7"]
+size = Vector2(44, 34)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hu66o"]
+radius = 260.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i1f8t"]
+bg_color = Color(0.08, 0.1, 0.16, 0.88)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6bjty"]
+bg_color = Color(0.3, 0.85, 1, 1)
+
+[node name="CyberHound" type="CharacterBody2D" unique_id=400178925 groups=["damageable", "enemies"]]
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("1_aeibl")
+behavior = "pounce"
+monster_name = "Cyber Hound"
+codex_id = "cyber_hound"
+max_health = 75
+current_health = 75
+attack_damage = 14
+max_poise = 55.0
+detection_range = 260.0
+speed = 90.0
+chase_speed = 160.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2127011732]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_kp3ce")
+
+[node name="Visual" type="Node2D" parent="." unique_id=370669624]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=614085335]
+texture_filter = 1
+position = Vector2(0, -28.05)
+scale = Vector2(0.85, 0.85)
+sprite_frames = ExtResource("2_nibn1")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Hitbox" type="Area2D" parent="Visual" unique_id=449382592]
+position = Vector2(34, -15)
+collision_layer = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Hitbox" unique_id=1012079759]
+shape = SubResource("RectangleShape2D_sl7hv")
+
+[node name="LedgeRay" type="RayCast2D" parent="Visual" unique_id=689036287]
+position = Vector2(26, 0)
+target_position = Vector2(0, 24)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1303575097]
+position = Vector2(0, -15)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2102933574]
+shape = SubResource("RectangleShape2D_31if7")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=2088616926]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1030277295]
+shape = SubResource("CircleShape2D_hu66o")
+
+[node name="UI" type="Node2D" parent="." unique_id=641628253]
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=1215324578]
+offset_left = -22.0
+offset_top = -48.0
+offset_right = 22.0
+offset_bottom = -42.0
+theme_override_styles/background = SubResource("StyleBoxFlat_i1f8t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6bjty")
+value = 100.0
+show_percentage = false
+
+[node name="DamageNumbers" type="Node2D" parent="UI" unique_id=1744348322]

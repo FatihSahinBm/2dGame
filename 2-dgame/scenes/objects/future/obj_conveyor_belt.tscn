@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/future/conveyor_belt.gd" id="1_mvwbt"]
+
+[node name="ConveyorBelt" type="StaticBody2D" unique_id=498504699]
+script = ExtResource("1_mvwbt")

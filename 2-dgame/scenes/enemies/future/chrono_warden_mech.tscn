@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/future/chrono_warden.gd" id="1_u8cu4"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/future/chrono_warden_mech/chrono_warden_mech_frames.tres" id="2_hrp3l"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_3sry5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nhymf"]
+size = Vector2(48, 104)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_y8foq"]
+blend_mode = 1
+
+[node name="ChronoWarden" type="CharacterBody2D" unique_id=998009517 groups=["damageable", "enemies"]]
+collision_layer = 2
+script = ExtResource("1_u8cu4")
+max_health = 600
+codex_id = "chrono_warden_mech"
+move_speed = 55.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=723315328]
+position = Vector2(0, -52)
+shape = SubResource("RectangleShape2D_nhymf")
+
+[node name="Visual" type="Node2D" parent="." unique_id=2010891938]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=1028275837]
+texture_filter = 1
+position = Vector2(0, -47.2)
+scale = Vector2(0.8, 0.8)
+sprite_frames = ExtResource("2_hrp3l")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Glow" type="Sprite2D" parent="Visual" unique_id=1714581981]
+modulate = Color(0.4, 0.8, 1, 0.35)
+z_index = -1
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_y8foq")
+position = Vector2(0, -52)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_3sry5")

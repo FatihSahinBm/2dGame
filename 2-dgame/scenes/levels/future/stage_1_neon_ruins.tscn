@@ -1,0 +1,751 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/future/stage_1_neon_ruins.gd" id="1_1plp8"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="2_tqg2j"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_sky_neon_storm.png" id="3_yn20p"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_distant_skyscrapers.png" id="4_yr8ug"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_mid_viaduct_monorail.png" id="5_n2unv"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_fg_cables_debris.png" id="6_nvalp"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/neon_rain_streak.png" id="7_buh5p"]
+[ext_resource type="Texture2D" path="res://assets/environment/future/ground_neon_ruins.png" id="8_fa5pn"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/death_zone.tscn" id="9_bq4vk"]
+[ext_resource type="Script" path="res://scripts/hazards/death_zone.gd" id="10_vr8e4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/dimensional_time_rift.tscn" id="11_ete4a"]
+[ext_resource type="Script" path="res://scripts/objects/dimensional_time_rift.gd" id="12_63d7e"]
+[ext_resource type="PackedScene" path="res://scenes/objects/collapsing_platform.tscn" id="13_fpygr"]
+[ext_resource type="Script" path="res://scripts/objects/collapsing_platform.gd" id="14_gmgp7"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/future/laser_scan_trap.tscn" id="15_m07g0"]
+[ext_resource type="Script" path="res://scripts/hazards/future/future_laser_trap.gd" id="16_nfir1"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/future/trap_laser_gate.tscn" id="17_xmutt"]
+[ext_resource type="Script" path="res://scripts/hazards/future/laser_gate.gd" id="18_040f8"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/cyber_enforcer.tscn" id="19_3iaph"]
+[ext_resource type="Script" path="res://scripts/enemies/future/future_enemy.gd" id="20_y12us"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/cyber_flying_bug_prime.tscn" id="21_lpc4u"]
+[ext_resource type="Script" path="res://scripts/enemies/cyber_flying_bug.gd" id="22_6fc4l"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/cyber_hound.tscn" id="23_2x3ko"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/chrono_drone.tscn" id="24_4v223"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/rescue_survivor.tscn" id="25_2tw81"]
+[ext_resource type="Script" path="res://scripts/objects/future/future_rescue_spot.gd" id="26_ugcrs"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/obj_checkpoint_beacon.tscn" id="27_ptjnm"]
+[ext_resource type="Script" path="res://scripts/objects/future/future_checkpoint_beacon.gd" id="28_jkdhw"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_broken_hologram.png" id="29_dg0t5"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_cryo_pod.png" id="30_i31bv"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="31_6mwnu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/future_pickup.tscn" id="32_jnd31"]
+[ext_resource type="Script" path="res://scripts/objects/future/future_pickup.gd" id="33_15kj7"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="34_26kgf"]
+[ext_resource type="Script" path="res://scripts/combat/combat_test_player.gd" id="35_hhgxj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="36_d47pe"]
+[ext_resource type="Script" path="res://scripts/ui/fantasy_hud.gd" id="37_u5qhf"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="38_qpy8u"]
+[ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="39_7mldv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1eit7"]
+size = Vector2(30, 1230)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ucaxp"]
+size = Vector2(30, 1230)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qromg"]
+size = Vector2(700, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gig6u"]
+size = Vector2(720, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6dl5v"]
+size = Vector2(660, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nhh1c"]
+size = Vector2(560, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5oaih"]
+size = Vector2(1780, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgoki"]
+size = Vector2(70, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cemjm"]
+size = Vector2(120, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hxtkd"]
+size = Vector2(110, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_spfa4"]
+size = Vector2(40, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84c0c"]
+size = Vector2(40, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iy3xq"]
+size = Vector2(40, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gli4g"]
+size = Vector2(40, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58hkr"]
+size = Vector2(60, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npo12"]
+size = Vector2(60, 200)
+
+[node name="FutureStage1NeonRuins" type="Node2D" unique_id=1249888833]
+script = ExtResource("1_1plp8")
+next_scene_path = "res://scenes/levels/future/stage_2_temporal_assembly.tscn"
+camera_limits = Rect2i(0, -260, 5200, 1030)
+tutorial_keys = PackedStringArray("FUT_TUT_01_TITLE", "FUT_TUT_01_SUB", "FUT_TUT_01_DESC")
+
+[node name="Ambient" type="CanvasModulate" parent="." unique_id=55360205]
+color = Color(0.78, 0.72, 0.98, 1)
+
+[node name="WorldBackdrop" type="Node2D" parent="." unique_id=29868456]
+z_index = -60
+script = ExtResource("2_tqg2j")
+background_texture = ExtResource("3_yn20p")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.03
+parallax_factor_y = 0.01
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="FarLayer" type="Node2D" parent="." unique_id=662218487]
+z_index = -58
+script = ExtResource("2_tqg2j")
+background_texture = ExtResource("4_yr8ug")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.1
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="MidLayer" type="Node2D" parent="." unique_id=737139257]
+z_index = -56
+script = ExtResource("2_tqg2j")
+background_texture = ExtResource("5_n2unv")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.25
+parallax_factor_y = 0.03
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="NearLayer" type="Node2D" parent="." unique_id=601161470]
+z_index = -52
+script = ExtResource("2_tqg2j")
+background_texture = ExtResource("6_nvalp")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.45
+parallax_factor_y = 0.04
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="NeonRain" type="CPUParticles2D" parent="." unique_id=1850611260]
+z_index = 20
+position = Vector2(2600, -300)
+amount = 260
+texture = ExtResource("7_buh5p")
+lifetime = 2.2
+preprocess = 2.0
+emission_shape = 3
+emission_rect_extents = Vector2(2600, 20)
+direction = Vector2(-0.2, 1)
+spread = 4.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 380.0
+initial_velocity_max = 460.0
+color = Color(0.6, 0.85, 1, 0.55)
+
+[node name="Environment" type="Node2D" parent="." unique_id=1436013542]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment" unique_id=2019599188]
+position = Vector2(5, 255)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft" unique_id=1717143387]
+shape = SubResource("RectangleShape2D_1eit7")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment" unique_id=1393897282]
+position = Vector2(5195, 255)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight" unique_id=826094492]
+shape = SubResource("RectangleShape2D_ucaxp")
+
+[node name="Street" type="StaticBody2D" parent="Environment" unique_id=586443242]
+position = Vector2(350, 670)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Street" unique_id=248134049]
+shape = SubResource("RectangleShape2D_qromg")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/Street" unique_id=2068445957]
+texture_filter = 1
+offset_left = -350.0
+offset_top = -110.0
+offset_right = 350.0
+offset_bottom = 110.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="RooftopA" type="StaticBody2D" parent="Environment" unique_id=600276016]
+position = Vector2(1140, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/RooftopA" unique_id=1416564817]
+shape = SubResource("RectangleShape2D_gig6u")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/RooftopA" unique_id=1921252338]
+texture_filter = 1
+offset_left = -360.0
+offset_top = -110.0
+offset_right = 360.0
+offset_bottom = 110.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="RooftopB" type="StaticBody2D" parent="Environment" unique_id=1551337432]
+position = Vector2(1970, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/RooftopB" unique_id=762154573]
+shape = SubResource("RectangleShape2D_6dl5v")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/RooftopB" unique_id=103081149]
+texture_filter = 1
+offset_left = -330.0
+offset_top = -110.0
+offset_right = 330.0
+offset_bottom = 110.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="RooftopC" type="StaticBody2D" parent="Environment" unique_id=334089723]
+position = Vector2(3140, 580)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/RooftopC" unique_id=832482409]
+shape = SubResource("RectangleShape2D_nhh1c")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/RooftopC" unique_id=766051541]
+texture_filter = 1
+offset_left = -280.0
+offset_top = -110.0
+offset_right = 280.0
+offset_bottom = 110.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MetroShelter" type="StaticBody2D" parent="Environment" unique_id=1231363577]
+position = Vector2(4310, 670)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/MetroShelter" unique_id=341156863]
+shape = SubResource("RectangleShape2D_5oaih")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/MetroShelter" unique_id=917899673]
+texture_filter = 1
+offset_left = -890.0
+offset_top = -110.0
+offset_right = 890.0
+offset_bottom = 110.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="StepA" type="StaticBody2D" parent="Environment" unique_id=1262024661]
+position = Vector2(730, 531)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/StepA" unique_id=613207035]
+shape = SubResource("RectangleShape2D_wgoki")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/StepA" unique_id=577780793]
+texture_filter = 1
+offset_left = -35.0
+offset_top = -11.0
+offset_right = 35.0
+offset_bottom = 11.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="AntennaLedge" type="StaticBody2D" parent="Environment" unique_id=1689175302]
+position = Vector2(1240, 391)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/AntennaLedge" unique_id=1295584580]
+shape = SubResource("RectangleShape2D_cemjm")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/AntennaLedge" unique_id=1861491938]
+texture_filter = 1
+offset_left = -60.0
+offset_top = -11.0
+offset_right = 60.0
+offset_bottom = 11.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="SignLedge" type="StaticBody2D" parent="Environment" unique_id=349369385]
+position = Vector2(2060, 341)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/SignLedge" unique_id=211386339]
+shape = SubResource("RectangleShape2D_hxtkd")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/SignLedge" unique_id=1831085857]
+texture_filter = 1
+offset_left = -55.0
+offset_top = -11.0
+offset_right = 55.0
+offset_bottom = 11.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="CoverA1" type="StaticBody2D" parent="Environment" unique_id=705520597]
+position = Vector2(1020, 448)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CoverA1" unique_id=1770775512]
+shape = SubResource("RectangleShape2D_spfa4")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/CoverA1" unique_id=1156264734]
+texture_filter = 1
+offset_left = -20.0
+offset_top = -32.0
+offset_right = 20.0
+offset_bottom = 32.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="CoverA2" type="StaticBody2D" parent="Environment" unique_id=405079278]
+position = Vector2(1300, 448)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CoverA2" unique_id=1294451788]
+shape = SubResource("RectangleShape2D_84c0c")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/CoverA2" unique_id=957350783]
+texture_filter = 1
+offset_left = -20.0
+offset_top = -32.0
+offset_right = 20.0
+offset_bottom = 32.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="CoverB1" type="StaticBody2D" parent="Environment" unique_id=1070318261]
+position = Vector2(1880, 398)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CoverB1" unique_id=1799841950]
+shape = SubResource("RectangleShape2D_iy3xq")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/CoverB1" unique_id=56243011]
+texture_filter = 1
+offset_left = -20.0
+offset_top = -32.0
+offset_right = 20.0
+offset_bottom = 32.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="CoverB2" type="StaticBody2D" parent="Environment" unique_id=1913794325]
+position = Vector2(2100, 398)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/CoverB2" unique_id=727343033]
+shape = SubResource("RectangleShape2D_gli4g")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/CoverB2" unique_id=154023083]
+texture_filter = 1
+offset_left = -20.0
+offset_top = -32.0
+offset_right = 20.0
+offset_bottom = 32.0
+texture = ExtResource("8_fa5pn")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="DeathZone" type="Area2D" parent="." unique_id=1215787118 instance=ExtResource("9_bq4vk")]
+position = Vector2(2600, 860)
+collision_layer = 0
+monitorable = false
+script = ExtResource("10_vr8e4")
+
+[node name="DimensionalTimeRift" type="Node2D" parent="." unique_id=1113994915 instance=ExtResource("11_ete4a")]
+position = Vector2(260, 300)
+script = ExtResource("12_63d7e")
+
+[node name="CollapsingBridge" type="Node2D" parent="." unique_id=1496109708]
+
+[node name="Bridge0" type="StaticBody2D" parent="CollapsingBridge" unique_id=678238542 instance=ExtResource("13_fpygr")]
+position = Vector2(2400, 450)
+collision_mask = 0
+script = ExtResource("14_gmgp7")
+collapse_delay = 0.8
+restore_delay = 3.0
+
+[node name="Bridge1" type="StaticBody2D" parent="CollapsingBridge" unique_id=16348216 instance=ExtResource("13_fpygr")]
+position = Vector2(2550, 450)
+collision_mask = 0
+script = ExtResource("14_gmgp7")
+collapse_delay = 0.8
+restore_delay = 3.0
+
+[node name="Bridge2" type="StaticBody2D" parent="CollapsingBridge" unique_id=876636569 instance=ExtResource("13_fpygr")]
+position = Vector2(2700, 450)
+collision_mask = 0
+script = ExtResource("14_gmgp7")
+collapse_delay = 0.8
+restore_delay = 3.0
+
+[node name="Hazards" type="Node2D" parent="." unique_id=176427151]
+
+[node name="ScanLaserA" type="Node2D" parent="Hazards" unique_id=615541360 instance=ExtResource("15_m07g0")]
+position = Vector2(800, 444)
+script = ExtResource("16_nfir1")
+max_range = 680.0
+idle_time = 1.8
+
+[node name="ScanLaserB" type="Node2D" parent="Hazards" unique_id=1386062751 instance=ExtResource("15_m07g0")]
+position = Vector2(2280, 394)
+script = ExtResource("16_nfir1")
+direction = -1
+max_range = 620.0
+start_delay = 0.8
+
+[node name="RoofGate" type="Node2D" parent="Hazards" unique_id=671965605 instance=ExtResource("17_xmutt")]
+position = Vector2(3120, 300)
+script = ExtResource("18_040f8")
+beam_length = 170.0
+cycle_on = 1.4
+cycle_off = 1.4
+
+[node name="MetroGate" type="Node2D" parent="Hazards" unique_id=1062935247 instance=ExtResource("17_xmutt")]
+position = Vector2(3700, 380)
+script = ExtResource("18_040f8")
+beam_length = 180.0
+cycle_on = 1.2
+cycle_off = 1.6
+start_offset = 0.6
+
+[node name="Enemies" type="Node2D" parent="." unique_id=621554817]
+
+[node name="EnforcerRoof" type="CharacterBody2D" parent="Enemies" unique_id=293237619 groups=["damageable", "enemies"] instance=ExtResource("19_3iaph")]
+position = Vector2(1380, 480)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "shield"
+monster_name = "Cyber Enforcer"
+codex_id = "cyber_enforcer"
+max_health = 110
+current_health = 110
+attack_damage = 18
+max_poise = 55.0
+attack_range = 46.0
+detection_range = 230.0
+speed = 60.0
+direction = -1
+
+[node name="BugA" type="CharacterBody2D" parent="Enemies" unique_id=1270382858 groups=["damageable", "enemies", "future_enemies", "mechanical"] instance=ExtResource("21_lpc4u")]
+position = Vector2(1150, 330)
+collision_layer = 2
+script = ExtResource("22_6fc4l")
+monster_name = "Gelişmiş Siber Uçan Böcek"
+max_health = 70
+current_health = 70
+projectile_damage = 16
+
+[node name="HoundB1" type="CharacterBody2D" parent="Enemies" unique_id=400178925 groups=["damageable", "enemies"] instance=ExtResource("23_2x3ko")]
+position = Vector2(1800, 430)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "pounce"
+monster_name = "Cyber Hound"
+codex_id = "cyber_hound"
+max_health = 75
+current_health = 75
+attack_damage = 14
+max_poise = 55.0
+detection_range = 260.0
+speed = 90.0
+chase_speed = 160.0
+direction = -1
+
+[node name="HoundB2" type="CharacterBody2D" parent="Enemies" unique_id=471319461 groups=["damageable", "enemies"] instance=ExtResource("23_2x3ko")]
+position = Vector2(2180, 430)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "pounce"
+monster_name = "Cyber Hound"
+codex_id = "cyber_hound"
+max_health = 75
+current_health = 75
+attack_damage = 14
+max_poise = 55.0
+detection_range = 260.0
+speed = 90.0
+chase_speed = 160.0
+direction = -1
+
+[node name="BugC" type="CharacterBody2D" parent="Enemies" unique_id=1513631977 groups=["damageable", "enemies", "future_enemies", "mechanical"] instance=ExtResource("21_lpc4u")]
+position = Vector2(3000, 330)
+collision_layer = 2
+script = ExtResource("22_6fc4l")
+monster_name = "Gelişmiş Siber Uçan Böcek"
+max_health = 70
+current_health = 70
+projectile_damage = 16
+
+[node name="EnforcerC" type="CharacterBody2D" parent="Enemies" unique_id=1537945126 groups=["damageable", "enemies"] instance=ExtResource("19_3iaph")]
+position = Vector2(3300, 470)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "shield"
+monster_name = "Cyber Enforcer"
+codex_id = "cyber_enforcer"
+max_health = 110
+current_health = 110
+attack_damage = 18
+max_poise = 55.0
+attack_range = 46.0
+detection_range = 230.0
+speed = 60.0
+direction = -1
+
+[node name="ShelterGuardA" type="CharacterBody2D" parent="Enemies" unique_id=1018682798 groups=["damageable", "enemies"] instance=ExtResource("19_3iaph")]
+position = Vector2(4020, 560)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "shield"
+monster_name = "Cyber Enforcer"
+codex_id = "cyber_enforcer"
+max_health = 110
+current_health = 110
+attack_damage = 18
+max_poise = 55.0
+attack_range = 46.0
+detection_range = 230.0
+speed = 60.0
+direction = -1
+
+[node name="ShelterGuardB" type="CharacterBody2D" parent="Enemies" unique_id=1300375680 groups=["damageable", "enemies"] instance=ExtResource("23_2x3ko")]
+position = Vector2(4480, 560)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "pounce"
+monster_name = "Cyber Hound"
+codex_id = "cyber_hound"
+max_health = 75
+current_health = 75
+attack_damage = 14
+max_poise = 55.0
+detection_range = 260.0
+speed = 90.0
+chase_speed = 160.0
+direction = -1
+
+[node name="ShelterDrone" type="CharacterBody2D" parent="Enemies" unique_id=474103617 groups=["damageable", "enemies"] instance=ExtResource("24_4v223")]
+position = Vector2(4800, 420)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("20_y12us")
+behavior = "pulse"
+monster_name = "Chrono Drone"
+codex_id = "chrono_drone"
+max_health = 60
+current_health = 60
+is_flying = true
+attack_damage = 12
+max_poise = 55.0
+attack_range = 40.0
+detection_range = 280.0
+speed = 55.0
+chase_speed = 90.0
+
+[node name="ShelterTrigger" type="Area2D" parent="." unique_id=1851301018]
+position = Vector2(3560, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShelterTrigger" unique_id=507091870]
+shape = SubResource("RectangleShape2D_58hkr")
+
+[node name="Objects" type="Node2D" parent="." unique_id=1098249731]
+
+[node name="RescueSurvivorA" type="Area2D" parent="Objects" unique_id=2073601418 instance=ExtResource("25_2tw81")]
+position = Vector2(4180, 560)
+script = ExtResource("26_ugcrs")
+guard_paths = Array[NodePath]([NodePath("../../Enemies/ShelterGuardA")])
+spot_id = "survivor_a"
+
+[node name="RescueSurvivorB" type="Area2D" parent="Objects" unique_id=1573579681 instance=ExtResource("25_2tw81")]
+position = Vector2(4660, 560)
+script = ExtResource("26_ugcrs")
+guard_paths = Array[NodePath]([NodePath("../../Enemies/ShelterGuardB"), NodePath("../../Enemies/ShelterDrone")])
+spot_id = "survivor_b"
+
+[node name="Beacon" type="Area2D" parent="Objects" unique_id=1823474449 instance=ExtResource("27_ptjnm")]
+position = Vector2(2950, 470)
+collision_layer = 0
+script = ExtResource("28_jkdhw")
+checkpoint_id = "future_rooftop_beacon"
+
+[node name="Props" type="Node2D" parent="." unique_id=437291184]
+
+[node name="HoloRuin" type="Sprite2D" parent="Props" unique_id=1061988670]
+z_index = -5
+texture_filter = 1
+position = Vector2(560, 500)
+texture = ExtResource("29_dg0t5")
+
+[node name="CryoPodA" type="Sprite2D" parent="Props" unique_id=269613464]
+z_index = -5
+texture_filter = 1
+position = Vector2(3900, 490)
+texture = ExtResource("30_i31bv")
+
+[node name="CryoPodB" type="Sprite2D" parent="Props" unique_id=761104327]
+z_index = -5
+texture_filter = 1
+position = Vector2(4960, 490)
+texture = ExtResource("30_i31bv")
+
+[node name="Lights" type="Node2D" parent="." unique_id=1983694102]
+
+[node name="Neon0" type="PointLight2D" parent="Lights" unique_id=1585852745]
+position = Vector2(500, 380)
+color = Color(0.3, 0.9, 1, 1)
+energy = 0.9
+texture = ExtResource("31_6mwnu")
+texture_scale = 1.6
+
+[node name="Neon1" type="PointLight2D" parent="Lights" unique_id=1043267008]
+position = Vector2(1350, 380)
+color = Color(1, 0.3, 0.8, 1)
+energy = 0.9
+texture = ExtResource("31_6mwnu")
+texture_scale = 1.6
+
+[node name="Neon2" type="PointLight2D" parent="Lights" unique_id=162310233]
+position = Vector2(2200, 380)
+color = Color(0.3, 0.9, 1, 1)
+energy = 0.9
+texture = ExtResource("31_6mwnu")
+texture_scale = 1.6
+
+[node name="Neon3" type="PointLight2D" parent="Lights" unique_id=1815363914]
+position = Vector2(3050, 380)
+color = Color(1, 0.3, 0.8, 1)
+energy = 0.9
+texture = ExtResource("31_6mwnu")
+texture_scale = 1.6
+
+[node name="Neon4" type="PointLight2D" parent="Lights" unique_id=1527076462]
+position = Vector2(3900, 380)
+color = Color(0.3, 0.9, 1, 1)
+energy = 0.9
+texture = ExtResource("31_6mwnu")
+texture_scale = 1.6
+
+[node name="Neon5" type="PointLight2D" parent="Lights" unique_id=1811544237]
+position = Vector2(4750, 380)
+color = Color(1, 0.3, 0.8, 1)
+energy = 0.9
+texture = ExtResource("31_6mwnu")
+texture_scale = 1.6
+
+[node name="Pickups" type="Node2D" parent="." unique_id=122646132]
+
+[node name="NanoKit" type="Area2D" parent="Pickups" unique_id=1624299730 instance=ExtResource("32_jnd31")]
+position = Vector2(1120, 480)
+script = ExtResource("33_15kj7")
+
+[node name="EmpPack" type="Area2D" parent="Pickups" unique_id=886878456 instance=ExtResource("32_jnd31")]
+position = Vector2(1700, 430)
+script = ExtResource("33_15kj7")
+item_id = "emp_grenade"
+amount = 2
+
+[node name="PlasmaFlare" type="Area2D" parent="Pickups" unique_id=73841128 instance=ExtResource("32_jnd31")]
+position = Vector2(3300, 470)
+script = ExtResource("33_15kj7")
+item_id = "plasma_cutter_flare"
+amount = 2
+
+[node name="PhaseShield" type="Area2D" parent="Pickups" unique_id=900733232 instance=ExtResource("32_jnd31")]
+position = Vector2(3880, 560)
+script = ExtResource("33_15kj7")
+item_id = "phase_shield_capsule"
+
+[node name="ExitGate" type="Area2D" parent="." unique_id=405656406]
+position = Vector2(5150, 480)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate" unique_id=1837763511]
+shape = SubResource("RectangleShape2D_npo12")
+
+[node name="CombatPlayer" type="CharacterBody2D" parent="." unique_id=1003439174 instance=ExtResource("34_26kgf")]
+position = Vector2(260, 500)
+collision_mask = 7
+script = ExtResource("35_hhgxj")
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" type="CanvasLayer" parent="." unique_id=2006468161 instance=ExtResource("36_d47pe")]
+process_mode = 3
+layer = 10
+script = ExtResource("37_u5qhf")
+
+[node name="DialogueBox" type="CanvasLayer" parent="." unique_id=327378884 instance=ExtResource("38_qpy8u")]
+layer = 25
+script = ExtResource("39_7mldv")

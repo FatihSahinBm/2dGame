@@ -14,6 +14,10 @@ signal choice_selected(action: String)
 
 @export var typewriter_speed: float = 0.025
 
+const DialogueVoice = preload("res://scripts/ui/dialogue_voice.gd")
+const DialogueTextScaler = preload("res://scripts/ui/dialogue_text_scaler.gd")
+var _voice_portrait: String = ""
+
 var _dialogue_queue: Array = []
 var _current_index: int = 0
 var _is_typing: bool = false
@@ -30,6 +34,24 @@ const PORTRAIT_VLAD = preload("res://assets/ui/portraits/portrait_vlad.png")
 const PORTRAIT_KEMANKES = preload("res://assets/ui/portraits/portrait_kemankes.png")
 const PORTRAIT_BLOOD_KNIGHT = preload("res://assets/ui/portraits/portrait_blood_knight.png")
 const PORTRAIT_CAVEMAN = preload("res://assets/ui/portraits/portrait_caveman.png")
+## Bölüm 3 portreleri (Epic 2D-143)
+const EXTRA_PORTRAITS: Dictionary = {
+	"pharaoh": "res://assets/ui/portraits/portrait_pharaoh.png",
+	"slave": "res://assets/ui/portraits/portrait_slave.png",
+	"pyramid_guard": "res://assets/ui/portraits/portrait_pyramid_guard.png",
+	# Bölüm 4 portreleri (Epic 2D-144)
+	"butcher_commander": "res://assets/ui/portraits/portrait_butcher_commander.png",
+	"trench_officer": "res://assets/ui/portraits/portrait_trench_officer.png",
+	"occult_doctor": "res://assets/ui/portraits/portrait_occult_doctor.png",
+	"wounded_soldier": "res://assets/ui/portraits/portrait_wounded_soldier.png",
+	"prisoner": "res://assets/ui/portraits/portrait_prisoner.png",
+	# Bölüm 5 portreleri (Epic 2D-158)
+	"ai_lord": "res://assets/ui/portraits/portrait_ai_lord.png",
+	"chrono_warden": "res://assets/ui/portraits/portrait_chrono_warden.png",
+	"aegis_core": "res://assets/ui/portraits/portrait_aegis_core.png",
+	"resistance_leader": "res://assets/ui/portraits/portrait_resistance_leader.png",
+	"resistance_fighter": "res://assets/ui/portraits/portrait_resistance_fighter.png",
+}
 
 @onready var panel: Control = $Panel
 @onready var letterbox_top: ColorRect = get_node_or_null("LetterboxTop") as ColorRect
@@ -171,6 +193,7 @@ func _process(delta: float) -> void:
 		_type_timer = 0.0
 		_char_index += 1
 		content_label.text = _full_text.substr(0, _char_index)
+		DialogueVoice.on_char_typed(self, _voice_portrait, _char_index, _full_text.substr(_char_index - 1, 1))
 		if _char_index >= _full_text.length():
 			_on_typing_finished()
 
@@ -259,6 +282,13 @@ func _input(event: InputEvent) -> void:
 			_on_typing_finished()
 		else:
 			_advance_dialogue()
+
+
+## Erişilebilirlik: diyalog metni boyutu (ComfortSettings); metin alana sığmazsa küçültülür
+func _apply_comfort_text_scale() -> void:
+	var comfort: Node = get_node_or_null("/root/ComfortSettings")
+	var text_scale: float = float(comfort.dialogue_text_scale) if comfort and "dialogue_text_scale" in comfort else 1.0
+	DialogueTextScaler.apply(content_label, text_scale, _full_text)
 
 
 ## StoryDataLoader üzerindeki bir diyalog anahtarıyla başlatır
@@ -423,6 +453,7 @@ func _show_current_entry() -> void:
 	if speaker_title_label:
 		speaker_title_label.text = title_str
 	_full_text = text_str
+	_apply_comfort_text_scale()
 	_char_index = 0
 	_is_typing = true
 	if content_label:
@@ -447,6 +478,7 @@ func _show_current_entry() -> void:
 
 	# Portre rengi/stili
 	var portrait_type: String = entry.get("portrait", "")
+	_voice_portrait = portrait_type
 	_apply_portrait_style(portrait_type)
 
 
@@ -524,6 +556,11 @@ func _apply_portrait_style(portrait_type: String) -> void:
 		return
 
 	var container: Control = portrait_texture.get_parent() as Control
+	if EXTRA_PORTRAITS.has(portrait_type):
+		if container:
+			container.visible = true
+		portrait_texture.texture = load(str(EXTRA_PORTRAITS[portrait_type])) as Texture2D
+		return
 
 	match portrait_type:
 		"fatih":

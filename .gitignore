@@ -3,3 +3,6 @@ export/
 builds/
 __pycache__/
 *.pyc
+mcp_config.json
+.mcp.json
+2-dgame/scratch/

@@ -17,6 +17,8 @@ signal flashback_ended
 signal time_rift_opened
 signal time_rift_entered(player: Node2D)
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
 @export var next_era_scene_path: String = "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
 @export var camera_limits: Rect2i = Rect2i(0, 0, 2400, 720)
 
@@ -174,6 +176,13 @@ func _collect_heart_fragment() -> void:
 		game_state.current_heart_pieces = 1
 		if game_state.has_method("unlock_ability"):
 			game_state.unlock_ability("heart_resonance")
+	var play_stats: Node = get_node_or_null("/root/PlayStats")
+	if play_stats and play_stats.has_method("record_item_collected"):
+		play_stats.record_item_collected("heart_fragment_1")
+
+	var q_mgr: Node = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		q_mgr.advance_quest("stone_age_first_shard", "claim_shard")
 
 	# Parçanın oyuncuya doğru süzülmesi
 	if heart_node and is_inside_tree() and player:
@@ -209,14 +218,20 @@ func _start_first_flashback() -> void:
 	# HUD bildirim toast
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial(
-			"GEÇMİŞİN YANKILARI — FLASHBACK",
+			"ÇAĞLARIN YANKISI — KALBİN ÇAĞRISI",
 			"M.S. 1462 / Eflak Seferi",
-			"Kılıca mühürlenen ruhun anıları zihninde canlanıyor..."
+			"Kalp Parçası, bir sonraki parçanın çarptığı geceyi gösteriyor..."
 		)
 
 	# Flashback katmanını göster ve crossfade ile yumuşakça aç
 	if flashback_canvas:
 		flashback_canvas.visible = true
+		var title_lbl = flashback_canvas.get_node_or_null("Control/SubtitlePanel/TitleLabel") as Label
+		var voice_lbl = flashback_canvas.get_node_or_null("Control/SubtitlePanel/VoiceLabel") as Label
+		if title_lbl:
+			title_lbl.text = tr("FLASHBACK_1462_TITLE")
+		if voice_lbl:
+			voice_lbl.text = tr("FLASHBACK_1462_VOICE")
 		var control = flashback_canvas.get_node_or_null("Control") as Control
 		if control:
 			control.modulate.a = 0.0
@@ -250,6 +265,17 @@ func _end_first_flashback() -> void:
 
 	# Flashback sonrası Zaman Yırtığını aç!
 	_open_time_rift()
+	_play_heart_awakening_story()
+
+
+## Kılıç ruhunun parça sonrası konuşması; kabile seçimine göre yankı eklenir
+func _play_heart_awakening_story() -> void:
+	var keys: Array[String] = ["heart_fragment_awakening"]
+	if LevelStory.has_event(self, "orok_tribe_slain"):
+		keys.append("heart_echo_tribe_slain")
+	elif LevelStory.has_event(self, "orok_tribe_helped"):
+		keys.append("heart_echo_tribe_helped")
+	LevelStory.play_delayed(self, keys, 1.2)
 
 
 # -------------------------------------------------------------
@@ -305,6 +331,11 @@ func _on_time_rift_body_entered(body: Node2D) -> void:
 func _execute_era_transition() -> void:
 	if not is_inside_tree():
 		return
+
+	# Taş Devri tamamlandı: bölüm seçiminde 2. bölümün kilidi bu kayıtla açılır
+	var game_state: Node = get_node_or_null("/root/GameState")
+	if game_state and game_state.has_method("complete_chapter"):
+		game_state.complete_chapter("chapter_1")
 
 	# Oyuncuyu girdaba çeken ve sahneyi karartan sinematik geçiş
 	_apply_camera_shake(3.0, 0.9)

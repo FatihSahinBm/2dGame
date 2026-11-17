@@ -1,0 +1,581 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/future/stage_2_temporal_assembly.gd" id="1_6aaod"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="2_3ye20"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_sky_neon_storm.png" id="3_r68gu"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_distant_skyscrapers.png" id="4_7ymny"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_mid_viaduct_monorail.png" id="5_uigpi"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/future/bg_fg_cables_debris.png" id="6_txufy"]
+[ext_resource type="Texture2D" path="res://assets/effects/future/neon_rain_streak.png" id="7_c1vs7"]
+[ext_resource type="Texture2D" path="res://assets/environment/future/ground_cyber_factory.png" id="8_dcom2"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/death_zone.tscn" id="9_1ssud"]
+[ext_resource type="Script" path="res://scripts/hazards/death_zone.gd" id="10_1hhh3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/secret_breakable_wall.tscn" id="11_ff1ya"]
+[ext_resource type="Script" path="res://scripts/objects/secret_breakable_wall.gd" id="12_c056g"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/lore_terminal.tscn" id="13_t46dm"]
+[ext_resource type="Script" path="res://scripts/objects/future/future_lore_terminal.gd" id="14_e04uf"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/obj_emp_terminal.tscn" id="15_bcdb2"]
+[ext_resource type="Script" path="res://scripts/objects/future/emp_terminal.gd" id="16_np3x2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/obj_checkpoint_beacon.tscn" id="17_6km5i"]
+[ext_resource type="Script" path="res://scripts/objects/future/future_checkpoint_beacon.gd" id="18_rq654"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/obj_conveyor_belt.tscn" id="19_wprui"]
+[ext_resource type="Script" path="res://scripts/hazards/future/conveyor_belt.gd" id="20_k2tir"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/future/trap_hydraulic_press.tscn" id="21_yvwoc"]
+[ext_resource type="Script" path="res://scripts/hazards/future/hydraulic_press.gd" id="22_03uvd"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/future/trap_plasma_channel.tscn" id="23_vx74n"]
+[ext_resource type="Script" path="res://scripts/hazards/future/plasma_channel.gd" id="24_516w6"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/obj_time_slow_field.tscn" id="25_oxaxj"]
+[ext_resource type="Script" path="res://scripts/hazards/future/time_slow_field.gd" id="26_i1vyi"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/cyber_enforcer.tscn" id="27_6r4rl"]
+[ext_resource type="Script" path="res://scripts/enemies/future/future_enemy.gd" id="28_f8lut"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/cyber_hound.tscn" id="29_53s1q"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/chrono_drone.tscn" id="30_cq06d"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/hydraulic_juggernaut.tscn" id="31_sn7ix"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_stamped_armature_mold.png" id="32_hcf2j"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_trex_cyber_harness.png" id="33_60772"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/future/chrono_warden_mech.tscn" id="34_twgi4"]
+[ext_resource type="Script" path="res://scripts/enemies/future/chrono_warden.gd" id="35_ynwn6"]
+[ext_resource type="Texture2D" path="res://assets/environment/future/ground_core_citadel.png" id="36_oivt3"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="37_x7rm6"]
+[ext_resource type="PackedScene" path="res://scenes/objects/future/future_pickup.tscn" id="38_lcj5q"]
+[ext_resource type="Script" path="res://scripts/objects/future/future_pickup.gd" id="39_vcbae"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="40_swpky"]
+[ext_resource type="Script" path="res://scripts/combat/combat_test_player.gd" id="41_0rups"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="42_yphqc"]
+[ext_resource type="Script" path="res://scripts/ui/fantasy_hud.gd" id="43_qm1w6"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="44_65cll"]
+[ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="45_aebdn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2e4fc"]
+size = Vector2(30, 1170)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kh0n"]
+size = Vector2(30, 1170)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8dw1r"]
+size = Vector2(980, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0n38f"]
+size = Vector2(3320, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwaxg"]
+size = Vector2(80, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nk2og"]
+size = Vector2(90, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oapsw"]
+size = Vector2(60, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fttwq"]
+size = Vector2(60, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pnqjj"]
+size = Vector2(40, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8wi8t"]
+size = Vector2(60, 200)
+
+[node name="FutureStage2TemporalAssembly" type="Node2D" unique_id=682966245]
+script = ExtResource("1_6aaod")
+next_scene_path = "res://scenes/levels/future/stage_3_resistance_citadel.tscn"
+camera_limits = Rect2i(0, -200, 5600, 970)
+tutorial_keys = PackedStringArray("FUT_TUT_02_TITLE", "FUT_TUT_02_SUB", "FUT_TUT_02_DESC")
+
+[node name="Ambient" type="CanvasModulate" parent="." unique_id=1410933227]
+color = Color(0.92, 0.8, 0.72, 1)
+
+[node name="WorldBackdrop" type="Node2D" parent="." unique_id=211926727]
+z_index = -60
+script = ExtResource("2_3ye20")
+background_texture = ExtResource("3_r68gu")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.03
+parallax_factor_y = 0.01
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="FarLayer" type="Node2D" parent="." unique_id=253639367]
+z_index = -58
+script = ExtResource("2_3ye20")
+background_texture = ExtResource("4_7ymny")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.1
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="MidLayer" type="Node2D" parent="." unique_id=208152444]
+z_index = -56
+script = ExtResource("2_3ye20")
+background_texture = ExtResource("5_uigpi")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.25
+parallax_factor_y = 0.03
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="NearLayer" type="Node2D" parent="." unique_id=2076265669]
+z_index = -52
+script = ExtResource("2_3ye20")
+background_texture = ExtResource("6_txufy")
+texture_ground_y = 690.0
+texture_scale = Vector2(0.9, 0.9)
+parallax_factor_x = 0.45
+parallax_factor_y = 0.04
+tile_count = 6
+fog_color = Color(0, 0, 0, 0)
+
+[node name="NeonRain" type="CPUParticles2D" parent="." unique_id=1266223684]
+z_index = 20
+position = Vector2(2800, -240)
+amount = 260
+texture = ExtResource("7_c1vs7")
+lifetime = 2.2
+preprocess = 2.0
+emission_shape = 3
+emission_rect_extents = Vector2(2800, 20)
+direction = Vector2(-0.2, 1)
+spread = 4.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 380.0
+initial_velocity_max = 460.0
+color = Color(0.6, 0.85, 1, 0.55)
+
+[node name="Environment" type="Node2D" parent="." unique_id=1634446363]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment" unique_id=615331218]
+position = Vector2(5, 285)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft" unique_id=1299106128]
+shape = SubResource("RectangleShape2D_2e4fc")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment" unique_id=958836343]
+position = Vector2(5595, 285)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight" unique_id=248834984]
+shape = SubResource("RectangleShape2D_6kh0n")
+
+[node name="Entrance" type="StaticBody2D" parent="Environment" unique_id=1905817757]
+position = Vector2(490, 670)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Entrance" unique_id=398309933]
+shape = SubResource("RectangleShape2D_8dw1r")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/Entrance" unique_id=29341664]
+texture_filter = 1
+offset_left = -490.0
+offset_top = -110.0
+offset_right = 490.0
+offset_bottom = 110.0
+texture = ExtResource("8_dcom2")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PressHall" type="StaticBody2D" parent="Environment" unique_id=1804885983]
+position = Vector2(3940, 670)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/PressHall" unique_id=492086040]
+shape = SubResource("RectangleShape2D_0n38f")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/PressHall" unique_id=237749085]
+texture_filter = 1
+offset_left = -1660.0
+offset_top = -110.0
+offset_right = 1660.0
+offset_bottom = 110.0
+texture = ExtResource("8_dcom2")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MidBelt" type="StaticBody2D" parent="Environment" unique_id=1798630839]
+position = Vector2(1550, 531)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/MidBelt" unique_id=38226031]
+shape = SubResource("RectangleShape2D_qwaxg")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/MidBelt" unique_id=489871440]
+texture_filter = 1
+offset_left = -40.0
+offset_top = -11.0
+offset_right = 40.0
+offset_bottom = 11.0
+texture = ExtResource("8_dcom2")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="EmpLedge" type="StaticBody2D" parent="Environment" unique_id=1095287963]
+position = Vector2(2200, 441)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/EmpLedge" unique_id=2137310120]
+shape = SubResource("RectangleShape2D_nk2og")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/EmpLedge" unique_id=1202550458]
+texture_filter = 1
+offset_left = -45.0
+offset_top = -11.0
+offset_right = 45.0
+offset_bottom = 11.0
+texture = ExtResource("8_dcom2")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="DeathZone" type="Area2D" parent="." unique_id=805251641 instance=ExtResource("9_1ssud")]
+position = Vector2(2800, 860)
+collision_layer = 0
+monitorable = false
+script = ExtResource("10_1hhh3")
+
+[node name="Objects" type="Node2D" parent="." unique_id=946398741]
+
+[node name="RexSecretWall" type="StaticBody2D" parent="Objects" unique_id=874869423 groups=["damageable", "secret_walls"] instance=ExtResource("11_ff1ya")]
+position = Vector2(320, 560)
+collision_layer = 3
+collision_mask = 0
+script = ExtResource("12_c056g")
+breaking_attack_types = Array[String](["heavy", "plasma", "emp", "plunge"])
+wall_color = Color(0.26, 0.24, 0.34, 1)
+
+[node name="RexTelemetry" type="Area2D" parent="Objects" unique_id=966145160 instance=ExtResource("13_t46dm")]
+position = Vector2(150, 560)
+script = ExtResource("14_e04uf")
+codex_entry_id = "future_lore_rex_telemetry"
+dialogue_key = "fut_rex_telemetry"
+reward_item = "chrono_injector"
+reward_amount = 1
+
+[node name="BeltTerminal" type="Area2D" parent="Objects" unique_id=1874854448 instance=ExtResource("15_bcdb2")]
+position = Vector2(900, 560)
+script = ExtResource("16_np3x2")
+mode = "reverse"
+linked_paths = Array[NodePath]([NodePath("../../Conveyors/BeltA"), NodePath("../../Conveyors/BeltB")])
+
+[node name="ScanSocket" type="Area2D" parent="Objects" unique_id=1789839465 instance=ExtResource("13_t46dm")]
+position = Vector2(4170, 560)
+script = ExtResource("14_e04uf")
+interact_prompt = "PROMPT_FUT_SCAN"
+dialogue_key = "fut_schematic_scanned_socket"
+scan_id = "socket"
+
+[node name="ScanHarness" type="Area2D" parent="Objects" unique_id=1212073760 instance=ExtResource("13_t46dm")]
+position = Vector2(4470, 560)
+script = ExtResource("14_e04uf")
+interact_prompt = "PROMPT_FUT_SCAN"
+dialogue_key = "fut_schematic_scanned_harness"
+scan_id = "harness"
+
+[node name="Beacon" type="Area2D" parent="Objects" unique_id=1823474449 instance=ExtResource("17_6km5i")]
+position = Vector2(4640, 560)
+collision_layer = 0
+script = ExtResource("18_rq654")
+checkpoint_id = "future_assembly_beacon"
+
+[node name="Conveyors" type="Node2D" parent="." unique_id=451101665]
+
+[node name="BeltA" type="StaticBody2D" parent="Conveyors" unique_id=498504699 instance=ExtResource("19_wprui")]
+position = Vector2(1260, 540)
+script = ExtResource("20_k2tir")
+length = 520.0
+belt_speed = 80.0
+
+[node name="BeltB" type="StaticBody2D" parent="Conveyors" unique_id=576285873 instance=ExtResource("19_wprui")]
+position = Vector2(1930, 500)
+script = ExtResource("20_k2tir")
+length = 520.0
+belt_speed = 95.0
+direction = -1
+
+[node name="Hazards" type="Node2D" parent="." unique_id=396993849]
+
+[node name="Press0" type="Node2D" parent="Hazards" unique_id=535807243 instance=ExtResource("21_yvwoc")]
+position = Vector2(2600, 400)
+script = ExtResource("22_03uvd")
+travel = 135.0
+
+[node name="Press1" type="Node2D" parent="Hazards" unique_id=1636715116 instance=ExtResource("21_yvwoc")]
+position = Vector2(2900, 400)
+script = ExtResource("22_03uvd")
+travel = 135.0
+start_offset = 0.45
+
+[node name="Press2" type="Node2D" parent="Hazards" unique_id=1864576334 instance=ExtResource("21_yvwoc")]
+position = Vector2(3200, 400)
+script = ExtResource("22_03uvd")
+travel = 135.0
+start_offset = 0.9
+
+[node name="Press3" type="Node2D" parent="Hazards" unique_id=1458244058 instance=ExtResource("21_yvwoc")]
+position = Vector2(3500, 400)
+script = ExtResource("22_03uvd")
+travel = 135.0
+start_offset = 1.35
+
+[node name="PlasmaA" type="Area2D" parent="Hazards" unique_id=1573640400 instance=ExtResource("23_vx74n")]
+position = Vector2(2750, 560)
+script = ExtResource("24_516w6")
+width = 120.0
+
+[node name="PlasmaB" type="Area2D" parent="Hazards" unique_id=77850503 instance=ExtResource("23_vx74n")]
+position = Vector2(3350, 560)
+script = ExtResource("24_516w6")
+width = 120.0
+start_offset = 1.0
+
+[node name="TimeRifts" type="Node2D" parent="." unique_id=825886242]
+
+[node name="RiftSlow" type="Area2D" parent="TimeRifts" unique_id=764104112 instance=ExtResource("25_oxaxj")]
+position = Vector2(3060, 560)
+script = ExtResource("26_i1vyi")
+size = Vector2(200, 170)
+
+[node name="RiftFast" type="Area2D" parent="TimeRifts" unique_id=1128597836 instance=ExtResource("25_oxaxj")]
+position = Vector2(3700, 560)
+script = ExtResource("26_i1vyi")
+mode = "fast"
+size = Vector2(180, 170)
+factor = 0.7
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1331601206]
+
+[node name="LineGuard" type="CharacterBody2D" parent="Enemies" unique_id=293237619 groups=["damageable", "enemies"] instance=ExtResource("27_6r4rl")]
+position = Vector2(2450, 560)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("28_f8lut")
+behavior = "shield"
+monster_name = "Cyber Enforcer"
+codex_id = "cyber_enforcer"
+max_health = 110
+current_health = 110
+attack_damage = 18
+max_poise = 55.0
+attack_range = 46.0
+detection_range = 230.0
+speed = 60.0
+direction = -1
+
+[node name="LineHound" type="CharacterBody2D" parent="Enemies" unique_id=400178925 groups=["damageable", "enemies"] instance=ExtResource("29_53s1q")]
+position = Vector2(2850, 560)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("28_f8lut")
+behavior = "pounce"
+monster_name = "Cyber Hound"
+codex_id = "cyber_hound"
+max_health = 75
+current_health = 75
+attack_damage = 14
+max_poise = 55.0
+detection_range = 260.0
+speed = 90.0
+chase_speed = 160.0
+direction = -1
+
+[node name="LineDrone" type="CharacterBody2D" parent="Enemies" unique_id=474103617 groups=["damageable", "enemies"] instance=ExtResource("30_cq06d")]
+position = Vector2(3100, 420)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("28_f8lut")
+behavior = "pulse"
+monster_name = "Chrono Drone"
+codex_id = "chrono_drone"
+max_health = 60
+current_health = 60
+is_flying = true
+attack_damage = 12
+max_poise = 55.0
+attack_range = 40.0
+detection_range = 280.0
+speed = 55.0
+chase_speed = 90.0
+
+[node name="JuggernautA" type="CharacterBody2D" parent="Enemies" unique_id=1717789157 groups=["damageable", "enemies"] instance=ExtResource("31_sn7ix")]
+position = Vector2(3650, 560)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("28_f8lut")
+behavior = "heavy"
+monster_name = "Hydraulic Juggernaut"
+codex_id = "hydraulic_juggernaut"
+max_health = 260
+current_health = 260
+attack_damage = 26
+max_poise = 200.0
+attack_range = 62.0
+detection_range = 220.0
+speed = 40.0
+chase_speed = 70.0
+direction = -1
+
+[node name="JuggernautB" type="CharacterBody2D" parent="Enemies" unique_id=875155070 groups=["damageable", "enemies"] instance=ExtResource("31_sn7ix")]
+position = Vector2(4500, 560)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("28_f8lut")
+behavior = "heavy"
+monster_name = "Hydraulic Juggernaut"
+codex_id = "hydraulic_juggernaut"
+max_health = 260
+current_health = 260
+attack_damage = 26
+max_poise = 200.0
+attack_range = 62.0
+detection_range = 220.0
+speed = 40.0
+chase_speed = 70.0
+direction = -1
+
+[node name="Props" type="Node2D" parent="." unique_id=406296739]
+
+[node name="StampedMold" type="Sprite2D" parent="Props" unique_id=658868273]
+z_index = -5
+texture_filter = 1
+position = Vector2(4120, 470)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("32_hcf2j")
+
+[node name="TrexHarness" type="Sprite2D" parent="Props" unique_id=1150238054]
+z_index = -5
+texture_filter = 1
+position = Vector2(4420, 485)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("33_60772")
+
+[node name="MoldTrigger" type="Area2D" parent="." unique_id=1784627647]
+position = Vector2(3960, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoldTrigger" unique_id=19483158]
+shape = SubResource("RectangleShape2D_oapsw")
+
+[node name="WardenTrigger" type="Area2D" parent="." unique_id=1038356593]
+position = Vector2(4820, 500)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WardenTrigger" unique_id=944821379]
+shape = SubResource("RectangleShape2D_fttwq")
+
+[node name="ChronoWarden" type="CharacterBody2D" parent="." unique_id=998009517 groups=["damageable", "enemies"] instance=ExtResource("34_twgi4")]
+position = Vector2(5200, 560)
+collision_layer = 2
+script = ExtResource("35_ynwn6")
+max_health = 600
+codex_id = "chrono_warden_mech"
+move_speed = 55.0
+arena_bounds = Vector2(4700, 5420)
+
+[node name="GateLock" type="StaticBody2D" parent="." unique_id=1143293975]
+modulate = Color(0.7, 0.9, 1.2, 1)
+position = Vector2(5460, 410)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GateLock" unique_id=1367798081]
+shape = SubResource("RectangleShape2D_pnqjj")
+
+[node name="Visual" type="NinePatchRect" parent="GateLock" unique_id=1063763408]
+texture_filter = 1
+offset_left = -20.0
+offset_top = -150.0
+offset_right = 20.0
+offset_bottom = 150.0
+texture = ExtResource("36_oivt3")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Lights" type="Node2D" parent="." unique_id=1148827385]
+
+[node name="Neon0" type="PointLight2D" parent="Lights" unique_id=649052840]
+position = Vector2(600, 400)
+color = Color(0.3, 0.9, 1, 1)
+energy = 0.9
+texture = ExtResource("37_x7rm6")
+texture_scale = 1.6
+
+[node name="Neon1" type="PointLight2D" parent="Lights" unique_id=306558024]
+position = Vector2(1750, 400)
+color = Color(1, 0.65, 0.3, 1)
+energy = 0.9
+texture = ExtResource("37_x7rm6")
+texture_scale = 1.6
+
+[node name="Neon2" type="PointLight2D" parent="Lights" unique_id=1371445642]
+position = Vector2(2900, 400)
+color = Color(0.3, 0.9, 1, 1)
+energy = 0.9
+texture = ExtResource("37_x7rm6")
+texture_scale = 1.6
+
+[node name="Neon3" type="PointLight2D" parent="Lights" unique_id=432123218]
+position = Vector2(4050, 400)
+color = Color(1, 0.65, 0.3, 1)
+energy = 0.9
+texture = ExtResource("37_x7rm6")
+texture_scale = 1.6
+
+[node name="Neon4" type="PointLight2D" parent="Lights" unique_id=207533116]
+position = Vector2(5200, 400)
+color = Color(0.3, 0.9, 1, 1)
+energy = 0.9
+texture = ExtResource("37_x7rm6")
+texture_scale = 1.6
+
+[node name="Pickups" type="Node2D" parent="." unique_id=175473295]
+
+[node name="EmpPack" type="Area2D" parent="Pickups" unique_id=1624299730 instance=ExtResource("38_lcj5q")]
+position = Vector2(2200, 430)
+script = ExtResource("39_vcbae")
+item_id = "emp_grenade"
+amount = 2
+
+[node name="NanoKit" type="Area2D" parent="Pickups" unique_id=802903623 instance=ExtResource("38_lcj5q")]
+position = Vector2(3820, 560)
+script = ExtResource("39_vcbae")
+
+[node name="PhaseShield" type="Area2D" parent="Pickups" unique_id=1821203858 instance=ExtResource("38_lcj5q")]
+position = Vector2(4300, 560)
+script = ExtResource("39_vcbae")
+item_id = "phase_shield_capsule"
+
+[node name="ExitGate" type="Area2D" parent="." unique_id=716552777]
+position = Vector2(5560, 480)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate" unique_id=499625749]
+shape = SubResource("RectangleShape2D_8wi8t")
+
+[node name="CombatPlayer" type="CharacterBody2D" parent="." unique_id=1914934442 instance=ExtResource("40_swpky")]
+position = Vector2(520, 500)
+collision_mask = 7
+script = ExtResource("41_0rups")
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" type="CanvasLayer" parent="." unique_id=594856020 instance=ExtResource("42_yphqc")]
+process_mode = 3
+layer = 10
+script = ExtResource("43_qm1w6")
+
+[node name="DialogueBox" type="CanvasLayer" parent="." unique_id=379527357 instance=ExtResource("44_65cll")]
+layer = 25
+script = ExtResource("45_aebdn")

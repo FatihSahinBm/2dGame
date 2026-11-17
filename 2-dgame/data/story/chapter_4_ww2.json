@@ -1,0 +1,1286 @@
+{
+	"chapter_id": "chapter_4",
+	"era": "2. Dünya Savaşı — Demir Cephe",
+	"era_en": "World War II — The Iron Front",
+	"title": "Bölüm 4: Cani Komutan ve Demir Kalp",
+	"title_en": "Chapter 4: The Butcher Commander and the Iron Heart",
+	"synopsis": "Zaman yırtığı oyuncuyu 2. Dünya Savaşı'nın bombalanmış siperlerine fırlatır. 4. Kalp Parçası, savaşı tek darbeyle bitirip dünyayı demir yumrukla yönetmek isteyen Cani Komutan'ın zırhlı savaş makinelerine bağlanmıştır.",
+	"synopsis_en": "The time rift hurls the player into the bombed trenches of World War II. The fourth Heart Shard has been bound to the war machines of the Butcher Commander, who wants to end the war in a single blow and rule the world with an iron fist.",
+	"quests": [
+		{
+			"id": "ww2_iron_heart",
+			"category": "main",
+			"title": "Demir Kalp",
+			"title_en": "The Iron Heart",
+			"description": "Bombalanmış cepheyi aş, Cani Komutan'ın sığınağına in ve 4. Kalp Parçasını geri al.",
+			"description_en": "Cross the bombed-out front, descend into the Butcher Commander's bunker and reclaim the fourth Heart Shard.",
+			"stages": [
+				{
+					"id": "cross_trenches",
+					"description": "Bombalanmış siperleri geç",
+					"description_en": "Cross the bombed trenches",
+					"completed": false
+				},
+				{
+					"id": "cross_viaduct",
+					"description": "Zırhlı tren viyadüğünü aş",
+					"description_en": "Cross the armoured train viaduct",
+					"completed": false
+				},
+				{
+					"id": "infiltrate_lab",
+					"description": "Yeraltı laboratuvarına sız",
+					"description_en": "Infiltrate the underground laboratory",
+					"completed": false
+				},
+				{
+					"id": "defeat_commander",
+					"description": "Cani Komutan'ı yen",
+					"description_en": "Defeat the Butcher Commander",
+					"completed": false
+				},
+				{
+					"id": "claim_heart",
+					"description": "4. Kalp Parçasını sök",
+					"description_en": "Extract the fourth Heart Shard",
+					"completed": false
+				}
+			],
+			"reward_text": "4. Kalp Parçası & İntikam Yemini",
+			"reward_text_en": "Fourth Heart Shard & Vow of Vengeance"
+		},
+		{
+			"id": "ww2_wounded_in_trench",
+			"category": "side",
+			"title": "Siperdeki Yaralılar",
+			"title_en": "The Wounded in the Trench",
+			"description": "Bombardıman altındaki yaralı askerleri sığınağa taşı.",
+			"description_en": "Carry the wounded soldiers under bombardment to the shelter.",
+			"stages": [
+				{
+					"id": "save_wounded",
+					"description": "İki yaralı askeri kurtar",
+					"description_en": "Save both wounded soldiers",
+					"completed": false
+				}
+			],
+			"reward_text": "Kefaret & Askeri Sargı Bezi",
+			"reward_text_en": "Redemption & Field Bandages"
+		},
+		{
+			"id": "ww2_silent_battery",
+			"category": "side",
+			"title": "Sessiz Batarya",
+			"title_en": "The Silent Battery",
+			"description": "Yıkık şehirde şifreli telsiz kodlarını bul ve topçu koordinatlarını boz.",
+			"description_en": "Find the encrypted radio codes in the ruined city and scramble the artillery coordinates.",
+			"stages": [
+				{
+					"id": "find_codes",
+					"description": "Şifreli telsiz kodlarını bul",
+					"description_en": "Find the encrypted radio codes",
+					"completed": false
+				},
+				{
+					"id": "sabotage_radio",
+					"description": "Telsizden topçu koordinatlarını boz",
+					"description_en": "Scramble the artillery coordinates by radio",
+					"completed": false
+				}
+			],
+			"reward_text": "Komutan'ın topçu bombardımanı %50 zayıflar",
+			"reward_text_en": "The Commander's artillery barrage is weakened by 50%"
+		},
+		{
+			"id": "ww2_caged_subjects",
+			"category": "side",
+			"title": "Kafesteki Denekler",
+			"title_en": "The Caged Subjects",
+			"description": "Laboratuvar hücrelerindeki esirleri reaktöre bağlanmadan kurtar.",
+			"description_en": "Free the prisoners in the laboratory cells before they are wired into the reactor.",
+			"stages": [
+				{
+					"id": "free_prisoners",
+					"description": "İki esiri kurtar",
+					"description_en": "Free both prisoners",
+					"completed": false
+				}
+			],
+			"reward_text": "Kefaret & Sığınak Arka Kapı Anahtarı",
+			"reward_text_en": "Redemption & Bunker Back Door Key"
+		}
+	],
+	"codex": [
+		{
+			"id": "trench_infantry",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_wounded_soldier.png",
+			"title": "Siper Piyadesi",
+			"title_en": "Trench Infantryman",
+			"subtitle": "Komutan'ın Çamurdaki Askerleri",
+			"subtitle_en": "The Commander's Men in the Mud",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Süngülü tüfeklerle siperleri tutan, korkudan çok emirle hareket eden piyadeler.",
+			"description_en": "Infantry holding the trenches with bayonet rifles, driven more by orders than by fear.",
+			"tactics": "Süngü hamlesinden sonra kısa bir toparlanma süresi vardır; hemen karşı saldır.",
+			"tactics_en": "After a bayonet thrust they need a moment to recover; counter-attack immediately.",
+			"weakness": "Savuşturma",
+			"weakness_en": "Parries",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 90 | Hasar: Delici",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 90 | Damage: Piercing"
+		},
+		{
+			"id": "flamethrower_trooper",
+			"category": "enemies",
+			"icon_path": "res://assets/items/ww2/phosphor_flare.png",
+			"title": "Alev Makineci",
+			"title_en": "Flamethrower Trooper",
+			"subtitle": "Sırtında Cehennem Taşıyan",
+			"subtitle_en": "Carrying Hell on His Back",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Ağır yakıt tankıyla dar siper koridorlarını alevle temizleyen asker.",
+			"description_en": "A soldier who clears narrow trench corridors with fire from a heavy fuel tank.",
+			"tactics": "Alev konisi önüne doğrudur; atılmayla arkasına geç.",
+			"tactics_en": "The flame cone only reaches forward; dash behind him.",
+			"weakness": "Arkadan saldırı",
+			"weakness_en": "Attacks from behind",
+			"stats_summary": "Tehlike: ⭐⭐⭐ | Can: 120 | Hasar: Ateş",
+			"stats_summary_en": "Threat: ⭐⭐⭐ | HP: 120 | Damage: Fire"
+		},
+		{
+			"id": "gas_sapper",
+			"category": "enemies",
+			"icon_path": "res://assets/items/ww2/gas_filter.png",
+			"title": "Gaz Maskeli Lağımcı",
+			"title_en": "Gas-Masked Sapper",
+			"subtitle": "Tünel Kazıcıları",
+			"subtitle_en": "Tunnel Diggers",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Gaz maskeli lağımcılar ölürken taşıdıkları zehirli gaz kapsüllerini patlatır.",
+			"description_en": "Gas-masked sappers burst the toxic gas capsules they carry as they die.",
+			"tactics": "Öldürdükten sonra gaz bulutundan uzak dur ya da filtre kullan.",
+			"tactics_en": "After killing one, keep away from the gas cloud or use a filter.",
+			"weakness": "Hızlı kombolar",
+			"weakness_en": "Fast combos",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 80 | Hasar: Zehir",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 80 | Damage: Poison"
+		},
+		{
+			"id": "occult_remnant",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_prisoner.png",
+			"title": "Okült Deney Kalıntısı",
+			"title_en": "Occult Experiment Remnant",
+			"subtitle": "Reaktörün Artıkları",
+			"subtitle_en": "Leftovers of the Reactor",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Kalp Parçasının enerjisiyle yeniden ayağa kaldırılmış başarısız denekler.",
+			"description_en": "Failed test subjects raised again with the Heart Shard's energy.",
+			"tactics": "Yerden kalkarken savunmasızdır; kalkış bitmeden vur.",
+			"tactics_en": "They are vulnerable while rising; strike before they stand up.",
+			"weakness": "Ateş ve fosfor fişeği",
+			"weakness_en": "Fire & phosphor flares",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 70 | Hasar: Okült",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 70 | Damage: Occult"
+		},
+		{
+			"id": "signal_scout",
+			"category": "enemies",
+			"icon_path": "res://assets/items/ww2/radio_codes.png",
+			"title": "Keşif/Sinyal Gözcüsü",
+			"title_en": "Recon Signal Scout",
+			"subtitle": "Topçunun Gözleri",
+			"subtitle_en": "The Artillery's Eyes",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Seni gördüğünde işaret fişeğiyle topçu ateşi çağıran gözcü.",
+			"description_en": "A spotter who calls down artillery fire with a signal flare when he sees you.",
+			"tactics": "Fişeği ateşlemeden önce ulaş; yoksa işaretlenen alandan çık.",
+			"tactics_en": "Reach him before he fires the flare; otherwise leave the marked area.",
+			"weakness": "Yakın dövüş",
+			"weakness_en": "Melee",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 60 | Hasar: Topçu çağrısı",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 60 | Damage: Artillery call"
+		},
+		{
+			"id": "trench_officer",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_trench_officer.png",
+			"title": "Alev Makineli Ağır Siper Subayı",
+			"title_en": "Heavy Flamethrower Trench Officer",
+			"subtitle": "Mini-Boss — Siper Kapısının Bekçisi",
+			"subtitle_en": "Mini-Boss — Guardian of the Trench Gate",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Yüksek duruşlu zırhı her darbeyi yutar; alev konisiyle siperi süpürür.",
+			"description_en": "His high-poise armour swallows every blow; he sweeps the trench with a cone of fire.",
+			"tactics": "Arkasına geç ya da dalış saldırısıyla sırt tankını patlat; groggy penceresinde saldır.",
+			"tactics_en": "Get behind him or burst his back tank with a plunge attack; strike during the groggy window.",
+			"weakness": "Sırt tankı",
+			"weakness_en": "Back tank",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐ | Can: 520 | Duruş: Çok yüksek",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐ | HP: 520 | Poise: Very high"
+		},
+		{
+			"id": "occult_doctor",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_occult_doctor.png",
+			"title": "Okült Başhekim",
+			"title_en": "Occult Chief Physician",
+			"subtitle": "Mini-Boss — Reaktörün Efendisi",
+			"subtitle_en": "Mini-Boss — Master of the Reactor",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "İnsanları Kalp enerjisine bağlayan doktor. Enerji tüpleri sağlam kaldıkça okült kalkanı inmez.",
+			"description_en": "The doctor who wires people into the Heart's energy. His occult shield holds while the energy tubes stand.",
+			"tactics": "Önce enerji tüplerini kır, sonra Başhekim'e saldır.",
+			"tactics_en": "Break the energy tubes first, then attack the physician.",
+			"weakness": "Enerji tüpleri",
+			"weakness_en": "Energy tubes",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐ | Can: 380 | Kalkan: Okült",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐ | HP: 380 | Shield: Occult"
+		},
+		{
+			"id": "failed_experiment",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_prisoner.png",
+			"title": "Başarısız Deney",
+			"title_en": "The Failed Experiment",
+			"subtitle": "Deney Kırk Dört",
+			"subtitle_en": "Experiment Forty-Four",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Başhekim'in en büyük başarısızlığı. Yere vurdukça arenayı okült dalgalarla daraltır.",
+			"description_en": "The physician's greatest failure. Every slam narrows the arena with occult waves.",
+			"tactics": "Yere vurmadan önce ellerini kaldırır; o an uzaklaş.",
+			"tactics_en": "It raises its arms before a slam; back away then.",
+			"weakness": "Ağır saldırı",
+			"weakness_en": "Heavy attacks",
+			"stats_summary": "Tehlike: ⭐⭐⭐ | Can: 420 | Hasar: Ezici",
+			"stats_summary_en": "Threat: ⭐⭐⭐ | HP: 420 | Damage: Crushing"
+		},
+		{
+			"id": "butcher_commander",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_butcher_commander.png",
+			"title": "Cani Komutan",
+			"title_en": "The Butcher Commander",
+			"subtitle": "4. Kalp Parçasının Bekçisi",
+			"subtitle_en": "Keeper of the Fourth Heart Shard",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Savaşı tek darbeyle bitirmek için Kalp Parçasını zırhlı trenlere, toplara ve insanlık dışı deneylere bağlayan komutan.",
+			"description_en": "The commander who bound the Heart Shard to armoured trains, artillery and inhuman experiments to end the war in a single blow.",
+			"tactics": "Form 1'de nişan çizgisinden çekil; Form 2'de savuşturma/ağır vuruşla duruş kalkanını kır; Form 3'te çapraz ışınların arasından geç.",
+			"tactics_en": "In Form 1 step out of the aiming line; in Form 2 break the poise shield with parries/heavy blows; in Form 3 slip between the crossing beams.",
+			"weakness": "Savuşturma ve ağır vuruş",
+			"weakness_en": "Parries & heavy blows",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐⭐ | Can: 1200 | 3 Form",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐⭐ | HP: 1200 | 3 Forms"
+		},
+		{
+			"id": "ww2_wounded_soldier",
+			"category": "characters",
+			"icon_path": "res://assets/ui/portraits/portrait_wounded_soldier.png",
+			"title": "Yaralı Asker",
+			"title_en": "Wounded Soldier",
+			"subtitle": "Cephenin Unutulmuşları",
+			"subtitle_en": "The Forgotten of the Front",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Bombardıman altında siperde kalmış, kimsenin taşımadığı askerler.",
+			"description_en": "Soldiers left in the trench under bombardment, carried by no one.",
+			"tactics": "Kurtarmak Kefaret, sömürmek Yozlaşma getirir.",
+			"tactics_en": "Saving them brings Redemption, draining them brings Corruption.",
+			"weakness": "Merhamet",
+			"weakness_en": "Mercy",
+			"stats_summary": "Seçim: Kurtar / Sömür / Öldür",
+			"stats_summary_en": "Choice: Save / Drain / Kill"
+		},
+		{
+			"id": "ww2_prisoner",
+			"category": "characters",
+			"icon_path": "res://assets/ui/portraits/portrait_prisoner.png",
+			"title": "Laboratuvar Esiri",
+			"title_en": "Laboratory Prisoner",
+			"subtitle": "Reaktörün Yakıtı",
+			"subtitle_en": "Fuel for the Reactor",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Kalp enerjisine bağlanmak üzere hücrelerde bekletilen siviller ve esirler.",
+			"description_en": "Civilians and prisoners held in cells, waiting to be wired into the Heart's energy.",
+			"tactics": "Kurtarmak arka kapı anahtarını verir; feda etmek güç ve Yozlaşma getirir.",
+			"tactics_en": "Freeing them grants the back door key; sacrificing them grants power and Corruption.",
+			"weakness": "Merhamet",
+			"weakness_en": "Mercy",
+			"stats_summary": "Seçim: Kurtar / Feda Et",
+			"stats_summary_en": "Choice: Free / Sacrifice"
+		},
+		{
+			"id": "ww2_future_blueprint",
+			"category": "lore",
+			"icon_path": "res://assets/objects/ww2/future_blueprint.png",
+			"title": "Geleceğin Damgası Planları",
+			"title_en": "Blueprints Bearing the Future's Stamp",
+			"subtitle": "Gizli Proje Dosyası",
+			"subtitle_en": "Secret Project File",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "AI Lord damgalı bir proje dosyası. Taş Devri'ndeki mekanik omuz yuvasında ve kılıcının kabzasında aynı damga var.",
+			"description_en": "A project file stamped with the AI Lord's mark. The same stamp is on the mechanical shoulder socket in the Stone Age — and on your sword's hilt.",
+			"tactics": "Laboratuvardaki gizli duvarı ağır saldırı ya da el bombasıyla kır.",
+			"tactics_en": "Break the hidden lab wall with a heavy attack or a grenade.",
+			"weakness": "Gizli Duvar",
+			"weakness_en": "Hidden Wall",
+			"stats_summary": "Tür: Easter Egg",
+			"stats_summary_en": "Type: Easter Egg"
+		},
+		{
+			"id": "ww2_broken_frequency",
+			"category": "lore",
+			"icon_path": "res://assets/objects/ww2/field_radio.png",
+			"title": "Kırık Telsiz Frekansı",
+			"title_en": "The Broken Frequency",
+			"subtitle": "Çağların Yankısı",
+			"subtitle_en": "Echo of the Ages",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Harabedeki telsiz Orok'un, Fatih'in ve Vlad'ın çağlarından parazitli yankılar ve kılıçtan gelen bir fısıltı yakalıyor.",
+			"description_en": "The radio in the ruins catches static-ridden echoes from the ages of Orok, Fatih and Vlad — and a whisper from the sword.",
+			"tactics": "Şehir harabesindeki gizli telsizi [E] ile dinle.",
+			"tactics_en": "Listen to the hidden radio in the city ruins with [E].",
+			"weakness": "Merak",
+			"weakness_en": "Curiosity",
+			"stats_summary": "Tür: Easter Egg",
+			"stats_summary_en": "Type: Easter Egg"
+		},
+		{
+			"id": "ww2_knight_crest",
+			"category": "lore",
+			"icon_path": "res://assets/objects/ww2/knight_crest.png",
+			"title": "Sığınak Mahzeni Arması",
+			"title_en": "The Bunker Vault Crest",
+			"subtitle": "İhanetten Önceki Şövalye",
+			"subtitle_en": "The Knight Before the Betrayal",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Ana Karakter'in ihanetten önceki şövalye arması. Zaman yırtıkları onu bu çağın mahzenine savurmuş.",
+			"description_en": "The Protagonist's knightly crest from before the betrayal. The time rifts flung it into this age's vault.",
+			"tactics": "Sığınaktaki gizli duvarın ardındaki mahzeni bul.",
+			"tactics_en": "Find the vault behind the bunker's hidden wall.",
+			"weakness": "Gizli Duvar",
+			"weakness_en": "Hidden Wall",
+			"stats_summary": "Tür: Easter Egg + Bonus Ödül",
+			"stats_summary_en": "Type: Easter Egg + Bonus Reward"
+		},
+		{
+			"id": "ww2_lore_iron_heart",
+			"category": "lore",
+			"icon_path": "res://assets/items/ww2/heart_piece_4.png",
+			"title": "Demir Çekirdek",
+			"title_en": "The Iron Core",
+			"subtitle": "4. Kalp Parçası",
+			"subtitle_en": "The Fourth Heart Shard",
+			"era": "2. Dünya Savaşı — Demir Cephe",
+			"era_en": "World War II — The Iron Front",
+			"description": "Komutan'ın zırhlı trenlerine, toplarına ve okült reaktörüne güç veren dördüncü Kalp Parçası.",
+			"description_en": "The fourth Heart Shard, powering the Commander's armoured trains, artillery and occult reactor.",
+			"tactics": "Cani Komutan'ı yen.",
+			"tactics_en": "Defeat the Butcher Commander.",
+			"weakness": "—",
+			"weakness_en": "—",
+			"stats_summary": "Tür: Kalp Parçası",
+			"stats_summary_en": "Type: Heart Shard"
+		}
+	],
+	"items": [
+		{
+			"id": "field_bandage",
+			"icon_path": "res://assets/items/ww2/field_bandage.png",
+			"title": "Askeri Sargı Bezi",
+			"title_en": "Field Bandage",
+			"description": "Cephe sıhhiyecilerinin steril sargısı.",
+			"description_en": "A field medic's sterile dressing.",
+			"effect": "+40 Can",
+			"effect_en": "+40 HP",
+			"usable": true
+		},
+		{
+			"id": "adrenaline_syringe",
+			"icon_path": "res://assets/items/ww2/adrenaline_syringe.png",
+			"title": "Adrenalin Şırıngası",
+			"title_en": "Adrenaline Syringe",
+			"description": "Kalbi hızlandıran askeri uyarıcı.",
+			"description_en": "A military stimulant that races the heart.",
+			"effect": "8 sn boyunca +%35 hareket hızı",
+			"effect_en": "+35% movement speed for 8 s",
+			"usable": true
+		},
+		{
+			"id": "gas_filter",
+			"icon_path": "res://assets/items/ww2/gas_filter.png",
+			"title": "Gaz Maskesi Filtresi",
+			"title_en": "Gas Mask Filter",
+			"description": "Aktif karbonlu maske filtresi.",
+			"description_en": "An activated-carbon mask filter.",
+			"effect": "20 sn toksik gaz direnci",
+			"effect_en": "Toxic gas immunity for 20 s",
+			"usable": true
+		},
+		{
+			"id": "stick_grenade",
+			"icon_path": "res://assets/items/ww2/stick_grenade.png",
+			"title": "Saplı El Bombası",
+			"title_en": "Stick Grenade",
+			"description": "Uzun saplı parçalanma bombası.",
+			"description_en": "A long-handled fragmentation grenade.",
+			"effect": "60 alan hasarı, gizli duvar ve zırh kırar",
+			"effect_en": "60 area damage, breaks hidden walls and armour",
+			"usable": true
+		},
+		{
+			"id": "phosphor_flare",
+			"icon_path": "res://assets/items/ww2/phosphor_flare.png",
+			"title": "Fosfor İşaret Fişeği",
+			"title_en": "Phosphor Flare",
+			"description": "Karanlığı yaran beyaz fosfor fişeği.",
+			"description_en": "A white phosphor flare that splits the darkness.",
+			"effect": "Çevreyi aydınlatır ve 25 yakma hasarı verir",
+			"effect_en": "Lights the area and deals 25 burn damage",
+			"usable": true
+		},
+		{
+			"id": "radio_codes",
+			"icon_path": "res://assets/items/ww2/radio_codes.png",
+			"title": "Şifreli Telsiz Kodları",
+			"title_en": "Encrypted Radio Codes",
+			"description": "Topçu bataryasının frekans ve koordinat tablosu.",
+			"description_en": "The artillery battery's frequency and coordinate table.",
+			"effect": "Görev eşyası: Sessiz Batarya",
+			"effect_en": "Quest item: The Silent Battery",
+			"usable": false
+		},
+		{
+			"id": "bunker_keycard",
+			"icon_path": "res://assets/items/ww2/bunker_keycard.png",
+			"title": "Sığınak Yetki Kartı",
+			"title_en": "Bunker Access Card",
+			"description": "Komuta sığınağının arka kapısını açan kart.",
+			"description_en": "A card that opens the command bunker's back door.",
+			"effect": "Görev eşyası: arka kapı",
+			"effect_en": "Quest item: back door",
+			"usable": false
+		},
+		{
+			"id": "prisoner_tags",
+			"icon_path": "res://assets/items/ww2/prisoner_tags.png",
+			"title": "Esir Künyeleri",
+			"title_en": "Prisoner Dog Tags",
+			"description": "Kurtarılan esirlerin sana emanet ettiği künyeler.",
+			"description_en": "Dog tags entrusted to you by the prisoners you freed.",
+			"effect": "Kefaret hatırası",
+			"effect_en": "A token of Redemption",
+			"usable": false
+		}
+	],
+	"dialogues": {
+		"ww2_arrival": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yarık seni çamura, kana ve barut kokusuna kusuyor. Gökyüzü yanıyor; ufukta ıslık çalan mermiler düşüyor.*",
+				"text_en": "*The rift spits you into mud, blood and the stench of gunpowder. The sky is burning; shells whistle down on the horizon.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Dördüncü parça... Bu çağ taş ya da kum değil, demir ve ateş konuşuyor.",
+				"text_en": "The fourth shard... This age doesn't speak in stone or sand. It speaks in iron and fire.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç elinde titriyor. Çatlaklardan sızan kızıl-mavi ışık, top ateşinin her gümbürtüsünde biraz daha parlıyor.*",
+				"text_en": "*The sword trembles in your hand. The crimson-blue light leaking from its cracks flares brighter with every roar of the guns.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_barrage_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Islık sesi! Kızıl işaretler çamura düşüyor — topçu barajı geliyor. Beton sığınağa koş ya da işaret alanından çık.*",
+				"text_en": "*A whistle! Red markers fall into the mud — an artillery barrage is coming. Run for the concrete shelter or leave the marked area.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_wire_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Dikenli tel bacaklarını yırtıp seni yavaşlatıyor. Kan Sisi Atılması ile telin içinden zarar görmeden süzülebilirsin.*",
+				"text_en": "*The barbed wire tears at your legs and slows you down. With Blood Mist Dash you can slip through it unharmed.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_wounded_plea": [
+			{
+				"speaker": "Yaralı Asker",
+				"speaker_en": "Wounded Soldier",
+				"title": "",
+				"title_en": "",
+				"text": "Bacağım... Sargı bezim bitti. Bırakma beni burada, topçu her an yeniden başlar!",
+				"text_en": "My leg... I'm out of bandages. Don't leave me here, the guns could start again any second!",
+				"portrait": "wounded_soldier",
+				"choices": [
+					{
+						"text": "[1] Yaralıyı Sığınağa Taşı (Kefaret)",
+						"text_en": "[1] Carry Them to the Shelter (Redemption)",
+						"action": "rescue_wounded"
+					},
+					{
+						"text": "[2] Yaşam Gücünü Sömür (+20 Yozlaşma)",
+						"text_en": "[2] Drain Their Life Force (+20 Corruption)",
+						"action": "exploit_wounded"
+					}
+				]
+			}
+		],
+		"ww2_wounded_rescued": [
+			{
+				"speaker": "Yaralı Asker",
+				"speaker_en": "Wounded Soldier",
+				"title": "",
+				"title_en": "",
+				"text": "Tanrı seni korusun, yabancı... Al şu sargıyı, benden çok sana lazım olacak.",
+				"text_en": "God keep you, stranger... Take this bandage, you'll need it more than I will.",
+				"portrait": "wounded_soldier"
+			}
+		],
+		"ww2_wounded_exploited": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıcı yaralının göğsüne dayıyorsun. Sıcak bir güç koluna akıyor; askerin gözleri soluyor.*",
+				"text_en": "*You press the blade to the wounded man's chest. A warm strength flows up your arm; the soldier's eyes go dim.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Kılıçtaki Ses",
+				"speaker_en": "The Voice in the Blade",
+				"title": "",
+				"title_en": "",
+				"text": "*Çelikten boğuk, memnun bir uğultu yükseliyor.*",
+				"text_en": "*A muffled, satisfied hum rises from the steel.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_wounded_killed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç yaralı askeri biçiyor. Siperde bir başka ceset daha... ama bu sefer düşman topu değil, senin elin.*",
+				"text_en": "*The blade cuts down the wounded soldier. One more corpse in the trench... but this time not by an enemy shell. By your hand.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_officer_intro": [
+			{
+				"speaker": "Ağır Siper Subayı",
+				"speaker_en": "Heavy Trench Officer",
+				"title": "",
+				"title_en": "",
+				"text": "Komutan bu siperi kimseye geçirmeyeceğimi söyledi. Hele senin gibi zamansız bir hayalete hiç!",
+				"text_en": "The Commander ordered that no one passes this trench. Least of all a timeless ghost like you!",
+				"portrait": "trench_officer"
+			}
+		],
+		"ww2_officer_tank_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Subayın zırhı her darbeyi yutuyor. Ama sırtındaki yakıt tankı açıkta: arkasına geç ya da yukarıdan dalış saldırısıyla vur!*",
+				"text_en": "*The officer's armour swallows every blow. But the fuel tank on his back is exposed: get behind him or strike it with a plunge attack!*",
+				"portrait": "none"
+			}
+		],
+		"ww2_officer_tank_burst": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Tank patlıyor! Subay alevler içinde sendeliyor — savunmasız!*",
+				"text_en": "*The tank bursts! The officer staggers in flames — defenceless!*",
+				"portrait": "none"
+			}
+		],
+		"ww2_officer_defeated": [
+			{
+				"speaker": "Ağır Siper Subayı",
+				"speaker_en": "Heavy Trench Officer",
+				"title": "",
+				"title_en": "",
+				"text": "Komutan... yeraltında... seni bekliyor... Kalp onun elinde, sen... çoktan kaybettin...",
+				"text_en": "The Commander... below... is waiting for you... The Heart is in his hands, you've... already lost...",
+				"portrait": "trench_officer"
+			}
+		],
+		"ww2_trench_exit": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Siperin ötesi şehir. Ve şehrin üstünden geçen o viyadük... zırhlı tren oradan geliyor.",
+				"text_en": "Beyond the trench lies the city. And that viaduct above it... the armoured train comes from there.",
+				"portrait": "player"
+			}
+		],
+		"ww2_city_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yıkık binalar göğe kırık dişler gibi uzanıyor. Projektörler dumanı tarıyor; ışığa yakalanan her şey vuruluyor.*",
+				"text_en": "*Ruined buildings stab at the sky like broken teeth. Searchlights sweep the smoke; anything caught in the light gets shot.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Işığın dışında kalmalıyım. Yukarı, katlardan geçerek.",
+				"text_en": "I have to stay out of the light. Up, through the floors.",
+				"portrait": "player"
+			}
+		],
+		"ww2_searchlight_spotted": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Alarm! Projektör seni yakaladı — gözcüler takviye çağırıyor!*",
+				"text_en": "*Alarm! The searchlight caught you — the spotters are calling for reinforcements!*",
+				"portrait": "none"
+			}
+		],
+		"ww2_train_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Viyadükte zırhlı tren gürleyerek ilerliyor. Vagonların çatısı tek yol — hareket ederken atla.*",
+				"text_en": "*The armoured train thunders along the viaduct. The car roofs are the only way across — jump while they move.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_radio_codes_found": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Şifreli telsiz kodları... Topçu bataryasının koordinatları. Bunları telsizden bozabilirim.",
+				"text_en": "Encrypted radio codes... coordinates for the artillery battery. I could scramble them from a radio.",
+				"portrait": "player"
+			}
+		],
+		"ww2_battery_sabotaged": [
+			{
+				"speaker": "Parazitli Telsiz",
+				"speaker_en": "Static-Ridden Radio",
+				"title": "",
+				"title_en": "",
+				"text": "*Parazit... \"Koordinatlar geçersiz... Batarya beklemede... Komutanın sığınağına destek kesildi.\"*",
+				"text_en": "*Static... \"Coordinates invalid... Battery on hold... Support to the Commander's bunker is cut.\"*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Sessiz batarya. Komutan bombardıman istediğinde gökyüzü yarı yarıya susacak.",
+				"text_en": "A silent battery. When the Commander calls for his barrage, the sky will answer only half as loud.",
+				"portrait": "player"
+			}
+		],
+		"ww2_radio_needs_codes": [
+			{
+				"speaker": "Parazitli Telsiz",
+				"speaker_en": "Static-Ridden Radio",
+				"title": "",
+				"title_en": "",
+				"text": "*Parazit. Batarya frekansı şifreli; önce telsiz kodlarını bulmalısın.*",
+				"text_en": "*Static. The battery frequency is encrypted; you need the radio codes first.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_radio_easter_egg": [
+			{
+				"speaker": "Parazitli Telsiz",
+				"speaker_en": "Static-Ridden Radio",
+				"title": "",
+				"title_en": "",
+				"text": "*...yangın... ateş Orok'un kabilesini sarıyor... \"Merhamet mi, katliam mı?\"*",
+				"text_en": "*...fire... flames engulf Orok's tribe... \"Mercy, or massacre?\"*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Parazitli Telsiz",
+				"speaker_en": "Static-Ridden Radio",
+				"title": "",
+				"title_en": "",
+				"text": "*...kös davulları... \"Sen bir fedai değilsin\" diyen genç bir padişahın sesi...*",
+				"text_en": "*...war drums... the voice of a young sultan: \"You are no devoted soldier.\"*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Parazitli Telsiz",
+				"speaker_en": "Static-Ridden Radio",
+				"title": "",
+				"title_en": "",
+				"text": "*...kazıkların arasından bir fısıltı: \"Benim bir sebebim vardı... Seninkini hatırlıyor musun bari?\"*",
+				"text_en": "*...a whisper among the stakes: \"I had a reason... Do you even remember yours?\"*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Kılıçtaki Ses",
+				"speaker_en": "The Voice in the Blade",
+				"title": "",
+				"title_en": "",
+				"text": "*Ve parazitin altında, kılıcın içinden gelen tanıdık bir ses: \"...yakında, kardeşim. Çok yakında.\"*",
+				"text_en": "*And beneath the static, a familiar voice from inside the sword: \"...soon, brother. Very soon.\"*",
+				"portrait": "none"
+			}
+		],
+		"ww2_viaduct_exit": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Tren yeraltına iniyor. Laboratuvar... Komutanın deneyleri orada.",
+				"text_en": "The train is heading underground. The laboratory... where the Commander runs his experiments.",
+				"portrait": "player"
+			}
+		],
+		"ww2_lab_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Soğuk floresan ışıkları, okült tüplerde kaynayan kızıl sıvı ve hücrelerden gelen inlemeler. Koridorları zehirli gaz dolduruyor.*",
+				"text_en": "*Cold fluorescent light, red liquid boiling in occult tubes, and moans from the cells. Toxic gas fills the corridors.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_gas_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Gaz ciğerlerini yakıyor! Gaz maskesi filtresi kullan ya da güç rölelerini doğru sıraya getirip vantilatörleri çalıştır.*",
+				"text_en": "*The gas burns your lungs! Use a gas mask filter, or set the power relays in the right order to start the ventilators.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_relay_puzzle_solved": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Röleler tıkırdıyor, vantilatörler homurdanarak dönüyor. Koridordaki gaz çekiliyor ve laboratuvar kapısı açılıyor.*",
+				"text_en": "*The relays click, the ventilators groan to life. The gas drains from the corridor and the laboratory door opens.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_prisoner_plea": [
+			{
+				"speaker": "Esir",
+				"speaker_en": "Prisoner",
+				"title": "",
+				"title_en": "",
+				"text": "Lütfen... Bizi reaktöre bağlayacaklar. Kapıyı aç, yalvarırım!",
+				"text_en": "Please... They're going to wire us into the reactor. Open the door, I beg you!",
+				"portrait": "prisoner",
+				"choices": [
+					{
+						"text": "[1] Hücreyi Aç ve Kurtar (Kefaret)",
+						"text_en": "[1] Open the Cell and Free Them (Redemption)",
+						"action": "free_prisoner"
+					},
+					{
+						"text": "[2] Reaktörde Feda Et (+20 Yozlaşma)",
+						"text_en": "[2] Sacrifice Them to the Reactor (+20 Corruption)",
+						"action": "sacrifice_prisoner"
+					}
+				]
+			}
+		],
+		"ww2_prisoner_freed": [
+			{
+				"speaker": "Esir",
+				"speaker_en": "Prisoner",
+				"title": "",
+				"title_en": "",
+				"text": "Özgürüz... Al, bu künye benim. Sığınağın arka kapısını açan anahtarı da gardiyandan çalmıştım — artık senin.",
+				"text_en": "We're free... Here, take my tags. I also stole the key to the bunker's back door from the guard — it's yours now.",
+				"portrait": "prisoner"
+			}
+		],
+		"ww2_prisoner_sacrificed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Reaktör esiri yutuyor. Tüplerdeki kızıl ışık bir an için kılıcına akıyor; gücün artıyor, ama içinde bir şey kararıyor.*",
+				"text_en": "*The reactor swallows the prisoner. For a moment the red light in the tubes flows into your sword; your strength grows, but something inside you darkens.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_prisoner_killed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç hücredeki esiri biçiyor. Diğer hücrelerden yükselen çığlıklar susuyor.*",
+				"text_en": "*The blade cuts down the prisoner in the cell. The screams from the other cells fall silent.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_doctor_intro": [
+			{
+				"speaker": "Okült Başhekim",
+				"speaker_en": "Occult Chief Physician",
+				"title": "",
+				"title_en": "",
+				"text": "Ah, zamanın dışından bir örnek! Kılıcındaki o ruh... muhteşem bir deney malzemesi olurdu.",
+				"text_en": "Ah, a specimen from outside of time! That soul in your sword... it would make magnificent research material.",
+				"portrait": "occult_doctor"
+			},
+			{
+				"speaker": "Okült Başhekim",
+				"speaker_en": "Occult Chief Physician",
+				"title": "",
+				"title_en": "",
+				"text": "Deney Kırk Dört, uyan! Misafirimizi... incele.",
+				"text_en": "Experiment Forty-Four, wake up! Examine... our guest.",
+				"portrait": "occult_doctor"
+			}
+		],
+		"ww2_doctor_shield_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Başhekim'in okült kalkanı enerji tüplerinden besleniyor. Önce tüpleri kır!*",
+				"text_en": "*The physician's occult shield draws from the energy tubes. Break the tubes first!*",
+				"portrait": "none"
+			}
+		],
+		"ww2_doctor_shield_down": [
+			{
+				"speaker": "Okült Başhekim",
+				"speaker_en": "Occult Chief Physician",
+				"title": "",
+				"title_en": "",
+				"text": "Hayır! Tüpler... kalkanım! Deney, koru beni!",
+				"text_en": "No! The tubes... my shield! Experiment, protect me!",
+				"portrait": "occult_doctor"
+			}
+		],
+		"ww2_doctor_defeated": [
+			{
+				"speaker": "Okült Başhekim",
+				"speaker_en": "Occult Chief Physician",
+				"title": "",
+				"title_en": "",
+				"text": "Komutan... Kalbi makineye bağladı... Kimse onu durduramaz... sen bile...",
+				"text_en": "The Commander... bound the Heart to the machine... No one can stop him... not even you...",
+				"portrait": "occult_doctor"
+			}
+		],
+		"ww2_blueprint_found": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Bu proje dosyası... Üzerindeki damga, geleceğin makinelerindeki damganın aynısı. Ve kılıcımın kabzasındaki...",
+				"text_en": "This project file... The stamp on it is the same as on the machines of the future. And on the hilt of my sword...",
+				"portrait": "player"
+			},
+			{
+				"speaker": "Kılıçtaki Ses",
+				"speaker_en": "The Voice in the Blade",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç sessiz. Ama çeliğin içinde bir şey kıkırdıyor gibi.*",
+				"text_en": "*The sword is silent. But something inside the steel seems to chuckle.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_occult_seal_open": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kalp Rezonansı okült mührü titretiyor; kızıl semboller sönüyor ve gizli geçit açılıyor.*",
+				"text_en": "*Heart Resonance makes the occult seal tremble; the red sigils fade and a hidden passage opens.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_occult_seal_locked": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Okült mühür kıpırdamıyor. Onu açmak için kadim bir Kalp Rezonansı gerekiyor.*",
+				"text_en": "*The occult seal won't budge. Opening it requires an ancient Heart Resonance.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_lab_exit_redemption": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Kurtardığım esirler arka kapıyı gösterdi. Komutanın sığınağına giden yol açık.",
+				"text_en": "The prisoners I freed showed me the back door. The way to the Commander's bunker is open.",
+				"portrait": "player"
+			}
+		],
+		"ww2_lab_exit_corrupted": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Reaktörün kızıl ışığı hâlâ kılıcımda. Sığınağa... güçlü gireceğim.",
+				"text_en": "The reactor's red light still clings to my sword. I'll enter the bunker... strong.",
+				"portrait": "player"
+			}
+		],
+		"ww2_commander_taunt": [
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Demek siperlerimi, trenimi ve laboratuvarımı aşan hayalet sensin.",
+				"text_en": "So you're the ghost who crossed my trenches, my train and my laboratory.",
+				"portrait": "butcher_commander"
+			},
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Bu Kalp ile savaş bir gecede biter. Bir gecede! Kaç milyon hayat kurtulur, bilir misin?",
+				"text_en": "With this Heart the war ends in a single night. One night! Do you know how many millions of lives that saves?",
+				"portrait": "butcher_commander"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Ve sonra dünya senin demir yumruğunun altında yaşar.",
+				"text_en": "And afterwards the world lives under your iron fist.",
+				"portrait": "player"
+			}
+		],
+		"ww2_commander_taunt_corrupted": [
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Gözlerine bak... Siperde yaralıları, reaktörde esirleri yaktın. Sen de benim gibisin.",
+				"text_en": "Look at your eyes... You burned the wounded in the trench, the prisoners in the reactor. You're just like me.",
+				"portrait": "butcher_commander"
+			},
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Fark şu: ben bunu bir sebep için yapıyorum. Sen? Sen sadece açsın.",
+				"text_en": "The difference is that I do it for a reason. You? You're simply hungry.",
+				"portrait": "butcher_commander"
+			}
+		],
+		"ww2_commander_form_2": [
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Yeter! Kalbin gücüyle dövülmüş zırhımı gör!",
+				"text_en": "Enough! Behold the armour forged with the Heart's power!",
+				"portrait": "butcher_commander"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Komutan okült bir savaş mekanizmasının içine kapanıyor. Sığınağın taretleri sana dönüyor.*",
+				"text_en": "*The Commander seals himself inside an occult war machine. The bunker's turrets swivel toward you.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_commander_form_3": [
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Çekirdek... aşırı yükleniyor... Olsun! Benimle birlikte bu sığınak da, sen de yanacaksın!",
+				"text_en": "The core... overloading... So be it! This bunker burns with me — and so do you!",
+				"portrait": "butcher_commander"
+			}
+		],
+		"ww2_commander_last_words": [
+			{
+				"speaker": "Cani Komutan",
+				"speaker_en": "The Butcher Commander",
+				"title": "",
+				"title_en": "",
+				"text": "Ben... savaşı bitirmek istedim... Sen neyi bitirmek istiyorsun, hayalet?",
+				"text_en": "I... wanted to end the war... What is it that you want to end, ghost?",
+				"portrait": "butcher_commander"
+			}
+		],
+		"ww2_crest_found": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Mahzenin tozlu duvarında eski bir şövalye arması asılı. Mavi zemin, beyaz haç... Kılıcının kabzasındaki armanın aynısı.*",
+				"text_en": "*An old knight's crest hangs on the vault's dusty wall. Blue field, white cross... the same crest as on your sword's hilt.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Bu benim armam. İhanetten önceki... Burada, bu çağda ne işi var?",
+				"text_en": "This is my crest. From before the betrayal... What is it doing here, in this age?",
+				"portrait": "player"
+			}
+		],
+		"ww2_memory_rift_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Dördüncü parça kılıca kenetleniyor. Sığınağın duvarları eriyor; zamanın yırtığında, unutmak istediğin bir anın içine düşüyorsun.*",
+				"text_en": "*The fourth shard locks into the sword. The bunker walls melt away; in the tear of time you fall into a memory you wanted to forget.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_memory_flashback": [
+			{
+				"speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+				"speaker_en": "Mage Companion (Echo of the Past)",
+				"title": "",
+				"title_en": "",
+				"text": "...sırtım... kardeşim, neden...?",
+				"text_en": "...my back... brother, why...?",
+				"portrait": "friend_memory",
+				"echo": true
+			},
+			{
+				"speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
+				"speaker_en": "Unknown Voice (Former Self)",
+				"title": "",
+				"title_en": "",
+				"text": "Ölmene izin veremem. Gücün bana lazım.",
+				"text_en": "I can't let you die. I need your power.",
+				"portrait": "player_dark",
+				"echo": true
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kanlar içindeki dostunu tutuyorsun. Kılıcın kabzasına kadim bir mühür çiziyorsun — kendi ellerinle.*",
+				"text_en": "*You hold your bleeding friend. You carve an ancient seal into the sword's hilt — with your own hands.*",
+				"portrait": "none",
+				"echo": true
+			},
+			{
+				"speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+				"speaker_en": "Mage Companion (Echo of the Past)",
+				"title": "",
+				"title_en": "",
+				"text": "Ne yapıyorsun?! Hayır... ruhumu... çeliğe... HAYIR!",
+				"text_en": "What are you doing?! No... my soul... into the steel... NO!",
+				"portrait": "friend_memory",
+				"echo": true
+			},
+			{
+				"speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
+				"speaker_en": "Unknown Voice (Former Self)",
+				"title": "",
+				"title_en": "",
+				"text": "Benimle kalacaksın. Sonsuza dek. Bana hizmet edeceksin.",
+				"text_en": "You will stay with me. Forever. You will serve me.",
+				"portrait": "player_dark",
+				"echo": true
+			},
+			{
+				"speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+				"speaker_en": "Mage Companion (Echo of the Past)",
+				"title": "",
+				"title_en": "",
+				"text": "Yemin ederim... bu mühür bir gün kırılacak. O gün senin elinle kırılacak. Ve o gün... intikamım seni bulacak.",
+				"text_en": "I swear... this seal will break one day. It will break by your own hand. And on that day... my vengeance will find you.",
+				"portrait": "friend_memory",
+				"echo": true
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Işık çeliğe çekiliyor. Kılıç ilk kez çığlık atıyor — senin şimdi her gün duyduğun o çığlık.*",
+				"text_en": "*The light is drawn into the steel. The sword screams for the first time — the same scream you hear every day now.*",
+				"portrait": "none",
+				"echo": true
+			}
+		],
+		"ww2_sword_evolution": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıcın çatlakları derinleşiyor; kızıl-mavi sızıntı artık kızıl-altın bir aleve dönüşmüş. Mühür son günlerini sayıyor.*",
+				"text_en": "*The sword's cracks deepen; the crimson-blue leak has become a crimson-gold flame. The seal is counting its final days.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Bana yol gösteren bir dost sanmıştım... Sen benim kurbanımsın. Ve serbest kalmak için gün sayıyorsun.",
+				"text_en": "I thought you were a friend guiding me... You're my victim. And you're counting the days until you're free.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "Kılıçtaki Ses",
+				"speaker_en": "The Voice in the Blade",
+				"title": "",
+				"title_en": "",
+				"text": "*Çelik bu sefer çığlık atmıyor. Sadece bekliyor.*",
+				"text_en": "*This time the steel doesn't scream. It simply waits.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_outro_redemption": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Kurtardığım askerler, hücrelerden çıkardığım esirler... Belki bir gün ödediğim bedel, yaptığımı dengeler.",
+				"text_en": "The soldiers I saved, the prisoners I freed... Maybe one day the price I pay will balance what I did.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Önünde yeni bir yırtık açılıyor: neon ışıkları, gökdelen enkazları ve kılıcının kabzasındaki damgayı taşıyan makineler.*",
+				"text_en": "*A new rift opens before you: neon lights, skyscraper ruins, and machines bearing the stamp on your sword's hilt.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_outro_god_king": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Komutan haklıydı. Ben de açım. Ve geleceğin makineleri bile bu açlığı doyuramayacak.",
+				"text_en": "The Commander was right. I'm hungry too. And not even the machines of the future will sate this hunger.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yırtık açılıyor. Kılıçtaki kızıl-altın alev senin gölgeni yutacak kadar büyümüş.*",
+				"text_en": "*The rift opens. The crimson-gold flame in the sword has grown large enough to swallow your shadow.*",
+				"portrait": "none"
+			}
+		],
+		"ww2_sword_scream_texts": [
+			{
+				"text": "*Çelik tiz bir çığlık koparıyor; barut dumanı kılıçtan uzağa savruluyor.*",
+				"text_en": "*The steel lets out a shrill scream; gunpowder smoke whirls away from the blade.*"
+			},
+			{
+				"text": "*Kılıç ruhu konuşamıyor; yalnızca bir intikam yemininin yankısı kaldı.*",
+				"text_en": "*The blade soul cannot speak; only the echo of a vow of vengeance remains.*"
+			},
+			{
+				"text": "*Çatlaklardan kızıl-altın bir kıvılcım sıçrıyor.*",
+				"text_en": "*A crimson-gold spark leaps from the cracks.*"
+			}
+		],
+		"ability_unlock_ww2": {
+			"id": "vengeance_vow_aura",
+			"name": "İntikam Yemini (Kızıl-Altın Aura)",
+			"name_en": "Vow of Vengeance (Crimson-Gold Aura)",
+			"description": "4. Kalp Parçası kılıca kenetlendi. Çatlaklar derinleşti; kızıl-altın aura artık her savuruşta yanıyor. Mühür son günlerini sayıyor.",
+			"description_en": "The fourth Heart Shard has locked into the blade. The cracks have deepened; a crimson-gold aura now burns with every swing. The seal is counting its final days."
+		}
+	}
+}

@@ -5,6 +5,8 @@ extends Node
 ## Karşılaşılan ve yenilen düşmanları, önemli karakterleri, toplanabilir parşömenleri
 ## ve Kalp Parçası mitolojisini güvenli kilit mekanizması ve kalıcılıkla yönetir.
 
+const ChapterDataRegistry = preload("res://scripts/components/chapter_data_registry.gd")
+
 signal entry_unlocked(entry_id: String, entry_data: Dictionary)
 signal entry_updated(entry_id: String, entry_data: Dictionary)
 signal kill_count_incremented(entry_id: String, kills: int)
@@ -369,8 +371,8 @@ func init_default_codex() -> void:
 	register_entry({
 		"id": "world_heart_myth",
 		"category": "lore",
-		"title": "Dünya Kalbi ve Dört Parça Efsanesi",
-		"title_en": "Myth of the World Heart & Four Shards",
+		"title": "Dünya Kalbi ve Altı Parça Efsanesi",
+		"title_en": "Myth of the World Heart & Six Shards",
 		"subtitle": "Zamanın Dokusu ve Kozmik Çatlaklar",
 		"subtitle_en": "Fabric of Time & Cosmic Fissures",
 		"era": "Tüm Çağların Başlangıcı",
@@ -379,14 +381,14 @@ func init_default_codex() -> void:
 		"unlocked": true,
 		"encountered": true,
 		"kills": 0,
-		"description": "Evrenin zaman dengesini sağlayan Dünya Kalbi dört parçaya bölünerek farklı tarihi çağlara saçılmıştır. Parçalar birleşmezse evren sonsuz döngüde yok olacaktır.",
-		"description_en": "The World Heart upholding temporal harmony was shattered across four distinct epochs. Unless reunited, the continuum collapses into void.",
-		"tactics": "Dört parçayı toplayarak kadranı tamamlayın.",
-		"tactics_en": "Reclaim all four fragments to restore the primordial chronometer.",
+		"description": "Çağları bir arada tutan Dünya Kalbi altı parçaya bölünmüştür. Beşi farklı çağlara saçılıp en güçlü ya da en hırslı varlığa tutunmuş, onu bir bekçiye dönüştürmüştür. Altıncısının nerede olduğunu kimse bilmez.",
+		"description_en": "The World Heart that binds the ages was broken into six shards. Five were scattered across the eras, each clinging to the mightiest or most ambitious being and twisting it into a guardian. No one knows where the sixth lies.",
+		"tactics": "Altı parçayı toplayarak kadranı tamamlayın.",
+		"tactics_en": "Reclaim all six fragments to restore the primordial chronometer.",
 		"weakness": "Kozmik Bilgi",
 		"weakness_en": "Cosmic Lore",
-		"stats_summary": "İlerleme: 4 Parçalık Kozmik Görev",
-		"stats_summary_en": "Progress: 4-Shard Cosmic Quest"
+		"stats_summary": "İlerleme: 6 Parçalık Kozmik Görev",
+		"stats_summary_en": "Progress: 6-Shard Cosmic Quest"
 	})
 
 	register_entry({
@@ -434,6 +436,9 @@ func init_default_codex() -> void:
 		"stats_summary": "Tür: Arşiv Gravürü",
 		"stats_summary_en": "Type: Archival Engraving"
 	})
+
+	# Veri odaklı bölümlerin Codex kayıtları (data/story/chapter_*.json "codex" bloğu)
+	ChapterDataRegistry.register_codex(self)
 
 
 ## Yeni bir kodeks girişi kaydeder

@@ -1,0 +1,14 @@
+{
+  "_comment": "Duruş (poise) sistemi ayarları — Story 2D-128. attack_poise anahtarları Player.current_attack_type değerleridir.",
+  "attack_poise": {
+    "light": 12,
+    "combo": 18,
+    "crouch": 10,
+    "heavy": 35,
+    "plunge": 45,
+    "default": 10
+  },
+  "break_duration": 1.6,
+  "regen_delay": 2.5,
+  "regen_per_second": 20.0
+}

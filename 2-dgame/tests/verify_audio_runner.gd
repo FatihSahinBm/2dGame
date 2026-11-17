@@ -130,9 +130,15 @@ func _test_sfx_pool_and_recycling() -> void:
 	# 16 sesi ardışık çal
 	var spawned_players: Array[AudioStreamPlayer] = []
 	for i in range(16):
+		# Aynı anahtarın 40 ms içinde tekrarını engelleyen spam koruması her adımda sıfırlanır
+		audio_mgr.clear_sound_cooldowns()
 		var p = audio_mgr.play_sfx("jump")
 		_assert_true(p != null, "SFX player %d başarıyla alındı ve tetiklendi." % (i + 1))
 		spawned_players.append(p)
+
+	# Spam koruması: aynı ses MIN_SFX_INTERVAL_MS dolmadan yeniden istenirse çalınmaz
+	var throttled = audio_mgr.play_sfx("jump")
+	_assert_true(throttled == null, "Aynı ses %d ms içinde tekrar istenince bastırıldı (spam koruması)." % audio_mgr.MIN_SFX_INTERVAL_MS)
 
 	# 17. ses istendiğinde havuza geri dönüşüm (recycling) yaparak en eskiyi kullanmalı
 	var recycled = audio_mgr.play_sfx("ui_click")

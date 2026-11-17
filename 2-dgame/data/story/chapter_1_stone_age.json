@@ -173,6 +173,287 @@
         "text_en": "Watch out! Hear those snarls in the underbrush? Ravenous predators are lunging for the cart and us! Defend the cart!",
         "portrait": "player"
       }
+    ],
+    "rift_fall_intro": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Gökyüzü bir yara gibi yarılıyor. Düşüyorsun; elindeki kılıçtan başka hiçbir şey seninle gelmiyor — ne bir isim, ne bir anı.*",
+        "text_en": "*The sky splits open like a wound. You fall, and nothing comes with you but the sword in your hand — no name, no memory.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Başım... Adımı bile hatırlamıyorum. Yalnızca bu kılıç var... ve göğsümde, bir şeyin eksik olduğu hissi.",
+        "text_en": "My head... I cannot even recall my name. There is only this sword... and a hollow in my chest where something should be.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Nihayet beni duyabiliyorsun. Kim olduğumu sorma; cevabını henüz taşıyamazsın. Yürü. Yarık bizi buraya sebepsiz bırakmadı.",
+        "text_en": "At last you can hear me. Do not ask who I am; you cannot carry the answer yet. Walk. The rift did not leave us here without reason.",
+        "portrait": "player"
+      }
+    ],
+    "silent_valley_tracks": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Bu vadi fazla sessiz. Kuş yok, böcek yok... Avlanabilecek her şey çoktan kaçmış.",
+        "text_en": "This valley is too quiet. No birds, no insects... Everything that can be hunted has already fled.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Şu izlere bak. Tek bir pençe benim boyumdan büyük.",
+        "text_en": "Look at these tracks. A single claw is longer than I am tall.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Ve izin kenarındaki toprak camlaşmış. Hiçbir canlının ayağı toprağı eritmez.",
+        "text_en": "And the soil at the edge of the print has turned to glass. No living creature's foot melts the earth.",
+        "portrait": "player"
+      }
+    ],
+    "broken_pass": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Geçit kendiliğinden çökmemiş. Bir şey bu sütunları omuzlayıp geçmiş.",
+        "text_en": "This pass did not collapse on its own. Something shouldered these pillars aside and walked through.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "O halde geri dönüş yok. Yukarıdan gideceğiz.",
+        "text_en": "Then there is no turning back. We go over the top.",
+        "portrait": "player"
+      }
+    ],
+    "hunters_traces": [
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Kırık mızraklar, sönmüş ateşler... Burada insanlar yaşıyormuş.",
+        "text_en": "Broken spears, dead campfires... People lived here.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Avcılar ava dönüşmüş. Kaçarken silahlarını bile bırakmışlar. Hayatta kalan varsa, ateşine sıkı sıkı sarılıyordur.",
+        "text_en": "The hunters became the hunted. They abandoned even their weapons as they ran. If any survive, they are clinging to their fire.",
+        "portrait": "player"
+      }
+    ],
+    "temporal_fragments": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Bazalt kayaya gömülü, insan elinden çıkmış olamayacak kadar kusursuz bir metal yuva. Yüzeyinde aşınmış bir damga var.*",
+        "text_en": "*Sunk into the basalt lies a metal socket too flawless to be the work of human hands. A worn sigil is stamped on its surface.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Bu metal dövülmemiş... dökülmüş. Hem de bu çağın bilmediği bir ateşte.",
+        "text_en": "This metal was not hammered... it was cast. In a fire this age has never known.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Yarıklar yalnızca bizi taşımıyor. Kalp parçalandığında çağlar birbirine kanadı; geleceğin enkazı geçmişe yağdı. Ve bir şey o enkazı giyindi.",
+        "text_en": "The rifts do not carry only us. When the Heart shattered, the ages bled into one another; the wreckage of the future rained upon the past. And something put that wreckage on.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Şu damga... Kılıcımın kabzasındakiyle aynı.",
+        "text_en": "That sigil... It is the same as the one on my sword's hilt.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "...Bakma ona. Henüz değil.",
+        "text_en": "...Do not look at it. Not yet.",
+        "portrait": "player"
+      }
+    ],
+    "beasts_domain": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "İnine girdik. Kemiklerin arasında, yeni açılmış yaralar gibi parlayan kablolar var... Kalp Parçası'nın nabzını duyuyorum; çok yakın.",
+        "text_en": "We have entered its lair. Cables glow among the bones like fresh wounds... I can hear the Heart Shard's pulse; it is very close.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "O halde onu besleyen şey de yakın.",
+        "text_en": "Then whatever it feeds is close as well.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Bu bir ana. Yavrularını değil, göğsündeki koru koruyor. Ona acıma; ama ondan nefret de etme.",
+        "text_en": "She is a mother. It is not her young she guards, but the ember in her chest. Do not pity her; but do not hate her either.",
+        "portrait": "player"
+      }
+    ],
+    "caveman_fight_aftermath": [
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Orok'un bedeni, sönmekte olan ateşin yanına yığılıyor. Kabza avucunda buz kesiyor.*",
+        "text_en": "*Orok's body crumples beside the dying fire. The hilt turns to ice in your palm.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Ateşleri için yardım istediler; sen onlara kan verdin. Bunu yapmak zorunda değildin.",
+        "text_en": "They asked for help with their fire; you gave them blood. You did not have to do this.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Yolumdaydılar.",
+        "text_en": "They were in my way.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Eskiden de böyle söylerdin... Yürü. Ama bil ki bu gece vadide bir ateş daha söndü ve onu sen söndürdün.",
+        "text_en": "You used to say the same thing, once... Walk. But know that one more fire went out in this valley tonight, and you were the one who put it out.",
+        "portrait": "player"
+      }
+    ],
+    "heart_fragment_awakening": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Gördün mü? Kan, meşaleler, kazıklarla örülü bir orman... Bu bir anı değil, bir çağrı. İkinci parça orada, insanların birbirini kazığa geçirdiği bir gecede çarpıyor.",
+        "text_en": "Did you see it? Blood, torches, a forest woven from stakes... That was no memory; it was a summons. The second shard beats there, on a night when men impale one another.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Ana Karakter",
+        "speaker_en": "Protagonist",
+        "title": "",
+        "title_en": "",
+        "text": "Parçayı aldığım an bir şey daha gördüm. Bir yüz... Bana bağırıyordu.",
+        "text_en": "The moment I took the shard I saw something else. A face... It was shouting at me.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Kalp sana yalnızca güç vermiyor; senden alınanı da geri veriyor. Her parçada biraz daha hatırlayacaksın. Altı parça... ve her şey yerine oturacak.",
+        "text_en": "The Heart does not merely grant you power; it returns what was taken from you. With every shard you will remember a little more. Six shards... and everything will fall into place.",
+        "portrait": "player"
+      },
+      {
+        "speaker": "",
+        "speaker_en": "",
+        "title": "",
+        "title_en": "",
+        "text": "*Kılıcın gövdesinde ince, kızıl bir damar beliriyor. Parça mührü geriyor; ruhun sesi, kapanan bir kapının ardından geliyormuş gibi boğuklaşıyor.*",
+        "text_en": "*A thin crimson vein surfaces along the blade. The shard strains the seal; the soul's voice grows muffled, as though it comes from behind a closing door.*",
+        "portrait": "none"
+      },
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Parçalar mührü gerdikçe sesim kesilecek. Konuşamadığımda çeliğin çığlığını dinle. Durma; ne olursa olsun parçaları toplamaya devam et.",
+        "text_en": "As the shards strain the seal, my voice will be cut off. When I can no longer speak, listen for the steel's cry. Do not stop; whatever happens, keep gathering the shards.",
+        "portrait": "player"
+      }
+    ],
+    "heart_echo_tribe_helped": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Orok'un ateşi hâlâ yanıyor. Kılıçta onların duasının sıcaklığını duyuyorum. Bunu unutma; bir gün neyi seçtiğini sana bu hatırlatacak.",
+        "text_en": "Orok's fire still burns. I can feel the warmth of their blessing in the blade. Do not forget it; one day it will remind you of what you chose.",
+        "portrait": "player"
+      }
+    ],
+    "heart_echo_tribe_slain": [
+      {
+        "speaker": "Mahpus Kılıç Ruhu",
+        "speaker_en": "Imprisoned Blade Soul",
+        "title": "Kadim Kılıç",
+        "title_en": "Ancient Blade",
+        "text": "Vadide sönen ateşin soğuğu hâlâ çelikte. Parça seni güçlendirdi, evet... ama seni neyin güçlendirdiğine dikkat et.",
+        "text_en": "The chill of the fire you put out in the valley still clings to the steel. The shard made you stronger, yes... but mind what it is that strengthens you.",
+        "portrait": "player"
+      }
     ]
   }
 }

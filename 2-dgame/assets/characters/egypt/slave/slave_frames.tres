@@ -1,0 +1,148 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/egypt/slave/slave_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="A_idle_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_idle_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(56, 0, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_cower_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 60, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_cower_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(56, 60, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_walk_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 120, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_walk_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(56, 120, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_walk_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(112, 120, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_walk_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(168, 120, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_cheer_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 180, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_cheer_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(56, 180, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_drained_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 240, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_drained_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(56, 240, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_drained_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(112, 240, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_death_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 300, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_death_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(56, 300, 56, 60)
+
+[sub_resource type="AtlasTexture" id="A_death_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(112, 300, 56, 60)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_cower_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cower_1")
+}],
+"loop": true,
+"name": &"cower",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_3")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_cheer_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_cheer_1")
+}],
+"loop": true,
+"name": &"cheer",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_drained_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drained_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_drained_2")
+}],
+"loop": false,
+"name": &"drained",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_death_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_2")
+}],
+"loop": false,
+"name": &"death",
+"speed": 6.0
+}]

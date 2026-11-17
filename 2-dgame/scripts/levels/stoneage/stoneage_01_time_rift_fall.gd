@@ -30,8 +30,12 @@ var _sequence_finished: bool = false
 var _exit_triggered: bool = false
 
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
+
 func _ready() -> void:
 	_ensure_node_refs()
+	LevelStory.play_delayed(self, ["rift_fall_intro"] as Array[String], 0.9)
 	if hud and hud.has_method("set_tutorial"):
 		hud.set_tutorial("Zaman Yarığı", "A / D", "Bilinmeyen çağa düştün. İlerleyerek çıkışa ulaş.")
 

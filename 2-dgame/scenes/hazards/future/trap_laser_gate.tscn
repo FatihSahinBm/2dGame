@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/future/laser_gate.gd" id="1_4rwfx"]
+
+[node name="LaserGate" type="Node2D" unique_id=671965605]
+script = ExtResource("1_4rwfx")

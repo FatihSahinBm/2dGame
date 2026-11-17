@@ -35,6 +35,7 @@ var _boss_fight_started: bool = false
 var _boss_defeated: bool = false
 
 const StoryDataLoaderScript = preload("res://scripts/autoloads/story_data_loader.gd")
+const LevelStory = preload("res://scripts/components/level_story.gd")
 const NEXT_CHAPTER_PATH: String = "res://scenes/levels/vlad/stage_1_forest_camp.tscn"
 
 
@@ -228,29 +229,49 @@ func _on_boss_died(_boss_ref: Node2D) -> void:
 	if _boss_defeated:
 		return
 	_boss_defeated = true
+	var play_stats: Node = get_node_or_null("/root/PlayStats")
+	if play_stats and play_stats.has_method("record_boss_defeated"):
+		play_stats.record_boss_defeated("trex")
+
+	var q_mgr: Node = get_node_or_null("/root/QuestManager")
+	if q_mgr and q_mgr.has_method("advance_quest"):
+		# Arena doğrudan açıldıysa (bölüm seçimi / kayıt) görev burada başlatılır
+		if q_mgr.has_method("is_quest_active") and not q_mgr.is_quest_active("stone_age_first_shard"):
+			q_mgr.start_quest("stone_age_first_shard")
+		q_mgr.advance_quest("stone_age_first_shard", "cross_canyon")
+		q_mgr.advance_quest("stone_age_first_shard", "defeat_trex")
 
 	if boss_panel:
 		var tw_hp: Tween = create_tween()
 		tw_hp.tween_property(boss_panel, "modulate:a", 0.0, 1.0)
 
-	# Level 08 — İlk Kalp Parçası ve Boss Sonrası Hikâye Sahnesine Geçiş
+	# Zafer diyaloğu, ardından Level 08 — İlk Kalp Parçası sahnesine geçiş
 	var tw_trans: Tween = create_tween()
 	tw_trans.tween_interval(1.8)
 	tw_trans.tween_callback(func():
-		var fade_overlay: ColorRect = ColorRect.new()
-		fade_overlay.color = Color(0, 0, 0, 0)
-		fade_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-		fade_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-		var canvas: CanvasLayer = CanvasLayer.new()
-		canvas.layer = 100
-		canvas.add_child(fade_overlay)
-		add_child(canvas)
+		if dialogue_box and LevelStory.play(self, ["trex_victory"] as Array[String], player):
+			dialogue_box.dialogue_completed.connect(_fade_to_heart_fragment_level, CONNECT_ONE_SHOT)
+		else:
+			_fade_to_heart_fragment_level()
+	)
 
-		var tw_fade: Tween = create_tween()
-		tw_fade.tween_property(fade_overlay, "color:a", 1.0, 0.8)
-		tw_fade.tween_callback(func():
-			get_tree().change_scene_to_file("res://scenes/levels/stoneage/stoneage_08_first_heart_fragment.tscn")
-		)
+
+func _fade_to_heart_fragment_level() -> void:
+	if not is_inside_tree():
+		return
+	var fade_overlay: ColorRect = ColorRect.new()
+	fade_overlay.color = Color(0, 0, 0, 0)
+	fade_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fade_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var canvas: CanvasLayer = CanvasLayer.new()
+	canvas.layer = 100
+	canvas.add_child(fade_overlay)
+	add_child(canvas)
+
+	var tw_fade: Tween = create_tween()
+	tw_fade.tween_property(fade_overlay, "color:a", 1.0, 0.8)
+	tw_fade.tween_callback(func():
+		get_tree().change_scene_to_file("res://scenes/levels/stoneage/stoneage_08_first_heart_fragment.tscn")
 	)
 
 

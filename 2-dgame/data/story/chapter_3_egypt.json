@@ -1,0 +1,764 @@
+{
+	"chapter_id": "chapter_3",
+	"era": "Antik Mısır — Zaman Kırılması",
+	"era_en": "Ancient Egypt — Time Fracture",
+	"title": "Bölüm 3: Lanetli Firavun Kral",
+	"title_en": "Chapter 3: The Cursed Pharaoh King",
+	"synopsis": "Zaman yırtığı oyuncuyu kızıl kum fırtınalarının ve havada asılı piramitlerin Antik Mısır'ına fırlatır. 3. Kalp Parçası, halkını ruh enerjisiyle çalışan anıt-mezara hapseden Firavun Kral'ın elindedir.",
+	"synopsis_en": "The time rift hurls the player into an Ancient Egypt of crimson sandstorms and hanging pyramids. The third Heart Shard is held by the Pharaoh King, who imprisoned his people in a soul-powered tomb.",
+	"quests": [
+		{
+			"id": "egypt_curse_of_the_sun",
+			"category": "main",
+			"title": "Güneşin Laneti",
+			"title_en": "Curse of the Sun",
+			"description": "Kızıl çölde asılı piramitlerin gölgesinde Lanetli Firavun Kral'a ulaş ve 3. Kalp Parçasını geri al.",
+			"description_en": "Reach the Cursed Pharaoh King in the shadow of the hanging pyramids and reclaim the third Heart Shard.",
+			"stages": [
+				{
+					"id": "cross_desert",
+					"description": "Kızıl Çölü geç",
+					"description_en": "Cross the Crimson Desert",
+					"completed": false
+				},
+				{
+					"id": "decide_courtyard",
+					"description": "Anıt-mezar avlusundaki kölelerin kaderine karar ver",
+					"description_en": "Decide the fate of the slaves in the tomb courtyard",
+					"completed": false
+				},
+				{
+					"id": "collect_seals",
+					"description": "İki Güneş Mührü anahtarını bul",
+					"description_en": "Find both Sun Seal keys",
+					"completed": false
+				},
+				{
+					"id": "defeat_pharaoh",
+					"description": "Lanetli Firavun Kral'ı yen",
+					"description_en": "Defeat the Cursed Pharaoh King",
+					"completed": false
+				},
+				{
+					"id": "claim_heart",
+					"description": "3. Kalp Parçasını sök",
+					"description_en": "Extract the third Heart Shard",
+					"completed": false
+				}
+			],
+			"reward_text": "3. Kalp Parçası & Mührün Kırılması",
+			"reward_text_en": "Third Heart Shard & Seal Fracture"
+		},
+		{
+			"id": "egypt_break_the_chains",
+			"category": "side",
+			"title": "Zincirleri Kır",
+			"title_en": "Break the Chains",
+			"description": "Anıt-mezar avlusunda kafeslere kapatılmış üç köleyi muhafızlardan kurtar.",
+			"description_en": "Rescue the three caged slaves in the tomb courtyard from their guards.",
+			"stages": [
+				{
+					"id": "free_slaves",
+					"description": "Üç köleyi serbest bırak",
+					"description_en": "Free the three slaves",
+					"completed": false
+				}
+			],
+			"reward_text": "Kefaret & Yaşlı Nefer'in rehberliği",
+			"reward_text_en": "Redemption & Elder Nefer's guidance"
+		}
+	],
+	"codex": [
+		{
+			"id": "pyramid_guard",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_pyramid_guard.png",
+			"title": "Piramit Muhafızı",
+			"title_en": "Pyramid Guard",
+			"subtitle": "Tanrı-Kral'ın Mızraklı Kulları",
+			"subtitle_en": "Spear-Bearers of the God-King",
+			"era": "Antik Mısır — Zaman Kırılması",
+			"era_en": "Ancient Egypt — Time Fracture",
+			"description": "Bronz kalkan ve mızrakla donanmış, Firavun'a ruhlarını adamış seçkin muhafızlar. Köle kafeslerinin başında nöbet tutarlar.",
+			"description_en": "Elite guards armed with bronze shields and spears, their souls pledged to the Pharaoh. They keep watch over the slave cages.",
+			"tactics": "Mızrak hamlesinden sonra kısa bir toparlanma süresi vardır; o anda yakın mesafeden saldır.",
+			"tactics_en": "After a spear thrust they need a moment to recover; strike at close range then.",
+			"weakness": "Savuşturma ve arkadan saldırı",
+			"weakness_en": "Parries & attacks from behind",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 110 | Hasar Türü: Delici",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 110 | Damage: Piercing"
+		},
+		{
+			"id": "risen_mummy",
+			"category": "enemies",
+			"icon_path": "res://assets/objects/egypt/sarcophagus_closed.png",
+			"title": "Dirilen Mumya",
+			"title_en": "Risen Mummy",
+			"subtitle": "Lahitlerden Kalkan Ölüler",
+			"subtitle_en": "The Dead Who Rise from the Sarcophagi",
+			"era": "Antik Mısır — Zaman Kırılması",
+			"era_en": "Ancient Egypt — Time Fracture",
+			"description": "Ruhu lahde akıtılmış kölelerin sargılı bedenleri. Firavun'un iradesiyle kumdan dalgalar halinde kalkarlar.",
+			"description_en": "The bandaged bodies of slaves whose souls were drained into the sarcophagi. They rise from the sand in waves at the Pharaoh's will.",
+			"tactics": "Yavaştırlar ama dalgalar halinde gelirler; kalkış anında vurarak sayılarını azalt.",
+			"tactics_en": "They are slow but come in waves; strike them while they rise to thin their numbers.",
+			"weakness": "Kalkış anı ve ağır saldırı",
+			"weakness_en": "The moment they rise & heavy attacks",
+			"stats_summary": "Tehlike: ⭐⭐ | Can: 70 | Hasar Türü: Ezici",
+			"stats_summary_en": "Threat: ⭐⭐ | HP: 70 | Damage: Crushing"
+		},
+		{
+			"id": "pharaoh_king",
+			"category": "enemies",
+			"icon_path": "res://assets/ui/portraits/portrait_pharaoh.png",
+			"title": "Lanetli Firavun Kral",
+			"title_en": "Cursed Pharaoh King",
+			"subtitle": "3. Kalp Parçasının Bekçisi",
+			"subtitle_en": "Warden of the Third Heart Shard",
+			"era": "Antik Mısır — Zaman Kırılması",
+			"era_en": "Ancient Egypt — Time Fracture",
+			"description": "Kalp Parçasını Güneş Asası'na ve altın maskesine mühürleyerek ölümü reddeden hükümdar. Halkını ruh enerjisiyle çalışan anıt-mezarına hapsetti.",
+			"description_en": "The ruler who refused death by sealing the Heart Shard into his Sun Staff and golden mask. He imprisoned his people in a tomb powered by soul energy.",
+			"tactics": "Güneş ışınlarından önce yerde kızıl bir işaret belirir — işaretten çık. 2. fazda kum tuzakları, 3. fazda mumya dalgaları gelir.",
+			"tactics_en": "A crimson mark appears on the ground before each sun beam — step out of it. Phase 2 brings sand traps, phase 3 brings mummy waves.",
+			"weakness": "Işın sonrası toparlanma anı",
+			"weakness_en": "Recovery after a beam",
+			"stats_summary": "Tehlike: ⭐⭐⭐⭐ | Can: 900 | Fazlar: 3",
+			"stats_summary_en": "Threat: ⭐⭐⭐⭐ | HP: 900 | Phases: 3"
+		},
+		{
+			"id": "egypt_slave",
+			"category": "characters",
+			"icon_path": "res://assets/ui/portraits/portrait_slave.png",
+			"title": "Mazlum Köleler",
+			"title_en": "The Oppressed Slaves",
+			"subtitle": "Anıt-Mezarın Zincirli Halkı",
+			"subtitle_en": "The Chained People of the Tomb",
+			"era": "Antik Mısır — Zaman Kırılması",
+			"era_en": "Ancient Egypt — Time Fracture",
+			"description": "Firavun'un sonsuz anıtı için ruhları sömürülen sıradan insanlar. Onları kurtarmak Kefaret yolunu, sömürmek ise Yozlaşmayı besler.",
+			"description_en": "Ordinary people whose souls are drained for the Pharaoh's endless monument. Saving them feeds the path of Redemption; draining them feeds Corruption.",
+			"tactics": "Kafesin yanında [E] ile konuş. Kılıçla vurmak onları öldürür (+12 Yozlaşma).",
+			"tactics_en": "Talk with [E] beside the cage. Striking them with the sword kills them (+12 Corruption).",
+			"weakness": "Merhamet",
+			"weakness_en": "Mercy",
+			"stats_summary": "Tür: Masum",
+			"stats_summary_en": "Type: Innocent"
+		},
+		{
+			"id": "egypt_tablet_sun",
+			"category": "lore",
+			"icon_path": "res://assets/objects/egypt/hieroglyph_tablet.png",
+			"title": "Tablet: Güneşin Düşüşü",
+			"title_en": "Tablet: Fall of the Sun",
+			"subtitle": "Kızıl Çöl Hiyeroglifleri",
+			"subtitle_en": "Crimson Desert Hieroglyphs",
+			"era": "Antik Mısır",
+			"era_en": "Ancient Egypt",
+			"description": "Firavun'un göğü yere indirip Güneş Asası ile mühürlediğini anlatan kadim yazıt.",
+			"description_en": "An ancient inscription telling how the Pharaoh brought the sky down and sealed it with the Sun Staff.",
+			"tactics": "Tableti [E] ile oku.",
+			"tactics_en": "Read the tablet with [E].",
+			"weakness": "Çevresel Anlatı",
+			"weakness_en": "Environmental Lore",
+			"stats_summary": "Tür: Hiyeroglif",
+			"stats_summary_en": "Type: Hieroglyph"
+		},
+		{
+			"id": "egypt_tablet_engine",
+			"category": "lore",
+			"icon_path": "res://assets/objects/egypt/hieroglyph_tablet.png",
+			"title": "Tablet: Ruh Makinesi",
+			"title_en": "Tablet: The Soul Engine",
+			"subtitle": "Anıt-Mezar Yazıtları",
+			"subtitle_en": "Tomb Inscriptions",
+			"era": "Antik Mısır",
+			"era_en": "Ancient Egypt",
+			"description": "Lahitlerin halkın ruhlarını anıtın taşlarına dönüştürdüğünü anlatan yazıt.",
+			"description_en": "An inscription telling how the sarcophagi turn the people's souls into the monument's stones.",
+			"tactics": "Tableti [E] ile oku.",
+			"tactics_en": "Read the tablet with [E].",
+			"weakness": "Çevresel Anlatı",
+			"weakness_en": "Environmental Lore",
+			"stats_summary": "Tür: Hiyeroglif",
+			"stats_summary_en": "Type: Hieroglyph"
+		},
+		{
+			"id": "egypt_tablet_heart",
+			"category": "lore",
+			"icon_path": "res://assets/objects/egypt/hieroglyph_tablet.png",
+			"title": "Tablet: Kalbin Kökeni",
+			"title_en": "Tablet: Origin of the Heart",
+			"subtitle": "Zaman Yarığının İlk İzi",
+			"subtitle_en": "The First Trace of the Time Rift",
+			"era": "Antik Mısır",
+			"era_en": "Ancient Egypt",
+			"description": "Kalbi kıran kılıçlı yabancıdan ve Mısır'a düşen kırığın ışığından söz eden yazıt.",
+			"description_en": "An inscription speaking of the sword-bearing stranger who broke the Heart, and of the shard's light that fell upon Egypt.",
+			"tactics": "Tableti [E] ile oku.",
+			"tactics_en": "Read the tablet with [E].",
+			"weakness": "Çevresel Anlatı",
+			"weakness_en": "Environmental Lore",
+			"stats_summary": "Tür: Hiyeroglif",
+			"stats_summary_en": "Type: Hieroglyph"
+		}
+	],
+	"dialogues": {
+		"egypt_arrival": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yarık seni kızıl, sıcak kumun üstüne kusuyor. Gökyüzü kan rengi; ufukta piramitler yerden kopmuş, havada asılı duruyor.*",
+				"text_en": "*The rift spits you onto hot crimson sand. The sky is the colour of blood; on the horizon, pyramids hang torn from the earth, suspended in the air.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Üçüncü parça... burada. Ama zaman burada kırılmış. Taşlar bile düşmeyi unutmuş.",
+				"text_en": "The third shard... it is here. But time is broken in this place. Even the stones have forgotten how to fall.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıç elinde titriyor. Ruhsuzlaşan çelikten söz değil, tiz bir çığlık yükseliyor; mühür her parçada biraz daha geriliyor.*",
+				"text_en": "*The sword quivers in your grip. No words rise from the hollowing steel, only a shrill scream; the seal stretches tighter with every shard.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_first_guard": [
+			{
+				"speaker": "Piramit Muhafızı",
+				"speaker_en": "Pyramid Guard",
+				"title": "",
+				"title_en": "",
+				"text": "Yabancı! Tanrı-Kral'ın kumlarına izinsiz basan, anıt-mezarın taşı olur!",
+				"text_en": "Outsider! Whoever trespasses on the God-King's sands becomes a stone of his tomb!",
+				"portrait": "pyramid_guard"
+			}
+		],
+		"egypt_sand_trap_hint": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kum ayaklarının altında girdap gibi dönüyor. Kum tuzaklarında oyalanma — zıplayarak ya da atılarak kurtul.*",
+				"text_en": "*The sand swirls like a whirlpool beneath your feet. Don't linger in sand traps — jump or dash to break free.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_desert_exit": [
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Muhafızların geldiği yöne... anıt-mezarın avlusuna. Zincir sesleri oradan geliyor.",
+				"text_en": "Toward where the guards came from... the courtyard of the tomb. The rattle of chains comes from there.",
+				"portrait": "player"
+			}
+		],
+		"egypt_courtyard_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Dev anıt-mezarın gölgesinde yüzlerce köle zincirli. Lahitlerden yükselen mavi ruh ışığı, taşları yukarı taşıyan görünmez bir makineyi besliyor.*",
+				"text_en": "*In the shadow of the colossal tomb, hundreds of slaves stand in chains. Blue soul-light rising from the sarcophagi feeds an unseen engine that hauls the stones upward.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Yaşlı Köle Nefer",
+				"speaker_en": "Nefer, the Elder Slave",
+				"title": "",
+				"title_en": "",
+				"text": "Firavun ölmeyi reddetti, yabancı. Ruhlarımızı lahitlere akıtıp anıtını sonsuza dek inşa ettiriyor.",
+				"text_en": "The Pharaoh refused to die, stranger. He drains our souls into the sarcophagi so his monument is built forever.",
+				"portrait": "slave"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Lahitlerdeki o güç... kılıcın kabuğunu doyurabilir. Ya da bu insanları serbest bırakabilirim.",
+				"text_en": "That power in the sarcophagi... it could feed the blade's shell. Or I could set these people free.",
+				"portrait": "player"
+			}
+		],
+		"egypt_slave_plea": [
+			{
+				"speaker": "Zincirli Köle",
+				"speaker_en": "Chained Slave",
+				"title": "",
+				"title_en": "",
+				"text": "Lütfen... zincirlerimi kır! Muhafızlar gitti, şimdi tek şansımız sensin!",
+				"text_en": "Please... break my chains! The guards are gone, you are our only chance now!",
+				"portrait": "slave",
+				"choices": [
+					{
+						"text": "[1] Zincirlerini Kır (Kefaret)",
+						"text_en": "[1] Break the Chains (Redemption)",
+						"action": "free_slave"
+					},
+					{
+						"text": "[2] Ruh Enerjisini Sömür (+20 Yozlaşma)",
+						"text_en": "[2] Drain Their Soul (+20 Corruption)",
+						"action": "drain_slave"
+					}
+				]
+			}
+		],
+		"egypt_slave_freed": [
+			{
+				"speaker": "Zincirli Köle",
+				"speaker_en": "Chained Slave",
+				"title": "",
+				"title_en": "",
+				"text": "Özgürüm... Güneş tanrısı seni korusun! Diğerlerini de kurtar, yalvarırım!",
+				"text_en": "I'm free... may the sun god protect you! Save the others too, I beg you!",
+				"portrait": "slave"
+			}
+		],
+		"egypt_slave_drained": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıcı kölenin göğsüne dayıyorsun. Mavi ışık çelikten içeri akarken adamın gözlerindeki fer söner. Yaraların kapanıyor; kılıç ise inliyor.*",
+				"text_en": "*You press the blade to the slave's chest. As blue light flows into the steel, the light in his eyes dies. Your wounds close; the sword only moans.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_slave_killed": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Zincirli bir masum kılıcının altında can veriyor. Avludaki çığlıklar bir an kesiliyor; sonra daha da yükseliyor.*",
+				"text_en": "*A chained innocent dies beneath your blade. The screams in the courtyard fall silent for a moment, then rise even louder.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_sarcophagus_choice": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Lanetli lahdin kapağındaki hiyeroglifler mavi bir nabızla atıyor. İçeride, Firavun'a akıtılmış onlarca ruhun uğultusu var.*",
+				"text_en": "*The hieroglyphs on the cursed sarcophagus pulse with a blue heartbeat. Inside hums the drone of dozens of souls siphoned for the Pharaoh.*",
+				"portrait": "none",
+				"choices": [
+					{
+						"text": "[1] Ruhları Sömür (+20 Yozlaşma, Can)",
+						"text_en": "[1] Drain the Souls (+20 Corruption, Health)",
+						"action": "drain_sarcophagus"
+					},
+					{
+						"text": "[2] Lahdi Kır, Ruhları Serbest Bırak",
+						"text_en": "[2] Shatter It, Release the Souls",
+						"action": "shatter_sarcophagus"
+					}
+				]
+			}
+		],
+		"egypt_sarcophagus_drained": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Ruhlar çığlık atarak kılıca çekiliyor. Gücün kabarıyor — ama çeliğin içinden boğuk bir öfke yükseliyor.*",
+				"text_en": "*The souls are dragged screaming into the blade. Your strength surges — but a muffled rage rises from within the steel.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_sarcophagus_shattered": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Lahit parçalanıyor; mavi ışık zerreleri gökyüzüne süzülüp kayboluyor. Bir yerlerde bir mumya uyanıyor...*",
+				"text_en": "*The sarcophagus shatters; motes of blue light drift into the sky and vanish. Somewhere, a mummy stirs awake...*",
+				"portrait": "none"
+			}
+		],
+		"egypt_courtyard_exit_redemption": [
+			{
+				"speaker": "Yaşlı Köle Nefer",
+				"speaker_en": "Nefer, the Elder Slave",
+				"title": "",
+				"title_en": "",
+				"text": "Zincirlerimizi kırdın. Anıt-mezarın kapısı içeriden Güneş Mühürleriyle kilitli; mühür anahtarları koridorlarda saklı.",
+				"text_en": "You broke our chains. The tomb's gate is locked from within by Sun Seals; the seal keys are hidden in the corridors.",
+				"portrait": "slave"
+			}
+		],
+		"egypt_courtyard_exit_corrupted": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Avluda geride yalnızca sessiz bedenler ve sönmüş lahitler kalıyor. Anıt-mezarın kapısı, sanki seni tanırmış gibi kendiliğinden aralanıyor.*",
+				"text_en": "*Only silent bodies and darkened sarcophagi remain in the courtyard. The tomb's gate parts on its own, as if it recognised you.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_tomb_intro": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Koridorlar serin ve karanlık. Duvarlardaki hiyeroglifler meşale ışığında kıpırdıyor gibi. Tavandaki yarıklardan güneş ışınları süzülüyor.*",
+				"text_en": "*The corridors are cool and dark. The hieroglyphs on the walls seem to writhe in the torchlight. Shafts of sunlight pierce the cracks in the ceiling.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "İki Güneş Mührü anahtarı... Taht odasına giden kapı onlarla açılıyor.",
+				"text_en": "Two Sun Seal keys... The door to the throne room opens with them.",
+				"portrait": "player"
+			}
+		],
+		"egypt_tablet_sun": [
+			{
+				"speaker": "Hiyeroglif Tablet",
+				"speaker_en": "Hieroglyph Tablet",
+				"title": "Güneşin Düşüşü",
+				"title_en": "Fall of the Sun",
+				"text": "\"Ra'nın gözü düştüğünde, kral göğe yükselmedi. Göğü yere indirdi ve asası ile mühürledi.\"",
+				"text_en": "\"When the eye of Ra fell, the king did not ascend to the sky. He brought the sky down to earth and sealed it with his staff.\"",
+				"portrait": "none"
+			}
+		],
+		"egypt_tablet_engine": [
+			{
+				"speaker": "Hiyeroglif Tablet",
+				"speaker_en": "Hieroglyph Tablet",
+				"title": "Ruh Makinesi",
+				"title_en": "The Soul Engine",
+				"text": "\"Her lahit bir ruh, her ruh bir taş. Anıt büyüdükçe kral ölümsüz, halk tükenir.\"",
+				"text_en": "\"Every sarcophagus a soul, every soul a stone. As the monument grows, the king is undying and the people wither.\"",
+				"portrait": "none"
+			}
+		],
+		"egypt_tablet_heart": [
+			{
+				"speaker": "Hiyeroglif Tablet",
+				"speaker_en": "Hieroglyph Tablet",
+				"title": "Kalbin Kökeni",
+				"title_en": "Origin of the Heart",
+				"text": "\"Kalbi kıran kılıçlı yabancı geldi ilk. Kırığın ışığı düştü buraya; kral onu yakaladı, göğsüne gömdü.\"",
+				"text_en": "\"First came the stranger with the sword who broke the Heart. The light of the shard fell here; the king caught it and buried it in his chest.\"",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Kılıçlı yabancı... Ben miydim? Zaman yırtıkları benim mi yüzümden?",
+				"text_en": "The stranger with the sword... was it me? Are the time rifts my doing?",
+				"portrait": "player"
+			}
+		],
+		"egypt_seal_key_found": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Güneş Mührü anahtarı avucunda ısınıyor. Uzaklarda bir taş kilidin döndüğünü duyuyorsun.*",
+				"text_en": "*The Sun Seal key warms in your palm. In the distance, you hear a stone lock turn.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_seal_door_open": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*İki mühür yerine oturduğunda kapıdaki güneş kursları alev alıyor ve taş kapı gürleyerek yükseliyor.*",
+				"text_en": "*As both seals click into place, the sun discs on the door ignite and the stone gate rises with a roar.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_mummy_wave": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Lahitlerin kapakları kayıyor. Sargılı eller kumdan çıkıyor — Firavun'un ölüleri uyanıyor!*",
+				"text_en": "*The lids of the sarcophagi slide open. Bandaged hands claw out of the sand — the Pharaoh's dead are waking!*",
+				"portrait": "none"
+			}
+		],
+		"egypt_pharaoh_taunt": [
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Ölümlü! Güneşin tahtına kılıcınla mı geldin? Ben ölümü yendim; zaman bile önümde diz çöker.",
+				"text_en": "Mortal! You come to the throne of the sun with a sword? I have conquered death; even time kneels before me.",
+				"portrait": "pharaoh"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "O asada taşıdığın şey sana ait değil. Kalp Parçasını geri alacağım.",
+				"text_en": "What you carry in that staff does not belong to you. I will take the Heart Shard back.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Öyleyse güneşin yargısına teslim ol!",
+				"text_en": "Then surrender to the judgement of the sun!",
+				"portrait": "pharaoh"
+			}
+		],
+		"egypt_pharaoh_taunt_corrupted": [
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Ahh... Avlumda ruhları içtiğini hissettim. Sen de benim gibisin, yabancı: başkalarının canıyla yaşayan bir tanrı.",
+				"text_en": "Ahh... I felt you drink the souls in my courtyard. You are like me, stranger: a god who lives on the lives of others.",
+				"portrait": "pharaoh"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Seninle aynı değilim.",
+				"text_en": "I am nothing like you.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Henüz değil. Tahtımı alırsan olacaksın!",
+				"text_en": "Not yet. Take my throne and you will be!",
+				"portrait": "pharaoh"
+			}
+		],
+		"egypt_pharaoh_phase_2": [
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Kumlar! Bu davetsizi yut!",
+				"text_en": "Sands! Swallow this intruder!",
+				"portrait": "pharaoh"
+			}
+		],
+		"egypt_pharaoh_phase_3": [
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Maskem çatladı... ama ordum ölmez! Kalkın, kullarım! Ölümden kalkın!",
+				"text_en": "My mask is cracked... but my army does not die! Rise, my servants! Rise from death!",
+				"portrait": "pharaoh"
+			}
+		],
+		"egypt_pharaoh_last_words": [
+			{
+				"speaker": "Lanetli Firavun Kral",
+				"speaker_en": "Cursed Pharaoh King",
+				"title": "",
+				"title_en": "",
+				"text": "Güneş... sönüyor... Parçayı al, yabancı. O seni de... benim gibi... yiyecek...",
+				"text_en": "The sun... is fading... Take the shard, stranger. It will devour you too... as it did... me...",
+				"portrait": "pharaoh"
+			}
+		],
+		"egypt_memory_flashback": [
+			{
+				"speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+				"speaker_en": "Mage Companion (Echo of the Past)",
+				"title": "",
+				"title_en": "",
+				"text": "Dur! Kalbi parçalarsan zaman dokusu yırtılır! Bunu yapmana izin vermeyeceğim!",
+				"text_en": "Stop! If you shatter the Heart, the fabric of time will tear! I won't let you do this!",
+				"portrait": "friend_memory",
+				"echo": true
+			},
+			{
+				"speaker": "Bilinmeyen Ses (Karakterin Eski Hali)",
+				"speaker_en": "Unknown Voice (Former Self)",
+				"title": "",
+				"title_en": "",
+				"text": "Önümden çekil. Sana son kez söylüyorum.",
+				"text_en": "Step aside. I am telling you for the last time.",
+				"portrait": "player_dark",
+				"echo": true
+			},
+			{
+				"speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+				"speaker_en": "Mage Companion (Echo of the Past)",
+				"title": "",
+				"title_en": "",
+				"text": "Kardeşim... bana sırtını dönme. Birlikte durdurabiliriz...",
+				"text_en": "Brother... don't turn your back on me. We can stop this together...",
+				"portrait": "friend_memory",
+				"echo": true
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Büyücü dostun Kalbin önünde kollarını açıyor. Sen ona sarılır gibi yaklaşıyorsun — ve kılıcı sırtından saplıyorsun.*",
+				"text_en": "*Your mage friend spreads his arms before the Heart. You approach as if to embrace him — and drive the sword into his back.*",
+				"portrait": "none",
+				"echo": true
+			},
+			{
+				"speaker": "Büyücü Arkadaş (Geçmişin Yankısı)",
+				"speaker_en": "Mage Companion (Echo of the Past)",
+				"title": "",
+				"title_en": "",
+				"text": "...Neden...?",
+				"text_en": "...Why...?",
+				"portrait": "friend_memory",
+				"echo": true
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Hayır... Bu ben değildim. Bu... bu bendim. Onu ben vurdum. Arkasından.",
+				"text_en": "No... That wasn't me. That... that was me. I struck him. From behind.",
+				"portrait": "player"
+			}
+		],
+		"egypt_sword_evolution": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Kılıcın yüzeyinde ince çatlaklar beliriyor. Çatlaklardan ilk kez kızıl-mavi bir büyü sızıyor; mühür yarı yarıya zayıflamış.*",
+				"text_en": "*Thin cracks appear across the blade. For the first time, a crimson-blue magic seeps from them; the seal is half-broken.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Mahpus Kılıç Ruhu",
+				"speaker_en": "Imprisoned Blade Soul",
+				"title": "",
+				"title_en": "",
+				"text": "...seni... hatırlıyorum...",
+				"text_en": "...I... remember... you...",
+				"portrait": "player"
+			}
+		],
+		"egypt_outro_redemption": [
+			{
+				"speaker": "Yaşlı Köle Nefer",
+				"speaker_en": "Nefer, the Elder Slave",
+				"title": "",
+				"title_en": "",
+				"text": "Anıt-mezar duruyor; ruhlar serbest. Halkımız seni şarkılarında anacak, yabancı.",
+				"text_en": "The tomb has stopped; the souls are free. Our people will remember you in their songs, stranger.",
+				"portrait": "slave"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Şarkılarınızda beni iyi biri olarak anmayın. Sadece... borcunu ödemeye çalışan biri olarak.",
+				"text_en": "Don't sing of me as a good man. Only... as one trying to pay his debt.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Taht odasının ortasında yeni bir zaman yırtığı açılıyor. Öte yanından top sesleri, siren ulumaları ve çelik kuşların vınlaması geliyor.*",
+				"text_en": "*A new time rift tears open in the middle of the throne room. From beyond come cannon fire, wailing sirens and the drone of steel birds.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_outro_god_king": [
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Taht odasında senden başka canlı kalmadı. Güneş Asası ayaklarının dibinde sönerken, kılıçtaki çatlaklar karanlık bir zevkle titriyor.*",
+				"text_en": "*No one living remains in the throne room but you. As the Sun Staff fades at your feet, the cracks in the blade quiver with dark delight.*",
+				"portrait": "none"
+			},
+			{
+				"speaker": "Ana Karakter",
+				"speaker_en": "Protagonist",
+				"title": "",
+				"title_en": "",
+				"text": "Taht... boş. Belki de birinin oturması gerekir.",
+				"text_en": "The throne... is empty. Perhaps someone ought to sit on it.",
+				"portrait": "player"
+			},
+			{
+				"speaker": "",
+				"speaker_en": "",
+				"title": "",
+				"title_en": "",
+				"text": "*Yeni bir zaman yırtığı açılıyor. Öte yanında savaş: top sesleri, sirenler, çelik kuşlar. Kılıç acıkmış gibi seni oraya çekiyor.*",
+				"text_en": "*A new time rift opens. Beyond lies war: cannon fire, sirens, steel birds. The sword pulls you toward it as if hungry.*",
+				"portrait": "none"
+			}
+		],
+		"egypt_sword_scream_texts": [
+			{
+				"text": "*Çelik tiz bir çığlık koparıyor; kum zerreleri kılıçtan uzağa savruluyor.*",
+				"text_en": "*The steel lets out a shrill scream; grains of sand scatter away from the blade.*"
+			},
+			{
+				"text": "*Kılıç ruhu konuşamıyor; yalnızca çatlak bir çanın inlemesi kaldı.*",
+				"text_en": "*The blade soul cannot speak; only the moan of a cracked bell remains.*"
+			}
+		],
+		"ability_unlock_egypt": {
+			"id": "sun_seal_fracture",
+			"name": "Mührün Kırılması (Kızıl-Mavi Sızıntı)",
+			"name_en": "Seal Fracture (Crimson-Blue Leak)",
+			"description": "3. Kalp Parçası kılıca çekildi ve mühür yarı yarıya zayıfladı. Kılıcın çatlaklarından sızan kızıl-mavi büyü artık her savuruşta görünür; içindeki ruh uyanıyor.",
+			"description_en": "The third Heart Shard was drawn into the blade and the seal is half-broken. Crimson-blue magic leaking from its cracks now trails every swing; the soul within is waking."
+		}
+	}
+}

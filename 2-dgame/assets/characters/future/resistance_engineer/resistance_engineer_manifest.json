@@ -1,0 +1,109 @@
+{
+ "character": "resistance_engineer",
+ "source": "output/future_sources/allies/resistance_engineer",
+ "frame_size": [
+  160,
+  96
+ ],
+ "feet_y": 88,
+ "anchor": "feet",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "hacking",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 2,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "talk",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 2,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "walk",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "evacuate",
+   "row": 4,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": true,
+   "fps": 14.0
+  },
+  {
+   "name": "injured_kneel",
+   "row": 5,
+   "frames": 16,
+   "source_frames": 1,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "drained_death",
+   "row": 6,
+   "frames": 16,
+   "source_frames": 5,
+   "loop": false,
+   "fps": 10.0
+  },
+  {
+   "name": "hurt",
+   "row": 7,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "cower",
+   "row": 8,
+   "frames": 16,
+   "source_frames": 1,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "cheer",
+   "row": 9,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "drained",
+   "row": 10,
+   "frames": 16,
+   "source_frames": 5,
+   "loop": false,
+   "fps": 10.0
+  },
+  {
+   "name": "death",
+   "row": 11,
+   "frames": 16,
+   "source_frames": 5,
+   "loop": false,
+   "fps": 10.0
+  }
+ ]
+}

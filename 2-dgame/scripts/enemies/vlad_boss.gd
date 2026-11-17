@@ -90,7 +90,12 @@ var _trans_tween: Tween = null
 @onready var smoke_vfx: AnimatedSprite2D = $Visual/SmokeVFX
 
 func _ready() -> void:
-	monster_name = "Kazıklı Voyvoda Vlad"
+	monster_name = tr("TITLE_VLAD_BOSS")
+	_update_title()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	codex_id = "vlad_boss"
 	max_health = 600
 	current_health = 600
@@ -111,6 +116,17 @@ func _ready() -> void:
 	if anim_sprite:
 		anim_sprite.frame_changed.connect(_on_attack_frame_changed)
 		anim_sprite.animation_finished.connect(_on_attack_animation_finished)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_title()
+
+
+func _update_title() -> void:
+	monster_name = tr("TITLE_VLAD_BOSS")
+	var title_lbl = get_node_or_null("UI/BossTitle") as Label
+	if title_lbl:
+		title_lbl.text = tr("TITLE_VLAD_BOSS")
 
 func _find_camera() -> void:
 	var viewport = get_viewport()
@@ -1657,3 +1673,8 @@ func _play_sfx(sound_key: String, volume_db: float = 0.0, pitch_variance: float 
 			audio_mgr.play_sfx_varied(sound_key, volume_db, pitch_variance)
 		elif audio_mgr.has_method("play_sfx"):
 			audio_mgr.play_sfx(sound_key, volume_db)
+
+
+## Boss kuralı: saldırıları savuşturulabilir ama savuşturma bu düşmanı sersemletmez (Story 2D-127)
+func is_parry_immune() -> bool:
+	return true

@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/ww2/sandbag_cover.gd" id="1_r"]
+
+[sub_resource type="RectangleShape2D" id="S1"]
+size = Vector2(70, 60)
+
+[node name="SandbagCover" type="StaticBody2D"]
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -30)
+shape = SubResource("S1")

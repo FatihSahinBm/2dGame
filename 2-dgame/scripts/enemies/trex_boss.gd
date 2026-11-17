@@ -46,13 +46,41 @@ var laser_light: PointLight2D = null
 
 func _ready() -> void:
 	super._ready()
+	_update_ui_texts()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	_find_camera()
 	_init_extra_hitboxes()
 	
 	# Boss özellikleri
-	monster_name = "SİBER T-REX: MECHA-TYRANT"
 	turn_at_ledges = false
 	knockback_resistance = 0.95 # Devasa boss neredeyse itilmez
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_ui_texts()
+
+
+func _update_ui_texts() -> void:
+	monster_name = tr("TITLE_TREX_BOSS")
+	var title_lbl = get_node_or_null("UI/TitleLabel") as Label
+	if not title_lbl:
+		title_lbl = get_node_or_null("UI/BossTitle") as Label
+	if title_lbl:
+		title_lbl.text = tr("TITLE_TREX_BOSS")
+	_update_phase_label()
+
+
+func _update_phase_label() -> void:
+	if phase_label:
+		if boss_phase == 1:
+			phase_label.text = tr("TITLE_TREX_PHASE_1")
+		elif boss_phase == 2:
+			phase_label.text = tr("TITLE_TREX_PHASE_2")
+		elif boss_phase == 3:
+			phase_label.text = tr("TITLE_TREX_PHASE_3")
 
 func _init_extra_hitboxes() -> void:
 	if not cyber_laser:
@@ -447,12 +475,11 @@ func _check_phase_transition() -> void:
 		_on_phase_changed(boss_phase)
 
 func _on_phase_changed(phase: int) -> void:
+	_update_phase_label()
 	if phase_label:
 		if phase == 2:
-			phase_label.text = "[ FAZ 2: OVERDRIVE ]"
 			phase_label.modulate = Color(1.0, 0.6, 0.1, 1.0)
 		elif phase == 3:
-			phase_label.text = "[ FAZ 3: SİBER ERİME ]"
 			phase_label.modulate = Color(1.0, 0.1, 0.1, 1.0)
 
 	# Faz geçişinde görsel parıltı ve şok
@@ -549,3 +576,8 @@ func _die() -> void:
 		get_tree().create_timer(3.2).timeout.connect(_fade_and_free)
 	else:
 		_fade_and_free()
+
+
+## Boss kuralı: saldırıları savuşturulabilir ama savuşturma bu düşmanı sersemletmez (Story 2D-127)
+func is_parry_immune() -> bool:
+	return true

@@ -113,7 +113,7 @@ func _physics_process(delta: float) -> void:
 
 		if _shout_timer <= 0.0 and randf() < 0.35:
 			_shout_timer = randf_range(5.0, 9.0)
-			_spawn_chat_bubble("Allah Allah! İleri!", Color(1.0, 0.9, 0.4, 1.0))
+			_spawn_chat_bubble(tr("SOLDIER_SHOUT_CHARGE"), Color(1.0, 0.9, 0.4, 1.0))
 	else:
 		# Düşman / barikat yokken oyuncunun yanında hücuma devam et (Asla geride kalmaz)
 		if not _player_ref or not is_instance_valid(_player_ref):
@@ -448,7 +448,7 @@ func _alert_nearby_allies() -> void:
 
 func _spawn_chat_bubble(text: String, color: Color) -> void:
 	var label: Label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.1, 1.0))
 	label.add_theme_constant_override("outline_size", 4)

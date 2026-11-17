@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/server_node.gd" id="1_l85ht"]
+
+[node name="ServerNode" type="StaticBody2D" unique_id=265474379]
+script = ExtResource("1_l85ht")

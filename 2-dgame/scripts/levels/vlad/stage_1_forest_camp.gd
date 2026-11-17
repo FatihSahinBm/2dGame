@@ -19,7 +19,8 @@ extends Node2D
 @onready var world_backdrop: WorldParallaxBackground = get_node_or_null("WorldBackdrop") as WorldParallaxBackground
 @onready var dimensional_rift: DimensionalTimeRift = get_node_or_null("DimensionalTimeRift") as DimensionalTimeRift
 
-const ORDERS_DROP_SCENE = preload("res://scenes/objects/commander_orders_drop.tscn")
+const LevelStory = preload("res://scripts/components/level_story.gd")
+const ORDERS_DROP_SCENE =preload("res://scenes/objects/commander_orders_drop.tscn")
 
 var _ambush_cleared: bool = false
 var _is_transitioning: bool = false
@@ -67,9 +68,16 @@ func _play_time_rift_intro() -> void:
 		dimensional_rift.play_player_emerge_sequence(player)
 		dimensional_rift.spawn_completed.connect(func():
 			_show_sword_scrape_text()
+			_play_arrival_story()
 		, CONNECT_ONE_SHOT)
 	else:
 		_show_sword_scrape_text()
+		_play_arrival_story()
+
+
+## Çağa varış anlatımı: kılıç ruhu artık konuşamıyor, yalnızca çelik inliyor
+func _play_arrival_story() -> void:
+	LevelStory.play_delayed(self, ["forest_arrival"] as Array[String], 0.5, player)
 
 
 func _show_sword_scrape_text() -> void:

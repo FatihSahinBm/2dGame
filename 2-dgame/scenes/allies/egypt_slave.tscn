@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/allies/egypt_slave.gd" id="1_r"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/egypt/slave/slave_frames.tres" id="2_r"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(16, 40)
+
+[node name="EgyptSlave" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -20)
+shape = SubResource("Body")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -26)
+sprite_frames = ExtResource("2_r")
+animation = &"cower"
+autoplay = "cower"

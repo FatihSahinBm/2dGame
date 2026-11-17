@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/future_rescue_spot.gd" id="1_8gksv"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_evac_capsule.png" id="2_ym0k0"]
+[ext_resource type="PackedScene" path="res://scenes/allies/resistance_fighter.tscn" id="3_1g0d4"]
+[ext_resource type="Script" path="res://scripts/allies/egypt_slave.gd" id="4_vg577"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ex8gx"]
+size = Vector2(140, 100)
+
+[node name="FutureRescueSpot" type="Area2D" unique_id=2073601418]
+script = ExtResource("1_8gksv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1923190596]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_ex8gx")
+
+[node name="Capsule" type="Sprite2D" parent="." unique_id=1632285976]
+z_index = -1
+texture_filter = 1
+position = Vector2(64, -62)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_ym0k0")
+
+[node name="Npc" type="CharacterBody2D" parent="." unique_id=581853721 instance=ExtResource("3_1g0d4")]
+collision_layer = 8
+script = ExtResource("4_vg577")
+slave_id = "survivor_a"

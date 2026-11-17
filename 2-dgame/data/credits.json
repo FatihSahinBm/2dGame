@@ -1,0 +1,30 @@
+{
+  "_comment": "Jenerik verisi — Story 2D-153. Kaynak: 2-dgame/CREDITS.md ve proje yapılandırması. Yeni varlık eklendiğinde ikisi birlikte güncellenmelidir.",
+  "sections": [
+    {
+      "title": "Geliştirme",
+      "title_en": "Development",
+      "entries": [
+        {"name": "Fatih Şahin", "role": "Tasarım ve Programlama", "role_en": "Design & Programming"}
+      ]
+    },
+    {
+      "title": "Oyun Motoru",
+      "title_en": "Game Engine",
+      "entries": [
+        {"name": "Godot Engine 4.7", "role": "MIT Lisansı — godotengine.org/license", "role_en": "MIT License — godotengine.org/license"}
+      ]
+    },
+    {
+      "title": "Üçüncü Taraf Varlıklar",
+      "title_en": "Third-Party Assets",
+      "entries": [
+        {
+          "name": "Fantasy Knight - Free Pixelart Animated Character",
+          "role": "Yazar: aamatniekss — aamatniekss.itch.io/fantasy-knight — Ücretsiz kişisel ve ticari kullanım",
+          "role_en": "Author: aamatniekss — aamatniekss.itch.io/fantasy-knight — Free for personal and commercial projects"
+        }
+      ]
+    }
+  ]
+}

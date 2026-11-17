@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/future_lore_terminal.gd" id="1_3sc66"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_broken_hologram.png" id="2_e2uit"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_edr4r"]
+size = Vector2(80, 90)
+
+[node name="FutureLoreTerminal" type="Area2D" unique_id=966145160]
+script = ExtResource("1_3sc66")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1211717582]
+position = Vector2(0, -45)
+shape = SubResource("RectangleShape2D_edr4r")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1831308683]
+texture_filter = 1
+position = Vector2(0, -60)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_e2uit")

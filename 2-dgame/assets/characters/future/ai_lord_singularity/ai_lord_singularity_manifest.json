@@ -1,0 +1,69 @@
+{
+ "character": "ai_lord_singularity",
+ "source": "output/future_sources/boss/ai_lord_singularity",
+ "frame_size": [
+  304,
+  200
+ ],
+ "feet_y": 183,
+ "anchor": "feet",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "time_blink",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "echo_slash_combo",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 8,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "core_overdrive_beam",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 8,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "hurt",
+   "row": 4,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "collapse_death",
+   "row": 5,
+   "frames": 16,
+   "source_frames": 7,
+   "loop": false,
+   "fps": 10.0
+  },
+  {
+   "name": "move",
+   "row": 6,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 12.0
+  }
+ ]
+}

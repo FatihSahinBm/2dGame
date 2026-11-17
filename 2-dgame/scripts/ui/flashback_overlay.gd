@@ -32,6 +32,12 @@ void fragment() {
 @export var typewriter_speed: float = 0.03
 @export var letterbox_height: float = 64.0
 @export var background_target_alpha: float = 0.86
+## Anı sekansı ve yetenek kartı verisi (varsayılanlar Bölüm 2 / Vlad; Bölüm 3 seviyesi değiştirir)
+@export var memory_key: String = "memory_flashback"
+@export var ability_id: String = "blood_mist_dash"
+@export var ability_data_key: String = "ability_unlock"
+@export var ability_chapter_path: String = "res://data/story/chapter_2_vlad.json"
+@export var ability_tag_key: String = ""
 
 var _entries: Array = []
 var _current_idx: int = 0
@@ -282,7 +288,7 @@ func play_vlad_memory_sequence() -> void:
 
 	_update_prompt_text()
 
-	_entries = StoryDataLoader.get_dialogue_sequence("memory_flashback")
+	_entries = StoryDataLoader.get_dialogue_sequence(memory_key)
 	_current_idx = 0
 	_show_entry()
 
@@ -347,15 +353,32 @@ func _show_ability_unlock() -> void:
 	# Autoload yeteneği aç
 	var game_state: Node = get_node_or_null("/root/GameState")
 	if game_state and game_state.has_method("unlock_ability"):
-		game_state.unlock_ability("blood_mist_dash")
+		game_state.unlock_ability(ability_id)
 
-	var data: Dictionary = StoryDataLoader.load_chapter_data()
+	var is_en: bool = TranslationServer.get_locale().to_lower().begins_with("en")
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		is_en = str(loc_mgr.get_current_locale()).to_lower().begins_with("en")
+
+	var tag_label = ability_card.get_node_or_null("Tag") as Label
+	if tag_label:
+		tag_label.text = "⚔️ CORRUPTED SHELL MUTATION ACQUIRED" if is_en else "⚔️ YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI"
+		if not ability_tag_key.is_empty():
+			tag_label.text = tr(ability_tag_key)
+
+	var data: Dictionary = StoryDataLoader.load_chapter_data(ability_chapter_path)
 	var ability_info: Dictionary = {}
-	if data.has("dialogues") and data["dialogues"].has("ability_unlock"):
-		ability_info = data["dialogues"]["ability_unlock"]
+	if data.has("dialogues") and data["dialogues"].has(ability_data_key):
+		ability_info = data["dialogues"][ability_data_key]
 
-	ability_title.text = ability_info.get("name", "Kan Sisi Atılması (Blood Mist Dash)")
-	ability_desc.text = ability_info.get("description", "Vampirik güç kılıcın yozlaşmış kabuğuna işlendi.")
+	var def_name: String = "Blood Mist Dash" if is_en else "Kan Sisi Atılması (Blood Mist Dash)"
+	var def_desc: String = "With Vlad's defeat, vampiric power was imbued into the blade's corrupted shell. Pressing Dash (Shift) now transforms the bearer into a crimson mist phasing through foes and projectiles while leeching life from struck targets." if is_en else "Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür."
+
+	var raw_name = str(ability_info.get("name_en", "")) if (is_en and not str(ability_info.get("name_en", "")).is_empty()) else str(ability_info.get("name", def_name))
+	var raw_desc = str(ability_info.get("description_en", "")) if (is_en and not str(ability_info.get("description_en", "")).is_empty()) else str(ability_info.get("description", def_desc))
+
+	ability_title.text = tr(raw_name)
+	ability_desc.text = tr(raw_desc)
 	ability_card.visible = true
 	ability_card.modulate.a = 0.0
 
@@ -424,7 +447,7 @@ func skip_flashback() -> void:
 		# Yetenek ödülünü kaybetme: unlock yap, kartı/yırtığı atla
 		var game_state: Node = get_node_or_null("/root/GameState")
 		if game_state and game_state.has_method("unlock_ability"):
-			game_state.unlock_ability("blood_mist_dash")
+			game_state.unlock_ability(ability_id)
 		dimensional_rift_cut.emit()
 	elif _stage == Stage.ABILITY or _stage == Stage.RIFT:
 		dimensional_rift_cut.emit()

@@ -52,7 +52,7 @@ func _setup_components() -> void:
 
 		var prompt: Label = Label.new()
 		prompt.name = "PromptLabel"
-		prompt.text = "Ferman [E] / Temas"
+		prompt.text = tr("ORDERS_PROMPT")
 		prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		prompt.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4, 1.0))
 		prompt.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -109,7 +109,7 @@ func _collect() -> void:
 
 func _spawn_pickup_feedback() -> void:
 	var label: Label = Label.new()
-	label.text = "📜 Öncü Kumandanın Fermanı Alındı!"
+	label.text = tr("ORDERS_TAKEN")
 	label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)

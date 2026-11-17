@@ -1,0 +1,162 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/egypt/mummy/mummy_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="A_rise_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_rise_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(72, 0, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_rise_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 0, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_rise_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(216, 0, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_idle_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 76, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_idle_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(72, 76, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_walk_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 152, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_walk_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(72, 152, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_walk_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 152, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_walk_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(216, 152, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_attack_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 228, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_attack_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(72, 228, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_attack_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 228, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_attack_3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(216, 228, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_hurt_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 304, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_death_0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 380, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_death_1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(72, 380, 72, 76)
+
+[sub_resource type="AtlasTexture" id="A_death_2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(144, 380, 72, 76)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_rise_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_rise_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_rise_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_rise_3")
+}],
+"loop": false,
+"name": &"rise",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_idle_1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_walk_3")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_attack_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_attack_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_attack_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_attack_3")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_hurt_0")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_death_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_death_2")
+}],
+"loop": false,
+"name": &"death",
+"speed": 6.0
+}]

@@ -16,6 +16,8 @@ signal relief_examined()
 @onready var prompt_label: Label = get_node_or_null("PromptLabel") as Label
 @onready var dust_particles: CPUParticles2D = get_node_or_null("DustParticles") as CPUParticles2D
 
+const WorldObjectState = preload("res://scripts/components/world_object_state.gd")
+
 var _player_nearby: bool = false
 var _player_ref: CharacterBody2D = null
 var _glow_tween: Tween = null
@@ -26,6 +28,12 @@ func _ready() -> void:
 	collision_layer = 4
 	collision_mask = 1
 
+	_update_prompt_text()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
 	if prompt_label:
 		prompt_label.visible = false
 
@@ -34,6 +42,19 @@ func _ready() -> void:
 
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+
+	# Kayıtlı durum: incelenmiş kabartma anlatımı yeniden oynatmaz (tek seferlik olay)
+	if WorldObjectState.is_set(self, "examined"):
+		is_examined = true
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_prompt_text()
+
+
+func _update_prompt_text() -> void:
+	if prompt_label:
+		prompt_label.text = tr("PROMPT_EXAMINE_MURAL")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -159,4 +180,5 @@ func _finish_examination() -> void:
 		var tw: Tween = create_tween()
 		tw.tween_property(glow_overlay, "modulate:a", 0.0, 0.8).set_trans(Tween.TRANS_SINE)
 
+	WorldObjectState.mark(self, "examined")
 	relief_examined.emit()

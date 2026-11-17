@@ -37,6 +37,10 @@ signal secondary_equipped(type: String)
 @onready var heart_quadrant_container: Control = get_node_or_null("Panel/VBox/MainSplit/LeftPane/VBox/HeartQuadrantContainer")
 @onready var heart_progress_label: Label = get_node_or_null("Panel/VBox/MainSplit/LeftPane/VBox/HeartProgressLabel")
 
+const HEART_PIECE_TOTAL: int = 6
+const Ww2Items = preload("res://scripts/ui/ww2_inventory_items.gd")
+const FutureItems = preload("res://scripts/ui/future_inventory_items.gd")
+
 var _current_tab: String = "items" # "items" or "heart"
 var _selected_id: String = ""
 var _was_paused_before_open: bool = false
@@ -58,6 +62,16 @@ func _ready() -> void:
 		btn_close.pressed.connect(close)
 	if action_button:
 		action_button.pressed.connect(_on_action_pressed)
+
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	if visible:
+		refresh_inventory()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -225,26 +239,34 @@ func _fetch_live_data() -> void:
 		"id": "health_potion",
 		"category": "consumable",
 		"title": "Kırmızı Can İksiri",
+		"title_en": "Crimson Health Potion",
 		"icon_path": "res://scenes/ui/icons/icon_potion_red.png",
 		"count": health_pots,
 		"description": "Simyacılar tarafından yabani dağ otları ve nehir suyuyla kaynatılmış şifalı karışım. İçildiğinde bedeni canlandırır.",
+		"description_en": "Alchemical draught brewed from crimson wild roots and mountain spring water. Restores vitality instantly.",
 		"effect": "+35 Can Puanı (Mevcut Can: %d / %d)" % [cur_hp, max_hp],
+		"effect_en": "+35 Health Points (Current HP: %d / %d)" % [cur_hp, max_hp],
 		"shortcut": "[2]",
 		"can_use": (health_pots > 0 and cur_hp < max_hp),
-		"action_text": "İksiri İç (+35 Can)"
+		"action_text": "İksiri İç (+35 Can)",
+		"action_text_en": "Drink Potion (+35 HP)"
 	})
 
 	_cached_items.append({
 		"id": "mana_potion",
 		"category": "consumable",
 		"title": "Mavi Mana İksiri",
+		"title_en": "Azure Mana Potion",
 		"icon_path": "res://scenes/ui/icons/icon_potion_blue.png",
 		"count": mana_pots,
 		"description": "Yeraltı mağaralarından çıkarılan safir kristalleri özü. Büyülü enerjiyi ve ruhani gücü tazeler.",
+		"description_en": "Distilled sapphire crystal essence extracted from cavern deeps. Refreshes magical and spiritual power.",
 		"effect": "+20 Mana Puanı (Mevcut Mana: %d / %d)" % [cur_mp, max_mp],
+		"effect_en": "+20 Mana Points (Current Mana: %d / %d)" % [cur_mp, max_mp],
 		"shortcut": "[4]",
 		"can_use": (mana_pots > 0 and cur_mp < max_mp),
-		"action_text": "İksiri İç (+20 Mana)"
+		"action_text": "İksiri İç (+20 Mana)",
+		"action_text_en": "Drink Potion (+20 Mana)"
 	})
 
 	# 2. Fırlatılabilir İkincil Silahlar
@@ -261,14 +283,18 @@ func _fetch_live_data() -> void:
 		"category": "secondary",
 		"sec_type": "knife",
 		"title": "Fırlatma Bıçağı",
+		"title_en": "Throwing Knife",
 		"icon_path": "res://scenes/ui/icons/icon_sword_slot.png",
 		"count": int(sec_inv.get("knife", 0)),
 		"description": "Dengeli dövme çelik bıçak. Hızlı doğrusal uçuşla zırhsız hedeflere ve hortlaklara doğrudan hasar verir. Katı ahşap ve taş duvarlara saplanır.",
+		"description_en": "Balanced forged steel blade. Delivers swift piercing damage in straight flight. Embeds firmly into wooden and stone walls.",
 		"effect": "30 Delici Hasar (Duvara Saplanabilir)",
+		"effect_en": "30 Piercing Damage (Embeds into walls)",
 		"shortcut": "[5] / [F]",
 		"is_equipped": (active_sec == "knife"),
 		"can_use": true,
-		"action_text": "Kuşanılmış (Aktif)" if active_sec == "knife" else "Hızlı Yuvaya Ata ([F])"
+		"action_text": "Kuşanılmış (Aktif)" if active_sec == "knife" else "Hızlı Yuvaya Ata ([F])",
+		"action_text_en": "Equipped (Active)" if active_sec == "knife" else "Assign to Quick Slot ([F])"
 	})
 
 	_cached_items.append({
@@ -276,14 +302,18 @@ func _fetch_live_data() -> void:
 		"category": "secondary",
 		"sec_type": "torch",
 		"title": "Alevli Meşale",
+		"title_en": "Flaming Torch",
 		"icon_path": "res://scenes/ui/icons/icon_potion_red.png",
 		"count": int(sec_inv.get("torch", 0)),
 		"description": "Zift ve kuru bezle sarılmış el meşalesi. Parabolik yayla fırlatılır; yanabilir sarmaşıkları ve barikatları kül eder, zeminde geçici alev alanı bırakır.",
+		"description_en": "Hand torch bound with pitch and linen. Thrown in a high arc; incinerates dry vines and barricades, creating a fiery ground patch.",
 		"effect": "25 Ateş Hasarı + Zemin Yangını + Barikat Yıkımı",
+		"effect_en": "25 Fire Damage + Ground Blaze + Barricade Breaker",
 		"shortcut": "[6] / [F]",
 		"is_equipped": (active_sec == "torch"),
 		"can_use": true,
-		"action_text": "Kuşanılmış (Aktif)" if active_sec == "torch" else "Hızlı Yuvaya Ata ([F])"
+		"action_text": "Kuşanılmış (Aktif)" if active_sec == "torch" else "Hızlı Yuvaya Ata ([F])",
+		"action_text_en": "Equipped (Active)" if active_sec == "torch" else "Assign to Quick Slot ([F])"
 	})
 
 	_cached_items.append({
@@ -291,14 +321,18 @@ func _fetch_live_data() -> void:
 		"category": "secondary",
 		"sec_type": "holy_water",
 		"title": "Kutsal Su Şişesi",
+		"title_en": "Holy Water Flask",
 		"icon_path": "res://scenes/ui/icons/icon_crystal.png",
 		"count": int(sec_inv.get("holy_water", 0)),
 		"description": "Mabette kutsanmış saf gümüş şişe. Çarptığı yerde kutsanmış zemin alanı açar; yalnızca vampir, undead ve Vlad'ın kan hizmetkarlarına ağır hasar verir.",
+		"description_en": "Sanctified pure silver flask. Spreads hallowed ground on impact; deals crushing holy damage exclusively to vampires, undead, and thralls.",
 		"effect": "45 Kutsal Hasar (Yalnızca Unholy/Vampir Düşmanlar)",
+		"effect_en": "45 Holy Damage (Unholy / Vampire Foes Only)",
 		"shortcut": "[7] / [F]",
 		"is_equipped": (active_sec == "holy_water"),
 		"can_use": true,
-		"action_text": "Kuşanılmış (Aktif)" if active_sec == "holy_water" else "Hızlı Yuvaya Ata ([F])"
+		"action_text": "Kuşanılmış (Aktif)" if active_sec == "holy_water" else "Hızlı Yuvaya Ata ([F])",
+		"action_text_en": "Equipped (Active)" if active_sec == "holy_water" else "Assign to Quick Slot ([F])"
 	})
 
 	# 3. Değerli Eşyalar ve Anahtarlar
@@ -309,26 +343,34 @@ func _fetch_live_data() -> void:
 		"id": "coins",
 		"category": "currency",
 		"title": "Osmanlı Akçesi",
+		"title_en": "Ottoman Akche",
 		"icon_path": "res://scenes/ui/icons/icon_coin.png",
 		"count": coins,
 		"description": "Gümüş Osmanlı sikkeleri. Ordugah ikmalcilerinden ve seyyar dervişlerden erzak, iksir ve cephane temin etmek için kullanılır.",
+		"description_en": "Silver Ottoman coins. Used to purchase supplies, potions, and secondary ammunition from encampment quartermasters.",
 		"effect": "Harcanabilir Para Birimi",
+		"effect_en": "Spendable Currency",
 		"shortcut": "",
 		"can_use": false,
-		"action_text": "Pasif Eşya"
+		"action_text": "Pasif Eşya",
+		"action_text_en": "Passive Item"
 	})
 
 	_cached_items.append({
 		"id": "keys",
 		"category": "key",
 		"title": "Zindan Demir Anahtarı",
+		"title_en": "Dungeon Iron Key",
 		"icon_path": "res://scenes/ui/icons/icon_key.png",
 		"count": keys,
 		"description": "Eflak kalesinin kalın demir parmaklıklarını ve zindan hücre kapılarını açan ağır döküm anahtar.",
+		"description_en": "Heavy cast-iron key opening the thick iron grates and cell gates of the Wallachian castle dungeons.",
 		"effect": "Kilitli Geçitleri Açar",
+		"effect_en": "Unlocks Sealed Passages",
 		"shortcut": "",
 		"can_use": false,
-		"action_text": "Pasif Eşya"
+		"action_text": "Pasif Eşya",
+		"action_text_en": "Passive Item"
 	})
 
 	var has_sword: bool = (player and player.get("has_sword")) or (hud and hud.get("has_weapon"))
@@ -336,16 +378,23 @@ func _fetch_live_data() -> void:
 		"id": "weapon_sword",
 		"category": "equipment",
 		"title": "Padişah Yadigarı Kılıç",
+		"title_en": "Sultan's Heirloom Blade",
 		"icon_path": "res://scenes/ui/icons/icon_sword_slot.png",
 		"count": 1 if has_sword else 0,
 		"description": "Fatih Sultan Mehmed Han tarafından sefer öncesi hediye edilen çift ağızlı çelik pala. Hafif ve keskin.",
+		"description_en": "Double-edged steel scimitar presented by Sultan Mehmed II before the campaign. Balanced, nimble, and razor sharp.",
 		"effect": "Temel Silah — 3 Aşamalı Kombo Saldırısı",
+		"effect_en": "Primary Weapon — 3-Hit Melee Combo",
 		"shortcut": "[Sol Tık / X]",
 		"can_use": false,
-		"action_text": "Kuşanılmış Silah"
+		"action_text": "Kuşanılmış Silah",
+		"action_text_en": "Equipped Weapon"
 	})
 
-	# 4. Kalp Parçaları Verileri (4 Parçalı Kadran)
+	Ww2Items.append_items(self, _cached_items) # Bölüm 4 eşyaları (2D-144)
+	FutureItems.append_items(self, _cached_items) # Bölüm 5 eşyaları (2D-158)
+
+	# 4. Kalp Parçaları Verileri (6 parça — güncel hikâye)
 	var heart_count: int = game_state.current_heart_pieces if (game_state and "current_heart_pieces" in game_state) else 1
 
 	_cached_heart_pieces = [
@@ -353,45 +402,97 @@ func _fetch_live_data() -> void:
 			"id": "heart_fragment_1",
 			"index": 1,
 			"title": "1. Kadim Yankı (Taş Devri)",
+			"title_en": "1. Primeval Echo (Stone Age)",
 			"era": "Taş Devri — T-Rex Krateri",
+			"era_en": "Stone Age — T-Rex Crater",
 			"ability": "Kalp Rezonansı (Heart Resonance)",
+			"ability_en": "Heart Resonance",
 			"unlocked": (heart_count >= 1),
 			"icon_path": "res://scenes/ui/icons/icon_heart.png",
 			"description": "Taş Devri'nde zaman çatlağını bekleyen kadim T-Rex'in ruhundan saçılan ilk Kalp Parçası. Taşıyıcısına zaman yankılarını algılama ve mistik rezonans yeteneği bahşeder.",
-			"bonus_text": "⚡ Pasif Bonus: Çevre sırlarını algılama ve çatlak titreşimi"
+			"description_en": "The first Heart Shard emanating from the cybernetic titan guarding the prehistoric rift. Grants temporal echo detection.",
+			"bonus_text": "⚡ Pasif Bonus: Çevre sırlarını algılama ve çatlak titreşimi",
+			"bonus_text_en": "⚡ Passive Bonus: Environmental secret detection and rift resonance"
 		},
 		{
 			"id": "heart_fragment_2",
 			"index": 2,
 			"title": "2. Kan Mührü (Eflak Kalesi)",
+			"title_en": "2. Blood Sigil (Wallachian Keep)",
 			"era": "Orta Çağ — Vlad Tepeş'in Mahzenleri",
+			"era_en": "Middle Ages — Vlad's Catacombs",
 			"ability": "Gölge Adımı & Kan Kalkanı (Blood Veil)",
+			"ability_en": "Shadow Step & Blood Veil",
 			"unlocked": (heart_count >= 2),
 			"icon_path": "res://scenes/ui/icons/icon_heart.png",
 			"description": "Vlad Tepeş'in zindanlarında ve taht odasında vampir kanıyla mühürlenmiş ikinci parça. Karanlık güçlere karşı yüksek mukavemet ve gölge atılması sağlar.",
-			"bonus_text": "🛡️ Pasif Bonus: +%10 Maksimum Can ve Kutsal Hasar Direnci"
+			"description_en": "The second shard consecrating Vlad the Impaler's throne. Provides dark resistance and spectral shadow dash.",
+			"bonus_text": "🛡️ Pasif Bonus: +%10 Maksimum Can ve Kutsal Hasar Direnci",
+			"bonus_text_en": "🛡️ Passive Bonus: +10% Max Health & Holy Damage Resistance"
 		},
 		{
 			"id": "heart_fragment_3",
 			"index": 3,
-			"title": "3. Güneş Çarkı (Antik Dünya)",
-			"era": "Antik Çağ — Ra Mabedi ve Piramitler",
+			"title": "3. Güneş Asası (Antik Mısır)",
+			"title_en": "3. Sun Sceptre (Ancient Egypt)",
+			"era": "Antik Mısır — Firavun Kral'ın Anıt-Mezarı",
+			"era_en": "Ancient Egypt — The Pharaoh King's Tomb",
 			"ability": "Güneş Patlaması (Solar Flare)",
+			"ability_en": "Solar Flare",
 			"unlocked": (heart_count >= 3),
 			"icon_path": "res://scenes/ui/icons/icon_heart.png",
-			"description": "Güneş ışınlarının ilk piramit zirvesine vurduğu anda kristalleşen üçüncü Kalp Parçası. Zamandaki sıcaklık dalgalanmalarını durdurur.",
-			"bonus_text": "☀️ Pasif Bonus: Mana yenilenme hızında +%25 artış"
+			"description": "Ölümü reddeden Firavun Kral'ın Güneş Asası'na ve altın maskesine mühürlediği üçüncü Kalp Parçası.",
+			"description_en": "The third shard, sealed by the death-defying Pharaoh King into his Sun Sceptre and golden mask.",
+			"bonus_text": "☀️ Pasif Bonus: Mana yenilenme hızında +%25 artış",
+			"bonus_text_en": "☀️ Passive Bonus: +25% Mana Recovery Rate"
 		},
 		{
 			"id": "heart_fragment_4",
 			"index": 4,
-			"title": "4. Sonsuzluk Çekirdeği (Zamanın Sonu)",
-			"era": "Kozmik Çağ — Çöküşün Eşiği",
-			"ability": "Dünya Kalbi Birleşimi (World Heart Rebirth)",
+			"title": "4. Demir Çekirdek (2. Dünya Savaşı)",
+			"title_en": "4. Iron Core (World War II)",
+			"era": "20. Yüzyıl — Cani Komutan'ın Sığınağı",
+			"era_en": "20th Century — The Butcher Commander's Bunker",
+			"ability": "İntikam Yemini (Kızıl-Altın Aura)",
+			"ability_en": "Vow of Vengeance (Crimson-Gold Aura)",
 			"unlocked": (heart_count >= 4),
+			"icon_path": "res://assets/items/ww2/heart_piece_4.png",
+			"description": "Cani Komutan'ın savaş makinelerine ve okült silahlarına güç verdiği dördüncü Kalp Parçası.",
+			"description_en": "The fourth shard, powering the Butcher Commander's war machines and occult weapons.",
+			"bonus_text": "🔥 Mühür son günlerini sayıyor: kılıç kızıl-altın bir aleve büründü",
+			"bonus_text_en": "🔥 The seal counts its final days: the blade is wreathed in crimson-gold flame"
+		},
+		{
+			"id": "heart_fragment_5",
+			"index": 5,
+			"title": "5. İşlemci Kalbi (Distopik Gelecek)",
+			"title_en": "5. Processor Heart (Dystopian Future)",
+			"era": "Uzak Gelecek — AI Lord'un Çekirdeği",
+			"era_en": "Far Future — The AI Lord's Core",
+			"ability": "Altıncı Çekirdek (Kabuksuz Kılıç)",
+			"ability_en": "The Sixth Core (Shell-less Blade)",
+			"unlocked": (heart_count >= 5),
+			"icon_path": "res://assets/items/future/heart_piece_5.png",
+			"description": "AI Lord'un ana çekirdek olarak kullandığı beşinci Kalp Parçası. Taş Devri'ne yağan mekanik enkazın kaynağı bu çağdır.",
+			"description_en": "The fifth shard, used by the AI Lord as its main core. The mechanical wreckage that rained on the Stone Age came from this era.",
+			"bonus_text": "💠 Beş dış parça birleşti: kılıcın kabuğu paramparça oldu, altıncı çekirdek uyandı",
+			"bonus_text_en": "💠 Five outer shards joined: the blade's shell shattered and the sixth core awoke"
+		},
+		{
+			"id": "heart_fragment_6",
+			"index": 6,
+			"title": "6. Mührün Kalbi (Kılıç)",
+			"title_en": "6. Heart of the Seal (The Sword)",
+			"era": "Zamanın Dışı — Kılıcın Mührü",
+			"era_en": "Outside Time — The Sword's Seal",
+			"ability": "Henüz bilinmiyor",
+			"ability_en": "Not yet known",
+			"unlocked": (heart_count >= 6),
 			"icon_path": "res://scenes/ui/icons/icon_heart.png",
-			"description": "Tüm zaman çizgilerini birbirine bağlayan nihai çekirdek. Dört parça bir araya geldiğinde Dünya Kalbi yeniden dövülür ve kıyamet engellenir.",
-			"bonus_text": "👑 Nihai Yetenek: Zamanı Bükme ve Sonsuz Yaşam"
+			"description": "Son parça başından beri seninle: kılıcın mührünün tam kalbinde. Diğer beşi bir araya gelmeden uyanmaz.",
+			"description_en": "The last shard has been with you all along: at the very heart of the sword's seal. It will not wake until the other five are joined.",
+			"bonus_text": "🔒 Beş parça toplanmadan açılmaz",
+			"bonus_text_en": "🔒 Sealed until five shards are gathered"
 		}
 	]
 
@@ -404,9 +505,11 @@ func _populate_items_list() -> void:
 	for ch in item_list_container.get_children():
 		ch.queue_free()
 
+	var is_en: bool = _is_english()
+
 	if _cached_items.is_empty():
 		var empty_lbl = Label.new()
-		empty_lbl.text = "Çantanızda henüz eşya bulunmuyor."
+		empty_lbl.text = "No items in your satchel." if is_en else "Çantanızda henüz eşya bulunmuyor."
 		empty_lbl.add_theme_color_override("font_color", Color(0.6, 0.65, 0.7, 0.8))
 		item_list_container.add_child(empty_lbl)
 		_show_item_detail({})
@@ -439,9 +542,10 @@ func _populate_items_list() -> void:
 		if item.has("count"):
 			count_str = " (x%d)" % int(item["count"])
 
-		var equip_str = " [KUŞANILDI]" if item.get("is_equipped", false) else ""
+		var equip_str = (" [EQUIPPED]" if is_en else " [KUŞANILDI]") if item.get("is_equipped", false) else ""
+		var title_str = str(item.get("title_en", "")) if (is_en and not str(item.get("title_en", "")).is_empty()) else str(item.get("title", ""))
 
-		btn.text = prefix + str(item.get("title", "")) + count_str + equip_str
+		btn.text = prefix + title_str + count_str + equip_str
 		btn.add_theme_font_size_override("font_size", 11)
 
 		if item["id"] == _selected_id:
@@ -464,18 +568,26 @@ func _populate_items_list() -> void:
 func _populate_heart_quadrant() -> void:
 	var game_state = get_node_or_null("/root/GameState")
 	var heart_count: int = game_state.current_heart_pieces if (game_state and "current_heart_pieces" in game_state) else 1
+	var is_en: bool = _is_english()
 
 	if heart_progress_label:
-		var pct = int((float(heart_count) / 4.0) * 100.0)
-		heart_progress_label.text = "Dünya Kalbi Bütünlüğü: %d / 4 Parça (%%%d)" % [heart_count, pct]
+		var pct = int((float(heart_count) / float(HEART_PIECE_TOTAL)) * 100.0)
+		heart_progress_label.text = ("World Heart Integrity: %d / %d Shards (%d%%)" if is_en else "Dünya Kalbi Bütünlüğü: %d / %d Parça (%%%d)") % [heart_count, HEART_PIECE_TOTAL, pct]
 
 	if heart_quadrant_container:
-		for i in range(1, 5):
+		for i in range(1, HEART_PIECE_TOTAL + 1):
 			var slot_btn: Button = heart_quadrant_container.get_node_or_null("QuadrantSlot%d" % i) as Button
+			if slot_btn == null:
+				# Sahnede 4 yuva var; kalan parçalar için aynı görünümde yuva çoğaltılır
+				var template: Button = heart_quadrant_container.get_node_or_null("QuadrantSlot1") as Button
+				if template:
+					slot_btn = template.duplicate(0) as Button
+					slot_btn.name = "QuadrantSlot%d" % i
+					heart_quadrant_container.add_child(slot_btn)
 			if slot_btn:
 				var is_unlocked: bool = (i <= heart_count)
 				var mark = "💎" if is_unlocked else "🔒"
-				slot_btn.text = "%s Parça %d" % [mark, i]
+				slot_btn.text = ("%s Shard %d" if is_en else "%s Parça %d") % [mark, i]
 				slot_btn.modulate = Color(1.2, 0.9, 0.3, 1.0) if is_unlocked else Color(0.5, 0.55, 0.6, 0.7)
 
 				var piece_id = "heart_fragment_%d" % i
@@ -521,8 +633,9 @@ func get_heart_piece_data(piece_id: String) -> Dictionary:
 
 
 func _show_item_detail(item: Dictionary) -> void:
+	var is_en: bool = _is_english()
 	if item.is_empty():
-		if title_label: title_label.text = "Eşya Seçilmedi"
+		if title_label: title_label.text = "No Item Selected" if is_en else "Eşya Seçilmedi"
 		if category_badge: category_badge.visible = false
 		if desc_label: desc_label.text = ""
 		if effect_label: effect_label.text = ""
@@ -533,35 +646,36 @@ func _show_item_detail(item: Dictionary) -> void:
 		return
 
 	if title_label:
-		title_label.text = str(item.get("title", ""))
+		title_label.text = str(item.get("title_en", "")) if (is_en and not str(item.get("title_en", "")).is_empty()) else str(item.get("title", ""))
 
 	if category_badge:
 		category_badge.visible = true
 		match item.get("category", ""):
 			"consumable":
-				category_badge.text = "🧪 TÜKETİLEBİLİR İKSİR"
+				category_badge.text = "🧪 CONSUMABLE POTION" if is_en else "🧪 TÜKETİLEBİLİR İKSİR"
 				category_badge.modulate = Color(0.4, 0.9, 1.0, 1.0)
 			"secondary":
-				category_badge.text = "🗡️ FIRLATILABİLİR İKİNCİL SİLAH"
+				category_badge.text = "🗡️ THROWABLE WEAPON" if is_en else "🗡️ FIRLATILABİLİR İKİNCİL SİLAH"
 				category_badge.modulate = Color(1.0, 0.75, 0.3, 1.0)
 			"currency":
-				category_badge.text = "🪙 DEĞERLİ PARA"
+				category_badge.text = "🪙 CURRENCY" if is_en else "🪙 DEĞERLİ PARA"
 				category_badge.modulate = Color(1.0, 0.9, 0.2, 1.0)
 			"key":
-				category_badge.text = "🗝️ ÖZEL GÖREV / ZİNDAN ANAHTARI"
+				category_badge.text = "🗝️ SPECIAL KEY" if is_en else "🗝️ ÖZEL GÖREV / ZİNDAN ANAHTARI"
 				category_badge.modulate = Color(0.8, 0.6, 1.0, 1.0)
 			"equipment":
-				category_badge.text = "⚔️ KUŞANILABİLİR ANA SİLAH"
+				category_badge.text = "⚔️ MAIN WEAPON" if is_en else "⚔️ KUŞANILABİLİR ANA SİLAH"
 				category_badge.modulate = Color(0.9, 0.4, 0.4, 1.0)
 
 	if count_label:
-		count_label.text = "Taşınan Miktar: %d" % int(item.get("count", 0))
+		count_label.text = ("Carried: %d" if is_en else "Taşınan Miktar: %d") % int(item.get("count", 0))
 
 	if desc_label:
-		desc_label.text = str(item.get("description", ""))
+		desc_label.text = str(item.get("description_en", "")) if (is_en and not str(item.get("description_en", "")).is_empty()) else str(item.get("description", ""))
 
 	if effect_label:
-		effect_label.text = "⚡ Etki: %s" % str(item.get("effect", ""))
+		var eff_str = str(item.get("effect_en", "")) if (is_en and not str(item.get("effect_en", "")).is_empty()) else str(item.get("effect", ""))
+		effect_label.text = ("⚡ Effect: %s" if is_en else "⚡ Etki: %s") % eff_str
 
 	var sc = str(item.get("shortcut", ""))
 	if shortcut_badge and shortcut_desc:
@@ -569,7 +683,7 @@ func _show_item_detail(item: Dictionary) -> void:
 			shortcut_badge.visible = true
 			shortcut_badge.text = sc
 			shortcut_desc.visible = true
-			shortcut_desc.text = "Klavye Kısayolu"
+			shortcut_desc.text = "Shortcut" if is_en else "Klavye Kısayolu"
 		else:
 			shortcut_badge.visible = false
 			shortcut_desc.visible = false
@@ -578,7 +692,8 @@ func _show_item_detail(item: Dictionary) -> void:
 		var cat = item.get("category", "")
 		if cat in ["consumable", "secondary"]:
 			action_button.visible = true
-			action_button.text = str(item.get("action_text", "Kullan"))
+			var act_txt = str(item.get("action_text_en", "")) if (is_en and not str(item.get("action_text_en", "")).is_empty()) else str(item.get("action_text", "Use" if is_en else "Kullan"))
+			action_button.text = act_txt
 			action_button.disabled = not bool(item.get("can_use", false))
 		else:
 			action_button.visible = false
@@ -593,42 +708,44 @@ func _show_heart_piece_detail(hp: Dictionary) -> void:
 	if hp.is_empty():
 		return
 
+	var is_en: bool = _is_english()
 	var is_unlocked = bool(hp.get("unlocked", false))
 
 	if title_label:
-		title_label.text = str(hp.get("title", ""))
+		title_label.text = str(hp.get("title_en", "")) if (is_en and not str(hp.get("title_en", "")).is_empty()) else str(hp.get("title", ""))
 
 	if category_badge:
 		category_badge.visible = true
 		if is_unlocked:
-			category_badge.text = "💎 KALINTI PARÇASI (TOPLANDI)"
+			category_badge.text = "💎 RELIC SHARD (ACQUIRED)" if is_en else "💎 KALINTI PARÇASI (TOPLANDI)"
 			category_badge.modulate = Color(1.0, 0.85, 0.2, 1.0)
 		else:
-			category_badge.text = "🔒 KİLİTLİ KALINTI (HENÜZ BULUNMADI)"
+			category_badge.text = "🔒 LOCKED RELIC (NOT FOUND)" if is_en else "🔒 KİLİTLİ KALINTI (HENÜZ BULUNMADI)"
 			category_badge.modulate = Color(0.6, 0.65, 0.7, 0.8)
 
 	if count_label:
-		count_label.text = "Çağ: %s" % str(hp.get("era", ""))
+		var era_str = str(hp.get("era_en", "")) if (is_en and not str(hp.get("era_en", "")).is_empty()) else str(hp.get("era", ""))
+		count_label.text = ("Era: %s" if is_en else "Çağ: %s") % era_str
 
 	if desc_label:
-		desc_label.text = str(hp.get("description", ""))
+		desc_label.text = str(hp.get("description_en", "")) if (is_en and not str(hp.get("description_en", "")).is_empty()) else str(hp.get("description", ""))
 
 	if effect_label:
-		effect_label.text = str(hp.get("bonus_text", ""))
+		effect_label.text = str(hp.get("bonus_text_en", "")) if (is_en and not str(hp.get("bonus_text_en", "")).is_empty()) else str(hp.get("bonus_text", ""))
 
 	if shortcut_badge and shortcut_desc:
 		shortcut_badge.visible = is_unlocked
-		shortcut_badge.text = str(hp.get("ability", ""))
+		shortcut_badge.text = str(hp.get("ability_en", "")) if (is_en and not str(hp.get("ability_en", "")).is_empty()) else str(hp.get("ability", ""))
 		shortcut_desc.visible = is_unlocked
-		shortcut_desc.text = "Kazanılan Yetenek"
+		shortcut_desc.text = "Acquired Ability" if is_en else "Kazanılan Yetenek"
 
 	if action_button:
 		action_button.visible = true
 		if is_unlocked:
-			action_button.text = "✨ Rezonans Aktif"
+			action_button.text = "✨ Resonance Active" if is_en else "✨ Rezonans Aktif"
 			action_button.disabled = true
 		else:
-			action_button.text = "🔒 Parça Kilitli"
+			action_button.text = "🔒 Shard Locked" if is_en else "🔒 Parça Kilitli"
 			action_button.disabled = true
 
 	if icon_rect:
@@ -651,7 +768,10 @@ func _on_action_pressed() -> void:
 	var player = _find_player()
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 
-	if _selected_id == "health_potion":
+	if Ww2Items.handle_action(self, _selected_id, player) or FutureItems.handle_action(self, _selected_id, player):
+		item_used.emit(_selected_id)
+		refresh_inventory()
+	elif _selected_id == "health_potion":
 		if hud and hud.has_method("use_health_potion"):
 			hud.use_health_potion()
 		elif player and "current_health" in player and "max_health" in player:

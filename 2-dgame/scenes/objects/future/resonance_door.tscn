@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/future_resonance_door.gd" id="1_mwppn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldnnf"]
+size = Vector2(90, 120)
+
+[node name="FutureResonanceDoor" type="Area2D" unique_id=476457508]
+script = ExtResource("1_mwppn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=108380059]
+position = Vector2(-40, -60)
+shape = SubResource("RectangleShape2D_ldnnf")

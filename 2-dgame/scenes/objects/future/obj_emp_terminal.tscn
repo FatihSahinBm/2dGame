@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/emp_terminal.gd" id="1_blxxa"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/obj_emp_terminal.png" id="2_wefdf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqh22"]
+size = Vector2(70, 80)
+
+[node name="EmpTerminal" type="Area2D" unique_id=1874854448]
+script = ExtResource("1_blxxa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=126287446]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_jqh22")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=243433882]
+texture_filter = 1
+position = Vector2(0, -36)
+texture = ExtResource("2_wefdf")

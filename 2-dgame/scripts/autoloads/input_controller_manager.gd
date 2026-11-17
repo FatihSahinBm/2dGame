@@ -118,7 +118,7 @@ func _on_joy_connection_changed(device_id: int, connected: bool) -> void:
 		current_gamepad_type = _detect_gamepad_type(device_id)
 		_set_input_scheme(InputScheme.GAMEPAD)
 		gamepad_connected.emit(device_id, active_device_name)
-		_show_controller_toast("🎮 Kontrolcü Bağlandı: %s" % active_device_name)
+		_show_controller_toast(tr("TOAST_CONTROLLER_CONNECTED") % active_device_name)
 		vibrate(0.4, 0.4, 0.15)
 		print("[InputManager] Kontrolcü Bağlandı -> ID: %d, İsim: %s" % [device_id, active_device_name])
 	else:
@@ -129,7 +129,7 @@ func _on_joy_connection_changed(device_id: int, connected: bool) -> void:
 			active_device_id = -1
 			active_device_name = ""
 			_set_input_scheme(InputScheme.KEYBOARD_MOUSE)
-			_show_controller_toast("⚠️ Kontrolcü Ayrıldı (Klavye Moduna Geçildi)")
+			_show_controller_toast(tr("TOAST_CONTROLLER_DISCONNECTED"))
 		else:
 			active_device_id = remaining[0]
 			active_device_name = Input.get_joy_name(active_device_id)
@@ -141,7 +141,13 @@ func _detect_gamepad_type(device_id: int) -> GamepadType:
 	var joy_info := Input.get_joy_info(device_id)
 	var raw_name: String = str(joy_info.get("raw_name", "")).to_lower()
 	var vendor_id: int = int(joy_info.get("vendor_id", 0))
-	var combined := joy_name + " " + raw_name
+	return classify_gamepad(joy_name, raw_name, vendor_id)
+
+
+## Cihaz adı ve üretici kimliğinden kontrolcü ailesini belirler (donanımdan bağımsız, test edilebilir).
+## Tanınmayan cihazlar GENERIC döner ve genel (Xbox düzeni) etiketlerle gösterilir.
+func classify_gamepad(joy_name: String, raw_name: String = "", vendor_id: int = 0) -> GamepadType:
+	var combined := joy_name.to_lower() + " " + raw_name.to_lower()
 	
 	# PlayStation (Sony: 0x054C / 1356)
 	if vendor_id == 1356 or combined.contains("ps4") or combined.contains("ps5") \

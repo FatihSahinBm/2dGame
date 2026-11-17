@@ -9,6 +9,7 @@ signal brazier_ignited()
 
 @export var is_ignited: bool = false
 
+const WorldObjectState = preload("res://scripts/components/world_object_state.gd")
 const PositionalEmitter = preload("res://scripts/audio/positional_audio_emitter_2d.gd")
 
 @onready var fire_visual: CanvasItem = get_node_or_null("FireVisual") as CanvasItem
@@ -23,11 +24,16 @@ func _ready() -> void:
 	add_to_group("damageable")
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+	# Kayıtlı durum: daha önce yakılmış mangal sessizce yanık başlar (sinyal ve etiket üretmez)
+	if WorldObjectState.is_set(self, "lit"):
+		is_ignited = true
+		_ensure_audio_emitter()
 	if fire_visual:
 		fire_visual.visible = is_ignited
 	if light:
 		light.enabled = is_ignited
 	if prompt:
+		prompt.text = tr("PROMPT_IGNITE_BRAZIER")
 		prompt.visible = false
 
 
@@ -60,21 +66,27 @@ func ignite_brazier() -> void:
 		var tw_light: Tween = create_tween()
 		tw_light.tween_property(light, "energy", 1.35, 0.25)
 
-	_spawn_ignite_label("🔥 Kan Mangalı Yandı!")
-	if not _audio_emitter:
-		var emitter = PositionalEmitter.new()
-		emitter.sound_key = "torch"
-		emitter.max_distance = 600.0
-		emitter.volume_db = -4.0
-		emitter.loop = true
-		_audio_emitter = emitter
-		add_child(_audio_emitter)
+	_spawn_ignite_label(tr("BRAZIER_LIT"))
+	_ensure_audio_emitter()
+	WorldObjectState.mark(self, "lit")
 	brazier_ignited.emit()
+
+
+func _ensure_audio_emitter() -> void:
+	if _audio_emitter:
+		return
+	var emitter = PositionalEmitter.new()
+	emitter.sound_key = "torch"
+	emitter.max_distance = 600.0
+	emitter.volume_db = -4.0
+	emitter.loop = true
+	_audio_emitter = emitter
+	add_child(_audio_emitter)
 
 
 func _spawn_ignite_label(text: String) -> void:
 	var label: Label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", Color(1.0, 0.3, 0.35, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)

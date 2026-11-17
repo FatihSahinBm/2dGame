@@ -11,7 +11,7 @@ signal save_deleted(slot: int)
 signal save_corrupted_recovered(slot: int, from_backup: bool)
 signal save_error(slot: int, message: String)
 
-const CURRENT_SCHEMA_VERSION: int = 2
+const CURRENT_SCHEMA_VERSION: int = 3
 const SAVE_PATH_TEMPLATE: String = "user://savegame_slot_%d.json"
 const BACKUP_PATH_TEMPLATE: String = "user://savegame_slot_%d_backup.json"
 const TEMP_PATH_TEMPLATE: String = "user://savegame_slot_%d_tmp.json"
@@ -31,6 +31,9 @@ var recent_logs: Array[Dictionary] = []
 var autosave_enabled: bool = true
 var active_slot: int = DEFAULT_SLOT
 var _last_scene_path: String = ""
+
+
+var _last_read_error: String = ""
 
 
 func _ready() -> void:
@@ -140,6 +143,18 @@ func get_friendly_stage_name(stage_path: String) -> String:
 		return tr("STAGE_STONE_AGE_1")
 	elif stage_path.contains("stoneage_07"):
 		return tr("STAGE_STONE_AGE_2")
+	elif stage_path.contains("egypt_01"):
+		return tr("STAGE_EGYPT_1")
+	elif stage_path.contains("egypt_02"):
+		return tr("STAGE_EGYPT_2")
+	elif stage_path.contains("egypt_03"):
+		return tr("STAGE_EGYPT_3")
+	elif stage_path.contains("egypt_04"):
+		return tr("STAGE_EGYPT_4")
+	elif stage_path.contains("/ww2/stage_"):
+		return tr("STAGE_WW2_%s" % stage_path.get_file().substr(6, 1))
+	elif stage_path.contains("/future/stage_"):
+		return tr("STAGE_FUTURE_%s" % stage_path.get_file().substr(6, 1))
 
 	var basename = stage_path.get_file().get_basename()
 	basename = basename.replace("stage_", "Aşama ").replace("_", " ").capitalize()
@@ -360,8 +375,15 @@ func _gather_live_stats() -> Dictionary:
 	}
 
 
-## Bütünlük Checksum'ı hesaplar (Kritik alanlar üzerinden deterministik hash)
+## Bütünlük checksum'ı hesaplar.
+## v3+: "checksum" dışındaki TÜM içerik (anahtarlar sıralı, tam hassasiyet) + tuz.
+## v1/v2: yalnızca sürüm/sahne/zaman damgası (eski kayıtları doğrulayabilmek için korunur).
+## Not: Bu bir hile önleme garantisi değildir; bozulma ve elle düzenlemeyi tespit eder.
 func _calculate_checksum(dict_data: Dictionary) -> String:
+	if int(dict_data.get("schema_version", dict_data.get("version", 1))) >= 3:
+		var payload: Dictionary = dict_data.duplicate(true)
+		payload.erase("checksum")
+		return (JSON.stringify(payload, "", true, true) + "|" + INTEGRITY_SALT).sha256_text()
 	var stage: String = ""
 	if dict_data.has("stage_data") and dict_data["stage_data"] is Dictionary:
 		stage = str(dict_data["stage_data"].get("current_stage_path", ""))
@@ -477,7 +499,7 @@ func save_game(slot: int = DEFAULT_SLOT) -> bool:
 		"fatih_audience_completed": fatih_done
 	}
 
-	save_data["checksum"] = _calculate_checksum(save_data)
+	save_data["checksum"] = _calculate_checksum(_json_round_trip(save_data))
 
 	var temp_path: String = _get_temp_path(slot)
 	var primary_path: String = _get_save_path(slot)
@@ -574,10 +596,51 @@ func _migrate_data(data: Dictionary) -> Dictionary:
 				"fatih_audience_completed": bool(data.get("fatih_audience_completed", false))
 			}
 
-		migrated["checksum"] = _calculate_checksum(migrated)
-		return migrated
+		data = migrated
+
+	if int(data.get("schema_version", 1)) < CURRENT_SCHEMA_VERSION:
+		# v2 -> v3: yapı aynı; yalnızca checksum artık tüm içeriği kapsar
+		var upgraded: Dictionary = data.duplicate(true)
+		upgraded["schema_version"] = CURRENT_SCHEMA_VERSION
+		upgraded["version"] = CURRENT_SCHEMA_VERSION
+		upgraded["checksum"] = _calculate_checksum(_json_round_trip(upgraded))
+		return upgraded
 
 	return data
+
+
+## Sözlüğü JSON'a yazılıp geri okunmuş haline getirir (int/float farkını dosyadakiyle eşitler)
+func _json_round_trip(data: Dictionary) -> Dictionary:
+	var parsed: Variant = JSON.parse_string(JSON.stringify(data))
+	return parsed as Dictionary if parsed is Dictionary else data
+
+
+## Kayıt dosyasını okur; şema sürümünü ve bütünlüğünü doğrular. Geçersizse boş sözlük döner
+## ve nedenini _last_read_error içine yazar.
+func _read_verified_save(path: String, label: String) -> Dictionary:
+	if not _is_file_valid_save(path):
+		return {}
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if not file:
+		return {}
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	file.close()
+	if not parsed is Dictionary:
+		return {}
+	var candidate: Dictionary = parsed as Dictionary
+	var ver: int = int(candidate.get("schema_version", candidate.get("version", 1)))
+	if ver > CURRENT_SCHEMA_VERSION:
+		_last_read_error = "Kayıt daha yeni bir oyun sürümüne ait (v%d); bu sürüm en fazla v%d destekler." % [ver, CURRENT_SCHEMA_VERSION]
+		_log_event("%s: %s" % [label, _last_read_error], false, true)
+		return {}
+	var expected_sum: String = str(candidate.get("checksum", ""))
+	# Checksum'sız dosya yalnızca checksum'dan önceki v1 biçiminde kabul edilir
+	var checksum_ok: bool = (ver < 2) if expected_sum.is_empty() else (_calculate_checksum(candidate) == expected_sum)
+	if not checksum_ok:
+		_last_read_error = "Kayıt dosyası bozulmuş veya değiştirilmiş (bütünlük doğrulaması başarısız)."
+		_log_event("%s: checksum uyuşmazlığı tespit edildi!" % label, false, true)
+		return {}
+	return candidate
 
 
 ## Kayıtlı veriyi yükleyip GameState ve önbelleğe aktarır (Self-Healing Recovery destekli)
@@ -589,47 +652,24 @@ func load_game(slot: int = DEFAULT_SLOT) -> bool:
 	var loaded_data: Dictionary = {}
 	var recovered_from_backup: bool = false
 
-	# 1. Ana dosyayı dene
-	if _is_file_valid_save(primary_path):
-		var file: FileAccess = FileAccess.open(primary_path, FileAccess.READ)
-		if file:
-			var content: String = file.get_as_text()
-			file.close()
-			var json: JSON = JSON.new()
-			if json.parse(content) == OK and json.data is Dictionary:
-				var candidate: Dictionary = json.data
-				# Bütünlük (Checksum) doğrulaması
-				var expected_sum: String = str(candidate.get("checksum", ""))
-				var actual_sum: String = _calculate_checksum(candidate)
-				if expected_sum.is_empty() or actual_sum == expected_sum:
-					loaded_data = candidate
-				else:
-					_log_event("Ana kayıt dosyasında checksum uyuşmazlığı tespit edildi!", false, true)
+	# 1. Ana dosyayı dene (şema sürümü + bütünlük doğrulaması)
+	_last_read_error = ""
+	loaded_data = _read_verified_save(primary_path, "Ana kayıt")
 
-	# 2. Ana dosya bozuk veya geçersizse yedek dosyadan kurtarmayı dene
+	# 2. Ana dosya bozuk veya geçersizse aynı doğrulamayla yedek dosyadan kurtarmayı dene
 	if loaded_data.is_empty():
 		_log_event("Ana kayıt dosyası açılamadı veya bozuk; yedek kayıt (backup) deneniyor...", false, true)
-		if _is_file_valid_save(backup_path):
-			var b_file: FileAccess = FileAccess.open(backup_path, FileAccess.READ)
-			if b_file:
-				var b_content: String = b_file.get_as_text()
-				b_file.close()
-				var b_json: JSON = JSON.new()
-				if b_json.parse(b_content) == OK and b_json.data is Dictionary:
-					loaded_data = b_json.data
-					recovered_from_backup = true
-					_log_event("Yedek kayıt başarıyla okundu! Ana kayıt otomatik restore ediliyor...")
-					# Ana kayıt dosyasını yedekten onar
-					var fix_file: FileAccess = FileAccess.open(primary_path, FileAccess.WRITE)
-					if fix_file:
-						fix_file.store_string(b_content)
-						fix_file.close()
-					save_corrupted_recovered.emit(slot, true)
+		loaded_data = _read_verified_save(backup_path, "Yedek kayıt")
+		if not loaded_data.is_empty():
+			recovered_from_backup = true
+			_log_event("Yedek kayıt başarıyla okundu! Ana kayıt otomatik restore ediliyor...")
+			DirAccess.copy_absolute(backup_path, primary_path)
+			save_corrupted_recovered.emit(slot, true)
 
 	# 3. İkisi de başarısızsa hata bildir ve güvenli varsayılan değerlerle çöküşü önle
 	if loaded_data.is_empty():
 		_log_event("Yuva %d için geçerli veya kurtarılabilir kayıt bulunamadı!" % slot, true)
-		save_error.emit(slot, "Kayıt dosyası bulunamadı veya kurtarılamadı.")
+		save_error.emit(slot, _last_read_error if not _last_read_error.is_empty() else "Kayıt dosyası bulunamadı veya kurtarılamadı.")
 		return false
 
 	# Sürüm yükseltme (Migration) uygula
@@ -851,11 +891,25 @@ func get_save_info(slot: int = DEFAULT_SLOT) -> Dictionary:
 func is_chapter_unlocked(chapter_index: int) -> bool:
 	if chapter_index <= 1:
 		return true
+	# Kural: bir bölüm, önceki bölüm tamamlandıysa açılır. Tamamlanma bilgisi bu oturumdaki
+	# GameState'ten veya herhangi bir kayıt yuvasından okunur (menüde kayıt henüz yüklenmemiştir).
+	var required: String = "chapter_" + str(chapter_index - 1)
 	var game_state: Node = _get_game_state()
-	if game_state:
-		if game_state.is_chapter_completed("chapter_" + str(chapter_index - 1)):
+	if game_state and game_state.is_chapter_completed(required):
+		return true
+	for slot: int in range(1, MAX_SLOTS + 1):
+		var info: Dictionary = get_save_info(slot)
+		var chapters: Variant = info.get("completed_chapters", [])
+		if chapters is Array and (chapters as Array).has(required):
 			return true
-		if chapter_index == 2 and "vlad" in game_state.current_stage_path:
+		# Tamamlanma kaydı tutulmadan önce alınmış, Eflak'a ulaşmış eski kayıtlar
+		if chapter_index == 2 and str(info.get("current_stage_path", "")).contains("/vlad/"):
+			return true
+		if chapter_index == 3 and str(info.get("current_stage_path", "")).contains("/egypt/"):
+			return true
+		if chapter_index == 4 and str(info.get("current_stage_path", "")).contains("/ww2/"):
+			return true
+		if chapter_index == 5 and str(info.get("current_stage_path", "")).contains("/future/"):
 			return true
 	return false
 

@@ -35,10 +35,26 @@ func _ready() -> void:
 	add_to_group("allies")
 	add_to_group("damageable")
 	_setup_player_collision_exception()
+	_update_title()
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = current_health
 		health_bar.visible = false
+
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_title()
+
+
+func _update_title() -> void:
+	var title_lbl = get_node_or_null("UI/TitleLabel") as Label
+	if title_lbl:
+		title_lbl.text = tr("TITLE_JANISSARY_COMMANDER")
 
 
 func _setup_player_collision_exception() -> void:
@@ -125,7 +141,7 @@ func _combat_logic(_delta: float) -> void:
 
 		if _shout_timer <= 0.0 and randf() < 0.35:
 			_shout_timer = randf_range(6.0, 10.0)
-			shout("Yıkın barikatları! Hücum!")
+			shout(tr("COMMANDER_SHOUT_BARRICADES"))
 	else:
 		# Hedef yokken oyuncuyla omuz omuza hücum et
 		if not _player_ref or not is_instance_valid(_player_ref):
@@ -313,12 +329,12 @@ func mark_rescued() -> void:
 		return
 	is_rescued = true
 	rescued.emit()
-	shout("Yiğit yabancı! Gel, seni derhal Hünkarımız Fatih Sultan Mehmet'in otağına götüreyim!")
+	shout(tr("COMMANDER_SHOUT_MEHMED_TENT"))
 
 
 func shout(text: String) -> void:
 	var label: Label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4, 1.0))
 	label.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.1, 1.0))
 	label.add_theme_constant_override("outline_size", 4)

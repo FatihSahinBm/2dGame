@@ -12,12 +12,19 @@ signal damaged(current_hp: int, max_hp: int)
 
 var _is_destroyed: bool = false
 
+const WorldObjectState = preload("res://scripts/components/world_object_state.gd")
+
 @onready var visual: Node2D = $Visual
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var health_bar: ProgressBar = get_node_or_null("UI/HealthBar") as ProgressBar
 
 
 func _ready() -> void:
+	# Kayıtlı durum: daha önce yıkılmış barikat sahneye hiç girmez (sinyal ve efekt üretmez)
+	if WorldObjectState.is_set(self, "destroyed"):
+		_is_destroyed = true
+		queue_free()
+		return
 	add_to_group("damageable")
 	add_to_group("barricades")
 	add_to_group("burnable")
@@ -87,6 +94,7 @@ func _destroy() -> void:
 	if _is_destroyed:
 		return
 	_is_destroyed = true
+	WorldObjectState.mark(self, "destroyed")
 	destroyed.emit()
 
 	if collision_shape:
@@ -98,7 +106,7 @@ func _destroy() -> void:
 	var parent_scene: Node = get_parent()
 	if parent_scene:
 		var blast_label: Label = Label.new()
-		blast_label.text = "🪵 BARİKAT YIKILDI!"
+		blast_label.text = tr("BARRICADE_DESTROYED")
 		blast_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
 		blast_label.add_theme_color_override("font_outline_color", Color(0.1, 0.05, 0.05, 1.0))
 		blast_label.add_theme_constant_override("outline_size", 4)

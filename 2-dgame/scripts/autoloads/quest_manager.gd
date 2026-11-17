@@ -4,6 +4,8 @@ extends Node
 ## Story 2D-121: Merkezi Görev Yöneticisi ve Hedef Takip Sistemi (Single Source of Truth).
 ## Ana ve yan görevleri, hedef aşamalarını, tamamlanma durumlarını ve kalıcılığı yönetir.
 
+const ChapterDataRegistry = preload("res://scripts/components/chapter_data_registry.gd")
+
 signal quest_started(quest_id: String, quest: Dictionary)
 signal quest_updated(quest_id: String, quest: Dictionary)
 signal objective_completed(quest_id: String, stage_id: String, stage_desc: String)
@@ -25,6 +27,16 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	instance = self
 	init_default_quests()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	var t_q = get_tracked_quest()
+	if not t_q.is_empty():
+		tracked_quest_changed.emit(t_q)
 
 
 ## Standart hikâye görevlerini ilklendirir
@@ -35,18 +47,22 @@ func init_default_quests() -> void:
 	register_quest({
 		"id": "fatih_audience",
 		"title": "Otağ-ı Hümayun ve Sefer Meclisi",
+		"title_en": "Imperial Pavilion & War Council",
 		"category": "main",
 		"description": "Vlad Tepeş'in gece baskını sonrası Fatih Sultan Mehmed Han'ın otağına gir ve ortak hedef doğrultusunda huzura çık.",
+		"description_en": "After Vlad the Impaler's night assault, enter Sultan Mehmed II's imperial pavilion and stand before the Conqueror for a shared cause.",
 		"status": "active",
 		"current_stage": 0,
 		"stages": [
 			{
 				"id": "enter_tent",
 				"description": "Fatih Sultan Mehmed'in otağına gir",
+				"description_en": "Enter Sultan Mehmed's pavilion",
 				"completed": false
 			}
 		],
 		"reward_text": "Padişah İttifakı & Taş Köprü Taarruz Emri",
+		"reward_text_en": "Imperial Alliance & Bridge Assault Order",
 		"repeatable": false,
 		"is_tracked": true
 	})
@@ -55,23 +71,28 @@ func init_default_quests() -> void:
 	register_quest({
 		"id": "archer_quivers",
 		"title": "Alevli Ok Sadakları",
+		"title_en": "Flaming Arrow Quivers",
 		"category": "side",
 		"description": "Kemankeş Çavuşu'nun vadideki kırık erzak arabasında kalan alevli ok sadaklarını bul ve teslim et.",
+		"description_en": "Find the flaming arrow quivers left in the broken supply cart in the valley and deliver them to the Archer Sergeant.",
 		"status": "not_started",
 		"current_stage": 0,
 		"stages": [
 			{
 				"id": "find_quiver",
 				"description": "Kırık erzak arabasından alevli sadakları topla",
+				"description_en": "Collect flaming quivers from the damaged supply cart",
 				"completed": false
 			},
 			{
 				"id": "deliver_quiver",
 				"description": "Sadakları ordugahtaki Kemankeş'e teslim et",
+				"description_en": "Deliver the quivers to the Archer Sergeant at camp",
 				"completed": false
 			}
 		],
 		"reward_text": "Alevli Ok Yağmuru Desteği & Yetenek",
+		"reward_text_en": "Volley of Fire Support & Ability",
 		"repeatable": false,
 		"is_tracked": false
 	})
@@ -80,28 +101,34 @@ func init_default_quests() -> void:
 	register_quest({
 		"id": "bridge_assault",
 		"title": "Kan Surları ve Taş Köprü Taarruzu",
+		"title_en": "Walls of Blood & Stone Bridge Assault",
 		"category": "main",
 		"description": "Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.",
+		"description_en": "Breach the barricades and beast defenses on the stone bridge, the only path into Vlad's stronghold.",
 		"status": "not_started",
 		"current_stage": 0,
 		"stages": [
 			{
 				"id": "clear_barricades",
 				"description": "Köprüdeki ahşap barikatları ve muhafızları aş",
+				"description_en": "Breach the wooden barricades and bridge guards",
 				"completed": false
 			},
 			{
 				"id": "defeat_blood_knight",
 				"description": "Eflak Kan Şövalyesi'ni mağlup et",
+				"description_en": "Defeat the Wallachian Blood Knight",
 				"completed": false
 			},
 			{
 				"id": "enter_dungeon",
 				"description": "Kale kapısını zorlayarak zindana sız",
+				"description_en": "Batter down the fortress gate and infiltrate the dungeons",
 				"completed": false
 			}
 		],
 		"reward_text": "Kale Zindanlarına Geçiş",
+		"reward_text_en": "Access to Castle Dungeons",
 		"repeatable": false,
 		"is_tracked": false
 	})
@@ -110,26 +137,68 @@ func init_default_quests() -> void:
 	register_quest({
 		"id": "vlad_confrontation",
 		"title": "Taht Odası ve Vlad Tepeş",
+		"title_en": "Throne Room & Vlad the Impaler",
 		"category": "main",
 		"description": "Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.",
+		"description_en": "Solve the dungeon mechanisms, reach Vlad's throne chamber, and reclaim the second Heart Shard.",
 		"status": "not_started",
 		"current_stage": 0,
 		"stages": [
 			{
 				"id": "reach_throne",
 				"description": "Zindan mekanizmasını çözüp taht odasına gir",
+				"description_en": "Solve dungeon seals and enter the throne chamber",
 				"completed": false
 			},
 			{
 				"id": "defeat_vlad",
 				"description": "Dört aşamalı savaşta Vlad Tepeş'i mağlup et",
+				"description_en": "Defeat Vlad the Impaler across four combat phases",
 				"completed": false
 			}
 		],
 		"reward_text": "İkinci Kalp Parçası & Eflak Bölümü Zaferi",
+		"reward_text_en": "Second Heart Shard & Wallachia Chapter Victory",
 		"repeatable": false,
 		"is_tracked": false
 	})
+
+	# 5. Ana Görev (Bölüm 1): İlk Kalp Parçası
+	register_quest({
+		"id": "stone_age_first_shard",
+		"title": "İlk Kalp Parçası",
+		"title_en": "The First Heart Shard",
+		"category": "main",
+		"description": "Tarih öncesi kanyonu geç, Kalp Parçası'nı göğsünde taşıyan Dev Anne T-Rex'i yen ve parçayı al.",
+		"description_en": "Cross the prehistoric canyon, defeat the Mother T-Rex that carries the Heart Shard in her chest, and claim it.",
+		"status": "not_started",
+		"stages": [
+			{"id": "cross_canyon", "description": "Kanyonu geçip canavarın inine ulaş", "description_en": "Cross the canyon and reach the beast's lair", "completed": false},
+			{"id": "defeat_trex", "description": "Dev Anne T-Rex'i mağlup et", "description_en": "Defeat the Mother T-Rex", "completed": false},
+			{"id": "claim_shard", "description": "Kraterdeki ilk Kalp Parçası'nı al", "description_en": "Claim the first Heart Shard in the crater", "completed": false}
+		],
+		"reward_text": "İlk Kalp Parçası & Kalp Rezonansı",
+		"reward_text_en": "First Heart Shard & Heart Resonance"
+	})
+
+	# 6. Yan Görev (Bölüm 1): Kabilenin Kutsal Ateşi
+	register_quest({
+		"id": "orok_wood_cart",
+		"title": "Kabilenin Kutsal Ateşi",
+		"title_en": "The Tribe's Sacred Fire",
+		"category": "side",
+		"description": "Kabile Şefi Orok'un odun arabasını yırtıcılardan koruyarak mağara ocağına ulaştır.",
+		"description_en": "Escort Chief Orok's wood cart past the predators to the cave hearth.",
+		"status": "not_started",
+		"stages": [
+			{"id": "escort_cart", "description": "Odun arabasını mağaraya ulaştır", "description_en": "Deliver the wood cart to the cave", "completed": false}
+		],
+		"reward_text": "Kabilenin Kutsaması & Açılan Geçit",
+		"reward_text_en": "The Tribe's Blessing & An Open Pass"
+	})
+
+	# Veri odaklı bölümlerin görevleri (data/story/chapter_*.json "quests" bloğu)
+	ChapterDataRegistry.register_quests(self)
 
 	# Varsayılan takip edilen görev
 	tracked_quest_id = "fatih_audience"
@@ -148,17 +217,83 @@ func register_quest(quest_dict: Dictionary) -> void:
 	var full_quest: Dictionary = {
 		"id": q_id,
 		"title": quest_dict.get("title", q_id.capitalize()),
+		"title_en": quest_dict.get("title_en", ""),
 		"category": quest_dict.get("category", "main"),
 		"description": quest_dict.get("description", ""),
+		"description_en": quest_dict.get("description_en", ""),
 		"status": quest_dict.get("status", "not_started"),
 		"current_stage": int(quest_dict.get("current_stage", 0)),
 		"stages": quest_dict.get("stages", []),
 		"reward_text": quest_dict.get("reward_text", ""),
+		"reward_text_en": quest_dict.get("reward_text_en", ""),
 		"repeatable": bool(quest_dict.get("repeatable", false)),
 		"is_tracked": bool(quest_dict.get("is_tracked", false))
 	}
 
 	_quests[q_id] = full_quest
+
+
+func is_english() -> bool:
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_method("get_current_locale"):
+		return str(loc_mgr.get_current_locale()).to_lower().begins_with("en")
+	if TranslationServer.has_method("get_locale"):
+		return str(TranslationServer.get_locale()).to_lower().begins_with("en")
+	return false
+
+
+func get_localized_title(quest: Variant) -> String:
+	var q_dict: Dictionary = quest if quest is Dictionary else (_quests.get(str(quest), {}) if _quests.has(str(quest)) else {})
+	var q_id: String = str(q_dict.get("id", quest if quest is String else ""))
+	if is_english():
+		if q_dict.has("title_en") and not str(q_dict["title_en"]).is_empty():
+			return str(q_dict["title_en"])
+		if not q_id.is_empty() and _quests.has(q_id) and _quests[q_id].has("title_en"):
+			return str(_quests[q_id]["title_en"])
+	var raw = str(q_dict.get("title", ""))
+	var translated = tr(raw)
+	return translated if translated != raw else raw
+
+
+func get_localized_description(quest: Variant) -> String:
+	var q_dict: Dictionary = quest if quest is Dictionary else (_quests.get(str(quest), {}) if _quests.has(str(quest)) else {})
+	var q_id: String = str(q_dict.get("id", quest if quest is String else ""))
+	if is_english():
+		if q_dict.has("description_en") and not str(q_dict["description_en"]).is_empty():
+			return str(q_dict["description_en"])
+		if not q_id.is_empty() and _quests.has(q_id) and _quests[q_id].has("description_en"):
+			return str(_quests[q_id]["description_en"])
+	var raw = str(q_dict.get("description", ""))
+	var translated = tr(raw)
+	return translated if translated != raw else raw
+
+
+func get_localized_reward(quest: Variant) -> String:
+	var q_dict: Dictionary = quest if quest is Dictionary else (_quests.get(str(quest), {}) if _quests.has(str(quest)) else {})
+	var q_id: String = str(q_dict.get("id", quest if quest is String else ""))
+	if is_english():
+		if q_dict.has("reward_text_en") and not str(q_dict["reward_text_en"]).is_empty():
+			return str(q_dict["reward_text_en"])
+		if not q_id.is_empty() and _quests.has(q_id) and _quests[q_id].has("reward_text_en"):
+			return str(_quests[q_id]["reward_text_en"])
+	var raw = str(q_dict.get("reward_text", ""))
+	var translated = tr(raw)
+	return translated if translated != raw else raw
+
+
+func get_localized_stage_description(stage: Dictionary) -> String:
+	if is_english():
+		if stage.has("description_en") and not str(stage["description_en"]).is_empty():
+			return str(stage["description_en"])
+		var st_id: String = str(stage.get("id", ""))
+		if not st_id.is_empty():
+			for q in _quests.values():
+				for s in q.get("stages", []):
+					if str(s.get("id", "")) == st_id and s.has("description_en"):
+						return str(s["description_en"])
+	var raw = str(stage.get("description", ""))
+	var translated = tr(raw)
+	return translated if translated != raw else raw
 
 
 ## Görevi başlatır
@@ -372,7 +507,21 @@ func import_save_data(data: Dictionary) -> void:
 	if data.has("quests") and data["quests"] is Dictionary:
 		var incoming_quests: Dictionary = data["quests"]
 		for q_id in incoming_quests.keys():
-			_quests[q_id] = incoming_quests[q_id].duplicate(true)
+			if _quests.has(q_id):
+				var base_q: Dictionary = _quests[q_id]
+				var inc_q: Dictionary = incoming_quests[q_id]
+				base_q["status"] = inc_q.get("status", base_q["status"])
+				base_q["current_stage"] = inc_q.get("current_stage", base_q["current_stage"])
+				base_q["is_tracked"] = inc_q.get("is_tracked", base_q["is_tracked"])
+				if inc_q.has("stages") and inc_q["stages"] is Array:
+					var base_stages: Array = base_q.get("stages", [])
+					var inc_stages: Array = inc_q["stages"]
+					for s_i in range(mini(base_stages.size(), inc_stages.size())):
+						if inc_stages[s_i] is Dictionary and s_i < base_stages.size():
+							base_stages[s_i]["completed"] = inc_stages[s_i].get("completed", false)
+				_quests[q_id] = base_q
+			else:
+				_quests[q_id] = incoming_quests[q_id].duplicate(true)
 
 	var t_q = get_tracked_quest()
 	tracked_quest_changed.emit(t_q)

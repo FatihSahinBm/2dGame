@@ -68,7 +68,7 @@ func _ready() -> void:
 		health_bar.value = current_health
 		health_bar.visible = (mode == Mode.ENEMY)
 	if prompt_label:
-		prompt_label.text = "[E] Konuş (%s)" % character_name
+		prompt_label.text = tr("PROMPT_TALK_TO") % tr(character_name)
 		prompt_label.visible = false
 	if mode == Mode.ENEMY:
 		_enter_enemy_mode(false)

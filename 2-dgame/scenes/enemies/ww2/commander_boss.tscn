@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/ww2/commander_boss.gd" id="1_r"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/ww2/commander/commander_form1_frames.tres" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="3_r"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/ww2/commander/commander_aura_frames.tres" id="4_r"]
+
+[sub_resource type="RectangleShape2D" id="S1"]
+size = Vector2(40, 100)
+
+[node name="CommanderBoss" type="CharacterBody2D" groups=["damageable", "enemies"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_r")
+max_health = 1200
+codex_id = "butcher_commander"
+boss_group = "boss"
+move_speed = 85.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -50)
+shape = SubResource("S1")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Aura" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+z_index = -1
+position = Vector2(0, -72)
+sprite_frames = ExtResource("4_r")
+animation = &"smoke"
+autoplay = "smoke"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+texture_filter = 1
+position = Vector2(0, -72)
+sprite_frames = ExtResource("2_r")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Glow" type="PointLight2D" parent="Visual"]
+position = Vector2(0, -82)
+color = Color(1, 0.35, 0.3, 1)
+energy = 0.6
+texture_scale = 1.2
+texture = ExtResource("3_r")

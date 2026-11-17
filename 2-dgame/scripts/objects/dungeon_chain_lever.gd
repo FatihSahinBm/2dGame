@@ -9,6 +9,8 @@ signal lever_activated()
 
 @export var is_pulled: bool = false
 
+const WorldObjectState = preload("res://scripts/components/world_object_state.gd")
+
 @onready var visual: CanvasItem = get_node_or_null("Visual") as CanvasItem
 @onready var prompt: Label = get_node_or_null("PromptLabel") as Label
 
@@ -19,7 +21,13 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	if prompt:
+		prompt.text = tr("PROMPT_PULL_CHAIN")
 		prompt.visible = false
+	# Kayıtlı durum: daha önce çekilmiş zincir çekili başlar (sinyal üretmez; kapıyı seviye açar)
+	if WorldObjectState.is_set(self, "pulled"):
+		is_pulled = true
+		if visual:
+			visual.position.y += 14.0
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -46,13 +54,14 @@ func activate_lever() -> void:
 		var tw: Tween = create_tween()
 		tw.tween_property(visual, "position:y", visual.position.y + 14.0, 0.25).set_trans(Tween.TRANS_BOUNCE)
 
-	_spawn_lever_label("⛓️ Zincir Çekildi! (Dış Kapı Açıldı)")
+	_spawn_lever_label(tr("LEVER_CHAIN_PULLED"))
+	WorldObjectState.mark(self, "pulled")
 	lever_activated.emit()
 
 
 func _spawn_lever_label(text: String) -> void:
 	var label: Label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", Color(1.0, 0.8, 0.3, 1.0))
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)

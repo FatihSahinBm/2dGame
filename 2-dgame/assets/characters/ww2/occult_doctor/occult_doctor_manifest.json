@@ -1,0 +1,42 @@
+{
+ "character": "occult_doctor",
+ "frame_size": [
+  96,
+  104
+ ],
+ "feet_y": 100,
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "frames": 8,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "walk",
+   "frames": 12,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "cast",
+   "frames": 8,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "hurt",
+   "frames": 2,
+   "loop": false,
+   "fps": 12.0
+  },
+  {
+   "name": "death",
+   "frames": 6,
+   "loop": false,
+   "fps": 10.0
+  }
+ ],
+ "notes": "Epic 2D-144 prosedürel sprite"
+}

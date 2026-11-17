@@ -322,7 +322,7 @@ offset_right = 960.0
 offset_bottom = 95.0
 theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
 theme_override_font_sizes/font_size = 13
-text = "Mahpus Kılıç Ruhu: 'Hatırla... Kan kokan o geceyi, kılıcına mühürlendiğim anı hatırla! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!'"
+text = "Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!'"
 autowrap_mode = 2
 
 [node name="CombatPlayer" parent="." instance=ExtResource("2_player")]

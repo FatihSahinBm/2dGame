@@ -77,7 +77,7 @@ func _destroy() -> void:
 	var parent_scene = get_parent()
 	if parent_scene:
 		var msg = Label.new()
-		msg.text = "🌿🔥 SARMAŞIKLAR YANDI!"
+		msg.text = tr("VINES_BURNED")
 		msg.add_theme_color_override("font_color", Color(1.0, 0.7, 0.2, 1.0))
 		msg.add_theme_color_override("font_outline_color", Color(0.1, 0.05, 0.0, 1.0))
 		msg.add_theme_constant_override("outline_size", 4)

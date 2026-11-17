@@ -43,7 +43,11 @@ var _player_camera: Camera2D = null
 var _sigil_1_destroyed: bool = false
 var _sigil_2_destroyed: bool = false
 
-const FATIH_NPC_SCENE = preload("res://scenes/allies/fatih_npc.tscn")
+const ResultsScreen = preload("res://scripts/ui/results_screen.gd")
+## Zaman yırtığı Antik Mısır'a açılır (Bölüm 3 — Epic 2D-143)
+const NEXT_CHAPTER_SCENE: String = "res://scenes/levels/egypt/egypt_01_crimson_desert.tscn"
+const LevelStory = preload("res://scripts/components/level_story.gd")
+const FATIH_NPC_SCENE =preload("res://scenes/allies/fatih_npc.tscn")
 
 
 func _ready() -> void:
@@ -67,7 +71,11 @@ func _ready() -> void:
 	if dialogue_box:
 		dialogue_box.dialogue_completed.connect(_on_dialogue_completed)
 		_current_dialogue_state = "intro"
-		dialogue_box.start_dialogue_from_data("vlad_taunt", vlad_boss)
+		# Yozlaşmış oyuncuya Vlad kendi yansımasını görmüş gibi hitap eder
+		var intro_key: String = "vlad_taunt"
+		if LevelStory.get_alignment(self) == "god_king":
+			intro_key = "vlad_taunt_corrupted"
+		dialogue_box.start_dialogue_from_data(intro_key, vlad_boss)
 
 	if vlad_boss:
 		vlad_boss.tree_exiting.connect(_on_vlad_boss_tree_exiting)
@@ -263,23 +271,33 @@ func _on_dialogue_completed() -> void:
 			_resume_boss_after_dialogue()
 		"form_change":
 			_current_dialogue_state = "none"
-			_resume_boss_after_dialogue()
+			if _boss_defeated:
+				# Taunt sürerken Vlad düştüyse son sözler bu diyalogdan sonra oynar
+				_play_vlad_last_words()
+			else:
+				_resume_boss_after_dialogue()
+		"vlad_death":
+			_current_dialogue_state = "none"
+			_start_memory_flashback()
 		"outro":
 			_current_dialogue_state = "none"
 			var game_state: Node = get_node_or_null("/root/GameState")
 			if game_state:
 				if game_state.has_method("complete_chapter"):
 					game_state.complete_chapter("vlad")
+					game_state.complete_chapter("chapter_2")
 				game_state.current_heart_pieces = maxi(game_state.current_heart_pieces, 2)
 
 			var save_mgr = get_node_or_null("/root/SaveManager")
 			if save_mgr and save_mgr.has_method("save_game"):
-				save_mgr.save_game(1)
+				save_mgr.save_game(int(save_mgr.active_slot) if "active_slot" in save_mgr else 1)
 
 			if hud and hud.has_method("set_tutorial"):
 				hud.set_tutorial("Eflak Seferi Tamamlandı", "Boyut Yırtığı Açıldı", "Bir sonraki çağa açılan portala adım at...")
+			# Sonuç ekranı ve jenerik (Story 2D-153); ana menüye/yeniden oynamaya oradan geçilir
 			get_tree().create_timer(2.0).timeout.connect(func():
-				get_tree().change_scene_to_file("res://scenes/main.tscn")
+				if is_inside_tree():
+					ResultsScreen.show_for(self, NEXT_CHAPTER_SCENE)
 			)
 		_:
 			_current_dialogue_state = "none"
@@ -302,6 +320,9 @@ func _on_vlad_boss_tree_exiting() -> void:
 
 func _on_vlad_boss_defeated() -> void:
 	_boss_defeated = true
+	var play_stats: Node = get_node_or_null("/root/PlayStats")
+	if play_stats and play_stats.has_method("record_boss_defeated"):
+		play_stats.record_boss_defeated("vlad")
 
 	var q_mgr = get_node_or_null("/root/QuestManager")
 	if q_mgr and q_mgr.has_method("advance_quest"):
@@ -317,11 +338,23 @@ func _on_vlad_boss_defeated() -> void:
 		var tw: Tween = create_tween()
 		tw.tween_property(heart_piece, "global_position", player.global_position + Vector2(0, -25), 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tw.tween_property(heart_piece, "modulate:a", 0.0, 0.3)
-		tw.tween_callback(func():
-			if flashback_overlay:
-				flashback_overlay.play_vlad_memory_sequence()
-		)
-	elif flashback_overlay:
+		tw.tween_callback(_play_vlad_last_words)
+	else:
+		_play_vlad_last_words()
+
+
+## Vlad'ın son sözleri; bittiğinde hafıza flashback'i başlar
+func _play_vlad_last_words() -> void:
+	if _current_dialogue_state == "form_change":
+		return # Süren form taunt'u bitince _on_dialogue_completed burayı yeniden çağırır
+	if dialogue_box and LevelStory.play(self, ["vlad_last_words"] as Array[String]):
+		_current_dialogue_state = "vlad_death"
+	else:
+		_start_memory_flashback()
+
+
+func _start_memory_flashback() -> void:
+	if flashback_overlay:
 		flashback_overlay.play_vlad_memory_sequence()
 
 
@@ -333,8 +366,17 @@ func _on_flashback_finished() -> void:
 		add_child(fatih_inst)
 
 	if dialogue_box:
+		# Bölüm sonu, oyuncunun müttefiklerine nasıl davrandığına göre ikiye ayrılır
+		var outro_keys: Array[String] = ["fatih_outro", "epilogue_redemption"]
+		var ending_state: Node = get_node_or_null("/root/GameState")
+		var alignment: String = LevelStory.get_alignment(self)
+		if ending_state and ending_state.has_method("record_ending"):
+			alignment = ending_state.record_ending()
+		if alignment == "god_king":
+			outro_keys = ["fatih_outro_god_king", "epilogue_god_king"]
 		_current_dialogue_state = "outro"
-		dialogue_box.start_dialogue_from_data("fatih_outro")
+		if not LevelStory.play(self, outro_keys):
+			dialogue_box.start_dialogue_from_data("fatih_outro")
 
 
 ## Yeniden deneme ve test durumlarında arenayı temiz başlangıç durumuna döndürür

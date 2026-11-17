@@ -6,7 +6,10 @@ extends Node
 
 const CHAPTER_1_PATH: String = "res://data/story/chapter_1_stone_age.json"
 const CHAPTER_2_PATH: String = "res://data/story/chapter_2_vlad.json"
-const ALL_CHAPTER_PATHS: Array[String] = [CHAPTER_2_PATH, CHAPTER_1_PATH]
+const CHAPTER_3_PATH: String = "res://data/story/chapter_3_egypt.json"
+const CHAPTER_4_PATH: String = "res://data/story/chapter_4_ww2.json"
+const CHAPTER_5_PATH: String = "res://data/story/chapter_5_future.json"
+const ALL_CHAPTER_PATHS: Array[String] = [CHAPTER_2_PATH, CHAPTER_1_PATH, CHAPTER_3_PATH, CHAPTER_4_PATH, CHAPTER_5_PATH]
 
 static var _cached_chapters: Dictionary = {}
 static var _current_loaded_path: String = CHAPTER_2_PATH
@@ -16,6 +19,10 @@ func _ready() -> void:
 	# Tüm bölümlerin hikaye verilerini önbelleğe al
 	load_chapter_data(CHAPTER_2_PATH)
 	load_chapter_data(CHAPTER_1_PATH)
+	load_chapter_data(CHAPTER_3_PATH)
+	load_chapter_data(CHAPTER_4_PATH)
+	load_chapter_data(CHAPTER_5_PATH)
+	load_chapter_data(CHAPTER_2_PATH) # Varsayılan aktif bölüm Eflak kalır
 
 
 ## JSON dosyasını okuyup sözlük olarak döndürür

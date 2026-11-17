@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/future/plasma_channel.gd" id="1_kfwis"]
+
+[node name="PlasmaChannel" type="Area2D" unique_id=1573640400]
+script = ExtResource("1_kfwis")

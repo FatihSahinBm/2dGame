@@ -131,7 +131,7 @@ func _on_audience_completed() -> void:
 		if sprite and sprite.sprite_frames.has_animation("command"):
 			sprite.play("command")
 
-	_show_shout_label("FATİH: 'YENİÇERİLERİM! KUŞATMA BAŞLASIN! BARİKATLARI YIKIN!'", Color(1.0, 0.85, 0.3, 1.0))
+	_show_shout_label(tr("FATIH_SHOUT_SIEGE_BEGINS"), Color(1.0, 0.85, 0.3, 1.0))
 
 	# Mehter / taarruz havası ve 3. Harita'ya geçiş
 	get_tree().create_timer(1.2).timeout.connect(_transition_to_bridge_assault)
@@ -139,7 +139,7 @@ func _on_audience_completed() -> void:
 
 func _show_shout_label(text: String, color: Color) -> void:
 	var label: Label = Label.new()
-	label.text = text
+	label.text = tr(text)
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 5)

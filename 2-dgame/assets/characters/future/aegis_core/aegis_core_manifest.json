@@ -1,0 +1,45 @@
+{
+ "character": "aegis_core",
+ "source": "output/future_sources/miniboss/aegis_core_twins",
+ "frame_size": [
+  128,
+  120
+ ],
+ "feet_y": 60,
+ "anchor": "center",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "core_idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 1,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "shield_pulse",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 1,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "overheat_exposed",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 1,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "death",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 2,
+   "loop": false,
+   "fps": 10.0
+  }
+ ]
+}

@@ -6,6 +6,17 @@ extends CanvasLayer
 signal transition_started()
 signal scene_changed()
 signal transition_completed()
+signal load_progress(ratio: float)
+signal load_failed(target_path: String)
+
+const LoadingOverlay = preload("res://scripts/ui/loading_overlay.gd")
+## Yükleme bundan kısa sürerse yükleme ekranı hiç gösterilmez (kısa geçişlerde titreme olmasın)
+const LOADING_SCREEN_DELAY: float = 0.12
+const LOAD_ERROR_DISPLAY_TIME: float = 1.6
+
+var last_error_path: String = ""
+var _loading_overlay: Control = null
+var _loading_path: String = ""
 
 @onready var color_rect: ColorRect = $ColorRect
 
@@ -40,10 +51,21 @@ func change_scene(target_path: String, duration: float = 0.35) -> void:
 	# Kararma (Fade out)
 	await fade_out(duration)
 
-	# Sahne Değişimi
-	var err: Error = get_tree().change_scene_to_file(target_path)
+	# Sahne arka planda yüklenir; yükleme ekranı gerçek ilerlemeyi gösterir (Story 2D-152)
+	var packed: PackedScene = await _load_scene_threaded(target_path)
+	var err: Error = get_tree().change_scene_to_packed(packed) if packed else ERR_CANT_OPEN
 	if err != OK:
+		# Güvenli geri dönüş: mevcut sahnede kalınır, hata gösterilir, ekran yeniden açılır
 		push_error("SceneTransition: Sahneye geçilemedi -> " + target_path)
+		last_error_path = target_path
+		load_failed.emit(target_path)
+		_ensure_loading_overlay().show_error(tr("LOADING_FAILED_DESC"))
+		await get_tree().create_timer(LOAD_ERROR_DISPLAY_TIME, true, false, true).timeout
+		_loading_overlay.finish()
+		await fade_in(duration)
+		is_transitioning = false
+		transition_completed.emit()
+		return
 
 	scene_changed.emit()
 
@@ -74,6 +96,51 @@ func change_scene(target_path: String, duration: float = 0.35) -> void:
 
 	is_transitioning = false
 	transition_completed.emit()
+
+
+## Sahneyi ResourceLoader ile arka planda yükler. Başarısızsa null döner.
+## Aynı anda tek yükleme yapılır; yüzde ResourceLoader'ın bildirdiği gerçek ilerlemedir.
+func _load_scene_threaded(target_path: String) -> PackedScene:
+	if not _loading_path.is_empty() or target_path.is_empty() or not ResourceLoader.exists(target_path, "PackedScene"):
+		return null
+	if ResourceLoader.load_threaded_request(target_path, "PackedScene") != OK:
+		return null
+	_loading_path = target_path
+	var overlay: Control = _ensure_loading_overlay()
+	var progress: Array = []
+	var elapsed: float = 0.0
+	var result: PackedScene = null
+	while true:
+		var status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(target_path, progress)
+		var ratio: float = float(progress[0]) if not progress.is_empty() else 0.0
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			overlay.set_progress(1.0)
+			load_progress.emit(1.0)
+			result = ResourceLoader.load_threaded_get(target_path) as PackedScene
+			break
+		if status != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			break
+		if elapsed >= LOADING_SCREEN_DELAY and not overlay.visible:
+			overlay.begin()
+		overlay.set_progress(ratio)
+		load_progress.emit(ratio)
+		await get_tree().process_frame
+		elapsed += get_process_delta_time()
+	overlay.finish()
+	_loading_path = ""
+	return result
+
+
+func is_loading() -> bool:
+	return not _loading_path.is_empty()
+
+
+func _ensure_loading_overlay() -> Control:
+	if _loading_overlay == null or not is_instance_valid(_loading_overlay):
+		_loading_overlay = LoadingOverlay.new()
+		_loading_overlay.name = "LoadingOverlay"
+		add_child(_loading_overlay)
+	return _loading_overlay
 
 
 ## Ekranı siyahla kaplar (Fade out)

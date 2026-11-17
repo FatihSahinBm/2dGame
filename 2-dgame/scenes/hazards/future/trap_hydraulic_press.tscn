@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/future/hydraulic_press.gd" id="1_22k5t"]
+
+[node name="HydraulicPress" type="Node2D" unique_id=535807243]
+script = ExtResource("1_22k5t")

@@ -1,14 +1,12 @@
 {
 	"details": {
 		"connected_devices": {
-			"active_device_name": "PS4 Controller",
-			"count": 1,
-			"current_scheme": 1,
-			"devices": [
-				0
-			],
-			"gamepad_type": 2,
-			"is_playstation_controller": true
+			"active_device_name": "",
+			"count": 0,
+			"current_scheme": 0,
+			"devices": [],
+			"gamepad_type": 0,
+			"is_playstation_controller": false
 		},
 		"glyph_tests": {
 			"keyboard_glyphs": {

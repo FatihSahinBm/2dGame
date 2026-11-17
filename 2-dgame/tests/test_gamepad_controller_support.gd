@@ -173,8 +173,30 @@ func _test_physical_device_and_manager() -> bool:
 		"is_playstation_controller": is_ps4_found
 	}
 	
-	# Bilgisayarda bağlı olan kontrolcünün PS4 Controller olduğunu ve başarıyla algılandığını doğrula
-	return (connected.size() > 0 and is_ps4_found)
+	# Sınıflandırma kuralları donanımdan bağımsız doğrulanır (fiziksel kontrolcü takılı olmasa da geçer)
+	var gp = input_mgr.GamepadType
+	var expectations: Array = [
+		["PS4 Controller", "", 0, gp.PLAYSTATION],
+		["Wireless Controller", "", 1356, gp.PLAYSTATION],
+		["DualSense Wireless Controller", "", 0, gp.PLAYSTATION],
+		["Xbox Series X Controller", "", 0, gp.XBOX],
+		["XInput Gamepad", "", 1118, gp.XBOX],
+		["Steam Deck", "", 0, gp.STEAM_DECK],
+		["Controller", "neptune", 10462, gp.STEAM_DECK],
+		["Nintendo Switch Pro Controller", "", 0, gp.NINTENDO],
+		["USB Gamepad 8-Button", "", 121, gp.GENERIC],
+		["", "", 0, gp.GENERIC],
+	]
+	var rules_ok := true
+	for item in expectations:
+		var got = input_mgr.classify_gamepad(item[0], item[1], item[2])
+		if got != item[3]:
+			rules_ok = false
+			printerr("    Sınıflandırma hatası: '%s' (vendor %d) -> %s, beklenen %s" % [item[0], item[2], gp.keys()[got], gp.keys()[item[3]]])
+	print("  Sınıflandırma kuralları (%d örnek): %s" % [expectations.size(), "TAMAM" if rules_ok else "HATALI"])
+	if connected.is_empty():
+		print("  (Fiziksel kontrolcü takılı değil; donanım algılama adımı atlandı.)")
+	return rules_ok
 
 
 func _test_prompt_glyphs() -> bool:

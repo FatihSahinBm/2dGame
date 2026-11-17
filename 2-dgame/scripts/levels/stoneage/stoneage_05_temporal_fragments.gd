@@ -38,6 +38,9 @@ var _seen_socket: bool = false
 var _last_grounded_pos: Vector2 = Vector2(250.0, 520.0)
 
 
+const LevelStory = preload("res://scripts/components/level_story.gd")
+
+
 func _ready() -> void:
 	_ensure_node_refs()
 	if hud and hud.has_method("set_tutorial"):
@@ -170,6 +173,7 @@ func _trigger_massive_socket_climax() -> void:
 	# Devasa soket alanında derin zamansal nabız ve görsel vurgu
 	_apply_camera_shake(2.8, 0.6)
 	_pulse_environmental_vignette(Color(0.3, 0.55, 0.95, 0.35), 0.8)
+	LevelStory.play_delayed(self, ["temporal_fragments"] as Array[String], 0.7)
 
 	if socket_prop and is_inside_tree():
 		var tw: Tween = create_tween()

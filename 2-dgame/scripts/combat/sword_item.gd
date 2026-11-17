@@ -23,11 +23,26 @@ var _target_body: Node2D = null
 
 func _ready() -> void:
 	_base_y = position.y
+	_update_prompt_text()
+	var loc_mgr = get_node_or_null("/root/LocalizationManager")
+	if loc_mgr and loc_mgr.has_signal("locale_changed"):
+		if not loc_mgr.locale_changed.is_connected(_on_locale_changed):
+			loc_mgr.locale_changed.connect(_on_locale_changed)
 	if prompt_node:
 		prompt_node.visible = false
 	
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	_update_prompt_text()
+
+
+func _update_prompt_text() -> void:
+	var lbl = get_node_or_null("Prompt/Label") as Label
+	if lbl:
+		lbl.text = tr("PROMPT_TAKE_SWORD")
 
 func _physics_process(delta: float) -> void:
 	if pickup_cooldown > 0.0:

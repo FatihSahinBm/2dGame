@@ -5,6 +5,9 @@ extends PanelContainer
 
 signal closed()
 
+const ComfortSettingsRows = preload("res://scripts/ui/comfort_settings_rows.gd")
+const DisplaySettingsRows = preload("res://scripts/ui/display_settings_rows.gd")
+
 @onready var title_label: Label = find_child("TitleLabel", true, false) as Label
 @onready var language_label: Label = find_child("LanguageLabel", true, false) as Label
 @onready var language_option: OptionButton = find_child("LanguageOption", true, false) as OptionButton
@@ -46,6 +49,12 @@ var _signals_connected: bool = false
 
 func _ready() -> void:
 	_resolve_nodes()
+	# Görüntü modu / çözünürlük / VSync / FPS sınırı satırları (Story 2D-114)
+	if fullscreen_check and fullscreen_check.get_parent() is GridContainer:
+		DisplaySettingsRows.attach(self, fullscreen_check.get_parent() as GridContainer, fullscreen_check)
+	# Diyalog metni boyutu / basılı tutarak saldırı / renk yardımı satırları (Story 2D-118)
+	if reduce_flash_check and reduce_flash_check.get_parent() is GridContainer:
+		ComfortSettingsRows.attach(self, reduce_flash_check.get_parent() as GridContainer, reduce_flash_check)
 	if not _signals_connected:
 		_setup_signals()
 		_signals_connected = true
@@ -387,7 +396,11 @@ func _on_sfx_changed(val: float) -> void:
 
 
 func _on_fullscreen_toggled(is_fullscreen: bool) -> void:
-	if is_fullscreen:
+	var display = _get_autoload("DisplaySettings")
+	if display and display.has_method("set_window_mode"):
+		# Kalıcı ayar: seçim DisplaySettings üzerinden uygulanır ve kaydedilir
+		display.set_window_mode(display.MODE_BORDERLESS if is_fullscreen else display.MODE_WINDOWED)
+	elif is_fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)

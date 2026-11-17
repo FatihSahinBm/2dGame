@@ -23,6 +23,10 @@ signal shield_state_changed(is_holding: bool)
 signal attack_blocked(reduced_damage: int, original_damage: int)
 signal parry_performed()
 
+const PoiseComponent = preload("res://scripts/combat/poise_component.gd")
+const CombatVfx = preload("res://scripts/effects/combat_vfx.gd")
+const ParryResolver = preload("res://scripts/combat/parry_resolver.gd")
+
 # Story 2D-130: Fırlatılabilir İkincil Eşya Sinyalleri
 signal secondary_item_changed(type: String, count: int)
 signal secondary_ammo_empty(type: String)
@@ -42,7 +46,7 @@ signal secondary_thrown(type: String, count_remaining: int)
 @export var wall_jump_velocity: Vector2 = Vector2(340.0, -560.0)
 @export var gravity: float = 1200.0
 @export var coyote_time: float = 0.12
-@export var jump_buffer_time: float = 0.12
+@export var jump_buffer_time: float = 0.10 # Yere inmeden önceki son 100 ms (Story 2D-155)
 @export var fall_death_y: float = 750.0
 
 @export_group("Upgrades & Skills")
@@ -611,6 +615,7 @@ func _check_wall_slide(_delta: float) -> void:
 		var wall_normal = get_wall_normal()
 		if wall_normal.x != 0.0:
 			is_wall_sliding = true
+			_jump_buffer_timer = 0.0 # Duvara sürtünme tamponlanmış zıplamayı temizler
 			_air_jumps_left = max_air_jumps # Duvara tutunmak double jump'ı tazeler
 
 			if velocity.y > 0.0:
@@ -1286,6 +1291,8 @@ func _deal_damage_to_target(target: Object, dmg: int) -> void:
 			target.take_damage(dmg, self)
 		else:
 			target.take_damage(dmg)
+		PoiseComponent.apply_player_hit(target, current_attack_type) # Duruş hasarı (2D-128)
+		CombatVfx.spawn_hit(self, target, current_attack_type) # Vuruş efekti (2D-150)
 	elif target.has_method("hit"):
 		target.hit(dmg)
 
@@ -1422,6 +1429,7 @@ func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 	# Eğer savunmada değilken darbe alındıysa tam sersemleme (Hurt / Knockback)
 	if not is_defending:
 		is_hurt = true
+		_jump_buffer_timer = 0.0 # Hasar almak tamponlanmış zıplamayı temizler
 		_play_sfx("player_hurt", -1.0)
 		is_rebelling = false
 		is_attacking = false
@@ -1450,6 +1458,8 @@ func take_damage(amount: int, attacker_source: Variant = Vector2.INF) -> void:
 ## Perfect Block / Parry Efekti ve Geri Bildirimi (%100 Hasar Engelleme)
 func _trigger_perfect_parry(_incoming_amount: int) -> void:
 	parry_performed.emit()
+	# Savuşturulan saldırının sahibi sersemler (kurallar: scripts/combat/parry_resolver.gd)
+	ParryResolver.stagger_attacker(self)
 	var input_mgr = get_node_or_null("/root/InputControllerManager")
 	if input_mgr and input_mgr.has_method("vibrate_parry"):
 		input_mgr.vibrate_parry()
@@ -1515,7 +1525,7 @@ func _trigger_block_hit(original_amount: int, reduced_amount: int) -> void:
 	var parent_scene = get_parent()
 	if parent_scene:
 		var label = Label.new()
-		label.text = "🛡️ BLOKLANDI! (-%%80) [-%d HP]" % reduced_amount
+		label.text = tr("FLOAT_BLOCKED") % reduced_amount
 		label.add_theme_color_override("font_color", Color(0.4, 0.85, 1.0, 1.0))
 		label.add_theme_color_override("font_outline_color", Color(0.05, 0.1, 0.25, 1.0))
 		label.add_theme_constant_override("outline_size", 4)
@@ -1631,7 +1641,7 @@ func _show_death_screen() -> void:
 	death_layer.add_child(vbox)
 
 	var title: Label = Label.new()
-	title.text = "💀 YENİLDİN"
+	title.text = tr("DEATH_TITLE")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_color_override("font_color", Color(0.95, 0.15, 0.2, 1.0))
 	title.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -1646,7 +1656,8 @@ func _show_death_screen() -> void:
 	var input_mgr = get_node_or_null("/root/InputControllerManager")
 	var is_gamepad: bool = input_mgr and input_mgr.current_scheme == 1
 	var btn_hint: String = "[A / ✕ / OPTIONS]" if is_gamepad else "[R]"
-	prompt.text = "%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ" % btn_hint if has_checkpoint else "%s Tuşuna Basarak Bölümün Başından Yeniden Doğ" % btn_hint
+	var prompt_fmt: String = tr("DEATH_RESPAWN_CHECKPOINT") if has_checkpoint else tr("DEATH_RESPAWN_STAGE_START")
+	prompt.text = prompt_fmt % btn_hint
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5, 1.0))
 	prompt.add_theme_color_override("font_outline_color", Color.BLACK)

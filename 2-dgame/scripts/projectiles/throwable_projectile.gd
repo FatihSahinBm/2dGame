@@ -434,7 +434,7 @@ func _spawn_holy_damage_text(pos: Vector2, amt: int) -> void:
 	if not parent_scene:
 		return
 	var lbl = Label.new()
-	lbl.text = "✨ KUTSAL ARINMA! -%d" % amt
+	lbl.text = tr("FLOAT_HOLY_PURGE") % amt
 	lbl.add_theme_color_override("font_color", Color(0.3, 0.9, 1.0, 1.0))
 	lbl.add_theme_color_override("font_outline_color", Color(0.05, 0.1, 0.2, 1.0))
 	lbl.add_theme_constant_override("outline_size", 4)

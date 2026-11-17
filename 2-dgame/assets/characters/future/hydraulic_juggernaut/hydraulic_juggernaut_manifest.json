@@ -1,0 +1,85 @@
+{
+ "character": "hydraulic_juggernaut",
+ "source": "output/future_sources/enemies/hydraulic_juggernaut",
+ "frame_size": [
+  184,
+  120
+ ],
+ "feet_y": 105,
+ "anchor": "feet",
+ "background": "transparent_rgba",
+ "animations": [
+  {
+   "name": "idle",
+   "row": 0,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "stomp_walk",
+   "row": 1,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "walk",
+   "row": 2,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 10.0
+  },
+  {
+   "name": "run",
+   "row": 3,
+   "frames": 16,
+   "source_frames": 4,
+   "loop": true,
+   "fps": 12.0
+  },
+  {
+   "name": "piston_smash",
+   "row": 4,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "attack",
+   "row": 5,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 14.0
+  },
+  {
+   "name": "hurt",
+   "row": 6,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "hit",
+   "row": 7,
+   "frames": 16,
+   "source_frames": 3,
+   "loop": false,
+   "fps": 16.0
+  },
+  {
+   "name": "death",
+   "row": 8,
+   "frames": 16,
+   "source_frames": 6,
+   "loop": false,
+   "fps": 12.0
+  }
+ ]
+}

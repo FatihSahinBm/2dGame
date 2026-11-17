@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/future/future_rescue_spot.gd" id="1_h5dy4"]
+[ext_resource type="Texture2D" path="res://assets/objects/future/prop_evac_capsule.png" id="2_30xrr"]
+[ext_resource type="PackedScene" path="res://scenes/allies/resistance_engineer.tscn" id="3_4n36m"]
+[ext_resource type="Script" path="res://scripts/allies/egypt_slave.gd" id="4_m27r3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0ejj"]
+size = Vector2(140, 100)
+
+[node name="FutureRescueSpot" type="Area2D" unique_id=2142653356]
+script = ExtResource("1_h5dy4")
+kind = "engineer"
+reward_item = "emp_grenade"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=351167527]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_b0ejj")
+
+[node name="Capsule" type="Sprite2D" parent="." unique_id=2012683653]
+z_index = -1
+texture_filter = 1
+position = Vector2(64, -62)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_30xrr")
+
+[node name="Npc" type="CharacterBody2D" parent="." unique_id=619876167 instance=ExtResource("3_4n36m")]
+collision_layer = 8
+script = ExtResource("4_m27r3")
+slave_id = "engineer_a"

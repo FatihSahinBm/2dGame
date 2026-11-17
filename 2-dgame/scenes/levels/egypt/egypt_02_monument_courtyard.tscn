@@ -1,0 +1,193 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/egypt/egypt_02_monument_courtyard.gd" id="1_r"]
+[ext_resource type="Script" path="res://scripts/objects/world_parallax_background.gd" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/egypt/egypt_02_monument_courtyard.png" id="3_r"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/death_zone.tscn" id="4_r"]
+[ext_resource type="Texture2D" path="res://assets/environment/egypt/egypt_sand_ground.png" id="5_r"]
+[ext_resource type="PackedScene" path="res://scenes/effects/sandstorm_overlay.tscn" id="6_r"]
+[ext_resource type="PackedScene" path="res://scenes/effects/floating_pyramid.tscn" id="7_r"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/egypt/pyramid_guard.tscn" id="8_r"]
+[ext_resource type="PackedScene" path="res://scenes/objects/egypt/slave_cage.tscn" id="9_r"]
+[ext_resource type="PackedScene" path="res://scenes/objects/egypt/cursed_sarcophagus.tscn" id="10_r"]
+[ext_resource type="PackedScene" path="res://scenes/objects/egypt/hieroglyph_tablet.tscn" id="11_r"]
+[ext_resource type="PackedScene" path="res://scenes/objects/wall_torch.tscn" id="12_r"]
+[ext_resource type="PackedScene" path="res://scenes/objects/campfire_checkpoint.tscn" id="13_r"]
+[ext_resource type="PackedScene" path="res://scenes/combat/test_player.tscn" id="14_r"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fantasy_hud.tscn" id="15_r"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="16_r"]
+
+[sub_resource type="RectangleShape2D" id="Wall"]
+size = Vector2(30, 900)
+
+[sub_resource type="RectangleShape2D" id="G_Ground"]
+size = Vector2(2600, 60)
+
+[sub_resource type="RectangleShape2D" id="Gate"]
+size = Vector2(80, 220)
+
+[node name="Egypt02MonumentCourtyard" type="Node2D"]
+script = ExtResource("1_r")
+next_scene_path = "res://scenes/levels/egypt/egypt_03_cursed_tomb.tscn"
+camera_limits = Rect2i(0, -140, 2600, 770)
+tutorial_keys = PackedStringArray("EGYPT_TUT_02_TITLE", "EGYPT_TUT_02_SUB", "EGYPT_TUT_02_DESC")
+
+[node name="Ambient" type="CanvasModulate" parent="."]
+color = Color(1, 0.9, 0.82, 1)
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+script = ExtResource("2_r")
+background_texture = ExtResource("3_r")
+ground_y = 560.0
+texture_ground_y = 560.0
+texture_scale = Vector2(1.0, 1.0)
+parallax_factor_x = 0.05
+parallax_factor_y = 0.02
+tile_count = 4
+fog_color = Color(0.3, 0.1, 0.05, 0.18)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="Environment"]
+position = Vector2(5, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallLeft"]
+shape = SubResource("Wall")
+
+[node name="WallRight" type="StaticBody2D" parent="Environment"]
+position = Vector2(2595, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/WallRight"]
+shape = SubResource("Wall")
+
+[node name="DeathZone" parent="." instance=ExtResource("4_r")]
+position = Vector2(1300, 860)
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(1300.0, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("G_Ground")
+
+[node name="Visual" type="NinePatchRect" parent="Environment/Ground"]
+texture_filter = 1
+offset_left = -1300.0
+offset_top = -30.0
+offset_right = 1300.0
+offset_bottom = 180.0
+texture = ExtResource("5_r")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="SandstormOverlay" parent="." instance=ExtResource("6_r")]
+intensity = 0.3
+
+[node name="FloatingPyramids" type="Node2D" parent="."]
+
+[node name="Pyramid0" parent="FloatingPyramids" instance=ExtResource("7_r")]
+position = Vector2(900, 80)
+scale = Vector2(0.9, 0.9)
+parallax_factor = 0.25
+bob_amplitude = 8.0
+
+[node name="Pyramid1" parent="FloatingPyramids" instance=ExtResource("7_r")]
+position = Vector2(1800, 40)
+scale = Vector2(1.2, 1.2)
+parallax_factor = 0.25
+bob_amplitude = 8.0
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="GuardA1" parent="Enemies" instance=ExtResource("8_r")]
+position = Vector2(820, 560)
+direction = -1
+
+[node name="GuardB1" parent="Enemies" instance=ExtResource("8_r")]
+position = Vector2(1230, 560)
+direction = -1
+
+[node name="GuardB2" parent="Enemies" instance=ExtResource("8_r")]
+position = Vector2(1470, 560)
+direction = -1
+
+[node name="GuardC1" parent="Enemies" instance=ExtResource("8_r")]
+position = Vector2(2120, 560)
+direction = -1
+
+[node name="Cages" type="Node2D" parent="."]
+
+[node name="CageA" parent="Cages" instance=ExtResource("9_r")]
+position = Vector2(700, 560)
+guard_paths = Array[NodePath]([NodePath("../../Enemies/GuardA1")])
+
+[node name="Slave" parent="Cages/CageA"]
+slave_id = "slave_a"
+flee_direction = -1
+
+[node name="CageB" parent="Cages" instance=ExtResource("9_r")]
+position = Vector2(1350, 560)
+guard_paths = Array[NodePath]([NodePath("../../Enemies/GuardB1"), NodePath("../../Enemies/GuardB2")])
+
+[node name="Slave" parent="Cages/CageB"]
+slave_id = "slave_b"
+flee_direction = -1
+
+[node name="CageC" parent="Cages" instance=ExtResource("9_r")]
+position = Vector2(2000, 560)
+guard_paths = Array[NodePath]([NodePath("../../Enemies/GuardC1")])
+
+[node name="Slave" parent="Cages/CageC"]
+slave_id = "slave_c"
+flee_direction = -1
+
+[node name="Sarcophagi" type="Node2D" parent="."]
+
+[node name="Sarcophagus0" parent="Sarcophagi" instance=ExtResource("10_r")]
+position = Vector2(1030, 560)
+
+[node name="Sarcophagus1" parent="Sarcophagi" instance=ExtResource("10_r")]
+position = Vector2(1700, 560)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="TabletEngine" parent="Interactables" instance=ExtResource("11_r")]
+position = Vector2(420, 560)
+codex_entry_id = "egypt_tablet_engine"
+dialogue_key = "egypt_tablet_engine"
+
+[node name="Torch0" parent="." instance=ExtResource("12_r")]
+position = Vector2(560, 420)
+
+[node name="Torch1" parent="." instance=ExtResource("12_r")]
+position = Vector2(1180, 420)
+
+[node name="Torch2" parent="." instance=ExtResource("12_r")]
+position = Vector2(1850, 420)
+
+[node name="Torch3" parent="." instance=ExtResource("12_r")]
+position = Vector2(2400, 420)
+
+[node name="CampfireCheckpoint" parent="." instance=ExtResource("13_r")]
+position = Vector2(300, 560)
+checkpoint_id = "egypt_courtyard_campfire"
+is_lit = false
+
+[node name="ExitGate" type="Area2D" parent="."]
+position = Vector2(2550, 520)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitGate"]
+shape = SubResource("Gate")
+
+[node name="CombatPlayer" parent="." instance=ExtResource("14_r")]
+position = Vector2(120, 500)
+has_sword = true
+is_armed = true
+
+[node name="FantasyHUD" parent="." instance=ExtResource("15_r")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("16_r")]

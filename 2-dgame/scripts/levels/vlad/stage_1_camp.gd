@@ -58,12 +58,62 @@ func _ready() -> void:
 		if dialogue_box.has_signal("dialogue_completed"):
 			dialogue_box.dialogue_completed.connect(func(): _dialogue_in_progress = false)
 
+	_restore_archer_quest_state()
+
 	if tent_gate:
 		tent_gate.body_entered.connect(_on_tent_gate_entered)
 
 	if campfire:
 		campfire.checkpoint_activated.connect(_on_campfire_interacted)
 		campfire.player_rested.connect(func(_id): _on_campfire_interacted(_id))
+
+
+# --- Kemankeş görevi veri modeli (Story 2D-138) ---
+## Durumlar: NOT_STARTED -> ACCEPTED -> COMPLETED, ya da NOT_STARTED -> DECLINED (-> ACCEPTED).
+## Durum ve "sadak oyuncuda mı" bilgisi GameState.persistent_events içinde tutulur; böylece
+## ölüm sonrası yeniden yüklemede ve kayıttan devam edildiğinde görev kaldığı yerden sürer.
+const ARCHER_STATE_KEY: String = "archer_quest_state"
+const ARCHER_QUIVER_KEY: String = "archer_quiver_held"
+const ARCHER_STATES: Array[String] = ["NOT_STARTED", "ACCEPTED", "DECLINED", "COMPLETED"]
+
+
+func _set_archer_state(state: String) -> void:
+	_archer_quest_state = state
+	var game_state: Node = get_node_or_null("/root/GameState")
+	if game_state and "persistent_events" in game_state:
+		game_state.persistent_events[ARCHER_STATE_KEY] = state
+
+
+func _set_quiver_held(held: bool) -> void:
+	_has_arrow_quiver = held
+	var game_state: Node = get_node_or_null("/root/GameState")
+	if game_state and "persistent_events" in game_state:
+		game_state.persistent_events[ARCHER_QUIVER_KEY] = held
+
+
+## Kayıtlı görev durumunu sahneye uygular. Eksik veya tanınmayan veri (eski kayıt) güvenle ele alınır:
+## ödül yeteneği zaten varsa görev tamamlanmış, yoksa hiç başlamamış sayılır.
+func _restore_archer_quest_state() -> void:
+	var game_state: Node = get_node_or_null("/root/GameState")
+	if game_state == null or not "persistent_events" in game_state:
+		return
+	var has_reward: bool = game_state.has_method("has_ability") and game_state.has_ability("flaming_arrows")
+	var saved: String = str(game_state.persistent_events.get(ARCHER_STATE_KEY, ""))
+	if has_reward:
+		saved = "COMPLETED"
+	elif not ARCHER_STATES.has(saved) or saved == "COMPLETED":
+		saved = "NOT_STARTED"
+	_archer_quest_state = saved
+	_has_arrow_quiver = saved == "ACCEPTED" and bool(game_state.persistent_events.get(ARCHER_QUIVER_KEY, false))
+
+	if quiver_item and is_instance_valid(quiver_item) and not quiver_item.is_queued_for_deletion():
+		if quiver_item.has_method("set_quest_active"):
+			quiver_item.set_quest_active(saved == "ACCEPTED" and not _has_arrow_quiver)
+	elif saved == "ACCEPTED":
+		# Sadak daha önce toplanmış (sahnede yok): oyuncuda sayılır ki görev kilitlenmesin
+		_has_arrow_quiver = true
+	if _has_arrow_quiver and hud and hud.has_method("set_quiver_visible"):
+		hud.set_quiver_visible(true, 1)
 
 
 func _on_campfire_interacted(_checkpoint_id: String, _spawn_pos: Vector2 = Vector2.ZERO) -> void:
@@ -146,7 +196,7 @@ func _start_archer_callout() -> void:
 
 func _on_dialogue_choice_selected(action: String) -> void:
 	if action == "accept":
-		_archer_quest_state = "ACCEPTED"
+		_set_archer_state("ACCEPTED")
 		var q_mgr = get_node_or_null("/root/QuestManager")
 		if q_mgr and q_mgr.has_method("start_quest"):
 			q_mgr.start_quest("archer_quivers")
@@ -161,7 +211,7 @@ func _on_dialogue_choice_selected(action: String) -> void:
 				"Vadideki kırık erzak arabasından alevli ok sadaklarını topla."
 			)
 	elif action == "decline":
-		_archer_quest_state = "DECLINED"
+		_set_archer_state("DECLINED")
 		if dialogue_box and dialogue_box.has_method("start_dialogue_from_data"):
 			dialogue_box.start_dialogue_from_data("archer_sidequest_decline", kemankes)
 		if hud and hud.has_method("set_tutorial"):
@@ -173,7 +223,10 @@ func _on_dialogue_choice_selected(action: String) -> void:
 
 
 func _on_quiver_collected() -> void:
-	_has_arrow_quiver = true
+	_set_quiver_held(true)
+	var play_stats: Node = get_node_or_null("/root/PlayStats")
+	if play_stats and play_stats.has_method("record_item_collected"):
+		play_stats.record_item_collected("arrow_quiver")
 	var q_mgr = get_node_or_null("/root/QuestManager")
 	if q_mgr and q_mgr.has_method("advance_quest"):
 		q_mgr.advance_quest("archer_quivers", "find_quiver")
@@ -190,8 +243,8 @@ func _on_quiver_collected() -> void:
 
 
 func _deliver_quiver_to_archer() -> void:
-	_archer_quest_state = "COMPLETED"
-	_has_arrow_quiver = false
+	_set_archer_state("COMPLETED")
+	_set_quiver_held(false)
 
 	var q_mgr = get_node_or_null("/root/QuestManager")
 	if q_mgr and q_mgr.has_method("advance_quest"):

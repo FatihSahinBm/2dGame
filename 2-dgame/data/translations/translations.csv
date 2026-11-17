@@ -1,4 +1,7 @@
 id,tr,en
+FLASHBACK_PROMPT,"[Space / Sol Tık] İlerle  |  [Tab] Atla","[Space / Left Click] Continue  |  [Tab] Skip"
+SETTINGS_REDUCE_MOTION,"Hareketi Azalt:","Reduce Motion:"
+SETTINGS_REDUCE_FLASH,"Yanıp Sönmeyi Azalt:","Reduce Flashing:"
 MENU_MAIN_TITLE,"ZAMANIN YANKISI","ECHO OF TIME"
 MENU_SUBTITLE_DESC,"Bir Ruhun ve Çeliğin İntikam Destanı","An Epic of Soul and Steel's Vengeance"
 STAGE_UNKNOWN,"Bilinmeyen Aşama","Unknown Stage"
@@ -70,6 +73,667 @@ SWORD_REBELLION_HINT_3,"*Kılıcın içinden tiz bir madeni feryat yükseliyor!*
 TUTORIAL_STONE_AGE_TITLE,"Bölüm 1: Taş Devri","Chapter 1: Stone Age"
 TUTORIAL_STONE_AGE_SUBTITLE,"Tarih Öncesi Kanyon","Prehistoric Canyon"
 TUTORIAL_STONE_AGE_CONTROLS,"Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J]","Movement: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]"
-FLASHBACK_PROMPT,"[Space / Sol Tık] İlerle  |  [Tab] Atla","[Space / Left Click] Continue  |  [Tab] Skip"
-SETTINGS_REDUCE_MOTION,"Hareketi Azalt:","Reduce Motion:"
-SETTINGS_REDUCE_FLASH,"Yanıp Sönmeyi Azalt:","Reduce Flashing:"
+TUTORIAL_CAMP_TITLE,2. Harita: Osmanlı Ordugahı,Stage 2: Ottoman Camp
+TUTORIAL_CAMP_FERMAN_SUB,Fermanı Fatih'e Sun,Present the Imperial Decree
+TUTORIAL_CAMP_FERMAN_DESC,Şehit düşen kumandanın fermanını Fatih Sultan Mehmed Han'ın Otağı'na ulaştır.,Deliver the fallen commander's decree to Sultan Mehmed's Pavilion.
+TUTORIAL_CAMP_OTAG_SUB,Otağ-ı Hümayun'a İlerle,Advance to the Imperial Pavilion
+TUTORIAL_CAMP_OTAG_DESC,Ordugah meydanından sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle.,Advance through the encampment towards Sultan Mehmed's pavilion on the right.
+TUTORIAL_BRIDGE_TITLE,3. Harita: Köprü Kuşatması,Stage 3: Bridge Assault
+TUTORIAL_BRIDGE_SUB,Barikatları Parçala,Shatter the Barricades
+TUTORIAL_BRIDGE_DESC,Yeniçerilerle birlikte kazıklı barikatları parçala ve kale kapısına hücum et!,Shatter the spiked barricades alongside the Janissaries and storm the fortress gate!
+TUTORIAL_BLOOD_KNIGHT_TITLE,Elit Muhafız!,Elite Guardian!
+TUTORIAL_BLOOD_KNIGHT_SUB,Kan Şövalyesini Yen,Defeat the Blood Knight
+TUTORIAL_BLOOD_KNIGHT_DESC,Vlad Tepeş'in kale kapısını koruyan Kan Şövalyesini alt et!,Vanquish the Blood Knight guarding Vlad Tepes' citadel gate!
+TUTORIAL_GATE_BROKEN_TITLE,Kapı Parçalandı!,Gate Shattered!
+TUTORIAL_GATE_BROKEN_SUB,Mahzenlere Adım At,Enter the Catacombs
+TUTORIAL_GATE_BROKEN_DESC,Yeniçeriler koçbaşıyla kapıyı paramparça etti! Târgovişte mahzenlerine girerek Vlad'ın izini sür.,The Janissaries battered down the gate! Descend into Târgoviște catacombs to hunt Vlad.
+TUTORIAL_THRONE_TITLE,3. Sahne: Kan Taht Odası,Stage 3: Blood Throne Room
+TUTORIAL_THRONE_SUB,1. Faz: Voyvoda,Phase 1: The Voivode
+TUTORIAL_THRONE_DESC,Mızrak atılımlarını ve impale zemin saldırılarını atlatarak yaklaş!,Evade spear thrusts and floor impalements to strike!
+PROMPT_CAMPFIRE_REST,[E] Kamp Ateşinde Dinlen,[E] Rest at Campfire
+PROMPT_CAMPFIRE_LIGHT,[E] Kamp Ateşini Yak,[E] Ignite Campfire
+CAMPFIRE_LIT_MSG,🔥 Kamp Ateşi Yakıldı - İlerleme Kaydedildi,🔥 Campfire Lit - Progress Saved
+CAMPFIRE_RESTED_MSG,✨ Dinlenildi - Can & İksirler Yenilendi,✨ Rested - Health & Potions Restored
+TITLE_JANISSARY_COMMANDER,ÖNCÜ KUMANDAN,VANGUARD COMMANDER
+TITLE_JANISSARY_SERGEANT,YENİÇERİ ÇAVUŞU,JANISSARY SERGEANT
+TITLE_BLOOD_KNIGHT,EFLAK KAN ŞÖVALYESİ,WALLACHIAN BLOOD KNIGHT
+TITLE_FATIH,Fatih Sultan Mehmed,Sultan Mehmed II
+TITLE_VLAD_BOSS,VLAD TEPEŞ,VLAD THE IMPALER
+TITLE_NECROMANCER,Ölüm Büyücüsü,Necromancer
+TITLE_TREX_PHASE_1,[ FAZ 1: AKTİF ],[ PHASE 1: ACTIVE ]
+TITLE_TREX_PHASE_2,[ FAZ 2: SİBER ÖFKE ],[ PHASE 2: CYBER ENRAGE ]
+TITLE_TREX_PHASE_3,[ FAZ 3: NÜKLEER ÇÖKÜŞ ],[ PHASE 3: CORE MELTDOWN ]
+SEAL_PURE_SOUL,SAF RUH,PURE SOUL
+SEAL_TAINTED_SOUL,LEKELİ RUH,TAINTED SOUL
+SEAL_CORRUPTED_SOUL,YOZLAŞMIŞ RUH,CORRUPTED SOUL
+SEAL_DARK_SOUL,KARANLIK RUH,DARK SOUL
+HUD_SEAL_FORMAT,MÜHÜR: %s (%d/100),SEAL: %s (%d/100)
+HUD_QUEST_MAIN,ANA GÖREV,MAIN QUEST
+HUD_QUEST_SIDE,YAN GÖREV,SIDE QUEST
+HUD_QUEST_COMPLETED_BANNER,🏆 GÖREV TAMAMLANDI!,🏆 QUEST COMPLETED!
+HUD_OBJECTIVE_COMPLETED_BANNER,🎯 HEDEF TAMAMLANDI!,🎯 OBJECTIVE COMPLETED!
+QUEST_STONEAGE_TITLE,Kadim Vadi ve İlk Kalp Parçası,Primeval Valley & The First Heart Shard
+QUEST_STONEAGE_DESC,Zaman yarığının izini sür ve Kadim Kalp Parçası'na ulaş,Trace the time rift and reach the Ancient Heart Shard
+RAM_SHOUT_INITIAL_COMMANDER,"BİR, İKİİİ... KOÇBAŞIYI VURUN!","ONE, TWOOO... HEAVE THE RAM!"
+RAM_SHOUT_INITIAL_SERGEANT,"BİR, İKİİİ... ŞEHİT KUMANDANIN İNTİKAMI İÇİN SAVURUN!","ONE, TWOOO... HEAVE FOR THE FALLEN COMMANDER!"
+RAM_IMPACT_FIRST,💥 GÜÜÜM!,💥 BOOOOM!
+RAM_SHOUT_SECOND_COMMANDER,BİR DAHA! TÜM KUVVETİNİZLE! ALLAH ALLAH!,AGAIN! WITH ALL YOUR MIGHT! CHARGE!
+RAM_SHOUT_SECOND_SERGEANT,BİR DAHA! GÜCÜNÜZÜN YETTİĞİNCE! ALLAH ALLAH!,AGAIN! WITH EVERYTHING YOU'VE GOT! FORWARD!
+RAM_IMPACT_SECOND,💥💥 GÜÜÜÜÜÜMMM!,💥💥 KABOOOOM!
+RAM_SHOUT_BREACH_COMMANDER,"KAPI YIKILDI! YABANCI, MAHZENE DAL VE VLAD'I BUL!","THE GATE IS BREACHED! STRANGER, STORM THE DUNGEON AND FIND VLAD!"
+RAM_SHOUT_BREACH_SERGEANT,"KAPI PARÇALANDI! YABANCI, MAHZENE DAL VE İLERLE!","THE GATE HAS SHATTERED! STRANGER, BREACH THE CRYPTS AND ADVANCE!"
+SOLDIER_CHEER_1,ALLAH ALLAH!,FORWARD!
+SOLDIER_CHEER_2,GAZA BİZİMDİR!,VICTORY IS OURS!
+SOLDIER_SHOUT_CHARGE,Allah Allah ileri! Hücum!,Forward! Charge!
+COMMANDER_SHOUT_BARRICADES,Yıkın barikatları! Hücum!,Tear down the barricades! Charge!
+COMMANDER_SHOUT_MEHMED_TENT,"Yiğit yabancı! Gel, seni derhal Hünkarımız Fatih Sultan Mehmet'in otağına götüreyim!","Brave stranger! Come, let me escort you to Sultan Mehmed's royal tent at once!"
+FATIH_SHOUT_CHARGE,ORDUM! HÜCUM EDİN! EFLAK SURLARI YIKILACAK!,MY ARMY! CHARGE! THE WALLACHIAN WALLS SHALL FALL!
+FATIH_SHOUT_SIEGE_BEGINS,FATİH: 'YENİÇERİLERİM! KUŞATMA BAŞLASIN! BARİKATLARI YIKIN!',MEHMED: 'JANISSARIES! COMMENCE THE SIEGE! TEAR DOWN THE BARRICADES!'
+BARRICADE_DESTROYED,🪵 BARİKAT KIRILDI!,🪵 BARRICADE DESTROYED!
+SIGIL_SHATTERED,💥 Kan Mührü Parçalandı!,💥 Blood Sigil Shattered!
+LEVER_CHAIN_PULLED,⛓️ Zincir Çekildi! (Dış Kapı Açıldı),⛓️ Chain Pulled! (Outer Gate Opened)
+VINES_BURNED,🌿🔥 SARMAŞIKLAR YANDI!,🌿🔥 VINES INCINERATED!
+BRAZIER_LIT,🔥 Kan Mangalı Yandı!,🔥 Blood Brazier Ignited!
+QUIVERS_LOCKED,🔒 Alevli Sadaklar (Önce Kemankeş ile konuş),🔒 Flaming Quivers (Speak to Archer Sergeant first)
+QUIVERS_TAKEN,🏹 Alevli Ok Sadakları Alındı!,🏹 Flaming Quivers Acquired!
+ORDERS_PROMPT,"📜 Kumandanın Emri
+[E] Oku","📜 Commander's Orders
+[E] Read"
+ORDERS_TAKEN,📜 Öncü Kumandanın Fermanı Alındı!,📜 Vanguard Commander's Orders Acquired!
+QUEST_FATIH_TITLE,Otağ-ı Hümayun ve Sefer Meclisi,Imperial Pavilion & War Council
+QUEST_FATIH_DESC,Vlad Tepeş'in gece baskını sonrası Fatih Sultan Mehmed Han'ın otağına gir ve ortak hedef doğrultusunda huzura çık.,"After Vlad the Impaler's night assault, enter Sultan Mehmed II's imperial pavilion and stand before the Conqueror for a shared cause."
+QUEST_FATIH_STAGE_1,Fatih Sultan Mehmed'in otağına gir,Enter Sultan Mehmed's pavilion
+QUEST_FATIH_REWARD,Padişah İttifakı & Taş Köprü Taarruz Emri,Imperial Alliance & Bridge Assault Order
+QUEST_ARCHER_TITLE,Alevli Ok Sadakları,Flaming Arrow Quivers
+QUEST_ARCHER_DESC,Kemankeş Çavuşu'nun vadideki kırık erzak arabasında kalan alevli ok sadaklarını bul ve teslim et.,Find the flaming arrow quivers left in the broken supply cart in the valley and deliver them to the Archer Sergeant.
+QUEST_ARCHER_STAGE_1,Kırık erzak arabasından alevli sadakları topla,Collect flaming quivers from the damaged supply cart
+QUEST_ARCHER_STAGE_2,Sadakları ordugahtaki Kemankeş'e teslim et,Deliver the quivers to the Archer Sergeant at camp
+QUEST_ARCHER_REWARD,Alevli Ok Yağmuru Desteği & Yetenek,Volley of Fire Support & Ability
+QUEST_BRIDGE_TITLE,Kan Surları ve Taş Köprü Taarruzu,Walls of Blood & Stone Bridge Assault
+QUEST_BRIDGE_DESC,Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.,"Breach the barricades and beast defenses on the stone bridge, the only path into Vlad's stronghold."
+QUEST_BRIDGE_STAGE_1,Köprüdeki ahşap barikatları ve muhafızları aş,Breach the wooden barricades and bridge guards
+QUEST_BRIDGE_STAGE_2,Eflak Kan Şövalyesi'ni mağlup et,Defeat the Wallachian Blood Knight
+QUEST_BRIDGE_STAGE_3,Kale kapısını zorlayarak zindana sız,Batter down the fortress gate and infiltrate the dungeons
+QUEST_BRIDGE_REWARD,Kale Zindanlarına Geçiş,Access to Castle Dungeons
+QUEST_VLAD_TITLE,Taht Odası ve Vlad Tepeş,Throne Room & Vlad the Impaler
+QUEST_VLAD_DESC,Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.,"Solve the dungeon mechanisms, reach Vlad's throne chamber, and reclaim the second Heart Shard."
+QUEST_VLAD_STAGE_1,Zindan mekanizmasını çözüp taht odasına gir,Solve dungeon seals and enter the throne chamber
+QUEST_VLAD_STAGE_2,Dört aşamalı savaşta Vlad Tepeş'i mağlup et,Defeat Vlad the Impaler across four combat phases
+QUEST_VLAD_REWARD,İkinci Kalp Parçası & Eflak Bölümü Zaferi,Second Heart Shard & Wallachia Chapter Victory
+QUEST_LOG_TITLE,📜 GÖREV GÜNLÜĞÜ,📜 QUEST LOG
+QUEST_LOG_HINT,[J / L] Kapat  |  [TAB] Sekme Değiştir,[J / L] Close  |  [TAB] Switch Tab
+QUEST_LOG_TAB_ACTIVE,⚔️ Aktif Görevler,⚔️ Active Quests
+QUEST_LOG_TAB_COMPLETED,🏆 Tamamlanan Görevler,🏆 Completed Quests
+QUEST_LOG_EMPTY_ACTIVE,Bu sekmede görev bulunmuyor.,No active quests in this log.
+QUEST_LOG_EMPTY_COMPLETED,Henüz tamamlanan görev yok.,No completed quests yet.
+QUEST_LOG_NO_SELECTION,Görev Seçilmedi,No Quest Selected
+QUEST_LOG_BADGE_MAIN,👑 ANA GÖREV,👑 MAIN QUEST
+QUEST_LOG_BADGE_SIDE,🏹 YAN GÖREV,🏹 SIDE QUEST
+QUEST_LOG_OBJECTIVES_HEADER,🎯 Hedef Aşamaları:,🎯 Objectives:
+QUEST_LOG_REWARD_PREFIX,🎁 Ödül: %s,🎁 Reward: %s
+QUEST_LOG_BTN_TRACKED,🎯 Takip Ediliyor,🎯 Tracked
+QUEST_LOG_BTN_TRACK,Takip Et,Track Quest
+QUEST_LOG_BTN_CLOSE,Kapat,Close
+PROMPT_TALK_FATIH,[E] Hünkar ile Görüş,[E] Speak to the Sultan
+PROMPT_TAKE_SWORD,[E] Kılıcı Al,[E] Take Sword
+PROMPT_PULL_CHAIN,[E] Zinciri Çek,[E] Pull Chain
+PROMPT_INSPECT_RELIEF,[E] Kadim Kabartmayı İncele,[E] Inspect Ancient Relief
+PROMPT_IGNITE_BRAZIER,[E] Mangalı Yak,[E] Light Brazier
+ÖNCÜ KUMANDAN,ÖNCÜ KUMANDAN,VANGUARD COMMANDER
+YENİÇERİ ÇAVUŞU,YENİÇERİ ÇAVUŞU,JANISSARY SERGEANT
+EFLAK KAN ŞÖVALYESİ,EFLAK KAN ŞÖVALYESİ,WALLACHIAN BLOOD KNIGHT
+FATİH SULTAN MEHMET,FATİH SULTAN MEHMET,SULTAN MEHMED II
+KAZIKLI VOYVODA VLAD,KAZIKLI VOYVODA VLAD,VLAD THE IMPALER
+MÜHÜR: SAF RUH (0/100),MÜHÜR: SAF RUH (0/100),SEAL: PURE SOUL (0/100)
+SAF RUH,SAF RUH,PURE SOUL
+LEKELİ RUH,LEKELİ RUH,TAINTED SOUL
+YOZLAŞMIŞ RUH,YOZLAŞMIŞ RUH,CORRUPTED SOUL
+KARANLIK RUH,KARANLIK RUH,DARK SOUL
+💥 GÜÜÜM!,💥 GÜÜÜM!,💥 BOOOOM!
+💥💥 GÜÜÜÜÜÜMMM!,💥💥 GÜÜÜÜÜÜMMM!,💥💥 KABOOOOM!
+ALLAH ALLAH!,ALLAH ALLAH!,FORWARD!
+GAZA BİZİMDİR!,GAZA BİZİMDİR!,VICTORY IS OURS!
+Allah Allah! İleri!,Allah Allah! İleri!,Forward! Charge!
+🪵 BARİKAT YIKILDI!,🪵 BARİKAT YIKILDI!,🪵 BARRICADE DESTROYED!
+💥 Kan Mührü Parçalandı!,💥 Kan Mührü Parçalandı!,💥 Blood Sigil Shattered!
+⛓️ Zincir Çekildi! (Dış Kapı Açıldı),⛓️ Zincir Çekildi! (Dış Kapı Açıldı),⛓️ Chain Pulled! (Outer Gate Opened)
+🌿🔥 SARMAŞIKLAR YANDI!,🌿🔥 SARMAŞIKLAR YANDI!,🌿🔥 VINES INCINERATED!
+🔥 Kan Mangalı Yandı!,🔥 Kan Mangalı Yandı!,🔥 Blood Brazier Ignited!
+TITLE_TREX_BOSS,SİBER T-REX: MECHA-TYRANT,CYBER T-REX: MECHA-TYRANT
+TITLE_OGRE_BOSS,KARA BOYNUZLU DEV OGRE,DARK-HORNED GIANT OGRE
+SİBER T-REX: MECHA-TYRANT,SİBER T-REX: MECHA-TYRANT,CYBER T-REX: MECHA-TYRANT
+KARA BOYNUZLU DEV OGRE,KARA BOYNUZLU DEV OGRE,DARK-HORNED GIANT OGRE
+Ölüm Büyücüsü,Ölüm Büyücüsü,Necromancer
+PROMPT_EXAMINE_MURAL,[E] Kadim Kabartmayı İncele,[E] Examine Ancient Relief
+[E] Kadim Kabartmayı İncele,[E] Kadim Kabartmayı İncele,[E] Examine Ancient Relief
+[E] Mangalı Yak,[E] Mangalı Yak,[E] Light Brazier
+[E] Zinciri Çek,[E] Zinciri Çek,[E] Pull Chain
+[E] Kılıcı Al,[E] Kılıcı Al,[E] Take Sword
+[E] Hünkar ile Görüş,[E] Hünkar ile Görüş,[E] Speak to the Sultan
+[E] Kamp Ateşini Yak (Kontrol Noktası),[E] Kamp Ateşini Yak (Kontrol Noktası),[E] Light Campfire (Checkpoint)
+[E] Kamp Ateşinde Dinlen,[E] Kamp Ateşinde Dinlen,[E] Rest at Campfire
+Ferman [E] / Temas,Ferman [E] / Temas,Orders [E] / Touch
+🔥 -25 (Kemankeş Oku),🔥 -25 (Kemankeş Oku),🔥 -25 (Archer Volley)
+*Kılıç zemine sürtünerek tiz bir madeni feryat koparır...*,*Kılıç zemine sürtünerek tiz bir madeni feryat koparır...*,"*The blade scrapes against the ground, unleashing a piercing metallic wail...*"
+*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titriyor...*,*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titriyor...*,*The ancient stone relief on the wall... A shattered heart... The blade quivers deeply...*
+1. Harita: Orman Pususu,1. Harita: Orman Pususu,Map 1: Forest Ambush
+Osmanlı Birliğini Kurtar,Osmanlı Birliğini Kurtar,Rescue Ottoman Vanguard
+[A/D] Koş | [Space] Zıpla | [Sol Tık] Saldır. İleride pusuya düşen Osmanlı birliğini kurtar!,[A/D] Koş | [Space] Zıpla | [Sol Tık] Saldır. İleride pusuya düşen Osmanlı birliğini kurtar!,[A/D] Move | [Space] Jump | [L-Click] Attack. Rescue the ambushed Ottoman vanguard ahead!
+Ordugaha İlerle,Ordugaha İlerle,Advance to Camp
+Kumandanla Birlikte İlerle,Kumandanla Birlikte İlerle,Advance with the Commander
+Kumandan seni Fatih Sultan Mehmed'in ordugahına götürüyor. Sağ tarafa doğru ilerle.,Kumandan seni Fatih Sultan Mehmed'in ordugahına götürüyor. Sağ tarafa doğru ilerle.,The Commander leads you to Sultan Mehmed II's encampment. Advance to the right.
+Kumandan Şehit Düştü!,Kumandan Şehit Düştü!,The Commander has Fallen!
+Fermanı Al ve İlerle,Fermanı Al ve İlerle,Collect the Decree & Advance
+Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ulaşmalısın.,Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ulaşmalısın.,The Commander fell in battle! Retrieve the fallen orders and reach Sultan Mehmed's camp.
+Fermanı Fatih'e Götür,Fermanı Fatih'e Götür,Bring Decree to Mehmed II
+Şehit kumandanın fermanını aldın. Ormandan çıkıp Fatih Sultan Mehmed Han'ın ordugahına ilerle.,Şehit kumandanın fermanını aldın. Ormandan çıkıp Fatih Sultan Mehmed Han'ın ordugahına ilerle.,You recovered the fallen Commander's decree. Leave the forest and proceed to Sultan Mehmed II's war camp.
+Önce Fermanı Al!,Önce Fermanı Al!,Pick Up the Decree First!
+Şehit Kumandan,Şehit Kumandan,Fallen Commander
+Yerdeki fermanı almadan ordugaha gidemezsin!,Yerdeki fermanı almadan ordugaha gidemezsin!,You cannot proceed to the camp without the commander's orders!
+Görev: Alevli Sadakları Bul,Görev: Alevli Sadakları Bul,Quest: Find Flaming Quivers
+Erzak Arabasına Dön,Erzak Arabasına Dön,Return to Supply Cart
+Vadideki kırık erzak arabasından alevli ok sadaklarını topla.,Vadideki kırık erzak arabasından alevli ok sadaklarını topla.,Collect flaming arrow quivers from the wrecked supply cart in the valley.
+Otağ-ı Hümayun'a İlerle,Otağ-ı Hümayun'a İlerle,Proceed to Imperial Tent
+Fatih'in Çadırı,Fatih'in Çadırı,Sultan's Tent
+Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile [E] konuş.),Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile [E] konuş.),Advance right to Sultan Mehmed's pavilion. (Or speak with Archer Sergeant [E] if you change your mind.)
+Sadaklar Alındı!,Sadaklar Alındı!,Quivers Retrieved!
+Kemankeş'e Götür,Kemankeş'e Götür,Deliver to Archer
+Alevli ok sadaklarını ordugahtaki Kemankeş Çavuşu'na teslim et.,Alevli ok sadaklarını ordugahtaki Kemankeş Çavuşu'na teslim et.,Deliver the flaming quivers to Archer Sergeant at the camp.
+Okçu Desteği Sağlandı!,Okçu Desteği Sağlandı!,Archer Volley Unlocked!
+Fatih'in Otağına Gir,Fatih'in Otağına Gir,Enter Sultan's Tent
+Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına gir.,Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına gir.,The marksman will rain fiery arrows during the assault! Enter the Imperial Pavilion on the right.
+Otağ-ı Hümayun,Otağ-ı Hümayun,Imperial Pavilion
+Hünkarın Huzuru,Hünkarın Huzuru,Sultan's Presence
+Fatih Sultan Mehmed Han sefer haritası başında...,Fatih Sultan Mehmed Han sefer haritası başında...,Sultan Mehmed II stands before the war map...
+BRAZIER_SEAL_PROGRESS,Kan Sunağı Mührü (%d/3),Blood Altar Seal (%d/3)
+TUTORIAL_BRAZIER_SUB,Mangalları Yak,Light Braziers
+TUTORIAL_BRAZIER_BODY,3 kan mangalını yakarak taht odasına açılan mühürlü kapıyı serbest bırak.,Light 3 blood braziers to unseal the gate to the throne room.
+TUTORIAL_OUTER_GATE_TITLE,Dış Kapı Açıldı,Outer Gate Opened
+TUTORIAL_OUTER_GATE_SUB,Zindana İlerle,Advance to Dungeon
+TUTORIAL_OUTER_GATE_BODY,Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!,Step into the dark crypts. Beware of ambushing bats and guillotines!
+TUTORIAL_SEAL_BROKEN_TITLE,Mühür Kırıldı!,Seal Shattered!
+TUTORIAL_SEAL_BROKEN_SUB,Taht Odasına Yüksel,Ascend to Throne Room
+TUTORIAL_SEAL_BROKEN_BODY,Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at.,The Blood Altar Gate has opened! Step into Vlad Dracula's throne hall.
+TUTORIAL_STAGE2_TITLE,2. Sahne: Târgovişte Mahzenleri,Stage 2: Târgovişte Crypts
+TUTORIAL_STAGE2_SUB,Giriş Kapısını Aç [E],Open Entrance Gate [E]
+TUTORIAL_STAGE2_BODY,Demir zinciri çekerek mahzen kapısını arala.,Pull the iron chain to breach the crypt gate.
+Dış Kapı Açıldı,Dış Kapı Açıldı,Outer Gate Opened
+Zindana İlerle,Zindana İlerle,Enter the Dungeon
+Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!,Karanlık mahzenlere adım at. Pusu kuran yarasalara ve giyotinlere dikkat et!,Step into the dark crypts. Beware of ambushing bats and guillotines!
+Mühür Kırıldı!,Mühür Kırıldı!,Seal Broken!
+Taht Odasına Yüksel,Taht Odasına Yüksel,Ascend to Throne Room
+Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at.,Kan Sunağı Kapısı açıldı! Vlad Tepeş'in taht salonuna adım at.,The Blood Altar Gate is open! Enter Vlad the Impaler's throne hall.
+2. Sahne: Târgovişte Mahzenleri,2. Sahne: Târgovişte Mahzenleri,Stage 2: Târgovişte Crypts
+Giriş Kapısını Aç [E],Giriş Kapısını Aç [E],Open Entrance Gate [E]
+Demir zinciri çekerek mahzen kapısını arala.,Demir zinciri çekerek mahzen kapısını arala.,Pull the iron chains to unseal the crypt gateway.
+Mangalları Yak,Mangalları Yak,Ignite the Braziers
+3 kan mangalını yakarak taht odasına açılan mühürlü kapıyı serbest bırak.,3 kan mangalını yakarak taht odasına açılan mühürlü kapıyı serbest bırak.,Ignite all 3 blood braziers to break the seal to the throne chamber.
+Kemer Yıkıldı!,Kemer Yıkıldı!,Archway Collapsed!
+Taktik Başarılı,Taktik Başarılı,Tactics Successful
+Vlad molozların altında sersemledi!,Vlad molozların altında sersemledi!,Vlad is stunned beneath the rubble!
+Ulu Çan Çalındı!,Ulu Çan Çalındı!,Great Bell Tolled!
+Akustik Şok,Akustik Şok,Acoustic Shock
+Yarasa Vlad ses dalgasıyla yere çakıldı!,Yarasa Vlad ses dalgasıyla yere çakıldı!,Bat Vlad crashed down from the shockwave!
+Kan Kalkanı Kırıldı!,Kan Kalkanı Kırıldı!,Blood Shield Shattered!
+Savunma Düştü,Savunma Düştü,Defenses Down
+"Vlad'ın mühürleri parçalandı, doğrudan saldır!","Vlad'ın mühürleri parçalandı, doğrudan saldır!","Vlad's seals are broken, strike him directly!"
+2. Faz: Kan Salonu,2. Faz: Kan Salonu,Phase 2: Hall of Blood
+Kan Kalkanı Aktif,Kan Kalkanı Aktif,Blood Shield Active
+Platformlardaki 2 kan mührünü parçalayarak kalkanı yok et!,Platformlardaki 2 kan mührünü parçalayarak kalkanı yok et!,Destroy the 2 blood sigils on the platforms to bring down the shield!
+3. Faz: Yıkılan Surlar,3. Faz: Yıkılan Surlar,Phase 3: Collapsing Ramparts
+Yırtıcı Av,Yırtıcı Av,Predatory Hunt
+Zayıf kemer düzeneğini Vlad'ın üzerine yık veya karşı saldırı kolla!,Zayıf kemer düzeneğini Vlad'ın üzerine yık veya karşı saldırı kolla!,Collapse the fragile archway onto Vlad or watch for a counter-attack!
+4. Faz: Ulu Çan Kulesi,4. Faz: Ulu Çan Kulesi,Phase 4: Great Bell Tower
+Son Karşılaşma,Son Karşılaşma,Final Confrontation
+Hava dalışlarında Ulu Çan'ı çalarak Vlad'ı sersemlet!,Hava dalışlarında Ulu Çan'ı çalarak Vlad'ı sersemlet!,Ring the Great Bell during his dive attacks to stun Vlad!
+Eflak Seferi Tamamlandı,Eflak Seferi Tamamlandı,Wallachia Campaign Complete
+Boyut Yırtığı Açıldı,Boyut Yırtığı Açıldı,Dimensional Rift Unsealed
+Bir sonraki çağa açılan portala adım at...,Bir sonraki çağa açılan portala adım at...,Step through the portal leading to the next era...
+3. Sahne: Vlad'ın Taht Salonu,3. Sahne: Vlad'ın Taht Salonu,Stage 3: Vlad's Throne Hall
+Kanın Hükümdarı,Kanın Hükümdarı,Sovereign of Blood
+Kazıklı Voyvoda Vlad Tepeş ile nihai yüzleşme!,Kazıklı Voyvoda Vlad Tepeş ile nihai yüzleşme!,The final confrontation with Vlad the Impaler!
+ANA GÖREV,ANA GÖREV,MAIN QUEST
+YAN GÖREV,YAN GÖREV,SIDE QUEST
+Kan Surları ve Taş Köprü Taarruzu,Kan Surları ve Taş Köprü Taarruzu,Walls of Blood & Stone Bridge Assault
+Walls of Blood & Stone Bridge Assault,Kan Surları ve Taş Köprü Taarruzu,Walls of Blood & Stone Bridge Assault
+Taht Odası ve Vlad Tepeş,Taht Odası ve Vlad Tepeş,Throne Room & Vlad the Impaler
+Throne Room & Vlad the Impaler,Taht Odası ve Vlad Tepeş,Throne Room & Vlad the Impaler
+Dört aşamalı savaşta Vlad Tepeş'i mağlup et,Dört aşamalı savaşta Vlad Tepeş'i mağlup et,Defeat Vlad the Impaler across four combat phases
+Defeat Vlad the Impaler across four combat phases,Dört aşamalı savaşta Vlad Tepeş'i mağlup et,Defeat Vlad the Impaler across four combat phases
+Köprüdeki ahşap barikatları ve muhafızları aş,Köprüdeki ahşap barikatları ve muhafızları aş,Breach the wooden barricades and bridge guards
+Breach the wooden barricades and bridge guards,Köprüdeki ahşap barikatları ve muhafızları aş,Breach the wooden barricades and bridge guards
+Eflak Kan Şövalyesi'ni mağlup et,Eflak Kan Şövalyesi'ni mağlup et,Defeat the Wallachian Blood Knight
+Defeat the Wallachian Blood Knight,Eflak Kan Şövalyesi'ni mağlup et,Defeat the Wallachian Blood Knight
+Kale kapısını zorlayarak zindana sız,Kale kapısını zorlayarak zindana sız,Batter down the fortress gate and infiltrate the dungeons
+Batter down the fortress gate and infiltrate the dungeons,Kale kapısını zorlayarak zindana sız,Batter down the fortress gate and infiltrate the dungeons
+Zindan mekanizmasını çözüp taht odasına gir,Zindan mekanizmasını çözüp taht odasına gir,Solve dungeon seals and enter the throne chamber
+Solve dungeon seals and enter the throne chamber,Zindan mekanizmasını çözüp taht odasına gir,Solve dungeon seals and enter the throne chamber
+Otağ-ı Hümayun ve Sefer Meclisi,Otağ-ı Hümayun ve Sefer Meclisi,Imperial Pavilion & War Council
+Fatih Sultan Mehmed'in otağına gir ve sefer divanına katıl,Fatih Sultan Mehmed'in otağına gir ve sefer divanına katıl,Enter Sultan Mehmed II's tent and join the council
+➤ Fatih Sultan Mehmed'in otağına gir,➤ Fatih Sultan Mehmed'in otağına gir,➤ Enter Sultan Mehmed II's Pavilion
+Vadideki kırık erzak arabasından sadakları al,Vadideki kırık erzak arabasından sadakları al,Retrieve quivers from the wrecked supply cart in the valley
+Sadakları ordugahtaki Kemankeş'e teslim et,Sadakları ordugahtaki Kemankeş'e teslim et,Deliver quivers to the Archer Sergeant at the camp
+Alevli Sadak Arayışı,Alevli Sadak Arayışı,Search for Flaming Quivers
+Vadideki kırık erzak arabasından alevli ok sadaklarını topla ve ordugahtaki Kemankeş Çavuşu'na teslim et.,Vadideki kırık erzak arabasından alevli ok sadaklarını topla ve ordugahtaki Kemankeş Çavuşu'na teslim et.,Gather flaming quivers from the wrecked cart in the valley and deliver them to the Archer Sergeant.
+Alevli Ok Yağmuru Desteği & Yetenek,Alevli Ok Yağmuru Desteği & Yetenek,Volley of Fire Support & Ability
+Kale Zindanlarına Geçiş,Kale Zindanlarına Geçiş,Access to Castle Dungeons
+İkinci Kalp Parçası & Eflak Bölümü Zaferi,İkinci Kalp Parçası & Eflak Bölümü Zaferi,Second Heart Shard & Wallachia Chapter Victory
+Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.,Vlad'ın kalesine açılan tek geçit olan taş köprüdeki canavar savunmasını ve barikatları aş.,"Breach the barricades and beast defenses on the stone bridge, the only path into Vlad's stronghold."
+Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.,Zindan zincirlerini çözerek Vlad'ın taht odasına ulaş ve ikinci Kalp Parçası'nı geri al.,"Solve the dungeon mechanisms, reach Vlad's throne chamber, and reclaim the second Heart Shard."
+🛡️ Savaş Taktikleri:,🛡️ Savaş Taktikleri:,🛡️ Combat Tactics:
+⚡ Zayıflık:,⚡ Zayıflık:,⚡ Weakness:
+Savaş Taktikleri:,Savaş Taktikleri:,Combat Tactics:
+Zayıflık:,Zayıflık:,Weakness:
+🛡️ Savaş Taktikleri,🛡️ Savaş Taktikleri,🛡️ Combat Tactics
+⚡ Zayıflık,⚡ Zayıflık,⚡ Weakness
+Savaş Taktikleri,Savaş Taktikleri,Combat Tactics
+Zayıflık,Zayıflık,Weakness
+ARŞİV DİZİNİ,ARŞİV DİZİNİ,ARCHIVE INDEX
+Arşiv Dizini,Arşiv Dizini,Archive Index
+📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ,📖 DÜŞMAN KODEKSİ VE BİLGİ ARŞİVİ,📖 ANCIENT BESTIARY & CHRONICLES
+[K / O] Kapat  |  [TAB] Kategori  |  [ESC] Çıkış,[K / O] Kapat  |  [TAB] Kategori  |  [ESC] Çıkış,[K / O] Close  |  [TAB] Category  |  [ESC] Exit
+⚔️ Düşmanlar,⚔️ Düşmanlar,⚔️ Enemies
+👑 Elebaşılar,👑 Elebaşılar,👑 Bosses
+👥 Karakterler,👥 Karakterler,👥 Allies & NPCs
+📜 Dünya Bilgisi,📜 Dünya Bilgisi,📜 World Lore
+Keşif:,Keşif:,Discovery:
+✓ Kayıt Açıldı,✓ Kayıt Açıldı,✓ Entry Unlocked
+🔒 Kilitli Kayıt,🔒 Kilitli Kayıt,🔒 Locked Entry
+Yenilme Sayısı: %d,Yenilme Sayısı: %d,Defeated: %d
+Karşılaşma: Henüz Yok,Karşılaşma: Henüz Yok,Encounter: None
+Karşılaşma: %d kez,Karşılaşma: %d kez,Encountered: %d times
+Keşif: %d / %d (%%%d),Keşif: %d / %d (%%%d),Discovery: %d / %d (%d%%)
+Düşman veya kayıt hakkında ayrıntılı açıklama metni.,Düşman veya kayıt hakkında ayrıntılı açıklama metni.,Detailed lore and description of the selected archive entry.
+Saldırı savurduktan sonra arkalarına yuvarlanarak (Roll) kombo vuruşu yapın.,Saldırı savurduktan sonra arkalarına yuvarlanarak (Roll) kombo vuruşu yapın.,"Evade their slash with a dodge roll, then counterattack from behind."
+Arkadan darbeler ve Fırlatma Bıçağı,Arkadan darbeler ve Fırlatma Bıçağı,Backstabs & Throwing Knives
+Eflak Muhafız Piyadesi,Eflak Muhafız Piyadesi,Wallachian Guard Infantry
+ ⚔️ DÜŞMAN , ⚔️ DÜŞMAN , ⚔️ ENEMY 
+DEATH_TITLE,💀 YENİLDİN,💀 YOU DIED
+💀 YENİLDİN,💀 YENİLDİN,💀 YOU DIED
+YENİLDİN,YENİLDİN,YOU DIED
+DEATH_RESPAWN_CHECKPOINT,%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ,Press %s to Respawn at Checkpoint
+DEATH_RESPAWN_STAGE_START,%s Tuşuna Basarak Bölümün Başından Yeniden Doğ,Press %s to Respawn at Stage Start
+%s Tuşuna Basarak Bölümün Başından Yeniden Doğ,%s Tuşuna Basarak Bölümün Başından Yeniden Doğ,Press %s to Respawn at Stage Start
+%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ,%s Tuşuna Basarak Kontrol Noktasından Yeniden Doğ,Press %s to Respawn at Checkpoint
+[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ,[R] Tuşuna Basarak Bölümün Başından Yeniden Doğ,Press [R] to Respawn at Stage Start
+[R] Tuşuna Basarak Kontrol Noktasından Yeniden Doğ,[R] Tuşuna Basarak Kontrol Noktasından Yeniden Doğ,Press [R] to Respawn at Checkpoint
+⚔️ YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI,⚔️ YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI,⚔️ CORRUPTED SHELL MUTATION ACQUIRED
+YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI,YOZLAŞMIŞ KABUK MUTASYONU KAZANILDI,CORRUPTED SHELL MUTATION ACQUIRED
+Kan Sisi Atılması (Blood Mist Dash),Kan Sisi Atılması (Blood Mist Dash),Blood Mist Dash
+"Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür.","Vlad'ın yenilgisiyle kılıcın yozlaşmış kabuğuna vampirik güç işlendi. Artık Dash (Shift) basıldığında karakter düşmanların ve mermilerin içinden geçen kızıl bir sise dönüşür, temas ettiği hedeflerden can sömürür.","With Vlad's defeat, vampiric power was imbued into the blade's corrupted shell. Pressing Dash (Shift) now transforms the bearer into a crimson mist phasing through foes and projectiles while leeching life from struck targets."
+BÜYÜCÜ ARKADAŞ (HAFIZA),BÜYÜCÜ ARKADAŞ (HAFIZA),MAGE COMPANION (MEMORY)
+...Bunu yapamazsın! Sana güvenmiştim! Dünyanın Kalbi bir fani tarafından mühürlenemez!,...Bunu yapamazsın! Sana güvenmiştim! Dünyanın Kalbi bir fani tarafından mühürlenemez!,...You cannot do this! I trusted you! The World Heart cannot be sealed by a mortal!
+FLASHBACK_1462_TITLE,M.S. 1462 — Eflak Ormanları / Gece Baskını,1462 A.D. — Wallachian Forests / Night Assault
+FLASHBACK_1462_VOICE,Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!',Imprisoned Blade Soul: 'Look... Behold that blood-soaked night; the second shard beats there! The first spark of the World Heart has awakened. The time rift calls to you!'
+M.S. 1462 — Eflak Ormanları / Gece Baskını,M.S. 1462 — Eflak Ormanları / Gece Baskını,1462 A.D. — Wallachian Forests / Night Assault
+Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!',Mahpus Kılıç Ruhu: 'Bak... Kan kokan o geceyi gör; ikinci parça orada çarpıyor! Dünyanın Kalbi'nin ilk kıvılcımı uyandı. Zaman yarığı seni çağırıyor!',Imprisoned Blade Soul: 'Look... Behold that blood-soaked night; the second shard beats there! The first spark of the World Heart has awakened. The time rift calls to you!'
+COMBAT_HUD_ARMED,⚔️ KILIÇ KUŞANILDI  •  [Sol Tık] Savurma  |  [Sağ Tık] Güçlü Vuruş  |  [G] Kılıcı Fırlat,⚔️ SWORD ARMED  •  [L-Click] Slash  |  [R-Click] Heavy Strike  |  [G] Throw Sword
+COMBAT_HUD_UNARMED,✋ SİLAHSIZ  •  Kılıcın yanına gidip [E] tuşuna basarak alın,✋ UNARMED  •  Approach the sword and press [E] to equip
+⚔️ KILIÇ KUŞANILDI  •  [Sol Tık] Savurma  |  [Sağ Tık] Güçlü Vuruş  |  [G] Kılıcı Fırlat,⚔️ KILIÇ KUŞANILDI  •  [Sol Tık] Savurma  |  [Sağ Tık] Güçlü Vuruş  |  [G] Kılıcı Fırlat,⚔️ SWORD ARMED  •  [L-Click] Slash  |  [R-Click] Heavy Strike  |  [G] Throw Sword
+✋ SİLAHSIZ  •  Kılıcın yanına gidip [E] tuşuna basarak alın,✋ SİLAHSIZ  •  Kılıcın yanına gidip [E] tuşuna basarak alın,✋ UNARMED  •  Approach the sword and press [E] to equip
+Hareket: [A / D] veya [← / →]  |  Zıplama: [Space] / [W]  |  Kılıç Alma: [E]  |  Fırlatma: [G],Hareket: [A / D] veya [← / →]  |  Zıplama: [Space] / [W]  |  Kılıç Alma: [E]  |  Fırlatma: [G],Move: [A / D] or [← / →]  |  Jump: [Space] / [W]  |  Pick Sword: [E]  |  Throw: [G]
+Platformlara zıpla,Platformlara zıpla,Jump across platforms
+ile zıpla,ile zıpla,to jump
+TITLE_OTTOMAN_SULTAN,Osmanlı Padişahı,Ottoman Sultan
+Fatih Sultan Mehmed,Fatih Sultan Mehmed,Sultan Mehmed II
+Osmanlı Padişahı,Osmanlı Padişahı,Ottoman Sultan
+Öncü Kumandan,Öncü Kumandan,Vanguard Commander
+Osmanlı Öncü Kumandanı,Osmanlı Öncü Kumandanı,Ottoman Vanguard Commander
+Eflak Kan Şövalyesi,Eflak Kan Şövalyesi,Wallachian Blood Knight
+Vlad Tepeş,Vlad Tepeş,Vlad the Impaler
+Yeniçeri Ağası,Yeniçeri Ağası,Janissary Agha
+Gazi Yeniçeri,Gazi Yeniçeri,Veteran Janissary
+Nöbetçi Asker,Nöbetçi Asker,Camp Sentry
+Kemankeş Çavuşu,Kemankeş Çavuşu,Archer Sergeant
+Mahpus Kılıç Ruhu,Mahpus Kılıç Ruhu,Imprisoned Blade Soul
+"BİR, İKİİİ... KOÇBAŞIYI VURUN!","BİR, İKİİİ... KOÇBAŞIYI VURUN!","ONE, TWOOO... HEAVE THE RAM!"
+🪵 BARİKAT KIRILDI!,🪵 BARİKAT KIRILDI!,🪵 BARRICADE DESTROYED!
+Allah Allah ileri! Hücum!,Allah Allah ileri! Hücum!,Forward! Charge!
+Allah Allah ileri!,Allah Allah ileri!,Forward!
+Hücum!,Hücum!,Charge!
+Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ilerle.,Kumandan şehit düştü! Yere düşen fermanı alıp Fatih Sultan Mehmed'in ordugahına ilerle.,The Commander has fallen! Pick up the imperial decree and make your way to Sultan Mehmed II's camp.
+Yerdeki fermanı almadan ordugaha giremezsin. Geri dönüp fermanı al.,Yerdeki fermanı almadan ordugaha giremezsin. Geri dönüp fermanı al.,You cannot enter the camp without the decree. Turn back and retrieve it.
+Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile konuşup görevi kabul edebilirsin),Sağdaki Fatih Sultan Mehmed Han'ın Otağı'na ilerle. (Fikrin değişirse Kemankeş ile konuşup görevi kabul edebilirsin),Proceed to Sultan Mehmed II's Pavilion on the right. (You can also speak with the Archer to accept his request)
+Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına ilerle.,Kemankeş köprü hücumunda alevli ok yağdıracak! Sağdaki Otağ-ı Hümayun çadırına ilerle.,Archers will rain fiery arrows during the bridge assault! Proceed to the Imperial Pavilion on the right.
+"Karanlık mahzenlere adım at, Vlad Tepeş'in izini sür.","Karanlık mahzenlere adım at, Vlad Tepeş'in izini sür.",Step into the dark crypts and track Vlad the Impaler.
+Kan Sunağı Mührü (%d/3),Kan Sunağı Mührü (%d/3),Blood Altar Seal (%d/3)
+Vlad molozların altında sersemledi! Şimdi hücum et!,Vlad molozların altında sersemledi! Şimdi hücum et!,Vlad is stunned beneath the rubble! Strike now!
+Yarasa Vlad ses dalgasıyla yere çakıldı! Şimdi kombo savur!,Yarasa Vlad ses dalgasıyla yere çakıldı! Şimdi kombo savur!,Bat Vlad crashes down from the soundwave! Unleash your combo now!
+Vlad'ın mühürleri parçalandı! Saldır!,Vlad'ın mühürleri parçalandı! Saldır!,Vlad's wards are shattered! Attack!
+Platformlardaki 2 kan kristalini kılıcınla parçalayarak Vlad'ın kalkanını indir!,Platformlardaki 2 kan kristalini kılıcınla parçalayarak Vlad'ın kalkanını indir!,Shatter both blood crystals on the platforms to breach Vlad's shield!
+Zayıf kemer düzeneğini kılıcınla vurarak molozları Vlad'ın üzerine devir!,Zayıf kemer düzeneğini kılıcınla vurarak molozları Vlad'ın üzerine devir!,Strike the crumbling arch mechanism to collapse rubble onto Vlad!
+Hava dalışlarında ulu çanın ipini kes veya vurarak akustik şokla yere düşür!,Hava dalışlarında ulu çanın ipini kes veya vurarak akustik şokla yere düşür!,Cut or strike the bell rope during his aerial dive to stun him with acoustic shock!
+Bir sonraki çağa geçmek için parıldayan uzay-zaman yırtığına adım at.,Bir sonraki çağa geçmek için parıldayan uzay-zaman yırtığına adım at.,Step into the shimmering rift to journey to the next era.
+*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titreşir.*,*Duvardaki kadim taş kabartma... Parçalanmış bir kalp... Kılıç derinden titreşir.*,*Ancient stone relief on the wall... A shattered heart... The blade resonates deeply.*
+Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.,Oyun durduruldu. Devam etmek veya kaydetmek için seçim yapın.,Game paused. Select an option to resume or save.
+↺ Bölümü Yeniden Başlat,↺ Bölümü Yeniden Başlat,↺ Restart Chapter
+⌂ Ana Menü,⌂ Ana Menü,⌂ Main Menu
+ Otomatik Kayıt (Checkpoints) Açık, Otomatik Kayıt (Checkpoints) Açık, Auto-Save (Checkpoints) Active
+Kayıt Yok,Kayıt Yok,No Save
+📂 Yükle,📂 Yükle,📂 Load
+⮌ Menüye Dön,⮌ Menüye Dön,⮌ Return to Menu
+Ana Menüye Dön,Ana Menüye Dön,Return to Main Menu
+📜 GÖREV GÜNLÜĞÜ,📜 GÖREV GÜNLÜĞÜ,📜 QUEST LOG
+[J / L] Kapat  |  [TAB] Sekme Değiştir,[J / L] Kapat  |  [TAB] Sekme Değiştir,[J / L] Close  |  [TAB] Switch Tab
+⚔️ Aktif Görevler,⚔️ Aktif Görevler,⚔️ Active Quests
+🏆 Tamamlanan Görevler,🏆 Tamamlanan Görevler,🏆 Completed Quests
+Görev Başlığı,Görev Başlığı,Quest Title
+👑 ANA GÖREV,👑 ANA GÖREV,👑 MAIN QUEST
+Görev açıklaması ve arka plan hikayesi burada görüntülenir.,Görev açıklaması ve arka plan hikayesi burada görüntülenir.,Quest description and backstory are displayed here.
+🎯 Hedef Aşamaları:,🎯 Hedef Aşamaları:,🎯 Objective Stages:
+🎁 Ödül: Alevli Ok Desteği,🎁 Ödül: Alevli Ok Desteği,🎁 Reward: Flaming Arrow Support
+🎯 Bu Görevi Takip Et,🎯 Bu Görevi Takip Et,🎯 Track This Quest
+🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER,🎒 GEZGİNİN DERİ SIRT ÇANTASI & ENVANTER,🎒 TRAVELER'S LEATHER SATCHEL & INVENTORY
+[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir,[I / B / ESC] Kapat  |  [TAB] Sekme Değiştir,[I / B / ESC] Close  |  [TAB] Switch Tab
+🎒 Çanta ve Donanım,🎒 Çanta ve Donanım,🎒 Satchel & Gear
+💖 Dünya Kalbi Kadranı,💖 Dünya Kalbi Kadranı,💖 World Heart Chronometer
+ÇANTA VE DONANIM,ÇANTA VE DONANIM,SATCHEL & GEAR
+Dünya Kalbi Bütünlüğü: 1 / 4 (%25),Dünya Kalbi Bütünlüğü: 1 / 4 (%25),World Heart Integrity: 1 / 4 (25%)
+💎 Parça 1: Kadim Yankı (Taş Devri),💎 Parça 1: Kadim Yankı (Taş Devri),💎 Shard 1: Ancient Echo (Stone Age)
+🔒 Parça 2: Kan Mührü (Eflak),🔒 Parça 2: Kan Mührü (Eflak),🔒 Shard 2: Blood Seal (Wallachia)
+🔒 Parça 3: Güneş Çarkı (Antik Dünya),🔒 Parça 3: Güneş Çarkı (Antik Dünya),🔒 Shard 3: Sun Wheel (Ancient World)
+🔒 Parça 4: Sonsuzluk Çekirdeği,🔒 Parça 4: Sonsuzluk Çekirdeği,🔒 Shard 4: Infinity Core
+Eşya Başlığı,Eşya Başlığı,Item Title
+🧪 TÜKETİLEBİLİR,🧪 TÜKETİLEBİLİR,🧪 CONSUMABLE
+Taşınan Miktar: 3,Taşınan Miktar: 3,Carried: 3
+Eşya açıklaması ve detaylı arka plan bilgisi burada görüntülenir.,Eşya açıklaması ve detaylı arka plan bilgisi burada görüntülenir.,Item lore and description will be displayed here.
+⚡ Etki: +35 Can Puanı,⚡ Etki: +35 Can Puanı,⚡ Effect: +35 Health Points
+Hızlı Kullanım Kısayolu,Hızlı Kullanım Kısayolu,Quick Use Shortcut
+İksiri İç (+35 Can),İksiri İç (+35 Can),Drink Potion (+35 HP)
+"İpucu: Tüketilebilir eşyaları [2] ve [4], fırlatılabilirleri [F] ile anında kullanabilirsiniz.","İpucu: Tüketilebilir eşyaları [2] ve [4], fırlatılabilirleri [F] ile anında kullanabilirsiniz.","Tip: Quick-use consumables with [2] and [4], throwables with [F]."
+[Space / Sol Tık] İlerle,[Space / Sol Tık] İlerle,[Space / Left Click] Advance
+[Space / Sol Tık] Devam,[Space / Sol Tık] Devam,[Space / Left Click] Continue
+[1] Yardımcı Ol,[1] Yardımcı Ol,[1] Offer Assistance
+"Düşmanımız bir, hedefimiz açık. Yeniçerilerim ve Kemankeşlerim kalenin surlarını dövüyor...","Düşmanımız bir, hedefimiz açık. Yeniçerilerim ve Kemankeşlerim kalenin surlarını dövüyor...","Our foe is one, our path is clear. My Janissaries and Archers batter the fortress ramparts..."
+Mahpus Kılıç Ruhu ve Dünyanın Kalbi,Mahpus Kılıç Ruhu ve Dünyanın Kalbi,Imprisoned Blade Soul & Heart of the World
+Bölüm Seçimi,Bölüm Seçimi,Chapter Select
+BÖLÜM SEÇİMİ,BÖLÜM SEÇİMİ,CHAPTER SELECT
+Çıkış,Çıkış,Exit
+Ekran Sarsıntısı:,Ekran Sarsıntısı:,Screen Shake:
+Müzik:,Müzik:,Music:
+Kapalı,Kapalı,Off
+Düşük,Düşük,Low
+Yüksek,Yüksek,High
+Gamepad Titreşimi:,Gamepad Titreşimi:,Gamepad Vibration:
+Analog Ölü Bölge:,Analog Ölü Bölge:,Analog Deadzone:
+Aktif Giriş Cihazı:,Aktif Giriş Cihazı:,Active Input Device:
+FLAMING_ARROW_SUPPORT_ACTIVE,Alevli Ok Desteği Aktif,Flaming Arrow Support Active
+WOOD_CART_PROGRESS,Mağaraya Kalan: %d m (%% %d),To the Cave: %d m (%d%%)
+PROMPT_TALK_TO,[E] Konuş (%s),[E] Talk (%s)
+FLOAT_BLOCKED,🛡️ BLOKLANDI! (-%%80) [-%d HP],🛡️ BLOCKED! (-80%%) [-%d HP]
+FLOAT_HOLY_PURGE,✨ KUTSAL ARINMA! -%d,✨ HOLY PURGE! -%d
+FLOAT_HEAL,+%d CAN,+%d HP
+Bölüm 1: Taş Devri,Bölüm 1: Taş Devri,Chapter 1: Stone Age
+Tarih Öncesi Kanyon,Tarih Öncesi Kanyon,Prehistoric Canyon
+Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J],Hareket: [A / D]  |  Zıplama: [Space]  |  Çift Zıplama: [Space x2]  |  Saldırı: [Sol Tık / J],Move: [A / D]  |  Jump: [Space]  |  Double Jump: [Space x2]  |  Attack: [Left Click / J]
+GÖREV: KANYONU GEÇ,GÖREV: KANYONU GEÇ,QUEST: CROSS THE CANYON
+Kadim Kılıcın Uyanışı,Kadim Kılıcın Uyanışı,Awakening of the Ancient Blade
+"Platformları aş, kılıcınla antik barikatı parçala ve vadi geçidine ulaş!","Platformları aş, kılıcınla antik barikatı parçala ve vadi geçidine ulaş!","Cross the platforms, shatter the ancient barricade with your blade and reach the valley pass!"
+GÖREV: ODUN ARABASINI KURTAR,GÖREV: ODUN ARABASINI KURTAR,QUEST: RESCUE THE WOOD CART
+Kabilenin Kutsal Ateşi,Kabilenin Kutsal Ateşi,The Tribe's Sacred Fire
+Ormandaki arabayı mağara girişine kadar iterek ulaştır! Yırtıcılara dikkat et.,Ormandaki arabayı mağara girişine kadar iterek ulaştır! Yırtıcılara dikkat et.,Push the cart from the forest to the cave entrance! Beware of predators.
+SAVAŞ KARŞILAŞMASI!,SAVAŞ KARŞILAŞMASI!,COMBAT ENCOUNTER!
+Mağara Halkı Düşman Oldu,Mağara Halkı Düşman Oldu,The Cave Folk Turned Hostile
+Kabile reisi ve savaşçıları alt ederek kanyondan çıkış yolunu aç!,Kabile reisi ve savaşçıları alt ederek kanyondan çıkış yolunu aç!,Defeat the chief and his warriors to open the way out of the canyon!
+GÖREV TAMAMLANDI!,GÖREV TAMAMLANDI!,QUEST COMPLETE!
+Kabilenin Minneti,Kabilenin Minneti,The Tribe's Gratitude
+Odunlar mağaraya ulaştı! Önündeki barikatı aşarak T-Rex arenasına ilerle.,Odunlar mağaraya ulaştı! Önündeki barikatı aşarak T-Rex arenasına ilerle.,The timber reached the cave! Pass the barricade ahead and advance to the T-Rex arena.
+Tarih Öncesi Vadi & Siber Tyrant'ın İzi,Tarih Öncesi Vadi & Siber Tyrant'ın İzi,Prehistoric Valley & Trail of the Cyber Tyrant
+UYARI: ANORMAL TİTREŞİMLER,UYARI: ANORMAL TİTREŞİMLER,WARNING: ABNORMAL TREMORS
+Geleceğe Ait Siber Sinyaller,Geleceğe Ait Siber Sinyaller,Cyber Signals from the Future
+Kopmuş devasa sibernetik pençeler... Canavar çok yakında!,Kopmuş devasa sibernetik pençeler... Canavar çok yakında!,Severed colossal cybernetic claws... The beast is very close!
+PATRON DÖVÜŞÜ: SİBER T-REX,PATRON DÖVÜŞÜ: SİBER T-REX,BOSS FIGHT: CYBER T-REX
+Dev Mecha-Tyrant,Dev Mecha-Tyrant,Giant Mecha-Tyrant
+Lazerden ve yer sarsıntılarından kaçmak için yüksek platformlara tırman!,Lazerden ve yer sarsıntılarından kaçmak için yüksek platformlara tırman!,Climb the high platforms to escape the laser and the ground tremors!
+DİKKAT: SİBER LAZER SALDIRISI!,DİKKAT: SİBER LAZER SALDIRISI!,CAUTION: CYBER LASER ATTACK!
+Faz 2: Overdrive Devrede,Faz 2: Overdrive Devrede,Phase 2: Overdrive Engaged
+Kırmızı nişan uyarısına dikkat et! Siper monolitinin arkasına saklan veya platformlara zıpla!,Kırmızı nişan uyarısına dikkat et! Siper monolitinin arkasına saklan veya platformlara zıpla!,Watch for the red targeting warning! Hide behind the cover monolith or jump to the platforms!
+[ FAZ 1: STANDART ],[ FAZ 1: STANDART ],[ PHASE 1: STANDARD ]
+[ FAZ 2: OVERDRIVE - SİBER LAZER AKTİF ],[ FAZ 2: OVERDRIVE - SİBER LAZER AKTİF ],[ PHASE 2: OVERDRIVE - CYBER LASER ACTIVE ]
+[ FAZ 3: MELTDOWN - ÖLÜMCÜL LAZER ],[ FAZ 3: MELTDOWN - ÖLÜMCÜL LAZER ],[ PHASE 3: MELTDOWN - LETHAL LASER ]
+Zaman Yarığı,Zaman Yarığı,Time Rift
+Bilinmeyen çağa düştün. İlerleyerek çıkışa ulaş.,Bilinmeyen çağa düştün. İlerleyerek çıkışa ulaş.,You have fallen into an unknown age. Press on and reach the exit.
+Sessiz Vadi,Sessiz Vadi,Silent Valley
+Keşfet,Keşfet,Explore
+Vadideki devasa pençe izlerini ve fosilleri araştır.,Vadideki devasa pençe izlerini ve fosilleri araştır.,Investigate the colossal claw marks and fossils in the valley.
+Kırık Geçit,Kırık Geçit,Broken Pass
+Zıpla,Zıpla,Jump
+Kırık sütun ve kayalık platformları aşarak ilerle.,Kırık sütun ve kayalık platformları aşarak ilerle.,Advance across the broken pillars and rocky platforms.
+Avcının İzleri,Avcının İzleri,The Hunter's Traces
+İlerle,İlerle,Advance
+Kadim yırtıcının devasa ayak izlerini ve ezilmiş ağaçları takip et.,Kadim yırtıcının devasa ayak izlerini ve ezilmiş ağaçları takip et.,Follow the ancient predator's colossal footprints and the crushed trees.
+Zamansal Parçalar,Zamansal Parçalar,Temporal Fragments
+Araştır,Araştır,Investigate
+Alanda bulunan mekanik eklem ve sibernetik zırh parçalarını incele.,Alanda bulunan mekanik eklem ve sibernetik zırh parçalarını incele.,Examine the mechanical joints and cybernetic armor fragments in the area.
+Canavarın İni,Canavarın İni,The Beast's Lair
+Dikkat,Dikkat,Caution
+İn bölgesindeki dev fosil kalıntılarını geç ve sığınağa ulaş.,İn bölgesindeki dev fosil kalıntılarını geç ve sığınağa ulaş.,Cross the giant fossil remains of the lair and reach the shelter.
+TAŞ DEVRİ — ZAFER VE HİKMET,TAŞ DEVRİ — ZAFER VE HİKMET,STONE AGE — VICTORY AND WISDOM
+İlk Kalp Parçası,İlk Kalp Parçası,The First Heart Shard
+Kraterdeki kadim Dünyanın Kalbi parçasına yaklaş ve kaderini öğren.,Kraterdeki kadim Dünyanın Kalbi parçasına yaklaş ve kaderini öğren.,Approach the ancient shard of the World's Heart in the crater and learn your fate.
+ÇAĞLARIN YANKISI — KALBİN ÇAĞRISI,ÇAĞLARIN YANKISI — KALBİN ÇAĞRISI,ECHO OF THE AGES — THE HEART'S SUMMONS
+M.S. 1462 / Eflak Seferi,M.S. 1462 / Eflak Seferi,1462 A.D. / Wallachian Campaign
+"Kalp Parçası, bir sonraki parçanın çarptığı geceyi gösteriyor...","Kalp Parçası, bir sonraki parçanın çarptığı geceyi gösteriyor...",The Heart Shard reveals the night where the next shard beats...
+ZAMAN YIRTIĞI AÇILDI,ZAMAN YIRTIĞI AÇILDI,TIME RIFT OPENED
+Geleceğe ve Geçmişe Açılan Geçit,Geleceğe ve Geçmişe Açılan Geçit,A Gateway to Future and Past
+Yırtığa girerek Taş Devri'nden sonraki çağa (Eflak Seferi) adım at!,Yırtığa girerek Taş Devri'nden sonraki çağa (Eflak Seferi) adım at!,Enter the rift and step from the Stone Age into the next era (the Wallachian Campaign)!
+✓ Odun Arabası Mağaraya Ulaştı!,✓ Odun Arabası Mağaraya Ulaştı!,✓ The Wood Cart Reached the Cave!
+✗ Araba Parçalandı!,✗ Araba Parçalandı!,✗ The Cart Was Destroyed!
+[D veya E] Arabayı İt,[D veya E] Arabayı İt,[D or E] Push the Cart
+🛡️ KALKAN ELDE (Sağ Tık: Savun),🛡️ KALKAN ELDE (Sağ Tık: Savun),🛡️ SHIELD RAISED (Right Click: Guard)
+⚔️ KALKAN İNDİRİLDİ (Sağ Tık: Ağır Saldırı),⚔️ KALKAN İNDİRİLDİ (Sağ Tık: Ağır Saldırı),⚔️ SHIELD LOWERED (Right Click: Heavy Attack)
+⚡ PERFECT BLOCK / PARRY! (0 Hasar),⚡ PERFECT BLOCK / PARRY! (0 Hasar),⚡ PERFECT BLOCK / PARRY! (0 Damage)
+🛡️ BAĞIŞIK (Kutsal Değil),🛡️ BAĞIŞIK (Kutsal Değil),🛡️ IMMUNE (Not Holy)
+⌨️ Klavye & Fare,⌨️ Klavye & Fare,⌨️ Keyboard & Mouse
+TOAST_CONTROLLER_CONNECTED,🎮 Kontrolcü Bağlandı: %s,🎮 Controller Connected: %s
+TOAST_CONTROLLER_DISCONNECTED,⚠️ Kontrolcü Ayrıldı (Klavye Moduna Geçildi),⚠️ Controller Disconnected (Switched to Keyboard)
+SETTINGS_DISPLAY_MODE,Ekran Modu:,Display Mode:
+SETTINGS_RESOLUTION,Çözünürlük:,Resolution:
+SETTINGS_VSYNC,Dikey Eşitleme (VSync):,Vertical Sync (VSync):
+SETTINGS_FPS_LIMIT,Kare Hızı Sınırı:,Frame Rate Limit:
+FPS_UNLIMITED,Sınırsız,Unlimited
+DISPLAY_MODE_WINDOWED,Pencereli,Windowed
+DISPLAY_MODE_BORDERLESS,Çerçevesiz Tam Ekran,Borderless Fullscreen
+DISPLAY_MODE_FULLSCREEN,Özel Tam Ekran,Exclusive Fullscreen
+FLOAT_MIST_DODGE,🩸 SİS: HASAR ALINMADI,🩸 MIST: NO DAMAGE
+SECRET_FOUND_TITLE,GİZLİ ODA BULUNDU!,SECRET ROOM FOUND!
+SECRET_FOUND_SUB,Duvar Yıkıldı,Wall Broken
+SECRET_FOUND_DESC,Çatlak duvarın ardında saklı bir oda var. Ödül: %d altın.,A hidden chamber lies behind the cracked wall. Reward: %d gold.
+SETTINGS_DIALOGUE_TEXT_SIZE,Diyalog Metni Boyutu:,Dialogue Text Size:
+SETTINGS_HOLD_TO_ATTACK,Basılı Tutarak Saldır:,Hold to Attack:
+SETTINGS_COLOR_ASSIST,Renk Yardımı (Simgeler):,Color Assist (Symbols):
+TEXT_SIZE_NORMAL,Normal,Normal
+TEXT_SIZE_LARGE,Büyük,Large
+TEXT_SIZE_XLARGE,Çok Büyük,Extra Large
+LOADING_TITLE,Yükleniyor...,Loading...
+LOADING_FAILED_TITLE,Yükleme Başarısız,Loading Failed
+LOADING_FAILED_DESC,Sahne yüklenemedi. Önceki ekrana dönülüyor.,The scene could not be loaded. Returning to the previous screen.
+LOADING_TIP_1,"İpucu: Kamp ateşinde dinlenmek ilerlemeni kaydeder, canını ve iksirlerini yeniler.",Tip: Resting at a campfire saves your progress and restores health and potions.
+LOADING_TIP_2,"İpucu: Savunmayı saldırı gelmeden hemen önce açarsan saldırıyı savuşturur, düşmanı sersemletirsin.",Tip: Raise your guard just before a hit lands to parry it and stagger the enemy.
+LOADING_TIP_3,İpucu: Müttefiklerini sömürmek can verir ama yozlaşmanı artırır; kılıç bunu unutmaz.,Tip: Draining your allies restores health but raises corruption; the sword does not forget.
+LOADING_TIP_4,İpucu: Havadayken aşağı yönle birlikte saldırırsan yere sert iniş yaparsın.,Tip: Attack while holding down in mid-air to perform a plunge attack.
+LOADING_TIP_5,İpucu: Ağır saldırılar düşmanın duruşunu hafif saldırılardan çok daha hızlı kırar.,Tip: Heavy attacks break an enemy's poise far faster than light ones.
+RESULTS_TITLE,YOLCULUK ÖZETİ,JOURNEY SUMMARY
+RESULTS_TIME,Oyun Süresi:,Play Time:
+RESULTS_DEATHS,Ölüm:,Deaths:
+RESULTS_DAMAGE_TAKEN,Alınan Hasar:,Damage Taken:
+RESULTS_BOSSES,Yenilen Bekçi ve Boss:,Guardians & Bosses Defeated:
+RESULTS_ITEMS,Toplanan Öğe:,Items Collected:
+RESULTS_QUESTS,Tamamlanan Görev:,Quests Completed:
+RESULTS_HEART_PIECES,Kalp Parçası:,Heart Shards:
+RESULTS_CORRUPTION,Yozlaşma:,Corruption:
+RESULTS_ENDING,Bitiş:,Ending:
+RESULTS_ENDING_REDEMPTION,Kefaret,Redemption
+RESULTS_ENDING_GOD_KING,Tanrı-Kral,God-King
+RESULTS_ENDING_NONE,Henüz belirlenmedi,Not yet decided
+RESULTS_REPLAY,↻ Baştan Oyna,↻ Play Again
+RESULTS_MAIN_MENU,⮌ Ana Menü,⮌ Main Menu
+CHAPTER_3_TITLE,Bölüm 3: Antik Mısır ve Lanetli Firavun Kral,Chapter 3: Ancient Egypt & the Cursed Pharaoh King
+CHAPTER_3_ERA,Antik Mısır — Zaman Kırılması,Ancient Egypt — Time Fracture
+STAGE_EGYPT_1,Bölüm 3: Kızıl Çöl,Chapter 3: Crimson Desert
+STAGE_EGYPT_2,Bölüm 3: Anıt-Mezar Avlusu,Chapter 3: Tomb Courtyard
+STAGE_EGYPT_3,Bölüm 3: Lanetli Anıt-Mezar,Chapter 3: The Cursed Tomb
+STAGE_EGYPT_4,Bölüm 3: Güneş Taht Odası,Chapter 3: Throne of the Sun
+RESULTS_CONTINUE,▶ Zaman Yırtığına Gir,▶ Enter the Time Rift
+HUD_SEAL_WEAKENED,Mühür yarı yarıya zayıfladı,Seal half-broken
+PROMPT_EGYPT_INSPECT,[E] İncele,[E] Inspect
+PROMPT_EGYPT_SARCOPHAGUS,[E] Lanetli Lahdi İncele,[E] Inspect the Cursed Sarcophagus
+PROMPT_EGYPT_SLAVE,[E] Köleyle Konuş,[E] Speak with the Slave
+PROMPT_EGYPT_TABLET,[E] Hiyeroglifleri Oku,[E] Read the Hieroglyphs
+EGYPT_ABILITY_TAG,⚔️ MÜHÜR YARI YARIYA ZAYIFLADI,⚔️ THE SEAL IS HALF-BROKEN
+EGYPT_BOSS_NAME,Lanetli Firavun Kral,The Cursed Pharaoh King
+EGYPT_SEAL_PROGRESS,Güneş Mührü: %d / %d,Sun Seals: %d / %d
+EGYPT_FLOAT_POTION,+ Şifalı İksir,+ Healing Draught
+EGYPT_FLOAT_SLAVE_FREED,Köle Özgür! (Kefaret),Slave Freed! (Redemption)
+EGYPT_FLOAT_SLAVE_KILLED,Masum Kanı (+12 Yozlaşma),Innocent Blood (+12 Corruption)
+EGYPT_FLOAT_SOULS_DRAINED,Ruh Sömürüldü (+20 Yozlaşma),Soul Drained (+20 Corruption)
+EGYPT_TUT_01_TITLE,Sahne 1: Kızıl Çöl,Scene 1: The Crimson Desert
+EGYPT_TUT_01_SUB,Asılı Piramitlerin Gölgesinde,In the Shadow of Hanging Pyramids
+EGYPT_TUT_01_DESC,"Kum tuzaklarından zıplayarak kaç, Piramit Muhafızlarını yen ve doğuya ilerle.","Jump clear of the sand traps, defeat the Pyramid Guards and press east."
+EGYPT_TUT_02_TITLE,Sahne 2: Anıt-Mezar Avlusu,Scene 2: The Tomb Courtyard
+EGYPT_TUT_02_SUB,"Kefaret mi, Yozlaşma mı?",Redemption or Corruption?
+EGYPT_TUT_02_DESC,"Kafes muhafızlarını yen, sonra [E] ile kölelerin kaderine karar ver. Lanetli lahitleri sömürebilir ya da kırabilirsin.","Defeat the cage guards, then decide the slaves' fate with [E]. You may drain or shatter the cursed sarcophagi."
+EGYPT_TUT_02_DONE_TITLE,Avlu Sessizleşti,The Courtyard Falls Silent
+EGYPT_TUT_02_DONE_SUB,Anıt-Mezara İlerle,Proceed to the Tomb
+EGYPT_TUT_02_DONE_DESC,Tüm kafesler karara bağlandı. Doğudaki anıt-mezar kapısına ilerle.,Every cage has been decided. Head to the tomb gate in the east.
+EGYPT_TUT_03_TITLE,Sahne 3: Lanetli Anıt-Mezar,Scene 3: The Cursed Tomb
+EGYPT_TUT_03_SUB,İki Güneş Mührünü Bul,Find Both Sun Seals
+EGYPT_TUT_03_DESC,Kızıl işaret beliren yerlerden güneş ışını düşer — işaretten çık. Çukura dikkat et.,Sun beams strike where a crimson mark appears — step out of it. Mind the pit.
+EGYPT_TUT_04_TITLE,Sahne 4: Güneş Taht Odası,Scene 4: Throne of the Sun
+EGYPT_TUT_04_SUB,Lanetli Firavun Kral,The Cursed Pharaoh King
+EGYPT_TUT_04_DESC,"Işın telegraph'larından kaç, ışından sonraki toparlanma anında saldır. Mumyalar kalkarsa önce onları temizle.",Dodge the beam telegraphs and strike during his recovery after each beam. Clear the mummies first when they rise.
+EGYPT_EXIT_GUARDS_TITLE,Muhafızlar Yolu Kesiyor,Guards Block the Way
+EGYPT_EXIT_GUARDS_SUB,Önce Muhafızları Yen,Defeat the Guards First
+EGYPT_EXIT_GUARDS_DESC,Piramit Muhafızları hâlâ ayakta; onları yenmeden avluya geçemezsin.,Pyramid Guards still stand; you cannot reach the courtyard until they fall.
+EGYPT_EXIT_CAGES_TITLE,Avlu Seni Bekliyor,The Courtyard Awaits
+EGYPT_EXIT_CAGES_SUB,Kölelerin Kaderi,The Slaves' Fate
+EGYPT_EXIT_CAGES_DESC,Anıt-mezara girmeden önce her kafesteki kölenin kaderine karar ver.,Decide the fate of the slave in every cage before entering the tomb.
+EGYPT_MUMMY_WAVE_TITLE,Ölüler Kalkıyor!,The Dead Rise!
+EGYPT_MUMMY_WAVE_SUB,Mumya Dalgası,Mummy Wave
+EGYPT_MUMMY_WAVE_DESC,Mumyalar kalkış anında savunmasızdır — ağır saldırıyla hızlıca temizle.,Mummies are vulnerable while rising — clear them fast with heavy attacks.
+EGYPT_CHAPTER_DONE_TITLE,Bölüm 3 Tamamlandı,Chapter 3 Complete
+EGYPT_CHAPTER_DONE_SUB,3. Kalp Parçası Alındı,Third Heart Shard Claimed
+EGYPT_CHAPTER_DONE_DESC,Zaman yırtığı savaş çağına açıldı...,The time rift opens onto an age of war...
+CHAPTER_4_TITLE,Bölüm 4: Cani Komutan ve Demir Kalp,Chapter 4: The Butcher Commander and the Iron Heart
+CHAPTER_4_ERA,2. Dünya Savaşı — Demir Cephe,World War II — The Iron Front
+STAGE_WW2_1,2. Dünya Savaşı: Bombalanmış Siperler,World War II: Bombed Trenches
+STAGE_WW2_2,2. Dünya Savaşı: Yıkık Şehir ve Viyadük,World War II: Ruined City & Viaduct
+STAGE_WW2_3,2. Dünya Savaşı: Gizli Silah Laboratuvarı,World War II: Secret Weapons Laboratory
+STAGE_WW2_4,2. Dünya Savaşı: Komuta Sığınağı,World War II: Command Bunker
+STAGE_WW2_5,2. Dünya Savaşı: Anı Kırılması,World War II: Memory Fracture
+WW2_BOSS_NAME,Cani Komutan,The Butcher Commander
+WW2_OFFICER_NAME,Alev Makineli Ağır Siper Subayı,Heavy Flamethrower Trench Officer
+WW2_DOCTOR_NAME,Okült Başhekim,Occult Chief Physician
+WW2_EXPERIMENT_NAME,Başarısız Deney,The Failed Experiment
+WW2_ABILITY_TAG,⚔️ MÜHÜR SON GÜNLERİNİ SAYIYOR,⚔️ THE SEAL COUNTS ITS FINAL DAYS
+HUD_SEAL_VOW,İntikam yemini: mühür son günlerini sayıyor,Vow of vengeance: the seal counts its final days
+PROMPT_WW2_WOUNDED,[E] Yaralı askerle konuş,[E] Talk to the wounded soldier
+PROMPT_WW2_PRISONER,[E] Esirle konuş,[E] Talk to the prisoner
+PROMPT_WW2_RELAY,[E] Röleyi çevir,[E] Flip the relay
+PROMPT_WW2_RADIO,[E] Telsizi kullan,[E] Use the radio
+PROMPT_WW2_SEAL,[E] Okült mührü incele,[E] Examine the occult seal
+PROMPT_WW2_INSPECT,[E] İncele,[E] Inspect
+WW2_TUT_01_TITLE,Bombalanmış Siperler,Bombed Trenches
+WW2_TUT_01_SUB,Islığı duyunca sığınağa koş,Run for shelter when you hear the whistle
+WW2_TUT_01_DESC,"Kızıl işaretler topçu düşüşünü gösterir. [T] El bombası, [H] Sargı bezi, [V] Gaz filtresi.","Red markers show where shells will land. [T] Grenade, [H] Bandage, [V] Gas filter."
+WW2_TUT_01_DONE_TITLE,Siper Kapısı Açıldı,Trench Gate Open
+WW2_TUT_01_DONE_SUB,Subay yenildi,The officer has fallen
+WW2_TUT_01_DONE_DESC,"Doğuya, yıkık şehre ilerle.",Push east into the ruined city.
+WW2_EXIT_OFFICER_TITLE,Yol Kapalı,The Way Is Barred
+WW2_EXIT_OFFICER_SUB,Siper Subayı geçidi tutuyor,The Trench Officer holds the gate
+WW2_EXIT_OFFICER_DESC,Arkasına geç ya da dalış saldırısıyla sırt tankını patlat.,Get behind him or burst his back tank with a plunge attack.
+WW2_TUT_02_TITLE,Yıkık Şehir,The Ruined City
+WW2_TUT_02_SUB,Projektörlerden uzak dur,Stay out of the searchlights
+WW2_TUT_02_DESC,Işığa yakalanırsan takviye gelir. Viyadükte hareketli vagonlara atla.,"If the light catches you, reinforcements arrive. Jump onto the moving cars on the viaduct."
+WW2_ALARM_TITLE,ALARM!,ALARM!
+WW2_ALARM_SUB,Projektör seni yakaladı,A searchlight spotted you
+WW2_ALARM_DESC,Takviyeler geliyor — gölgelerde kal.,Reinforcements are coming — keep to the shadows.
+WW2_TUT_03_TITLE,Gizli Laboratuvar,The Secret Laboratory
+WW2_TUT_03_SUB,Gaz koridorunu aş,Get through the gas corridor
+WW2_TUT_03_DESC,Röleler vantilatörleri çalıştırır. Gaz filtresi ([V]) seni korur.,The relays drive the ventilators. A gas filter ([V]) protects you.
+WW2_RELAY_TITLE,Güç Röleleri,Power Relays
+WW2_RELAY_SUB,Şema: AÇIK — KAPALI — AÇIK,Diagram: ON — OFF — ON
+WW2_RELAY_DESC,Röleleri şemadaki sıraya getir; vantilatörler gazı çekip kapıyı açar.,Set the relays to match the diagram; the ventilators will clear the gas and open the door.
+WW2_TUBES_TITLE,Okült Kalkan,Occult Shield
+WW2_TUBES_SUB,Önce enerji tüplerini kır,Break the energy tubes first
+WW2_TUBES_DESC,Deney yere vurdukça arena daralır; vuruştan önce zıpla.,Each slam of the Experiment narrows the arena; jump before it lands.
+WW2_TUT_03_DONE_TITLE,Laboratuvar Susturuldu,Laboratory Silenced
+WW2_TUT_03_DONE_SUB,Başhekim ve Deney yenildi,The Physician and the Experiment have fallen
+WW2_TUT_03_DONE_DESC,Komuta sığınağına giden kapı açık.,The door to the command bunker is open.
+WW2_EXIT_LAB_TITLE,Kapı Mühürlü,The Door Is Sealed
+WW2_EXIT_LAB_SUB,Laboratuvarın efendileri hâlâ ayakta,The masters of the lab still stand
+WW2_EXIT_LAB_DESC,Başhekim'i ve Deney'i yen.,Defeat the Physician and the Experiment.
+WW2_TUT_04_TITLE,Cani Komutan,The Butcher Commander
+WW2_TUT_04_SUB,Kum torbalarının arkasında siper al,Take cover behind the sandbags
+WW2_TUT_04_DESC,Form 2'de savuşturma ve ağır vuruşla kalkanı kır; Form 3'te enerji sütunlarını parçala.,In Form 2 break the shield with parries and heavy blows; in Form 3 smash the energy pillars.
+WW2_TUT_05_TITLE,Anı Kırılması,Memory Fracture
+WW2_TUT_05_SUB,Dördüncü parça kılıçta,The fourth shard is in the blade
+WW2_TUT_05_DESC,Hatırla.,Remember.
+WW2_CHAPTER_DONE_TITLE,Bölüm 4 Tamamlandı,Chapter 4 Complete
+WW2_CHAPTER_DONE_SUB,4. Kalp Parçası Alındı,Fourth Heart Shard Claimed
+WW2_CHAPTER_DONE_DESC,Zaman yırtığı geleceğin makinelerine açıldı...,The time rift opens onto the machines of the future...
+WW2_FLOAT_ARMOR,ZIRH! (Arkaya geç),ARMOUR! (Get behind)
+WW2_FLOAT_TANK_BURST,TANK PATLADI!,TANK BURST!
+WW2_FLOAT_SHIELD,OKÜLT KALKAN,OCCULT SHIELD
+WW2_FLOAT_POISE_BROKEN,KALKAN KIRILDI!,SHIELD BROKEN!
+WW2_FLOAT_WOUNDED_SAVED,Yaralı Kurtarıldı! (Kefaret),Wounded Saved! (Redemption)
+WW2_FLOAT_LIFE_DRAINED,Yaşam Gücü Sömürüldü (+20 Yozlaşma),Life Force Drained (+20 Corruption)
+WW2_FLOAT_INNOCENT_KILLED,Masum Öldürüldü (+12 Yozlaşma),Innocent Killed (+12 Corruption)
+WW2_FLOAT_PRISONER_FREED,Esir Özgür! (Kefaret),Prisoner Freed! (Redemption)
+WW2_FLOAT_REACTOR_SACRIFICE,Reaktöre Feda Edildi (+20 Yozlaşma),Sacrificed to the Reactor (+20 Corruption)
+WW2_FLOAT_BATTERY_SILENCED,Batarya Susturuldu: topçu %50 zayıf,Battery Silenced: artillery 50% weaker
+WW2_FLOAT_NO_ITEM,%s yok ya da kullanılamaz,%s unavailable
+CHAPTER_5_TITLE,Bölüm 5: AI Lord ve İşlemci Kalbi,Chapter 5: The AI Lord and the Processor Heart
+CHAPTER_5_ERA,Uzak Gelecek — Distopik Dünya,Far Future — The Dystopian World
+STAGE_FUTURE_1,Neon Enkazı,Neon Ruins
+STAGE_FUTURE_2,Zamansal Montaj Hattı,Temporal Assembly Line
+STAGE_FUTURE_3,Direniş Veri Kalesi,Resistance Data Citadel
+STAGE_FUTURE_4,AI Lord Çekirdek Kulesi,AI Lord's Core Tower
+STAGE_FUTURE_5,Kılıcın Kırılışı,The Shattering of the Blade
+FUT_TUT_01_TITLE,Neon Enkazı,Neon Ruins
+FUT_TUT_01_SUB,Lazer taramalarından siper al,Take cover from the laser scans
+FUT_TUT_01_DESC,"Kırmızı nişan çizgisi lazerin geleceğini gösterir; bloklar ışını keser. [T] EMP, [H] Nano-Kit, [V] Faz Kalkanı, [B] Plazma, [J] Enjektör.","A red aim line warns of the laser; blocks stop the beam. [T] EMP, [H] Nano-Kit, [V] Phase Shield, [B] Plasma, [J] Injector."
+FUT_TUT_02_TITLE,Zamansal Montaj Hattı,Temporal Assembly Line
+FUT_TUT_02_SUB,"Bantları terminalden çevir, preslerin ritmini oku","Reverse belts at the terminal, read the presses' rhythm"
+FUT_TUT_02_DESC,"Sarı ışık presin ineceğini gösterir. Mavi zaman alanları yavaşlatır, kırmızılar hızlandırır.","An amber light means the press is coming down. Blue time fields slow you, red ones speed you up."
+FUT_TUT_03_TITLE,Direniş Veri Kalesi,Resistance Data Citadel
+FUT_TUT_03_SUB,"Terminalleri sırayla hackle, sunucu düğümlerini yok et","Hack the terminals in order, destroy the server nodes"
+FUT_TUT_03_DESC,EMP terminalleri lazer kapılarını söndürür. Üç düğüm düşerse AI Lord'un desteği yarıya iner.,"EMP terminals shut down laser gates. If all three nodes fall, the AI Lord's support is halved."
+FUT_TUT_04_TITLE,AI Lord Çekirdek Kulesi,AI Lord's Core Tower
+FUT_TUT_04_SUB,Lazer ızgaralarından Kan Sisi ile geç,Pass through laser grids with the Blood Mist
+FUT_TUT_04_DESC,Sürekli yanan ızgaralar yalnızca Kan Sisi Atılması ya da Faz Kalkanı ile aşılır. Taht odası zirvede.,Always-on grids can only be crossed with the Blood Mist Dash or a Phase Shield. The throne room is at the top.
+FUT_TUT_05_TITLE,Kılıcın Kırılışı,The Shattering of the Blade
+FUT_TUT_05_SUB,Beşinci parça,The fifth shard
+FUT_TUT_05_DESC,İşlemci kalbi AI Lord'un göğsünde atıyor...,The processor heart beats in the AI Lord's chest...
+FUT_CHAPTER_DONE_TITLE,Bölüm 5 Tamamlandı,Chapter 5 Complete
+FUT_CHAPTER_DONE_SUB,Kılıcın kabuğu kırıldı,The blade's shell is broken
+FUT_CHAPTER_DONE_DESC,Hiçlik Arenası'nın kapısı açıldı...,The gate to the Void Arena stands open...
+FUT_ABILITY_TAG,💠 ALTINCI ÇEKİRDEK UYANDI,💠 THE SIXTH CORE HAS AWAKENED
+FUT_BOSS_NAME,AI Lord,AI Lord
+FUT_WARDEN_NAME,Krono-Muhafız,Chrono-Warden
+FUT_AEGIS_NAME,AEGIS-09 Güvenlik Çekirdeği,AEGIS-09 Security Core
+FUT_EXIT_WARDEN_TITLE,Kapı Kilitli,Gate Locked
+FUT_EXIT_WARDEN_SUB,Krono-Muhafız kapı kilidini koruyor,The Chrono-Warden guards the gate lock
+FUT_EXIT_WARDEN_DESC,Muhafızı yen; sırtındaki soğutma hücresine vur.,Defeat the Warden; strike the cooling cell on its back.
+FUT_EXIT_AEGIS_TITLE,Veri Çekirdeği Aktif,Data Core Active
+FUT_EXIT_AEGIS_SUB,AEGIS-09 asansörü kilitliyor,AEGIS-09 is locking the lift
+FUT_EXIT_AEGIS_DESC,"Dronları indir ya da EMP kullan, sonra çekirdeği yok et.","Down the drones or use an EMP, then destroy the core."
+FUT_FLOAT_ARMOR_BLOCK,Zırh engelledi!,Armour blocked!
+FUT_FLOAT_GROGGY,SOĞUTMA ARIZASI!,COOLING FAILURE!
+FUT_FLOAT_SHIELD_BLOCK,Kalkan aktif,Shield active
+FUT_FLOAT_SHIELD_DOWN,KALKAN ÇÖKTÜ!,SHIELD DOWN!
+FUT_FLOAT_SHIELD_BROKEN,Enerji kalkanı kırıldı!,Energy shield broken!
+FUT_FLOAT_SURVIVOR_SAVED,Tahliye edildi! (Kefaret),Evacuated! (Redemption)
+FUT_FLOAT_LIFE_DRAINED,Enerji Sömürüldü (+20 Yozlaşma),Energy Drained (+20 Corruption)
+FUT_FLOAT_INNOCENT_KILLED,Masum Öldürüldü (+12 Yozlaşma),Innocent Killed (+12 Corruption)
+FUT_FLOAT_NODE_DOWN,Sunucu düğümü düştü: %d/%d,Server node down: %d/%d
+FUT_FLOAT_NO_ITEM,%s yok ya da kullanılamaz,%s unavailable
+PROMPT_FUT_SURVIVOR,[E] Direnişçiyle konuş,[E] Talk to the resistance fighter
+PROMPT_FUT_ENGINEER,[E] Mühendisle konuş,[E] Talk to the engineer
+PROMPT_FUT_TERMINAL,[E] Terminali hackle,[E] Hack the terminal
+PROMPT_FUT_CONVEYOR,[E] Bant yönünü çevir,[E] Reverse the belts
+PROMPT_FUT_INSPECT,[E] İncele,[E] Inspect
+PROMPT_FUT_SCAN,[E] Şemayı tara,[E] Scan the schematic
+PROMPT_FUT_SEAL_DOOR,[E] Kalp Rezonansı ile mührü çöz,[E] Unseal with Heart Resonance
+PROMPT_FUT_BEACON_ACTIVATE,[E] Kontrol işaretini etkinleştir,[E] Activate the checkpoint beacon
+PROMPT_FUT_BEACON_REST,[E] İşarette dinlen,[E] Rest at the beacon
