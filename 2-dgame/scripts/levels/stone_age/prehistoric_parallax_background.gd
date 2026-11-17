@@ -11,6 +11,8 @@ extends Node2D
 const SKY_TEXTURE: Texture2D = preload("res://assets/backgrounds/prehistoric_sky_mountains.png")
 const JUNGLE_TEXTURE: Texture2D = preload("res://assets/backgrounds/prehistoric_jungle_mid.png")
 const RIFT_ARENA_TEXTURE: Texture2D = preload("res://assets/backgrounds/prehistoric_rift_arena.png")
+## 2D-134: Kanyon kayalık siluet katmanı — sanat yönüne uyumlu, piksel-art hassas
+const CANYON_CRAG_TEXTURE: Texture2D = preload("res://assets/backgrounds/stoneage/canyon_crag_silhouettes.png")
 
 const TILE_COUNT: int = 5
 const SCALE_FAR: Vector2 = Vector2(1.0, 1.0)
@@ -32,14 +34,17 @@ var _is_initialized: bool = false
 var _sky_container: Node2D = null
 var _jungle_container: Node2D = null
 var _rift_container: Node2D = null
+var _crag_container: Node2D = null  ## 2D-134: Canyon kayalık siluet katmanı
 
 var _sky_sprites: Array[Sprite2D] = []
 var _jungle_sprites: Array[Sprite2D] = []
 var _rift_sprites: Array[Sprite2D] = []
+var _crag_sprites: Array[Sprite2D] = []  ## 2D-134: Canyon siluet sprite'ları
 
 var _sky_tile_width: float = 0.0
 var _jungle_tile_width: float = 0.0
 var _rift_tile_width: float = 0.0
+var _crag_tile_width: float = 0.0  ## 2D-134
 
 var _atmosphere_tint: ColorRect = null
 
@@ -97,6 +102,24 @@ func _build_layers() -> void:
 		_rift_container.add_child(s)
 		_rift_sprites.append(s)
 
+	# 2D-134: Canyon Kayalık Siluet Katmanı (Z = -20, önde)
+	# Sanat yönüne uygun basalt kayalıklar, uçurum kenarlıkları ve apex yırtıcı silueti
+	_crag_container = Node2D.new()
+	_crag_container.z_index = -20
+	add_child(_crag_container)
+	_crag_tile_width = CANYON_CRAG_TEXTURE.get_width() * SCALE_NEAR.x
+	var crag_base_y: float = ground_y - (CANYON_CRAG_TEXTURE.get_height() * SCALE_NEAR.y * 0.98)
+	var crag_count: int = 2  # 2200px genişlik; 2 karo seviyeyi kapsar
+	for i in range(crag_count):
+		var s: Sprite2D = Sprite2D.new()
+		s.texture = CANYON_CRAG_TEXTURE
+		s.scale = SCALE_NEAR
+		s.centered = false
+		s.modulate = Color(0.78, 0.82, 0.76, 0.85)  # Hafif atmosferik tint
+		s.position = Vector2((i - 1) * _crag_tile_width, crag_base_y)
+		_crag_container.add_child(s)
+		_crag_sprites.append(s)
+
 
 func _setup_atmosphere_tint() -> void:
 	_atmosphere_tint = ColorRect.new()
@@ -143,6 +166,12 @@ func _process(_delta: float) -> void:
 		_rift_container.global_position.x = _origin_node.x + cam_delta.x * (1.0 - PARALLAX_NEAR_X)
 		_rift_container.global_position.y = _origin_node.y + cam_delta.y * (1.0 - PARALLAX_NEAR_Y)
 		_wrap_tiles(_rift_sprites, _rift_tile_width, cam_pos.x)
+
+	# 2D-134: Katman 4: Canyon Kayalık Siluetleri (Yavaş parallax — yakın arka fon ama statik zemine bağlı)
+	if _crag_container:
+		_crag_container.global_position.x = _origin_node.x + cam_delta.x * (1.0 - PARALLAX_NEAR_X * 0.6)
+		_crag_container.global_position.y = _origin_node.y + cam_delta.y * (1.0 - PARALLAX_NEAR_Y * 0.4)
+		_wrap_tiles(_crag_sprites, _crag_tile_width, cam_pos.x)
 
 	_update_dynamic_atmosphere(cam_pos.x)
 
