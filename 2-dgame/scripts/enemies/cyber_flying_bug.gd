@@ -41,6 +41,8 @@ var _telegraph_timer: float = 0.0
 var _hurt_timer: float = 0.0
 var _target_node: Node2D = null
 var _aim_direction: Vector2 = Vector2.ZERO
+var _optic_idle_color: Color = Color.WHITE
+var _optic_idle_energy: float = 1.0
 
 @onready var visual_node: Node2D = $Visual
 @onready var anim_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
@@ -57,6 +59,9 @@ func _ready() -> void:
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	current_health = max_health
 	if laser_aim_line: laser_aim_line.visible = false
+	if optic_light:
+		_optic_idle_color = optic_light.color
+		_optic_idle_energy = optic_light.energy
 	if detection_area:
 		detection_area.body_entered.connect(_on_detection_body_entered)
 		detection_area.body_exited.connect(_on_detection_body_exited)
@@ -89,7 +94,7 @@ func _process_patrol(_delta: float) -> void:
 	if is_on_wall():
 		direction = -direction
 		_update_facing()
-	if anim_sprite and anim_sprite.animation != "hit": anim_sprite.play("idle")
+	_play_loop_anim("idle")
 
 func _process_hover_engage(delta: float) -> void:
 	if not _is_target_valid():
@@ -115,7 +120,7 @@ func _process_hover_engage(delta: float) -> void:
 	target_vel.y = clampf(y_diff * 2.5, -hover_speed, hover_speed) + (sin(_time_alive * hover_frequency) * 20.0)
 	target_vel += _calculate_flocking_separation()
 	velocity = velocity.move_toward(target_vel, 400.0 * delta)
-	if anim_sprite and anim_sprite.animation != "hit": anim_sprite.play("walk")
+	_play_loop_anim("walk")
 	if dist >= min_attack_range * 0.8 and dist <= max_attack_range * 1.15 and _attack_timer <= 0.0:
 		_start_telegraph()
 
@@ -129,7 +134,7 @@ func _start_telegraph() -> void:
 		laser_aim_line.visible = true
 		laser_aim_line.clear_points()
 		laser_aim_line.add_point(Vector2.ZERO)
-		laser_aim_line.add_point(to_local(_target_node.global_position))
+		laser_aim_line.add_point(laser_aim_line.to_local(_target_node.global_position))
 		laser_aim_line.default_color = Color(1.0, 0.2, 0.2, 0.8)
 	if optic_light:
 		optic_light.color = Color(1.0, 0.15, 0.15, 1.0)
@@ -141,7 +146,7 @@ func _process_telegraph(delta: float) -> void:
 	velocity = Vector2.ZERO
 	if _is_target_valid() and laser_aim_line:
 		_aim_direction = (_target_node.global_position - global_position).normalized()
-		laser_aim_line.set_point_position(1, to_local(_target_node.global_position))
+		laser_aim_line.set_point_position(1, laser_aim_line.to_local(_target_node.global_position))
 	if _telegraph_timer <= 0.0:
 		if laser_aim_line: laser_aim_line.visible = false
 		current_state = State.SHOOT
@@ -159,15 +164,15 @@ func _fire_cyber_projectile() -> void:
 	get_parent().add_child(proj)
 	proj.setup(spawn_pos, _aim_direction, self, projectile_damage)
 	if optic_light:
-		optic_light.color = Color(0.2, 0.9, 1.0, 1.0)
-		optic_light.energy = 1.2
+		optic_light.color = _optic_idle_color
+		optic_light.energy = _optic_idle_energy
 	if _target_node: attacked.emit(_target_node)
 
 func _process_reposition(delta: float) -> void:
 	_reposition_timer -= delta
 	velocity.x = -direction * (hover_speed * 0.75)
 	velocity.y = -hover_speed * 0.5 + (sin(_time_alive * 4.0) * 15.0)
-	if anim_sprite and anim_sprite.animation != "hit": anim_sprite.play("idle")
+	_play_loop_anim("idle")
 	if _reposition_timer <= 0.0: current_state = State.HOVER_ENGAGE
 
 func _process_hurt(delta: float) -> void:
@@ -232,11 +237,17 @@ func _is_target_valid() -> bool:
 func _update_facing() -> void:
 	if visual_node: visual_node.scale.x = abs(visual_node.scale.x) * direction
 
+## Hareket animasyonuna geçer; "hit" tepkisi oynarken bölmez, bitince takılı kalmasına da izin vermez.
+func _play_loop_anim(anim_name: String) -> void:
+	if not anim_sprite or (anim_sprite.animation == "hit" and anim_sprite.is_playing()):
+		return
+	anim_sprite.play(anim_name)
+
 func _play_hit_feedback() -> void:
 	if visual_node:
 		var tw = create_tween()
 		tw.tween_property(visual_node, "modulate", Color(2.5, 0.4, 0.4, 1.0), 0.06)
-		tw.tween_property(visual_node, "modulate", Color(0.85, 1.1, 1.25, 1.0), 0.12)
+		tw.tween_property(visual_node, "modulate", Color.WHITE, 0.12)
 
 func _update_health_bar() -> void:
 	if health_bar:
