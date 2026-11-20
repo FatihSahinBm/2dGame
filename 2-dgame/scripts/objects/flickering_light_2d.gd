@@ -18,6 +18,7 @@ var _phase_offset: float = 0.0
 
 
 func _ready() -> void:
+	add_to_group("environment_lights")
 	# Farklı ışıkların aynı anda birebir aynı titrememesi için rastgele faz ofseti
 	_phase_offset = randf() * 100.0
 	_time = _phase_offset

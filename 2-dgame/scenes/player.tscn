@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dfsqw0tq42o3b"]
+[gd_scene load_steps=9 format=3 uid="uid://dfsqw0tq42o3b"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_script"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/knight/knight_frames.tres" id="2_frames"]
 [ext_resource type="Script" path="res://scripts/combat/sword_overlay.gd" id="3_overlay"]
 [ext_resource type="Script" path="res://scripts/camera/advanced_camera_2d.gd" id="4_camera_script"]
 [ext_resource type="Texture2D" path="res://assets/effects/lighting/light_radial_falloff.png" id="5_light_tex"]
+[ext_resource type="Script" path="res://scripts/effects/character_lighting_controller.gd" id="6_light_ctrl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(18, 38)
@@ -55,7 +56,9 @@ script = ExtResource("4_camera_script")
 
 [node name="PlayerLight" type="PointLight2D" parent="."]
 position = Vector2(0, -20)
+enabled = false
 color = Color(0.9, 0.95, 1, 1)
-energy = 0.65
+energy = 0.0
 texture = ExtResource("5_light_tex")
 texture_scale = 1.35
+script = ExtResource("6_light_ctrl")
