@@ -305,12 +305,16 @@ func start_dialogue(entries: Array, focus_speaker: Node2D = null) -> void:
 	if entries.is_empty():
 		return
 
+	var was_active: bool = _dialogue_active
 	_dialogue_queue = entries.duplicate()
 	_current_index = 0
 	_dialogue_active = true
 	if panel:
 		panel.visible = true
-	_apply_cinematic_mode(true, focus_speaker)
+	# Süren diyaloğun içinden (ör. seçim cevabı) yeniden başlatılırsa sinematik modu tekrar kurma;
+	# aksi halde kameranın geri dönülecek zoom/offset değeri yakınlaşmış hâliyle ezilir.
+	if not was_active:
+		_apply_cinematic_mode(true, focus_speaker)
 	dialogue_started.emit()
 	_show_current_entry()
 
@@ -547,8 +551,11 @@ func _on_choice_clicked(index: int) -> void:
 	_has_choices_active = false
 	if choices_container:
 		choices_container.visible = false
+	var queue_before: Array = _dialogue_queue
 	choice_selected.emit(action)
-	_advance_dialogue()
+	# Dinleyici seçim sırasında yeni bir diyalog başlattıysa (ör. cevap satırı) ilk satırını atlama
+	if is_same(queue_before, _dialogue_queue):
+		_advance_dialogue()
 
 
 func _apply_portrait_style(portrait_type: String) -> void:

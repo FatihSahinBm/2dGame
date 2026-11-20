@@ -226,7 +226,8 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		body.take_damage(attack_damage, knock_dir * 180.0)
 
 
-func take_damage(amount: int, knockback_dir: Vector2 = Vector2.ZERO) -> void:
+## attacker_source: saldıran düğüm (oyuncu kılıcı, proje geneli imza) veya hazır savrulma yönü (Vector2).
+func take_damage(amount: int, attacker_source: Variant = null) -> void:
 	if current_state == State.DEAD: return
 	if mode == Mode.NPC: _enter_enemy_mode(true)
 	current_health = maxi(0, current_health - amount)
@@ -253,8 +254,17 @@ func take_damage(amount: int, knockback_dir: Vector2 = Vector2.ZERO) -> void:
 	else:
 		current_state = State.HURT
 		_hurt_timer = 0.4
-		velocity = knockback_dir * 160.0
+		velocity = _resolve_knockback_dir(attacker_source) * 160.0
 		_play_anim("hurt")
+
+
+func _resolve_knockback_dir(attacker_source: Variant) -> Vector2:
+	if attacker_source is Vector2:
+		return attacker_source
+	if typeof(attacker_source) == TYPE_OBJECT and is_instance_valid(attacker_source) and attacker_source is Node2D:
+		var away: float = signf(global_position.x - (attacker_source as Node2D).global_position.x)
+		return Vector2(away if away != 0.0 else 1.0, 0.0)
+	return Vector2.ZERO
 
 
 func _play_anim(anim_name: String) -> void:
