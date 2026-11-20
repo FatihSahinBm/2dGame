@@ -1,0 +1,41 @@
+{
+  "character": "raptor",
+  "cell_size": [
+    190,
+    98
+  ],
+  "align": "ground",
+  "baseline_y": 96,
+  "animations": {
+    "idle": {
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "walk": {
+      "frames": 6,
+      "fps": 9,
+      "loop": true
+    },
+    "run": {
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    "attack_bite": {
+      "frames": 6,
+      "fps": 18,
+      "loop": false
+    },
+    "hurt": {
+      "frames": 4,
+      "fps": 15,
+      "loop": false
+    },
+    "death": {
+      "frames": 6,
+      "fps": 6,
+      "loop": false
+    }
+  }
+}

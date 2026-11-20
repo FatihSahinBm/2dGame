@@ -1,0 +1,17 @@
+{
+  "character": "cyber_bug",
+  "target_height": 44,
+  "scale_reference": "idle",
+  "align": "center",
+  "colors": 64,
+  "out_dir": "../../assets/characters/cyber_bug",
+  "res_dir": "res://assets/characters/cyber_bug",
+  "preview_dir": "../../../output/stoneage_minions/cyber_bug/preview",
+  "animations": [
+    { "name": "idle", "sheet": "../../../output/stoneage_minions/cyber_bug/idle_raw.png", "frames": 4, "fps": 10, "loop": true },
+    { "name": "walk", "sheet": "../../../output/stoneage_minions/cyber_bug/walk_raw.png", "frames": 4, "fps": 12, "loop": true },
+    { "name": "attack", "sheet": "../../../output/stoneage_minions/cyber_bug/attack_raw.png", "frames": 4, "fps": 5, "loop": false },
+    { "name": "hit", "sheet": "../../../output/stoneage_minions/cyber_bug/hit_raw.png", "frames": 4, "fps": 14, "loop": false },
+    { "name": "death", "sheet": "../../../output/stoneage_minions/cyber_bug/death_raw.png", "frames": 6, "fps": 8, "loop": false, "scale_frames": [0, 1] }
+  ]
+}

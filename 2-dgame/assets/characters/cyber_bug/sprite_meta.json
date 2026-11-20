@@ -1,0 +1,36 @@
+{
+  "character": "cyber_bug",
+  "cell_size": [
+    94,
+    68
+  ],
+  "align": "center",
+  "baseline_y": null,
+  "animations": {
+    "idle": {
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "walk": {
+      "frames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    "attack": {
+      "frames": 4,
+      "fps": 5,
+      "loop": false
+    },
+    "hit": {
+      "frames": 4,
+      "fps": 14,
+      "loop": false
+    },
+    "death": {
+      "frames": 6,
+      "fps": 8,
+      "loop": false
+    }
+  }
+}

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/caveman.gd" id="1_caveman"]
-[ext_resource type="SpriteFrames" path="res://assets/characters/ogre_all_animations/ogre_frames.tres" id="2_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/caveman/caveman_frames.tres" id="2_frames"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(26, 52)
@@ -43,8 +43,7 @@ shape = SubResource("RectangleShape2D_body")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
 texture_filter = 1
-position = Vector2(0, -36)
-scale = Vector2(0.26, 0.26)
+position = Vector2(0, -31.5)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle"
 autoplay = "idle"

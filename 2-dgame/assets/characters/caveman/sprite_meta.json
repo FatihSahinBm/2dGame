@@ -1,0 +1,36 @@
+{
+  "character": "caveman",
+  "cell_size": [
+    72,
+    67
+  ],
+  "align": "ground",
+  "baseline_y": 65,
+  "animations": {
+    "idle": {
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "walk": {
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    "attack": {
+      "frames": 6,
+      "fps": 8,
+      "loop": false
+    },
+    "hurt": {
+      "frames": 4,
+      "fps": 10,
+      "loop": false
+    },
+    "death": {
+      "frames": 6,
+      "fps": 6,
+      "loop": false
+    }
+  }
+}

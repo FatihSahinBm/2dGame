@@ -1,0 +1,17 @@
+{
+  "character": "caveman",
+  "target_height": 58,
+  "scale_reference": "idle",
+  "align": "ground",
+  "colors": 64,
+  "out_dir": "../../assets/characters/caveman",
+  "res_dir": "res://assets/characters/caveman",
+  "preview_dir": "../../../output/stoneage_minions/caveman/preview",
+  "animations": [
+    { "name": "idle", "sheet": "../../../output/stoneage_minions/caveman/idle_raw.png", "frames": 4, "fps": 5, "loop": true },
+    { "name": "walk", "sheet": "../../../output/stoneage_minions/caveman/walk_raw.png", "frames": 6, "fps": 8, "loop": true },
+    { "name": "attack", "sheet": "../../../output/stoneage_minions/caveman/attack_raw.png", "frames": 6, "fps": 8, "loop": false },
+    { "name": "hurt", "sheet": "../../../output/stoneage_minions/caveman/hurt_raw.png", "frames": 4, "fps": 10, "loop": false },
+    { "name": "death", "sheet": "../../../output/stoneage_minions/caveman/death_raw.png", "frames": 6, "fps": 6, "loop": false, "scale_frames": [0] }
+  ]
+}

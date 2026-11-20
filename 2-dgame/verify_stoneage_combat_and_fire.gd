@@ -36,9 +36,10 @@ func _run_async() -> void:
 	var col_bottom = col_shape.position.y + (col_rect.size.y / 2.0)
 	var col_bottom_ok = absf(col_bottom) < 0.01
 	
-	# Sprite ayakları zemin seviyesinde veya hafif çim içine gömülü olmalı (0 ile 12 px arası, havada asılı kalma yok)
-	var sprite_feet_y = sprite.position.y + (331.5 * sprite.scale.y)
-	var sprite_feet_ok = (sprite_feet_y >= 0.0 and sprite_feet_y <= 12.0)
+	# Raptor kendi 1:1 sprite setini kullanır: ayak hizası karenin en alt opak satırından ölçülür
+	# ve tam zemin çizgisinde olmalıdır (havada asılı kalma veya zemine gömülme yok).
+	var sprite_feet_y: float = _sprite_feet_y(sprite, &"idle")
+	var sprite_feet_ok = absf(sprite_feet_y) <= 1.0
 	
 	# Trex Boss için de aynı zemin temas kontrolü
 	var boss_scene = load("res://scenes/enemies/trex_boss.tscn")
@@ -49,18 +50,18 @@ func _run_async() -> void:
 	var boss_contact_ok = (boss_feet_idle_y > 0.0 and boss_feet_walk_y > 0.0) # Yürürken asla havada kalmaz
 	boss.queue_free()
 	
-	# Küçük T-Rex ölçeği (Boss 0.42 iken minyon 0.24 olmalı)
-	var is_small_trex = (sprite.scale.y <= 0.28 and sprite.scale.y >= 0.20)
+	# Raptor küçültülmüş T-Rex karesi değil, oyun boyutunda çizilmiş kendi karelerini kullanmalı (1:1 texel)
+	var is_native_scale = sprite.scale == Vector2.ONE
 	var has_snap = raptor.floor_stop_on_slope and raptor.floor_snap_length > 0.0
-	
-	if col_bottom_ok and sprite_feet_ok and is_small_trex and has_snap and boss_contact_ok:
+
+	if col_bottom_ok and sprite_feet_ok and is_native_scale and has_snap and boss_contact_ok:
 		print("✅ TEST 1 GEÇTİ: T-Rex Boss & Raptor ayak zemin teması (Boss walk feet: +%.1f px, idle: +%.1f px, Raptor idle: +%.1f px) yürüyüş döngüsünde havada kalmayacak şekilde doğrulandı." % [
 			boss_feet_walk_y, boss_feet_idle_y, sprite_feet_y
 		])
 		passed_tests += 1
 	else:
-		print("❌ TEST 1 BAŞARISIZ: Küçük T-Rex zemin hizalama hatası! col_bottom: %f, sprite_feet: %f, small: %s, snap: %s" % [
-			col_bottom, sprite_feet_y, is_small_trex, has_snap
+		print("❌ TEST 1 BAŞARISIZ: Raptor zemin hizalama hatası! col_bottom: %f, sprite_feet: %f, native_scale: %s, snap: %s" % [
+			col_bottom, sprite_feet_y, is_native_scale, has_snap
 		])
 		quit(1)
 		return
@@ -163,3 +164,11 @@ func _run_async() -> void:
 
 	print("\n=== TÜM TESTLER TAMAMLANDI: %d/%d Başarılı ===" % [passed_tests, total_tests])
 	quit(0)
+
+
+## Animasyonun ilk karesindeki en alt opak satırın, karakter orijinine (zemin) göre y konumu.
+func _sprite_feet_y(sprite: AnimatedSprite2D, anim: StringName) -> float:
+	var atlas: AtlasTexture = sprite.sprite_frames.get_frame_texture(anim, 0) as AtlasTexture
+	var sheet: Image = Image.load_from_file(ProjectSettings.globalize_path(atlas.atlas.resource_path))
+	var frame: Image = sheet.get_region(Rect2i(atlas.region))
+	return sprite.position.y - frame.get_height() / 2.0 + frame.get_used_rect().end.y

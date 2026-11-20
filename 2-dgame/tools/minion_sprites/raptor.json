@@ -1,0 +1,18 @@
+{
+  "character": "raptor",
+  "target_height": 72,
+  "scale_reference": "walk",
+  "align": "ground",
+  "colors": 64,
+  "out_dir": "../../assets/characters/raptor",
+  "res_dir": "res://assets/characters/raptor",
+  "preview_dir": "../../../output/stoneage_minions/raptor/preview",
+  "animations": [
+    { "name": "idle", "sheet": "../../../output/stoneage_minions/raptor/idle_raw.png", "frames": 4, "fps": 5, "loop": true },
+    { "name": "walk", "sheet": "../../../output/stoneage_minions/raptor/walk_raw.png", "frames": 6, "fps": 9, "loop": true },
+    { "name": "run", "sheet": "../../../output/stoneage_minions/raptor/run_raw.png", "frames": 6, "fps": 12, "loop": true },
+    { "name": "attack_bite", "sheet": "../../../output/stoneage_minions/raptor/attack_bite_raw.png", "frames": 6, "fps": 18, "loop": false },
+    { "name": "hurt", "sheet": "../../../output/stoneage_minions/raptor/hurt_raw.png", "frames": 4, "fps": 15, "loop": false },
+    { "name": "death", "sheet": "../../../output/stoneage_minions/raptor/death_raw.png", "frames": 6, "fps": 6, "loop": false, "scale_frames": [0] }
+  ]
+}
